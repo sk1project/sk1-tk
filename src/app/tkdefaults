@@ -1,0 +1,94 @@
+! for Tk 8.5a3 
+
+*background:               #EFEFEF 
+*.background:               #EFEFEF
+*font: 				      Arial 10
+*.font: 				      Arial 10
+*statusbar*font: 		  Arial 9
+*borderWidth:		0
+
+*selectbackground:        #678DB2
+*selectforeground:        white
+*selectborderwidth:       0
+
+
+*statusbar.relief:		    flat
+*statusbar*Button.relief:	flat
+#*statusbar.mode.width:		20
+*statusbar.edited.width:	10
+*statusbar.zoom.width:		10
+#*statusbar.position.width:	20
+*statusbar.Label.relief:	flat
+*statusbar*borderWidth:		0
+
+
+*Scrollbar.takeFocus:	     	0
+*Scrollbar.highlightThickness:	0
+*canvas_frame*Scrollbar.jump:	1
+*scrollbar.troughcolor:         #000000
+*TScrollbar.border:             0
+
+*canvas.height:			1500
+*canvas.width:			2800
+
+*tools_frame.relief:		          raised
+*tools_frame*Button.relief:	          flat
+*tools_frame*Checkbutton.indicatorOn: 0
+*tools_frame*Checkbutton.relief:      flat
+
+*fastkeys.relief:                   raised
+*fastkeys.borderWidth:		        0
+*fastkeys*Button.relief:	        flat
+*fastkeys*Checkbutton.relief:       flat
+*fastkeys*Checkbutton.indicatorOn:  0
+
+*toolbar.relief:		            flat
+*toolbar.borderWidth:		        0
+*toolbar*Button.relief:		        flat
+*toolbar*Checkbutton.indicatorOn:	0
+*toolbar*Checkbutton.relief:	    flat
+
+*TBSeparator.relief:		flat
+*TBSeparator.borderWidth:	0
+*TBSeparator.width:		    10
+*TBSeparator.height:		20
+
+
+*Entry.background:		white
+*File*.background:		white
+*Listbox.exportSelection:	0
+
+
+
+*printdlg*Radiobutton.indicatorOn: yes
+*printdlg*options.relief:	       groove
+*printdlg*options.borderWidth:	   0
+*printdlg*command.relief:	       groove
+*printdlg*command.borderWidth:	   0
+
+*guidedlg*list.width:		20
+*guidedlg*list.height:		6
+
+*styledlg*list.width:		16
+*styledlg*list.height:		6
+
+*blenddlg*steps.width:		4
+*blenddlg*steps.justify:	right
+
+! In tk8.0, the option menu for the dash patterns has very large gaps
+! between the entries. One way to make this look better, is to choose a
+! small font
+
+*linedlg.Menubutton.Menu.hidemargin: true
+
+*layerdlg*list*BorderWidth:	0
+*layerdlg*list*Menu.BorderWidth:	0
+
+*SKMessageDialog*top.borderWidth:	0
+*SKMessageDialog*bot.borderWidth:	0
+*SKMessageDialog*msg.wrapLength:	400
+*SKMessageDialog*msg.justify:	    left
+
+
+*setdefaults*label.wrapLength:	200
+*setdefaults*label.justify:	    left

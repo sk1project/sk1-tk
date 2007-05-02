@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preferences>
+	<bg>'#ede9e3'</bg>
+	<foreground>'#000000'</foreground>
+	<highlightbackground>'#ede9e3'</highlightbackground>
+	<highlightcolor>'#000000'</highlightcolor>
+	<disabledforeground>'#dcd4c9'</disabledforeground>
+	<selectbackground>'#4e87da'</selectbackground>
+	<selectforeground>'#000000'</selectforeground>
+</preferences>
