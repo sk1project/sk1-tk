@@ -20,7 +20,7 @@ _builtin = [ 'Transp', 'DPage1', 'DGrid', 'DGuidelines', 'Portrait', 'Landscape'
 			'JoinMiter', 'JoinRound', 'JoinBevel',
 			'CapButt', 'CapRound', 'CapProjecting',
 			'Duplicate', 'About',
-			'Warning', 'Docinfo', 'Blend',
+			'Warning', 'DocInfo', 'Blend',
 			'DocInfo',
 			'sK1_icon', 'sK1_icon_mask', 'smallicon'
 			]

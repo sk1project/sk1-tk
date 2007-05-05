@@ -16,6 +16,7 @@ from app.events.warn import warn, INTERNAL, USER
 from app._sketch import RGBColor, XVisual
 from app import config, _
 from lcms.lcms import *
+import app
 
 skvisual = None
 CMYK = 'CMYK'
@@ -116,20 +117,20 @@ class ExtColor:
 	def RGB(self):
 		'''This method is introduced for ICC support'''
 		if self.model == 'CMYK':
-			if app.config.use_cms:				
+			if app.config.preferences.use_cms:				
 				r,g,b = app.colormanager.processCMYK(self.c,self.m,self.y,self.k)
 			else:
-				r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)
+				r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)				
 			return RGBColor(r, g, b)
 		else:
-			if app.config.use_cms:
-				if app.config.simulate_printer:
+			if app.config.preferences.use_cms:
+				if app.config.preferences.simulate_printer:
 					c,m,y,k = app.colormanager.convertRGB(self.red, self.green, self.blue)
 					r,g,b = app.colormanager.processCMYK(c,m,y,k)                       
 					return RGBColor(r, g, b)
 				else:
 					r,g,b = app.colormanager.processRGB(self.red, self.green, self.blue)
-					return RGBColor(r, g, b)
+					return RGBColor(self.red, self.green, self.blue)
 			else:
 				return RGBColor(self.red, self.green, self.blue)
 	
@@ -171,17 +172,17 @@ class ExtColor:
 #
 
 class StandardColors:
-	black   = CreateRGBColor(0.0, 0.0, 0.0)
-	darkgray        = CreateRGBColor(0.25, 0.25, 0.25)
-	gray    = CreateRGBColor(0.5, 0.5, 0.5)
-	lightgray       = CreateRGBColor(0.75, 0.75, 0.75)
-	white   = CreateRGBColor(1.0, 1.0, 1.0)
-	red             = CreateRGBColor(1.0, 0.0, 0.0)
-	green   = CreateRGBColor(0.0, 1.0, 0.0)
-	blue    = CreateRGBColor(0.0, 0.0, 1.0)
-	cyan    = CreateRGBColor(0.0, 1.0, 1.0)
-	magenta = CreateRGBColor(1.0, 0.0, 1.0)
-	yellow  = CreateRGBColor(1.0, 1.0, 0.0)
+	black   = CreateRGBColor(0.0, 0.0, 0.0).RGB()
+	darkgray        = CreateRGBColor(0.25, 0.25, 0.25).RGB()
+	gray    = CreateRGBColor(0.5, 0.5, 0.5).RGB()
+	lightgray       = CreateRGBColor(0.75, 0.75, 0.75).RGB()
+	white   = CreateRGBColor(1.0, 1.0, 1.0).RGB()
+	red             = CreateRGBColor(1.0, 0.0, 0.0).RGB()
+	green   = CreateRGBColor(0.0, 1.0, 0.0).RGB()
+	blue    = CreateRGBColor(0.0, 0.0, 1.0).RGB()
+	cyan    = CreateRGBColor(0.0, 1.0, 1.0).RGB()
+	magenta = CreateRGBColor(1.0, 0.0, 1.0).RGB()
+	yellow  = CreateRGBColor(1.0, 1.0, 0.0).RGB()
 
 
 #

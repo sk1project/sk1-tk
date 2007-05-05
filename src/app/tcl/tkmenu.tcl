@@ -265,6 +265,7 @@ proc ::tk::MbPost {w {x {}} {y {}}} {
     #$w configure -cursor arrow
     #$w configure -relief raised
     $w configure -bg [$w cget -activebackground]
+    $w configure -fg [$w cget -activeforeground]
 
     set Priv(postedMb) $w
     set Priv(focus) [focus]
@@ -410,6 +411,7 @@ proc ::tk::MenuUnpost menu {
 	    $mb configure -relief $Priv(relief)
 	    #ugly hack - should be corrected!!!
 	    $mb configure -bg [.testEntry cget -background] 
+            $mb configure -fg [.testEntry cget -foreground]
 	} elseif {[string compare $Priv(popup) ""]} {
 	    $Priv(popup) unpost
 	    set Priv(popup) {}

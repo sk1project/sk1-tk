@@ -102,7 +102,7 @@ class SketchMainWindow(Publisher):
 		self.build_menu()
 		self.build_toolbar()
 		self.build_tools()
-		self.build_smartpanel()
+		#self.build_smartpanel()
 		self.build_status_bar()
 		self.__init_dlgs()
 #               self.canvas.bind('<Configure>', self.autozoom)

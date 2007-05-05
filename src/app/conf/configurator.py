@@ -63,7 +63,7 @@ class Configurator:
 			self.preferences.active_theme = 'Plastik'
 
 		#===============DEPRECATED VARIABLES===============
-		self.font_path = [os.path.join(self.user_fonts,'Type1'), self.user_config_dir]  # Directories where pfa/pfb files are located. The expanded fontmetric_dir is appended to this.
+		self.font_path = [os.path.join(self.user_fonts,'type1'), self.user_config_dir]  # Directories where pfa/pfb files are located. The expanded fontmetric_dir is appended to this.
 		self.sketch_dir = base_dir  # The directory where sketch and its modules are found. Set automagically from __init__.py of the Sketch package
 		self.std_res_dir = os.path.join(self.sk_dir,'share/palettes')  
 		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
@@ -363,7 +363,7 @@ class Preferences(connector.Publisher):
 	printer_intent=0
 	monitor_intent=0
 	
-	use_cms=1
+	use_cms=0
 	simulate_printer=0
 	#------------------------------------
 

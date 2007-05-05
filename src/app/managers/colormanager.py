@@ -5,7 +5,9 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 import os, app
-from lcms.lcms import *
+from lcms.lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
+	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
+	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB
 	
 class ColorManager:
 	rgb_monitor=None
@@ -109,7 +111,7 @@ class ColorManager:
 		CMYK[3] = 0
 		cmsDoTransform(self.rgb_cmyk, RGB, CMYK, 1)
 		
-		return (CMYK[0]/255, CMYK[1]/255, CMYK[2]/255)
+		return (CMYK[0]/255, CMYK[1]/255, CMYK[2]/255, CMYK[3]/255)
 
 	def convertCMYK(self,c,m,y,k):
 		CMYK = COLORB()

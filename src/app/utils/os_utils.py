@@ -46,7 +46,7 @@ def get_dirs_withpath(path='.'):
 			return names
 	names.sort()
 	for name in names:
-		if os.path.isdir(os.path.join(path, name)):
+		if os.path.isdir(os.path.join(path, name)) and not name=='.svn':
 			list.append(os.path.join(path, name))
 	return list
 
