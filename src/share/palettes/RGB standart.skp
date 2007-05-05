@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<palette>
+	<description type="RGB" name="Standart RGB Palette" />
+	<color r="0" g="0" b="0" name="Black"/>
+	<color r="0.1" g="0.1" b="0.1" name="90% Black"/>
+	<color r="0.2" g="0.2" b="0.2" name="80% Black"/>
+	<color r="0.3" g="0.3" b="0.3" name="70% Black"/>
+	<color r="0.4" g="0.4" b="0.4" name="60% Black"/>
+	<color r="0.5" g="0.5" b="0.5" name="50% Black"/>
+	<color r="0.6" g="0.6" b="0.6" name="40% Black"/>
+	<color r="0.7" g="0.7" b="0.7" name="30% Black"/>
+	<color r="0.8" g="0.8" b="0.8" name="20% Black"/>
+	<color r="0.9" g="0.9" b="0.9" name="10% Black"/>
+	<color r="1" g="1" b="1" name="White"/>
+	<color r="1" g="0" b="0" name="Red"/>
+	<color r="0" g="1" b="0" name="Green"/>
+	<color r="0" g="0" b="1" name="Blue"/>
+	<color r="0" g="1" b="1" name="Cyan"/>
+	<color r="1" g="0" b="1" name="Magenta"/>
+	<color r="1" g="1" b="0" name="Yellow"/>
+	<color r="0.5" g="0" b="0" name="Dark Red"/>
+	<color r="0" g="0.5" b="0" name="Dark Green"/>
+	<color r="0" g="0" b="0.5" name="Dark Blue"/>
+	<color r="0" g="0.5" b="0.5" name="Dark Cyan"/>
+	<color r="0.5" g="0" b="0.5" name="Dark Magenta"/>
+	<color r="0.5" g="0.5" b="0" name="Dark Yellow"/>
+	<color r="0.184" g="0.31" b="0.31" name="Dark Slate Gray"/>
+	<color r="0.412" g="0.412" b="0.412" name="Dim Gray"/>
+	<color r="0.439" g="0.502" b="0.565" name="Slate Gray"/>
+	<color r="0.467" g="0.533" b="0.6" name="Light Slate Gray"/>
+	<color r="0.745" g="0.745" b="0.745" name="Gray"/>
+	<color r="0.827" g="0.827" b="0.827" name="Light Grey"/>
+	<color r="0.098" g="0.098" b="0.439" name="Midnight Blue"/>
+	<color r="0" g="0" b="0.502" name="Navy"/>
+	<color r="0.392" g="0.584" b="0.929" name="Cornflower Blue"/>
+	<color r="0.282" g="0.239" b="0.545" name="Dark Slate Blue"/>
+	<color r="0.416" g="0.353" b="0.804" name="Slate Blue"/>
+	<color r="0.482" g="0.408" b="0.933" name="Medium Slate Blue"/>
+	<color r="0.518" g="0.439" b="1" name="Light Slate Blue"/>
+	<color r="0" g="0" b="0.804" name="Medium Blue"/>
+	<color r="0.255" g="0.412" b="0.882" name="Royal Blue"/>
+	<color r="0" g="0" b="1" name="Blue"/>
+	<color r="0.118" g="0.565" b="1" name="Dodger Blue"/>
+	<color r="0" g="0.749" b="1" name="Deep Sky Blue"/>
+	<color r="0.529" g="0.808" b="0.922" name="Sky Blue"/>
+	<color r="0.529" g="0.808" b="0.98" name="Light Sky Blue"/>
+	<color r="0.275" g="0.51" b="0.706" name="Steel Blue"/>
+	<color r="0.69" g="0.769" b="0.871" name="Light Steel Blue"/>
+	<color r="0.678" g="0.847" b="0.902" name="Light Blue"/>
+	<color r="0.69" g="0.878" b="0.902" name="Powder Blue"/>
+	<color r="0.686" g="0.933" b="0.933" name="Pale Turquoise"/>
+	<color r="0" g="0.808" b="0.82" name="Dark Turquoise"/>
+	<color r="0.282" g="0.82" b="0.8" name="Medium Turquoise"/>
+	<color r="0.251" g="0.878" b="0.816" name="Turquoise"/>
+	<color r="0" g="1" b="1" name="Cyan"/>
+	<color r="0.878" g="1" b="1" name="Light Cyan"/>
+	<color r="0.373" g="0.62" b="0.627" name="Cadet Blue"/>
+	<color r="0.4" g="0.804" b="0.667" name="Medium Aquamarine"/>
+	<color r="0.498" g="1" b="0.831" name="Aquamarine"/>
+	<color r="0" g="0.392" b="0" name="Dark Green 2"/>
+	<color r="0.333" g="0.42" b="0.184" name="Dark Olive Green"/>
+	<color r="0.561" g="0.737" b="0.561" name="Dark Sea Green"/>
+	<color r="0.18" g="0.545" b="0.341" name="Sea Green"/>
+	<color r="0.235" g="0.702" b="0.443" name="Medium Sea Green"/>
+	<color r="0.125" g="0.698" b="0.667" name="Light Sea Green"/>
+	<color r="0.596" g="0.984" b="0.596" name="Pale Green"/>
+	<color r="0" g="1" b="0.498" name="Spring Green"/>
+	<color r="0.486" g="0.988" b="0" name="Lawn Green"/>
+	<color r="0" g="1" b="0" name="Green"/>
+	<color r="0.498" g="1" b="0" name="Chartreuse"/>
+	<color r="0" g="0.98" b="0.604" name="Medium Spring Green"/>
+	<color r="0.678" g="1" b="0.184" name="Green Yellow"/>
+	<color r="0.196" g="0.804" b="0.196" name="Lime Green"/>
+	<color r="0.604" g="0.804" b="0.196" name="Yellow Green"/>
+	<color r="0.133" g="0.545" b="0.133" name="Forest Green"/>
+	<color r="0.42" g="0.557" b="0.137" name="Olive Drab"/>
+	<color r="0.741" g="0.718" b="0.42" name="Dark Khaki"/>
+	<color r="0.941" g="0.902" b="0.549" name="Khaki"/>
+	<color r="0.933" g="0.91" b="0.667" name="Pale Goldenrod"/>
+	<color r="0.98" g="0.98" b="0.824" name="Light Goldenrod Yellow"/>
+	<color r="1" g="1" b="0.878" name="Light Yellow"/>
+	<color r="1" g="1" b="0" name="Yellow"/>
+	<color r="1" g="0.843" b="0" name="Gold"/>
+	<color r="0.933" g="0.867" b="0.51" name="Light Goldenrod"/>
+	<color r="0.855" g="0.647" b="0.125" name="Goldenrod"/>
+	<color r="0.722" g="0.525" b="0.043" name="Dark Goldenrod"/>
+	<color r="0.737" g="0.561" b="0.561" name="Rosy Brown"/>
+	<color r="0.804" g="0.361" b="0.361" name="Indian Red"/>
+	<color r="0.545" g="0.271" b="0.075" name="Saddle Brown"/>
+	<color r="0.627" g="0.322" b="0.176" name="Sienna"/>
+	<color r="0.804" g="0.522" b="0.247" name="Peru"/>
+	<color r="0.871" g="0.722" b="0.529" name="Burlywood"/>
+	<color r="0.961" g="0.961" b="0.863" name="Beige"/>
+	<color r="0.961" g="0.871" b="0.702" name="Wheat"/>
+	<color r="0.957" g="0.643" b="0.376" name="Sandy Brown"/>
+	<color r="0.824" g="0.706" b="0.549" name="Tan"/>
+	<color r="0.824" g="0.412" b="0.118" name="Chocolate"/>
+	<color r="0.698" g="0.133" b="0.133" name="Firebrick"/>
+	<color r="0.647" g="0.165" b="0.165" name="Brown"/>
+	<color r="0.914" g="0.588" b="0.478" name="Dark Salmon"/>
+	<color r="0.98" g="0.502" b="0.447" name="Salmon"/>
+	<color r="1" g="0.627" b="0.478" name="Light Salmon"/>
+	<color r="1" g="0.647" b="0" name="Orange"/>
+	<color r="1" g="0.549" b="0" name="Dark Orange"/>
+	<color r="1" g="0.498" b="0.314" name="Coral"/>
+	<color r="0.941" g="0.502" b="0.502" name="Light Coral"/>
+	<color r="1" g="0.388" b="0.278" name="Tomato"/>
+	<color r="1" g="0.271" b="0" name="Orange Red"/>
+	<color r="1" g="0" b="0" name="Red"/>
+	<color r="1" g="0.412" b="0.706" name="Hot Pink"/>
+	<color r="1" g="0.078" b="0.576" name="Deep Pink"/>
+	<color r="1" g="0.753" b="0.796" name="Pink"/>
+	<color r="1" g="0.714" b="0.757" name="Light Pink"/>
+	<color r="0.859" g="0.439" b="0.576" name="Pale Violet Red"/>
+	<color r="0.69" g="0.188" b="0.376" name="Maroon"/>
+	<color r="0.78" g="0.082" b="0.522" name="Medium Violet Red"/>
+	<color r="0.816" g="0.125" b="0.565" name="Violet Red"/>
+	<color r="1" g="0" b="1" name="Magenta"/>
+	<color r="0.933" g="0.51" b="0.933" name="Violet"/>
+	<color r="0.867" g="0.627" b="0.867" name="Plum"/>
+	<color r="0.855" g="0.439" b="0.839" name="Orchid"/>
+	<color r="0.729" g="0.333" b="0.827" name="Medium Orchid"/>
+	<color r="0.6" g="0.196" b="0.8" name="Dark Orchid"/>
+	<color r="0.58" g="0" b="0.827" name="Dark Violet"/>
+	<color r="0.541" g="0.169" b="0.886" name="Blue Violet"/>
+	<color r="0.627" g="0.125" b="0.941" name="Purple"/>
+	<color r="0.576" g="0.439" b="0.859" name="Medium Purple"/>
+	<color r="0.847" g="0.749" b="0.847" name="Thistle"/>
+	<color r="0.933" g="0.914" b="0.914" name="Snow2"/>
+	<color r="0.804" g="0.788" b="0.788" name="Snow3"/>
+	<color r="0.545" g="0.537" b="0.537" name="Snow4"/>
+	<color r="0.933" g="0.898" b="0.871" name="Seashell2"/>
+	<color r="0.804" g="0.773" b="0.749" name="Seashell3"/>
+	<color r="0.545" g="0.525" b="0.51" name="Seashell4"/>
+	<color r="1" g="0.937" b="0.859" name="AntiqueWhite1"/>
+	<color r="0.933" g="0.875" b="0.8" name="AntiqueWhite2"/>
+	<color r="0.804" g="0.753" b="0.69" name="AntiqueWhite3"/>
+	<color r="0.545" g="0.514" b="0.471" name="AntiqueWhite4"/>
+	<color r="0.933" g="0.835" b="0.718" name="Bisque2"/>
+	<color r="0.804" g="0.718" b="0.62" name="Bisque3"/>
+	<color r="0.545" g="0.49" b="0.42" name="Bisque4"/>
+	<color r="0.933" g="0.796" b="0.678" name="PeachPuff2"/>
+	<color r="0.804" g="0.686" b="0.584" name="PeachPuff3"/>
+	<color r="0.545" g="0.467" b="0.396" name="PeachPuff4"/>
+	<color r="0.933" g="0.812" b="0.631" name="NavajoWhite2"/>
+	<color r="0.804" g="0.702" b="0.545" name="NavajoWhite3"/>
+	<color r="0.545" g="0.475" b="0.369" name="NavajoWhite4"/>
+	<color r="0.933" g="0.914" b="0.749" name="LemonChiffon2"/>
+	<color r="0.804" g="0.788" b="0.647" name="LemonChiffon3"/>
+	<color r="0.545" g="0.537" b="0.439" name="LemonChiffon4"/>
+	<color r="0.933" g="0.91" b="0.804" name="Cornsilk2"/>
+	<color r="0.804" g="0.784" b="0.694" name="Cornsilk3"/>
+	<color r="0.545" g="0.533" b="0.471" name="Cornsilk4"/>
+	<color r="0.933" g="0.933" b="0.878" name="Ivory2"/>
+	<color r="0.804" g="0.804" b="0.757" name="Ivory3"/>
+	<color r="0.545" g="0.545" b="0.514" name="Ivory4"/>
+	<color r="0.878" g="0.933" b="0.878" name="Honeydew2"/>
+	<color r="0.757" g="0.804" b="0.757" name="Honeydew3"/>
+	<color r="0.514" g="0.545" b="0.514" name="Honeydew4"/>
+	<color r="0.933" g="0.878" b="0.898" name="LavenderBlush2"/>
+	<color r="0.804" g="0.757" b="0.773" name="LavenderBlush3"/>
+	<color r="0.545" g="0.514" b="0.525" name="LavenderBlush4"/>
+	<color r="0.933" g="0.835" b="0.824" name="MistyRose2"/>
+	<color r="0.804" g="0.718" b="0.71" name="MistyRose3"/>
+	<color r="0.545" g="0.49" b="0.482" name="MistyRose4"/>
+	<color r="0.878" g="0.933" b="0.933" name="Azure2"/>
+	<color r="0.757" g="0.804" b="0.804" name="Azure3"/>
+	<color r="0.514" g="0.545" b="0.545" name="Azure4"/>
+	<color r="0.514" g="0.435" b="1" name="SlateBlue1"/>
+	<color r="0.478" g="0.404" b="0.933" name="SlateBlue2"/>
+	<color r="0.412" g="0.349" b="0.804" name="SlateBlue3"/>
+	<color r="0.278" g="0.235" b="0.545" name="SlateBlue4"/>
+	<color r="0.282" g="0.463" b="1" name="RoyalBlue1"/>
+	<color r="0.263" g="0.431" b="0.933" name="RoyalBlue2"/>
+	<color r="0.227" g="0.373" b="0.804" name="RoyalBlue3"/>
+	<color r="0.153" g="0.251" b="0.545" name="RoyalBlue4"/>
+	<color r="0" g="0" b="0.933" name="Blue2"/>
+	<color r="0" g="0" b="0.545" name="Blue4"/>
+	<color r="0.11" g="0.525" b="0.933" name="DodgerBlue2"/>
+	<color r="0.094" g="0.455" b="0.804" name="DodgerBlue3"/>
+	<color r="0.063" g="0.306" b="0.545" name="DodgerBlue4"/>
+	<color r="0.388" g="0.722" b="1" name="SteelBlue1"/>
+	<color r="0.361" g="0.675" b="0.933" name="SteelBlue2"/>
+	<color r="0.31" g="0.58" b="0.804" name="SteelBlue3"/>
+	<color r="0.212" g="0.392" b="0.545" name="SteelBlue4"/>
+	<color r="0" g="0.698" b="0.933" name="DeepSkyBlue2"/>
+	<color r="0" g="0.604" b="0.804" name="DeepSkyBlue3"/>
+	<color r="0" g="0.408" b="0.545" name="DeepSkyBlue4"/>
+	<color r="0.529" g="0.808" b="1" name="SkyBlue1"/>
+	<color r="0.494" g="0.753" b="0.933" name="SkyBlue2"/>
+	<color r="0.424" g="0.651" b="0.804" name="SkyBlue3"/>
+	<color r="0.29" g="0.439" b="0.545" name="SkyBlue4"/>
+	<color r="0.69" g="0.886" b="1" name="LightSkyBlue1"/>
+	<color r="0.643" g="0.827" b="0.933" name="LightSkyBlue2"/>
+	<color r="0.553" g="0.714" b="0.804" name="LightSkyBlue3"/>
+	<color r="0.376" g="0.482" b="0.545" name="LightSkyBlue4"/>
+	<color r="0.776" g="0.886" b="1" name="SlateGray1"/>
+	<color r="0.725" g="0.827" b="0.933" name="SlateGray2"/>
+	<color r="0.624" g="0.714" b="0.804" name="SlateGray3"/>
+	<color r="0.424" g="0.482" b="0.545" name="SlateGray4"/>
+	<color r="0.792" g="0.882" b="1" name="LightSteelBlue1"/>
+	<color r="0.737" g="0.824" b="0.933" name="LightSteelBlue2"/>
+	<color r="0.635" g="0.71" b="0.804" name="LightSteelBlue3"/>
+	<color r="0.431" g="0.482" b="0.545" name="LightSteelBlue4"/>
+	<color r="0.749" g="0.937" b="1" name="LightBlue1"/>
+	<color r="0.698" g="0.875" b="0.933" name="LightBlue2"/>
+	<color r="0.604" g="0.753" b="0.804" name="LightBlue3"/>
+	<color r="0.408" g="0.514" b="0.545" name="LightBlue4"/>
+	<color r="0.82" g="0.933" b="0.933" name="LightCyan2"/>
+	<color r="0.706" g="0.804" b="0.804" name="LightCyan3"/>
+	<color r="0.478" g="0.545" b="0.545" name="LightCyan4"/>
+	<color r="0.733" g="1" b="1" name="PaleTurquoise1"/>
+	<color r="0.682" g="0.933" b="0.933" name="PaleTurquoise2"/>
+	<color r="0.588" g="0.804" b="0.804" name="PaleTurquoise3"/>
+	<color r="0.4" g="0.545" b="0.545" name="PaleTurquoise4"/>
+	<color r="0.596" g="0.961" b="1" name="CadetBlue1"/>
+	<color r="0.557" g="0.898" b="0.933" name="CadetBlue2"/>
+	<color r="0.478" g="0.773" b="0.804" name="CadetBlue3"/>
+	<color r="0.325" g="0.525" b="0.545" name="CadetBlue4"/>
+	<color r="0" g="0.961" b="1" name="Turquoise1"/>
+	<color r="0" g="0.898" b="0.933" name="Turquoise2"/>
+	<color r="0" g="0.773" b="0.804" name="Turquoise3"/>
+	<color r="0" g="0.525" b="0.545" name="Turquoise4"/>
+	<color r="0" g="0.933" b="0.933" name="cyan2"/>
+	<color r="0" g="0.804" b="0.804" name="cyan3"/>
+	<color r="0" g="0.545" b="0.545" name="cyan4"/>
+	<color r="0.592" g="1" b="1" name="DarkSlateGray1"/>
+	<color r="0.553" g="0.933" b="0.933" name="DarkSlateGray2"/>
+	<color r="0.475" g="0.804" b="0.804" name="DarkSlateGray3"/>
+	<color r="0.322" g="0.545" b="0.545" name="DarkSlateGray4"/>
+	<color r="0.463" g="0.933" b="0.776" name="Aquamarine2"/>
+	<color r="0.271" g="0.545" b="0.455" name="Aquamarine4"/>
+	<color r="0.757" g="1" b="0.757" name="DarkSeaGreen1"/>
+	<color r="0.706" g="0.933" b="0.706" name="DarkSeaGreen2"/>
+	<color r="0.608" g="0.804" b="0.608" name="DarkSeaGreen3"/>
+	<color r="0.412" g="0.545" b="0.412" name="DarkSeaGreen4"/>
+	<color r="0.329" g="1" b="0.624" name="SeaGreen1"/>
+	<color r="0.306" g="0.933" b="0.58" name="SeaGreen2"/>
+	<color r="0.263" g="0.804" b="0.502" name="SeaGreen3"/>
+	<color r="0.604" g="1" b="0.604" name="PaleGreen1"/>
+	<color r="0.565" g="0.933" b="0.565" name="PaleGreen2"/>
+	<color r="0.486" g="0.804" b="0.486" name="PaleGreen3"/>
+	<color r="0.329" g="0.545" b="0.329" name="PaleGreen4"/>
+	<color r="0" g="0.933" b="0.463" name="SpringGreen2"/>
+	<color r="0" g="0.804" b="0.4" name="SpringGreen3"/>
+	<color r="0" g="0.545" b="0.271" name="SpringGreen4"/>
+	<color r="0" g="0.933" b="0" name="Green2"/>
+	<color r="0" g="0.804" b="0" name="Green3"/>
+	<color r="0" g="0.545" b="0" name="Green4"/>
+	<color r="0.463" g="0.933" b="0" name="Chartreuse2"/>
+	<color r="0.4" g="0.804" b="0" name="Chartreuse3"/>
+	<color r="0.271" g="0.545" b="0" name="Chartreuse4"/>
+	<color r="0.753" g="1" b="0.243" name="OliveDrab1"/>
+	<color r="0.702" g="0.933" b="0.227" name="OliveDrab2"/>
+	<color r="0.412" g="0.545" b="0.133" name="OliveDrab4"/>
+	<color r="0.792" g="1" b="0.439" name="DarkOliveGreen1"/>
+	<color r="0.737" g="0.933" b="0.408" name="DarkOliveGreen2"/>
+	<color r="0.635" g="0.804" b="0.353" name="DarkOliveGreen3"/>
+	<color r="0.431" g="0.545" b="0.239" name="DarkOliveGreen4"/>
+	<color r="1" g="0.965" b="0.561" name="Khaki1"/>
+	<color r="0.933" g="0.902" b="0.522" name="Khaki2"/>
+	<color r="0.804" g="0.776" b="0.451" name="Khaki3"/>
+	<color r="0.545" g="0.525" b="0.306" name="Khaki4"/>
+	<color r="1" g="0.925" b="0.545" name="LightGoldenrod1"/>
+	<color r="0.933" g="0.863" b="0.51" name="LightGoldenrod2"/>
+	<color r="0.804" g="0.745" b="0.439" name="LightGoldenrod3"/>
+	<color r="0.545" g="0.506" b="0.298" name="LightGoldenrod4"/>
+	<color r="0.933" g="0.933" b="0.82" name="LightYellow2"/>
+	<color r="0.804" g="0.804" b="0.706" name="LightYellow3"/>
+	<color r="0.545" g="0.545" b="0.478" name="LightYellow4"/>
+	<color r="0.933" g="0.933" b="0" name="Yellow2"/>
+	<color r="0.804" g="0.804" b="0" name="Yellow3"/>
+	<color r="0.545" g="0.545" b="0" name="Yellow4"/>
+	<color r="0.933" g="0.788" b="0" name="Gold2"/>
+	<color r="0.804" g="0.678" b="0" name="Gold3"/>
+	<color r="0.545" g="0.459" b="0" name="Gold4"/>
+	<color r="1" g="0.757" b="0.145" name="Goldenrod1"/>
+	<color r="0.933" g="0.706" b="0.133" name="Goldenrod2"/>
+	<color r="0.804" g="0.608" b="0.114" name="Goldenrod3"/>
+	<color r="0.545" g="0.412" b="0.078" name="Goldenrod4"/>
+	<color r="1" g="0.725" b="0.059" name="DarkGoldenrod1"/>
+	<color r="0.933" g="0.678" b="0.055" name="DarkGoldenrod2"/>
+	<color r="0.804" g="0.584" b="0.047" name="DarkGoldenrod3"/>
+	<color r="0.545" g="0.396" b="0.031" name="DarkGoldenrod4"/>
+	<color r="1" g="0.757" b="0.757" name="RosyBrown1"/>
+	<color r="0.933" g="0.706" b="0.706" name="RosyBrown2"/>
+	<color r="0.804" g="0.608" b="0.608" name="RosyBrown3"/>
+	<color r="0.545" g="0.412" b="0.412" name="RosyBrown4"/>
+	<color r="1" g="0.416" b="0.416" name="IndianRed1"/>
+	<color r="0.933" g="0.388" b="0.388" name="IndianRed2"/>
+	<color r="0.804" g="0.333" b="0.333" name="IndianRed3"/>
+	<color r="0.545" g="0.227" b="0.227" name="IndianRed4"/>
+	<color r="1" g="0.51" b="0.278" name="Sienna1"/>
+	<color r="0.933" g="0.475" b="0.259" name="Sienna2"/>
+	<color r="0.804" g="0.408" b="0.224" name="Sienna3"/>
+	<color r="0.545" g="0.278" b="0.149" name="Sienna4"/>
+	<color r="1" g="0.827" b="0.608" name="Burlywood1"/>
+	<color r="0.933" g="0.773" b="0.569" name="Burlywood2"/>
+	<color r="0.804" g="0.667" b="0.49" name="Burlywood3"/>
+	<color r="0.545" g="0.451" b="0.333" name="Burlywood4"/>
+	<color r="1" g="0.906" b="0.729" name="Wheat1"/>
+	<color r="0.933" g="0.847" b="0.682" name="Wheat2"/>
+	<color r="0.804" g="0.729" b="0.588" name="Wheat3"/>
+	<color r="0.545" g="0.494" b="0.4" name="Wheat4"/>
+	<color r="1" g="0.647" b="0.31" name="Tan1"/>
+	<color r="0.933" g="0.604" b="0.286" name="Tan2"/>
+	<color r="0.545" g="0.353" b="0.169" name="Tan4"/>
+	<color r="1" g="0.498" b="0.141" name="Chocolate1"/>
+	<color r="0.933" g="0.463" b="0.129" name="Chocolate2"/>
+	<color r="0.804" g="0.4" b="0.114" name="Chocolate3"/>
+	<color r="1" g="0.188" b="0.188" name="Firebrick1"/>
+	<color r="0.933" g="0.173" b="0.173" name="Firebrick2"/>
+	<color r="0.804" g="0.149" b="0.149" name="Firebrick3"/>
+	<color r="0.545" g="0.102" b="0.102" name="Firebrick4"/>
+	<color r="1" g="0.251" b="0.251" name="Brown1"/>
+	<color r="0.933" g="0.231" b="0.231" name="Brown2"/>
+	<color r="0.804" g="0.2" b="0.2" name="Brown3"/>
+	<color r="0.545" g="0.137" b="0.137" name="Brown4"/>
+	<color r="1" g="0.549" b="0.412" name="Salmon1"/>
+	<color r="0.933" g="0.51" b="0.384" name="Salmon2"/>
+	<color r="0.804" g="0.439" b="0.329" name="Salmon3"/>
+	<color r="0.545" g="0.298" b="0.224" name="Salmon4"/>
+	<color r="0.933" g="0.584" b="0.447" name="LightSalmon2"/>
+	<color r="0.804" g="0.506" b="0.384" name="LightSalmon3"/>
+	<color r="0.545" g="0.341" b="0.259" name="LightSalmon4"/>
+	<color r="0.933" g="0.604" b="0" name="Orange2"/>
+	<color r="0.804" g="0.522" b="0" name="Orange3"/>
+	<color r="0.545" g="0.353" b="0" name="Orange4"/>
+	<color r="1" g="0.498" b="0" name="DarkOrange1"/>
+	<color r="0.933" g="0.463" b="0" name="DarkOrange2"/>
+	<color r="0.804" g="0.4" b="0" name="DarkOrange3"/>
+	<color r="0.545" g="0.271" b="0" name="DarkOrange4"/>
+	<color r="1" g="0.447" b="0.337" name="Coral1"/>
+	<color r="0.933" g="0.416" b="0.314" name="Coral2"/>
+	<color r="0.804" g="0.357" b="0.271" name="Coral3"/>
+	<color r="0.545" g="0.243" b="0.184" name="Coral4"/>
+	<color r="0.933" g="0.361" b="0.259" name="Tomato2"/>
+	<color r="0.804" g="0.31" b="0.224" name="Tomato3"/>
+	<color r="0.545" g="0.212" b="0.149" name="Tomato4"/>
+	<color r="0.933" g="0.251" b="0" name="OrangeRed2"/>
+	<color r="0.804" g="0.216" b="0" name="OrangeRed3"/>
+	<color r="0.545" g="0.145" b="0" name="OrangeRed4"/>
+	<color r="0.933" g="0" b="0" name="Red2"/>
+	<color r="0.804" g="0" b="0" name="Red3"/>
+	<color r="0.545" g="0" b="0" name="Red4"/>
+	<color r="0.933" g="0.071" b="0.537" name="DeepPink2"/>
+	<color r="0.804" g="0.063" b="0.463" name="DeepPink3"/>
+	<color r="0.545" g="0.039" b="0.314" name="DeepPink4"/>
+	<color r="1" g="0.431" b="0.706" name="HotPink1"/>
+	<color r="0.933" g="0.416" b="0.655" name="HotPink2"/>
+	<color r="0.804" g="0.376" b="0.565" name="HotPink3"/>
+	<color r="0.545" g="0.227" b="0.384" name="HotPink4"/>
+	<color r="1" g="0.71" b="0.773" name="Pink1"/>
+	<color r="0.933" g="0.663" b="0.722" name="Pink2"/>
+	<color r="0.804" g="0.569" b="0.62" name="Pink3"/>
+	<color r="0.545" g="0.388" b="0.424" name="Pink4"/>
+	<color r="1" g="0.682" b="0.725" name="LightPink1"/>
+	<color r="0.933" g="0.635" b="0.678" name="LightPink2"/>
+	<color r="0.804" g="0.549" b="0.584" name="LightPink3"/>
+	<color r="0.545" g="0.373" b="0.396" name="LightPink4"/>
+	<color r="1" g="0.51" b="0.671" name="PaleVioletRed1"/>
+	<color r="0.933" g="0.475" b="0.624" name="PaleVioletRed2"/>
+	<color r="0.804" g="0.408" b="0.537" name="PaleVioletRed3"/>
+	<color r="0.545" g="0.278" b="0.365" name="PaleVioletRed4"/>
+	<color r="1" g="0.204" b="0.702" name="Maroon1"/>
+	<color r="0.933" g="0.188" b="0.655" name="Maroon2"/>
+	<color r="0.804" g="0.161" b="0.565" name="Maroon3"/>
+	<color r="0.545" g="0.11" b="0.384" name="Maroon4"/>
+	<color r="1" g="0.243" b="0.588" name="VioletRed1"/>
+	<color r="0.933" g="0.227" b="0.549" name="VioletRed2"/>
+	<color r="0.804" g="0.196" b="0.471" name="VioletRed3"/>
+	<color r="0.545" g="0.133" b="0.322" name="VioletRed4"/>
+	<color r="0.933" g="0" b="0.933" name="Magenta2"/>
+	<color r="0.804" g="0" b="0.804" name="Magenta3"/>
+	<color r="0.545" g="0" b="0.545" name="Magenta4"/>
+	<color r="1" g="0.514" b="0.98" name="Orchid1"/>
+	<color r="0.933" g="0.478" b="0.914" name="Orchid2"/>
+	<color r="0.804" g="0.412" b="0.788" name="Orchid3"/>
+	<color r="0.545" g="0.278" b="0.537" name="Orchid4"/>
+	<color r="1" g="0.733" b="1" name="Plum1"/>
+	<color r="0.933" g="0.682" b="0.933" name="Plum2"/>
+	<color r="0.804" g="0.588" b="0.804" name="Plum3"/>
+	<color r="0.545" g="0.4" b="0.545" name="Plum4"/>
+	<color r="0.878" g="0.4" b="1" name="MediumOrchid1"/>
+	<color r="0.82" g="0.373" b="0.933" name="MediumOrchid2"/>
+	<color r="0.706" g="0.322" b="0.804" name="MediumOrchid3"/>
+	<color r="0.478" g="0.216" b="0.545" name="MediumOrchid4"/>
+	<color r="0.749" g="0.243" b="1" name="DarkOrchid1"/>
+	<color r="0.698" g="0.227" b="0.933" name="DarkOrchid2"/>
+	<color r="0.604" g="0.196" b="0.804" name="DarkOrchid3"/>
+	<color r="0.408" g="0.133" b="0.545" name="DarkOrchid4"/>
+	<color r="0.608" g="0.188" b="1" name="Purple1"/>
+	<color r="0.569" g="0.173" b="0.933" name="Purple2"/>
+	<color r="0.49" g="0.149" b="0.804" name="Purple3"/>
+	<color r="0.333" g="0.102" b="0.545" name="Purple4"/>
+	<color r="0.671" g="0.51" b="1" name="MediumPurple1"/>
+	<color r="0.624" g="0.475" b="0.933" name="MediumPurple2"/>
+	<color r="0.537" g="0.408" b="0.804" name="MediumPurple3"/>
+	<color r="0.365" g="0.278" b="0.545" name="MediumPurple4"/>
+	<color r="1" g="0.882" b="1" name="Thistle1"/>
+	<color r="0.933" g="0.824" b="0.933" name="Thistle2"/>
+	<color r="0.804" g="0.71" b="0.804" name="Thistle3"/>
+	<color r="0.545" g="0.482" b="0.545" name="Thistle4"/>
+	<color r="1" g="0.98" b="0.98" name="Snow"/>
+	<color r="0.973" g="0.973" b="1" name="Ghost White"/>
+	<color r="0.961" g="0.961" b="0.961" name="White Smoke"/>
+	<color r="0.863" g="0.863" b="0.863" name="Gainsboro"/>
+	<color r="1" g="0.98" b="0.941" name="Floral White"/>
+	<color r="0.992" g="0.961" b="0.902" name="Old Lace"/>
+	<color r="0.98" g="0.941" b="0.902" name="Linen"/>
+	<color r="0.98" g="0.922" b="0.843" name="Antique White"/>
+	<color r="1" g="0.937" b="0.835" name="Papaya Whip"/>
+	<color r="1" g="0.922" b="0.804" name="Blanched Almond"/>
+	<color r="1" g="0.894" b="0.769" name="Bisque"/>
+	<color r="1" g="0.855" b="0.725" name="Peach Puff"/>
+	<color r="1" g="0.871" b="0.678" name="Navajo White"/>
+	<color r="1" g="0.894" b="0.71" name="Moccasin"/>
+	<color r="1" g="0.973" b="0.863" name="Cornsilk"/>
+	<color r="1" g="1" b="0.941" name="Ivory"/>
+	<color r="1" g="0.98" b="0.804" name="Lemon Chiffon"/>
+	<color r="1" g="0.961" b="0.933" name="Seashell"/>
+	<color r="0.941" g="1" b="0.941" name="Honeydew"/>
+	<color r="0.961" g="1" b="0.98" name="Mint Cream"/>
+	<color r="0.941" g="1" b="1" name="Azure"/>
+	<color r="0.941" g="0.973" b="1" name="Alice Blue"/>
+	<color r="0.902" g="0.902" b="0.98" name="Lavender"/>
+	<color r="1" g="0.941" b="0.961" name="Lavender Blush"/>
+	<color r="1" g="0.894" b="0.882" name="Misty Rose"/>
+</palette>

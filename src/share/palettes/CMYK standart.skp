@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<palette>
+	<description type="CMYK" name="Standart CMYK Palette" />
+	<color c="1" m="1" y="1" k="1" name="Registration Color" />
+	<color c="0" m="0" y="0" k="1" name="Black" />
+	<color c="0" m="0" y="0" k="0.9" name="90% Black" />
+	<color c="0" m="0" y="0" k="0.8" name="80% Black" />
+	<color c="0" m="0" y="0" k="0.7" name="70% Black" />
+	<color c="0" m="0" y="0" k="0.6" name="60% Black" />
+	<color c="0" m="0" y="0" k="0.5" name="50% Black" />
+	<color c="0" m="0" y="0" k="0.4" name="40% Black" />
+	<color c="0" m="0" y="0" k="0.3" name="30% Black" />
+	<color c="0" m="0" y="0" k="0.2" name="20% Black" />
+	<color c="0" m="0" y="0" k="0.1" name="10% Black" />
+	<color c="0.000000" m="0.000000" y="0.000000" k="0.000000" name="White" />
+
+	<color c="1" m="0.000000" y="0.0" k="0.000000" name="Cyan" />
+	<color c="0.0" m="1" y="0.000000" k="0.000000" name="Magenta" />
+	<color c="0.000000" m="0.000000" y="1" k="0.000000" name="Yellow" />
+
+	<color c="0.000000" m="1" y="1" k="0.000000" name="Red" />
+	<color c="1" m="0" y="1" k="0" name="Green" />
+	<color c="1" m="1" y="0" k="0" name="Blue" />
+
+	<color c="0.020000" m="0.973000" y="0.890000" k="0.494000" name="Dark Red" />
+	<color c="0.757000" m="0.000000" y="1.000000" k="0.251000" name="Dark Green" />
+	<color c="0.961000" m="0.945000" y="0.000000" k="0.102000" name="Dark Blue" />
+	<color c="0.792000" m="0.208000" y="0.396000" k="0.212000" name="Dark Cyan" />
+	<color c="0.565000" m="0.957000" y="0.020000" k="0.063000" name="Dark Magenta" />
+	<color c="0.314000" m="0.133000" y="0.976000" k="0.404000" name="Dark Yellow" />
+	<color c="0.741000" m="0.447000" y="0.486000" k="0.463000" name="Dark Slate Gray" />
+	<color c="0.451000" m="0.373000" y="0.365000" k="0.408000" name="Dim Gray" />
+	<color c="0.510000" m="0.337000" y="0.220000" k="0.243000" name="Slate Gray" />
+	<color c="0.490000" m="0.325000" y="0.192000" k="0.212000" name="Light Slate Gray" />
+	<color c="0.227000" m="0.176000" y="0.173000" k="0.102000" name="Gray" />
+	<color c="0.169000" m="0.125000" y="0.125000" k="0.047000" name="Light Grey" />
+	<color c="0.933000" m="0.937000" y="0.027000" k="0.224000" name="Midnight Blue" />
+	<color c="0.961000" m="0.941000" y="0.000000" k="0.098000" name="Navy" />
+	<color c="0.580000" m="0.373000" y="0.008000" k="0.012000" name="Cornflower Blue" />
+	<color c="0.773000" m="0.769000" y="0.067000" k="0.125000" name="Dark Slate Blue" />
+	<color c="0.627000" m="0.596000" y="0.020000" k="0.031000" name="Slate Blue" />
+	<color c="0.565000" m="0.529000" y="0.008000" k="0.012000" name="Medium Slate Blue" />
+	<color c="0.537000" m="0.498000" y="0.004000" k="0.004000" name="Light Slate Blue" />
+	<color c="0.902000" m="0.773000" y="0.000000" k="0.000000" name="Medium Blue" />
+	<color c="0.694000" m="0.529000" y="0.008000" k="0.012000" name="Royal Blue" />
+	<color c="0.843000" m="0.667000" y="0.000000" k="0.000000" name="Blue" />
+	<color c="0.675000" m="0.380000" y="0.000000" k="0.000000" name="Dodger Blue" />
+	<color c="0.643000" m="0.118000" y="0.008000" k="0.004000" name="Deep Sky Blue" />
+	<color c="0.455000" m="0.075000" y="0.059000" k="0.024000" name="Sky Blue" />
+	<color c="0.459000" m="0.102000" y="0.020000" k="0.012000" name="Light Sky Blue" />
+	<color c="0.682000" m="0.373000" y="0.067000" k="0.102000" name="Steel Blue" />
+	<color c="0.325000" m="0.169000" y="0.063000" k="0.039000" name="Light Steel Blue" />
+	<color c="0.333000" m="0.075000" y="0.078000" k="0.024000" name="Light Blue" />
+	<color c="0.318000" m="0.047000" y="0.098000" k="0.016000" name="Powder Blue" />
+	<color c="0.298000" m="0.020000" y="0.102000" k="0.004000" name="Pale Turquoise" />
+	<color c="0.631000" m="0.008000" y="0.220000" k="0.004000" name="Dark Turquoise" />
+	<color c="0.576000" m="0.012000" y="0.243000" k="0.008000" name="Medium Turquoise" />
+	<color c="0.545000" m="0.004000" y="0.259000" k="0.000000" name="Turquoise" />
+	<color c="0.459000" m="0.000000" y="0.129000" k="0.000000" name="Cyan" />
+	<color c="0.122000" m="0.012000" y="0.035000" k="0.000000" name="Light Cyan" />
+	<color c="0.592000" m="0.149000" y="0.290000" k="0.137000" name="Cadet Blue" />
+	<color c="0.541000" m="0.016000" y="0.392000" k="0.012000" name="Medium Aquamarine" />
+	<color c="0.365000" m="0.000000" y="0.247000" k="0.000000" name="Aquamarine" />
+	<color c="0.757000" m="0.031000" y="0.992000" k="0.455000" name="Dark Green 2" />
+	<color c="0.600000" m="0.290000" y="0.878000" k="0.365000" name="Dark Olive Green" />
+	<color c="0.455000" m="0.082000" y="0.490000" k="0.059000" name="Dark Sea Green" />
+	<color c="0.753000" m="0.153000" y="0.729000" k="0.149000" name="Sea Green" />
+	<color c="0.682000" m="0.020000" y="0.659000" k="0.016000" name="Medium Sea Green" />
+	<color c="0.694000" m="0.043000" y="0.337000" k="0.031000" name="Light Sea Green" />
+	<color c="0.373000" m="0.000000" y="0.486000" k="0.000000" name="Pale Green" />
+	<color c="0.545000" m="0.000000" y="0.600000" k="0.000000" name="Spring Green" />
+	<color c="0.525000" m="0.000000" y="0.961000" k="0.000000" name="Lawn Green" />
+	<color c="0.651000" m="0.004000" y="0.988000" k="0.004000" name="Green" />
+	<color c="0.514000" m="0.000000" y="0.953000" k="0.000000" name="Chartreuse" />
+	<color c="0.522000" m="0.000000" y="0.478000" k="0.000000" name="Medium Spring Green" />
+	<color c="0.369000" m="0.000000" y="0.906000" k="0.000000" name="Green Yellow" />
+	<color c="0.682000" m="0.000000" y="0.925000" k="0.000000" name="Lime Green" />
+	<color c="0.463000" m="0.008000" y="0.902000" k="0.004000" name="Yellow Green" />
+	<color c="0.749000" m="0.039000" y="0.973000" k="0.188000" name="Forest Green" />
+	<color c="0.553000" m="0.137000" y="0.953000" k="0.208000" name="Olive Drab" />
+	<color c="0.263000" m="0.165000" y="0.651000" k="0.086000" name="Dark Khaki" />
+	<color c="0.090000" m="0.059000" y="0.549000" k="0.004000" name="Khaki" />
+	<color c="0.086000" m="0.059000" y="0.408000" k="0.004000" name="Pale Goldenrod" />
+	<color c="0.047000" m="0.020000" y="0.227000" k="0.000000" name="Light Goldenrod Yellow" />
+	<color c="0.027000" m="0.004000" y="0.173000" k="0.000000" name="Light Yellow" />
+	<color c="0.047000" m="0.000000" y="0.941000" k="0.000000" name="Yellow" />
+	<color c="0.020000" m="0.102000" y="0.929000" k="0.020000" name="Gold" />
+	<color c="0.090000" m="0.090000" y="0.580000" k="0.012000" name="Light Goldenrod" />
+	<color c="0.086000" m="0.310000" y="0.925000" k="0.094000" name="Goldenrod" />
+	<color c="0.078000" m="0.357000" y="0.984000" k="0.267000" name="Dark Goldenrod" />
+	<color c="0.192000" m="0.439000" y="0.310000" k="0.133000" name="Rosy Brown" />
+	<color c="0.106000" m="0.718000" y="0.514000" k="0.086000" name="Indian Red" />
+	<color c="0.133000" m="0.663000" y="0.945000" k="0.435000" name="Saddle Brown" />
+	<color c="0.220000" m="0.671000" y="0.839000" k="0.259000" name="Sienna" />
+	<color c="0.133000" m="0.494000" y="0.812000" k="0.098000" name="Peru" />
+	<color c="0.114000" m="0.271000" y="0.502000" k="0.047000" name="Burlywood" />
+	<color c="0.051000" m="0.031000" y="0.169000" k="0.004000" name="Beige" />
+	<color c="0.055000" m="0.122000" y="0.345000" k="0.012000" name="Wheat" />
+	<color c="0.031000" m="0.427000" y="0.663000" k="0.016000" name="Sandy Brown" />
+	<color c="0.153000" m="0.267000" y="0.467000" k="0.071000" name="Tan" />
+	<color c="0.055000" m="0.627000" y="0.925000" k="0.114000" name="Chocolate" />
+	<color c="0.086000" m="0.922000" y="0.824000" k="0.212000" name="Firebrick" />
+	<color c="0.184000" m="0.894000" y="0.769000" k="0.216000" name="Brown" />
+	<color c="0.047000" m="0.494000" y="0.486000" k="0.027000" name="Dark Salmon" />
+	<color c="0.008000" m="0.616000" y="0.494000" k="0.004000" name="Salmon" />
+	<color c="0.000000" m="0.478000" y="0.514000" k="0.000000" name="Light Salmon" />
+	<color c="0.008000" m="0.412000" y="0.988000" k="0.012000" name="Orange" />
+	<color c="0.004000" m="0.537000" y="0.969000" k="0.012000" name="Dark Orange" />
+	<color c="0.004000" m="0.627000" y="0.694000" k="0.000000" name="Coral" />
+	<color c="0.027000" m="0.604000" y="0.388000" k="0.020000" name="Light Coral" />
+	<color c="0.004000" m="0.749000" y="0.725000" k="0.004000" name="Tomato" />
+	<color c="0.000000" m="0.839000" y="0.976000" k="0.000000" name="Orange Red" />
+	<color c="0.000000" m="0.965000" y="0.996000" k="0.004000" name="Red" />
+	<color c="0.024000" m="0.671000" y="0.067000" k="0.008000" name="Hot Pink" />
+	<color c="0.012000" m="0.894000" y="0.078000" k="0.000000" name="Deep Pink" />
+	<color c="0.024000" m="0.318000" y="0.141000" k="0.008000" name="Pink" />
+	<color c="0.016000" m="0.373000" y="0.157000" k="0.004000" name="Light Pink" />
+	<color c="0.082000" m="0.651000" y="0.188000" k="0.059000" name="Pale Violet Red" />
+	<color c="0.169000" m="0.890000" y="0.271000" k="0.192000" name="Maroon" />
+	<color c="0.212000" m="0.922000" y="0.035000" k="0.039000" name="Medium Violet Red" />
+	<color c="0.196000" m="0.890000" y="0.020000" k="0.024000" name="Violet Red" />
+	<color c="0.286000" m="0.671000" y="0.000000" k="0.000000" name="Magenta" />
+	<color c="0.208000" m="0.506000" y="0.000000" k="0.000000" name="Violet" />
+	<color c="0.188000" m="0.420000" y="0.016000" k="0.016000" name="Plum" />
+	<color c="0.251000" m="0.584000" y="0.000000" k="0.000000" name="Orchid" />
+	<color c="0.408000" m="0.631000" y="0.004000" k="0.004000" name="Medium Orchid" />
+	<color c="0.533000" m="0.698000" y="0.004000" k="0.004000" name="Dark Orchid" />
+	<color c="0.569000" m="0.733000" y="0.000000" k="0.000000" name="Dark Violet" />
+	<color c="0.580000" m="0.667000" y="0.000000" k="0.004000" name="Blue Violet" />
+	<color c="0.537000" m="0.651000" y="0.000000" k="0.000000" name="Purple" />
+	<color c="0.494000" m="0.529000" y="0.016000" k="0.020000" name="Medium Purple" />
+	<color c="0.169000" m="0.267000" y="0.071000" k="0.031000" name="Thistle" />
+	<color c="0.078000" m="0.075000" y="0.071000" k="0.008000" name="Snow2" />
+	<color c="0.180000" m="0.165000" y="0.149000" k="0.063000" name="Snow3" />
+	<color c="0.353000" m="0.298000" y="0.286000" k="0.286000" name="Snow4" />
+	<color c="0.078000" m="0.094000" y="0.122000" k="0.012000" name="Seashell2" />
+	<color c="0.180000" m="0.176000" y="0.204000" k="0.067000" name="Seashell3" />
+	<color c="0.349000" m="0.318000" y="0.325000" k="0.286000" name="Seashell4" />
+	<color c="0.027000" m="0.067000" y="0.169000" k="0.004000" name="AntiqueWhite1" />
+	<color c="0.078000" m="0.114000" y="0.208000" k="0.016000" name="AntiqueWhite2" />
+	<color c="0.176000" m="0.200000" y="0.286000" k="0.071000" name="AntiqueWhite3" />
+	<color c="0.353000" m="0.325000" y="0.400000" k="0.290000" name="AntiqueWhite4" />
+	<color c="0.075000" m="0.169000" y="0.298000" k="0.016000" name="Bisque2" />
+	<color c="0.169000" m="0.247000" y="0.361000" k="0.078000" name="Bisque3" />
+	<color c="0.349000" m="0.373000" y="0.478000" k="0.294000" name="Bisque4" />
+	<color c="0.071000" m="0.220000" y="0.333000" k="0.020000" name="PeachPuff2" />
+	<color c="0.161000" m="0.298000" y="0.396000" k="0.082000" name="PeachPuff3" />
+	<color c="0.345000" m="0.408000" y="0.514000" k="0.298000" name="PeachPuff4" />
+	<color c="0.075000" m="0.180000" y="0.412000" k="0.020000" name="NavajoWhite2" />
+	<color c="0.169000" m="0.255000" y="0.471000" k="0.082000" name="NavajoWhite3" />
+	<color c="0.349000" m="0.388000" y="0.569000" k="0.298000" name="NavajoWhite4" />
+	<color c="0.082000" m="0.063000" y="0.306000" k="0.008000" name="LemonChiffon2" />
+	<color c="0.192000" m="0.149000" y="0.380000" k="0.055000" name="LemonChiffon3" />
+	<color c="0.373000" m="0.298000" y="0.502000" k="0.267000" name="LemonChiffon4" />
+	<color c="0.075000" m="0.071000" y="0.224000" k="0.008000" name="Cornsilk2" />
+	<color c="0.184000" m="0.157000" y="0.306000" k="0.063000" name="Cornsilk3" />
+	<color c="0.361000" m="0.302000" y="0.420000" k="0.278000" name="Cornsilk4" />
+	<color c="0.075000" m="0.055000" y="0.137000" k="0.004000" name="Ivory2" />
+	<color c="0.188000" m="0.137000" y="0.220000" k="0.051000" name="Ivory3" />
+	<color c="0.361000" m="0.286000" y="0.345000" k="0.275000" name="Ivory4" />
+	<color c="0.129000" m="0.047000" y="0.137000" k="0.008000" name="Honeydew2" />
+	<color c="0.243000" m="0.118000" y="0.224000" k="0.051000" name="Honeydew3" />
+	<color c="0.404000" m="0.275000" y="0.349000" k="0.267000" name="Honeydew4" />
+	<color c="0.082000" m="0.125000" y="0.078000" k="0.012000" name="LavenderBlush2" />
+	<color c="0.176000" m="0.208000" y="0.145000" k="0.067000" name="LavenderBlush3" />
+	<color c="0.349000" m="0.337000" y="0.286000" k="0.286000" name="LavenderBlush4" />
+	<color c="0.075000" m="0.180000" y="0.141000" k="0.016000" name="MistyRose2" />
+	<color c="0.165000" m="0.259000" y="0.212000" k="0.075000" name="MistyRose3" />
+	<color c="0.349000" m="0.380000" y="0.349000" k="0.294000" name="MistyRose4" />
+	<color c="0.129000" m="0.051000" y="0.067000" k="0.008000" name="Azure2" />
+	<color c="0.239000" m="0.125000" y="0.149000" k="0.051000" name="Azure3" />
+	<color c="0.400000" m="0.278000" y="0.290000" k="0.271000" name="Azure4" />
+	<color c="0.541000" m="0.498000" y="0.004000" k="0.004000" name="SlateBlue1" />
+	<color c="0.569000" m="0.529000" y="0.008000" k="0.012000" name="SlateBlue2" />
+	<color c="0.631000" m="0.604000" y="0.020000" k="0.031000" name="SlateBlue3" />
+	<color c="0.776000" m="0.773000" y="0.067000" k="0.122000" name="SlateBlue4" />
+	<color c="0.651000" m="0.475000" y="0.004000" k="0.004000" name="RoyalBlue1" />
+	<color c="0.678000" m="0.510000" y="0.004000" k="0.008000" name="RoyalBlue2" />
+	<color c="0.737000" m="0.576000" y="0.012000" k="0.020000" name="RoyalBlue3" />
+	<color c="0.867000" m="0.737000" y="0.063000" k="0.149000" name="RoyalBlue4" />
+	<color c="0.875000" m="0.714000" y="0.000000" k="0.000000" name="Blue2" />
+	<color c="0.961000" m="0.929000" y="0.000000" k="0.051000" name="Blue4" />
+	<color c="0.702000" m="0.420000" y="0.004000" k="0.004000" name="DodgerBlue2" />
+	<color c="0.761000" m="0.486000" y="0.012000" k="0.024000" name="DodgerBlue3" />
+	<color c="0.882000" m="0.643000" y="0.094000" k="0.184000" name="DodgerBlue4" />
+	<color c="0.557000" m="0.200000" y="0.008000" k="0.008000" name="SteelBlue1" />
+	<color c="0.580000" m="0.231000" y="0.016000" k="0.020000" name="SteelBlue2" />
+	<color c="0.639000" m="0.318000" y="0.039000" k="0.055000" name="SteelBlue3" />
+	<color c="0.749000" m="0.478000" y="0.149000" k="0.239000" name="SteelBlue4" />
+	<color c="0.671000" m="0.153000" y="0.020000" k="0.016000" name="DeepSkyBlue2" />
+	<color c="0.718000" m="0.216000" y="0.051000" k="0.059000" name="DeepSkyBlue3" />
+	<color c="0.820000" m="0.392000" y="0.165000" k="0.263000" name="DeepSkyBlue4" />
+	<color c="0.459000" m="0.114000" y="0.008000" k="0.004000" name="SkyBlue1" />
+	<color c="0.490000" m="0.145000" y="0.031000" k="0.024000" name="SkyBlue2" />
+	<color c="0.549000" m="0.216000" y="0.071000" k="0.071000" name="SkyBlue3" />
+	<color c="0.663000" m="0.388000" y="0.184000" k="0.267000" name="SkyBlue4" />
+	<color c="0.322000" m="0.067000" y="0.020000" k="0.008000" name="LightSkyBlue1" />
+	<color c="0.369000" m="0.094000" y="0.047000" k="0.020000" name="LightSkyBlue2" />
+	<color c="0.443000" m="0.161000" y="0.098000" k="0.075000" name="LightSkyBlue3" />
+	<color c="0.573000" m="0.333000" y="0.231000" k="0.267000" name="LightSkyBlue4" />
+	<color c="0.251000" m="0.090000" y="0.012000" k="0.004000" name="SlateGray1" />
+	<color c="0.294000" m="0.125000" y="0.039000" k="0.020000" name="SlateGray2" />
+	<color c="0.376000" m="0.196000" y="0.094000" k="0.071000" name="SlateGray3" />
+	<color c="0.518000" m="0.361000" y="0.227000" k="0.267000" name="SlateGray4" />
+	<color c="0.239000" m="0.098000" y="0.008000" k="0.004000" name="LightSteelBlue1" />
+	<color c="0.286000" m="0.129000" y="0.035000" k="0.016000" name="LightSteelBlue2" />
+	<color c="0.373000" m="0.208000" y="0.090000" k="0.071000" name="LightSteelBlue3" />
+	<color c="0.510000" m="0.361000" y="0.227000" k="0.267000" name="LightSteelBlue4" />
+	<color c="0.255000" m="0.031000" y="0.027000" k="0.004000" name="LightBlue1" />
+	<color c="0.310000" m="0.055000" y="0.067000" k="0.016000" name="LightBlue2" />
+	<color c="0.400000" m="0.125000" y="0.133000" k="0.059000" name="LightBlue3" />
+	<color c="0.537000" m="0.286000" y="0.282000" k="0.255000" name="LightBlue4" />
+	<color c="0.184000" m="0.043000" y="0.078000" k="0.008000" name="LightCyan2" />
+	<color c="0.298000" m="0.106000" y="0.161000" k="0.047000" name="LightCyan3" />
+	<color c="0.459000" m="0.267000" y="0.306000" k="0.251000" name="LightCyan4" />
+	<color c="0.227000" m="0.004000" y="0.055000" k="0.000000" name="PaleTurquoise1" />
+	<color c="0.302000" m="0.020000" y="0.102000" k="0.004000" name="PaleTurquoise2" />
+	<color c="0.416000" m="0.063000" y="0.184000" k="0.035000" name="PaleTurquoise3" />
+	<color c="0.553000" m="0.239000" y="0.322000" k="0.231000" name="PaleTurquoise4" />
+	<color c="0.341000" m="0.008000" y="0.063000" k="0.000000" name="CadetBlue1" />
+	<color c="0.400000" m="0.020000" y="0.102000" k="0.008000" name="CadetBlue2" />
+	<color c="0.502000" m="0.063000" y="0.169000" k="0.039000" name="CadetBlue3" />
+	<color c="0.624000" m="0.231000" y="0.306000" k="0.239000" name="CadetBlue4" />
+	<color c="0.498000" m="0.000000" y="0.114000" k="0.000000" name="Turquoise1" />
+	<color c="0.557000" m="0.000000" y="0.149000" k="0.000000" name="Turquoise2" />
+	<color c="0.655000" m="0.016000" y="0.212000" k="0.012000" name="Turquoise3" />
+	<color c="0.780000" m="0.188000" y="0.345000" k="0.184000" name="Turquoise4" />
+	<color c="0.529000" m="0.000000" y="0.173000" k="0.000000" name="cyan2" />
+	<color c="0.635000" m="0.008000" y="0.239000" k="0.004000" name="cyan3" />
+	<color c="0.776000" m="0.165000" y="0.376000" k="0.161000" name="cyan4" />
+	<color c="0.314000" m="0.000000" y="0.078000" k="0.000000" name="DarkSlateGray1" />
+	<color c="0.384000" m="0.008000" y="0.122000" k="0.004000" name="DarkSlateGray2" />
+	<color c="0.494000" m="0.039000" y="0.200000" k="0.024000" name="DarkSlateGray3" />
+	<color c="0.627000" m="0.212000" y="0.337000" k="0.212000" name="DarkSlateGray4" />
+	<color c="0.431000" m="0.000000" y="0.298000" k="0.000000" name="Aquamarine2" />
+	<color c="0.682000" m="0.184000" y="0.514000" k="0.184000" name="Aquamarine4" />
+	<color c="0.235000" m="0.000000" y="0.310000" k="0.000000" name="DarkSeaGreen1" />
+	<color c="0.298000" m="0.008000" y="0.361000" k="0.000000" name="DarkSeaGreen2" />
+	<color c="0.412000" m="0.043000" y="0.455000" k="0.024000" name="DarkSeaGreen3" />
+	<color c="0.557000" m="0.220000" y="0.573000" k="0.224000" name="DarkSeaGreen4" />
+	<color c="0.463000" m="0.000000" y="0.451000" k="0.000000" name="SeaGreen1" />
+	<color c="0.518000" m="0.000000" y="0.510000" k="0.000000" name="SeaGreen2" />
+	<color c="0.616000" m="0.000000" y="0.600000" k="0.000000" name="SeaGreen3" />
+	<color c="0.357000" m="0.000000" y="0.475000" k="0.000000" name="PaleGreen1" />
+	<color c="0.412000" m="0.000000" y="0.518000" k="0.000000" name="PaleGreen2" />
+	<color c="0.518000" m="0.012000" y="0.616000" k="0.008000" name="PaleGreen3" />
+	<color c="0.651000" m="0.180000" y="0.729000" k="0.184000" name="PaleGreen4" />
+	<color c="0.592000" m="0.000000" y="0.639000" k="0.000000" name="SpringGreen2" />
+	<color c="0.678000" m="0.000000" y="0.722000" k="0.000000" name="SpringGreen3" />
+	<color c="0.804000" m="0.125000" y="0.843000" k="0.122000" name="SpringGreen4" />
+	<color c="0.663000" m="0.000000" y="0.973000" k="0.000000" name="Green2" />
+	<color c="0.706000" m="0.000000" y="0.976000" k="0.000000" name="Green3" />
+	<color c="0.757000" m="0.000000" y="1.000000" k="0.169000" name="Green4" />
+	<color c="0.545000" m="0.000000" y="0.980000" k="0.000000" name="Chartreuse2" />
+	<color c="0.604000" m="0.000000" y="0.965000" k="0.000000" name="Chartreuse3" />
+	<color c="0.655000" m="0.039000" y="0.988000" k="0.216000" name="Chartreuse4" />
+	<color c="0.294000" m="0.000000" y="0.867000" k="0.000000" name="OliveDrab1" />
+	<color c="0.357000" m="0.000000" y="0.878000" k="0.000000" name="OliveDrab2" />
+	<color c="0.549000" m="0.141000" y="0.957000" k="0.239000" name="OliveDrab4" />
+	<color c="0.247000" m="0.000000" y="0.686000" k="0.000000" name="DarkOliveGreen1" />
+	<color c="0.310000" m="0.000000" y="0.702000" k="0.000000" name="DarkOliveGreen2" />
+	<color c="0.420000" m="0.024000" y="0.753000" k="0.012000" name="DarkOliveGreen3" />
+	<color c="0.545000" m="0.188000" y="0.843000" k="0.220000" name="DarkOliveGreen4" />
+	<color c="0.043000" m="0.024000" y="0.553000" k="0.000000" name="Khaki1" />
+	<color c="0.098000" m="0.055000" y="0.576000" k="0.004000" name="Khaki2" />
+	<color c="0.208000" m="0.137000" y="0.627000" k="0.051000" name="Khaki3" />
+	<color c="0.384000" m="0.298000" y="0.718000" k="0.259000" name="Khaki4" />
+	<color c="0.024000" m="0.059000" y="0.561000" k="0.000000" name="LightGoldenrod1" />
+	<color c="0.090000" m="0.094000" y="0.580000" k="0.012000" name="LightGoldenrod2" />
+	<color c="0.192000" m="0.173000" y="0.631000" k="0.071000" name="LightGoldenrod3" />
+	<color c="0.373000" m="0.318000" y="0.725000" k="0.278000" name="LightGoldenrod4" />
+	<color c="0.078000" m="0.055000" y="0.212000" k="0.004000" name="LightYellow2" />
+	<color c="0.192000" m="0.133000" y="0.302000" k="0.047000" name="LightYellow3" />
+	<color c="0.373000" m="0.290000" y="0.431000" k="0.263000" name="LightYellow4" />
+	<color c="0.125000" m="0.004000" y="0.937000" k="0.000000" name="Yellow2" />
+	<color c="0.243000" m="0.047000" y="0.969000" k="0.035000" name="Yellow3" />
+	<color c="0.275000" m="0.098000" y="0.976000" k="0.376000" name="Yellow4" />
+	<color c="0.071000" m="0.141000" y="0.945000" k="0.039000" name="Gold2" />
+	<color c="0.082000" m="0.165000" y="0.961000" k="0.180000" name="Gold3" />
+	<color c="0.165000" m="0.224000" y="0.973000" k="0.459000" name="Gold4" />
+	<color c="0.012000" m="0.247000" y="0.906000" k="0.004000" name="Goldenrod1" />
+	<color c="0.047000" m="0.275000" y="0.922000" k="0.047000" name="Goldenrod2" />
+	<color c="0.129000" m="0.325000" y="0.945000" k="0.125000" name="Goldenrod3" />
+	<color c="0.196000" m="0.369000" y="0.969000" k="0.439000" name="Goldenrod4" />
+	<color c="0.008000" m="0.294000" y="0.945000" k="0.008000" name="DarkGoldenrod1" />
+	<color c="0.043000" m="0.322000" y="0.961000" k="0.047000" name="DarkGoldenrod2" />
+	<color c="0.094000" m="0.353000" y="0.965000" k="0.145000" name="DarkGoldenrod3" />
+	<color c="0.137000" m="0.384000" y="0.980000" k="0.475000" name="DarkGoldenrod4" />
+	<color c="0.024000" m="0.314000" y="0.196000" k="0.008000" name="RosyBrown1" />
+	<color c="0.059000" m="0.353000" y="0.216000" k="0.024000" name="RosyBrown2" />
+	<color c="0.141000" m="0.420000" y="0.282000" k="0.086000" name="RosyBrown3" />
+	<color c="0.337000" m="0.518000" y="0.404000" k="0.302000" name="RosyBrown4" />
+	<color c="0.004000" m="0.722000" y="0.506000" k="0.004000" name="IndianRed1" />
+	<color c="0.024000" m="0.729000" y="0.510000" k="0.020000" name="IndianRed2" />
+	<color c="0.098000" m="0.753000" y="0.549000" k="0.082000" name="IndianRed3" />
+	<color c="0.306000" m="0.804000" y="0.643000" k="0.310000" name="IndianRed4" />
+	<color c="0.004000" m="0.604000" y="0.757000" k="0.004000" name="Sienna1" />
+	<color c="0.031000" m="0.616000" y="0.757000" k="0.020000" name="Sienna2" />
+	<color c="0.114000" m="0.647000" y="0.792000" k="0.090000" name="Sienna3" />
+	<color c="0.294000" m="0.702000" y="0.867000" k="0.325000" name="Sienna4" />
+	<color c="0.027000" m="0.192000" y="0.447000" k="0.004000" name="Burlywood1" />
+	<color c="0.067000" m="0.235000" y="0.467000" k="0.020000" name="Burlywood2" />
+	<color c="0.161000" m="0.306000" y="0.525000" k="0.086000" name="Burlywood3" />
+	<color c="0.345000" m="0.424000" y="0.624000" k="0.302000" name="Burlywood4" />
+	<color c="0.024000" m="0.090000" y="0.333000" k="0.004000" name="Wheat1" />
+	<color c="0.078000" m="0.141000" y="0.361000" k="0.016000" name="Wheat2" />
+	<color c="0.173000" m="0.227000" y="0.424000" k="0.078000" name="Wheat3" />
+	<color c="0.349000" m="0.365000" y="0.525000" k="0.294000" name="Wheat4" />
+	<color c="0.008000" m="0.435000" y="0.745000" k="0.004000" name="Tan1" />
+	<color c="0.051000" m="0.451000" y="0.769000" k="0.027000" name="Tan2" />
+	<color c="0.290000" m="0.565000" y="0.859000" k="0.345000" name="Tan4" />
+	<color c="0.004000" m="0.612000" y="0.910000" k="0.004000" name="Chocolate1" />
+	<color c="0.031000" m="0.620000" y="0.925000" k="0.020000" name="Chocolate2" />
+	<color c="0.063000" m="0.631000" y="0.925000" k="0.129000" name="Chocolate3" />
+	<color c="0.000000" m="0.925000" y="0.851000" k="0.000000" name="Firebrick1" />
+	<color c="0.012000" m="0.914000" y="0.820000" k="0.016000" name="Firebrick2" />
+	<color c="0.078000" m="0.922000" y="0.839000" k="0.071000" name="Firebrick3" />
+	<color c="0.239000" m="0.945000" y="0.863000" k="0.322000" name="Firebrick4" />
+	<color c="0.000000" m="0.878000" y="0.737000" k="0.000000" name="Brown1" />
+	<color c="0.012000" m="0.875000" y="0.725000" k="0.012000" name="Brown2" />
+	<color c="0.086000" m="0.882000" y="0.741000" k="0.078000" name="Brown3" />
+	<color c="0.271000" m="0.914000" y="0.804000" k="0.314000" name="Brown4" />
+	<color c="0.008000" m="0.573000" y="0.573000" k="0.004000" name="Salmon1" />
+	<color c="0.035000" m="0.588000" y="0.592000" k="0.024000" name="Salmon2" />
+	<color c="0.114000" m="0.624000" y="0.635000" k="0.090000" name="Salmon3" />
+	<color c="0.322000" m="0.686000" y="0.710000" k="0.310000" name="Salmon4" />
+	<color c="0.035000" m="0.502000" y="0.533000" k="0.020000" name="LightSalmon2" />
+	<color c="0.125000" m="0.537000" y="0.588000" k="0.090000" name="LightSalmon3" />
+	<color c="0.329000" m="0.620000" y="0.671000" k="0.310000" name="LightSalmon4" />
+	<color c="0.020000" m="0.416000" y="0.965000" k="0.055000" name="Orange2" />
+	<color c="0.078000" m="0.447000" y="0.980000" k="0.145000" name="Orange3" />
+	<color c="0.078000" m="0.467000" y="0.988000" k="0.502000" name="Orange4" />
+	<color c="0.000000" m="0.600000" y="0.965000" k="0.004000" name="DarkOrange1" />
+	<color c="0.016000" m="0.604000" y="0.957000" k="0.024000" name="DarkOrange2" />
+	<color c="0.020000" m="0.616000" y="0.996000" k="0.165000" name="DarkOrange3" />
+	<color c="0.004000" m="0.627000" y="1.000000" k="0.518000" name="DarkOrange4" />
+	<color c="0.004000" m="0.690000" y="0.651000" k="0.004000" name="Coral1" />
+	<color c="0.024000" m="0.690000" y="0.643000" k="0.016000" name="Coral2" />
+	<color c="0.102000" m="0.714000" y="0.682000" k="0.086000" name="Coral3" />
+	<color c="0.302000" m="0.773000" y="0.761000" k="0.314000" name="Coral4" />
+	<color c="0.024000" m="0.745000" y="0.714000" k="0.016000" name="Tomato2" />
+	<color c="0.098000" m="0.765000" y="0.741000" k="0.082000" name="Tomato3" />
+	<color c="0.282000" m="0.804000" y="0.827000" k="0.322000" name="Tomato4" />
+	<color c="0.000000" m="0.831000" y="0.976000" k="0.016000" name="OrangeRed2" />
+	<color c="0.020000" m="0.835000" y="0.973000" k="0.118000" name="OrangeRed3" />
+	<color c="0.055000" m="0.855000" y="0.976000" k="0.443000" name="OrangeRed4" />
+	<color c="0.000000" m="0.965000" y="1.000000" k="0.020000" name="Red2" />
+	<color c="0.016000" m="0.941000" y="0.933000" k="0.082000" name="Red3" />
+	<color c="0.039000" m="0.953000" y="0.898000" k="0.408000" name="Red4" />
+	<color c="0.039000" m="0.925000" y="0.067000" k="0.012000" name="DeepPink2" />
+	<color c="0.106000" m="0.937000" y="0.094000" k="0.075000" name="DeepPink3" />
+	<color c="0.231000" m="0.965000" y="0.165000" k="0.337000" name="DeepPink4" />
+	<color c="0.027000" m="0.659000" y="0.075000" k="0.008000" name="HotPink1" />
+	<color c="0.063000" m="0.667000" y="0.094000" k="0.024000" name="HotPink2" />
+	<color c="0.141000" m="0.702000" y="0.141000" k="0.078000" name="HotPink3" />
+	<color c="0.357000" m="0.816000" y="0.247000" k="0.267000" name="HotPink4" />
+	<color c="0.012000" m="0.376000" y="0.129000" k="0.004000" name="Pink1" />
+	<color c="0.055000" m="0.412000" y="0.153000" k="0.024000" name="Pink2" />
+	<color c="0.137000" m="0.475000" y="0.220000" k="0.090000" name="Pink3" />
+	<color c="0.329000" m="0.569000" y="0.337000" k="0.302000" name="Pink4" />
+	<color c="0.012000" m="0.420000" y="0.180000" k="0.004000" name="LightPink1" />
+	<color c="0.047000" m="0.451000" y="0.200000" k="0.024000" name="LightPink2" />
+	<color c="0.133000" m="0.502000" y="0.267000" k="0.090000" name="LightPink3" />
+	<color c="0.329000" m="0.584000" y="0.400000" k="0.306000" name="LightPink4" />
+	<color c="0.012000" m="0.600000" y="0.149000" k="0.004000" name="PaleVioletRed1" />
+	<color c="0.039000" m="0.624000" y="0.161000" k="0.024000" name="PaleVioletRed2" />
+	<color c="0.118000" m="0.667000" y="0.216000" k="0.094000" name="PaleVioletRed3" />
+	<color c="0.318000" m="0.737000" y="0.325000" k="0.310000" name="PaleVioletRed4" />
+	<color c="0.059000" m="0.800000" y="0.000000" k="0.000000" name="Maroon1" />
+	<color c="0.114000" m="0.827000" y="0.004000" k="0.004000" name="Maroon2" />
+	<color c="0.204000" m="0.871000" y="0.024000" k="0.031000" name="Maroon3" />
+	<color c="0.384000" m="0.945000" y="0.145000" k="0.224000" name="Maroon4" />
+	<color c="0.008000" m="0.843000" y="0.110000" k="0.004000" name="VioletRed1" />
+	<color c="0.035000" m="0.851000" y="0.106000" k="0.020000" name="VioletRed2" />
+	<color c="0.110000" m="0.878000" y="0.141000" k="0.086000" name="VioletRed3" />
+	<color c="0.298000" m="0.925000" y="0.255000" k="0.310000" name="VioletRed4" />
+	<color c="0.318000" m="0.702000" y="0.000000" k="0.000000" name="Magenta2" />
+	<color c="0.380000" m="0.757000" y="0.000000" k="0.000000" name="Magenta3" />
+	<color c="0.545000" m="0.937000" y="0.008000" k="0.031000" name="Magenta4" />
+	<color c="0.169000" m="0.498000" y="0.000000" k="0.000000" name="Orchid1" />
+	<color c="0.212000" m="0.537000" y="0.000000" k="0.000000" name="Orchid2" />
+	<color c="0.286000" m="0.612000" y="0.008000" k="0.008000" name="Orchid3" />
+	<color c="0.478000" m="0.753000" y="0.086000" k="0.125000" name="Orchid4" />
+	<color c="0.110000" m="0.314000" y="0.000000" k="0.000000" name="Plum1" />
+	<color c="0.149000" m="0.369000" y="0.004000" k="0.004000" name="Plum2" />
+	<color c="0.227000" m="0.451000" y="0.035000" k="0.031000" name="Plum3" />
+	<color c="0.424000" m="0.580000" y="0.149000" k="0.192000" name="Plum4" />
+	<color c="0.322000" m="0.533000" y="0.000000" k="0.000000" name="MediumOrchid1" />
+	<color c="0.349000" m="0.573000" y="0.000000" k="0.000000" name="MediumOrchid2" />
+	<color c="0.420000" m="0.643000" y="0.004000" k="0.008000" name="MediumOrchid3" />
+	<color c="0.584000" m="0.812000" y="0.051000" k="0.086000" name="MediumOrchid4" />
+	<color c="0.451000" m="0.592000" y="0.000000" k="0.000000" name="DarkOrchid1" />
+	<color c="0.475000" m="0.627000" y="0.000000" k="0.000000" name="DarkOrchid2" />
+	<color c="0.529000" m="0.694000" y="0.000000" k="0.004000" name="DarkOrchid3" />
+	<color c="0.675000" m="0.886000" y="0.027000" k="0.059000" name="DarkOrchid4" />
+	<color c="0.541000" m="0.608000" y="0.000000" k="0.004000" name="Purple1" />
+	<color c="0.561000" m="0.643000" y="0.004000" k="0.004000" name="Purple2" />
+	<color c="0.624000" m="0.718000" y="0.004000" k="0.004000" name="Purple3" />
+	<color c="0.761000" m="0.910000" y="0.027000" k="0.051000" name="Purple4" />
+	<color c="0.427000" m="0.451000" y="0.004000" k="0.004000" name="MediumPurple1" />
+	<color c="0.459000" m="0.490000" y="0.008000" k="0.012000" name="MediumPurple2" />
+	<color c="0.529000" m="0.561000" y="0.020000" k="0.031000" name="MediumPurple3" />
+	<color c="0.675000" m="0.718000" y="0.082000" k="0.141000" name="MediumPurple4" />
+	<color c="0.063000" m="0.149000" y="0.024000" k="0.000000" name="Thistle1" />
+	<color c="0.106000" m="0.200000" y="0.035000" k="0.004000" name="Thistle2" />
+	<color c="0.196000" m="0.294000" y="0.090000" k="0.047000" name="Thistle3" />
+	<color c="0.384000" m="0.435000" y="0.231000" k="0.239000" name="Thistle4" />
+	<color c="0.016000" m="0.024000" y="0.031000" k="0.000000" name="Snow" />
+	<color c="0.047000" m="0.027000" y="0.020000" k="0.000000" name="Ghost White" />
+	<color c="0.043000" m="0.031000" y="0.031000" k="0.004000" name="White Smoke" />
+	<color c="0.137000" m="0.102000" y="0.102000" k="0.027000" name="Gainsboro" />
+	<color c="0.016000" m="0.020000" y="0.078000" k="0.000000" name="Floral White" />
+	<color c="0.027000" m="0.035000" y="0.118000" k="0.004000" name="Old Lace" />
+	<color c="0.043000" m="0.059000" y="0.110000" k="0.004000" name="Linen" />
+	<color c="0.039000" m="0.075000" y="0.184000" k="0.004000" name="Antique White" />
+	<color c="0.027000" m="0.063000" y="0.204000" k="0.004000" name="Papaya Whip" />
+	<color c="0.024000" m="0.078000" y="0.235000" k="0.004000" name="Blanched Almond" />
+	<color c="0.031000" m="0.114000" y="0.271000" k="0.004000" name="Bisque" />
+	<color c="0.027000" m="0.161000" y="0.314000" k="0.004000" name="Peach Puff" />
+	<color c="0.031000" m="0.129000" y="0.384000" k="0.004000" name="Navajo White" />
+	<color c="0.031000" m="0.106000" y="0.345000" k="0.004000" name="Moccasin" />
+	<color c="0.024000" m="0.024000" y="0.176000" k="0.000000" name="Cornsilk" />
+	<color c="0.016000" m="0.004000" y="0.090000" k="0.000000" name="Ivory" />
+	<color c="0.031000" m="0.020000" y="0.259000" k="0.000000" name="Lemon Chiffon" />
+	<color c="0.024000" m="0.039000" y="0.086000" k="0.004000" name="Seashell" />
+	<color c="0.067000" m="0.008000" y="0.090000" k="0.000000" name="Honeydew" />
+	<color c="0.039000" m="0.008000" y="0.035000" k="0.000000" name="Mint Cream" />
+	<color c="0.063000" m="0.008000" y="0.020000" k="0.000000" name="Azure" />
+	<color c="0.078000" m="0.027000" y="0.024000" k="0.004000" name="Alice Blue" />
+	<color c="0.133000" m="0.094000" y="0.031000" k="0.004000" name="Lavender" />
+	<color c="0.035000" m="0.071000" y="0.047000" k="0.004000" name="Lavender Blush" />
+	<color c="0.031000" m="0.125000" y="0.122000" k="0.004000" name="Misty Rose" />
+</palette>
