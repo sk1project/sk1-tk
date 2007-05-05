@@ -712,7 +712,7 @@ class SketchMainWindow(Publisher):
 		palette_trough = TFrame(palette_frame, style='FlatFrame', borderwidth=0)
 		palette_container = TFrame(palette_trough, style='FlatFrame', borderwidth=0)
 		
-		self.palette = palette.PaletteWidget(palette_container, pal)
+		self.palette = palette.PaletteWidget(palette_container)
 		
 		ScrollXUnits = self.palette.ScrollXUnits
 		ScrollXPages = self.palette.ScrollXPages
@@ -1375,17 +1375,21 @@ class SketchMainWindow(Publisher):
 		#b = ToolbarCheckbuttoncommands, canvas.commands.AllowAlphaChannel, image='toolbar_alpha')
 		#b.pack(side = LEFT)
 		#tooltips.AddDescription(b, canvas.commands.AllowAlphaChannel.menu_name)
-		
-		label = TLabel(tbar, image = "sb_sep")
-		label.pack(side = LEFT)
+
 		
 		b = ToolbarCheckbutton(tbar, canvas.commands.ToggleOutlineMode, image='toolbar_contour')
 		b.pack(side = LEFT)
 		tooltips.AddDescription(b, canvas.commands.ToggleOutlineMode.menu_name)
 		
-		#label = TLabel(tbar, image = "sb_sep")
-		#label.pack(side = LEFT)
-
+		label = TLabel(tbar, image = "toolbar_sep")
+		label.pack(side = LEFT)
+		
+		b = ToolbarCheckbutton(tbar, canvas.commands.AllowCMS, image='enable_cms')
+		b.pack(side = LEFT)
+		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
+		
+		label = TLabel(tbar, image = "sb_sep")
+		label.pack(side = LEFT)
 	
 	def build_toolbar1(self):
 		tbar = self.tbar
@@ -1435,7 +1439,7 @@ class SketchMainWindow(Publisher):
 		canvas.Subscribe(POSITION, stat_pos.Update)
 
 
-		sb_frame2 = TFrame(status_bar, style="RoundedSBFrame", borderwidth=5)
+		sb_frame2 = TFrame(status_bar, style="RoundedSBFrame", borderwidth=2)
 		sb_frame2.pack(side = LEFT, fill = BOTH)
 
 		#OnGrid

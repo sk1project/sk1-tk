@@ -93,7 +93,7 @@ def ICC_for_CMYK(c,m,y,k):
 
 class ExtColor:
 	
-	def __init__(self, r, g, b, model = 'RGB', c = None, m = None, y = None, k = None, alpha=.3):
+	def __init__(self, r, g, b, model = 'RGB', c = None, m = None, y = None, k = None, alpha=0, name='Not defined'):
 	
 		'''Extended color class for multimodel color support.
 		
@@ -110,14 +110,26 @@ class ExtColor:
 		self.y=y
 		self.k=k
 		self.alpha=alpha
+		self.RGBStruct=None
+		self.name=name
 		
 	def getCMYK(self):
 		return self.c, self.m, self.y, self.k
 	
 	def RGB(self):
-		'''This method is introduced for ICC support'''
+		return self.getScreenColor()
+	
+	def cRGB(self):
+		rgb=self.getScreenColor()
+		return (rgb.red, rgb.green, rgb.blue)
+	
+	def cRGBA(self):
+		rgb=self.getScreenColor()
+		return (rgb.red, rgb.green, rgb.blue, self.alpha)
+	
+	def getScreenColor(self):
 		if self.model == 'CMYK':
-			if app.config.preferences.use_cms:				
+			if app.config.preferences.use_cms:
 				r,g,b = app.colormanager.processCMYK(self.c,self.m,self.y,self.k)
 			else:
 				r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)				
@@ -133,12 +145,6 @@ class ExtColor:
 					return RGBColor(self.red, self.green, self.blue)
 			else:
 				return RGBColor(self.red, self.green, self.blue)
-	
-	def cRGB(self):
-		return (self.red, self.green, self.blue)
-	
-	def cRGBA(self):
-		return (self.red, self.green, self.blue, self.alpha)
 	
 	def toString(self):
 		if self.model == 'CMYK':

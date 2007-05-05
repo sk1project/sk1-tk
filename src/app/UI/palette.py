@@ -6,11 +6,12 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import operator, os
+import operator, os, app
 from types import StringType, TupleType, IntType
 from string import strip, split, atof, atoi
 
 from app.X11 import X
+from app.Graphics.color import ExtColor, CreateCMYKColor
 
 from app.conf.const import CHANGED, COLOR1, COLOR2, CHANGED, VIEW, \
 		DROP_COLOR, CurDragColor
@@ -20,6 +21,9 @@ from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity
 
 from tkext import PyWidget
 
+from xml.sax import handler
+import xml.sax
+from xml.sax.xmlreader import InputSource
 
 class NameInUse(SketchError):
 	pass
@@ -261,7 +265,83 @@ def Read_X_RGB_TXT(filename):
 
 	return palette
 
+class UniversalPalette:
+	
+	def __init__(self, file=None):
+		self.name=''
+		self.type=''
+		self.colors=[]
+		if file and os.path.isfile(file):
+			self.file=file
+		else:
+			self.file=os.path.join(config.user_palettes, config.preferences.unipalette)
+		self.loadPalette(self.file)
+		
+	def loadPalette(self, file=None):
+		self.load(file)
+		
+	def load(self, filename=None):
+		import xml.sax
+		from xml.sax.xmlreader import InputSource		
+		content_handler = XMLPaletteReader(palette=self)
+		error_handler = ErrorHandler()
+		entity_resolver = EntityResolver()
+		dtd_handler = DTDHandler()
+		try:
+			input = open(filename, "r")
+			input_source = InputSource()
+			input_source.setByteStream(input)
+			xml_reader = xml.sax.make_parser()
+			xml_reader.setContentHandler(content_handler)
+			xml_reader.setErrorHandler(error_handler)
+			xml_reader.setEntityResolver(entity_resolver)
+			xml_reader.setDTDHandler(dtd_handler)
+			xml_reader.parse(input_source)
+			input.close
+		except:
+			pass
+	
+class XMLPaletteReader(handler.ContentHandler):
+	def __init__(self, palette=None):
+		self.key = None
+		self.value = None
+		self.palette = palette
+		self.attrs=None
+		self.type=None
 
+	def startElement(self, name, attrs):
+		self.key = name
+		self.attrs=attrs
+
+	def endElement(self, name):		
+		if name=='color':
+			if self.type=='RGB':
+				r=atof(self.attrs._attrs['r'])
+				g=atof(self.attrs._attrs['g'])
+				b=atof(self.attrs._attrs['b'])				
+				color_name=self.attrs._attrs['name']
+				self.palette.colors.append(ExtColor(r,g,b,self.type,name=color_name))
+				#c,m,y,k=app.colormanager.convertRGB(r,g,b)
+				#print '<color c="%f"'%c,'m="%f"'%m,'y="%f"'%y,'k="%f"'%k,'name="%s"'%color_name,'/>'
+			if self.type=='CMYK':
+				c=atof(self.attrs._attrs['c'])
+				m=atof(self.attrs._attrs['m'])
+				y=atof(self.attrs._attrs['y'])
+				k=atof(self.attrs._attrs['k'])
+				color=CreateCMYKColor(c,m,y,k)
+				color.name=self.attrs._attrs['name']
+				self.palette.colors.append(color)
+		if name=='description':			
+			self.type=self.attrs._attrs['type']
+			self.palette.name=self.attrs._attrs['name']
+			self.palette.type=self.attrs._attrs['type']
+
+	def characters(self, data):
+		self.value = data
+
+class ErrorHandler(handler.ErrorHandler): pass
+class EntityResolver(handler.EntityResolver): pass
+class DTDHandler(handler.DTDHandler): pass	
 
 class PaletteWidget(PyWidget, Publisher):
 
@@ -276,18 +356,13 @@ class PaletteWidget(PyWidget, Publisher):
 		self.gc = GraphicsDevice()
 		self.gc.SetViewportTransform(1.0, Identity, Identity)
 		self.start_idx = 0
-		self.palette = None
-		if palette is None:
-			palette = RGBPalette()
-		self.SetPalette(palette)
+		self.unipalette= UniversalPalette()
+		self.SetPalette(self.unipalette)
 		self.dragging = 0
-		#self.bind('<ButtonPress-1>', self.press_1)
-		#self.bind('<Motion>', self.move_1)
 		self.bind('<ButtonPress-1>', self.release_1)
 		self.bind('<ButtonPress-3>', self.apply_color_2)
 
 	def DestroyMethod(self):
-		self.palette.Unsubscribe(CHANGED, self.palette_changed)
 		Publisher.Destroy(self)
 
 	def compute_num_cells(self):
@@ -306,8 +381,8 @@ class PaletteWidget(PyWidget, Publisher):
 	def get_color(self, x, y):
 		if 0 <= x < self.tkwin.width and 0 <= y < self.tkwin.height:
 			i = self.start_idx + y / self.cell_size
-			if i < len(self.palette):
-				return apply(CreateRGBColor, self.palette.GetRGB(i))
+			if i < len(self.unipalette.colors):
+				return self.unipalette.colors[i]
 
 	def release_1(self, event):
 		try:
@@ -363,13 +438,10 @@ class PaletteWidget(PyWidget, Publisher):
 			w = self.winfo_containing(event.x_root, event.y_root)
 
 	def Palette(self):
-		return self.palette
+		return self.unipalette
 
 	def SetPalette(self, palette):
-		if self.palette is not None:
-			self.palette.Unsubscribe(CHANGED, self.palette_changed)
-		self.palette = palette
-		self.palette.Subscribe(CHANGED, self.palette_changed)
+		self.unipalette = palette
 		self.palette_changed()
 
 	def palette_changed(self):
@@ -390,15 +462,25 @@ class PaletteWidget(PyWidget, Publisher):
 		FillRectangle = self.gc.FillRectangle
 		SetFillColor = self.gc.SetFillColor
 		create_color = CreateRGBColor
-		rgbs = self.palette.Colors()
+		rgbs = self.unipalette.colors
 		rgbs = rgbs[self.start_idx:self.start_idx + self.num_cells]
 		for rgb in rgbs:
 			SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
 			FillRectangle(0, x,  width, x + width)
 			SetFillColor(apply(create_color, (0.5, 0.5, 0.5)))
 			FillRectangle(1, x,  width, x + width-1)
-			SetFillColor(apply(create_color, rgb))
+			SetFillColor(rgb.RGB())
 			FillRectangle(2, x+1,  width-1, x + width-2)
+			if rgb.name=='Registration Color':
+				cw=6
+				lx=0+cw
+				ly=x+cw
+				rx=width-cw
+				ry=x+width-cw+1
+				SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
+				FillRectangle(lx, ly,  rx, ry)
+				SetFillColor(rgb.RGB())
+				FillRectangle(lx+1, ly+1,  rx-1, ry-1)				
 			x = x + width
 		self.gc.EndDblBuffer()
 
@@ -409,7 +491,7 @@ class PaletteWidget(PyWidget, Publisher):
 		self.UpdateWhenIdle()
 
 	def normalize_start(self):
-		length = len(self.palette)
+		length = len(self.unipalette.colors)
 		if self.start_idx < 0:
 			self.start_idx = 0
 		if length < self.num_cells:
@@ -421,7 +503,7 @@ class PaletteWidget(PyWidget, Publisher):
 		return self.start_idx > 0
 
 	def CanScrollRight(self):
-		return len(self.palette) - self.start_idx > self.num_cells
+		return len(self.unipalette.colors) - self.start_idx > self.num_cells
 
 	def ScrollXPages(self, count):
 		length = self.tkwin.height / self.cell_size

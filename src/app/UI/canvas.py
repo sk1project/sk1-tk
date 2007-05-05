@@ -1561,6 +1561,21 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def IsAlphaChannelAllowed(self):
 		return config.preferences.alpha_channel_enabled
+	
+	AddCmd('AllowCMS', _("Color Managment"),
+			value = 0, value_cb = 'IsCMSAllowed', is_check = 1)
+	def AllowCMS(self):
+		self.begin_transaction()
+		try:
+			config.preferences.use_cms = not config.preferences.use_cms
+			self.ForceRedraw()
+			self.main_window.palette.RedrawMethod()
+			self.issue_state()
+		finally:
+			self.end_transaction()		
+
+	def IsCMSAllowed(self):
+		return config.preferences.use_cms
 
 	AddCmd('ToggleSnapToGrid', _("Snap to Grid"),
 			value = 0, value_cb = 'IsSnappingToGrid', is_check = 1, key_stroke = 'Ctrl+y')

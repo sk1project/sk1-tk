@@ -30,7 +30,7 @@ class ColorTheme:
 			self.name='System'
 					
 	def load(self, filename=None):
-		if file:
+		if filename:
 			content_handler = XMLPrefReader(pref=self)
 			error_handler = ErrorHandler()
 			entity_resolver = EntityResolver()

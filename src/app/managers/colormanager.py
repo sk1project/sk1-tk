@@ -80,9 +80,9 @@ class ColorManager:
 		outRGB[0] = 0
 		outRGB[1] = 0
 		outRGB[2] = 0	
-		cmsDoTransform(self.cmyk_monitor, CMYK, outRGB, 1)
+		cmsDoTransform(self.cmyk_rgb, CMYK, outRGB, 1)
 		
-		return (outRGB[0]/255, outRGB[1]/255, outRGB[2]/255)
+		return round(outRGB[0]/255.0, 3), round(outRGB[1]/255.0, 3), round(outRGB[2]/255.0, 3)
 	
 	def processRGB(self,r,g,b):
 		RGB = COLORB()
@@ -96,7 +96,7 @@ class ColorManager:
 		outRGB[2] = 0		
 		cmsDoTransform(self.rgb_monitor, RGB, outRGB, 1)
 		
-		return (outRGB[0]/255, outRGB[1]/255, outRGB[2]/255)
+		return round(outRGB[0]/255.0, 3), round(outRGB[1]/255.0, 3), round(outRGB[2]/255.0, 3)
 
 	def convertRGB(self,r,g,b):
 		RGB = COLORB()
@@ -111,7 +111,7 @@ class ColorManager:
 		CMYK[3] = 0
 		cmsDoTransform(self.rgb_cmyk, RGB, CMYK, 1)
 		
-		return (CMYK[0]/255, CMYK[1]/255, CMYK[2]/255, CMYK[3]/255)
+		return round(CMYK[0]/255.0, 3), round(CMYK[1]/255.0, 3), round(CMYK[2]/255.0, 3), round(CMYK[3]/255.0, 3)
 
 	def convertCMYK(self,c,m,y,k):
 		CMYK = COLORB()
@@ -126,7 +126,7 @@ class ColorManager:
 		outRGB[2] = 0		
 		cmsDoTransform(self.cmyk_rgb, CMYK, outRGB, 1)
 		
-		return (outRGB[0]/255, outRGB[1]/255, outRGB[2]/255)
+		return round(outRGB[0]/255.0, 3), round(outRGB[1]/255.0, 3), round(outRGB[2]/255.0, 3)
 	
 	def terminate(self):
 		cmsDeleteTransform(self.cmyk_rgb)

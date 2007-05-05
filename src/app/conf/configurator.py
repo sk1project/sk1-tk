@@ -287,6 +287,7 @@ class Preferences(connector.Publisher):
 	#The standard palette. If this is a relative pathname it is
 	#interpreted relative to std_res_dir.
 	palette = 'standard.spl'	
+	unipalette = 'CMYK standart.skp'
 	arrows = 'standard.arrow'
 	dashes = 'standard.dashes'
 	pattern = 'pattern.ppm'
@@ -363,7 +364,7 @@ class Preferences(connector.Publisher):
 	printer_intent=0
 	monitor_intent=0
 	
-	use_cms=0
+	use_cms=1
 	simulate_printer=0
 	#------------------------------------
 
