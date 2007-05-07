@@ -190,6 +190,18 @@ class StandardColors:
 	magenta = CreateRGBColor(1.0, 0.0, 1.0).RGB()
 	yellow  = CreateRGBColor(1.0, 1.0, 0.0).RGB()
 
+class ExtStandardColors:
+	black   = CreateRGBColor(0.0, 0.0, 0.0)
+	darkgray        = CreateRGBColor(0.25, 0.25, 0.25)
+	gray    = CreateRGBColor(0.5, 0.5, 0.5)
+	lightgray       = CreateRGBColor(0.75, 0.75, 0.75)
+	white   = CreateRGBColor(1.0, 1.0, 1.0)
+	red             = CreateRGBColor(1.0, 0.0, 0.0)
+	green   = CreateRGBColor(0.0, 1.0, 0.0)
+	blue    = CreateRGBColor(0.0, 0.0, 1.0)
+	cyan    = CreateRGBColor(0.0, 1.0, 1.0)
+	magenta = CreateRGBColor(1.0, 0.0, 1.0)
+	yellow  = CreateRGBColor(1.0, 1.0, 0.0)
 
 #
 #       For 8-bit displays:

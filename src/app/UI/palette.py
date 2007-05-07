@@ -17,7 +17,7 @@ from app.conf.const import CHANGED, COLOR1, COLOR2, CHANGED, VIEW, \
 		DROP_COLOR, CurDragColor
 from app.events.warn import warn, INTERNAL, USER, pdebug, warn_tb
 from app import Publisher, config, SketchError, _
-from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity
+from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity, Point
 
 from tkext import PyWidget
 
@@ -460,6 +460,8 @@ class PaletteWidget(PyWidget, Publisher):
 
 		x = 0
 		FillRectangle = self.gc.FillRectangle
+		DrawRectangle = self.gc.DrawRectangle
+		DrawLine = self.gc.DrawLine
 		SetFillColor = self.gc.SetFillColor
 		create_color = CreateRGBColor
 		rgbs = self.unipalette.colors
@@ -472,15 +474,15 @@ class PaletteWidget(PyWidget, Publisher):
 			SetFillColor(rgb.RGB())
 			FillRectangle(2, x+1,  width-1, x + width-2)
 			if rgb.name=='Registration Color':
-				cw=6
-				lx=0+cw
-				ly=x+cw
-				rx=width-cw
-				ry=x+width-cw+1
+				cw=5
+				lx=0+cw+1
+				ly=x+cw+2
+				rx=width-cw-1
+				ry=x+width-cw-2
 				SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
-				FillRectangle(lx, ly,  rx, ry)
-				SetFillColor(rgb.RGB())
-				FillRectangle(lx+1, ly+1,  rx-1, ry-1)				
+				DrawRectangle(Point(lx, ly-2), Point(rx, ry))	
+				DrawLine(Point(lx+4, ly-4), Point(lx+4, ry+2))	
+				DrawLine(Point(lx-2, ly+2), Point(rx+2, ly+2))
 			x = x + width
 		self.gc.EndDblBuffer()
 

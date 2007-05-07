@@ -44,7 +44,7 @@ import font
 
 class _DummyLineStyle:
 	def Execute(device):
-		device.SetLineColor(color.StandardColors.black)
+		device.SetLineColor(color.ExtStandardColors.black)
 		device.SetLineAttributes(1, 0, 1, 0)
 
 defaultLineStyle = _DummyLineStyle()
@@ -295,6 +295,7 @@ class PostScriptDevice(CommonDevice):
 
 	def _set_color(self, color):
 		if self.current_color != color:
+			print color
 			if color.model == 'CMYK':
 				c, m, y, k = color.getCMYK()
 				self.file.write('%g %g %g %g cmyk\n' % (round(c, 3), round(m, 3), round(y, 3), round(k, 3)))

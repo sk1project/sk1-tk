@@ -527,7 +527,7 @@ class SketchMainWindow(Publisher):
 			filename = ''
 			file = None
 			title = 'sK1'
-			file = os.popen('kprinter --caption sK1 --', 'w')
+			file = os.popen('kprinter --stdin --caption sK1 --', 'w')
 
 			try:
 				dev = PostScriptDevice
@@ -780,8 +780,7 @@ class SketchMainWindow(Publisher):
 					cmds.CreateImage,
 					cmds.InsertFile,
 					cmds.ExportAs,
-					cmds.ExportRaster,
-#                                       cmds.SavePS,
+					cmds.ExportRaster, #cmds.SavePS,
 					#cmds.export_bitmap,
 					None,
 					cmds.KPrinting,

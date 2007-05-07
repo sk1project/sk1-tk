@@ -7,7 +7,7 @@
 import os, app
 from lcms.lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
 	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
-	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB
+	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
 	
 class ColorManager:
 	rgb_monitor=None
@@ -46,7 +46,8 @@ class ColorManager:
 								   TYPE_CMYK_8, 
 								   self.hRGB, 
 								   TYPE_RGB_8, 
-								   INTENT_PERCEPTUAL, 
+								   INTENT_RELATIVE_COLORIMETRIC,
+								   #INTENT_PERCEPTUAL, 
 								   cmsFLAGS_NOTPRECALC)		
 		
 		self.rgb_cmyk = cmsCreateTransform(self.hRGB, 
