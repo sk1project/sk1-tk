@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 import os, app
-from lcms.lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
+from lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
 	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
 	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
 	

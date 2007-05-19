@@ -88,7 +88,6 @@ class UIManager:
 	def uploadExtentions(self):
 		self.root.tk.call('lappend', 'auto_path', app.config.user_themes)
 		self.root.tk.call('package', 'require', 'tkpng')
-		self.root.tk.call('package', 'require', 'tile')
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')
 		self.root.tk.call('source', os.path.join(tcl,'combobox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'tkmenu.tcl'))
@@ -153,7 +152,7 @@ class UIManager:
 		self.root.tk.call('wm', 'attributes', self.root, '-zoomed', 1)	
 	
 	def resetTile(self):
-		self.root.tk.call('tile::setTheme', app.config.preferences.style)
+		self.root.tk.call('ttk::setTheme', app.config.preferences.style)
 		
 	def setFonts(self):
 		self.testSmallLabel['font'] = app.config.preferences.small_font

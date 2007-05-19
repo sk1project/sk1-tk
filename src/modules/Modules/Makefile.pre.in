@@ -74,7 +74,7 @@
 # === Bootstrap variables (edited through "make boot") ===
 
 # The prefix used by "make inclinstall libainstall" of core python
-installdir=	
+installdir=	_MY_INSTALL_DIR_
 
 # The exec_prefix used by the same
 exec_installdir=$(installdir)
@@ -89,10 +89,10 @@ VPATH=		.
 # === Variables that you may want to customize (rarely) ===
 
 # (Static) build target
-TARGET=		sk1_python
+TARGET=		python
 
 # Installed python binary (used only by boot target)
-PYTHON=		sk1_python
+PYTHON=		python
 
 # Add more -I and -D options here
 CFLAGS=		$(OPT) -I$(INCLUDEPY) -I$(EXECINCLUDEPY) $(DEFS)
@@ -129,7 +129,7 @@ LINKFORSHARED=	@LINKFORSHARED@
 #@SET_CCC@
 
 # Install prefix for architecture-independent files
-prefix=		
+prefix=	_MY_INSTALL_PREFIX_	
 
 # Install prefix for architecture-dependent files
 exec_prefix=	$(prefix)

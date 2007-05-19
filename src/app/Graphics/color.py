@@ -15,7 +15,6 @@ from string import atoi
 from app.events.warn import warn, INTERNAL, USER
 from app._sketch import RGBColor, XVisual
 from app import config, _
-from lcms.lcms import *
 import app
 
 skvisual = None
@@ -63,33 +62,33 @@ def ParseSKColor(model, v1, v2, v3, v4=0, v5=0):
 	else:
 		return ExtColor(round(v1, 3), round(v2, 3), round(v3, 3))
 		
-def ICC_for_CMYK(c,m,y,k):
+#def ICC_for_CMYK(c,m,y,k):
 	
-	CMYK = COLORB()
-	CMYK[0] = int(round(c, 2)*255)
-	CMYK[1] = int(round(m, 2)*255)
-	CMYK[2] = int(round(y, 2)*255)
-	CMYK[3] = int(round(k, 2)*255)
+	#CMYK = COLORB()
+	#CMYK[0] = int(round(c, 2)*255)
+	#CMYK[1] = int(round(m, 2)*255)
+	#CMYK[2] = int(round(y, 2)*255)
+	#CMYK[3] = int(round(k, 2)*255)
 	
-	RGB = COLORB()
-	RGB[0] = 0
-	RGB[1] = 0
-	RGB[2] = 0
+	#RGB = COLORB()
+	#RGB[0] = 0
+	#RGB[1] = 0
+	#RGB[2] = 0
 	
-	#hRGB   = cmsCreate_sRGBProfile()
-	hRGB   = cmsOpenProfileFromFile("/usr/local/lib/sK1/sRGB.icm", "r")
-	hCMYK  = cmsOpenProfileFromFile("/usr/local/lib/sK1/GenericCMYK.icm", "r")
+	##hRGB   = cmsCreate_sRGBProfile()
+	#hRGB   = cmsOpenProfileFromFile("/usr/local/lib/sK1/sRGB.icm", "r")
+	#hCMYK  = cmsOpenProfileFromFile("/usr/local/lib/sK1/GenericCMYK.icm", "r")
 
-	xform = cmsCreateTransform(hCMYK, TYPE_CMYK_8, 
-							   hRGB, TYPE_RGB_8, 
-							   INTENT_PERCEPTUAL, cmsFLAGS_NOTPRECALC)
-	cmsDoTransform(xform, CMYK, RGB, 1)
+	#xform = cmsCreateTransform(hCMYK, TYPE_CMYK_8, 
+							   #hRGB, TYPE_RGB_8, 
+							   #INTENT_PERCEPTUAL, cmsFLAGS_NOTPRECALC)
+	#cmsDoTransform(xform, CMYK, RGB, 1)
 	
-	cmsDeleteTransform(xform)
-	cmsCloseProfile(hCMYK)
-	cmsCloseProfile(hRGB)
+	#cmsDeleteTransform(xform)
+	#cmsCloseProfile(hCMYK)
+	#cmsCloseProfile(hRGB)
 	
-	return round(RGB[0]/255.0, 3), round(RGB[1]/255.0, 3), round(RGB[2]/255.0, 3)
+	#return round(RGB[0]/255.0, 3), round(RGB[1]/255.0, 3), round(RGB[2]/255.0, 3)
 
 class ExtColor:
 	

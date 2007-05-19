@@ -19,9 +19,13 @@ _sketchmodule _sketchmodule.c \
 	skaux.c skimage.c skcolor.c skdither.c  \
 	-I$(PAX_DIR) \
 # *** Edit to reflect where the file Imaging.h of the Imaging library is:
--I/usr/local/lib/sK1/include/PIL/libImaging  \
+	-I_MY_IMAGING_HEADER_  \
+# *** Uncomment and edit to reflect where your Cairo headers are:
+ 	-I_MY_TCL_HEADERS_/cairo \
+# *** Uncomment and edit to reflect where your Tcl/Tk and Cairo libraries are:
+ 	-L_MY_TCL_LIBS_ \
 # *** X libraries (should be correct for Linux)
--L/usr/X11R6/lib -lX11 -lm
+	-L/usr/X11R6/lib -lX11 -lm -lcairo
 
 _type1module _type1module.c 
 
