@@ -1,4 +1,4 @@
-#!/usr/local/bin/sk1_python
+#!/usr/bin/python
 
 # -*- coding: utf-8 -*-
 
