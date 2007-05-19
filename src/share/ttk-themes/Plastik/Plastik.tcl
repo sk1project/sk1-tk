@@ -9,9 +9,9 @@
 
 
 package require Tk 8.4;                 # minimum version for Tile
-#package require tile 0.5;               # depends upon tile 0.5
+package require tile 0.5;               # depends upon tile 0.5
 
-namespace eval ttk {
+namespace eval tile {
     namespace eval theme {
         namespace eval Plastik {
             variable version 0.3.1
@@ -19,7 +19,7 @@ namespace eval ttk {
     }
 }
 
-namespace eval ttk::theme::Plastik {
+namespace eval tile::theme::Plastik {
 
 	set imgdir [file join [file dirname [info script]] widgets]
 
@@ -30,7 +30,7 @@ namespace eval ttk::theme::Plastik {
 	    }
 	}
 
-	ttk::style theme create Plastik -parent alt -settings {
+	style theme create Plastik -parent alt -settings {
     
     	variable colors
 	array set colors {
@@ -671,5 +671,5 @@ namespace eval ttk::theme::Plastik {
     }
 }
 
-package provide ttk::theme::Plastik $::ttk::theme::Plastik::version
+package provide tile::theme::Plastik $::tile::theme::Plastik::version
 
