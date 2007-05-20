@@ -9,17 +9,16 @@
 
 
 package require Tk 8.4;                 # minimum version for Tile
-package require tile 0.5;               # depends upon tile 0.5
 
-namespace eval tile {
+namespace eval ttk {
     namespace eval theme {
         namespace eval Plastik {
-            variable version 0.3.1
+            variable version 0.4.0
         }
     }
 }
 
-namespace eval tile::theme::Plastik {
+namespace eval ttk::theme::Plastik {
 
 	set imgdir [file join [file dirname [info script]] widgets]
 
@@ -30,6 +29,7 @@ namespace eval tile::theme::Plastik {
 	    }
 	}
 
+    namespace import -force ::ttk::style
 	style theme create Plastik -parent alt -settings {
     
     	variable colors
@@ -53,23 +53,23 @@ namespace eval tile::theme::Plastik {
         # -----------------------------------------------------------------
         # Theme defaults  $colors(-frame)
         #
-        style default . \
-            -borderwidth 0 \
-            -lighter #cccccc \
-            -background [.testEntry cget -background] \
-            -troughcolor [.testEntry cget -highlightbackground] \
-	    -selectbackground [.testEntry cget -selectbackground] \
-	    -selectforeground [.testEntry cget -selectforeground] \
-            -font [.testNormalLabel cget -font] \
+        style configure "." \
+				-borderwidth 0 \
+				-lighter #cccccc \
+				-background [.testEntry cget -background] \
+				-troughcolor [.testEntry cget -highlightbackground] \
+				-selectbackground [.testEntry cget -selectbackground] \
+				-selectforeground [.testEntry cget -selectforeground] \
+				-font [.testNormalLabel cget -font] \
             ;
 
         style map . -foreground [list disabled [.testEntry cget -disabledforeground]]
 	
 # ------------------------------------Frame-----------------------------------------------------
-	style layout ToolBarFrame {
-		ToolBarFrame.panel
-		}  
-	style default ToolBarFrame -borderwidth 0 -relief flat
+		style layout ToolBarFrame {
+			ToolBarFrame.panel
+			}  
+		style configure ToolBarFrame -borderwidth 0 -relief flat
         style element create ToolBarFrame.panel image $K(menu_bg) -border {3 3 3 3} -sticky news
 
 	# -------------	
@@ -78,7 +78,7 @@ namespace eval tile::theme::Plastik {
 			TFrame
 			}
 		} 
-	style default MenuBarFrame.frame -borderwidth 1 -relief raised   
+	style configure MenuBarFrame.frame -borderwidth 1 -relief raised   
         style element create MenuBarFrame.border image $K(menu_bg) \
 		 -border {3 3 3 3} -padding {3 3 3 3} 
 	
@@ -95,7 +95,7 @@ namespace eval tile::theme::Plastik {
 		FlatFrame.panel -expand true
 		}
 	
-	style default FlatFrame -borderwidth 2 -relief flat	
+	style configure FlatFrame -borderwidth 2 -relief flat	
 		
 	# -------------
 	style layout CanvasFrame {
@@ -113,10 +113,10 @@ namespace eval tile::theme::Plastik {
 	style element create RoundedFrame.panel image $K(rounded_area) \
 	-border {4 4 4 4} -padding {4 4 4 4} -sticky news
 	
-	style default RoundedFrame -borderwidth 2 -relief flat	
+	style configure RoundedFrame -borderwidth 2 -relief flat	
 	
 	# -------------
-	style default TLabelframe -borderwidth 2 -relief groove -padding 5
+	style configure TLabelframe -borderwidth 2 -relief groove -padding 5
 	
 	# -------------
 	style layout RoundedSBFrame {
@@ -126,25 +126,25 @@ namespace eval tile::theme::Plastik {
 	style element create RoundedSBFrame.panel image $K(corner_normal) \
 	-border {4 4 4 4} -padding {4 4 4 4} -sticky news
 	
-	style default RoundedSBFrame -borderwidth 2 -relief flat		
+	style configure RoundedSBFrame -borderwidth 2 -relief flat		
 # ------------------------------------Label------------------------------------------------------
 	
 	style layout FlatLabel {
 		FlatLabel.label
 		}
-	style default FlatLabel -borderwidth 4 -relief flat  
+	style configure FlatLabel -borderwidth 4 -relief flat  
 
 	style layout SmallFlatLabel {
 		SmallFlatLabel.label
 		}
-	style default SmallFlatLabel -borderwidth 4 -relief flat -font [.testSmallLabel cget -font]	
+	style configure SmallFlatLabel -borderwidth 4 -relief flat -font [.testSmallLabel cget -font]	
 	# -------------
 	style layout ColorWatchNormal {
 		ColorWatchNormal.background
 		ColorWatchNormal.label
 		ColorWatchNormal.mask
 		}
-	style default ColorWatchNormal -borderwidth 0 -relief flat 
+	style configure ColorWatchNormal -borderwidth 0 -relief flat 
 	
 	style element create ColorWatchNormal.mask image $K(color_watch) \
 		-border {3 3 3 3} -padding {0 0 0 0} -sticky ew
@@ -155,7 +155,7 @@ namespace eval tile::theme::Plastik {
 		ColorWatchDisabled.label
 		ColorWatchDisabled.mask
 		}
-	style default ColorWatchDisabled -borderwidth 0 -relief flat 
+	style configure ColorWatchDisabled -borderwidth 0 -relief flat 
 	
 	style element create ColorWatchDisabled.mask image $K(color_watch_disabled) \
 		-border {3 3 3 3} -padding {0 0 0 0} -sticky ew
@@ -167,7 +167,7 @@ namespace eval tile::theme::Plastik {
 		ColorWatchTransp.field
 		ColorWatchTransp.mask
 		}
-	style default ColorWatchTransp -borderwidth 0 -relief flat 
+	style configure ColorWatchTransp -borderwidth 0 -relief flat 
 	
 	style element create ColorWatchTransp.field image $K(transp_sign) \
 		-border {0 0 0 0} -padding {0 0 0 0}
@@ -181,7 +181,7 @@ namespace eval tile::theme::Plastik {
 			HLine.label
 			}
 		}
-	style default HLine  -relief flat 
+	style configure HLine  -relief flat 
 	
 	style element create HLine.background image $K(hline) \
 		-border {4 4 4 4} -padding {0 0 0 0} -sticky ew
@@ -194,7 +194,7 @@ namespace eval tile::theme::Plastik {
 			VLine2.label
 			}
 		}
-	style default VLine2  -relief flat 
+	style configure VLine2  -relief flat 
 	
 	style element create VLine2.background image $K(vline2) \
 		-border {2 2 2 2} -padding {0 0 0 0} -sticky ns
@@ -207,7 +207,7 @@ namespace eval tile::theme::Plastik {
 			PalLBorder.label
 			}
 		}
-	style default PalLBorder  -relief flat 
+	style configure PalLBorder  -relief flat 
 	
 	style element create PalLBorder.background image $K(pal_left_border) \
 		-border {0 0 0 0} -padding {0 0 0 0} -sticky ns
@@ -220,7 +220,7 @@ namespace eval tile::theme::Plastik {
 			PalRBorder.label
 			}
 		}
-	style default PalRBorder  -relief flat 
+	style configure PalRBorder  -relief flat 
 	
 	style element create PalRBorder.background image $K(pal_right_border) \
 		-border {0 0 0 0} -padding {0 0 0 0} -sticky ns
@@ -242,11 +242,11 @@ namespace eval tile::theme::Plastik {
 			RegularEntry.textarea
 		}
 	}		
-	style element create TEntry.border image $K(entry_normal) \
-		-border {5 3 3 3} -padding {4 5 3 3} -sticky ew \
-		-map [list disabled $K(entry_disabled) \
-			readonly $K(entry_disabled) \
-                        active $K(entry_focusin)]
+	style element create TEntry.border image [list $K(entry_normal) \
+				disabled $K(entry_disabled) \
+				readonly $K(entry_disabled) \
+				active $K(entry_focusin)] \
+				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
 			
 	# --------------------------
 	style layout SpinEntry {
@@ -254,11 +254,11 @@ namespace eval tile::theme::Plastik {
 			RegularEntry.textarea
 		}
 	}		
-	style element create SpinEntry.border image $K(spin_entry_normal) \
-		-border {5 3 3 3} -padding {4 5 3 3} -sticky ew \
-		-map [list disabled $K(spin_entry_disabled) \
-			readonly $K(spin_entry_disabled) \
-                        active $K(spin_entry_focusin)]
+	style element create SpinEntry.border image [list $K(spin_entry_normal) \
+				disabled $K(spin_entry_disabled) \
+				readonly $K(spin_entry_disabled) \
+				active $K(spin_entry_focusin)] \
+				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
 
 # ------------------------------------ComboBox---------------------------------------------------- 
 # Group options -side, -sticky, -expand, -border, -unit, or -children
@@ -271,19 +271,19 @@ namespace eval tile::theme::Plastik {
 		}				
 	}		
 
-	style element create ComboNormal.padding image $K(spin_entry_normal) \
-		-border {5 3 3 3} -padding {4 5 8 3} -sticky ew \
-		-map [list disabled $K(spin_entry_disabled) \
-			readonly $K(spin_entry_normal) \
-                        active $K(spin_entry_focusin)]
+	style element create ComboNormal.padding image [list $K(spin_entry_normal) \
+				disabled $K(spin_entry_disabled) \
+				readonly $K(spin_entry_normal) \
+				active $K(spin_entry_focusin)] \
+				-border {5 3 3 3} -padding {4 5 8 3} -sticky ew 
 
-        style element create ComboNormal.downarrow image $K(combo_button_normal) \
-		-border {3 3 3 3} -padding {1 1 1 1} -sticky e \
-		-map [list {pressed !disabled} $K(combo_button_normal) \
-                      {active !disabled}  $K(combo_button_active) \
-                      disabled $K(combo_button_disabled)]
+        style element create ComboNormal.downarrow image [list $K(combo_button_normal) \
+				{pressed !disabled} $K(combo_button_normal) \
+				{active !disabled}  $K(combo_button_active) \
+				disabled $K(combo_button_disabled)] \
+				-border {3 3 3 3} -padding {1 1 1 1} -sticky e 
 
-	style default ComboNormal -borderwidth 0 -padding {3 3 3 3} -insertwidth 0 -cursor arrow -ipady 0
+	style configure ComboNormal -borderwidth 0 -padding {3 3 3 3} -insertwidth 0 -cursor arrow -ipady 0
 # ------------------------------------Button----------------------------------------------------
         style layout TButton {
             Button.background
@@ -293,12 +293,13 @@ namespace eval tile::theme::Plastik {
                 }
             }
         }
-        style element create button image $K(button) \
-            -border {3 3 3 3} -padding {15 3 15 3} -sticky news \
-            -map [list {pressed !disabled} $K(button_pressed) \
-                      {active !disabled}  $K(button_active) \
-                      disabled $K(button_disabled)]		      
-        style default TButton -padding {10 6}	
+        style element create button image [list $K(button) \
+				{pressed !disabled} $K(button_pressed) \
+				{active !disabled}  $K(button_active) \
+				disabled $K(button_disabled)] \
+				-border {3 3 3 3} -padding {15 3 15 3} -sticky news
+			
+        style configure TButton -padding {10 6}	
 	
 	#----------------------
         style layout Pal2TopButton {
@@ -309,12 +310,13 @@ namespace eval tile::theme::Plastik {
                 }
             }
         }
-        style element create Pal2TopButton.button image $K(pal_top_dbl_normal) \
-            -border {3 3 3 3} -padding {3 3 3 3} -sticky news \
-            -map [list {pressed !disabled} $K(pal_top_dbl_pressed) \
-                      {active !disabled}  $K(pal_top_dbl_normal) \
-                      disabled $K(pal_top_dbl_disabled)]		      
-        style default Pal2TopButton -padding {3 3}	
+        style element create Pal2TopButton.button image [list $K(pal_top_dbl_normal) \
+				{pressed !disabled} $K(pal_top_dbl_pressed) \
+				{active !disabled}  $K(pal_top_dbl_normal) \
+				disabled $K(pal_top_dbl_disabled)] \
+				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
+
+        style configure Pal2TopButton -padding {3 3}	
 	
 	#----------------------
         style layout PalTopButton {
@@ -326,13 +328,13 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create PalTopButton.button image $K(pal_top_normal) \
-            -border {3 3 3 3} -padding {3 3 3 3} -sticky news \
-            -map [list {pressed !disabled} $K(pal_top_pressed) \
-                      {active !disabled}  $K(pal_top_normal) \
-                      disabled $K(pal_top_disabled)]
-		      
-        style default PalTopButton -padding {3 3}	
+        style element create PalTopButton.button image [list $K(pal_top_normal) \
+				{pressed !disabled} $K(pal_top_pressed) \
+				{active !disabled}  $K(pal_top_normal) \
+				disabled $K(pal_top_disabled)] \
+				-border {3 3 3 3} -padding {3 3 3 3} -sticky news
+
+        style configure PalTopButton -padding {3 3}	
 	#----------------------
         style layout PalBottomButton {
             PalBottomButton.background
@@ -343,13 +345,13 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create PalBottomButton.button image $K(pal_bot_normal) \
-            -border {3 3 3 3} -padding {3 3 3 3} -sticky news \
-            -map [list {pressed !disabled} $K(pal_bot_pressed) \
-                      {active !disabled}  $K(pal_bot_normal) \
-                      disabled $K(pal_bot_disabled)]
+        style element create PalBottomButton.button image [list $K(pal_bot_normal) \
+				{pressed !disabled} $K(pal_bot_pressed) \
+				{active !disabled}  $K(pal_bot_normal) \
+				disabled $K(pal_bot_disabled)] \
+				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
 		      
-        style default PalBottomButton -padding {3 3}
+        style configure PalBottomButton -padding {3 3}
 	#----------------------
         style layout Pal2BottomButton {
             Pal2BottomButton.background
@@ -360,13 +362,13 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create Pal2BottomButton.button image $K(pal_bot_dbl_normal) \
-            -border {3 3 3 3} -padding {3 3 3 3} -sticky news \
-            -map [list {pressed !disabled} $K(pal_bot_dbl_pressed) \
-                      {active !disabled}  $K(pal_bot_dbl_normal) \
-                      disabled $K(pal_bot_dbl_disabled)]
+        style element create Pal2BottomButton.button image [list $K(pal_bot_dbl_normal) \
+				{pressed !disabled} $K(pal_bot_dbl_pressed) \
+				{active !disabled}  $K(pal_bot_dbl_normal) \
+				disabled $K(pal_bot_dbl_disabled)] \
+				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
 		      
-        style default Pal2BottomButton -padding {3 3}	
+        style configure Pal2BottomButton -padding {3 3}	
 	
 	#----------------------
         style layout PalNoColorButton {
@@ -381,7 +383,7 @@ namespace eval tile::theme::Plastik {
         style element create PalNoColorButton.button image $K(clear) \
             -border {0 0 0 0} -padding {0 0 0 0} -sticky news
 		      
-        style default PalNoColorButton 
+        style configure PalNoColorButton 
 
 	#----------------------
         style layout SpinUpButton {
@@ -393,12 +395,13 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create SpinUpButton.button image $K(spin_upbut_normal) \
-            -border {2 2 2 2} -padding {2 2 2 2} -sticky news \
-            -map [list {pressed !disabled} $K(spin_upbut_pressed) \
-                      {active !disabled}  $K(spin_upbut_active) \
-                      disabled $K(spin_upbut_disabled)]		      
-        style default SpinUpButton -padding {2 2}	
+        style element create SpinUpButton.button image [list $K(spin_upbut_normal) \
+				{pressed !disabled} $K(spin_upbut_pressed) \
+				{active !disabled}  $K(spin_upbut_active) \
+				disabled $K(spin_upbut_disabled)] \
+				-border {2 2 2 2} -padding {2 2 2 2} -sticky news
+
+        style configure SpinUpButton -padding {2 2}	
 
 	#----------------------
         style layout SpinDownButton {
@@ -410,12 +413,13 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create SpinDownButton.button image $K(spin_downbut_normal) \
-            -border {2 2 2 2} -padding {2 2 2 2} -sticky news \
-            -map [list {pressed !disabled} $K(spin_downbut_pressed) \
-                      {active !disabled}  $K(spin_downbut_active) \
-                      disabled $K(spin_downbut_disabled)]      
-        style default SpinDownButton -padding {2 2}
+        style element create SpinDownButton.button image [list $K(spin_downbut_normal) \
+				{pressed !disabled} $K(spin_downbut_pressed) \
+				{active !disabled}  $K(spin_downbut_active) \
+				disabled $K(spin_downbut_disabled)] \
+				-border {2 2 2 2} -padding {2 2 2 2} -sticky news
+
+        style configure SpinDownButton -padding {2 2}
 			
 # ------------------------------------Corner----------------------------------------------------
         style layout TCornerButton {
@@ -427,10 +431,11 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create CornerButton.button image $K(corner_normal) \
-            -border {2 2 2 2} -padding {1 1 1 1} -sticky news \
-            -map [list {pressed !disabled} $K(corner_pressed) \
-                      {active !disabled}  $K(corner_active)]
+        style element create CornerButton.button image [list $K(corner_normal) \
+				{pressed !disabled} $K(corner_pressed) \
+				{active !disabled}  $K(corner_active)] \
+				-border {2 2 2 2} -padding {1 1 1 1} -sticky news 
+
 # ---------------------------------------------------------------------------------------------------
 	
         style layout Toolbutton {
@@ -441,11 +446,12 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create Toolbutton.button image $K(toolbutton_normal) \
-            -border {2 2 2 2} \
-	    -padding {3 3 3 3} \
-            -map [list {pressed !disabled} $K(toolbutton_pressed) \
-                      {active  !disabled}   $K(toolbutton_over) ] 
+        style element create Toolbutton.button image [list $K(toolbutton_normal) \
+				{pressed !disabled} $K(toolbutton_pressed) \
+				{active  !disabled}   $K(toolbutton_over) ] \
+				-border {2 2 2 2} \
+				-padding {3 3 3 3}
+
 # ---------------------------------------------------------------------------------------------------
 	
         style layout ToolCheckbutton {
@@ -481,32 +487,35 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style element create ToolsButton.button image $K(tools_normal) \
-            -border {2 2 2 2} \
-	    -padding {3 3 3 3} \
-	    -width 33 -height 33 \
-            -map [list {pressed !disabled} $K(tools_button_pressed) \
-                      {active  !disabled}   $K(tools_active)] 
+        style element create ToolsButton.button image [list $K(tools_normal) \
+				{pressed !disabled} $K(tools_button_pressed) \
+				{active  !disabled}   $K(tools_active)]\
+				-border {2 2 2 2} \
+				-padding {3 3 3 3} \
+				-width 33 -height 33
+		
 		      
 # ------------------------------------Checkbutton---------------------------------------------------
-        style element create Checkbutton.indicator image $K(check_no_normal) \
-            -width 20 -sticky w \
-            -map [list   {!active  !disabled !selected} $K(check_no_normal) \
-	    		{!active  !disabled selected} $K(check_yes_normal) \
-			{active  !disabled selected} $K(check_yes_active) \
-			{active  !disabled !selected} $K(check_no_active) \
-			{disabled selected} $K(check_yes_disabled) \
-			{disabled !selected} $K(check_no_disabled) ]
+        style element create Checkbutton.indicator image [list $K(check_no_normal) \
+				{!active  !disabled !selected} $K(check_no_normal) \
+				{!active  !disabled selected} $K(check_yes_normal) \
+				{active  !disabled selected} $K(check_yes_active) \
+				{active  !disabled !selected} $K(check_no_active) \
+				{disabled selected} $K(check_yes_disabled) \
+				{disabled !selected} $K(check_no_disabled) ] \
+				-width 20 -sticky w 
+			
 # ------------------------------------------------------------------------------------------------------ 
 # -------------------------------------Radiobutton---------------------------------------------------
-        style element create Radiobutton.indicator image $K(radio_no_normal) \
-            -width 20 -sticky w \
-            -map [list  {!active  !disabled !selected} $K(radio_no_normal) \
-	    		{!active  !disabled selected} $K(radio_yes_normal) \
-			{active  !disabled selected} $K(radio_yes_active) \
-			{active  !disabled !selected} $K(radio_no_active) \
-			{disabled selected} $K(radio_yes_disabled) \
-			{disabled !selected} $K(radio_no_disabled) ]
+        style element create Radiobutton.indicator image [list $K(radio_no_normal) \
+				{!active  !disabled !selected} $K(radio_no_normal) \
+				{!active  !disabled selected} $K(radio_yes_normal) \
+				{active  !disabled selected} $K(radio_yes_active) \
+				{active  !disabled !selected} $K(radio_no_active) \
+				{disabled selected} $K(radio_yes_disabled) \
+				{disabled !selected} $K(radio_no_disabled) ] \
+				-width 20 -sticky w 
+			
 
 # ----------------------------------FineRadiobutton-------------------------------------------- 			
         style layout FineRadiobutton {
@@ -516,16 +525,17 @@ namespace eval tile::theme::Plastik {
 		}    
             }
         }			
-        style element create FineRadiobutton.indicator image $K(fine_normal) \
-            -border {2 2 2 2} \
-	    -padding {3 3 3 3} \
-	    -width 33 -height 33 \
-            -map [list  {!active  !disabled !selected} $K(fine_normal) \
-	    		{!active  !disabled selected} $K(fine_selected) \
-			{active  !disabled selected} $K(fine_selected) \
-			{active  !disabled !selected} $K(fine_active) \
-			{disabled selected} $K(fine_selected) \
-			{disabled !selected} $K(fine_normal) ]			
+        style element create FineRadiobutton.indicator image [list $K(fine_normal)\
+				{!active  !disabled !selected} $K(fine_normal) \
+				{!active  !disabled selected} $K(fine_selected) \
+				{active  !disabled selected} $K(fine_selected) \
+				{active  !disabled !selected} $K(fine_active) \
+				{disabled selected} $K(fine_selected) \
+				{disabled !selected} $K(fine_normal) ] \
+				-border {2 2 2 2} \
+				-padding {3 3 3 3} \
+				-width 33 -height 33 
+		
 # ------------------------------------------------------------------------------------------------------- 
         # The layout for the menubutton is modified to have a button element
         # drawn on top of the background. This means we can have transparent
@@ -565,13 +575,14 @@ namespace eval tile::theme::Plastik {
         }
 	}
 	
-	style default TRootMenubutton -relief flat -sticky ew -side left
-	style default TRootMenubutton.background -relief flat -sticky ew -side left
-        style element create TRootMenubutton.button image $K(menubutton_normal) \
-	    -border {4 6 4 3} -sticky ew \
-            -map [list pressed $K(menubutton_pressed) \
-	    active $K(menubutton_active) \
-	    disabled $K(menubutton_normal)]
+		style configure TRootMenubutton -relief flat -sticky ew -side left
+		style configure TRootMenubutton.background -relief flat -sticky ew -side left
+		style element create TRootMenubutton.button image [list $K(menubutton_normal)  \
+				pressed $K(menubutton_pressed) \
+				active $K(menubutton_active) \
+				disabled $K(menubutton_normal)] \
+				-border {4 6 4 3} -sticky ew 
+		
 
 # -------------------------------------TComboSmall-----------------------------------------
         style layout TComboSmall {
@@ -586,12 +597,13 @@ namespace eval tile::theme::Plastik {
         }
 	}
 	
-	style default TComboSmall -relief flat -sticky ew -side left
-        style element create TComboSmall.button image $K(combo_normal) \
-	    -border {4 2 20 2} -padding {4 2 20 2} -sticky ew \
-            -map [list pressed $K(combo_active) \
-	    active $K(combo_active) \
-	    disabled $K(combo_disabled)]           
+		style configure TComboSmall -relief flat -sticky ew -side left
+        style element create TComboSmall.button image [list $K(combo_normal)  \
+				pressed $K(combo_active) \
+				active $K(combo_active) \
+				disabled $K(combo_disabled)] \
+				-border {4 2 20 2} -padding {4 2 20 2} -sticky ew 
+		
 
 # -------------------------------------Scrollbars----------------------------------------------------- 
         style layout Vertical.TScrollbar {
@@ -616,36 +628,34 @@ namespace eval tile::theme::Plastik {
             }
         }
 
-        style default TScrollbar -width 16 
+        style configure TScrollbar -width 16 
 # -------------------------------------Vertical.Scrollbar Definition-------------------------------------------------   
-        style element create Vertical.Scrollbar.thumb image $K(vscroll_thumb) \
-            -border {3 6 3 6} -width 16 -height 22 -sticky news \
-            -map [list {pressed !disabled} $K(vscroll_thumb_pressed)]
+        style element create Vertical.Scrollbar.thumb image [list $K(vscroll_thumb)  \
+				{pressed !disabled} $K(vscroll_thumb_pressed)] \
+				-border {3 6 3 6} -width 16 -height 22 -sticky news
+	
 
         style element create vscrollbg image $K(clear)
 	
-	style element create Vertical.Scrollbar.label  image $K(vscroll_grave) 
+		style element create Vertical.Scrollbar.label  image $K(vscroll_grave) 
 	
-        style element create uparrow image $K(vscroll_up_arrow) \
-            -map [list {pressed !disabled} $K(vscroll_up_arrow_pressed)]     
-
-        style element create downarrow image $K(vscroll_down_arrow) \
-            -map [list {pressed !disabled} $K(vscroll_down_arrow_pressed)]
+        style element create uparrow image [list $K(vscroll_up_arrow)  {pressed !disabled} $K(vscroll_up_arrow_pressed)]
+		
+        style element create downarrow image [list $K(vscroll_down_arrow) {pressed !disabled} $K(vscroll_down_arrow_pressed)]
 
 # -----------------------------------------------Horizontal.Scrollbar Definition--------------------------------------
         style element create hscrollbg image $K(clear)  
 
-	style element create Horizontal.Scrollbar.thumb image $K(hscroll_thumb) \
-            -border {6 3 6 3} -width 22 -height 16 -sticky news \
-            -map [list {pressed !disabled} $K(hscroll_thumb_pressed)]
+		style element create Horizontal.Scrollbar.thumb image [list $K(hscroll_thumb) \
+				{pressed !disabled} $K(hscroll_thumb_pressed)] \
+				-border {6 3 6 3} -width 22 -height 16 -sticky news
+			
 	    
-	style element create Horizontal.Scrollbar.label  image $K(hscroll_grave) 
+		style element create Horizontal.Scrollbar.label  image $K(hscroll_grave) 
 
-        style element create rightarrow image $K(hscroll_right_arrow) \
-            -map [list {pressed !disabled} $K(hscroll_right_arrow_pressed)]	    
+        style element create rightarrow image [list $K(hscroll_right_arrow) {pressed !disabled} $K(hscroll_right_arrow_pressed)]
 
-        style element create leftarrow image $K(hscroll_left_arrow) \
-            -map [list {pressed !disabled} $K(hscroll_left_arrow_pressed)]
+        style element create leftarrow image [list $K(hscroll_left_arrow) {pressed !disabled} $K(hscroll_left_arrow_pressed)]
        
 # ---------------------------------------------------------------------------------------------------------------------------------	    
 	    
@@ -671,5 +681,5 @@ namespace eval tile::theme::Plastik {
     }
 }
 
-package provide tile::theme::Plastik $::tile::theme::Plastik::version
+package provide ttk::theme::Plastik $::ttk::theme::Plastik::version
 
