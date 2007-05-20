@@ -985,6 +985,7 @@ class PyWidget(Widget, SketchDropTarget):
 		kw['pyobject'] = id(self)
 		kw['class'] = self.__class__.__name__
 		Widget.__init__(self, master, 'paxwidget', kw = kw)
+		self.InitTkWinObject(pax.name_to_window(self._w, self.tk.interpaddr()))
 
 	def DestroyMethod(self):
 		self.tkwin = None
