@@ -102,7 +102,7 @@ def FillStyle(pattern):
 
 EmptyFillStyle = Style(fill_pattern = EmptyPattern)
 
-def LineStyle(color = None, width = 0, cap  = const.CapButt,
+def LineStyle(color = None, width = 1, cap  = const.CapButt,
 				join  = const.JoinMiter, dashes = None,
 				arrow1 = None, arrow2 = None):
 	return Style(line_pattern = SolidPattern(color), line_width = width,

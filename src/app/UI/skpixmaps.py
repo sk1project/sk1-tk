@@ -153,7 +153,7 @@ def make_cursor_names(names, subdir = ''):
 					fullname, default)
 			setattr(const, name, default)
 
-make_cursor_names(_cursors, _cursors_dir)
+#make_cursor_names(_cursors, _cursors_dir)
 
 #def make_alias(aliases):
 	#for alias, name in aliases:

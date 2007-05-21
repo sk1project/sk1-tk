@@ -665,7 +665,7 @@ class SketchMainWindow(Publisher):
 		####################################
 		tempframe = Frame(root, name = 'temp_frame')
 		
-		hrule = tkruler.Ruler(tempframe, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color) 
+		hrule = tkruler.Ruler(tempframe, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0) 
 		
 		hrule.pack(side = TOP, fill=X)
 		
@@ -674,7 +674,7 @@ class SketchMainWindow(Publisher):
 		
 		####################################
 
-		vrule = tkruler.Ruler(root, orient = tkruler.VERTICAL, bg=config.preferences.ruler_color)
+		vrule = tkruler.Ruler(root, orient = tkruler.VERTICAL, bg=config.preferences.ruler_color, border=0)
 		vrule.grid(in_ = frame, column = 1, row = 1, sticky = 'ns', rowspan = 2)
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		

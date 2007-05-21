@@ -29,8 +29,9 @@ class CursorStack:
 		self.last_cursor = function
 
 	def push_static_cursor(self, cursor):
-		self.push_cursor_state()
-		self.set_static_cursor(cursor)
+		self.push_cursor_state()		
+		self.set_static_cursor(cursor)		
+		
 
 	def set_static_cursor(self, cursor):
 		self.cursor_function = None
