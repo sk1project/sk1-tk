@@ -26,7 +26,7 @@ from app.Lib import units
 HORIZONTAL = 0
 VERTICAL = 1
 
-tick_lengths = (5, 4, 3, 3)
+tick_lengths = (8, 6, 4, 4)
 
 # (base_unit_factor, (subdiv1, subdiv2,...))
 tick_config = {'in': (1.0, (2, 2, 2, 2)),
