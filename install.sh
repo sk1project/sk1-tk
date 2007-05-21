@@ -165,6 +165,5 @@ chmod +x $START
 
 echo
 echo ---------------------------------------------------------------------------
-echo sK1 build completed!
+echo sK1 build completed! To launch sK1 use $EPREFIX/sk1.sh script
 echo ---------------------------------------------------------------------------
-
