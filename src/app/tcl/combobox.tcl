@@ -1,7 +1,7 @@
 #
 # combobox.tcl,v 1.28 2005/09/29 02:32:06 jenglish Exp
 #
-# Tile widget set: combobox bindings.
+# ttk widget set: combobox bindings.
 #
 # Each combobox $cb has a child $cb.popdown, which contains
 # a listbox $cb.popdown.l and a scrollbar.  The listbox -listvariable
@@ -9,7 +9,7 @@
 # combobox values with the listbox values.
 #
 
-namespace eval tile::combobox {
+namespace eval ttk::combobox {
     variable Values	;# Values($cb) is -listvariable of listbox widget
 
     variable State
@@ -22,23 +22,23 @@ namespace eval tile::combobox {
 #
 ## Clipboard events:
 #
-bind TCombobox <<Cut>> 			{ tile::entry::Cut %W }
-bind TCombobox <<Copy>> 			{ tile::entry::Copy %W }
-bind TCombobox <<Paste>> 			{ tile::entry::Paste %W }
-bind TCombobox <<Clear>> 			{ tile::entry::Clear %W }
+bind TCombobox <<Cut>> 			{ ttk::entry::Cut %W }
+bind TCombobox <<Copy>> 			{ ttk::entry::Copy %W }
+bind TCombobox <<Paste>> 			{ ttk::entry::Paste %W }
+bind TCombobox <<Clear>> 			{ ttk::entry::Clear %W }
 
 ## Button1 bindings:
 #	Used for selection and navigation.
 #
-bind TCombobox <ButtonPress-1> 		{%W state active; tile::entry::Press %W %x }
-bind TCombobox <Shift-ButtonPress-1>	{ tile::entry::Shift-Press %W %x }
-bind TCombobox <Double-ButtonPress-1> 	{ tile::entry::Select %W %x word }
-bind TCombobox <Triple-ButtonPress-1> 	{ tile::entry::Select %W %x line }
-bind TCombobox <B1-Motion>			{ tile::entry::Drag %W %x }
+bind TCombobox <ButtonPress-1> 		{%W state active; ttk::entry::Press %W %x }
+bind TCombobox <Shift-ButtonPress-1>	{ ttk::entry::Shift-Press %W %x }
+bind TCombobox <Double-ButtonPress-1> 	{ ttk::entry::Select %W %x word }
+bind TCombobox <Triple-ButtonPress-1> 	{ ttk::entry::Select %W %x line }
+bind TCombobox <B1-Motion>			{ ttk::entry::Drag %W %x }
 
-bind TCombobox <B1-Leave> 		{ tile::Repeatedly tile::entry::AutoScroll %W }
-bind TCombobox <B1-Enter>		{ tile::CancelRepeat }
-bind TCombobox <ButtonRelease-1>	{ tile::CancelRepeat }
+bind TCombobox <B1-Leave> 		{ ttk::Repeatedly ttk::entry::AutoScroll %W }
+bind TCombobox <B1-Enter>		{ ttk::CancelRepeat }
+bind TCombobox <ButtonRelease-1>	{ ttk::CancelRepeat }
 
 bind TCombobox <FocusIn>		{ %W state active}
 #bind TCombobox <Leave>		{ %W state !active}
@@ -52,26 +52,26 @@ bind TCombobox <Control-ButtonPress-1> {
 #	Used for scanning and primary transfer.
 #	Note: ButtonRelease-2 is mapped to <<PasteSelection>> in tk.tcl.
 #
-bind TCombobox <ButtonPress-2> 		{ tile::entry::ScanMark %W %x }
-bind TCombobox <B2-Motion> 		{ tile::entry::ScanDrag %W %x }
-bind TCombobox <ButtonRelease-2>		{ tile::entry::ScanRelease %W %x }
-bind TCombobox <<PasteSelection>>		{ tile::entry::ScanRelease %W %x }
+bind TCombobox <ButtonPress-2> 		{ ttk::entry::ScanMark %W %x }
+bind TCombobox <B2-Motion> 		{ ttk::entry::ScanDrag %W %x }
+bind TCombobox <ButtonRelease-2>		{ ttk::entry::ScanRelease %W %x }
+bind TCombobox <<PasteSelection>>		{ ttk::entry::ScanRelease %W %x }
 
 ## Keyboard navigation bindings:
 #
-bind TCombobox <Key-Left> 			{ tile::entry::Move %W prevchar }
-bind TCombobox <Key-Right> 		{ tile::entry::Move %W nextchar }
-bind TCombobox <Control-Key-Left>		{ tile::entry::Move %W prevword }
-bind TCombobox <Control-Key-Right>		{ tile::entry::Move %W nextword }
-bind TCombobox <Key-Home>			{ tile::entry::Move %W home }
-bind TCombobox <Key-End>			{ tile::entry::Move %W end }
+bind TCombobox <Key-Left> 			{ ttk::entry::Move %W prevchar }
+bind TCombobox <Key-Right> 		{ ttk::entry::Move %W nextchar }
+bind TCombobox <Control-Key-Left>		{ ttk::entry::Move %W prevword }
+bind TCombobox <Control-Key-Right>		{ ttk::entry::Move %W nextword }
+bind TCombobox <Key-Home>			{ ttk::entry::Move %W home }
+bind TCombobox <Key-End>			{ ttk::entry::Move %W end }
 
-bind TCombobox <Shift-Key-Left> 		{ tile::entry::Extend %W prevchar }
-bind TCombobox <Shift-Key-Right>		{ tile::entry::Extend %W nextchar }
-bind TCombobox <Shift-Control-Key-Left>	{ tile::entry::Extend %W prevword }
-bind TCombobox <Shift-Control-Key-Right>	{ tile::entry::Extend %W nextword }
-bind TCombobox <Shift-Key-Home>		{ tile::entry::Extend %W home }
-bind TCombobox <Shift-Key-End>		{ tile::entry::Extend %W end }
+bind TCombobox <Shift-Key-Left> 		{ ttk::entry::Extend %W prevchar }
+bind TCombobox <Shift-Key-Right>		{ ttk::entry::Extend %W nextchar }
+bind TCombobox <Shift-Control-Key-Left>	{ ttk::entry::Extend %W prevword }
+bind TCombobox <Shift-Control-Key-Right>	{ ttk::entry::Extend %W nextword }
+bind TCombobox <Shift-Key-Home>		{ ttk::entry::Extend %W home }
+bind TCombobox <Shift-Key-End>		{ ttk::entry::Extend %W end }
 
 bind TCombobox <Control-Key-slash> 	{ %W selection range 0 end }
 bind TCombobox <Control-Key-backslash> 	{ %W selection clear }
@@ -80,9 +80,9 @@ bind TCombobox <<TraverseIn>> 	{ %W selection range 0 end; %W icursor end }
 
 ## Edit bindings:
 #
-bind TCombobox <KeyPress> 			{ tile::entry::Insert %W %A }
-bind TCombobox <Key-Delete>		{ tile::entry::Delete %W }
-bind TCombobox <Key-BackSpace> 		{ tile::entry::Backspace %W }
+bind TCombobox <KeyPress> 			{ ttk::entry::Insert %W %A }
+bind TCombobox <Key-Delete>		{ ttk::entry::Delete %W }
+bind TCombobox <Key-BackSpace> 		{ ttk::entry::Backspace %W }
 
 # Ignore all Alt, Meta, and Control keypresses unless explicitly bound.
 # Otherwise, the <KeyPress> class binding will fire and insert the character.
@@ -104,43 +104,43 @@ if {[tk windowingsystem] eq "aqua"} {
 
 ## Additional emacs-like bindings:
 #
-bind TCombobox <Control-Key-a>		{ tile::entry::Move %W home }
-bind TCombobox <Control-Key-b>		{ tile::entry::Move %W prevchar }
-bind TCombobox <Control-Key-d> 		{ tile::entry::Delete %W }
-bind TCombobox <Control-Key-e> 		{ tile::entry::Move %W end }
-bind TCombobox <Control-Key-f> 		{ tile::entry::Move %W nextchar }
-bind TCombobox <Control-Key-h>		{ tile::entry::Backspace %W }
+bind TCombobox <Control-Key-a>		{ ttk::entry::Move %W home }
+bind TCombobox <Control-Key-b>		{ ttk::entry::Move %W prevchar }
+bind TCombobox <Control-Key-d> 		{ ttk::entry::Delete %W }
+bind TCombobox <Control-Key-e> 		{ ttk::entry::Move %W end }
+bind TCombobox <Control-Key-f> 		{ ttk::entry::Move %W nextchar }
+bind TCombobox <Control-Key-h>		{ ttk::entry::Backspace %W }
 bind TCombobox <Control-Key-k>		{ %W delete insert end }
 
 #-------------------------------------------------------------------------------------------
-#tile::CopyBindings TEntry TCombobox
+#ttk::CopyBindings TEntry TCombobox
 
-bind TCombobox <KeyPress-Down> 		{ tile::combobox::Post %W }
-bind TCombobox <KeyPress-Escape> 	{ tile::combobox::Unpost %W }
+bind TCombobox <KeyPress-Down> 		{ ttk::combobox::Post %W }
+bind TCombobox <KeyPress-Escape> 	{ ttk::combobox::Unpost %W }
 
-bind TCombobox <ButtonPress-1> 		{ tile::combobox::Press "" %W %x %y }
-bind TCombobox <Shift-ButtonPress-1>	{ tile::combobox::Press "s" %W %x %y }
-bind TCombobox <Double-ButtonPress-1> 	{ tile::combobox::Press "2" %W %x %y }
-bind TCombobox <Triple-ButtonPress-1> 	{ tile::combobox::Press "3" %W %x %y }
-bind TCombobox <B1-Motion>		{ tile::combobox::Drag %W %x }
+bind TCombobox <ButtonPress-1> 		{ ttk::combobox::Press "" %W %x %y }
+bind TCombobox <Shift-ButtonPress-1>	{ ttk::combobox::Press "s" %W %x %y }
+bind TCombobox <Double-ButtonPress-1> 	{ ttk::combobox::Press "2" %W %x %y }
+bind TCombobox <Triple-ButtonPress-1> 	{ ttk::combobox::Press "3" %W %x %y }
+bind TCombobox <B1-Motion>		{ ttk::combobox::Drag %W %x }
 
-bind TCombobox <MouseWheel> 	{ tile::combobox::Scroll %W [expr {%D/-120}] }
+bind TCombobox <MouseWheel> 	{ ttk::combobox::Scroll %W [expr {%D/-120}] }
 if {[tk windowingsystem] eq "x11"} {
-    bind TCombobox <ButtonPress-4>	{ tile::combobox::Scroll %W -1 }
-    bind TCombobox <ButtonPress-5>	{ tile::combobox::Scroll %W  1 }
+    bind TCombobox <ButtonPress-4>	{ ttk::combobox::Scroll %W -1 }
+    bind TCombobox <ButtonPress-5>	{ ttk::combobox::Scroll %W  1 }
 }
 
-bind TCombobox <<TraverseIn>> 		{ tile::combobox::TraverseIn %W }
+bind TCombobox <<TraverseIn>> 		{ ttk::combobox::TraverseIn %W }
 
 ### Combobox listbox bindings.
 #
 bind ComboboxListbox <ButtonPress-1> 	{ focus %W ; continue }
-bind ComboboxListbox <ButtonRelease-1>	{ tile::combobox::LBSelected %W }
-bind ComboboxListbox <KeyPress-Return>	{ tile::combobox::LBSelected %W }
-bind ComboboxListbox <KeyPress-Escape>  { tile::combobox::LBCancel %W }
-bind ComboboxListbox <KeyPress-Tab>	{ tile::combobox::LBTab %W next }
-bind ComboboxListbox <<PrevWindow>>	{ tile::combobox::LBTab %W prev }
-bind ComboboxListbox <Destroy>		{ tile::combobox::LBCleanup %W }
+bind ComboboxListbox <ButtonRelease-1>	{ ttk::combobox::LBSelected %W }
+bind ComboboxListbox <KeyPress-Return>	{ ttk::combobox::LBSelected %W }
+bind ComboboxListbox <KeyPress-Escape>  { ttk::combobox::LBCancel %W }
+bind ComboboxListbox <KeyPress-Tab>	{ ttk::combobox::LBTab %W next }
+bind ComboboxListbox <<PrevWindow>>	{ ttk::combobox::LBTab %W prev }
+bind ComboboxListbox <Destroy>		{ ttk::combobox::LBCleanup %W }
 # Default behavior is to follow selection on mouseover
 bind ComboboxListbox <Motion> {
     %W selection clear 0 end
@@ -153,7 +153,7 @@ bind ComboboxListbox <Motion> {
 # with other applications. The listbox gets a <FocusOut> event
 # when this happens.  Don't know how reliable this is:
 #
-bind ComboboxListbox <FocusOut>		{ tile::combobox::LBCancel %W }
+bind ComboboxListbox <FocusOut>		{ ttk::combobox::LBCancel %W }
 
 bind ComboboxListbox <Enter> {
     %W config -cursor top_left_arrow
@@ -166,7 +166,7 @@ if {[tk windowingsystem] eq "x11"} {
 }
 
 # The following ensures that the popdown listbox uses the same font 
-# as the combobox entry field (at least for the standard Tile themes).
+# as the combobox entry field (at least for the standard ttk themes).
 #
 option add *TCombobox*Listbox.font TkTextFont
 
@@ -178,7 +178,7 @@ option add *TCombobox*Listbox.font TkTextFont
 #	Either post/unpost the listbox, or perform Entry widget binding,
 #	depending on widget state and location of button press.
 #
-proc tile::combobox::Press {mode w x y} {
+proc ttk::combobox::Press {mode w x y} {
     variable State
     set State(entryPress) [expr {
 	   [$w instate {!readonly !disabled}]
@@ -188,11 +188,11 @@ proc tile::combobox::Press {mode w x y} {
     if {$State(entryPress)} {
 	focus $w
 	switch -- $mode {
-	    s 	{ tile::entry::Shift-Press $w $x 	; # Shift }
-	    2	{ tile::entry::Select $w $x word 	; # Double click}
-	    3	{ tile::entry::Select $w $x line 	; # Triple click }
+	    s 	{ ttk::entry::Shift-Press $w $x 	; # Shift }
+	    2	{ ttk::entry::Select $w $x word 	; # Double click}
+	    3	{ ttk::entry::Select $w $x line 	; # Triple click }
 	    ""	-
-	    default { tile::entry::Press $w $x }
+	    default { ttk::entry::Press $w $x }
 	}
     } else {
 	TogglePost $w
@@ -204,17 +204,17 @@ proc tile::combobox::Press {mode w x y} {
 #	If the initial ButtonPress event was handled by Entry binding,
 #	perform Entry widget drag binding; otherwise nothing.
 #
-proc tile::combobox::Drag {w x}  {
+proc ttk::combobox::Drag {w x}  {
     variable State
     if {$State(entryPress)} {
-	tile::entry::Drag $w $x
+	ttk::entry::Drag $w $x
     }
 }
 
 ## TraverseIn -- receive focus due to keyboard navigation
 #	For editable comboboxes, set the selection and insert cursor.
 #
-proc tile::combobox::TraverseIn {w} {
+proc ttk::combobox::TraverseIn {w} {
     $w instate {!readonly !disabled} { 
 	$w selection range 0 end
 	$w icursor end
@@ -224,7 +224,7 @@ proc tile::combobox::TraverseIn {w} {
 ## SelectEntry $cb $index -- 
 #	Set the combobox selection in response to a user action.
 #
-proc tile::combobox::SelectEntry {cb index} {
+proc ttk::combobox::SelectEntry {cb index} {
     $cb current $index
     $cb selection range 0 end
     $cb icursor end
@@ -233,7 +233,7 @@ proc tile::combobox::SelectEntry {cb index} {
 
 ## Scroll -- Mousewheel binding
 #
-proc tile::combobox::Scroll {cb dir} {
+proc ttk::combobox::Scroll {cb dir} {
     $cb instate disabled { return }
     set max [llength [$cb cget -values]]
     set current [$cb current]
@@ -247,7 +247,7 @@ proc tile::combobox::Scroll {cb dir} {
 #	Set the combobox value to the currently-selected listbox value
 #	and unpost the listbox.
 #
-proc tile::combobox::LBSelected {lb} {
+proc ttk::combobox::LBSelected {lb} {
     set cb [LBMaster $lb]
     set selection [$lb curselection]
     Unpost $cb
@@ -260,7 +260,7 @@ proc tile::combobox::LBSelected {lb} {
 ## LBCancel --
 #	Unpost the listbox.
 #
-proc tile::combobox::LBCancel {lb} {
+proc ttk::combobox::LBCancel {lb} {
     Unpost [LBMaster $lb]
 }
 
@@ -268,7 +268,7 @@ proc tile::combobox::LBCancel {lb} {
 #	Tab key binding for combobox listbox:  
 #	Set the selection, and navigate to next/prev widget.
 #
-proc tile::combobox::LBTab {lb dir} {
+proc ttk::combobox::LBTab {lb dir} {
     set cb [LBMaster $lb]
     switch -- $dir {
 	next	{ set newFocus [tk_focusNext $cb] }
@@ -288,7 +288,7 @@ proc tile::combobox::LBTab {lb dir} {
 #	Returns the popdown shell widget associated with a combobox,
 #	creating it if necessary.
 #
-proc tile::combobox::PopdownShell {cb} {
+proc ttk::combobox::PopdownShell {cb} {
     if {![winfo exists $cb.popdown]} {
 	set popdown [toplevel $cb.popdown -relief solid -bd 1]
 	wm withdraw $popdown
@@ -305,7 +305,7 @@ proc tile::combobox::PopdownShell {cb} {
 		-command [list $popdown.l yview]
 	}
 	listbox $popdown.l \
-	    -listvariable tile::combobox::Values($cb) \
+	    -listvariable ttk::combobox::Values($cb) \
 	    -yscrollcommand [list $popdown.sb set] \
 	    -exportselection false \
 	    -selectmode browse \
@@ -328,7 +328,7 @@ proc tile::combobox::PopdownShell {cb} {
 ## combobox::Post $cb --
 #	Pop down the associated listbox.
 #
-proc tile::combobox::Post {cb} {
+proc ttk::combobox::Post {cb} {
     variable State
     variable Values
 
@@ -398,16 +398,16 @@ proc tile::combobox::Post {cb} {
     # @@@ Workaround for TrackElementState bug:
     event generate $cb <ButtonRelease-1>
     # /@@@
-    tile::globalGrab $cb
+    ttk::globalGrab $cb
     focus $popdown.l
 }
 
 ## combobox::Unpost $cb --
 #	Unpost the listbox, restore focus to combobox widget.
 #
-proc tile::combobox::Unpost {cb} {
+proc ttk::combobox::Unpost {cb} {
     $cb state !pressed
-    tile::releaseGrab $cb
+    ttk::releaseGrab $cb
     if {[winfo exists $cb.popdown]} {
 	wm withdraw $cb.popdown
     }
@@ -417,14 +417,14 @@ proc tile::combobox::Unpost {cb} {
 ## combobox::TogglePost $cb --
 #	Post the listbox if unposted, unpost otherwise.
 #
-proc tile::combobox::TogglePost {cb} {
+proc ttk::combobox::TogglePost {cb} {
     if {[$cb instate pressed]} { Unpost $cb } { Post $cb }
 }
 
 ## LBMaster $lb --
 #	Return the combobox main widget that owns the listbox.
 #
-proc tile::combobox::LBMaster {lb} {
+proc ttk::combobox::LBMaster {lb} {
     winfo parent [winfo parent $lb]
 }
 
@@ -437,7 +437,7 @@ proc tile::combobox::LBMaster {lb} {
 #	[winfo parent] still works, fortunately.
 #
 
-proc tile::combobox::LBCleanup {lb} {
+proc ttk::combobox::LBCleanup {lb} {
     variable Values
     unset Values([LBMaster $lb])
 }

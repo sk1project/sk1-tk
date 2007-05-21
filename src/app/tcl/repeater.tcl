@@ -3,7 +3,7 @@
 #
 # Demonstration of custom classes.
 #
-# The Tile button doesn't have built-in support for autorepeat.
+# The ttk button doesn't have built-in support for autorepeat.
 # Instead of adding -repeatdelay and -repeatinterval options,
 # and all the extra binding scripts required to deal with them,
 # we create a custom widget class for autorepeating buttons.
@@ -21,7 +21,7 @@
 #	interval before the button starts autorepeating.
 #
 
-namespace eval tile::Repeater {
+namespace eval ttk::Repeater {
     variable State
     set State(timer) 	{}	;# [after] id of repeat script
     set State(interval)	100	;# interval between repetitions
@@ -34,17 +34,17 @@ namespace eval tile::Repeater {
 bind Repeater <Enter>		{ %W state active }
 bind Repeater <Leave>		{ %W state !active }
 
-bind Repeater <Key-space> 	{ tile::Repeater::Activate %W }
-bind Repeater <<Invoke>> 	{ tile::Repeater::Activate %W }
+bind Repeater <Key-space> 	{ ttk::Repeater::Activate %W }
+bind Repeater <<Invoke>> 	{ ttk::Repeater::Activate %W }
 
-bind Repeater <ButtonPress-1> 	{ tile::Repeater::Press %W }
-bind Repeater <ButtonRelease-1> { tile::Repeater::Release %W }
-bind Repeater <B1-Leave> 	{ tile::Repeater::Pause %W }
-bind Repeater <B1-Enter> 	{ tile::Repeater::Resume %W } ;# @@@ see below
+bind Repeater <ButtonPress-1> 	{ ttk::Repeater::Press %W }
+bind Repeater <ButtonRelease-1> { ttk::Repeater::Release %W }
+bind Repeater <B1-Leave> 	{ ttk::Repeater::Pause %W }
+bind Repeater <B1-Enter> 	{ ttk::Repeater::Resume %W } ;# @@@ see below
 
 # @@@ Workaround for metacity-induced bug:
 bind Repeater <B1-Enter> \
-    { if {"%d" ne "NotifyUngrab"} { tile::Repeater::Resume %W } }
+    { if {"%d" ne "NotifyUngrab"} { ttk::Repeater::Resume %W } }
 
 ### Binding procedures.
 #
@@ -52,7 +52,7 @@ bind Repeater <B1-Enter> \
 ## Activate -- Keyboard activation binding. 
 #	Simulate clicking the button, and invoke the command once. 
 #
-proc tile::Repeater::Activate {w} {
+proc ttk::Repeater::Activate {w} {
     $w instate disabled { return }
     set oldState [$w state pressed]
     update idletasks; after 100
@@ -64,19 +64,19 @@ proc tile::Repeater::Activate {w} {
 #	Invoke the command once and start autorepeating after 
 #	$State(delay) milliseconds.
 #
-proc tile::Repeater::Press {w} {
+proc ttk::Repeater::Press {w} {
     variable State
     $w instate disabled { return }
     $w state pressed
     $w invoke
     after cancel $State(timer)
-    set State(timer) [after $State(delay) [list tile::Repeater::Repeat $w]]
+    set State(timer) [after $State(delay) [list ttk::Repeater::Repeat $w]]
 }
 
 ## Release -- ButtonRelease binding.
 #	Stop repeating.
 #
-proc tile::Repeater::Release {w} {
+proc ttk::Repeater::Release {w} {
     variable State
     $w state !pressed
     after cancel $State(timer)
@@ -85,7 +85,7 @@ proc tile::Repeater::Release {w} {
 ## Pause -- B1-Leave binding
 #	Temporarily suspend autorepeat.
 #
-proc tile::Repeater::Pause {w} {
+proc ttk::Repeater::Pause {w} {
     variable State
     $w state !pressed
     after cancel $State(timer)
@@ -94,24 +94,24 @@ proc tile::Repeater::Pause {w} {
 ## Resume -- B1-Enter binding
 #	Resume autorepeat.
 #
-proc tile::Repeater::Resume {w} {
+proc ttk::Repeater::Resume {w} {
     variable State
     $w instate disabled { return }
     $w state pressed
     $w invoke
     after cancel $State(timer)
-    set State(timer) [after $State(interval) [list tile::Repeater::Repeat $w]]
+    set State(timer) [after $State(interval) [list ttk::Repeater::Repeat $w]]
 }
 
 ## Repeat -- Timer script
 #	Invoke the command and reschedule another repetition 
 #	after $State(interval) milliseconds.
 #
-proc tile::Repeater::Repeat {w} {
+proc ttk::Repeater::Repeat {w} {
     variable State
     $w instate disabled { return }
     $w invoke
-    set State(timer) [after $State(interval) [list tile::Repeater::Repeat $w]]
+    set State(timer) [after $State(interval) [list ttk::Repeater::Repeat $w]]
 }
 
 #*EOF*
