@@ -381,7 +381,8 @@ class UpdatedMenu:
 #               rest['bg']='#8D8D8D'
 		rest['relief']='flat'
 		rest['bd']=1
-		rest['activeborderwidth']=0             
+		rest['activeborderwidth']=0   
+		rest['tearoff']=0
 		self.menu = apply(Menu, (master,), rest)
 		self.SetEntries(entries)
 		self.menu.bind('<Map>', self.recolor)
@@ -488,6 +489,7 @@ class ComboMenu:
 		rest['relief']='flat'
 		rest['bd']=1
 		rest['activeborderwidth']=0
+		rest['tearoff']=0
 		self.menu = apply(Menu, (master,), rest)
 		self.SetEntries(entries)
 
