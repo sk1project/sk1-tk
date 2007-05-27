@@ -159,7 +159,7 @@ echo "">>$START
 echo "export LD_LIBRARY_PATH="$LD_LIBRARY_PATH>>$START
 echo "export PATH=$RE_PREFIX/bin:\$PATH">>$START
 echo "">>$START
-echo "python main.py \$1">>$START
+echo "cd "$PREFIX";python main.py \$1">>$START
 
 chmod +x $START
 
