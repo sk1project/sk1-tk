@@ -22,7 +22,7 @@ from app import CreateListUndo, UndoAfter, NullUndo, SketchInternalError, _
 from app.events.warn import pdebug, INTERNAL
 
 from pattern import SolidPattern, EmptyPattern
-from color import StandardColors
+from color import StandardColors, StandardCMYKColors
 from blend import Blend
 
 
@@ -391,7 +391,7 @@ def _set_defaults(prop, title, short_title, type, value,
 	if transform:
 		transform_properties.append(prop)
 
-black = StandardColors.black
+black = StandardCMYKColors.black
 
 # XXX the default properties should be defined by the user.
 _set_defaults('fill_pattern', _("Fill Pattern"), _("Pattern"), FillProperty,
@@ -400,7 +400,7 @@ _set_defaults('fill_transform', _("Fill Transform Pattern"),
 				_("Transform pattern"), FillProperty, 1)
 _set_defaults('line_pattern', _("Line Pattern"), _("Pattern"), LineProperty,
 				SolidPattern(black), blend = Blend, transform = 1)
-_set_defaults('line_width', _("Line Width"), _("Width"), LineProperty, 1 ,
+_set_defaults('line_width', _("Line Width"), _("Width"), LineProperty, .283286 ,
 				blend = blend_number)
 _set_defaults('line_cap', _("Line Cap"), _("Cap"), LineProperty,
 				const.CapButt)
