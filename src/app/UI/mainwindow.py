@@ -663,19 +663,19 @@ class SketchMainWindow(Publisher):
 		hbar.bind('<Button-4>', self.ScrollLeftCanvas)
 		hbar.bind('<Button-5>', self.ScrollRightCanvas)
 		####################################
-		tempframe = Frame(root, name = 'temp_frame')
+		#tempframe = Frame(root, name = 'temp_frame')
 		
-		hrule = tkruler.Ruler(tempframe, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0) 
+		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0) 
 		
 		hrule.pack(side = TOP, fill=X)
 		
-		tempframe.grid(in_ = frame, column = 2, row = 0, sticky = 'ew', columnspan = 2)
+		hrule.grid(in_ = frame, column = 2, row = 0, sticky = 'nsew', columnspan = 2)
 		hrule.bind('<Double-Button-1>', self.RulerDoublePressH)
 		
 		####################################
 
-		vrule = tkruler.Ruler(root, orient = tkruler.VERTICAL, bg=config.preferences.ruler_color, border=0)
-		vrule.grid(in_ = frame, column = 1, row = 1, sticky = 'ns', rowspan = 2)
+		vrule = tkruler.Ruler(frame, orient = tkruler.VERTICAL, bg=config.preferences.ruler_color, border=0)
+		vrule.grid(in_ = frame, column = 1, row = 1, sticky = 'nsew', rowspan = 2)
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		
 		#ruler corner 
@@ -764,8 +764,6 @@ class SketchMainWindow(Publisher):
 		self.canvas.bind('<Control-Button-5>', self.ScrollRightCanvas)
 		self.canvas.bind('<Shift-Button-4>', self.CanvasZoomingOut)
 		self.canvas.bind('<Shift-Button-5>', self.CanvasZoomingIn)
-		
-
 
 	def make_file_menu(self):
 		cmds = self.commands
