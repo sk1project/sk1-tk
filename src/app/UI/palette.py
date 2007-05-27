@@ -11,7 +11,7 @@ from types import StringType, TupleType, IntType
 from string import strip, split, atof, atoi
 
 from app.X11 import X
-from app.Graphics.color import ExtColor, CreateCMYKColor
+from app.Graphics.color import RGB_Color, CMYK_Color
 
 from app.conf.const import CHANGED, COLOR1, COLOR2, CHANGED, VIEW, \
 		DROP_COLOR, CurDragColor
@@ -281,8 +281,6 @@ class UniversalPalette:
 		self.load(file)
 		
 	def load(self, filename=None):
-		import xml.sax
-		from xml.sax.xmlreader import InputSource		
 		content_handler = XMLPaletteReader(palette=self)
 		error_handler = ErrorHandler()
 		entity_resolver = EntityResolver()
@@ -320,7 +318,7 @@ class XMLPaletteReader(handler.ContentHandler):
 				g=atof(self.attrs._attrs['g'])
 				b=atof(self.attrs._attrs['b'])				
 				color_name=self.attrs._attrs['name']
-				self.palette.colors.append(ExtColor(r,g,b,self.type,name=color_name))
+				self.palette.colors.append(RGB_Color(r,g,b, name=color_name))
 				#c,m,y,k=app.colormanager.convertRGB(r,g,b)
 				#print '<color c="%f"'%c,'m="%f"'%m,'y="%f"'%y,'k="%f"'%k,'name="%s"'%color_name,'/>'
 			if self.type=='CMYK':
@@ -328,9 +326,8 @@ class XMLPaletteReader(handler.ContentHandler):
 				m=atof(self.attrs._attrs['m'])
 				y=atof(self.attrs._attrs['y'])
 				k=atof(self.attrs._attrs['k'])
-				color=CreateCMYKColor(c,m,y,k)
-				color.name=self.attrs._attrs['name']
-				self.palette.colors.append(color)
+				color_name=self.attrs._attrs['name']
+				self.palette.colors.append(CMYK_Color(c,m,y,k, name=color_name))
 		if name=='description':			
 			self.type=self.attrs._attrs['type']
 			self.palette.name=self.attrs._attrs['name']

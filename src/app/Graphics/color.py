@@ -22,8 +22,7 @@ CMYK = 'CMYK'
 RGB = 'RGB'
 
 def CreateRGBColor(r, g, b):
-#       print 'CreateRGBColor', round(r, 3), round(g, 3), round(b, 3)
-	return ExtColor(round(r, 3), round(g, 3), round(b, 3))
+	return RGB_Color(round(r, 3), round(g, 3), round(b, 3))
 
 def XRGBColor(s):
 	# only understands the old x specification with two hex digits per
@@ -36,11 +35,10 @@ def XRGBColor(s):
 	return CreateRGBColor(r, g, b)
 
 def CreateCMYKColor(c, m, y, k):
-	r,g,b = cmyk_to_rgb(c, m, y, k)
-	return ExtColor(r, g, b, 'CMYK', c, m, y, k)
+	#r,g,b = cmyk_to_rgb(c, m, y, k)
+	return CMYK_Color(c, m, y, k)
 
 def cmyk_to_rgb(c, m, y, k):
-#       print 'CMYK color: C-',c,' M-',m,' Y-',y,' K-',k
 	r = round(1.0 - min(1.0, c + k), 3)
 	g = round(1.0 - min(1.0, m + k), 3)
 	b = round(1.0 - min(1.0, y + k), 3)
@@ -58,58 +56,65 @@ def rgb_to_tk((r, g, b)):
 def ParseSKColor(model, v1, v2, v3, v4=0, v5=0):
 	if model=='CMYK':
 		r,g,b = cmyk_to_rgb(v1, v2, v3, v4)
-		return ExtColor(r, g, b, 'CMYK', v1, v2, v3, v4)
-	else:
-		return ExtColor(round(v1, 3), round(v2, 3), round(v3, 3))
-		
-#def ICC_for_CMYK(c,m,y,k):
+		return CMYK_Color(v1, v2, v3, v4)
+	if model=='RGB':
+		return RGB_Color(round(v1, 3), round(v2, 3), round(v3, 3))
 	
-	#CMYK = COLORB()
-	#CMYK[0] = int(round(c, 2)*255)
-	#CMYK[1] = int(round(m, 2)*255)
-	#CMYK[2] = int(round(y, 2)*255)
-	#CMYK[3] = int(round(k, 2)*255)
-	
-	#RGB = COLORB()
-	#RGB[0] = 0
-	#RGB[1] = 0
-	#RGB[2] = 0
-	
-	##hRGB   = cmsCreate_sRGBProfile()
-	#hRGB   = cmsOpenProfileFromFile("/usr/local/lib/sK1/sRGB.icm", "r")
-	#hCMYK  = cmsOpenProfileFromFile("/usr/local/lib/sK1/GenericCMYK.icm", "r")
 
-	#xform = cmsCreateTransform(hCMYK, TYPE_CMYK_8, 
-							   #hRGB, TYPE_RGB_8, 
-							   #INTENT_PERCEPTUAL, cmsFLAGS_NOTPRECALC)
-	#cmsDoTransform(xform, CMYK, RGB, 1)
+class RGB_Color:
 	
-	#cmsDeleteTransform(xform)
-	#cmsCloseProfile(hCMYK)
-	#cmsCloseProfile(hRGB)
-	
-	#return round(RGB[0]/255.0, 3), round(RGB[1]/255.0, 3), round(RGB[2]/255.0, 3)
-
-class ExtColor:
-	
-	def __init__(self, r, g, b, model = 'RGB', c = None, m = None, y = None, k = None, alpha=0, name='Not defined'):
-	
-		'''Extended color class for multimodel color support.
-		
-		ExtColor class is a wrapper for old native RGBColor object. 
-		Real Python object for color representation is more flexible and extendable way.
-		At this time we support RGB and CMYK color models.'''
-		
-		self.model = model
+	def __init__(self, r, g, b, alpha=0, name='Not defined'):		
+		self.model = 'RGB'
 		self.red=r
 		self.green=g
 		self.blue=b
+		self.alpha=alpha
+		self.name=name
+	
+	def RGB(self):
+		return self.getScreenColor()
+	
+	def cRGB(self):
+		rgb=self.getScreenColor()
+		return (rgb.red, rgb.green, rgb.blue)
+	
+	def cRGBA(self):
+		rgb=self.getScreenColor()
+		return (rgb.red, rgb.green, rgb.blue, self.alpha)
+	
+	def getScreenColor(self):
+		if app.config.preferences.use_cms:
+			if app.config.preferences.simulate_printer:
+				c,m,y,k = app.colormanager.convertRGB(self.red, self.green, self.blue)
+				r,g,b = app.colormanager.processCMYK(c,m,y,k)                       
+				return RGBColor(r, g, b)
+			else:
+				r,g,b = app.colormanager.processRGB(self.red, self.green, self.blue)
+				return RGBColor(self.red, self.green, self.blue)
+		else:
+			return RGBColor(self.red, self.green, self.blue)
+	
+	def toString(self):
+		R='R-'+str(int(round(self.red*255, 0)))
+		G=' G-'+str(int(round(self.green*255, 0)))
+		B=' B-'+str(int(round(self.blue*255, 0)))
+		return R+G+B
+			
+	def toSave(self):
+		R= str(round(self.red, 3))+','
+		G= str(round(self.green, 3))+','
+		B= str(round(self.blue, 3))
+		return '("'+self.model+'",'+R+G+B+')'
+
+class CMYK_Color:
+	
+	def __init__(self, c, m, y, k, alpha=0, name='Not defined'):		
+		self.model = 'CMYK'
 		self.c=c
 		self.m=m
 		self.y=y
 		self.k=k
 		self.alpha=alpha
-		self.RGBStruct=None
 		self.name=name
 		
 	def getCMYK(self):
@@ -127,69 +132,31 @@ class ExtColor:
 		return (rgb.red, rgb.green, rgb.blue, self.alpha)
 	
 	def getScreenColor(self):
-		if self.model == 'CMYK':
-			if app.config.preferences.use_cms:
-				r,g,b = app.colormanager.processCMYK(self.c,self.m,self.y,self.k)
-			else:
-				r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)				
-			return RGBColor(r, g, b)
+		if app.config.preferences.use_cms:
+			r,g,b = app.colormanager.processCMYK(self.c,self.m,self.y,self.k)
 		else:
-			if app.config.preferences.use_cms:
-				if app.config.preferences.simulate_printer:
-					c,m,y,k = app.colormanager.convertRGB(self.red, self.green, self.blue)
-					r,g,b = app.colormanager.processCMYK(c,m,y,k)                       
-					return RGBColor(r, g, b)
-				else:
-					r,g,b = app.colormanager.processRGB(self.red, self.green, self.blue)
-					return RGBColor(self.red, self.green, self.blue)
-			else:
-				return RGBColor(self.red, self.green, self.blue)
+			r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)				
+		return RGBColor(r, g, b)
 	
 	def toString(self):
-		if self.model == 'CMYK':
-			C='C-'+str(int(round(self.c, 2)*100))+'% '
-			M='M-'+str(int(round(self.m, 2)*100))+'% '
-			Y='Y-'+str(int(round(self.y, 2)*100))+'% '
-			K='K-'+str(int(round(self.k, 2)*100))+'%'
-			return C+M+Y+K
-		else:
-			R='R-'+str(int(round(self.red*255, 0)))
-			G=' G-'+str(int(round(self.green*255, 0)))
-			B=' B-'+str(int(round(self.blue*255, 0)))
-			return R+G+B
-			
-	def toSave(self):
-		if self.model == 'CMYK':
-			C= str(round(self.c, 3))+','
-			M= str(round(self.m, 3))+','
-			Y= str(round(self.y, 3))+','
-			K= str(round(self.k, 3))
-			return '("'+self.model+'",'+C+M+Y+K+')'
-		else:
-			R= str(round(self.red, 3))+','
-			G= str(round(self.green, 3))+','
-			B= str(round(self.blue, 3))
-			return '("'+self.model+'",'+R+G+B+')'
+		C='C-'+str(int(round(self.c, 2)*100))+'% '
+		M='M-'+str(int(round(self.m, 2)*100))+'% '
+		Y='Y-'+str(int(round(self.y, 2)*100))+'% '
+		K='K-'+str(int(round(self.k, 2)*100))+'%'
+		return C+M+Y+K
 		
+	def toSave(self):
+		C= str(round(self.c, 3))+','
+		M= str(round(self.m, 3))+','
+		Y= str(round(self.y, 3))+','
+		K= str(round(self.k, 3))
+		return '("'+self.model+'",'+C+M+Y+K+')'
 
 #
 #       some standard colors.
 #
 
 class StandardColors:
-	black   = CreateRGBColor(0.0, 0.0, 0.0).RGB()
-	darkgray        = CreateRGBColor(0.25, 0.25, 0.25).RGB()
-	gray    = CreateRGBColor(0.5, 0.5, 0.5).RGB()
-	lightgray       = CreateRGBColor(0.75, 0.75, 0.75).RGB()
-	white   = CreateRGBColor(1.0, 1.0, 1.0).RGB()
-	red             = CreateRGBColor(1.0, 0.0, 0.0).RGB()
-	green   = CreateRGBColor(0.0, 1.0, 0.0).RGB()
-	blue    = CreateRGBColor(0.0, 0.0, 1.0).RGB()
-	cyan    = CreateRGBColor(0.0, 1.0, 1.0).RGB()
-	magenta = CreateRGBColor(1.0, 0.0, 1.0).RGB()
-	yellow  = CreateRGBColor(1.0, 1.0, 0.0).RGB()
-
-class ExtStandardColors:
 	black   = CreateRGBColor(0.0, 0.0, 0.0)
 	darkgray        = CreateRGBColor(0.25, 0.25, 0.25)
 	gray    = CreateRGBColor(0.5, 0.5, 0.5)
@@ -201,6 +168,19 @@ class ExtStandardColors:
 	cyan    = CreateRGBColor(0.0, 1.0, 1.0)
 	magenta = CreateRGBColor(1.0, 0.0, 1.0)
 	yellow  = CreateRGBColor(1.0, 1.0, 0.0)
+
+class StandardCMYKColors:
+	black   = CreateCMYKColor(0.0, 0.0, 0.0, 1.0)
+	darkgray        = CreateCMYKColor(0.0, 0.0, 0.0, 0.75)
+	gray    = CreateCMYKColor(0.0, 0.0, 0.0, 0.5)
+	lightgray       = CreateCMYKColor(0.0, 0.0, 0.0, 0.25)
+	white   = CreateCMYKColor(0.0, 0.0, 0.0, 0.0)
+	red             = CreateCMYKColor(0.0, 1.0, 1.0, 0.0)
+	green   = CreateCMYKColor(1.0, 0.0, 1.0, 0.0)
+	blue    = CreateCMYKColor(1.0, 1.0, 0.0, 0.0)
+	cyan    = CreateCMYKColor(1.0, 0.0, 0.0, 0.0)
+	magenta = CreateCMYKColor(0.0, 1.0, 0.0, 0.0)
+	yellow  = CreateCMYKColor(0.0, 0.0, 1.0, 0.0)
 
 #
 #       For 8-bit displays:
