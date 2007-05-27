@@ -1314,6 +1314,7 @@ proc ::tk_popup {menu x y {entry {}}} {
         tk::SaveGrabInfo $menu
 	grab -global $menu
 	set Priv(popup) $menu
+	$menu configure -cursor top_left_arrow
 	tk_menuSetFocus $menu
     }
 }
