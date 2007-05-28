@@ -276,7 +276,7 @@ class SVGHandler(handler.ContentHandler):
 		self.style.line_pattern = EmptyPattern
 		self.style.fill_pattern = SolidPattern(StandardColors.black)
 		self.current_text = ""
-		#self.style.font = GetFont("Times-Roman")
+		self.style.font = GetFont("Times-Roman")
 		self.style.font_size = 12
 		self.halign = text.ALIGN_LEFT
 		self.named_objects = {}
