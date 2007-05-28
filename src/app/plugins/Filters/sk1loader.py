@@ -18,8 +18,8 @@
 ###Sketch Config
 #type = Import
 #class_name = 'SKLoader'
-#rx_magic = '^##Sketch 1 *(?P<minor>[0-9]+)'
-#tk_file_type = ('sK1 Document', '.sK1')
+#rx_magic = '^##sK1 1 *(?P<minor>[0-9]+)'
+#tk_file_type = ('sK1 drawing', '.sk1')
 format_name = 'sK1'
 #standard_messages = 1
 ###End

@@ -47,6 +47,8 @@ class Layer(EditableCompound):
 		self.locked = locked
 		self.outlined = outlined
 		if type(outline_color) == TupleType:
+			if len(outline_color)==3:
+				outline_color=('RGB',outline_color[0],outline_color[1],outline_color[2])
 			self.outline_color = apply(color.ParseSKColor, outline_color)
 		else:
 			self.outline_color = outline_color

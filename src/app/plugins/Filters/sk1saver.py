@@ -309,7 +309,7 @@ class SKSaver:
 		#    self.file.close()
 
 	def write_header(self):
-		self.file.write('##Sketch 1 2\n')
+		self.file.write('##sK1 1 2\n')
 
 	def BeginDocument(self):
 		self.file.write('document()\n')
