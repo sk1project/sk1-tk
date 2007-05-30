@@ -16,7 +16,7 @@ from tkext import UpdatedButton, MyEntry
 from view import SketchView
 from app import skapp
 
-from app import _, config
+from app import _, config, PostScriptDevice
 from app.utils import os_utils
 from app.events.warn import warn_tb, INTERNAL
 import app
@@ -148,7 +148,7 @@ class PrintPanel(SketchPanel):
 				file = os.popen(self.print_command.get(), 'w')
 				title = 'sK1'
 			try:
-				dev = app.PostScriptDevice
+				dev = PostScriptDevice
 				ps_dev = dev(file, as_eps = 1, bounding_box = tuple(bbox),
 								rotate = self.var_rotate.get(),
 								For = os_utils.get_real_username(),
