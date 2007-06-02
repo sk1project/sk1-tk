@@ -665,7 +665,7 @@ class SketchMainWindow(Publisher):
 		####################################
 		#tempframe = Frame(root, name = 'temp_frame')
 		
-		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0) 
+		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0, relief='flat') 
 		
 		hrule.pack(side = TOP, fill=X)
 		
