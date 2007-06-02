@@ -206,7 +206,7 @@ class CGMSaver:
 		# Line width
 		self.pack("!Hi" , 0x5064 , rndtoint(self.Scale * Props.line_width))
 		# Line color
-		self.putcol(0x5083 , Props.line_pattern.Color())
+		self.putcol(0x5083 , Props.line_pattern.Color().RGB())
 	
 	def FillStyle(self, Props):
 		line_pattern = Props.line_pattern
@@ -221,7 +221,7 @@ class CGMSaver:
 			# Edge width
 			self.pack("!Hi" , 0x5384 , line_width)
 			# Edge color
-			self.putcol(0x53a3 , line_pattern.Color())
+			self.putcol(0x53a3 , line_pattern.Color().RGB())
 		if fill_pattern is EmptyPattern:
 			# Fill type is Hollow
 			self.pack("!HH" , 0x52c2 , 0x0004)
@@ -241,7 +241,7 @@ class CGMSaver:
 			# Fill type is Solid
 			self.pack("!HH" , 0x52c2 , 0x0001)
 			#if fill_pattern.is_Solid:
-			self.putcol(0x52e3 , fill_pattern.Color())
+			self.putcol(0x52e3 , fill_pattern.Color().RGB())
 
 
 	def PolyBezier(self, Paths, Properties):

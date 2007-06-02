@@ -401,7 +401,7 @@ class SKSaver:
 			if pattern is EmptyPattern:
 				write('fe()\n')
 			elif isinstance(pattern, SolidPattern):
-				write('fp(%s)\n' % color_repr(pattern.Color()))
+				write('fp(%s)\n' % color_repr(pattern.Color().RGB()))
 			else:
 				pattern.SaveToFile(self)
 				write('fp()\n')
@@ -412,7 +412,7 @@ class SKSaver:
 			if pattern is EmptyPattern:
 				write('le()\n')
 			elif isinstance(pattern, SolidPattern):
-				write('lp(%s)\n' % color_repr(pattern.Color()))
+				write('lp(%s)\n' % color_repr(pattern.Color().RGB()))
 			else:
 				pattern.SaveToFile(self)
 				write('lp()\n')

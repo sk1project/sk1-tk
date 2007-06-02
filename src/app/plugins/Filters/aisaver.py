@@ -35,11 +35,12 @@ from app.Lib.psmisc import quote_ps_string
 from app.Lib import encoding
 
 def cmyk(color):
-	c = 1.0 - color.red
-	m = 1.0 - color.green
-	y = 1.0 - color.blue
-	k = min(c, m, y)
-	return c - k, m - k, y - k, k
+	return color.getCMYK()
+	#c = 1.0 - color.red
+	#m = 1.0 - color.green
+	#y = 1.0 - color.blue
+	#k = min(c, m, y)
+	#return c - k, m - k, y - k, k
 	
 
 ps_join = (0, 1, 2)

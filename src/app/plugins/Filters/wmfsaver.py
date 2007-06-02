@@ -216,7 +216,7 @@ class WMFSaver:
 			self.SelectObject(EMPTY_PEN)
 		else:
 			width = rndtoint(self.Scale * Props.line_width)
-			self.CreateSelectPen(width, Props.line_pattern.Color(),
+			self.CreateSelectPen(width, Props.line_pattern.Color().RGB(),
 									Props.line_dashes)
 
 	def FillStyle(self, Props):
@@ -225,7 +225,7 @@ class WMFSaver:
 		if fill_pattern is EmptyPattern:
 			self.SelectObject(EMPTY_PATTERN)
 		elif fill_pattern.is_Solid:
-			self.CreateSelectBrush(Props.fill_pattern.Color())
+			self.CreateSelectBrush(Props.fill_pattern.Color().RGB())
 		elif fill_pattern.is_Hatching:
 			# XXX wmf supports hatching
 			self.CreateSelectBrush(Props.fill_pattern.Foreground())

@@ -82,6 +82,10 @@ class RGB_Color:
 		rgb=self.getScreenColor()
 		return (rgb.red, rgb.green, rgb.blue, self.alpha)
 	
+	def getCMYK(self):
+		c,m,y,k = app.colormanager.convertRGB(self.red, self.green, self.blue)
+		return c,m,y,k
+	
 	def getScreenColor(self):
 		if app.config.preferences.use_cms:
 			if app.config.preferences.simulate_printer:

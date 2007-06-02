@@ -104,7 +104,7 @@ class SVGSaver:
 		style = []
 		if not omit_stroke and properties.line_pattern is not EmptyPattern:
 			if properties.line_pattern.is_Solid:
-				color = properties.line_pattern.Color()
+				color = properties.line_pattern.Color().RGB()
 				style.append("stroke:" + csscolor(color))
 			if properties.line_dashes != ():
 				#FIXME: This could be much more intelligent, but this
@@ -131,7 +131,7 @@ class SVGSaver:
 		if properties.fill_pattern is not EmptyPattern:
 			pattern = properties.fill_pattern
 			if pattern.is_Solid:
-				style.append("fill:" + csscolor(pattern.Color()))
+				style.append("fill:" + csscolor(pattern.Color().RGB()))
 			elif pattern.is_Gradient and bounding_rect:
 				if pattern.is_AxialGradient or pattern.is_RadialGradient:
 					gradient_id = self.write_gradient((pattern, bounding_rect),
