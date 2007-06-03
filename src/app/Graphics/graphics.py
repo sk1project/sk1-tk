@@ -1394,6 +1394,8 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
 
 	def DrawGuideLine(self, point, horizontal):
+		temp_scale=self.scale
+		self.scale=1
 		if self.line:
 			self.properties.ExecuteLine(self)
 		self.gc.line_style = X.LineOnOffDash
@@ -1404,6 +1406,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		else:
 			self.gc.DrawLine(x, 0, x, self.widget.height)
 		self.gc.line_style = X.LineSolid
+		self.scale=temp_scale
 
 	def DrawPageOutline(self, width, height):
 		# Draw the outline of the page whose size is given by width and
