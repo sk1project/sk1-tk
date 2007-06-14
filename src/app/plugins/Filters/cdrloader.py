@@ -113,15 +113,15 @@ class RiffChunk:
 			self.rawsize += 1
 		self.number=self.infocollector.numcount
 		self.infocollector.numcount+=1
-		if self.fourcc == 'DISP':
-			[bitmapoffset] = struct.unpack('<I',buf[offset+32:offset+36])
-			bitmapoffset = self.rawsize + 8 - bitmapoffset
-			bitmapoffset = struct.pack('>I', bitmapoffset)
-			self.image_buf = 'BM'+buf[offset+4:offset+7]+'\x00\x00\x00\x00'+bitmapoffset[2:3]+'\x00\x00'+buf[offset+10:offset+8+self.rawsize]
-			import PIL.Image,PIL.ImageTk, StringIO
-			self.image = PIL.Image.open(StringIO.StringIO(self.image_buf ))
-			self.image.load()
-			self.infocollector.image= PIL.ImageTk.PhotoImage(self.image)
+		#if self.fourcc == 'DISP':
+			#[bitmapoffset] = struct.unpack('<I',buf[offset+32:offset+36])
+			#bitmapoffset = self.rawsize + 8 - bitmapoffset
+			#bitmapoffset = struct.pack('>I', bitmapoffset)
+			#self.image_buf = 'BM'+buf[offset+4:offset+7]+'\x00\x00\x00\x00'+bitmapoffset[2:3]+'\x00\x00'+buf[offset+10:offset+8+self.rawsize]
+			#import PIL.Image,PIL.ImageTk, StringIO
+			#self.image = PIL.Image.open(StringIO.StringIO(self.image_buf ))
+			#self.image.load()
+			#self.infocollector.image= PIL.ImageTk.PhotoImage(self.image)
 		if self.fourcc == 'vrsn':
 			[version] = struct.unpack('<H', self.data)
 			self.infocollector.cdr_version=version/100

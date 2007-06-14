@@ -53,12 +53,12 @@ class Configurator:
 
 		self.user_preferences_file = os.path.join(self.user_config_dir, 'preferences.xml')
 		
-		print 'Self testing\n=========================================='
+		#print 'Self testing\n=========================================='
 		self.check_sk_dir()
 		self.check_user_config()
 		self.preferences = Preferences()
 		self.preferences.load(self.user_preferences_file)
-		print '=========================================='
+		#print '=========================================='
 		if self.restore_theme:
 			self.preferences.active_theme = 'Plastik'
 
@@ -109,28 +109,28 @@ class Configurator:
 			self.preferences.mru_files = mru_list[:4]
 		
 	def check_sk_dir(self):		
-		print 'sK1 directories test...         ',
+		#print 'sK1 directories test...         ',
 		result = True		
 		dirs = (self.sk_share_dir, self.sk_palettes, self.sk_themes, self.sk_icc, self.sk_fonts,
 				self.sk_plugins, self.sk_ps, self.sk_color_themes, self.sk_icons)
 		for dir in dirs:
 			if not os.path.isdir(dir): result = False			
 		if not result:
-			print '[',output.red('CRASH'),']'
+			#print '[',output.red('CRASH'),']'
 			print output.yellow('sK1 installation is corrupted. Please check sK1 directories or reinstall sK1!')
 			sys.exit(1)
-		else:
-			print '[',output.green('OK'),']'
+		#else:
+			#print '[',output.green('OK'),']'
 			
 	def check_user_config(self):
-		print 'sK1 user config test...         ',
+		#print 'sK1 user config test...         ',
 		result = True
 		if not os.path.isdir(self.user_config_dir):
 			result = False
 			try:
 				os.mkdir(self.user_config_dir, 0777)
 			except (IOError, os.error), value:
-				print '[',output.red('CRASH'),']'
+				#print '[',output.red('CRASH'),']'
 				sys.stderr('cannot write preferences into %s.' % user_config_dir)
 				sys.exit(1)
 		if not os.path.isdir(self.user_palettes):
@@ -159,10 +159,10 @@ class Configurator:
 			result = False
 			os.system("cp -r "+self.sk_icons+" "+self.user_icons)
 			
-		if not result:
-			print '[',output.yellow('FIXED'),']'
-		else:
-			print '[',output.green('OK'),']'
+		#if not result:
+			#print '[',output.yellow('FIXED'),']'
+		#else:
+			#print '[',output.green('OK'),']'
 		
 		
 class Preferences(connector.Publisher):

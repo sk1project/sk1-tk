@@ -34,7 +34,7 @@ import os.path
 from app import Scale, Translation, Bezier, CreateRGBColor, EmptyPattern, \
 	Point
 
-import app.warn
+import app.events.warn
 
 from math import sqrt, sin, cos
 
