@@ -6,41 +6,46 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
+'''
+USAGE: uniconvertor.sh [INPUT FILE] [OUTPUT FILE]
+
+Converts one vector graphics format to another using sK1 engine.
+
+ Allowed input formats:
+     AI  - Adobe Illustrator files (postscript based)
+     CDR - CorelDRAW Graphics files (7-X3 versions)
+     CMX - Corel Presentation Exchange files (CMX1 format)
+     SVG - Scalable Vector Graphics files
+     FIG - XFig files
+     CGM - Computer Graphics Metafile files
+     AFF - Draw files
+     WMF - Windows Metafile files
+     SK  - Sketch/Skencil files
+     SK1 - sK1 vector graphics files
+
+ Allowed output formats:
+     AI  - Adobe Illustrator files (postscript based)
+     SVG - Scalable Vector Graphics files
+     CGM - Computer Graphics Metafile files
+     WMF - Windows Metafile files
+     SK  - Sketch/Skencil files
+     SK1 - sK1 vector graphics files
+
+Example: uniconvertor.sh drawing.cdr drawing.svg\n
+'''
+
+
 import sys, os
 
-def print_info():
-	print '\nUSAGE: uniconvertor.sh [INPUT FILE] [OUTPUT FILE]\n'	
-	print 'Converts one vector graphics format to another using sK1 engine.'
-	print '\n Allowed input formats: '
-	print '     AI  - Adobe Illustrator files (postscript based)'
-	print '     CDR - CorelDRAW Graphics files (7-X3 versions)'
-	print '     CMX - Corel Presentation Exchange files (CMX1 format)'
-	print '     SVG - Scalable Vector Graphics files'
-	print '     FIG - XFig files'
-	print '     CGM - Computer Graphics Metafile files'
-	print '     AFF - Draw files'
-	print '     WMF - Windows Metafile files'
-	print '     SK  - Sketch/Skencil files'
-	print '     SK1 - sK1 vector graphics files'
-	print '\n Allowed output formats:'
-	print '     AI  - Adobe Illustrator files (postscript based)'
-	print '     SVG - Scalable Vector Graphics files'
-	print '     CGM - Computer Graphics Metafile files'
-	print '     WMF - Windows Metafile files'
-	print '     SK  - Sketch/Skencil files'
-	print '     SK1 - sK1 vector graphics files'
-	print '\nExample: uniconvertor.sh drawing.cdr drawing.svg\n'
-
-
 if sys.argv[1]=='--help':
-	print_info()
+	print __doc__
 	sys.exit(0)
-if os.path.isfile(sys.argv[1])==0:
+if not os.path.isfile(sys.argv[1]):
 	print '\nERROR: %s file is not found!\n' % sys.argv[1]
 	sys.exit(1)
-if len(sys.argv) != 3 or os.path.isfile(sys.argv[1])==0:
+if len(sys.argv) != 3:
 	print '\nERROR: incorrect arguments!\n'
-	print_info()
+	print __doc__
 	sys.exit(1)
 
 from app.io import load
