@@ -37,15 +37,15 @@ Example: uniconvertor.sh drawing.cdr drawing.svg\n
 
 import sys, os
 
-if sys.argv[1]=='--help':
+if len(sys.argv)==0 or sys.argv[1]=='--help':
 	print __doc__
 	sys.exit(0)
-if not os.path.isfile(sys.argv[1]):
-	print '\nERROR: %s file is not found!\n' % sys.argv[1]
-	sys.exit(1)
-if len(sys.argv) != 3:
+if len(sys.argv)!=3:
 	print '\nERROR: incorrect arguments!\n'
 	print __doc__
+	sys.exit(1)
+if not os.path.isfile(sys.argv[1]):
+	print '\nERROR: %s file is not found!\n' % sys.argv[1]
 	sys.exit(1)
 
 from app.io import load
