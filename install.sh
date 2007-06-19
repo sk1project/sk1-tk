@@ -160,7 +160,7 @@ echo "export LD_LIBRARY_PATH="$LD_LIBRARY_PATH>>$START
 echo "export PATH=$RE_PREFIX/bin:\$PATH">>$START
 echo "">>$START
 echo "echo \"sK1 starts...\"">>$START
-echo "python $PREFIX/main.py \$1">>$START
+echo "python $PREFIX/main.py \"\$1\"">>$START
 
 chmod +x $START
 
@@ -172,7 +172,7 @@ echo "">>$START
 echo "export LD_LIBRARY_PATH="$LD_LIBRARY_PATH>>$START
 echo "export PATH=$RE_PREFIX/bin:\$PATH">>$START
 echo "">>$START
-echo "python $PREFIX/conv.py \$1 \$2">>$START
+echo "python $PREFIX/conv.py \"\$1\" \"\$2\"">>$START
 
 chmod +x $START
 
