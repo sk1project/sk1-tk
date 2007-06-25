@@ -279,7 +279,7 @@ class SketchSaveError(SketchError):
 	pass
 
 def color_repr(color):
-	return '(%g,%g,%g)' % tuple(color)
+	return '(%g,%g,%g)' % tuple(color.RGB())
 
 default_options = {'full_blend' : 0}
 
@@ -401,7 +401,7 @@ class SKSaver:
 			if pattern is EmptyPattern:
 				write('fe()\n')
 			elif isinstance(pattern, SolidPattern):
-				write('fp(%s)\n' % color_repr(pattern.Color().RGB()))
+				write('fp(%s)\n' % color_repr(pattern.Color()))
 			else:
 				pattern.SaveToFile(self)
 				write('fp()\n')
@@ -412,7 +412,7 @@ class SKSaver:
 			if pattern is EmptyPattern:
 				write('le()\n')
 			elif isinstance(pattern, SolidPattern):
-				write('lp(%s)\n' % color_repr(pattern.Color().RGB()))
+				write('lp(%s)\n' % color_repr(pattern.Color()))
 			else:
 				pattern.SaveToFile(self)
 				write('lp()\n')

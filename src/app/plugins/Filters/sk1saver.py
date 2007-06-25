@@ -17,8 +17,8 @@
 
 ###Sketch Config
 #type = Export
-#tk_file_type = (_("sK1 Document"), '.sK1')
-#extensions = '.sK1'
+#tk_file_type = (_("sK1 Document"), '.sk1')
+#extensions = '.sk1'
 format_name = 'sK1'
 #standard_messages = 1
 ###End

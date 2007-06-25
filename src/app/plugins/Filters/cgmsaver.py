@@ -134,7 +134,7 @@ class Warnings:
 		if msg != "":
 			msg = "The design you tried to save in CGM Version 1 format\n" + \
 					"hit some limitations\n\n" + msg
-			app.warn.warn(app.warn.USER , msg)
+			app.events.warn.warn(app.events.warn.USER , msg)
 			
 class CGMSaver:
 
