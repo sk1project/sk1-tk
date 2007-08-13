@@ -389,6 +389,7 @@ class SketchMainWindow(Publisher):
 			doc = load.load_drawing(filename)
 			group = doc.as_group()
 		except SketchError, value:
+			group=None
 			app.MessageBox(title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
 			self.remove_mru_file(filename)
 		else:
