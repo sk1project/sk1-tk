@@ -581,9 +581,9 @@ class CDRLoader(GenericLoader):
 		
 	def import_curves(self):
 		for obj in self.info.paths_heap:
-			if obj==1:.
+			if obj==1:
 				self.begin_group()
-			elif obj==0:.
+			elif obj==0:
 				self.end_group()
 			else:
 				style = self.style
