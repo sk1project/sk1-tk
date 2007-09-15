@@ -54,12 +54,13 @@ def openfiletypes():
 	return types
 
 def importfiletypes():
-	types=' \'*.sK1 *.sk1 *.SK1 *.sk *.SK *.ai *.AI *.cmx *.CMX *.cgm *.CGM *.aff *.AFF *.svg *.SVG *.wmf *.WMF *.fig *.FIG *.cdr *.CDR|All supported files - *.sK1 *.sk *.ai *.eps *.cmx *.cdr *.cgm *.aff *.svg *.wmf *.fig \n'
+	types=' \'*.sK1 *.sk1 *.SK1 *.sk *.SK *.ai *.AI *.cmx *.CMX *.cdr *.CDR *.ccx *.CCX *.cgm *.CGM *.aff *.AFF *.svg *.SVG *.wmf *.WMF *.fig *.FIG|All supported files - *.sK1 *.sk *.ai *.eps *.cmx *.cdr *.cgm *.aff *.svg *.wmf *.fig \n'
 	types=types+' *.sK1 *.sk1 *.SK1|sK1 vector graphics files - *.sK1 \n'
 	types=types+' *.sk *.SK|Sketch and Skencil files - *.sk \n'
 	types=types+' *.ai *.AI|Adobe Illustrator files (up to ver. 9.0) - *.ai \n'
 	types=types+' *.cmx *.CMX|CorelDRAW Presentation Exchange files - *.cmx \n'
-	types=types+' *.cdr *.CDR|CorelDRAW Graphics files - *.cdr \n'
+	types=types+' *.ccx *.CCX|CorelDRAW Compressed Exchange files (CDRX format) - *.ccx \n'
+	types=types+' *.cdr *.CDR|CorelDRAW Graphics files (7-X3 ver.) - *.cdr \n'
 	types=types+' *.cgm *.CGM|Computer Graphics Metafile files - *.cgm \n'
 	types=types+' *.aff *.AFF|Draw files - *.aff \n'
 	types=types+' *.svg *.SVG|Scalable Vector Graphics files - *.svg \n'
