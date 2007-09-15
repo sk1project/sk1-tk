@@ -8,7 +8,7 @@
 ###Sketch Config
 #type = Import
 #class_name = 'CDRLoader'
-#rx_magic = '(?s)RIFF....CDR'
+#rx_magic = '(?s)RIFF....CDR[789ABCD]'
 #tk_file_type = ('CorelDRAW Graphics', '.cdr')
 #format_name = 'CDR'
 #unload = 1
