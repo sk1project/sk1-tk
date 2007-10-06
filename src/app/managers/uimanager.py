@@ -88,7 +88,6 @@ class UIManager:
 	def uploadExtentions(self):
 		self.root.tk.call('lappend', 'auto_path', app.config.user_themes)
 		self.root.tk.call('package', 'require', 'tkpng')
-		#self.root.tk.call('package', 'require', 'tile')
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')
 		self.root.tk.call('source', os.path.join(tcl,'combobox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'button.tcl'))

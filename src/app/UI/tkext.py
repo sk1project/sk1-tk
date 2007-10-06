@@ -983,10 +983,8 @@ class MyEntry(Tkinter.Entry, WidgetWithCommand):
 class PyWidget(Widget, SketchDropTarget):
 
 	def __init__(self, master=None, **kw):
-		#pax.register_object(self)
 		key = pax.register_object(self)
 		kw['pyobject'] = key
-		#kw['pyobject'] = id(self)
 		kw['class'] = self.__class__.__name__
 		Widget.__init__(self, master, 'paxwidget', kw = kw)
 		self.InitTkWinObject(pax.name_to_window(self._w, self.tk.interpaddr()))
@@ -1223,8 +1221,8 @@ class MyOptionMenu2(WidgetWithCommand, Menubutton):
 def MakeMethodCommand(method, *args):
 	obj = method.im_self
 	name = method.__name__
-	pax.register_object(obj) # assuming that obj unregisters itself
-	return ('call_py_method', id(obj), name) + args
+	key = pax.register_object(obj) # assuming that obj unregisters itself
+	return ('call_py_method', key, name) + args
 
 
 _tcl_commands_created = 0
