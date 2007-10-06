@@ -1,6 +1,6 @@
 /* Sketch - A Python-based interactive drawing program
  * Copyright (C) 2006 by Igor E.Novikov
- * Copyright (C) 1997, 1998, 1999 by Bernhard Herzog
+ * Copyright (C) 1997, 1998, 1999, 2006 by Bernhard Herzog
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -129,7 +129,7 @@ add_int(PyObject * dict, int i, char * name)
 }
 
 void
-init_sketch()
+init_sketch(void)
 {
     PyObject * d, *m, *r, *pax;
 

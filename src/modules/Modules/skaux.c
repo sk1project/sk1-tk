@@ -1,5 +1,5 @@
 /* Sketch - A Python-based interactive drawing program
- * Copyright (C) 1996, 1997, 1998, 1999, 2002 by Bernhard Herzog
+ * Copyright (C) 1996, 1997, 1998, 1999, 2002, 2006 by Bernhard Herzog
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -280,14 +280,14 @@ extern PyTypeObject SKCacheType;
 static PyObject *
 SKCache_New(void)
 {
-    SKCacheObject * self = PyObject_NEW(SKCacheObject, &SKCacheType);
+    SKCacheObject * self = PyObject_New(SKCacheObject, &SKCacheType);
     if (!self)
 	return NULL;
 
     self->dict = PyDict_New();
     if (!self->dict)
     {
-	PyMem_DEL(self);
+	PyObject_Del(self);
 	return NULL;
     }
 
@@ -298,7 +298,7 @@ static void
 SKCache_dealloc(SKCacheObject * self)
 {
     Py_DECREF(self->dict);
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 static PyObject *

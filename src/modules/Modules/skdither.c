@@ -84,22 +84,22 @@ skvisual_init_dither(SKVisualObject * self)
 
     /*  alloc the ordered dither arrays for accelerated dithering  */
 
-    self->dither_red  = PyMem_NEW(SKDitherInfo, 256);
-    self->dither_green= PyMem_NEW(SKDitherInfo, 256);
-    self->dither_blue = PyMem_NEW(SKDitherInfo, 256);
-    self->dither_gray = PyMem_NEW(SKDitherInfo, 256);
+    self->dither_red  = PyMem_New(SKDitherInfo, 256);
+    self->dither_green= PyMem_New(SKDitherInfo, 256);
+    self->dither_blue = PyMem_New(SKDitherInfo, 256);
+    self->dither_gray = PyMem_New(SKDitherInfo, 256);
 
     red_ordered_dither  = self->dither_red;
     green_ordered_dither= self->dither_green;
     blue_ordered_dither = self->dither_blue;
     gray_ordered_dither = self->dither_gray;
 
-    dither_matrix = PyMem_NEW(unsigned char**, 8);
+    dither_matrix = PyMem_New(unsigned char**, 8);
     for (i = 0; i < 8; i++)
     {
-	dither_matrix[i] = PyMem_NEW(unsigned char*, 8);
+	dither_matrix[i] = PyMem_New(unsigned char*, 8);
 	for (j = 0; j < 8; j++)
-	    dither_matrix[i][j] = PyMem_NEW(unsigned char, 65);
+	    dither_matrix[i][j] = PyMem_New(unsigned char, 65);
     }
 
     self->dither_matrix = dither_matrix;

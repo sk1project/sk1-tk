@@ -1,5 +1,5 @@
 /* Sketch - A Python-based interactive drawing program
- * Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 by Bernhard Herzog
+ * Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2006 by Bernhard Herzog
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -42,7 +42,7 @@ static SKColorObject *
 fill_free_list(void)
 {
     SKColorObject *p, *q;
-    p = PyMem_NEW(SKColorObject, N_COLOROBJECTS);
+    p = PyMem_Malloc(sizeof(SKColorObject) * N_COLOROBJECTS);
     if (p == NULL)
 	return (SKColorObject *)PyErr_NoMemory();
     q = p + N_COLOROBJECTS;
@@ -81,7 +81,7 @@ SKColor_FromRGB(double red, double green, double blue)
     self->ob_type = &SKColorType;
     _Py_NewReference(self);
 #else
-    self = PyObject_NEW(SKColorObject, &SKColorType);
+    self = PyObject_New(SKColorObject, &SKColorType);
     if (!self)
 	return NULL;
 #endif
@@ -103,7 +103,7 @@ skcolor_dealloc(SKColorObject * self)
     self->ob_type = (PyTypeObject*)free_list;
     free_list = self;
 #else
-    PyMem_DEL(self);
+    PyObject_Del(self);
 #endif
 #if SKCOLOR_COUNT_ALLOC
     skcolor_allocated--;
@@ -478,20 +478,20 @@ skvisual_pseudocolor_free(SKVisualObject * self)
 	{
 	    for (j = 0; j < 8; j++)
 	    {
-		PyMem_DEL(self->dither_matrix[i][j]);
+		PyMem_Free(self->dither_matrix[i][j]);
 	    }
-	    PyMem_DEL(self->dither_matrix[i]);
+	    PyMem_Free(self->dither_matrix[i]);
 	}
-	PyMem_DEL(self->dither_matrix);
+	PyMem_Free(self->dither_matrix);
     }
     if (self->dither_red)
-	PyMem_DEL(self->dither_red);
+	PyMem_Free(self->dither_red);
     if (self->dither_green)
-	PyMem_DEL(self->dither_green);
+	PyMem_Free(self->dither_green);
     if (self->dither_blue)
-	PyMem_DEL(self->dither_blue);
+	PyMem_Free(self->dither_blue);
     if (self->dither_gray)
-	PyMem_DEL(self->dither_gray);
+	PyMem_Free(self->dither_gray);
 }
 
 static int
@@ -584,17 +584,17 @@ skvisual_init_pseudocolor(SKVisualObject * self, PyObject * args)
 static PyObject *
 SKVisual_FromXVisualInfo(Display *display, XVisualInfo *info, PyObject * args)
 {
-    SKVisualObject * self = PyObject_NEW(SKVisualObject, &SKVisualType);
+    SKVisualObject * self = PyObject_New(SKVisualObject, &SKVisualType);
     int result = 0;
     
     if (!self)
 	return NULL;
 
     /* copy the XVisualInfo since it is probably allocated via Xlib */
-    self->visualinfo = PyMem_NEW(XVisualInfo, 1);
+    self->visualinfo = PyMem_New(XVisualInfo, 1);
     if (!self->visualinfo)
     {
-	PyMem_DEL(self);
+	PyMem_Free(self);
 	return PyErr_NoMemory();
     }
     memcpy(self->visualinfo, info, sizeof(XVisualInfo));
@@ -628,8 +628,8 @@ skvisual_dealloc(SKVisualObject * self)
 {
     if (self->free_extra)
 	self->free_extra(self);
-    free(self->visualinfo);
-    PyMem_DEL(self);
+    PyMem_Free(self->visualinfo);
+    PyObject_Del(self);
 }
 
 static PyObject *
