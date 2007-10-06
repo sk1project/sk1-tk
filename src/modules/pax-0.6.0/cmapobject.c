@@ -25,22 +25,22 @@ paxcm_AllocColorCells(PaxCMapObject *self, PyObject *args)
 	PyErr_BadArgument();
 	return NULL;
     }
-    plane_masks = PyMem_NEW(unsigned long, nplanes);
-    pixels = PyMem_NEW(unsigned long, npixels);
+    plane_masks = PyMem_Malloc(sizeof(unsigned long) * nplanes);
+    pixels = PyMem_Malloc(sizeof(unsigned long) * npixels);
     if (plane_masks == NULL || pixels == NULL)
     {
 	if (plane_masks)
-	    PyMem_DEL(plane_masks);
+	    PyMem_Free(plane_masks);
 	if (pixels)
-	    PyMem_DEL(pixels);
+	    PyMem_Free(pixels);
 	return PyErr_NoMemory();
     }
     if (!XAllocColorCells(self->display, self->colormap, contig,
 			  plane_masks, nplanes, pixels, npixels))
     {
 	PyErr_SetString(PyExc_RuntimeError, "XAllocColorCells failed");
-	PyMem_DEL(plane_masks);
-	PyMem_DEL(pixels);
+	PyMem_Free(plane_masks);
+	PyMem_Free(pixels);
 	return NULL;
     }
 
@@ -50,8 +50,8 @@ paxcm_AllocColorCells(PaxCMapObject *self, PyObject *args)
     res2 = PyList_New(npixels);
     for (i = 0; i < npixels; i++)
 	PyList_SetItem(res2, i, PyInt_FromLong(pixels[i]));
-    PyMem_DEL(plane_masks);
-    PyMem_DEL(pixels);
+    PyMem_Free(plane_masks);
+    PyMem_Free(pixels);
     if (PyErr_Occurred())
     {
 	Py_XDECREF(res1);
@@ -77,7 +77,7 @@ paxcm_StoreColors(PaxCMapObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "O!", &PyList_Type, &colorlist))
 	return NULL;
     ncolors = PyList_Size(colorlist);
-    color = PyMem_NEW(XColor, ncolors);
+    color = PyMem_Malloc(sizeof(XColor) * ncolors);
     if (color == NULL)
 	return PyErr_NoMemory();
     for (i = 0; i < ncolors; i++)
@@ -85,7 +85,7 @@ paxcm_StoreColors(PaxCMapObject *self, PyObject *args)
 	item = PyList_GetItem(colorlist, i);
 	if (!PyTuple_Check(item) || PyTuple_Size(item) != 5)
 	{
-	    PyMem_DEL(color);
+	    PyMem_Free(color);
 	    PyErr_BadArgument();
 	    return NULL;
 	}
@@ -96,7 +96,7 @@ paxcm_StoreColors(PaxCMapObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(item, "liiib", &color[i].pixel,
 			      &red, &green, &blue, &color[i].flags))
 	{
-	    PyMem_DEL(color);
+	    PyMem_Free(color);
 	    return NULL;
 	}
 	color[i].red = red;
@@ -106,7 +106,7 @@ paxcm_StoreColors(PaxCMapObject *self, PyObject *args)
 
     XStoreColors(self->display, self->colormap, color, ncolors);
 
-    PyMem_DEL(color);
+    PyMem_Free(color);
     if (PyErr_Occurred())
 	return NULL;
     Py_INCREF(Py_None);
@@ -189,7 +189,7 @@ paxcm_QueryColors(PaxCMapObject *self, PyObject *args)
 	return NULL;
     
     npixels = PyList_Size(pixels);
-    defs = PyMem_NEW(XColor, npixels);
+    defs = PyMem_Malloc(sizeof(XColor) * npixels);
     if (defs == NULL)
 	return PyErr_NoMemory();
     
@@ -221,7 +221,7 @@ paxcm_QueryColors(PaxCMapObject *self, PyObject *args)
 	}
     }
 done:
-    PyMem_DEL(defs);
+    PyMem_Free(defs);
     return list;
 }
 
@@ -277,7 +277,7 @@ paxcm_FreeColors(PaxCMapObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "O!l", &PyList_Type, &pixellist, &planes))
 	return NULL;
     npixels = PyList_Size(pixellist);
-    pixels = PyMem_NEW(unsigned long, npixels);
+    pixels = PyMem_Malloc(sizeof(unsigned long) * npixels);
     if (pixels == NULL)
 	return PyErr_NoMemory();
     for (i = 0; i < npixels; i++)
@@ -285,7 +285,7 @@ paxcm_FreeColors(PaxCMapObject *self, PyObject *args)
 	item = PyList_GetItem(pixellist, i);
 	if (!PyInt_Check(item))
 	{
-	    PyMem_DEL(pixels);
+	    PyMem_Free(pixels);
 	    PyErr_BadArgument();
 	    return NULL;
 	}
@@ -294,7 +294,7 @@ paxcm_FreeColors(PaxCMapObject *self, PyObject *args)
 
     XFreeColors(self->display, self->colormap, pixels, npixels, planes);
 
-    PyMem_DEL(pixels);
+    PyMem_Free(pixels);
     if (PyErr_Occurred())
 	return NULL;
     Py_INCREF(Py_None);
@@ -345,7 +345,7 @@ paxcm_dealloc(PaxCMapObject *self)
     if (self->owner)
 	XFreeColormap(self->display, self->colormap);
 
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 PyTypeObject PaxCMapType = {
@@ -369,7 +369,7 @@ PyTypeObject PaxCMapType = {
 PyObject *
 PaxCMap_FromColormap(Colormap colormap, Display *display, int owner)
 {
-    PaxCMapObject *obj = PyObject_NEW(PaxCMapObject, &PaxCMapType);
+    PaxCMapObject *obj = PyObject_New(PaxCMapObject, &PaxCMapType);
     if (obj == NULL)
 	return NULL;
     obj->colormap = colormap;

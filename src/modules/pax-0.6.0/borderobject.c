@@ -15,7 +15,7 @@ PaxBorder_FromTkBorder(Tk_3DBorder tkborder, Tk_Window tkwin, int borrowed)
 {
     PaxBorderObject * self;
 
-    self = PyObject_NEW(PaxBorderObject, &PaxBorderType);
+    self = PyObject_New(PaxBorderObject, &PaxBorderType);
     if (!self)
 	return NULL;
 
@@ -40,7 +40,7 @@ paxborder_dealloc(PaxBorderObject *self)
     {
 	Tk_Free3DBorder(self->tkborder);
     }
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 /* a converter function suitable for PyArg_ParseTuple */
@@ -115,7 +115,7 @@ paxborder_Draw3DPolygon(PaxBorderObject * self, PyObject * args)
     
     Tk_Draw3DPolygon(self->tkwin, drawable, self->tkborder, points, npoints,
 		     border_width, left_relief);
-    PyMem_DEL(points);
+    PyMem_Free(points);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -142,7 +142,7 @@ paxborder_Fill3DPolygon(PaxBorderObject * self, PyObject * args)
     
     Tk_Fill3DPolygon(self->tkwin, drawable, self->tkborder, points, npoints,
 		     border_width, left_relief);
-    PyMem_DEL(points);
+    PyMem_Free(points);
 
     Py_INCREF(Py_None);
     return Py_None;

@@ -12,7 +12,7 @@ pax_checkshortlist(int width, PyObject *list, short **parray, int *pnitems)
     }
     n = PyList_Size(list);
     *pnitems = n;
-    *parray = PyMem_NEW(short, n*width);
+    *parray = PyMem_Malloc(sizeof(short) * n*width);
     if (*parray == NULL)
     {
 	PyErr_NoMemory();
@@ -25,7 +25,7 @@ pax_checkshortlist(int width, PyObject *list, short **parray, int *pnitems)
 	if (!PyTuple_Check(item) || PyTuple_Size(item) != width)
 	{
 	    char buf[100];
-	    PyMem_DEL(*parray);
+	    PyMem_Free(*parray);
 	    sprintf(buf, "list of %d-tuples expected", width);
 	    PyErr_SetString(PyExc_TypeError, buf);
 	    return 0;
@@ -35,7 +35,7 @@ pax_checkshortlist(int width, PyObject *list, short **parray, int *pnitems)
 	    PyObject *elem = PyTuple_GetItem(item, j);
 	    if (!PyInt_Check(elem))
 	    {
-		PyMem_DEL(*parray);
+		PyMem_Free(*parray);
 		PyErr_SetString(PyExc_TypeError,
 				"list of tuples of ints expected");
 		return 0;

@@ -381,7 +381,7 @@ static void pixmap_dealloc(PaxPixmapObject *self)
 {
     if (self->owner)
 	XFreePixmap(self->display, self->pixmap);
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 PyTypeObject PaxPixmapType = {
@@ -405,7 +405,7 @@ PyTypeObject PaxPixmapType = {
 PyObject *
 PaxPixmap_FromPixmap(Display *display, Pixmap pixmap, int owner)
 {
-    PaxPixmapObject *p = PyObject_NEW(PaxPixmapObject, &PaxPixmapType);
+    PaxPixmapObject *p = PyObject_New(PaxPixmapObject, &PaxPixmapType);
     if (p == NULL)
 	return NULL;
     p->display = display;

@@ -159,7 +159,7 @@ image_dealloc(PaxImageObject *self)
 #endif
 	XDestroyImage(self->ximage);
     
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 PyTypeObject PaxImageType = {
@@ -193,7 +193,7 @@ PaxImage_AsImage(PyObject *self)
 PyObject *
 PaxImage_FromImage(XImage *ximage)
 {
-	PaxImageObject *self = PyObject_NEW(PaxImageObject, &PaxImageType);
+	PaxImageObject *self = PyObject_New(PaxImageObject, &PaxImageType);
 
 	if (self == NULL)
 		return NULL;

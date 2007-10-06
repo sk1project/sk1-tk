@@ -61,7 +61,7 @@ PaxFont_AsFontStruct(PyObject *self)
 PyObject *
 PaxFont_FromName(Display *display, char *name)
 {
-    PaxFontObject *f = PyObject_NEW(PaxFontObject, &PaxFontType);
+    PaxFontObject *f = PyObject_New(PaxFontObject, &PaxFontType);
     if (f == NULL)
 	return NULL;
     f->from_id = 0;
@@ -69,7 +69,7 @@ PaxFont_FromName(Display *display, char *name)
     f->font_struct = XLoadQueryFont(display, name);
     if (f->font_struct == NULL)
     {
-	PyMem_DEL(f);
+	PyObject_Del(f);
 	PyErr_SetString(PyExc_RuntimeError, "no such font");
 	return NULL;
     }
@@ -79,7 +79,7 @@ PaxFont_FromName(Display *display, char *name)
 PyObject *
 PaxFont_FromFont(Display *display, Font fid)
 {
-    PaxFontObject *f = PyObject_NEW(PaxFontObject, &PaxFontType);
+    PaxFontObject *f = PyObject_New(PaxFontObject, &PaxFontType);
     if (f == NULL)
 	return NULL;
     f->from_id = 1;
@@ -87,7 +87,7 @@ PaxFont_FromFont(Display *display, Font fid)
     f->font_struct = XQueryFont(display, fid);
     if (f->font_struct == NULL)
     {
-	PyMem_DEL(f);
+	PyObject_Del(f);
 	PyErr_SetString(PyExc_RuntimeError, "no such font");
 	return NULL;
     }
@@ -259,7 +259,7 @@ GetAttr(PaxFontObject *self, char *name)
 			"non-int attr not yet supported");
 	return NULL;
     }
-    return PyInt_FromLong(*(long *)((char *)(self->font_struct) + p->offset));
+    return PyInt_FromLong(*(int *)((char *)(self->font_struct) + p->offset));
 }
 
 static void
@@ -269,7 +269,7 @@ Dealloc(PaxFontObject *self)
 	XFreeFontInfo(NULL, self->font_struct, 1);
     else
 	XFreeFont(self->display, self->font_struct);
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 PyTypeObject PaxFontType = {

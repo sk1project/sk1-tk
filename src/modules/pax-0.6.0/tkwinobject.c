@@ -15,7 +15,7 @@ TkWin_FromTkWindow(Tcl_Interp * interp, Tk_Window tkwin)
 {
     TkWinObject * self;
 
-    self = PyObject_NEW(TkWinObject, &TkWinType);
+    self = PyObject_New(TkWinObject, &TkWinType);
     if (self == NULL)
 	return NULL;
 
@@ -47,7 +47,7 @@ TkWin_AsWindowID(PyObject * self)
 static void
 tkwin_dealloc(TkWinObject * self)
 {
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 
@@ -353,7 +353,7 @@ tkwin_CreateImage(TkWinObject *self, PyObject *args)
 			  &data, &datalength, &width, &height, &bitmap_pad,
 			  &bytes_per_line))
 	return NULL;
-    newdata = PyMem_NEW(char, bytes_per_line * height);
+    newdata = PyMem_Malloc(bytes_per_line * height);
     if (newdata == NULL)
 	return PyErr_NoMemory();
     if (data)
@@ -365,7 +365,7 @@ tkwin_CreateImage(TkWinObject *self, PyObject *args)
     if (ximage == NULL)
     {
 	PyErr_SetString(PyExc_RuntimeError, "XCreateImage failed");
-	PyMem_DEL(newdata);
+	PyMem_Free(newdata);
 	return NULL;
     }
     return PaxImage_FromImage(ximage);
@@ -390,7 +390,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
 	return NULL;
 	
     /* create shminfo */
-    shminfo = PyMem_NEW(XShmSegmentInfo, 1);
+    shminfo = PyMem_Malloc(sizeof(XShmSegmentInfo));
     if (shminfo == NULL)
 	return PyErr_NoMemory();
     shminfo->shmid = -1;
@@ -463,7 +463,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
 	    shmdt(shminfo->shmaddr);
 	if (shminfo->shmid != -1)
 	    shmctl(shminfo->shmid, IPC_RMID, 0);
-	PyMem_DEL(shminfo);
+	PyMem_Free(shminfo);
     }
     return NULL;
 }
@@ -508,7 +508,7 @@ static PyObject * try_shm_image(TkWinObject * self)
     XShmSegmentInfo * shminfo = NULL;
 	
     /* create shminfo */
-    shminfo = PyMem_NEW(XShmSegmentInfo, 1);
+    shminfo = PyMem_Malloc(sizeof(XShmSegmentInfo));
     if (shminfo == NULL)
 	return PyErr_NoMemory();
     shminfo->shmid = -1;
@@ -551,7 +551,7 @@ static PyObject * try_shm_image(TkWinObject * self)
 	XDestroyImage(ximage);
 	shmdt(shminfo->shmaddr);
 	shmctl(shminfo->shmid, IPC_RMID, 0);
-	PyMem_DEL(shminfo);
+	PyMem_Free(shminfo);
 	Py_INCREF(Py_None);
 	return Py_None;
     }
@@ -567,7 +567,7 @@ static PyObject * try_shm_image(TkWinObject * self)
 	    shmdt(shminfo->shmaddr);
 	if (shminfo->shmid != -1)
 	    shmctl(shminfo->shmid, IPC_RMID, 0);
-	PyMem_DEL(shminfo);
+	PyMem_Free(shminfo);
     }
     return NULL;
 }
@@ -704,7 +704,7 @@ tkwin_PolygonRegion(TkWinObject *self, PyObject *args)
 	return NULL;
     }
     reg = XPolygonRegion(points, npoints, fill_rule);
-    PyMem_DEL(points);
+    PyMem_Free(points);
     if (reg == NULL)
 	return PyErr_NoMemory();
     return PaxRegion_FromRegion(reg);

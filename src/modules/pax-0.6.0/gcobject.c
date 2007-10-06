@@ -140,7 +140,7 @@ pax_checkcharlist(PyObject *list, char **parray, int *pnitems)
     
     n = PyList_Size(list);
     *pnitems = n;
-    *parray = PyMem_NEW(char, n);
+    *parray = PyMem_Malloc(n);
     if (*parray == NULL)
     {
 	PyErr_NoMemory();
@@ -152,7 +152,7 @@ pax_checkcharlist(PyObject *list, char **parray, int *pnitems)
 	PyObject *item = PyList_GetItem(list, i);
 	if (!PyInt_Check(item))
 	{
-	    PyMem_DEL(*parray);
+	    PyMem_Free(*parray);
 	    PyErr_SetString(PyExc_TypeError, "list of ints expected");
 	    return 0;
 	}
@@ -180,7 +180,7 @@ PyObject *
 PaxGC_FromGC(Display *display, Drawable drawable, GC gc, int shared,
 	     PyObject * drawable_object)
 {
-    PaxGCObject *gp = PyObject_NEW(PaxGCObject, &PaxGCType);
+    PaxGCObject *gp = PyObject_New(PaxGCObject, &PaxGCType);
     if (gp == NULL)
 	return NULL;
     gp->display = display;
@@ -243,7 +243,7 @@ PaxGC_SetDashes(PaxGCObject * self, PyObject * args)
 	return NULL;
 
     XSetDashes(self->display, self->gc, dash_offset, dashes, num_dashes);
-    PyMem_DEL(dashes);
+    PyMem_Free(dashes);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -480,7 +480,7 @@ Dealloc(PaxGCObject *self)
     else if (self->shared == PAXGC_OWNED)
 	XFreeGC(self->display, self->gc);
     Py_XDECREF(self->drawable_object);
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 PyTypeObject PaxGCType =

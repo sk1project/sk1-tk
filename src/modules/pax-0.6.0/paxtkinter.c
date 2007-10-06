@@ -504,7 +504,7 @@ Tkapp_New(char *screenName, char *baseName, char *className, int interactive)
 	TkappObject *v;
 	char *argv0;
   
-	v = PyObject_NEW(TkappObject, &Tkapp_Type);
+	v = PyObject_New(TkappObject, &Tkapp_Type);
 	if (v == NULL)
 		return NULL;
 
@@ -1201,7 +1201,7 @@ PythonCmdDelete(ClientData clientData)
 	ENTER_PYTHON
 	Py_XDECREF(data->self);
 	Py_XDECREF(data->func);
-	PyMem_DEL(data);
+	PyMem_Free(data);
 	LEAVE_PYTHON
 }
 
@@ -1222,7 +1222,7 @@ Tkapp_CreateCommand(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	data = PyMem_NEW(PythonCmd_ClientData, 1);
+	data = PyMem_Malloc(sizeof(PythonCmd_ClientData));
 	if (!data)
 		return NULL;
 	Py_XINCREF(self);
@@ -1236,7 +1236,7 @@ Tkapp_CreateCommand(PyObject *self, PyObject *args)
 	LEAVE_TCL
 	if (err == NULL) {
 		PyErr_SetString(Tkinter_TclError, "can't create Tcl command");
-		PyMem_DEL(data);
+		PyMem_Free(data);
 		return NULL;
 	}
 
@@ -1283,7 +1283,7 @@ static FileHandler_ClientData *
 NewFHCD(PyObject *func, PyObject *file, int id)
 {
 	FileHandler_ClientData *p;
-	p = PyMem_NEW(FileHandler_ClientData, 1);
+	p = PyMem_Malloc(sizeof(FileHandler_ClientData));
 	if (p != NULL) {
 		Py_XINCREF(func);
 		Py_XINCREF(file);
@@ -1307,7 +1307,7 @@ DeleteFHCD(int id)
 			*pp = p->next;
 			Py_XDECREF(p->func);
 			Py_XDECREF(p->file);
-			PyMem_DEL(p);
+			PyMem_Free(p);
 		}
 		else
 			pp = &p->next;
@@ -1478,7 +1478,7 @@ Tktt_New(PyObject *func)
 {
 	TkttObject *v;
   
-	v = PyObject_NEW(TkttObject, &Tktt_Type);
+	v = PyObject_New(TkttObject, &Tktt_Type);
 	if (v == NULL)
 		return NULL;
 
@@ -1499,7 +1499,7 @@ Tktt_Dealloc(PyObject *self)
 
 	Py_XDECREF(func);
 
-	PyMem_DEL(self);
+	PyObject_Del(self);
 }
 
 static PyObject *
@@ -1825,7 +1825,7 @@ Tkapp_Dealloc(PyObject *self)
 	ENTER_TCL
 	Tcl_DeleteInterp(Tkapp_Interp(self));
 	LEAVE_TCL
-	PyMem_DEL(self);
+	PyObject_Del(self);
 	DisableEventHook();
 }
 

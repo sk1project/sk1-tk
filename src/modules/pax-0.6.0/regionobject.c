@@ -8,7 +8,7 @@ PyObject *
 PaxRegion_FromRegion(Region region)
 {
     PaxRegionObject  *self;
-    self = PyObject_NEW(PaxRegionObject,  &PaxRegionType);
+    self = PyObject_New(PaxRegionObject,  &PaxRegionType);
     if (self == NULL)
 	return NULL;
     self->region  = region;
@@ -178,7 +178,7 @@ static void
 region_dealloc(PaxRegionObject  *self)
 {
     XDestroyRegion(self->region);
-    PyMem_DEL(self);
+    PyObject_Del(self);
 }
 
 

@@ -675,12 +675,18 @@ do_one_event(PyObject * self, PyObject * args)
     return PyInt_FromLong(Tcl_DoOneEvent(flags));
 }
 
+static PyObject *
+key_for_object(PyObject *obj)
+{
+    char id[20];
+    sprintf(id, "%ld", (long)obj);
+    return PyString_FromString(id);
+}
 
 static PyObject *
 register_object(PyObject * self, PyObject * args)
 {
-    PyObject * obj;
-    char id[20];
+    PyObject * obj, *key;
     int result;
 
     if (!PyArg_ParseTuple(args, "O", &obj))
@@ -693,21 +699,22 @@ register_object(PyObject * self, PyObject * args)
 	    return NULL;
     }
 
-    sprintf(id, "%ld", (long)obj);
-    result = PyDict_SetItemString(object_registry, id, obj);
+    key = key_for_object(obj);
+    result = PyDict_SetItem(object_registry, key, obj);
 
     if (result < 0)
+    {
+	Py_DECREF(key);
 	return NULL;
+    }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+    return key;
 }
 
 static PyObject *
 unregister_object(PyObject * self, PyObject * args)
 {
     PyObject * obj;
-    char id[20];
     int result;
 
     if (!PyArg_ParseTuple(args, "O", &obj))
@@ -715,10 +722,11 @@ unregister_object(PyObject * self, PyObject * args)
 
     if (object_registry)
     {
-	sprintf(id, "%ld", (long)obj);
-	result = PyDict_DelItemString(object_registry, id);
+	PyObject *key = key_for_object(obj);
+	result = PyDict_DelItem(object_registry, key);
 	if (result < 0)
 	    PyErr_Clear();
+	Py_DECREF(key);
     }
     Py_INCREF(Py_None);
     return Py_None;
