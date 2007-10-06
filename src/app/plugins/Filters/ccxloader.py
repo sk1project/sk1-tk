@@ -242,7 +242,7 @@ class CCXFile:
 		self.bitmapindex = [None,]
 		self.embeddedindex = [None,]
 		self.arrowindex = [None,]
-		self.verbosity = 1
+		self.verbosity = 0
 		self.angle_factor = 1
 		self.pages = []
 
