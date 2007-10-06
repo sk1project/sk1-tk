@@ -84,7 +84,7 @@ cd Filter
 sed 's/_MY_INSTALL_DIR_/'"$myEPREFIX"'/g' Makefile.pre.in |sed 's/_MY_INSTALL_PREFIX_/'"$myEPREFIX"'/g'> Makefile.pre; rm -f Makefile.pre.in;mv Makefile.pre Makefile.pre.in
 
 OPERATION="make -f"
-make -f Makefile.pre.in Makefile VERSION=2.4 installdir=$RE_PREFIX
+make -f Makefile.pre.in Makefile VERSION=2.5 installdir=$RE_PREFIX
 check
 OPERATION="make"
 make
@@ -109,7 +109,7 @@ myTCL_LIBS=`echo $RE_PREFIX/lib|sed 's/\//\\\ \//g'|sed 's/ \//\//g'`
 sed 's/_MY_TCL_HEADERS_/'"$myTCL_HEADERS"'/g' Setup.in |sed 's/_MY_TCL_LIBS_/'"$myTCL_LIBS"'/g'> Setup.in.pre; rm -f Setup.in; mv Setup.in.pre Setup.in
 
 OPERATION="make -f"
-make -f Makefile.pre.in Makefile VERSION=2.4 installdir=$RE_PREFIX
+make -f Makefile.pre.in Makefile VERSION=2.5 installdir=$RE_PREFIX
 check
 OPERATION="make"
 make
@@ -137,7 +137,7 @@ sed 's/_MY_TCL_HEADERS_/'"$myTCL_HEADERS"'/g' Setup.in |sed 's/_MY_TCL_LIBS_/'"$
 sed 's/_MY_INSTALL_DIR_/'"$myEPREFIX"'/g' Makefile.pre.in |sed 's/_MY_INSTALL_PREFIX_/'"$myEPREFIX"'/g'> Makefile.pre; rm -f Makefile.pre.in;mv Makefile.pre Makefile.pre.in
 
 OPERATION="make -f"
-make -f Makefile.pre.in Makefile VERSION=2.4 installdir=$RE_PREFIX
+make -f Makefile.pre.in Makefile VERSION=2.5 installdir=$RE_PREFIX
 check
 OPERATION="make"
 make
