@@ -983,8 +983,10 @@ class MyEntry(Tkinter.Entry, WidgetWithCommand):
 class PyWidget(Widget, SketchDropTarget):
 
 	def __init__(self, master=None, **kw):
-		pax.register_object(self)
-		kw['pyobject'] = id(self)
+		#pax.register_object(self)
+		key = pax.register_object(self)
+		kw['pyobject'] = key
+		#kw['pyobject'] = id(self)
 		kw['class'] = self.__class__.__name__
 		Widget.__init__(self, master, 'paxwidget', kw = kw)
 		self.InitTkWinObject(pax.name_to_window(self._w, self.tk.interpaddr()))
