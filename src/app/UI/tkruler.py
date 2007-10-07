@@ -204,7 +204,7 @@ class Ruler(Canvas):
 	def draw_ruler_horizontal(self):
 		height = int(self.winfo_height())
 		width = int(self.winfo_width())      
-		self.create_line(0, height-2, width, height-2, fill=config.preferences.ruler_tick_color)
+		self.create_line(0, height-1, width, height-1, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
 		for h, pos in ticks:
 			self.create_line(pos, height - h, pos, height, fill=config.preferences.ruler_tick_color)
@@ -217,7 +217,7 @@ class Ruler(Canvas):
 	def draw_ruler_vertical(self):
 		height = int(self.winfo_height())
 		width = int(self.winfo_width()) 
-		self.create_line(width-2, 0, width-2, height, fill=config.preferences.ruler_tick_color)
+		self.create_line(width-1, 0, width-1, height, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
 		for h, pos in ticks:
 			pos = height - pos

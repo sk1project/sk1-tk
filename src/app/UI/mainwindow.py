@@ -666,21 +666,23 @@ class SketchMainWindow(Publisher):
 		####################################
 		#tempframe = Frame(root, name = 'temp_frame')
 		
-		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, bg=config.preferences.ruler_color, border=0, relief='flat') 
-		
-		hrule.pack(side = TOP, fill=X)
+		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, 
+							  bg=config.preferences.ruler_color, bd=0, highlightthickness=0, relief='flat') 
 		
 		hrule.grid(in_ = frame, column = 2, row = 0, sticky = 'nsew', columnspan = 2)
 		hrule.bind('<Double-Button-1>', self.RulerDoublePressH)
 		
 		####################################
 
-		vrule = tkruler.Ruler(frame, orient = tkruler.VERTICAL, bg=config.preferences.ruler_color, border=0)
+		vrule = tkruler.Ruler(frame, orient = tkruler.VERTICAL,
+							  bg=config.preferences.ruler_color, bd=0, highlightthickness=0, relief='flat')
+		
 		vrule.grid(in_ = frame, column = 1, row = 1, sticky = 'nsew', rowspan = 2)
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		
 		#ruler corner 
 		b = TButton(frame, command=self.GuideDialog, style="TCornerButton", image="icon_dlg_guides", takefocus=0)
+		#b = TLabel(frame, style='FlatLabel')
 		tooltips.AddDescription(b, self.commands.CreateGuideDialog.menu_name)
 		b.grid(column = 1, row = 0, sticky = 'news')
 		#ruler corner  //
