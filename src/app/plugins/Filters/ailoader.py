@@ -1064,17 +1064,17 @@ class AILoader(GenericLoader):
 					self.skip_to_dsc('EndProcSet', 'EndProlog')
 				elif keyword == 'BeginResource':
 					self.skip_to_dsc('EndResource', 'EndProlog')
-				elif keyword == 'Creator':
-					# try to determine whether the file really is an
-					# illustrator file as opposed to some other EPS
-					# file. It seems that Illustrator itself only
-					# accepts EPS files as illustrator files if they
-					# contain "Adobe Illustrator" in their Create
-					# DSC-comment
-					if string.find(value, "Adobe Illustrator") == -1:
-						self.add_message("This is probably not an"
-											" Illustrator file."
-											" Try embedding it as EPS")
+				#elif keyword == 'Creator':
+					## try to determine whether the file really is an
+					## illustrator file as opposed to some other EPS
+					## file. It seems that Illustrator itself only
+					## accepts EPS files as illustrator files if they
+					## contain "Adobe Illustrator" in their Create
+					## DSC-comment
+					#if string.find(value, "Adobe Illustrator") == -1:
+						#self.add_message("This is probably not an"
+											#" Illustrator file."
+											#" Try embedding it as EPS")
 			if token == END:
 				return
 
