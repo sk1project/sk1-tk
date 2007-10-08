@@ -54,7 +54,7 @@ def openfiletypes():
 	return types
 
 def importfiletypes():
-	types=' \'*.sK1 *.sk1 *.SK1 *.sk *.SK *.ai *.AI *.eps *.EPS'
+	types=' \'*.sK1 *.sk1 *.SK1 *.sk *.SK *.ai *.AI *.eps *.EPS *.ps *.PS'
 	types=types+'*.cmx *.CMX *.cdr *.CDR *.cdt *.CDT *.ccx *.CCX'
 	types=types+'*.cgm *.CGM *.aff *.AFF *.svg *.SVG *.wmf *.WMF *.fig *.FIG'
 	types=types+'|All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. \n'
@@ -63,6 +63,7 @@ def importfiletypes():
 	types=types+' *.sk *.SK|Sketch and Skencil files - *.sk \n'
 	types=types+' *.ai *.AI|Adobe Illustrator files (up to ver. 9.0) - *.ai \n'
 	types=types+' *.eps *.EPS|Encapsulated PostScript files - *.eps \n'
+	types=types+' *.ps *.PS|PostScript files - *.ps \n'
 	types=types+' *.cdr *.CDR|CorelDRAW Graphics files (7-X3 ver.) - *.cdr \n'
 	types=types+' *.cdt *.CDT|CorelDRAW Templates files (7-X3 ver.) - *.cdt \n'	
 	types=types+' *.cmx *.CMX|CorelDRAW Presentation Exchange files - *.cmx \n'

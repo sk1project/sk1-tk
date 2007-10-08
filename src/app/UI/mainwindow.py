@@ -681,8 +681,10 @@ class SketchMainWindow(Publisher):
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		
 		#ruler corner 
-		b = TButton(frame, command=self.GuideDialog, style="TCornerButton", image="icon_dlg_guides", takefocus=0)
+		b = TLabel(frame, style="FlatLabel", image="rulers_corner")
+		#b = TButton(frame, command=self.GuideDialog, style="TCornerButton", image="icon_dlg_guides", takefocus=0)
 		#b = TLabel(frame, style='FlatLabel')
+		b.bind('<Button-1>', self.GuideDialog)
 		tooltips.AddDescription(b, self.commands.CreateGuideDialog.menu_name)
 		b.grid(column = 1, row = 0, sticky = 'news')
 		#ruler corner  //
@@ -1584,7 +1586,7 @@ class SketchMainWindow(Publisher):
 			self.CreateDialog('dlg_layer', 'LayerPanel')
 	def MenuOne(self):
 			self.CreateDialog('menu1', 'Menu1')
-	def GuideDialog(self):
+	def GuideDialog(self, action=None):
 			self.CreateDialog('dlg_guide', 'GuidePanel')
 
 	def AboutBox(self):
