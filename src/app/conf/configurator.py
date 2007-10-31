@@ -367,6 +367,15 @@ class Preferences(connector.Publisher):
 	use_cms=1
 	simulate_printer=0
 	#------------------------------------
+	
+	#---------Open/save managment----
+	dir_for_open='~'
+	dir_for_save='~'
+	dir_for_vector_import='~'
+	dir_for_vector_export='~'
+	dir_for_bitmap_import='~'
+	dir_for_bitmap_export='~'
+	#------------------------------------
 
 	#RULER data
 	ruler_min_tick_step = 4

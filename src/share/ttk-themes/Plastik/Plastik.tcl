@@ -611,7 +611,7 @@ namespace eval ttk::theme::Plastik {
 		Scrollbar.uparrow -side top 
                 Scrollbar.downarrow -side bottom
                 Scrollbar.uparrow -side bottom
-                Vertical.Scrollbar.thumb -side top -expand true -sticky ns  -children {
+                Vertical.Scrollbar.thumb -side top -expand true -sticky ns -unit 1 -children {
 			Vertical.Scrollbar.label -expand true -sticky we
 		}
             }
@@ -622,7 +622,7 @@ namespace eval ttk::theme::Plastik {
                 Scrollbar.leftarrow -side left
                 Scrollbar.rightarrow -side right
                 Scrollbar.leftarrow -side right
-		Horizontal.Scrollbar.thumb -side left -expand true -sticky we -children {
+		Horizontal.Scrollbar.thumb -side left -expand true -sticky we -unit 1 -children {
 			Horizontal.Scrollbar.label -expand true -sticky ns
 		}
             }
