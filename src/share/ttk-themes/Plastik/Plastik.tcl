@@ -27,8 +27,15 @@ namespace eval ttk::theme::Plastik {
 	    if {![info exists K($img)]} {
 		set K($img) [image create photo -format "png" -file $file]
 	    }
-	}
-
+	}	
+   
+	foreach file [glob -directory $imgdir *.xbm] {	    
+	    set img [file tail [file rootname $file]]
+	    if {![info exists B($img)]} {
+		image create bitmap $img -file $file -foreground [.testEntry cget -background]
+	    }
+	}	
+	
     namespace import -force ::ttk::style
 	style theme create Plastik -parent alt -settings {
     
@@ -64,7 +71,7 @@ namespace eval ttk::theme::Plastik {
             ;
 
         style map . -foreground [list disabled [.testEntry cget -disabledforeground]]
-	
+		
 # ------------------------------------Frame-----------------------------------------------------
 		style layout ToolBarFrame {
 			ToolBarFrame.panel
@@ -608,54 +615,78 @@ namespace eval ttk::theme::Plastik {
 # -------------------------------------Scrollbars----------------------------------------------------- 
         style layout Vertical.TScrollbar {
             Scrollbar.vscrollbg -children {
-		Scrollbar.uparrow -side top 
-                Scrollbar.downarrow -side bottom
-                Scrollbar.uparrow -side bottom
-                Vertical.Scrollbar.thumb -side top -expand true -sticky ns -unit 1 -children {
-			Vertical.Scrollbar.label -expand true -sticky we
-		}
+				Scrollbar.uparrow -side top -unit 1 -children {
+						Scrollbar.uparrowface -side top
+				}
+                Scrollbar.downarrow -side bottom -unit 1 -children {
+						Scrollbar.downarrowface -side bottom
+				}
+                Scrollbar.uparrow -side bottom -unit 1 -children {
+						Scrollbar.uparrowface -side top
+				}
+                Vertical.Scrollbar.thumb -side top -expand true -sticky wens -unit 1 -children {
+						Vertical.Scrollbar.thumbface -side top -expand true -sticky ns -children {
+								Vertical.Scrollbar.label -expand true -sticky we
+					}
+				}
             }
         }
 
         style layout Horizontal.TScrollbar { 
 	    Scrollbar.hscrollbg -children {
-                Scrollbar.leftarrow -side left
-                Scrollbar.rightarrow -side right
-                Scrollbar.leftarrow -side right
-		Horizontal.Scrollbar.thumb -side left -expand true -sticky we -unit 1 -children {
-			Horizontal.Scrollbar.label -expand true -sticky ns
-		}
+                Scrollbar.leftarrow -side left -unit 1 -children {
+						Scrollbar.leftarrowface -side left
+				}
+                Scrollbar.rightarrow -side right -unit 1 -children {
+						Scrollbar.rightarrowface -side right
+				}
+                Scrollbar.leftarrow -side right -unit 1 -children {
+						Scrollbar.leftarrowface -side left
+				}
+				Horizontal.Scrollbar.thumb -side left -expand true -sticky wens -unit 1 -children {
+						Horizontal.Scrollbar.thumbface -side left -expand true -sticky we -children {
+								Horizontal.Scrollbar.label -expand true -sticky ns
+					}
+				}
             }
         }
 
         style configure TScrollbar -width 16 
 # -------------------------------------Vertical.Scrollbar Definition-------------------------------------------------   
-        style element create Vertical.Scrollbar.thumb image [list $K(vscroll_thumb)  \
+        style element create Vertical.Scrollbar.thumb image "sb_bg_mask" \
+				-border {1 1 1 1} -padding {0 0 0 0} -width 16 -height 22 -sticky news
+	
+        style element create Vertical.Scrollbar.thumbface image [list $K(vscroll_thumb)  \
 				{pressed !disabled} $K(vscroll_thumb_pressed)] \
 				-border {3 6 3 6} -width 16 -height 22 -sticky news
-	
-
-        style element create vscrollbg image $K(clear)
-	
+				
+        style element create vscrollbg image $K(vscroll_bg) 
+		#"bg_mask"	
 		style element create Vertical.Scrollbar.label  image $K(vscroll_grave) 
 	
-        style element create uparrow image [list $K(vscroll_up_arrow)  {pressed !disabled} $K(vscroll_up_arrow_pressed)]
+        style element create uparrowface image [list $K(vscroll_up_arrow)  {pressed !disabled} $K(vscroll_up_arrow_pressed)]
+		style element create uparrow image "vscroll_up_arrow_mask"
 		
-        style element create downarrow image [list $K(vscroll_down_arrow) {pressed !disabled} $K(vscroll_down_arrow_pressed)]
+        style element create downarrowface image [list $K(vscroll_down_arrow) {pressed !disabled} $K(vscroll_down_arrow_pressed)]
+		style element create downarrow image "vscroll_down_arrow_mask"
 
 # -----------------------------------------------Horizontal.Scrollbar Definition--------------------------------------
-        style element create hscrollbg image $K(clear)  
+        style element create hscrollbg image $K(hscroll_bg)  
 
-		style element create Horizontal.Scrollbar.thumb image [list $K(hscroll_thumb) \
+		style element create Horizontal.Scrollbar.thumb image "sb_bg_mask" \
+				-border {1 1 1 1} -padding {0 0 0 0} -width 22 -height 16 -sticky news
+
+		style element create Horizontal.Scrollbar.thumbface image [list $K(hscroll_thumb) \
 				{pressed !disabled} $K(hscroll_thumb_pressed)] \
 				-border {6 3 6 3} -width 22 -height 16 -sticky news
-			
 	    
 		style element create Horizontal.Scrollbar.label  image $K(hscroll_grave) 
 
-        style element create rightarrow image [list $K(hscroll_right_arrow) {pressed !disabled} $K(hscroll_right_arrow_pressed)]
+        style element create rightarrowface image [list $K(hscroll_right_arrow) {pressed !disabled} $K(hscroll_right_arrow_pressed)]
+		style element create rightarrow image "hscroll_right_arrow_mask"
 
-        style element create leftarrow image [list $K(hscroll_left_arrow) {pressed !disabled} $K(hscroll_left_arrow_pressed)]
+        style element create leftarrowface image [list $K(hscroll_left_arrow) {pressed !disabled} $K(hscroll_left_arrow_pressed)]
+		style element create leftarrow image "hscroll_left_arrow_mask"
        
 # ---------------------------------------------------------------------------------------------------------------------------------	    
 	    
