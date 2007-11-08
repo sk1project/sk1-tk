@@ -96,6 +96,7 @@ static PyMethodDef curve_functions[] = {
     {"DrawBezier",		SKAux_DrawBezier,		1},
     {"GetPixel",		SKAux_GetPixel,			1},
     {"DrawGrid",		SKAux_DrawGrid,			1},
+    {"DrawGridAsLines",		SKAux_DrawGridAsLines,		1},
     {"TransformRectangle",	SKAux_TransformRectangle,	1},
     {"IdIndex",			SKAux_IdIndex,			1},
     {"xlfd_char_range",		xlfd_char_range,		1},

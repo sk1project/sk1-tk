@@ -148,8 +148,8 @@ class Viewport:
 		# Clear all areas marked as invalid by clear_area_doc() or
 		# clear_window(). These areas are added to REGION via its
 		# UnionRectWithRegion method. This function should be called by
-		# RedrawMethod() before any drawing is done.
-		
+		# RedrawMethod() before any drawing is done		
+
 		if config.preferences.cairo_enabled == 1:
 			self.clear_entire_window = 1
 		if region and not self.clear_entire_window:

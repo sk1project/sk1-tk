@@ -371,6 +371,26 @@ tkwin_CreateImage(TkWinObject *self, PyObject *args)
     return PaxImage_FromImage(ximage);
 }
 
+static PyObject *
+tkwin_GetImage(TkWinObject *self, PyObject *args)
+{
+    unsigned int srcX, srcY, width, height;
+    XImage *ximage;
+
+    if (!PyArg_ParseTuple(args, "iiii", &srcX, &srcY, &width, &height))
+	return NULL;
+
+    ximage = XGetImage(Tk_Display(self->tkwin), Tk_WindowId(self->tkwin), srcX, srcY,
+	width, height, AllPlanes, ZPixmap);
+
+    if (ximage == NULL)
+    {
+	PyErr_SetString(PyExc_RuntimeError, "XGetImage failed");
+	return NULL;
+    }
+    return PaxImage_FromImage(ximage);
+}
+
 #ifndef PAX_NO_XSHM
 static PyObject *
 tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
@@ -796,6 +816,7 @@ static struct PyMethodDef tkwin_methods[] = {
     {"ListFonts",	(PyCFunction)tkwin_ListFonts,		1},
     {"LoadQueryFont",	(PyCFunction)tkwin_LoadQueryFont,	1},
     {"CreateImage",	(PyCFunction)tkwin_CreateImage,		1},
+    {"GetImage",	(PyCFunction)tkwin_GetImage,		1},
     {"SetBackground",	(PyCFunction)tkwin_SetBackground,	1},
     {"SetBorder",	(PyCFunction)tkwin_SetBorder,		1},
     {"SetBorderWidth",	(PyCFunction)tkwin_SetBorderWidth,	1},

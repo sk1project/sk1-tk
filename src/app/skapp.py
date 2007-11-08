@@ -121,6 +121,9 @@ class TkApplication:
 
 	def init_tk(self, screen_name = None, geometry = None):
 		self.root = Tk(screenName = screen_name, baseName = self.tk_basename, className = self.tk_class_name)
+		app.root=self.root
+		
+		
 		from app.managers.uimanager import  UIManager
 		app.uimanager=UIManager(self.root)
 		

@@ -241,8 +241,12 @@ class Preferences(connector.Publisher):
 	#If the grid should be visible in a new document, set grid_visible to a true value
 	grid_visible = 0
 	
+	#Grid style: 0 - dotted; 1- lines
+	grid_style = 1
+	
 	#The grid color of a new document as a tuple of RGB values in the range 0..1. E.g. (0, 0, 1) for blue
-	grid_color = ('RGB', 0, 0, 1)
+	#grid_color = ('RGB', 0, 0, 1)
+	grid_color = ('RGB', 0.83, 0.87, 0.91)
 	
 	#The outline color of a new GuideLayer as a tuple of RGB values in the range 0..1.
 	guide_color = ('RGB', 0, 0.3, 1)

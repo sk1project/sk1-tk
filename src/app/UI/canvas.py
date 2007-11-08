@@ -103,7 +103,7 @@ def selection_type(state):
 class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	document = None
-	commands = None
+	commands = None	
 
 	context_menu_items = ['ZoomOut',
 							'ZoomIn',
@@ -136,6 +136,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def __init__(self, master=None, toplevel = None, main_window = None,
 					document = None, **kw):
+		self.start_event=1
+		self.bitmap_buffer=None
+		self.exposed_after_covering=0
 		self.init_handles()
 		self.init_modes()
 		self.init_cross_hairs()
@@ -145,7 +148,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.snap_to_object = 0
 		self.snap_to_guide = 0
 		self.snap_correction_rect = 1
-		self.snap_move_relative = 0 #1
+		self.snap_move_relative = 0 #1		
 		apply(SketchView.__init__, (self, master, toplevel, document), kw)
 		CursorStack.__init__(self, const.CurStd, self.set_handle_cursor)
 
@@ -223,6 +226,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.bind('<KeyRelease>', self.KeyReleaseEvent)
 		self.bind('<Leave>', self.LeaveEvent)
 		self.bind('<Enter>', self.EnterEvent)
+		self.bind('<Expose>', self.ExposeEvent)
+		self.bind('<Visibility>', self.VisibilityEvent)
 		self.last_event = None
 		
 		
@@ -455,10 +460,27 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 	#	Widget Methods (Redraw, ... )
 	#
+	def ExposeEvent(self, event):
+		if self.start_event:
+			self.start_event=0
+		else:
+			self.exposed_after_covering=1
+		print 'ExposeEvent', event	
+		
+	def VisibilityEvent(self, event):
+		#if self.start_event:
+			#self.start_event=0
+		#else:
+			#self.exposed_after_covering=1
+		print 'VisibilityEvent', event	
 
 	def RedrawMethod(self, region = None):
 		#self.hide_handles()
-		#print 'RedrawMethod', region
+		if self.exposed_after_covering:
+			self.exposed_after_covering=0			
+			self.put_buffer_bitmap()
+			return
+		print 'RedrawMethod', region
 		if hasattr(preferences, 'profile_redraw'):
 			import profile
 			warn(INTERNAL, 'profiling...')
@@ -489,7 +511,27 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		# scroll bar to scroll by a page could scroll twice for a
 		# complex drawing.
 		self.tkwin.Sync()
+		
+		self.save_bitmap_buffer()
+		
 
+	def save_bitmap_buffer(self):
+		w=self.gc.widget
+		print app.root.winfo_viewable()
+		if app.root.winfo_viewable():
+			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)			
+			print 'BUFFER UPDATE!'
+		else:
+			self.bitmap_buffer=None
+
+		
+	def put_buffer_bitmap(self):
+		if not self.bitmap_buffer==None:
+			print 'REPAINT!'
+			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
+		else:
+			self.RedrawMethod()
+			
 	#
 	#	Event handler
 	#
@@ -515,6 +557,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 							self.ignore_key_press_events = 0
 		finally:
 			self.end_transaction()
+		if event.button == const.Button1:
+			self.save_bitmap_buffer()
 
 	def PointerMotionEvent(self, event):
 		# handle Motion events

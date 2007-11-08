@@ -1391,7 +1391,12 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		ny = int((rect.top - rect.bottom) / ywidth) + 2
 		if self.line:
 			self.properties.ExecuteLine(self)
-		_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+		self.gc.line_width = 0
+		if config.preferences.grid_style:
+			_sketch.DrawGridAsLines(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+		else:
+			_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+		
 
 	def DrawGuideLine(self, point, horizontal):
 		temp_scale=self.scale

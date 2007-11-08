@@ -65,6 +65,54 @@ SKAux_DrawGrid(PyObject * self, PyObject * arg)
 
 
 PyObject *
+SKAux_DrawGridAsLines(PyObject * self, PyObject * arg)
+{
+    double	xwidth, ywidth;
+    double	orig_x, orig_y;
+    PaxGCObject *gc_object;
+    int		nx, ny;
+    int		ix, iy, x1, y1, x2, y2;
+//     XPoint	* points, *current;
+
+    if (!PyArg_ParseTuple(arg, "O!ddddii", Pax_GCType, &gc_object, &orig_x,
+			  &orig_y, &xwidth, &ywidth, &nx, &ny))
+	return NULL;
+
+//     points = malloc(sizeof(XPoint) * nx * ny);
+// 
+//     current = points;
+	for (ix = 0; ix < nx; ix++)
+	{
+		y1 = 0;
+		y2 = (int)rint(ywidth * ny);
+		x1 = (int)rint(orig_x + xwidth * ix);
+		x2 = (int)rint(orig_x + xwidth * ix);
+		XDrawLine(gc_object->display, gc_object->drawable,
+			gc_object->gc, x1, y1, x2, y2);	
+	}
+	for (iy = 0; iy < ny; iy++)
+	{
+// 	    current->x = (int)rint(orig_x + xwidth * ix);
+// 	    current->y = (int)rint(orig_y + ywidth * iy);
+// 	    current++;
+		x1 = 0;
+		x2 = (int)rint(xwidth * nx);
+		y1 = (int)rint(orig_y + ywidth * iy);
+		y2 = (int)rint(orig_y + ywidth * iy);
+		XDrawLine(gc_object->display, gc_object->drawable,
+			gc_object->gc, x1, y1, x2, y2);
+	}
+
+//     XDrawLines(gc_object->display, gc_object->drawable,
+// 		gc_object->gc, points, nx * ny, CoordModeOrigin);
+//     free(points);
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+
+PyObject *
 SKAux_GetPixel(PyObject * self, PyObject * arg)
 {
     XImage  * image;
