@@ -1,0 +1,28 @@
+include MANIFEST.in
+include README setup.cfg
+include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
+include src/sk1
+include src/extentions/filter/README
+include src/extentions/tkpng/license.terms
+include src/extentions/tkpng/README
+include src/app/modules/descr.txt
+include src/app/modules/pkgIndex.tcl
+include src/app/VERSION
+include src/app/tkdefaults
+recursive-include src/share *.*
+recursive-include src/share/icc *.*
+recursive-include src/share/fonts *.*
+recursive-include src/share/ps_templates *.*
+recursive-include src/share/ps_templates *.*
+recursive-include src/extentions/filter *.h
+recursive-include src/extentions/skmod *.h
+recursive-include src/extentions/pstokenize *.h
+recursive-include src/extentions/pax *.h
+recursive-include src/app/plugins/Filters *.py
+recursive-include src/app/plugins/Objects *.py
+recursive-include src/app/plugins/Objects/Lib/multilinetext *.py
+recursive-include src/app/tcl *.tcl
+
+
+
+
