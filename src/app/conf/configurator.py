@@ -291,7 +291,7 @@ class Preferences(connector.Publisher):
 	#The standard palette. If this is a relative pathname it is
 	#interpreted relative to std_res_dir.
 	palette = 'standard.spl'	
-	unipalette = 'CMYK standart.skp'
+	unipalette = 'CMYK_standart.skp'
 	arrows = 'standard.arrow'
 	dashes = 'standard.dashes'
 	pattern = 'pattern.ppm'
