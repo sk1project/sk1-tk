@@ -33,14 +33,111 @@
 #
 
 from distutils.core import setup, Extension
-
+import os, sys
 ########################
 #
 # Main build procedure
 #
 ########################
 
+#Return directory list for provided path
+def get_dirs(path='.'):
+	list=[]
+	if path:
+		if os.path.isdir(path):
+			try:
+				names = os.listdir(path)
+			except os.error:
+				return []
+		names.sort()
+		for name in names:
+			if os.path.isdir(os.path.join(path, name)):
+				list.append(name)
+		return list
+			
+#Return full  directory names list for provided path	
+def get_dirs_withpath(path='.'):
+	list=[]
+	names=[]
+	if os.path.isdir(path):
+		try:
+			names = os.listdir(path)
+		except os.error:
+			return names
+	names.sort()
+	for name in names:
+		if os.path.isdir(os.path.join(path, name)) and not name=='.svn':
+			list.append(os.path.join(path, name))
+	return list
+
+#Return file list for provided path
+def get_files(path='.', ext='*'):	
+	list=[]
+	if path:
+		if os.path.isdir(path):
+			try:
+				names = os.listdir(path)
+			except os.error:
+				return []
+		names.sort()
+		for name in names:
+			if not os.path.isdir(os.path.join(path, name)):
+				if ext=='*':
+					list.append(name)
+				elif '.'+ext==name[-1*(len(ext)+1):]:
+					list.append(name)				
+	return list
+
+#Return full file names list for provided path
+def get_files_withpath(path='.', ext='*'):
+	import glob
+	list = glob.glob(os.path.join(path, "*."+ext))
+	list.sort()
+	return list
+
+#Return recursive directories list for provided path
+def get_dirs_tree(path='.'):
+	tree=get_dirs_withpath(path)
+	for node in tree:
+		subtree=get_dirs_tree(node)
+		tree+=subtree
+	return tree		
+	
+#Return recursive files list for provided path
+def get_files_tree(path='.', ext='*'):
+	tree=[]
+	dirs=[path,]	
+	dirs+=get_dirs_tree(path)
+	for dir in dirs:
+		list = get_files_withpath(dir,ext)
+		list.sort()
+		tree+=list
+	return tree
+
+
+
+def make_manifest():
+	proc = os.popen('cat MANIFEST.pre.in>MANIFEST.in')
+	proc.close()
+
+def file_scan(cat):
+	proc = os.popen("find "+cat+" -type f|grep -v \.svn|grep -v \.xvpics|grep -v \.py$|grep -v \.c$|sed 's/^/include /g'>>MANIFEST.in")
+	proc.close()
+
 if __name__ == "__main__":
+	print 'Source tree scan...'
+	make_manifest()
+	file_scan('src/share')
+	file_scan('src/extentions')
+	print 'MANIFEST.in is created'
+	dirs=get_dirs_tree('src/share')
+	share_dirs=[]
+	for item in dirs:
+		share_dirs.append(os.path.join(item[4:],'*.*'))
+	for item in ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']:
+		share_dirs.append(item)
+
+	
 	src_path='src/'
 	
 	filter_src=src_path+'extentions/filter/'	
@@ -126,7 +223,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 			''',
 		classifiers=[
 			'Development Status :: 5 - Stable',
-			'Environment :: Console',
+			'Environment :: Desktop',
 			'Intended Audience :: End Users/Desktop',
 			'License :: OSI Approved :: LGPL v2',
 			'License :: OSI Approved :: GPL v2',
@@ -140,17 +237,20 @@ sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 
 			packages = ['sk1',
 				'sk1.app',
-				'sk1.app.Graphics',
-				'sk1.app.Lib',
-				'sk1.app.Scripting',
 				'sk1.app.conf',
-				'sk1.app.events',
-				'sk1.app.io',
-				'sk1.app.managers',
-				'sk1.app.modules',
-				'sk1.app.plugins',
-				'sk1.app.scripts',
-				'sk1.app.utils'
+				'sk1.app.events', 
+				'sk1.app.Graphics', 
+				'sk1.app.io', 
+				'sk1.app.Lib', 
+				'sk1.app.managers', 
+				'sk1.app.modules', 
+				'sk1.app.plugins', 
+				'sk1.app.Scripting', 
+				'sk1.app.scripts', 
+				'sk1.app.tcl', 
+				'sk1.app.UI', 
+				'sk1.app.utils', 
+				'sk1.app.X11'
 			],
 			
 			package_dir = {'sk1': 'src',
@@ -159,10 +259,10 @@ sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 			'sk1.app.modules': 'src/app/modules',
 			},
 			
-			package_data={'sk1.app': ['VERSION','extentions/*.*'],			
-			'sk1.app.plugins': ['Filters/*.py'],
-			'sk1': ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS',
-						 'share/icc/*.*', 'share/fonts/*.*', 'share/ps_templates/*.*'], 
+			package_data={'sk1.app': ['VERSION', 'tkdefaults', 'tcl/*.tcl'],			
+			'sk1.app.plugins': ['Filters/*.py','Objects/*.py','Objects/Lib/multilinetext/*.py'],
+			'sk1': share_dirs,
+			'sk1.app.modules': ['pkgIndex.tcl', 'descr.txt']
 			},
 
 			scripts=['src/sk1'],
