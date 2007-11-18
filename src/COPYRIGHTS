@@ -1,5 +1,7 @@
-sK1 - A Python&Tcl/Tk -based vector graphics editor for prepress
-Copyright (C) 2003-2006 by Igor Novikov
+sK1 is an open source vector graphics editor similar to CorelDRAW(tm), 
+Adobe (R) Illustrator(tm), or Adobe (R)Freehand(tm). 
+First of all sK1 is oriented for prepress industry.
+sK1 Team (http://sk1project.org), copyright (C) 2003-2007 by Igor E. Novikov.
 
 sK1 uses Sketch engine:
 Copyright (C) 1998, 1999, 2000, 2002, 2003 by Bernhard Herzog
