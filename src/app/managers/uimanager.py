@@ -86,6 +86,7 @@ class UIManager:
 		self.resetTile()
 			
 	def uploadExtentions(self):
+		self.root.tk.call('lappend', 'auto_path', os.path.join(app.config.sk_dir,'app'))
 		self.root.tk.call('lappend', 'auto_path', app.config.user_themes)
 		self.root.tk.call('package', 'require', 'tkpng')
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')

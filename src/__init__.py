@@ -8,12 +8,14 @@
 
 '''
 USAGE: sk1 [INPUT FILE]
+sk1 command without parameters just launches sK1 with new document.
 
-sK1 is an open source vector graphics editor similar to CorelDRAW, Adobe Illustrator, or Freehand. 
+sK1 is an open source vector graphics editor similar to CorelDRAW(tm), 
+Adobe (R) Illustrator(tm), or Adobe (R)Freehand(tm). 
 First of all sK1 is oriented for prepress industry.
 sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 
- Allowed input formats:
+Allowed input formats:
      AI  - Adobe Illustrator files (postscript based)
      CDR - CorelDRAW Graphics files (7-X3 versions)
      CDT - CorelDRAW templates files (7-X3 versions)
