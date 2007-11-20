@@ -127,6 +127,9 @@ class TkApplication:
 		from app.managers.uimanager import  UIManager
 		app.uimanager=UIManager(self.root)
 		
+		from app.managers.dialogmanager import DialogManager
+		app.dialogman=DialogManager(self.root)
+		
 		#self.root.tk.call('lappend', 'auto_path', config.sk_themes)
 		#self.root.tk.call('package', 'require', 'tkpng')
 		#self.root.tk.call('package', 'require', 'tile')

@@ -62,7 +62,7 @@ config = Configurator(base_dir=_parentdir)
 from managers.colormanager import ColorManager
 colormanager=ColorManager()
 uimanager=None
-
+dialogman=None
 
 from _sketch import Rect, PointsToRect, UnionRects, IntersectRects, EmptyRect, InfinityRect, RectType
 UnitRect = Rect(0, 0, 1, 1)
@@ -81,6 +81,7 @@ from _sketch import ContAngle, ContSmooth, ContSymmetrical, SelNone, SelNodes, S
 from events.skexceptions import *
 from events.undo import Undo, UndoList, CreateListUndo, CreateMultiUndo, UndoAfter, UndoRedo, NullUndo
 from events.connector import Connect, Disconnect, Issue, RemovePublisher, Subscribe, Publisher, QueueingPublisher
+
 
 #
 
