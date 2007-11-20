@@ -179,6 +179,13 @@ if __name__ == "__main__":
 			sources = [paxtkinter_src+'paxtkinter.c'],
 			libraries=['X11', 'tk8.5', 'tcl8.5'])
 			
+ 	ft2_src=src_path+'extentions/freetype2/'				
+	ft2_module = Extension('sk1.app.modules.ft2',
+			define_macros = [('MAJOR_VERSION', '0'),
+						('MINOR_VERSION', '9')],
+			sources = [ft2_src+'ft2module.c'],
+			libraries=['freetype'])
+			
  	pax_src=src_path+'extentions/pax/'				
 	pax_module = Extension('sk1.app.modules.paxmodule',
 			define_macros = [('MAJOR_VERSION', '0'),
