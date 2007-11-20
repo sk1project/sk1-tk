@@ -137,16 +137,22 @@ if __name__ == "__main__":
 	for item in ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']:
 		share_dirs.append(item)
 
-	
 	src_path='src/'
 	
-	filter_src=src_path+'extentions/filter/'	
+	filter_src=src_path+'extentions/filter/'
+	
+	#if not sys.argv[1]=='sdist':	
+		#if os.system('cd %s; make -f Makefile.pre.in Makefile VERSION=%s;make;rm -f *.o *.so sedscript Makefile Makefile.pre'
+				#% (filter_src, sys.version[:3])):
+			#print "Build failed due to errors"
+			#sys.exit(1)
+				
 	filter_module = Extension('sk1.app.modules.streamfilter',
 			define_macros = [('MAJOR_VERSION', '0'),
-						('MINOR_VERSION', '9')],
+						('MINOR_VERSION', '9')],	
 			sources = [filter_src+'streamfilter.c', filter_src+'filterobj.c', filter_src+'linefilter.c', 
 					filter_src+'subfilefilter.c', filter_src+'base64filter.c', filter_src+'nullfilter.c', 
-					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c'])
+					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c', filter_src+'config.c'])
  
  	type1mod_src=src_path+'extentions/type1mod/'				
 	type1mod_module = Extension('sk1.app.modules._type1module',
