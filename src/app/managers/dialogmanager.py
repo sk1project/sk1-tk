@@ -11,6 +11,18 @@ from app.utils import locale_utils
 from app import _
 
 
+def convertForKdialog(filetypes):
+	'''This function converts filetypes tuple into string
+	in kdialog format
+	'''
+	result=''
+	for filetype in filetypes:
+		descr=filetype[0]
+		extentions=filetype[1]
+		for extention in extentions:
+			result+=extention+' '
+		result+='|'+descr+' \n'		
+	return result
 
 openfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')))
 
@@ -58,30 +70,16 @@ imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.
 				(_('Portable Graymap files - *.pgm'),('*.pgm', '*.PGM')),
 				(_('Portable Pixmap files - *.ppm'),('*.ppm', '*.PPM')))
 
+KDE_DIALOG=1
+GNOME_DIALOG=2
+TK_DIALOG=3
 
-def KGetOpenFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
-	self.root.update()
-	winid=str(self.root.winfo_id())
-	from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
-	file=from_K.readline()
-	file=locale_utils.strip_line(file)
-	from_K.close()
-	file=locale_utils.locale_to_utf(file)
-	return file
-
-def KGetSaveFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
-	self.root.update()
-	winid=str(self.root.winfo_id())
-	from_K = os.popen('kdialog -caption \''+title+'\' --embed \''+winid+'\' --getsavefilename \''
-	+initialdir+'\''+ filetypes)
-	file=from_K.readline()
-	file=locale_utils.strip_line(file)
-	from_K.close()
-	file=locale_utils.locale_to_utf(file)
-	return file
+SAVEMODE=1
+OPENMODE=0
 
 class DialogManager:
-	#0- unknown; 1- KDE; 2- Gnome app.config.preferences
+	#0- unknown; 1- KDE; 2- Gnome
+	root=None
 	desktop=0
 	dialogObject=None
 	is_kdialog=0
@@ -112,84 +110,179 @@ class DialogManager:
 		if os.system('zenity --help-misc>/dev/null'):
 			self.is_zenity=0
 		else:
-			self.is_zenity=1	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-#def imagefiletypes():
-	#types=' \'*.png *.PNG *.gif *.GIF *.jpg *.JPG *.jpeg *.JPEG *.tif *.TIF' 
-	#types=types+' *.tiff *.TIFF *.gif *.GIF *.bmp *.BMP *.pcx *.PCX *.pbm *.PBM'
-	#types=types+' *.pgm *.PGM *.ppm *.PPM *.eps *.EPS'
-	#types=types+'|All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc. \n'
-	#types=types+' *.png *.PNG|Portable Network Graphics files - *.png \n'
-	#types=types+' *.eps *.EPS|Encapsulated PostScript files - *.eps \n'
-	#types=types+' *.jpg *.JPG *.jpeg *.JPEG|JPEG files - *.jpg *jpeg \n'
-	#types=types+' *.tif *.TIF *.tiff *.TIFF|TIFF files - *.tif *.tiff \n'
-	#types=types+' *.gif *.GIF|CompuServ Graphics files - *.gif \n'
-	#types=types+' *.psd *.PSD|Adobe Photoshop files (up to v.3.0) - *.psd \n'
-	#types=types+' *.bmp *.BMP|Windows Bitmap files - *.bmp \n'
-	#types=types+' *.pcx *.PCX|Paintbrush files - *.pcx \n'
-	#types=types+' *.pbm *.PBM|Portable Bitmap files - *.pbm \n'
-	#types=types+' *.pgm *.PGM|Portable Graymap files - *.pgm \n'
-	#types=types+' *.ppm *.PPM|Portable Pixmap files - *.ppm \''
-	#return types
-	
-#def exportfiletypes():
-	#types=' \'*.sK1 *.sk1 *.SK1|sK1 vector graphics files - *.sK1 \n'
-	#types=types+' *.sk *.SK|Sketch and Skencil files - *.sk \n'
-	#types=types+' *.ai *.AI|Adobe Illustrator files (ver. 5.0) - *.ai \n'
-	#types=types+' *.cgm *.CGM|Computer Graphics Metafile files - *.cgm \n'
-	#types=types+' *.svg *.SVG|Scalable Vector Graphics files - *.svg \n'
-	#types=types+' *.wmf *.WMF|Windows Metafile files - *.wmf \''
-	#return types	
-	
-#def savefiletypes():
-	#types=' \'*.sK1 *.sk1 *.SK1|sK1 vector graphics files - *.sK1 \''
-	#return types	
-	
-#def openfiletypes():
-	#types=' \'*.sK1 *.sk1 *.SK1|sK1 vector graphics files - *.sK1 \''
-	#return types 
-	#(_(''),('')),
+			self.is_zenity=1
+			
+	def get_dialog_type(self, mode):
+		dialog_mode=app.config.preferences.dialog_type
+		if not dialog_mode:
+			if not self.desktop:
+				dialog_type=TK_DIALOG
+			else:
+				dialog_type=self.desktop
+		else:
+			dialog_type=dialog_mode
+		if dialog_type==KDE_DIALOG and self.is_kdialog==0:
+			dialog_type==TK_DIALOG
+		if dialog_type==GNOME_DIALOG and self.is_zenity==0:
+			dialog_type==TK_DIALOG			
+		if mode==SAVEMODE:
+			if dialog_type==KDE_DIALOG:
+				return KDE_GetSaveFilename
+			if dialog_type==GNOME_DIALOG:
+				return Gnome_GetSaveFilename
+			if dialog_type==TK_DIALOG:
+				return TkGetSaveFilename
+		if mode==OPENMODE:
+			if dialog_type==KDE_DIALOG:
+				return KDE_GetOpenFilename
+			if dialog_type==GNOME_DIALOG:
+				return Gnome_GetOpenFilename
+			if dialog_type==TK_DIALOG:
+				return TkGetOpenFilename
+			
+	def getOpenFilename(self, **kw):
+		name=app.config.name
+		title=_('Open file')
+		kw['filetypes']=openfiletypes
+		dialog_type=self.get_dialog_type(OPENMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+		
+	def getSaveFilename(self, **kw):
+		name=app.config.name
+		title=_('Save file')
+		kw['filetypes']=savefiletypes
+		dialog_type=self.get_dialog_type(SAVEMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
 
-#def importfiletypes():
-	#types=' \'*.sK1 *.sk1 *.SK1 *.sk *.SK *.ai *.AI *.eps *.EPS *.ps *.PS'
-	#types=types+'*.cmx *.CMX *.cdr *.CDR *.cdt *.CDT *.ccx *.CCX'
-	#types=types+'*.cgm *.CGM *.aff *.AFF *.svg *.SVG *.wmf *.WMF *.fig *.FIG'
-	#types=types+'|All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. \n'
-	##Detalied extentions list
-	#types=types+' *.sK1 *.sk1 *.SK1|sK1 vector graphics files - *.sk1 \n'
-	#types=types+' *.sk *.SK|Sketch and Skencil files - *.sk \n'
-	#types=types+' *.ai *.AI|Adobe Illustrator files (up to ver. 9.0) - *.ai \n'
-	#types=types+' *.eps *.EPS|Encapsulated PostScript files - *.eps \n'
-	#types=types+' *.ps *.PS|PostScript files - *.ps \n'
-	#types=types+' *.cdr *.CDR|CorelDRAW Graphics files (7-X3 ver.) - *.cdr \n'
-	#types=types+' *.cdt *.CDT|CorelDRAW Templates files (7-X3 ver.) - *.cdt \n'	
-	#types=types+' *.cmx *.CMX|CorelDRAW Presentation Exchange files - *.cmx \n'
-	#types=types+' *.ccx *.CCX|CorelDRAW Compressed Exchange files (CDRX format) - *.ccx \n'
-	#types=types+' *.cgm *.CGM|Computer Graphics Metafile files - *.cgm \n'
-	#types=types+' *.aff *.AFF|Acorn Draw files - *.aff \n'
-	#types=types+' *.svg *.SVG|Scalable Vector Graphics files - *.svg \n'
-	#types=types+' *.wmf *.WMF|Windows Metafile files - *.wmf \n'
-	#types=types+' *.fig *.FIG|XFig files - *.fig \''
-	#return types	
+	def getSaveAsFilename(self, **kw):
+		name=app.config.name
+		title=_('Save file As...')
+		kw['filetypes']=savefiletypes
+		dialog_type=self.get_dialog_type(SAVEMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
 	
-#imagefiletypes = ((_("All Files"), '*'),
-				  #(_("Encapsulated PostScript"), ('.eps', '.ps')),
-				  #(_("JPEG"),	('.jpg', '.jpeg')),
-				  #(_("GIF"),	'.gif'),
-				  #(_("Portable Bitmap"),	'.pbm'),
-				  #(_("Portable Graymap"),	'.pgm'),
-				  #(_("Portable Pixmap"),	'.ppm'),
-				  #(_("TIFF"),	('.tif', '.tiff')),
-				  #(_("Windows / OS/2 Bitmap"), '.bmp'),
-				  #(_("PCX"),	'.pcx'))
+def TkGetOpenFilename(master, name, title, **kw):
+	''' Calls regular Tk open file dialog.
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	filetypes - tuple of file types (see examples in the package)
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	kw['title']=name+' - '+title
+	filename = apply(master.tk.call, ('tk_getOpenFile', '-parent', master._w) + master._options(kw))
+	return master.tk.utf8_to_system(filename)
+
+def TkGetSaveFilename(master, name, title, **kw):
+	''' Calls regular Tk save file dialog.
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	initialfile - file name
+	filetypes - tuple of file types (see examples in the package)
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	kw['title']=name+' - '+title
+	filename = apply(master.tk.call, ('tk_getSaveFile', '-parent', master._w) + master._options(kw))
+	return (filename, master.tk.utf8_to_system(filename))
+
+def KDE_GetOpenFilename(master, name, title, **kw):
+	''' Calls KDE open file dialog.   .rstrip("\n")
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	filetypes - tuple of file types (see examples in the package)
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	initialdir=kw['initialdir']
+	filetypes=convertForKdialog(kw['filetypes'])	
+	master.update()
+	winid=str(master.winfo_id())	
+	from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --name \''+name+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
+	file=from_K.readline()
+	filename=locale_utils.strip_line(file)
+	from_K.close()
+	return (master.tk.system_to_utf8(filename), filename)
+
+def KDE_GetSaveFilename(master, name, title, **kw):
+	''' Calls KDE save file dialog.   
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	filetypes - tuple of file types (see examples in the package)
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	initialdir=kw['initialdir']
+	filetypes=convertForKdialog(kw['filetypes'])	
+	master.update()
+	winid=str(master.winfo_id())
+	#--name='title'
+	from_K = os.popen('kdialog -caption \''+title+'\' --embed \''+winid+'\' --getsavefilename \''+initialdir+'\''+ filetypes)
+	file=from_K.readline()
+	filename=locale_utils.strip_line(file)
+	from_K.close()
+	return (master.tk.system_to_utf8(filename), filename)
+
+def Gnome_GetOpenFilename(master, name, title, **kw):
+	''' Calls Gnome open file dialog.   
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	print 'TRACE GNOME'
+	initialdir=kw['initialdir']
+	master.update()
+	winid=str(master.winfo_id())
+	name+=' - '+title
+	print name
+	from_K = os.popen('zenity --file-selection --name="'+name+'" --filename="'+initialdir+'"')
+	file=from_K.readline()
+	filename=locale_utils.strip_line(file)
+	from_K.close()
+	return (master.tk.system_to_utf8(filename), filename)
+
+def Gnome_GetSaveFilename(master, name, title, **kw):
+	#zenity --file-selection --filename='print4.eps' --save
+	''' Calls Gnome open file dialog.   
+	Parameteres:
+	master - parent window
+	name - application name
+	title - dialog title
+	**kw:
+	initialdir - absolute path to initial dir
+	initialfile - file name
+	
+	Returns: tuple of utf8 and system encoded file names
+	'''
+	initialdir=kw['initialdir']
+	initialfile=kw['initialfile']
+	master.update()
+	winid=str(master.winfo_id())
+	name+=' - '+title
+	from_K = os.popen('zenity --file-selection --save --name=\''+name+'\' --filename=\''+os.path.join(initialdir,initialfile)+'\'')
+	file=from_K.readline()
+	filename=locale_utils.strip_line(file)
+	from_K.close()
+	return (master.tk.system_to_utf8(filename), filename)
+	
