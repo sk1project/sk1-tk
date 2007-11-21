@@ -1682,17 +1682,6 @@ Tkapp_InterpAddr(PyObject *self, PyObject *args)
 
 static PyObject *
 Tkapp_UTF8_to_Latin1 (PyObject *self, PyObject *args)
-#if TKMAJORMINOR < 8001
-{
-    PyObject * string;
-
-    if (!PyArg_ParseTuple(args, "S", &string))
-	return NULL;
-
-    Py_INCREF(string);
-    return string;
-}
-#else
 {
     PyObject * utf8;
     PyObject * latin1;
@@ -1720,22 +1709,10 @@ Tkapp_UTF8_to_Latin1 (PyObject *self, PyObject *args)
 
     return latin1;
 }
-#endif
 
 
 static PyObject *
 Tkapp_UTF8_to_System (PyObject *self, PyObject *args)
-#if TKMAJORMINOR < 8001
-{
-    PyObject * string;
-
-    if (!PyArg_ParseTuple(args, "S", &string))
-	return NULL;
-
-    Py_INCREF(string);
-    return string;
-}
-#else
 {
     PyObject * utf8;
     PyObject * system;
@@ -1753,7 +1730,27 @@ Tkapp_UTF8_to_System (PyObject *self, PyObject *args)
 
     return system;
 }
-#endif
+
+static PyObject *
+Tkapp_System_to_UTF8 (PyObject *self, PyObject *args)
+{
+    PyObject * utf8;
+    PyObject * system;
+    Tcl_DString dstring;
+
+    if (!PyArg_ParseTuple(args, "S", &system))
+	return NULL;
+
+    Tcl_ExternalToUtfDString(NULL, PyString_AsString(system),
+			     PyString_Size(system), &dstring);
+
+    utf8 = PyString_FromString(dstring.string);
+
+    Tcl_DStringFree(&dstring);
+
+    return utf8;
+}
+
 
 /* Yet another sketch specific hack: Starting with Python 2.3 Tkinter
  * calls the wantobjects method, so we provide one that doesn't do
@@ -1811,6 +1808,7 @@ static PyMethodDef Tkapp_methods[] =
 	{"interpaddr",         Tkapp_InterpAddr, 1},
 	{"utf8_to_latin1",     Tkapp_UTF8_to_Latin1, 1},
 	{"utf8_to_system",     Tkapp_UTF8_to_System, 1},
+	{"system_to_utf8",     Tkapp_System_to_UTF8, 1},
 	{"wantobjects",	       Tkapp_WantObjects, METH_VARARGS},
 	{NULL, 		       NULL}
 };
