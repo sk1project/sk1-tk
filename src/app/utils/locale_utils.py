@@ -41,6 +41,7 @@ def cmd_iconv(from_codec='', to_codec='', string=''):
 	return result
 	
 def strip_line(string=''):
+	#may be .rstrip("\n") use?
 	if string=='' :
 		return string
 	return string[0:len(string)-1]
