@@ -16,7 +16,7 @@ from app.plugins import plugins
 from app.io import load
 from app.conf import const
 from app.utils import locale_utils
-from app import Publisher, Point, EmptyFillStyle, EmptyLineStyle, \
+from app import Publisher, Point, EmptyFillStyle, EmptyLineStyle, dialogman, \
 		EmptyPattern, Document, GuideLine, PostScriptDevice, SketchError, PolyBezier, CreatePath, Polar
 import app
 from app.Graphics import image, eps
@@ -219,10 +219,11 @@ class SketchMainWindow(Publisher):
 			if not directory:
 				directory = os.getcwd()
 			name = ''
-			filename = self.KGetOpenFilename(filetypes = skapp.openfiletypes(),
-											initialdir = directory,
-											initialfile = name)
-			print filename
+			#filename = self.KGetOpenFilename(filetypes = skapp.openfiletypes(),
+											#initialdir = directory,
+											#initialfile = name)
+			filename, sysfilename=dialogman.getOpenFilename(initialdir = directory,initialfile = name)							
+			#print filename
 			#warn_tb(INTERNAL,str(filename))
 			if filename=='':
 				return
