@@ -267,9 +267,6 @@ class Preferences(connector.Publisher):
 	#If the text on the screen becomes smaller than greek_threshold, don't render a font, but draw little lines instead. XXX see comments in graphics.py
 	greek_threshold = 5
 	
-	#If the metrics file for a font can't be found or if a requested font is not known at all, the (metrics of) fallback_font is used	
-	fallback_font = 'Slim'
-	
 	#When snapping is active, coordinates specified with the mouse are snapped to the nearest `special' point (e.g. a grid point) if that is nearer than 
 	#max_snap_distance pixels. (Thus, this length is given in window (pixel-) coordinates).
 	max_snap_distance = 30
@@ -347,14 +344,17 @@ class Preferences(connector.Publisher):
 	print_destination = 'printer'	#	Default print destination. 'file' for file, 'printer' for printer	
 	print_directory = '~'		#	default directory for printing to file
 	menu_tearoff_fix = 1		#	Menus
-	
+
+	#---------UI managment---------
 	style = 'Plastik'
 	color_theme = 'System'
 	#color_theme = 'UbuntuLooks'
 	icons='CrystalSVG'
-	small_font='Arial 8'
-	normal_font='Arial 10'
-	large_font='Arial 15'
+	
+	#---------UI fonts---------
+	small_font='Tahoma 7'
+	normal_font='Tahoma 8'
+	large_font='Arial 10'
 	
 	#---------Color managment---------
 	default_rgb_profile='sRGB.icm'
@@ -370,9 +370,16 @@ class Preferences(connector.Publisher):
 	
 	use_cms=1
 	simulate_printer=0
-	#------------------------------------
 	
-	#---------Open/save managment----
+	#----------Document font managment-------------	
+	default_font = 'BitstreamVeraSans-Roman'	# The PS name of the font used for new text-objects
+	system_font_dir='/usr/share/fonts'
+	user_font_dir='.fonts' # should be expanded to absolute path
+	#If the font file for a font can't be found or if a requested font 
+	#is not known at all, the fallback_font is used (PS name here):	
+	fallback_font = 'BitstreamVeraSans-Roman'
+	
+	#---------Open/save dialogs managment----
 	dir_for_open='~'
 	dir_for_save='~'
 	dir_for_vector_import='~'
@@ -380,7 +387,7 @@ class Preferences(connector.Publisher):
 	dir_for_bitmap_import='~'
 	dir_for_bitmap_export='~'
 	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type=2
+	dialog_type=3
 	#------------------------------------
 
 	#RULER data
@@ -413,7 +420,7 @@ class Preferences(connector.Publisher):
 	#	start point.
 	polyline_create_line_with_first_cklick = 1
 	topmost_is_mask = 1	#	Mask Group
-	default_font = 'Slim'	#   The name of the font used for new text-objects
+
 	
 	#	If true, try to unload some of the import filter modules after
 	#	use. Only filters marked as unloadable in their config file are
