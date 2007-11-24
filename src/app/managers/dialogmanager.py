@@ -24,7 +24,7 @@ def convertForKdialog(filetypes):
 		result+='|'+descr+' \n'		
 	return result
 
-openfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')))
+openfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),)
 
 importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. '),
 				  ('*.sK1', '*.sk1', '*.SK1', '*.sk', '*.SK', '*.ai', '*.AI', '*.eps', '*.EPS', '*.ps', '*.PS',
@@ -45,7 +45,7 @@ importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.w
 				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),				 
 				 (_('XFig files - *.fig'),('*.fig', '*.FIG')))
 
-savefiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')))
+savefiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),)
 
 exportfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),
 				 (_('Sketch and Skencil files - *.sk'),('*.sk', '*.SK')),
@@ -77,10 +77,14 @@ TK_DIALOG=3
 SAVEMODE=1
 OPENMODE=0
 
+UNKNOWN_DESKTOP=0
+KDE_DESKTOP=1
+GNOME_DESKTOP=2
+
 class DialogManager:
 	#0- unknown; 1- KDE; 2- Gnome
 	root=None
-	desktop=0
+	desktop=UNKNOWN_DESKTOP
 	dialogObject=None
 	is_kdialog=0
 	is_zenity=0
@@ -93,14 +97,14 @@ class DialogManager:
 		ds=os_utils.getenv('DESKTOP_SESSION')
 		if ds:
 			if string.find(string.upper(ds), 'KDE')>0:
-				self.desktop=1
+				self.desktop=KDE_DESKTOP
 			else:
 				if string.find(string.upper(ds), 'GNOME')>0:
-					self.desktop=2
+					self.desktop=GNOME_DESKTOP
 				else:
-					self.desktop=0
+					self.desktop=UNKNOWN_DESKTOP
 		else:
-			self.desktop=0
+			self.desktop=UNKNOWN_DESKTOP
 	
 	def validate_binaries(self):
 		if os.path.isfile('/usr/bin/kdialog'):
@@ -140,13 +144,40 @@ class DialogManager:
 			if dialog_type==TK_DIALOG:
 				return TkGetOpenFilename
 			
+	def getGenericOpenFilename(self, title, filetypes, **kw):
+		name=app.config.name
+		kw['filetypes']=filetypes
+		dialog_type=self.get_dialog_type(OPENMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+			
 	def getOpenFilename(self, **kw):
 		name=app.config.name
 		title=_('Open file')
 		kw['filetypes']=openfiletypes
 		dialog_type=self.get_dialog_type(OPENMODE)
 		return apply(dialog_type, (self.root, name, title), kw)
-		
+	
+	def getImportFilename(self, **kw):
+		name=app.config.name
+		title=_('Import drawing')
+		kw['filetypes']=importfiletypes
+		dialog_type=self.get_dialog_type(OPENMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+	
+	def getImportBMFilename(self, **kw):
+		name=app.config.name
+		title=_('Import bitmap')
+		kw['filetypes']=imagefiletypes
+		dialog_type=self.get_dialog_type(OPENMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+
+	def getGenericSaveFilename(self, title, filetypes,  **kw):
+		name=app.config.name
+		title=_('Save file')
+		kw['filetypes']=filetypes
+		dialog_type=self.get_dialog_type(SAVEMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+	
 	def getSaveFilename(self, **kw):
 		name=app.config.name
 		title=_('Save file')
@@ -158,6 +189,20 @@ class DialogManager:
 		name=app.config.name
 		title=_('Save file As...')
 		kw['filetypes']=savefiletypes
+		dialog_type=self.get_dialog_type(SAVEMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+	
+	def getExportFilename(self, **kw):
+		name=app.config.name
+		title=_('Export drawing')
+		kw['filetypes']=exportfiletypes
+		dialog_type=self.get_dialog_type(SAVEMODE)
+		return apply(dialog_type, (self.root, name, title), kw)
+	
+	def getExportBMFilename(self, **kw):
+		name=app.config.name
+		title=_('Export drawing as a bitmap')
+		kw['filetypes']=imagefiletypes
 		dialog_type=self.get_dialog_type(SAVEMODE)
 		return apply(dialog_type, (self.root, name, title), kw)
 	
@@ -175,7 +220,7 @@ def TkGetOpenFilename(master, name, title, **kw):
 	'''
 	kw['title']=name+' - '+title
 	filename = apply(master.tk.call, ('tk_getOpenFile', '-parent', master._w) + master._options(kw))
-	return master.tk.utf8_to_system(filename)
+	return (filename, master.tk.utf8_to_system(filename))
 
 def TkGetSaveFilename(master, name, title, **kw):
 	''' Calls regular Tk save file dialog.
@@ -210,7 +255,7 @@ def KDE_GetOpenFilename(master, name, title, **kw):
 	filetypes=convertForKdialog(kw['filetypes'])	
 	master.update()
 	winid=str(master.winfo_id())	
-	from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --name \''+name+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
+	from_K = os.popen('kdialog --caption "'+title+'" --embed "'+winid+'" --name "'+name+'" --getopenfilename "'+initialdir+'" "'+ filetypes+' "')
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
@@ -233,7 +278,7 @@ def KDE_GetSaveFilename(master, name, title, **kw):
 	master.update()
 	winid=str(master.winfo_id())
 	#--name='title'
-	from_K = os.popen('kdialog -caption \''+title+'\' --embed \''+winid+'\' --getsavefilename \''+initialdir+'\''+ filetypes)
+	from_K = os.popen('kdialog -caption "'+title+'" --embed "'+winid+'" --getsavefilename "'+initialdir+'" "'+ filetypes+'"')
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
@@ -250,20 +295,17 @@ def Gnome_GetOpenFilename(master, name, title, **kw):
 	
 	Returns: tuple of utf8 and system encoded file names
 	'''
-	print 'TRACE GNOME'
 	initialdir=kw['initialdir']
 	master.update()
 	winid=str(master.winfo_id())
 	name+=' - '+title
-	print name
-	from_K = os.popen('zenity --file-selection --name="'+name+'" --filename="'+initialdir+'"')
+	from_K = os.popen('zenity --file-selection --name="'+name+'" --filename="'+initialdir+'/"')
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
 	return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetSaveFilename(master, name, title, **kw):
-	#zenity --file-selection --filename='print4.eps' --save
 	''' Calls Gnome open file dialog.   
 	Parameteres:
 	master - parent window
@@ -277,10 +319,12 @@ def Gnome_GetSaveFilename(master, name, title, **kw):
 	'''
 	initialdir=kw['initialdir']
 	initialfile=kw['initialfile']
+	if not initialfile:
+		initialfile=''
 	master.update()
 	winid=str(master.winfo_id())
 	name+=' - '+title
-	from_K = os.popen('zenity --file-selection --save --name=\''+name+'\' --filename=\''+os.path.join(initialdir,initialfile)+'\'')
+	from_K = os.popen('zenity --file-selection --save --name="'+name+'" --filename="'+os.path.join(initialdir,initialfile)+'"')
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()

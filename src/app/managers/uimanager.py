@@ -158,6 +158,7 @@ class UIManager:
 		self.root.tk.call('ttk::setTheme', app.config.preferences.style)
 		
 	def setFonts(self):
+		self.root.tk.call('option', 'add', '*Font', app.config.preferences.normal_font )
 		self.testSmallLabel['font'] = app.config.preferences.small_font
 		self.testNormalLabel['font'] = app.config.preferences.normal_font 
 		self.testLargeLabel['font'] = app.config.preferences.large_font 
