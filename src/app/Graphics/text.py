@@ -350,9 +350,17 @@ class SimpleText(CommonText, RectangularPrimitive):
 	def DrawShape(self, device, rect = None, clip = 0):
 		RectangularPrimitive.DrawShape(self, device)
 		# Workaround for a bug in my Xserver.
+		#==============================
 		text = split(self.text, '\n')[0]
-		device.DrawText(self.text, self.trafo(self.atrafo), clip,
-						cache = self.cache)
+		base_trafo = self.trafo(self.atrafo)
+		base_trafo = base_trafo(Scale(self.properties.font_size))
+		paths = self.properties.font.GetPaths(self.text)
+		obj = PolyBezier(paths = paths, properties = self.properties.Duplicate())
+		#trafo = base_trafo(Translation(pos[i]))
+		obj.Transform(base_trafo)
+		#rect = apply(Rect, self.properties.font.TextBoundingBox(self.text, self.properties.font_size))
+		device.MultiBezier(obj.paths, rect, clip)
+		#device.DrawText(self.text, self.trafo(self.atrafo), clip,	cache = self.cache)
 
 	def update_atrafo(self):
 		a = self.properties
