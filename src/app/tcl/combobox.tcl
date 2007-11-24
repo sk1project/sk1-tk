@@ -45,7 +45,7 @@ bind TCombobox <FocusIn>		{ %W state active}
 bind TCombobox <FocusOut>		{ %W state !active}
 
 bind TCombobox <Control-ButtonPress-1> {
-    %W instate {!readonly !disabled} { %W icursor @%x ; focus %W }
+    %W instate {!readonly !disabled} { icursor @%x ;focus %W }
 }
 
 ## Button2 bindings:
@@ -313,6 +313,7 @@ proc ttk::combobox::PopdownShell {cb} {
 	    -highlightthickness 0 \
             -selectborderwidth 0 \
 	    -activestyle none \
+		-background #ffffff \
 	    ;
 
 	bindtags $popdown.l \
