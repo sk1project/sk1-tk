@@ -2,9 +2,6 @@
 
 *background:               #EFEFEF 
 *.background:               #EFEFEF
-*font: 				      Arial 10
-*.font: 				      Arial 10
-*statusbar*font: 		  Arial 9
 *borderWidth:		0
 
 *selectbackground:        #678DB2
