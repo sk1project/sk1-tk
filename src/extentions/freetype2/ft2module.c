@@ -1,4 +1,8 @@
-/* (c) 2002 Abel Deuring <a.deuring@satzbau-gmbh.de>
+/* 
+(c) 2007 Igor E.Novikov <igor.e.novikov@gmail.com>
+http://sk1project.org
+
+(c) 2002 Abel Deuring <a.deuring@satzbau-gmbh.de>
 http://www.satzbau-gmbh.de/staff/abel/ft2/index.html
   
    This program is free software; you can redistribute it and/or modify
@@ -1009,7 +1013,7 @@ static PyObject* pFT_Glyph_new(PyObject* self, PyObject* args) {
     }
     
     pGlyph->glyph = glyph;
-    
+    glyph->format = FT_GLYPH_FORMAT_OUTLINE;
     /* although the Freetype docs state that glyph objects
        are "independent" of other Freetype obejcts, we get
        a segfault in FT_Done_glyph, if the library or the face 
@@ -1129,9 +1133,38 @@ static PyMethodDef pFT_GlyphMethods[] = {
 */
 
 static PyObject* pFT_Glyph_getattr(pFT_Glyph* self, char* name) {
-
+ printf ("Pointer to pFT_Glyph*: %p \n", self);
     if (0 == strcmp(name, "advance"))
         return FT_Vector_conv(&self->glyph->advance);
+
+// A good place to implement outline extraction!
+    if (0 == strcmp(name, "outline")){
+	PyObject *contour, *p;
+	int i, j, k;
+
+	FT_OutlineGlyph glyph   = (FT_OutlineGlyph)self->glyph;
+	FT_Outline *glyph_outline=&glyph->outline;
+	PyObject *contours = PyTuple_New((int) (*glyph_outline).n_contours);
+
+	for (i = j = 0; i < (int) (*glyph_outline).n_contours; i++) {
+	contour = PyTuple_New((int) (*glyph_outline).contours[i] - j + 1);
+		for (k = 0; j <= (int) (*glyph_outline).contours[i]; k++, j++) {
+	// 	if (scaling)
+	// 		p = Py_BuildValue("ffi",
+	// 				(double)outline.points[j].x / 64,
+	// 				(double)outline.points[j].y / 64,
+	// 				outline.flags[j] & 1);
+	// 	else
+			p = Py_BuildValue("iii", (int)(*glyph_outline).points[j].x, 
+							(int)(*glyph_outline).points[j].y, 
+							(int)(*glyph_outline).tags[j]&1);
+			PyTuple_SetItem(contour, k, p);
+		}
+	PyTuple_SetItem(contours, i, contour);
+	}
+        return contours;
+	}
+
     return Py_FindMethod(pFT_GlyphMethods, (PyObject*) self, name);
 }
 
