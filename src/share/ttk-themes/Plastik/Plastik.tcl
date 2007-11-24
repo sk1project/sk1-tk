@@ -246,7 +246,7 @@ namespace eval ttk::theme::Plastik {
 # ------------------------------------Entry----------------------------------------------------
 	style layout TEntry {
 		TEntry.border -children {
-			RegularEntry.textarea
+			TEntry.textarea
 		}
 	}		
 	style element create TEntry.border image [list $K(entry_normal) \
@@ -254,11 +254,12 @@ namespace eval ttk::theme::Plastik {
 				readonly $K(entry_disabled) \
 				active $K(entry_focusin)] \
 				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
-			
+				
+	style configure TEntry -cursor xterm		
 	# --------------------------
 	style layout SpinEntry {
 		SpinEntry.border -children {
-			RegularEntry.textarea
+			TEntry.textarea
 		}
 	}		
 	style element create SpinEntry.border image [list $K(spin_entry_normal) \
@@ -268,29 +269,32 @@ namespace eval ttk::theme::Plastik {
 				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
 
 # ------------------------------------ComboBox---------------------------------------------------- 
-# Group options -side, -sticky, -expand, -border, -unit, or -children
+
 
 	style layout ComboNormal {
-		ComboNormal.field -sticky ew
+		ComboNormal.field -sticky ew -children {
 		ComboNormal.downarrow -side right
-		ComboNormal.padding -children {
+		ComboNormal.padding -expand true -children {
 			ComboNormal.textarea -sticky ew
-		}				
+		}
+		}
 	}		
 
 	style element create ComboNormal.padding image [list $K(spin_entry_normal) \
 				disabled $K(spin_entry_disabled) \
 				readonly $K(spin_entry_normal) \
 				active $K(spin_entry_focusin)] \
-				-border {5 3 3 3} -padding {4 5 8 3} -sticky ew 
+				-border {2 1 1 1} -padding {8 1 1 1} -sticky ew 
+				
+		style element create ComboNormal.field image $K(clear)  -padding {0 3 0 3}
 
         style element create ComboNormal.downarrow image [list $K(combo_button_normal) \
 				{pressed !disabled} $K(combo_button_normal) \
 				{active !disabled}  $K(combo_button_active) \
 				disabled $K(combo_button_disabled)] \
-				-border {3 3 3 3} -padding {1 1 1 1} -sticky e 
+				-border {1 1 1 1} -padding {1 1 1 1} -sticky e 
 
-	style configure ComboNormal -borderwidth 0 -padding {3 3 3 3} -insertwidth 0 -cursor arrow -ipady 0
+	style configure ComboNormal -borderwidth 0 -insertwidth 0 -ipady 0
 # ------------------------------------Button----------------------------------------------------
         style layout TButton {
             Button.background
