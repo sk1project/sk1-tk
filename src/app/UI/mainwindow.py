@@ -53,6 +53,9 @@ pixmaps = skpixmaps.PixmapTk
 from app import skapp
 
 
+EXPORT_MODE=2
+SAVE_AS_MODE=1
+SAVE_MODE=0
 
 command_list = []
 
@@ -217,22 +220,23 @@ class SketchMainWindow(Publisher):
 			if not directory:
 				directory = self.document.meta.directory
 			if not directory:
-				directory = os.getcwd()
-			name = ''
-			#filename = self.KGetOpenFilename(filetypes = skapp.openfiletypes(),
-											#initialdir = directory,
-											#initialfile = name)
-			filename, sysfilename=dialogman.getOpenFilename(initialdir = directory,initialfile = name)							
-			#print filename
-			#warn_tb(INTERNAL,str(filename))
+				directory = config.preferences.dir_for_open
+			if directory=='~':
+				directory=os_utils.gethome()
+			if not os.path.isdir(directory):
+				directory=os_utils.gethome()
+			filename, sysfilename=dialogman.getOpenFilename(initialdir = directory, initialfile = filename)							
 			if filename=='':
 				return
 		try:
 			if not os.path.isabs(filename):
 				filename = os.path.join(os.getcwd(), filename)
+			config.preferences.dir_for_open=os.path.dirname(filename)	
 			doc = load.load_drawing(filename)
 			self.SetDocument(doc)
 			self.add_mru_file(filename)
+			self.canvas.bitmap_buffer=None			
+			self.canvas.commands.ForceRedraw
 		except SketchError, value:
 			app.MessageBox(title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
 			self.remove_mru_file(filename)
@@ -242,7 +246,6 @@ class SketchMainWindow(Publisher):
 				app.MessageBox(title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
 			doc.meta.load_messages = ''
 
-
 	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', subscribe_to = UNDO,
 				sensitive_cb = ('document', 'WasEdited'),  #bitmap = pixmaps.Save, 
 				key_stroke = ('Ctrl+S', 'Ctrl+s'))
@@ -251,26 +254,33 @@ class SketchMainWindow(Publisher):
 	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', #bitmap = pixmaps.ExportV,
 		   args = 2)
 
-	def SaveToFileInteractive(self, use_dialog = 0):
+	def SaveToFileInteractive(self, use_dialog = SAVE_MODE):
 		filename =  self.document.meta.fullpathname
 		native_format = self.document.meta.native_format
 		compressed_file = self.document.meta.compressed_file
 		compressed = self.document.meta.compressed
 		app = self.application
-		if use_dialog>0 or not filename or not native_format:
-			dir = self.document.meta.directory
-			if not dir:
-				dir = os.getcwd()
-			name = self.document.meta.filename
-			basename, ext = os.path.splitext(name)
-			if not native_format:
-				name = basename + '.sk'
-			if use_dialog>1:
-				filename = self.KGetSaveFilename(title = _("to export as... - sK1"), filetypes = skapp.exportfiletypes(),
-												initialdir = dir, initialfile = name)
-			else:
-				filename = self.KGetSaveFilename(filetypes = skapp.savefiletypes(),
-												initialdir = dir, initialfile = name)
+		if use_dialog or not filename or not native_format:
+			directory = self.document.meta.directory
+			
+			if not directory:
+				if use_dialog==SAVE_AS_MODE or use_dialog==SAVE_MODE:
+					directory= config.preferences.dir_for_save
+				if use_dialog==EXPORT_MODE:
+					directory=config.preferences.dir_for_vector_export
+							
+			if directory=='~':
+				directory=os_utils.gethome()
+			if not os.path.isdir(directory):
+				directory=os_utils.gethome()
+				
+			if use_dialog==SAVE_MODE:
+				filename, sysfilename=dialogman.getSaveFilename(initialdir = directory, initialfile = filename)			
+			if use_dialog==SAVE_AS_MODE:
+				filename, sysfilename=dialogman.getSaveAsFilename(initialdir = directory, initialfile = filename)
+			if use_dialog==EXPORT_MODE:
+				filename, sysfilename=dialogman.getExportFilename(initialdir = directory, initialfile = filename)	
+
 			if not filename:
 				return
 			extension = os.path.splitext(filename)[1]
@@ -281,6 +291,10 @@ class SketchMainWindow(Publisher):
 			compressed = ''
 		else:
 			fileformat = plugins.NativeFormat
+		if use_dialog==SAVE_AS_MODE:
+			config.preferences.dir_for_save=os.path.dirname(filename)	
+		if use_dialog==EXPORT_MODE:
+			config.preferences.dir_for_vector_export=os.path.dirname(filename)				
 		self.SaveToFile(filename, fileformat, compressed, compressed_file)
 
 	def SaveToFile(self, filename, fileformat = None, compressed = '', compressed_file = ''):
@@ -299,7 +313,7 @@ class SketchMainWindow(Publisher):
 					msg = (_("\nCannot create backup file %(filename)s:\n"
 								"%(message)s\n\n"
 								"Choose `continue' to try saving anyway,\n"
-								"or `cancel' to cancel.")
+								"or `cancel' to cancel saving.")
 							% {'filename':`backupfile`, 'message':strerror})
 					cancel = _("Cancel")
 					result = app.MessageBox(title = _("Save To File"), message = msg, buttons = (_("Continue"), cancel))
@@ -374,16 +388,14 @@ class SketchMainWindow(Publisher):
 	def InsertFile(self, filename = None):
 		app = self.application
 		if not filename:
-			dir = self.document.meta.directory
-			if not dir:
-				dir = os.getcwd()
-			name = ''
-			filename = self.KGetOpenFilename(title = _("to import vector graphics - sK1"), filetypes = skapp.importfiletypes(),
-											initialdir = dir,
-											initialfile = name)
+			directory = config.preferences.dir_for_vector_import
+			if directory=='~':
+				directory=os_utils.gethome()
+			if not os.path.isdir(directory):
+				directory=os_utils.gethome()
+			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
 			if not filename:
 				return
-
 		try:
 			if not os.path.isabs(filename):
 				filename = os.path.join(os.getcwd(), filename)
@@ -402,23 +414,19 @@ class SketchMainWindow(Publisher):
 			self.canvas.PlaceObject(group)
 		else:
 			app.MessageBox(title = _("Import vector"), message=_("\nThe document is empty!\n"))
+		config.preferences.dir_for_vector_import=os.path.dirname(filename)
+
 
 	AddCmd('LoadPalette', _("Load Palette..."))
 	def LoadPalette(self, filename = None):
 		if not filename:
-			dir = config.std_res_dir
-			if not dir:
-				dir = os.getcwd()
-			name = ''
-			
-			filename = self.application.GetOpenFilename(
-				filetypes = palette.file_types,
-				initialdir = dir,
-				initialfile = name)
-			#filename = self.KGetOpenFilename(
-				#filetypes = palette.file_types,
-				#initialdir = dir,
-				#initialfile = name)
+			directory = config.user_palettes
+			if not directory:
+				directory = os_utils.gethome()
+				
+			filename, sysfilename=dialogman.getGenericOpenFilename(_("Load Palette"),
+																   palette.file_types,
+																   initialdir = directory, initialfile = filename)
 			if not filename:
 				return
 
@@ -428,8 +436,6 @@ class SketchMainWindow(Publisher):
 								message = _("\nCannot load palette %(filename)s!\n") % {'filename': filename})
 		else:
 			self.palette.SetPalette(pal)
-			# XXX Should we just store the basename if the palette file
-			# is located in the resource_dir?
 			config.preferences.palette = filename
 
 	def __init_dlgs(self):
@@ -1658,8 +1664,7 @@ class SketchMainWindow(Publisher):
 	#       Create Image
 	#
 
-	def GetOpenImageFilename(self, title = None, initialdir = '',
-								initialfile = '', no_eps = 0):
+	def GetOpenImageFilename(self, title = None, initialdir = '', initialfile = '', no_eps = 0):
 		if title is None:
 			title = _("to load image - sK1")
 		if no_eps:

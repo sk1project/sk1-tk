@@ -464,15 +464,14 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		if self.start_event:
 			self.start_event=0
 		else:
-			self.exposed_after_covering=1
-		print 'ExposeEvent', event	
+			self.exposed_after_covering=1	
 		
 	def VisibilityEvent(self, event):
 		#if self.start_event:
 			#self.start_event=0
 		#else:
 			#self.exposed_after_covering=1
-		print 'VisibilityEvent', event	
+		pass
 
 	def RedrawMethod(self, region = None):
 		#self.hide_handles()
@@ -480,7 +479,6 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.exposed_after_covering=0			
 			self.put_buffer_bitmap()
 			return
-		print 'RedrawMethod', region
 		if hasattr(preferences, 'profile_redraw'):
 			import profile
 			warn(INTERNAL, 'profiling...')
@@ -517,17 +515,14 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def save_bitmap_buffer(self):
 		w=self.gc.widget
-		print app.root.winfo_viewable()
 		if app.root.winfo_viewable():
 			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)			
-			print 'BUFFER UPDATE!'
 		else:
 			self.bitmap_buffer=None
 
 		
 	def put_buffer_bitmap(self):
 		if not self.bitmap_buffer==None:
-			print 'REPAINT!'
 			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
 		else:
 			self.RedrawMethod()

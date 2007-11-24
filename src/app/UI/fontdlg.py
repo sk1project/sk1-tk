@@ -185,7 +185,7 @@ class FontPanel(StylePropertyPanel):
 	def current_font_xlfd(self):
 		fonts = self.family_to_fonts[self.font_family]
 		for name in fonts:
-			family, attrs, xlfd_start, encoding = font.fontmap[name]
+			family, attrs, xlfd_start, encoding, fontfile, bold, italic = font.fontmap[name]
 			if attrs == self.font_attr:
 				return font.xlfd_template % (xlfd_start, 24, encoding)
 		return ''
@@ -193,7 +193,7 @@ class FontPanel(StylePropertyPanel):
 	def current_font_ps(self):
 		fonts = self.family_to_fonts[self.font_family]
 		for name in fonts:
-			family, attrs, xlfd_start, encoding = font.fontmap[name]
+			family, attrs, xlfd_start, encoding, fontfile, bold, italic = font.fontmap[name]
 			if attrs == self.font_attr:
 				return name
 		return ''
