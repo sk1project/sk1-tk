@@ -184,7 +184,9 @@ if __name__ == "__main__":
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [ft2_src+'ft2module.c'],
-			libraries=['freetype'])
+			include_dirs=['/usr/include/freetype2'],
+			libraries=['freetype'],
+			extra_compile_args=["-Wall"])
 			
  	pax_src=src_path+'extentions/pax/'				
 	pax_module = Extension('sk1.app.modules.paxmodule',
@@ -282,7 +284,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module, paxtkinter_module,
-						pax_module, tkpng_module])
+						pax_module, tkpng_module, ft2_module])
 			
 			
 			
