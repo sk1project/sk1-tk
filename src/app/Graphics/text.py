@@ -355,7 +355,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 		base_trafo = self.trafo(self.atrafo)
 		base_trafo = base_trafo(Scale(self.properties.font_size))
 		paths = self.properties.font.GetPaths(self.text)
-		obj = PolyBezier(paths = paths, properties = self.properties.Duplicate())
+		obj = PolyBezier(paths, self.properties.Duplicate())
 		#trafo = base_trafo(Translation(pos[i]))
 		obj.Transform(base_trafo)
 		#rect = apply(Rect, self.properties.font.TextBoundingBox(self.text, self.properties.font_size))

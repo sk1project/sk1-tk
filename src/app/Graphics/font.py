@@ -525,7 +525,7 @@ def GetFont(fontname):
 	return Font(fontname)
 
 default_encoding = 'utf-8'
-resolution=72   
+resolution=72  
 
 class Font:
 	def __init__(self, name):
@@ -547,6 +547,7 @@ class Font:
 		self.ref_count = 0
 		font_cache[self.name] = self
 		self.fontstream=None
+		self.fontsize=10
 
 	def __del__(self):
 		if font_cache.has_key(self.name):
@@ -600,7 +601,8 @@ class Font:
 		# with a size of SIZE. The coordinates of the rectangle are
 		# relative to the origin of the first character.
 		self.init_face()
-		self.face.setCharSize(size*64, size*64, resolution, resolution)
+		self.fontsize=size
+		self.face.setCharSize(10240.0, 10240.0, resolution, resolution)
 
 		posx = posy = 0
 		lastIndex = 0
@@ -609,7 +611,7 @@ class Font:
 
 		for c in text:
 			thisIndex = self.enc_vector[ord(c)]
-			glyph = ft2.Glyph(face, thisIndex, 0)
+			glyph = ft2.Glyph(self.face, thisIndex, 0)
 			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 			posx += kerning[0] << 10
 			posy += kerning[1] << 10
@@ -625,7 +627,8 @@ class Font:
 			text_ymin = min(text_ymin, gl_ymin)
 			text_xmax = max(text_xmax, gl_xmax)
 			text_ymax = max(text_ymax, gl_ymax)             
-		return (text_xmin, text_ymin, text_xmax, text_ymax)
+		return (text_xmin*self.fontsize/10240.0, text_ymin*self.fontsize/10240.0, 
+				text_xmax*self.fontsize/10240.0, text_ymax*self.fontsize/10240.0)
 		#llx, lly, urx, ury = self.metric.string_bbox(text)
 		#size = size / 1000.0
 		#return (llx * size, lly * size, urx * size, ury * size)
@@ -655,16 +658,20 @@ class Font:
 		return 1
 	
 	def GetPaths(self, text):
+		self.init_face()
 		# convert glyph data into bezier polygons
+		print self.fontfile		
 		paths = []
 		offset = i = 0
-		for i in text:				
-			thisIndex = enc[ord(i)]
-			glyph = ft2.Glyph(self.face, thisIndex, 0)
+		for i in text:		
+			print "character:", i
+			thisIndex = self.enc_vector[ord(i)]
+			glyph = ft2.Glyph(self.face, thisIndex, 1)
 			for contour in glyph.outline:
+				print "contour"
 				# rotate contour so that it begins with an onpoint
 				x, y, onpoint = contour[0]
-				if not onpoint:
+				if onpoint:
 					for j in range(1, len(contour)):
 						x, y, onpoint = contour[j]
 						if onpoint:
@@ -703,13 +710,13 @@ class Font:
 						path.AppendBezier(c1, c2, last_point, cont)
 				path.ClosePath()
 				path.Translate(offset, 0)
-				path.Transform(Scale(size/1024.0))
+				path.Transform(Scale(self.fontsize/1024000.0))
 				paths.append(path)
-			offset = offset + glyph.advance[0]
+			offset = offset + glyph.advance[0]/1000
+		print 'glyph.advance[0]:' ,glyph.advance[0]
 		return tuple(paths)
 
-	def GetOutline(self, char):
-		
+	def GetOutline(self, char):		
 		if self.outlines is None:
 			self.char_strings, self.cs_interp = read_outlines(self.PostScriptName())
 			self.outlines = {}
