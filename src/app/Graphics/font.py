@@ -602,7 +602,7 @@ class Font:
 		# relative to the origin of the first character.
 		self.init_face()
 		self.fontsize=size
-		self.face.setCharSize(10240.0, 10240.0, resolution, resolution)
+		self.face.setCharSize(10240, 10240, resolution, resolution)
 
 		posx = posy = 0
 		lastIndex = 0
@@ -664,11 +664,10 @@ class Font:
 		paths = []
 		offset = i = 0
 		for i in text:		
-			print "character:", i
+			#print "character:", i,
 			thisIndex = self.enc_vector[ord(i)]
 			glyph = ft2.Glyph(self.face, thisIndex, 1)
 			for contour in glyph.outline:
-				print "contour"
 				# rotate contour so that it begins with an onpoint
 				x, y, onpoint = contour[0]
 				if onpoint:
@@ -710,10 +709,10 @@ class Font:
 						path.AppendBezier(c1, c2, last_point, cont)
 				path.ClosePath()
 				path.Translate(offset, 0)
-				path.Transform(Scale(self.fontsize/1024000.0))
+				path.Transform(Scale(2*self.fontsize/102400.0))
 				paths.append(path)
 			offset = offset + glyph.advance[0]/1000
-		print 'glyph.advance[0]:' ,glyph.advance[0]
+		print 'glyph.advance[0]:' ,glyph.advance[0]/1000, 'fontsize: ', self.fontsize
 		return tuple(paths)
 
 	def GetOutline(self, char):		
