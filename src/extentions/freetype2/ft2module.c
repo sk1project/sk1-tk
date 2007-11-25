@@ -1133,7 +1133,6 @@ static PyMethodDef pFT_GlyphMethods[] = {
 */
 
 static PyObject* pFT_Glyph_getattr(pFT_Glyph* self, char* name) {
- printf ("Pointer to pFT_Glyph*: %p \n", self);
     if (0 == strcmp(name, "advance"))
         return FT_Vector_conv(&self->glyph->advance);
 
