@@ -76,18 +76,16 @@ namespace eval ttk::theme::Plastik {
 		style layout ToolBarFrame {
 			ToolBarFrame.panel
 			}  
-		style configure ToolBarFrame -borderwidth 0 -relief flat
+		style configure ToolBarFrame -borderwidth 2 -relief flat
         style element create ToolBarFrame.panel image $K(menu_bg) -border {3 3 3 3} -sticky news
 
 	# -------------	
 	style layout MenuBarFrame {
-		MenuBarFrame.border -children {
-			TFrame
-			}
+			MenuBarFrame.panel -expand true
 		} 
-	style configure MenuBarFrame.frame -borderwidth 1 -relief raised   
-        style element create MenuBarFrame.border image $K(menu_bg) \
-		 -border {3 3 3 3} -padding {3 3 3 3} 
+	style configure MenuBarFrame -borderwidth 2 -relief flat   
+        style element create MenuBarFrame.panel image $K(menu_bg) \
+		 -border {3 3 3 4} -padding {3 3 3 4}
 	
 	# -------------	 
 	style layout MFrame {
@@ -241,7 +239,7 @@ namespace eval ttk::theme::Plastik {
 			}
 		}
 	style element create Tooltips.background image $K(tooltips_bg) \
-		-border {1 1 1 1} -padding {4 4 4 4} -sticky news
+		-border {1 1 1 1} -padding {4 1 4 1} -sticky news
 
 # ------------------------------------Entry----------------------------------------------------
 	style layout TEntry {
@@ -282,15 +280,17 @@ namespace eval ttk::theme::Plastik {
 
 	style element create ComboNormal.padding image [list $K(spin_entry_normal) \
 				disabled $K(spin_entry_disabled) \
-				readonly $K(spin_entry_normal) \
-				active $K(spin_entry_focusin)] \
+				readonly $K(combo_entry_readonly) \
+				{active !readonly} $K(spin_entry_focusin) \
+				{active readonly} $K(combo_entry_readonly_active)] \
 				-border {2 1 1 1} -padding {8 1 1 1} -sticky ew 
 				
 		style element create ComboNormal.field image $K(clear)  -padding {0 3 0 3}
 
         style element create ComboNormal.downarrow image [list $K(combo_button_normal) \
 				{pressed !disabled} $K(combo_button_normal) \
-				{active !disabled}  $K(combo_button_active) \
+				{active !disabled !readonly}  $K(combo_button_active) \
+				{active !disabled readonly}  $K(combo_button_normal) \
 				disabled $K(combo_button_disabled)] \
 				-border {1 1 1 1} -padding {1 1 1 1} -sticky e 
 
@@ -461,8 +461,41 @@ namespace eval ttk::theme::Plastik {
 				{pressed !disabled} $K(toolbutton_pressed) \
 				{active  !disabled}   $K(toolbutton_over) ] \
 				-border {2 2 2 2} \
-				-padding {3 3 3 3}
+				-padding {3 3 3 3}  -sticky news
 
+# ---------------------------------------------------------------------------------------------------
+	
+        style layout TSmallbutton {
+            TSmallbutton.button  -expand true  -sticky news -children {
+	    	TSmallbutton.focus -children {
+                    TSmallbutton.label
+		}    
+            }
+        }
+
+        style element create TSmallbutton.button image [list $K(clear) \
+				{pressed !disabled} $K(smallbutton_pressed) \
+				{active  !disabled}   $K(smallbutton_over) ] \
+				-border {1 1 1 1} \
+				-padding {1 1 1 1} -sticky ew
+
+# ---------------------------------------------------------------------------------------------------
+	
+        style layout TextButton {
+            TextButton.background
+            TextButton.button -children {
+                TextButton.focus -children {
+                    TextButton.label
+                }
+            }
+        }
+        style element create TextButton.button image [list $K(clear15) \
+				{pressed !disabled} $K(button_pressed) \
+				{active !disabled}  $K(button_active) \
+				disabled $K(clear15)] \
+				-border {3 3 3 3} -padding {5 3 5 3} -sticky news
+			
+				
 # ---------------------------------------------------------------------------------------------------
 	
         style layout ToolCheckbutton {
@@ -504,7 +537,24 @@ namespace eval ttk::theme::Plastik {
 				-border {2 2 2 2} \
 				-padding {3 3 3 3} \
 				-width 33 -height 33
-		
+				
+# ---------------------------------------------------------------------------------------------------
+	
+        style layout ToolBarCheckButton {
+            ToolBarCheckButton.button -children {
+	    	ToolBarCheckButton.focus -children {
+                    ToolBarCheckButton.label
+		}    
+            }
+        }
+
+        style element create ToolBarCheckButton.button image [list $K(tools_normal) \
+				{pressed !disabled} $K(tools_button_pressed) \
+				{selected} $K(toolbutton_selected) \
+				{active  !disabled}   $K(tools_active)]\
+				-border {2 2 2 2} \
+				-padding {3 3 3 3} \
+				-width 28 -height 28		
 		      
 # ------------------------------------Checkbutton---------------------------------------------------
         style element create Checkbutton.indicator image [list $K(check_no_normal) \
