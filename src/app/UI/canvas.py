@@ -148,7 +148,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.snap_to_object = 0
 		self.snap_to_guide = 0
 		self.snap_correction_rect = 1
-		self.snap_move_relative = 0 #1		
+		self.snap_move_relative = 0 #1
+		self.toplevel=toplevel
 		apply(SketchView.__init__, (self, master, toplevel, document), kw)
 		CursorStack.__init__(self, const.CurStd, self.set_handle_cursor)
 
@@ -532,8 +533,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	def ButtonPressEvent(self, event):
-		# handle button press event
-			
+		# handle button press event	
+		self.focus_set()
 		self.begin_transaction()
 		self.expect_release_event = 1
 		self.last_event = event

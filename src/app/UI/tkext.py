@@ -756,7 +756,7 @@ class CommandButton(Tkinter.Button):
 		self.command = self.args = None
 		Tkinter.Button.destroy(self)
 		pax.unregister_object(self)
-		
+	
 class ToolbarButton(Ttk.TButton):
 
 	def __init__(self, master, command = None, image="none", args = (), **kw):
@@ -780,6 +780,39 @@ class ToolbarButton(Ttk.TButton):
 			state = '!disabled'
 			self.configure(image = self.pict)
 		self.state(state)
+		tooltips.AddDescription(self, self.command.menu_name)
+		self.command.Unsubscribe(CHANGED, self._update)
+		pax.unregister_object(self.command)
+		self.configure(command=MakeMethodCommand(self.command.Invoke))
+		self.command.Subscribe(CHANGED, self._update)
+
+	def destroy(self):
+		self.command.Unsubscribe(CHANGED, self._update)
+		pax.unregister_object(self.command)
+		self.command = self.args = None
+		Ttk.TButton.destroy(self)
+		pax.unregister_object(self)
+		
+class TCommandButton(Ttk.TButton):
+
+	def __init__(self, master, command = None, style='Toolbutton', image='', args = (), **kw):
+		self.image = image
+		self.command = command
+		if type(args) != TupleType:
+			args = (args,)
+		self.args = args
+		if self.image:
+			kw['image']=self.image
+		kw['command'] = self.command.Invoke 
+		command.Subscribe(CHANGED, self._update)
+		apply(Ttk.TButton.__init__, (self, master), kw)
+		tooltips.AddDescription(self, command.menu_name)
+		self["style"]=style
+		self._update()
+
+	def _update(self):
+		state = self.command.sensitive and NORMAL or DISABLED
+		self.configure(state=state)
 		tooltips.AddDescription(self, self.command.menu_name)
 		self.command.Unsubscribe(CHANGED, self._update)
 		pax.unregister_object(self.command)

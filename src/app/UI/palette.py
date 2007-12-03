@@ -112,22 +112,21 @@ _mini_pal = [(0, 0, 0, 'Black'),
 				(1, 1, 1, 'White')]
 
 def GetStandardPalette():
-	palette = read_standard_palette(config.preferences.palette)
-	if not palette:
-		warn(USER, _("Could not load palette %s; trying mini.spl..."),
-				config.preferences.palette)
-		palette = read_standard_palette('mini.spl')
-		if not palette:
-			warn(USER,
-				_("Could not load palette mini.spl; reverting to black&white"))
-			palette = RGBPalette()
-			for r, g, b, name in _mini_pal:
-				palette.AddEntry((r, g, b), name)
+	palette = LoadPalette(None)
+	#if not palette:
+		#warn(USER,
+			#_("Could not load palette mini.spl; reverting to black&white"))
+		#palette = RGBPalette()
+		#for r, g, b, name in _mini_pal:
+			#palette.AddEntry((r, g, b), name)
 	return palette
 
 
 def LoadPalette(filename):
-	return read_palette_file(filename)
+	try:
+		return UniversalPalette(filename)
+	except:
+		return None
 
 file_types = ((_("Sketch Palette"), '.spl'),
 				(_("All Files"),	 '*'))

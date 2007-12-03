@@ -203,3 +203,4 @@ class TComboSmall(WidgetWithCommand, TMenubutton):
 		if name == 'menu':
 			return self.__menu.menu
 		return Widget.__getitem__(self, name)
+	

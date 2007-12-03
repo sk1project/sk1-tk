@@ -68,11 +68,11 @@ class Configurator:
 		self.std_res_dir = os.path.join(self.sk_dir,'share/palettes')  
 		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
 		self.fontmetric_dir = self.user_fonts  # Subdirectory for the font metrics. On startup it is expanded to an absolute pathname.
-		self.postscript_prolog = os.path.join(self.sk_dir, 'share/ps_templates/sk1-proc.ps')  # PostScript Prolog.
+		self.postscript_prolog = os.path.join(self.user_config_dir, 'ps_templates/sk1-proc.ps')  # PostScript Prolog.
 		self.tk_defaults = os.path.join(self.sk_dir, 'app/tkdefaults') # tk_defaults. relative to std_res_dir
 		
-		self.small_font = '-*-dejavu sans-medium-r-*-*-8-*-*-*-*-*-*'
-		self.normal_font = '-*-dejavu sans-medium-r-*-*-10-*-*-*-*-*-*'		
+		#self.small_font = '-*-dejavu sans-medium-r-*-*-8-*-*-*-*-*-*'
+		#self.normal_font = '-*-dejavu sans-medium-r-*-*-10-*-*-*-*-*-*'		
 		#============================================
 		
 	def save_user_preferences(self):
@@ -257,6 +257,7 @@ class Preferences(connector.Publisher):
 	
 	#The default unit used in various places. Supported values: 'pt', 'in', 'cm', 'mm'
 	default_unit = 'mm'
+	default_unit_jump = 0.1
 	
 	poslabel_sets_default_unit = 1
 	
@@ -352,9 +353,9 @@ class Preferences(connector.Publisher):
 	icons='CrystalSVG'
 	
 	#---------UI fonts---------
-	small_font='Tahoma 7'
-	normal_font='Tahoma 8'
-	large_font='Arial 10'
+	small_font='Tahoma 8'
+	normal_font='Tahoma 9'
+	large_font='Arial 12'
 	
 	#---------Color managment---------
 	default_rgb_profile='sRGB.icm'
@@ -387,7 +388,7 @@ class Preferences(connector.Publisher):
 	dir_for_bitmap_import='~'
 	dir_for_bitmap_export='~'
 	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type=3
+	dialog_type=1
 	#------------------------------------
 
 	#RULER data

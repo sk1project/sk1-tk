@@ -1475,11 +1475,15 @@ class EditDocument(SketchDocument, QueueingPublisher):
 
 	def CanUngroupAll(self):
 		infos = self.selection.GetInfo()
+		isGroup=0
 		if len(infos) > 0:
-					isGroup=infos[0][-1].is_Group
-					for i in range(len(infos)):
-							if infos[i][-1].is_Group:
-									isGroup=infos[i][-1].is_Group
+			for i in range(len(infos)):
+				isGroup+=infos[i][-1].is_Group
+		#if len(infos) > 0:
+					#isGroup=infos[0][-1].is_Group
+					#for i in range(len(infos)):
+							#if infos[i][-1].is_Group:
+									#isGroup=infos[i][-1].is_Group
 		return len(infos) > 0 and isGroup
 
 	def UngroupSelected(self):
@@ -1498,31 +1502,27 @@ class EditDocument(SketchDocument, QueueingPublisher):
 					self.abort_transaction()
 			finally:
 				self.end_transaction()
+				
+	def ExtractNonGroup(self, object):
+		objects=[]
+		if object.is_Group:
+			for item in object.objects:
+				objects+=self.ExtractNonGroup(item)
+		else:
+			objects.append(object)
+		return objects				
 
 	def UngroupAllSelected(self):
 		if self.CanUngroupAll():
 			self.begin_transaction(_("Ungroup All"))
 			try:
 				try:
-					while self.CanUngroupAll():
-						selection = []
-						undo_g=[]
-						infos = self.selection.GetInfo()
-						self.add_undo(self.remove_selected())
-						for i in range(len(infos)):
-							info, group = self.selection.GetInfo()[i]
-							if group.is_Group:
-								objects = group.Ungroup()
-								select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
-								selection=selection+select
-							else:
-								objects = group
-								select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
-								selection.append((info, group))
-								self.add_undo(undo_insert)
-						self.SelectNone()
-						self.__set_selection(selection, SelectSet)
-						#self.SelectObject(selection, SelectSet)
+					self.add_undo(self.remove_selected())
+					info, object = self.selection.GetInfo()[0]
+					objects = self.ExtractNonGroup(object)					
+					select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
+					self.add_undo(undo_insert)
+					self.__set_selection(select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:

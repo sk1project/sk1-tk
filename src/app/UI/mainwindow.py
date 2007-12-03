@@ -35,6 +35,7 @@ from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, Toolba
 			UpdatedRadiobutton, UpdatedCheckbutton, ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
 			UpdatedTButton
 import tkext
+from context import ctxPanel
 
 from command import CommandClass, Keymap, Commands
 from math import floor, ceil
@@ -425,7 +426,7 @@ class SketchMainWindow(Publisher):
 				directory = os_utils.gethome()
 				
 			filename, sysfilename=dialogman.getGenericOpenFilename(_("Load Palette"),
-																   palette.file_types,
+																   app.managers.dialogmanager.palette_types,
 																   initialdir = directory, initialfile = filename)
 			if not filename:
 				return
@@ -625,26 +626,24 @@ class SketchMainWindow(Publisher):
 	def build_window(self):
 		root = self.application.root
 		
-		palette_frame = TFrame(root, style='FlatFrame', borderwidth=1)
+		palette_frame = TFrame(root, style='FlatFrame', borderwidth=2)
 		palette_frame.pack(side = 'right', fill = Y)
 		
 		b = TLabel(root, style='VLine2')
 		b.pack(side = 'right', fill = Y)
 
 		# the menu
-		self.mbar = TFrame(root, name = 'menubar', style='MFrame')
+		self.mbar = TFrame(root, name = 'menubar', style='MenuBarFrame', borderwidth=2)
 		self.mbar.pack(fill=X)
-		
-		label1=TLabel(self.mbar, image="icon_menu_left", style="FlatLabel")
-		label1.pack(side = "left")
 
 		# the toolbar
 		self.tbar = TFrame(root, name = 'toolbar', style='ToolBarFrame', borderwidth=2)
 		self.tbar.pack(fill=X)
 
 		# the smartpanel
-		self.fkbar = TFrame(root, name = 'fastkeys', style='ToolBarFrame', borderwidth=2)
-		self.fkbar.pack(fill=X)
+		self.ctxpanel=ctxPanel.ContexPanel(root, self)
+		#self.fkbar = TFrame(root, name = 'fastkeys', style='ToolBarFrame', borderwidth=0)
+		self.ctxpanel.panel.pack(fill=X)
 
 
 		# the status bar
@@ -1111,53 +1110,9 @@ class SketchMainWindow(Publisher):
 		b = CommandButton(sb2f, self.commands.CreateLayoutDialog)
 		b.pack(side = RIGHT, fill = Y)
 
-
-		b = CommandButton(fkbar, self.commands.PFrame)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.AddGuidesFrame)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.RAG)
-		b.pack(side = LEFT)
-
-
 		bitmap1 = pixmaps.load_image(pixmaps.Sizes)
 		label = Label(fkbar, image = bitmap1, borderwidth=0)
 		label.pack(side = LEFT)
-
-		#Selection Size Info Container
-		sb3f = Frame(fkbar, relief='sunken', borderwidth=1)
-		sb3f.pack(side = LEFT)
-		sb3 = Frame(sb3f, relief='flat', bg='#8B898B', borderwidth=1)
-		sb3.pack(side = LEFT, fill=BOTH)
-		#Selection Size Info
-		stat_mode = UpdatedLabel(sb3, name = 'mode', text = '', updatecb = canvas.SelectionSizeInfo, justify= RIGHT, style='SmallFlatLabel', border=0)
-		stat_mode.pack(side = 'left', expand = 1)
-		stat_mode.Update()
-		canvas.Subscribe(POSITION, stat_mode.Update)
-		canvas.Subscribe(EDITED, stat_mode.Update)
-		canvas.Subscribe(SELECTION, stat_mode.Update)
-
-		b = CommandButton(fkbar, self.commands.RotLeft)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.Rot180)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.RotRight)
-		b.pack(side = LEFT)
-
-		#Container
-		self.cbar1 = Frame(fkbar, name = 'cbar1' )
-		self.cbar1.pack(side = LEFT, fill=Y)
-		b = CommandButton(self.cbar1, self.commands.FlipHorizontal)
-		b.pack(side = TOP)
-		b = CommandButton(self.cbar1, self.commands.FlipVertical)
-		b.pack(side = TOP)
-
-		b = CommandButton(fkbar, self.commands.CreateMoveDialog)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.CreateSizeDialog)
-		b.pack(side = LEFT)
-		b = CommandButton(fkbar, self.commands.CreateRotateDialog)
-		b.pack(side = LEFT)
 
 
 		b = CommandButton(fkbar, self.commands.CreateCurveDialog)
@@ -1547,7 +1502,7 @@ class SketchMainWindow(Publisher):
 		canvas.Subscribe(SELECTION, l.Update)
 
 		#Object Info
-		stat_sel = UpdatedLabel(status_bar, name = 'selection', text = '', updatecb = canvas.CurrentInfoText)
+		stat_sel = UpdatedLabel(status_bar, name = 'selection',  justify='center', text = '', updatecb = canvas.CurrentInfoText)
 		stat_sel.pack(side = 'left', fill = X, expand = 1)
 		stat_sel.Update()
 		update = stat_sel.Update
@@ -1778,7 +1733,7 @@ class SketchMainWindow(Publisher):
 	AddDocCmd('UngroupSelected', _("Ungroup"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
 	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'), bitmap = pixmaps.ToCurve)
 	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'), bitmap = pixmaps.CCombine)
-	AddDocCmd('SplitBeziers', _("Break Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
+	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
 
 	#
 	#       Align
@@ -1806,10 +1761,6 @@ class SketchMainWindow(Publisher):
 		objects = getattr(self.document, method)()
 		if objects is not None:
 			self.application.SetClipboard(objects)
-	def RAG (self):
-		self.guide_lines = self.document.GuideLines()
-		for line in self.guide_lines:
-				self.document.RemoveGuideLine(line)
 
 	def CopyPasteSelected(self,method):
 		objects = getattr(self.document, method)()
@@ -1825,17 +1776,6 @@ class SketchMainWindow(Publisher):
 		hm=float(self.canvas.winfo_screenmmheight())
 		self.canvas.SetScale(1.07+hm/hp)
 
-
-	def AddGuidesFrame(self):
-		layout = self.document.Layout()
-		#hor_p= ceil(floor(10**3*(layout.Width())/2.83465)/10)/100
-		#ver_p= ceil(floor(10**3*(layout.Height())/2.83465)/10)/100
-		hor_p=layout.Width()
-		ver_p=layout.Height()
-		self.document.AddGuideLine(Point(0, 0), 1)
-		self.document.AddGuideLine(Point(0, 0), 0)
-		self.document.AddGuideLine(Point(0, ver_p), 1)
-		self.document.AddGuideLine(Point(hor_p, 0), 0)
 
 	AddCmd('FitToNat', _("Zoom 1:1"), 'FitToNat')#, bitmap = pixmaps.FitToNative)
 
@@ -1861,11 +1801,6 @@ class SketchMainWindow(Publisher):
 			subscribe_to = ('application', CLIPBOARD),
 			sensitive_cb = ('application', 'ClipboardContainsData'))
 			
-	#AddCmd('Spacer', _("Spacer"), 'Spacer', bitmap = pixmaps.Spacer)
-	#AddCmd('Spacer1', _("Spacer"), 'Spacer', bitmap = pixmaps.Spacer1)
-	AddCmd('PFrame', _("Add Page Frame"), 'PFrame', bitmap = pixmaps.PFrame)
-	AddCmd('RAG', _("Remove All Guides"), 'RAG', bitmap = pixmaps.RAG)
-	AddCmd('AddGuidesFrame', _("Add Guides Frame"), 'AddGuidesFrame', bitmap = pixmaps.AddGuidesFrame)
 	AddCmd('ExportRaster', 
 		   _("Export Bitmap..."), 
 		   #bitmap = pixmaps.ExportR, 
@@ -1877,24 +1812,7 @@ class SketchMainWindow(Publisher):
 	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll', bitmap = pixmaps.UngrAll)
 
 
-	def PFrame(self):
-			path = apply(self.create_page_frame)
-			bezier = PolyBezier((path,))
-			self.document.Insert(bezier)
-	def create_page_frame(self):
-			#self.DrawRectangle(Point(0, 0), Point(100, 100))   Polar(1000, math.pi/2)   Polar(0, 0)
-			layout = self.document.Layout()
-			hor_p=layout.Width()
-			ver_p=layout.Height()
-			path = CreatePath()
-			path.AppendLine(Point(0, 0))
-			path.AppendLine(Point(hor_p, 0))
-			path.AppendLine(Point(hor_p, ver_p))
-			path.AppendLine(Point(0, ver_p))
-			path.AppendLine(Point(0, 0))
-			path.AppendLine(path.Node(0))
-			path.ClosePath()
-			return path
+
 
 	def Spacer(self):
 			pass

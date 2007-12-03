@@ -358,6 +358,40 @@ class TButton(Tkinter.Widget):
     
     def state(self, state):
         return self.tk.call(self, 'state', state)
+    
+class TCombobox(Tkinter.Widget):
+    """OptionMenu which allows the user to select a value from a menu."""
+    def __init__(self, master, **kwargs):
+        """Construct an optionmenu widget with the parent MASTER, with
+        the resource textvariable set to VARIABLE, the initially selected
+        value VALUE, the other menu values VALUES and an additional
+        keyword argument command."""
+        Tkinter.Widget.__init__(self, master, "ttk::combobox", kwargs)
+        self.widgetName = 'ttk_Combobox'
+        #menu = self.__menu = Menu(self, name="menu", tearoff=0)
+        #self.menuname = menu._w
+        # 'command' is the only supported keyword
+        #callback = kwargs.get('postcommand')
+        #if kwargs.has_key('postcommand'):
+            #del kwargs['postcommand']
+        #if kwargs:
+            #raise TclError, 'unknown option -'+kwargs.keys()[0]
+        #menu.add_command(label=value,
+                 #command=_setit(variable, value, callback))
+        #for v in values:
+            #menu.add_command(label=v,
+                     #command=_setit(variable, v, callback))
+        #self["menu"] = menu
+
+    #def __getitem__(self, name):
+        #if name == 'menu':
+            #return self.__menu
+        #return Widget.__getitem__(self, name)
+
+    def destroy(self):
+        """Destroy this widget and the associated menu."""
+        Tkinter.Widget.destroy(self)
+        #self.__menu = None
 
 
 class LabelFrame(Tkinter.Widget):

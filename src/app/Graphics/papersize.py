@@ -61,7 +61,7 @@ _din_sizes = [
 	('A5', 0.148 * m_to_pt, 0.210 * m_to_pt),
 	('A6', 0.105 * m_to_pt, 0.148 * m_to_pt),
 #    ('A7', 0.074 * m_to_pt, 0.105 * m_to_pt),
-	('B1 (ISO)', 1.0 * m_to_pt, 0.707 * m_to_pt),
+	('B1 (ISO)', 0.707 * m_to_pt, 1.0 * m_to_pt),
 	('B4 (ISO)', 0.250 * m_to_pt, 0.353 * m_to_pt),
 	('B5 (ISO)', 0.176 * m_to_pt, 0.250 * m_to_pt),
 	('C3', 0.324 * m_to_pt, 0.458 * m_to_pt),

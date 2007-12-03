@@ -131,7 +131,7 @@ class PrintPanel(SketchPanel):
 			app.MessageBox(title = _("Save As PostScript"),
 							message = _("\nThe document doesn't have \n"
 										"any printable layers.\n"),
-							icon = pixmaps.Warning, icon1=pixmaps.smallicon)
+							icon = 'warning')
 			return
 		try:
 			filename = ''
@@ -139,6 +139,7 @@ class PrintPanel(SketchPanel):
 			if self.print_dest.get() == 'file':
 				# print to file
 				filename = self.print_filename.get()
+				print 'filename'
 				# use filename as file just in case the user is trying
 				# to save into an EPS that is referenced by the
 				# document. The psdevice knows how to handle such cases.
@@ -171,7 +172,7 @@ class PrintPanel(SketchPanel):
 										"%(message)s\n") \
 							% {'filename':`os.path.split(filename)[1]`,
 								'message':value[1]},
-							icon = pixmaps.Warning, icon1=pixmaps.smallicon)
+							icon = 'warning')
 			return
 		except:
 			warn_tb(INTERNAL, 'printing to %s', file)

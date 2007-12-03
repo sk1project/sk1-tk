@@ -226,9 +226,12 @@ proc ttk::combobox::TraverseIn {w} {
 #
 proc ttk::combobox::SelectEntry {cb index} {
     $cb current $index
+	$w instate {!readonly !disabled} {
     $cb selection range 0 end
     $cb icursor end
-    event generate $cb <<ComboboxSelected>>
+	}
+	#uplevel #0 [$cb cget -postcommand]
+    #event generate $cb <<ComboboxSelected>>
 }
 
 ## Scroll -- Mousewheel binding
@@ -339,7 +342,7 @@ proc ttk::combobox::Post {cb} {
 
     # Run -postcommand callback:
     #
-    uplevel #0 [$cb cget -postcommand]
+    #uplevel #0 [$cb cget -postcommand]
 
     # Combobox is in 'pressed' state while listbox posted:
     #
@@ -412,7 +415,8 @@ proc ttk::combobox::Unpost {cb} {
     if {[winfo exists $cb.popdown]} {
 	wm withdraw $cb.popdown
     }
-    focus $cb
+    focus $cb	
+	uplevel #0 [$cb cget -postcommand]
 }
 
 ## combobox::TogglePost $cb --
