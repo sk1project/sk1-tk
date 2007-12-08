@@ -1518,11 +1518,13 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			try:
 				try:
 					self.add_undo(self.remove_selected())
-					info, object = self.selection.GetInfo()[0]
-					objects = self.ExtractNonGroup(object)					
-					select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
-					self.add_undo(undo_insert)
-					self.__set_selection(select, SelectSet)
+					exctracted_select=[]
+					for info, object in self.selection.GetInfo():
+						objects = self.ExtractNonGroup(object)
+						select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
+						exctracted_select+=select
+						self.add_undo(undo_insert)
+					self.__set_selection(exctracted_select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:
