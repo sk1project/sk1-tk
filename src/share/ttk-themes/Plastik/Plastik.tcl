@@ -143,16 +143,18 @@ namespace eval ttk::theme::Plastik {
 		SmallFlatLabel.label
 		}
 	style configure SmallFlatLabel -borderwidth 4 -relief flat -font [.testSmallLabel cget -font]	
-	# -------------
+	
+	# -------------ColorWatch total==14x40 px inside==12x38 px
 	style layout ColorWatchNormal {
 		ColorWatchNormal.background
-		ColorWatchNormal.label
-		ColorWatchNormal.mask
+		ColorWatchNormal.mask -children {
+				ColorWatchNormal.label	
 		}
-	style configure ColorWatchNormal -borderwidth 0 -relief flat 
+		}
+	style configure ColorWatchNormal -borderwidth 0 -relief flat -height 14 
 	
 	style element create ColorWatchNormal.mask image $K(color_watch) \
-		-border {3 3 3 3} -padding {0 0 0 0} -sticky ew
+		-border {1 1 1 1} -padding {1 1 1 1} -sticky ew -height 12 
 		
 	# -------------	
 	style layout ColorWatchDisabled {
@@ -160,25 +162,26 @@ namespace eval ttk::theme::Plastik {
 		ColorWatchDisabled.label
 		ColorWatchDisabled.mask
 		}
-	style configure ColorWatchDisabled -borderwidth 0 -relief flat 
+	style configure ColorWatchDisabled -borderwidth 0 -relief flat -height 14 
 	
 	style element create ColorWatchDisabled.mask image $K(color_watch_disabled) \
-		-border {3 3 3 3} -padding {0 0 0 0} -sticky ew
+		-border {1 1 1 1} -padding {1 1 1 1} -sticky ew -height 14
 		
 	# -------------	
 	style layout ColorWatchTransp {
 		ColorWatchTransp.background
-		ColorWatchTransp.label
-		ColorWatchTransp.field
-		ColorWatchTransp.mask
+		ColorWatchTransp.mask -children {
+				ColorWatchTransp.label
+				ColorWatchTransp.field		
 		}
-	style configure ColorWatchTransp -borderwidth 0 -relief flat 
+		}
+	style configure ColorWatchTransp -borderwidth 0 -relief flat -height 14
 	
 	style element create ColorWatchTransp.field image $K(transp_sign) \
-		-border {0 0 0 0} -padding {0 0 0 0}
+		-border {0 0 0 0} -padding {0 0 0 0} -height 12 
 	
 	style element create ColorWatchTransp.mask image $K(color_watch) \
-		-border {3 3 3 3} -padding {0 0 0 0} -sticky ew
+		-border {1 1 1 1} -padding {1 1 1 1} -sticky ew -height 14
 		
 	# -------------
 	style layout HLine {

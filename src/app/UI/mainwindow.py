@@ -1488,11 +1488,11 @@ class SketchMainWindow(Publisher):
 		sb3f = Frame(status_bar, relief='flat', borderwidth=1, width=20, height=15)
 		sb3f.pack(side = RIGHT)
 		
-		fill_frame = TLabel(sb3f, style="ColorWatchDisabled")           
-		outline_frame = TLabel(sb3f,  style="ColorWatchDisabled")
+		fill_frame = TLabel(sb3f, style='ColorWatchDisabled', image='space_12')           
+		outline_frame = TLabel(sb3f,  style='ColorWatchDisabled', image='space_12')
 		
-		fill_frame.grid(row=0, column=0, sticky = 'NEWS')
-		outline_frame.grid(row=1, column=0, sticky = 'NEWS', pady=1)
+		fill_frame.grid(row=0, column=0, sticky = 'EW')
+		outline_frame.grid(row=1, column=0, sticky = 'EW', pady=1)
 
 		l=UpdatedLabel(status_bar, name='colors', text='', justify='right', updatecb = ColorInfo)
 		l.pack(side= RIGHT)
