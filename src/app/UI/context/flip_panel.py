@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from app.UI.Ttk import TButton
-from Tkinter import TOP
+from Tkinter import LEFT
 from subpanel import CtxSubPanel
 from app import  _
 from app.UI import tooltips
@@ -19,12 +19,12 @@ class FlipPanel(CtxSubPanel):
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
 		
-		b = TButton(self.panel, command=self.flip, style='TSmallbutton', image='context_flip')
+		b = TButton(self.panel, command=self.flip, style='Toolbutton', image='context_hflip')
 		tooltips.AddDescription(b, 'Flip Horizontal')
-		b.pack(side = TOP)
-		b = TButton(self.panel,  command=self.flop, style='TSmallbutton', image='context_flop')
+		b.pack(side = LEFT)
+		b = TButton(self.panel,  command=self.flop, style='Toolbutton', image='context_vflip')
 		tooltips.AddDescription(b, 'Flip Vertical')
-		b.pack(side = TOP)
+		b.pack(side = LEFT)
 		
 	def flip(self):
 		self.parent.mainwindow.document.FlipSelected(1,0)

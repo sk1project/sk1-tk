@@ -25,11 +25,13 @@ class UnitPanel(CtxSubPanel):
 		self.var_unit = StringVar(self.parent.mainwindow.root)
 		self.var_unit.set(config.preferences.default_unit)
 		
-		label = TLabel(self.panel, text=_("Units: "))
+		label = TLabel(self.panel, text=_(" Units: "))
 		label.pack(side = LEFT)
 		self.entry_width = TCombobox(self.panel, state='readonly', postcommand = self.applyUnits, 
 									 values=self.make_units(), width=3, style='ComboNormal', textvariable=self.var_unit)
 		self.entry_width.pack(side = LEFT)
+		label = TLabel(self.panel, image='space_3')
+		label.pack(side = LEFT)
 		config.preferences.Subscribe(CHANGED, self.update)
 		
 	def applyUnits(self):

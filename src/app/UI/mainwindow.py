@@ -199,7 +199,7 @@ class SketchMainWindow(Publisher):
 			return
 		self.SetDocument(Document(create_layer = 1))
 
-	AddCmd('LoadFromFile', _("Open..."), image = 'fileopen',  key_stroke = ('Ctrl+O', 'Ctrl+o',))
+	AddCmd('LoadFromFile', _("Open..."), image = 'menu_fileopen',  key_stroke = ('Ctrl+O', 'Ctrl+o',))
 	
 	AddCmd('LoadMRU0', '', 'LoadFromFile', args = 0, key_stroke = 'Alt+1',
 			name_cb = lambda: os.path.split(config.preferences.mru_files[0])[1])
