@@ -13,6 +13,7 @@ from resize_panel import ResizePanel
 from rotation_panel import RotatePanel
 from flip_panel import FlipPanel
 from unit_panel import UnitPanel
+from jump_panel import JumpPanel
 from page_panel import PagePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from subpanel import CtxSubPanel
@@ -28,7 +29,7 @@ SIMPLE_TEXT=5
 SelectionMode=0
 EditMode=1
 
-forPage=['PagePanel', 'UnitPanel','GuidesPanel']
+forPage=['PagePanel', 'UnitPanel','JumpPanel','GuidesPanel']
 forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 
@@ -106,5 +107,5 @@ class ContexPanel:
 			return IMAGE
 		return UNKNOWN_OBJ
 
-PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, 
+PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		   FlipPanel, UnitPanel, GroupPanel, CombinePanel, ToCurvePanel]
