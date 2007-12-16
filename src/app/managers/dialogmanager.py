@@ -158,28 +158,28 @@ class DialogManager:
 		name=app.config.name
 		kw['filetypes']=filetypes
 		dialog_type=self.get_dialog_type(OPENMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 			
 	def getOpenFilename(self, **kw):
 		name=app.config.name
 		title=_('Open file')
 		kw['filetypes']=openfiletypes
 		dialog_type=self.get_dialog_type(OPENMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def getImportFilename(self, **kw):
 		name=app.config.name
 		title=_('Import drawing')
 		kw['filetypes']=importfiletypes
 		dialog_type=self.get_dialog_type(OPENMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def getImportBMFilename(self, **kw):
 		name=app.config.name
 		title=_('Import bitmap')
 		kw['filetypes']=imagefiletypes
 		dialog_type=self.get_dialog_type(OPENMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 
 	def getGenericSaveFilename(self, title, filetypes,  **kw):
 		name=app.config.name
@@ -188,7 +188,7 @@ class DialogManager:
 		dialog_type=self.get_dialog_type(SAVEMODE)
 		if dialog_type==Gnome_GetSaveFilename:
 			title=_('Save file As...')
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def getSaveFilename(self, **kw):
 		name=app.config.name
@@ -197,28 +197,41 @@ class DialogManager:
 		dialog_type=self.get_dialog_type(SAVEMODE)
 		if dialog_type==Gnome_GetSaveFilename:
 			title=_('Save file As...')
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 
 	def getSaveAsFilename(self, **kw):
 		name=app.config.name
 		title=_('Save file As...')
 		kw['filetypes']=savefiletypes
 		dialog_type=self.get_dialog_type(SAVEMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		#return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def getExportFilename(self, **kw):
 		name=app.config.name
 		title=_('Export drawing')
 		kw['filetypes']=exportfiletypes
 		dialog_type=self.get_dialog_type(SAVEMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def getExportBMFilename(self, **kw):
 		name=app.config.name
 		title=_('Export drawing as a bitmap')
 		kw['filetypes']=imagefiletypes
 		dialog_type=self.get_dialog_type(SAVEMODE)
-		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		return apply(self.dialog_thread, (dialog_type, name, title), kw)
+	
+	def dialog_thread(self, dialog_type, name, title,  **kw):
+		if dialog_type==TkGetOpenFilename or dialog_type==TkGetOpenFilename:
+			return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+		else:
+			global STOP_LOOP
+			STOP_LOOP=None
+			import thread
+			thread.start_new_thread(dialog_type, (self.root, name, title, self.app_icon), kw)
+			while not STOP_LOOP:
+				self.root.mainloop()	
+			return STOP_LOOP
 
 def check_initialdir(initialdir):
 	if not os.path.exists(initialdir):
@@ -284,7 +297,10 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	return (master.tk.system_to_utf8(filename), filename)
+	global STOP_LOOP
+	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+	master.quit()
+	#return (master.tk.system_to_utf8(filename), filename)
 
 def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	''' Calls KDE save file dialog.   
@@ -310,7 +326,10 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	return (master.tk.system_to_utf8(filename), filename)
+	global STOP_LOOP
+	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+	master.quit()
+	#return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	''' Calls Gnome open file dialog.   
@@ -332,7 +351,10 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	return (master.tk.system_to_utf8(filename), filename)
+	global STOP_LOOP
+	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+	master.quit()
+	#return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	''' Calls Gnome open file dialog.   
@@ -355,9 +377,12 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	name+=' - '+title
 	from_K = os.popen('zenity --file-selection --save --name="'+name+
 					  '" --filename="'+os.path.join(initialdir,initialfile)+
-					  '" --window-icon="'+icon+'" --confirm-overwrite')
+					  '" --window-icon="'+icon+'" --confirm-overwrite')	
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	return (master.tk.system_to_utf8(filename), filename)
-	
+	global STOP_LOOP
+	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+	master.quit()
+	#return (master.tk.system_to_utf8(filename), filename)
+
