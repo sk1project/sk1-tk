@@ -224,7 +224,7 @@ class TEntry(Tkinter.Widget):
     """Entry widget which allows to display simple text."""
     def __init__(self, master=None, cnf={}, **kw):
         """Construct an entry widget with the parent MASTER.
-
+        
         Valid resource names: background, bd, bg, borderwidth, cursor,
         exportselection, fg, font, foreground, highlightbackground,
         highlightcolor, highlightthickness, insertbackground,
@@ -233,6 +233,7 @@ class TEntry(Tkinter.Widget):
         selectborderwidth, selectforeground, show, state, takefocus,
         textvariable, validate, validatecommand, vcmd, width,
         xscrollcommand."""
+        kw['cursor']='xterm'
         Tkinter.Widget.__init__(self, master, 'ttk::entry', cnf, kw)
     def delete(self, first, last=None):
         """Delete text from FIRST to LAST (not included)."""
