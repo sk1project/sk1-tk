@@ -77,6 +77,7 @@ class UIManager:
 		else:
 			self.root=root
 		self.uploadExtentions()
+		self.loadIcons()
 		self.loadIcons(app.config.preferences.icons)
 		self.createTestWidgets()
 		self.systemColorTheme=ColorTheme()
@@ -168,9 +169,13 @@ class UIManager:
 
 	def loadIcons(self, iconset='CrystalSVG'):
 		icons=[]
-		path=os.path.join(app.config.user_icons, iconset)
+		if iconset=='CrystalSVG':
+			path=os.path.join(app.config.sk_icons, iconset)
+		else:
+			path=os.path.join(app.config.user_icons, iconset)
 		if not os.path.isdir(path):
-			path=os.path.join(app.config.user_icons, self.getIconSets()[0])
+			path=os.path.join(app.config.sk_icons, 'CrystalSVG')
+			#path=os.path.join(app.config.user_icons, self.getIconSets()[0])
 		icons=os_utils.get_files_tree(path)	
 		for icon in icons:
 			item=os.path.basename(icon)[:-4]
