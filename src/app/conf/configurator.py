@@ -351,10 +351,11 @@ class Preferences(connector.Publisher):
 	color_theme = 'System'
 	#color_theme = 'UbuntuLooks'
 	icons='CrystalSVG'
+	#icons='Tango'
 	
 	#---------UI fonts---------
 	small_font='Tahoma 8'
-	normal_font='Tahoma 9'
+	normal_font='Tahoma 8'
 	large_font='Arial 12'
 	
 	#---------Color managment---------
