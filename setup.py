@@ -136,7 +136,7 @@ if __name__ == "__main__":
 		share_dirs.append(os.path.join(item[4:],'*.*'))
 	for item in ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']:
 		share_dirs.append(item)
-
+ 
 	src_path='src/'
 	
 	filter_src=src_path+'extentions/filter/'
