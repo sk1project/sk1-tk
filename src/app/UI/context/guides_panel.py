@@ -29,7 +29,7 @@ class GuidesPanel(CtxSubPanel):
 
 		
 	def makePageFrame(self):
-		doc=self.parent.mainwindow.document
+		doc=self.doc
 		layout = doc.Layout()
 		hor_p=layout.Width()
 		ver_p=layout.Height()
@@ -45,7 +45,7 @@ class GuidesPanel(CtxSubPanel):
 		doc.Insert(bezier)
 	
 	def addGuidesFrame(self):
-		doc=self.parent.mainwindow.document
+		doc=self.doc
 		layout = doc.Layout()
 		hor_p=layout.Width()
 		ver_p=layout.Height()
@@ -55,7 +55,7 @@ class GuidesPanel(CtxSubPanel):
 		doc.AddGuideLine(Point(hor_p, 0), 0)	
 	
 	def removeAllGuides(self):
-		doc=self.parent.mainwindow.document
+		doc=self.doc
 		guide_lines = doc.GuideLines()
 		for line in guide_lines:
 				doc.RemoveGuideLine(line)

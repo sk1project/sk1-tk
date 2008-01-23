@@ -19,7 +19,7 @@ class RotatePanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		self.angle=DoubleVar(self.parent.mainwindow.root)
+		self.angle=DoubleVar(self.mw.root)
 		self.angle.set(0)
 		
 		label = TLabel(self.panel, text=_(" Rotate: "))
@@ -27,7 +27,6 @@ class RotatePanel(CtxSubPanel):
 		self.entry_width = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.angle,
 						min = -360, max = 360, step = 1, width = 6, command = self.applyRotate)
 		self.entry_width.pack(side = LEFT)
-		mw=self.parent.mainwindow
 		b = TButton(self.panel, command=self.rotLeft, style='Toolbutton', image='context_rotate_ccw')
 		tooltips.AddDescription(b, 'Rotate -90°')
 		b.pack(side = LEFT)
@@ -42,13 +41,13 @@ class RotatePanel(CtxSubPanel):
 		self.rotation(180)
 		
 	def rotLeft(self):
-		self.rotation(-90)
-		
-	def rotRight(self):
 		self.rotation(90)
 		
-	def applyRotate(self,  event):
+	def rotRight(self):
+		self.rotation(-90)
+		
+	def applyRotate(self, event):
 		self.rotation(self.angle.get())
 		
 	def rotation(self, angle):
-		self.parent.mainwindow.document.RotateSelected(angle)
+		self.doc.RotateSelected(angle)

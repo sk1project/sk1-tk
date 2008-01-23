@@ -18,12 +18,11 @@ class GroupPanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		mw=self.parent.mainwindow.commands
-		b = TCommandButton(self.panel, mw.GroupSelected, style='TextButton', text=_('Group'))
+		b = TCommandButton(self.panel, self.mw.commands.GroupSelected, style='TextButton', text=_('Group'))
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, mw.UngroupSelected, style='TextButton', text=_('Ungroup'))
+		b = TCommandButton(self.panel, self.mw.commands.UngroupSelected, style='TextButton', text=_('Ungroup'))
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, mw.UngrAll, style='TextButton', text=_('Ungroup All'))
+		b = TCommandButton(self.panel, self.mw.commands.UngrAll, style='TextButton', text=_('Ungroup All'))
 		b.pack(side = LEFT)
 
 class CombinePanel(CtxSubPanel):
@@ -32,10 +31,9 @@ class CombinePanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		mw=self.parent.mainwindow.commands
-		b = TCommandButton(self.panel, mw.CombineBeziers, style='TextButton', text=_('Combine'))
+		b = TCommandButton(self.panel, self.mw.commands.CombineBeziers, style='TextButton', text=_('Combine'))
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, mw.SplitBeziers, style='TextButton', text=_('Split'))
+		b = TCommandButton(self.panel, self.mw.commands.SplitBeziers, style='TextButton', text=_('Split'))
 		b.pack(side = LEFT)
 		
 class ToCurvePanel(CtxSubPanel):
@@ -44,7 +42,6 @@ class ToCurvePanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		mw=self.parent.mainwindow.commands
-		b = TCommandButton(self.panel, mw.ConvertToCurve, style='Toolbutton', image='context_to_curve')
+		b = TCommandButton(self.panel, self.mw.commands.ConvertToCurve, style='Toolbutton', image='context_to_curve')
 		b.pack(side = LEFT)
 	

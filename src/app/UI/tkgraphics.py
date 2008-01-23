@@ -20,10 +20,15 @@ class NumWriter:
 			self.color=color
 		self.x=x
 		self.y=y
-		for num in text:
+		for num in text:						
 			if num=='0':
 				self.canvas.create_rectangle (self.x, self.y, self.x+3, self.y+4, outline=self.color)
 				self.x+=5
+			elif num=='.':
+				self.canvas.create_line (self.x, self.y+4, 
+										 self.x+1, self.y+4, 
+										 fill=self.color)
+				self.x+=2
 			elif num=='1':
 				self.canvas.create_line (self.x, self.y, 
 										 self.x+1, self.y, 
@@ -116,6 +121,11 @@ class NumWriter:
 			if num=='0':
 				self.canvas.create_rectangle (self.x, self.y, self.x+4, self.y-3, outline=self.color)
 				self.y-=5
+			elif num=='.':
+				self.canvas.create_line (self.x+4, self.y+1, 
+										 self.x+4, self.y, 
+										 fill=self.color)
+				self.y-=2
 			elif num=='1':
 				self.canvas.create_line (self.x, self.y+1, 
 										 self.x, self.y-1, 

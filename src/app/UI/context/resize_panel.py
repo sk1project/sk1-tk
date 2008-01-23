@@ -21,11 +21,11 @@ class ResizePanel(CtxSubPanel):
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
 		self.my_changes=0
-		self.var_width_number=DoubleVar(self.parent.mainwindow.root)
-		self.var_height_number=DoubleVar(self.parent.mainwindow.root)
+		self.var_width_number=DoubleVar(self.mw.root)
+		self.var_height_number=DoubleVar(self.mw.root)
 
-		var_width_unit = StringVar(self.parent.mainwindow.root)
-		var_height_unit = StringVar(self.parent.mainwindow.root)
+		var_width_unit = StringVar(self.mw.root)
+		var_height_unit = StringVar(self.mw.root)
 		
 		unit = config.preferences.default_unit
 		self.var_width = LengthVar(10, unit, self.var_width_number, var_width_unit)
@@ -47,34 +47,36 @@ class ResizePanel(CtxSubPanel):
 						min = 0, max = 50000, step = jump, width = 6, command = self.applyResize)
 		self.entry_height.pack(side = LEFT)
 		
-		self.parent.mainwindow.document.Subscribe(SELECTION, self.Update)	
-		self.parent.mainwindow.document.Subscribe(EDITED, self.update)
+		self.ReSubscribe()
 		config.preferences.Subscribe(CHANGED, self.update_pref)
-		
+
+	def ReSubscribe(self):
+		self.doc.Subscribe(SELECTION, self.Update)	
+		self.doc.Subscribe(EDITED, self.update)
+						
 	def applyResize(self, event):
 		try:
 			x=self.var_width.get()
 			y=self.var_height.get()
-			br=self.parent.mainwindow.document.selection.coord_rect
+			br=self.doc.selection.coord_rect
 			hor_sel=br.right - br.left
 			ver_sel=br.top - br.bottom
 		except:
 			return
-		self.parent.mainwindow.document.ScaleSelected(x/hor_sel, y/ver_sel)
+		self.doc.ScaleSelected(x/hor_sel, y/ver_sel)
 		self.update_size()
 		
 	def update(self, issue):
 		self.Update()
 		
 	def Update(self):
-		mw=self.parent.mainwindow
-		if len(mw.document.selection.GetInfo()):
+		if len(self.doc.selection.GetInfo()):
 			self.update_size()
 			
 	def update_size(self):	
 		self.var_width.unit=config.preferences.default_unit
 		self.var_height.unit=config.preferences.default_unit
-		br=self.parent.mainwindow.document.selection.coord_rect
+		br=self.doc.selection.coord_rect
 		width=br.right - br.left
 		height=br.top - br.bottom
 		self.var_width.set(width)
@@ -86,8 +88,7 @@ class ResizePanel(CtxSubPanel):
 		if self.my_changes:
 			self.my_changes=0
 		else:
-			mw=self.parent.mainwindow
-			if len(mw.document.selection.GetInfo()):
+			if len(self.doc.selection.GetInfo()):
 				self.update_size()
 		
 		

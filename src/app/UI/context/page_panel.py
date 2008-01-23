@@ -26,7 +26,7 @@ class PagePanel(CtxSubPanel):
 		CtxSubPanel.__init__(self, parent)		
 		self.my_changes=0
 		
-		root=self.parent.mainwindow.root
+		root=self.mw.root
 		self.var_format_name = StringVar(root)
 		self.var_format_name.set(config.preferences.default_paper_format)
 		self.page_orientation=config.preferences.default_page_orientation
@@ -162,5 +162,5 @@ class PagePanel(CtxSubPanel):
 		else:
 			layout = PageLayout(formatname,
 								orientation = self.page_orientation)
-		self.parent.mainwindow.canvas.bitmap_buffer=None
-		self.parent.mainwindow.document.SetLayout(layout)
+		self.mw.canvas.bitmap_buffer=None
+		self.doc.SetLayout(layout)

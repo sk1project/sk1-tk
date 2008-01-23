@@ -8,10 +8,11 @@
 from app.UI.Ttk import TLabel, TButton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED
-from Tkinter import LEFT, DoubleVar
+from Tkinter import LEFT, DoubleVar, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from app.UI import tooltips
+from app.UI.lengthvar import LengthVar
 
 class JumpPanel(CtxSubPanel):
 	
@@ -21,12 +22,16 @@ class JumpPanel(CtxSubPanel):
 		self.my_changes=0
 		
 		CtxSubPanel.__init__(self, parent)
-		self.var_jump=DoubleVar(self.parent.mainwindow.root)
-		self.var_jump.set(config.preferences.handle_jump)
+		self.var_jump_number=DoubleVar(self.mw.root)
+		self.var_jump_number.set(config.preferences.handle_jump)
+		
+		unit = config.preferences.handle_jump
+		var_jump_unit = StringVar(self.mw.root)
+		self.var_jump = LengthVar(10, unit, self.var_jump_number, var_jump_unit)
 		
 		label = TLabel(self.panel, text=_(" Jump: "))
 		label.pack(side = LEFT)
-		self.entry_jump = TSpinbox(self.panel,  var=config.preferences.handle_jump, 
+		self.entry_jump = TSpinbox(self.panel,  var=self.var_jump_number, 
 						vartype=1, textvariable = self.var_jump,
 						min = 0, max = 1000, step = .1, width = 6, command = self.applyJump)
 		self.entry_jump.pack(side = LEFT)
@@ -36,8 +41,10 @@ class JumpPanel(CtxSubPanel):
 		if self.my_changes:
 			self.my_changes=0
 		else:
-			self.var_jump.set(config.preferences.handle_jump)
+			self.var_jump.unit=config.preferences.default_unit
 
 		
 	def applyJump(self,  event):
+		self.my_changes=1
+		self.var_jump.unit=config.preferences.default_unit
 		config.preferences.handle_jump=self.var_jump.get()

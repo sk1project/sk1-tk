@@ -109,6 +109,7 @@ class SketchMainWindow(Publisher):
 		#self.build_smartpanel()
 		self.build_status_bar()
 		self.__init_dlgs()
+		self.document.Subscribe(SELECTION, self.refresh_buffer)
 #               self.canvas.bind('<Configure>', self.autozoom)
 		
 ##      self.bind('<Map>', self.init_size)
@@ -132,6 +133,11 @@ class SketchMainWindow(Publisher):
 		
 	def issue_document(self):
 		self.issue(DOCUMENT, self.document)
+		
+	def refresh_buffer(self):
+		if self.canvas:
+			self.canvas.bitmap_buffer=None
+#			self.canvas.save_bitmap_buffer()
 
 	def create_commands(self):
 		cmds = Commands()
@@ -162,6 +168,8 @@ class SketchMainWindow(Publisher):
 
 	def SetDocument(self, document):
 		channels = (SELECTION, UNDO, MODE)
+		if self.canvas:		
+			self.canvas.bitmap_buffer=None
 		old_doc = self.document
 		if old_doc is not None:
 			for channel in channels:
@@ -185,14 +193,13 @@ class SketchMainWindow(Publisher):
 			#del(old_doc)
 			#gc.collect()
 		self.set_window_title()
+		self.document.Subscribe(SELECTION, self.refresh_buffer)
 		if self.commands:
 			self.commands.Update()
+		
 
 	AddCmd('NewDocument', _("New"), key_stroke = ('Ctrl+N', 'Ctrl+n'))
 	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
-
-	def OpenNewDocument(self):
-			ret=os.spawnlp(os.P_NOWAIT, 'python', 'python', config.sketch_dir + '/main.py')
 
 	def NewDocument(self):
 		if self.save_doc_if_edited(_("New Document        ")) == tkext.Cancel:
@@ -412,7 +419,10 @@ class SketchMainWindow(Publisher):
 				app.MessageBox(title = _("Import vector"), message=_("\nWarnings from the import filter:\n\n") + messages)
 			doc.meta.load_messages = ''
 		if group is not None:
-			self.canvas.PlaceObject(group)
+			if config.preferences.import_insertion_mode:
+				self.canvas.PlaceObject(group)
+			else:
+				self.document.Insert(group)
 		else:
 			app.MessageBox(title = _("Import vector"), message=_("\nThe document is empty!\n"))
 		config.preferences.dir_for_vector_import=os.path.dirname(filename)
@@ -780,7 +790,6 @@ class SketchMainWindow(Publisher):
 		cmds = self.commands
 		return map(MakeCommand,
 					[cmds.NewDocument,
-#                                       cmds.OpenNewDocument,
 					cmds.LoadFromFile,
 					None,
 					cmds.SaveToFile,
@@ -1709,10 +1718,10 @@ class SketchMainWindow(Publisher):
 
 	# rearrange object
 
-	AddDocCmd('MoveUp', _("Move Up"), 'MoveSelected', args=(0,config.preferences.handle_jump), key_stroke = ('Up', 'KP_Up'))        
-	AddDocCmd('MoveDown', _("Move Down"), 'MoveSelected', args=(0,-1*config.preferences.handle_jump), key_stroke = ('Down', 'KP_Down'))
-	AddDocCmd('MoveRight', _("Move Right"), 'MoveSelected', args=(config.preferences.handle_jump,0), key_stroke = ('Right', 'KP_Right'))
-	AddDocCmd('MoveLeft', _("Move Left"), 'MoveSelected', args=(-1*config.preferences.handle_jump,0), key_stroke = ('Left', 'KP_Left'))
+	AddDocCmd('MoveUp', _("Move Up"), 'HandleMoveSelected', args=(0,1), key_stroke = ('Up', 'KP_Up'))        
+	AddDocCmd('MoveDown', _("Move Down"), 'HandleMoveSelected', args=(0,-1), key_stroke = ('Down', 'KP_Down'))
+	AddDocCmd('MoveRight', _("Move Right"), 'HandleMoveSelected', args=(1,0), key_stroke = ('Right', 'KP_Right'))
+	AddDocCmd('MoveLeft', _("Move Left"), 'HandleMoveSelected', args=(-1,0), key_stroke = ('Left', 'KP_Left'))
 
 	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'))#, bitmap = pixmaps.Delete)
 
@@ -1729,8 +1738,8 @@ class SketchMainWindow(Publisher):
 	AddDocCmd('ApplyToDuplicate', _("Duplicate0"))
 	AddDocCmd('DuplicateSelected', _("Duplicate"), #bitmap = pixmaps.Duplicate,
 			  key_stroke = ('Ctrl+D', 'Ctrl+d'))
-	AddDocCmd('GroupSelected', _("Group"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'), bitmap = pixmaps.Group)
-	AddDocCmd('UngroupSelected', _("Ungroup"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
+	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'), bitmap = pixmaps.Group)
+	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
 	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'), bitmap = pixmaps.ToCurve)
 	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'), bitmap = pixmaps.CCombine)
 	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
@@ -1823,7 +1832,11 @@ class SketchMainWindow(Publisher):
 		if self.application.ClipboardContainsData():
 			obj = self.application.GetClipboard().Object()
 			obj = obj.Duplicate()
-			self.canvas.PlaceObject(obj)
+			if config.preferences.insertion_mode:
+				self.canvas.PlaceObject(obj)
+			else:
+				self.document.Insert(obj)
+
 	#
 	#       Undo/Redo
 	#

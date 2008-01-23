@@ -355,7 +355,7 @@ class Preferences(connector.Publisher):
 	
 	#---------UI fonts---------
 	small_font='Tahoma 8'
-	normal_font='Tahoma 8'
+	normal_font='Tahoma 9'
 	large_font='Arial 12'
 	
 	#---------Color managment---------
@@ -422,7 +422,11 @@ class Preferences(connector.Publisher):
 	#	start point.
 	polyline_create_line_with_first_cklick = 1
 	topmost_is_mask = 1	#	Mask Group
-
+	
+	#How to insert from clipboard: 0 - on the same place; 1 - as a floating insertion
+	insertion_mode = 0
+	#How to insert imported graphics: 0 - on the same place; 1 - as a floating insertion
+	import_insertion_mode = 0
 	
 	#	If true, try to unload some of the import filter modules after
 	#	use. Only filters marked as unloadable in their config file are

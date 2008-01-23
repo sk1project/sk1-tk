@@ -26,7 +26,7 @@ from app.Lib import units
 HORIZONTAL = 0
 VERTICAL = 1
 
-tick_lengths = (8, 6, 4, 4)
+tick_lengths = (8, 5, 3, 3)
 
 # (base_unit_factor, (subdiv1, subdiv2,...))
 tick_config = {'in': (1.0, (2, 2, 2, 2)),
@@ -182,6 +182,7 @@ class Ruler(Canvas):
 				if pos == 0.0:	# avoid '-0' strings
 					pos = 0.0
 				texts.append(("%g" % pos, marks[i][-1]))
+					
 			self.positions = marks
 			self.texts = texts
 
@@ -200,7 +201,6 @@ class Ruler(Canvas):
 	def draw_test(self, event):
 		self.draw_ruler_horizontal()
 		
-##TODO: Font properties should be configurable 
 	def draw_ruler_horizontal(self):
 		height = int(self.winfo_height())
 		width = int(self.winfo_width())      

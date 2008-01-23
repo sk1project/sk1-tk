@@ -21,7 +21,7 @@ class UnitPanel(CtxSubPanel):
 		CtxSubPanel.__init__(self, parent)
 		self.my_changes=0
 		
-		self.var_unit = StringVar(self.parent.mainwindow.root)
+		self.var_unit = StringVar(self.mw.root)
 		self.var_unit.set(config.preferences.default_unit)
 		
 		label = TLabel(self.panel, text=_(" Units: "))

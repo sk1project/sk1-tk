@@ -1717,6 +1717,10 @@ class EditDocument(SketchDocument, QueueingPublisher):
 					self.abort_transaction()
 			finally:
 				self.end_transaction()
+				
+	def HandleMoveSelected(self, h, v):
+		val=config.preferences.handle_jump
+		self.MoveSelected(h*val, v*val)
 
 	def MoveSelected(self, h, v):
 		if self.selection:

@@ -7,7 +7,8 @@
 
 from app.UI.Ttk import TFrame, TLabel
 from Tkinter import LEFT, RIGHT
-from app.conf.const import SELECTION, MODE
+from app import Publisher
+from app.conf.const import DOCUMENT, SELECTION, MODE
 from guides_panel import GuidesPanel
 from resize_panel import ResizePanel
 from rotation_panel import RotatePanel
@@ -33,7 +34,7 @@ forPage=['PagePanel', 'UnitPanel','JumpPanel','GuidesPanel']
 forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 
-class ContexPanel:
+class ContexPanel(Publisher):
 	
 	panelRegistry={}
 	currentContent=[]
@@ -42,18 +43,28 @@ class ContexPanel:
 	def __init__(self, parent, mainwindow):
 		self.parent=parent
 		self.mainwindow=mainwindow
+		self.doc=self.mainwindow.document
 		self.panel=TFrame(self.parent, name = 'ctxPanel', style='ToolBarFrame', borderwidth=2)
 		label = TLabel(self.panel, image = "toolbar_left")
 		label.pack(side = LEFT)
-		self.mainwindow.document.Subscribe(SELECTION, self.check)
-		self.mainwindow.document.Subscribe(MODE, self.check)
 		self.initPanels()
+		self.mainwindow.Subscribe(DOCUMENT, self.doc_changed)
+		self.ReSubscribe()		
 		self.changeContent(forPage)
 		
 	def initPanels(self):
 		for panel in PanelList:
 			self.panelRegistry[panel.name]=panel(self)
 			
+	def ReSubscribe(self):
+		self.doc.Subscribe(SELECTION, self.check)
+		self.doc.Subscribe(MODE, self.check)
+		self.check()		
+
+	def doc_changed(self, doc):
+		self.doc=doc
+		self.ReSubscribe()
+					
 	def changeContent(self, panelgroup):
 		if not self.current_type==panelgroup:
 			if len(self.currentContent):

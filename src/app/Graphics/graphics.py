@@ -288,10 +288,10 @@ class SimpleGC(GCDevice):
 	def SetLineColor(self, color):
 		self.current_color = color
 		try:
-			#print "Xlib outline0",color.RGB()
+			print "Xlib outline0",color.RGB()
 			self.gc.SetForegroundAndFill(self.visual.get_pixel(color.RGB()))
 		except:
-			#print "Xlib outline",color
+			print "Xlib outline",color
 			self.gc.SetForegroundAndFill(self.visual.get_pixel(color))
 
 

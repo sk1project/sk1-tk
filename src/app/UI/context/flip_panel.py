@@ -26,9 +26,9 @@ class FlipPanel(CtxSubPanel):
 		b.pack(side = LEFT)
 		
 	def flip(self):
-		self.parent.mainwindow.document.FlipSelected(1,0)
+		self.doc.FlipSelected(1,0)
 	
 	def flop(self):
-		self.parent.mainwindow.document.FlipSelected(0,1)
+		self.doc.FlipSelected(0,1)
 		
 		
