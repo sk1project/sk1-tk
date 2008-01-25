@@ -23,28 +23,31 @@ class JumpPanel(CtxSubPanel):
 		
 		CtxSubPanel.__init__(self, parent)
 		self.var_jump_number=DoubleVar(self.mw.root)
-		self.var_jump_number.set(config.preferences.handle_jump)
 		
-		unit = config.preferences.handle_jump
+		unit = config.preferences.default_unit
 		var_jump_unit = StringVar(self.mw.root)
 		self.var_jump = LengthVar(10, unit, self.var_jump_number, var_jump_unit)
 		
 		label = TLabel(self.panel, text=_(" Jump: "))
 		label.pack(side = LEFT)
-		self.entry_jump = TSpinbox(self.panel,  var=self.var_jump_number, 
-						vartype=1, textvariable = self.var_jump,
+		self.entry_jump = TSpinbox(self.panel,  var=0, 
+						vartype=1, textvariable = self.var_jump_number,
 						min = 0, max = 1000, step = .1, width = 6, command = self.applyJump)
 		self.entry_jump.pack(side = LEFT)
 		config.preferences.Subscribe(CHANGED, self.update)		
+		self.var_jump.set(config.preferences.handle_jump)
+		self.update(0, 0)	
 
-	def update(self,event, event2):	
+	def update(self,event, event2):
 		if self.my_changes:
 			self.my_changes=0
 		else:
 			self.var_jump.unit=config.preferences.default_unit
+			self.var_jump.set(config.preferences.handle_jump)
 
 		
 	def applyJump(self,  event):
 		self.my_changes=1
 		self.var_jump.unit=config.preferences.default_unit
 		config.preferences.handle_jump=self.var_jump.get()
+		self.var_jump.set(config.preferences.handle_jump)

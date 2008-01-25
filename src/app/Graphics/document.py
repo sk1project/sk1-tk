@@ -1730,7 +1730,7 @@ class EditDocument(SketchDocument, QueueingPublisher):
 					#cnt = self.selection.coord_rect.center()
 					text = _("Move")
 					#angle=angle*pi/180
-					trafo = Translation(h*2.83465, v*2.83465)
+					trafo = Translation(h, v)
 					self.TransformSelected(trafo, text)
 				except:
 					self.abort_transaction()
