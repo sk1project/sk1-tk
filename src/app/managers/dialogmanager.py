@@ -222,16 +222,17 @@ class DialogManager:
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 	
 	def dialog_thread(self, dialog_type, name, title,  **kw):
-		if dialog_type==TkGetOpenFilename or dialog_type==TkGetOpenFilename:
-			return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
-		else:
-			global STOP_LOOP
-			STOP_LOOP=None
-			import thread
-			thread.start_new_thread(dialog_type, (self.root, name, title, self.app_icon), kw)
-			while not STOP_LOOP:
-				self.root.mainloop()	
-			return STOP_LOOP
+		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+#		if dialog_type==TkGetOpenFilename or dialog_type==TkGetOpenFilename:
+#			return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
+#		else:
+#			global STOP_LOOP
+#			STOP_LOOP=None
+#			import thread
+#			thread.start_new_thread(dialog_type, (self.root, name, title, self.app_icon), kw)
+#			while not STOP_LOOP:
+#				self.root.mainloop()	
+#			return STOP_LOOP
 
 def check_initialdir(initialdir):
 	if not os.path.exists(initialdir):
@@ -288,7 +289,7 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	'''
 	initialdir=check_initialdir(kw['initialdir'])
 	filetypes=convertForKdialog(kw['filetypes'])	
-	master.update()
+#	master.update()
 	winid=str(master.winfo_id())	
 	from_K = os.popen('kdialog --title "'+name+
 					  '" --caption "'+title+'" --embed "'+winid+
@@ -297,10 +298,10 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	global STOP_LOOP
-	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-	master.quit()
-	#return (master.tk.system_to_utf8(filename), filename)
+#	global STOP_LOOP
+#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+#	master.quit()
+	return (master.tk.system_to_utf8(filename), filename)
 
 def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	''' Calls KDE save file dialog.   
@@ -316,7 +317,7 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	'''
 	initialdir=check_initialdir(kw['initialdir'])
 	filetypes=convertForKdialog(kw['filetypes'])	
-	master.update()
+#	master.update()
 	winid=str(master.winfo_id())
 	#--name='title'
 	from_K = os.popen('kdialog --title "'+name+
@@ -326,10 +327,10 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	global STOP_LOOP
-	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-	master.quit()
-	#return (master.tk.system_to_utf8(filename), filename)
+#	global STOP_LOOP
+#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+#	master.quit()
+	return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	''' Calls Gnome open file dialog.   
@@ -351,10 +352,10 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	global STOP_LOOP
-	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-	master.quit()
-	#return (master.tk.system_to_utf8(filename), filename)
+#	global STOP_LOOP
+#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+#	master.quit()
+	return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	''' Calls Gnome open file dialog.   
@@ -372,7 +373,7 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	initialfile=kw['initialfile']
 	if not initialfile:
 		initialfile=''
-	master.update()
+#	master.update()
 	winid=str(master.winfo_id())
 	name+=' - '+title
 	from_K = os.popen('zenity --file-selection --save --name="'+name+
@@ -381,8 +382,8 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	file=from_K.readline()
 	filename=locale_utils.strip_line(file)
 	from_K.close()
-	global STOP_LOOP
-	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-	master.quit()
-	#return (master.tk.system_to_utf8(filename), filename)
+#	global STOP_LOOP
+#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
+#	master.quit()
+	return (master.tk.system_to_utf8(filename), filename)
 
