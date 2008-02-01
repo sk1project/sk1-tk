@@ -537,10 +537,13 @@ class CDRLoader(GenericLoader):
 		self.filename =filename
 		self.verbosity=False
 		self.info = None
+		self.file=file
 		
 	def Load(self):
 		try:
-			cdr = load_file(self.filename)
+			self.file.seek(0)
+			cdr = RiffChunk()
+			cdr.load(self.file.read())
 			
 			self.document()
 			self.layer('cdr_object', 1, 1, 0, 0, ('RGB',0,0,0))
