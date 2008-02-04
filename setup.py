@@ -140,12 +140,6 @@ if __name__ == "__main__":
 	src_path='src/'
 	
 	filter_src=src_path+'extentions/filter/'
-	
-	#if not sys.argv[1]=='sdist':	
-		#if os.system('cd %s; make -f Makefile.pre.in Makefile VERSION=%s;make;rm -f *.o *.so sedscript Makefile Makefile.pre'
-				#% (filter_src, sys.version[:3])):
-			#print "Build failed due to errors"
-			#sys.exit(1)
 				
 	filter_module = Extension('sk1.app.modules.streamfilter',
 			define_macros = [('MAJOR_VERSION', '0'),
@@ -264,6 +258,8 @@ sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
 				'sk1.app.scripts', 
 				'sk1.app.tcl', 
 				'sk1.app.UI', 
+				'sk1.app.UI.context',
+				'sk1.app.UI.pathutils',
 				'sk1.app.utils', 
 				'sk1.app.X11'
 			],
