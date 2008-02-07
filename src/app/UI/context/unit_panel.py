@@ -27,7 +27,7 @@ class UnitPanel(CtxSubPanel):
 		label = TLabel(self.panel, text=_(" Units: "))
 		label.pack(side = LEFT)
 		self.entry_width = TCombobox(self.panel, state='readonly', postcommand = self.applyUnits, 
-									 values=self.make_units(), width=3, style='ComboNormal', textvariable=self.var_unit)
+									 values=self.make_units(), width=4, style='ComboNormal', textvariable=self.var_unit)
 		self.entry_width.pack(side = LEFT)
 		label = TLabel(self.panel, image='space_3')
 		label.pack(side = LEFT)

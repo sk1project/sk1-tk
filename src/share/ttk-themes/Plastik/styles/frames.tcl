@@ -9,7 +9,7 @@
 	style layout MenuBarFrame {
 			MenuBarFrame.panel -expand true
 		} 
-	style configure MenuBarFrame -borderwidth 2 -relief flat   
+	style configure MenuBarFrame -relief flat   
         style element create MenuBarFrame.panel image $K(menu_bg) \
 		 -border {3 3 3 4} -padding {3 3 3 4}
 	

@@ -20,7 +20,7 @@
             Pal2TopButton.background
             Pal2TopButton.button -children {
                 Pal2TopButton.focus -children {
-                    Pal2TopButton.label
+                    Pal2TopButton.label -sticky ns
                 }
             }
         }
@@ -37,7 +37,7 @@
             PalTopButton.background
             PalTopButton.button -children {
                 PalTopButton.focus -children {
-                    PalTopButton.label
+                    PalTopButton.label -sticky ns
                 }
             }
         }
@@ -54,7 +54,7 @@
             PalBottomButton.background
             PalBottomButton.button -children {
                 PalBottomButton.focus -children {
-                    PalBottomButton.label
+                    PalBottomButton.label -sticky ns
                 }
             }
         }
@@ -71,7 +71,7 @@
             Pal2BottomButton.background
             Pal2BottomButton.button -children {
                 Pal2BottomButton.focus -children {
-                    Pal2BottomButton.label
+                    Pal2BottomButton.label -sticky ns
                 }
             }
         }
@@ -104,7 +104,7 @@
             SpinUpButton.background
             SpinUpButton.button -children {
                 SpinUpButton.focus -children {
-                    SpinUpButton.label
+                    SpinUpButton.label -sticky ns
                 }
             }
         }
@@ -122,7 +122,7 @@
             SpinDownButton.background
             SpinDownButton.button -children {
                 SpinDownButton.focus -children {
-                    SpinDownButton.label
+                    SpinDownButton.label -sticky ns
                 }
             }
         }

@@ -392,7 +392,7 @@ class MessageDialog(SKModal):
 		frame.pack(side = TOP, fill = BOTH, expand = 1)
 		label = TLabel(frame, image = 'messagebox_'+self.image, style='FlatLabel')
 		label.pack(side = LEFT, padx = 5, pady = 5)
-		label = TLabel(frame, text = self.message, name = 'msg', style='FlatLabel')
+		label = TLabel(frame, text = self.message, name = 'msg', style='FlatLabel', justify='center', anchor='center')
 		label.pack(side = RIGHT, fill = BOTH, expand = 1)
 	
 		frame = TFrame(top, name = 'bot', style='FlatFrame')

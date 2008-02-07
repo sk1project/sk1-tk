@@ -1406,8 +1406,8 @@ class SketchMainWindow(Publisher):
 		sb1 = TFrame(status_bar, style="FlatFrame")
 		sb1.pack(side = LEFT, fill = Y)
 		#Position Info
-		stat_pos = PositionLabel(sb1, name = 'position', text = '', width=20, updatecb = canvas.GetCurrentPos)
-		stat_pos.pack(side = 'left')
+		stat_pos = PositionLabel(sb1, name = 'position', text = '', anchor = 'center', width=20, updatecb = canvas.GetCurrentPos)
+		stat_pos.pack(side = LEFT, fill = X)
 		stat_pos.Update()
 		canvas.Subscribe(POSITION, stat_pos.Update)
 
@@ -1503,7 +1503,7 @@ class SketchMainWindow(Publisher):
 		fill_frame.grid(row=0, column=0, sticky = 'EW')
 		outline_frame.grid(row=1, column=0, sticky = 'EW', pady=1)
 
-		l=UpdatedLabel(status_bar, name='colors', text='', justify='right', updatecb = ColorInfo)
+		l=UpdatedLabel(status_bar, name='colors', text='', justify = 'right', updatecb = ColorInfo)
 		l.pack(side= RIGHT)
 		l.Update()
 		canvas.Subscribe(POSITION, l.Update)
@@ -1511,7 +1511,7 @@ class SketchMainWindow(Publisher):
 		canvas.Subscribe(SELECTION, l.Update)
 
 		#Object Info
-		stat_sel = UpdatedLabel(status_bar, name = 'selection',  justify='center', text = '', updatecb = canvas.CurrentInfoText)
+		stat_sel = UpdatedLabel(status_bar, name = 'selection',  justify = 'center', anchor = 'center', text = '', updatecb = canvas.CurrentInfoText)
 		stat_sel.pack(side = 'left', fill = X, expand = 1)
 		stat_sel.Update()
 		update = stat_sel.Update
