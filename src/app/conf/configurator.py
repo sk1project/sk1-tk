@@ -139,7 +139,7 @@ class Configurator:
 		if not os.path.isdir(self.user_themes):
 			result = False
 			self.restore_theme = 1
-			os.system("cp -r "+self.sk_themes+" "+self.user_themes)			
+			os.system("ln -s "+self.sk_themes+" "+self.user_themes)			
 		if not os.path.isdir(self.user_icc):
 			result = False
 			os.system("cp -r "+self.sk_icc+" "+self.user_icc)
@@ -157,7 +157,7 @@ class Configurator:
 			os.system("cp -r "+self.sk_color_themes+" "+self.user_color_themes)
 		if not os.path.isdir(self.user_icons):
 			result = False
-			os.system("cp -r "+self.sk_icons+" "+self.user_icons)
+			os.system("ln -s "+self.sk_icons+" "+self.user_icons)
 			
 		#if not result:
 			#print '[',output.yellow('FIXED'),']'
@@ -410,7 +410,7 @@ class Preferences(connector.Publisher):
 	#
 	#	Cairo data
 	#
-	cairo_enabled=0
+	cairo_enabled=1
 	alpha_channel_enabled=0
 	
 	#
