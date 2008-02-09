@@ -135,26 +135,26 @@ class Configurator:
 				sys.exit(1)
 		if not os.path.isdir(self.user_palettes):
 			result = False
-			os.system("cp -r "+self.sk_palettes+" "+self.user_palettes)
+			os.system("ln -s "+self.sk_palettes+" "+self.user_palettes)
 		if not os.path.isdir(self.user_themes):
 			result = False
 			self.restore_theme = 1
 			os.system("ln -s "+self.sk_themes+" "+self.user_themes)			
 		if not os.path.isdir(self.user_icc):
 			result = False
-			os.system("cp -r "+self.sk_icc+" "+self.user_icc)
+			os.system("ln -s "+self.sk_icc+" "+self.user_icc)
 		if not os.path.isdir(self.user_fonts):
 			result = False
-			os.system("cp -r "+self.sk_fonts+" "+self.user_fonts)
+			os.system("ln -s "+self.sk_fonts+" "+self.user_fonts)
 		if not os.path.isdir(self.user_plugins):
 			result = False
-			os.system("cp -r "+self.sk_plugins+" "+self.user_plugins)
+			os.system("ln -s "+self.sk_plugins+" "+self.user_plugins)
 		if not os.path.isdir(self.user_ps):
 			result = False
-			os.system("cp -r "+self.sk_ps+" "+self.user_ps)
+			os.system("ln -s "+self.sk_ps+" "+self.user_ps)
 		if not os.path.isdir(self.user_color_themes):
 			result = False
-			os.system("cp -r "+self.sk_color_themes+" "+self.user_color_themes)
+			os.system("ln -s "+self.sk_color_themes+" "+self.user_color_themes)
 		if not os.path.isdir(self.user_icons):
 			result = False
 			os.system("ln -s "+self.sk_icons+" "+self.user_icons)

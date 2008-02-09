@@ -36,7 +36,7 @@ from app import SketchLoadError, SketchError
 from app.plugins import plugins
 from app.io import load
 from app.conf import const
-from app.Graphics.color import ParseSKColor
+from app.Graphics.color import ParseSketchColor, CreateCMYKColor, CreateSPOTColor
 from app import CreateRGBColor, SolidPattern, HatchingPattern,EmptyPattern,\
 		LinearGradient, ConicalGradient, RadialGradient, ImageTilePattern, \
 		Style, MultiGradient, Trafo, Translation, Point, \
@@ -151,7 +151,16 @@ class SKLoader(GenericLoader):
 			c = self.color_cache.get(color_spec)
 			if c:
 				return c
-			c = apply(ParseSKColor, color_spec)
+			if color_spec[0]=='RGB':
+				c = CreateRGBColor(color_spec[1],color_spec[2],color_spec[3])
+			elif color_spec[0]=='CMYK':
+				c = CreateCMYKColor(color_spec[1],color_spec[2],color_spec[3],color_spec[4])
+			elif color_spec[0]=='SPOT': 
+				c = CreateSPOTColor(color_spec[3],color_spec[4],color_spec[5],
+								color_spec[6],color_spec[7],color_spec[8],color_spec[9],
+								color_spec[2],color_spec[1])
+			else:
+				c = apply(ParseSketchColor, color_spec)			
 			self.color_cache[color_spec] = c
 		except:
 			# This should only happen if the color_spec is invalid

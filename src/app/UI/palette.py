@@ -11,7 +11,7 @@ from types import StringType, TupleType, IntType
 from string import strip, split, atof, atoi
 
 from app.X11 import X
-from app.Graphics.color import RGB_Color, CMYK_Color
+from app.Graphics.color import RGB_Color, CMYK_Color, CreateSPOTColor, CreateSPOT_RGBColor, CreateSPOT_CMYKColor, tk_to_rgb
 
 from app.conf.const import CHANGED, COLOR1, COLOR2, CHANGED, VIEW, \
 		DROP_COLOR, CurDragColor
@@ -327,10 +327,37 @@ class XMLPaletteReader(handler.ContentHandler):
 				k=atof(self.attrs._attrs['k'])
 				color_name=self.attrs._attrs['name']
 				self.palette.colors.append(CMYK_Color(c,m,y,k, name=color_name))
+			if self.type=='SPOT':
+				r=atof(self.attrs._attrs['r'])
+				g=atof(self.attrs._attrs['g'])
+				b=atof(self.attrs._attrs['b'])
+				c=atof(self.attrs._attrs['c'])
+				m=atof(self.attrs._attrs['m'])
+				y=atof(self.attrs._attrs['y'])
+				k=atof(self.attrs._attrs['k'])
+				color_name=self.attrs._attrs['name']
+				palette=self.palette.name
+				self.palette.colors.append(CreateSPOTColor(r,g,b,c,m,y,k,color_name,palette))
+			if self.type=='SPOT-RGB':
+				r=atof(self.attrs._attrs['r'])
+				g=atof(self.attrs._attrs['g'])
+				b=atof(self.attrs._attrs['b'])
+				color_name=self.attrs._attrs['name']
+				palette=self.palette.name
+				self.palette.colors.append(CreateSPOT_RGBColor(r,g,b,color_name,palette))				
+			if self.type=='SPOT-CMYK':
+				c=atof(self.attrs._attrs['c'])
+				m=atof(self.attrs._attrs['m'])
+				y=atof(self.attrs._attrs['y'])
+				k=atof(self.attrs._attrs['k'])
+				color_name=self.attrs._attrs['name']
+				palette=self.palette.name
+				self.palette.colors.append(CreateSPOT_CMYKColor(c,m,y,k,color_name,palette))
 		if name=='description':			
 			self.type=self.attrs._attrs['type']
 			self.palette.name=self.attrs._attrs['name']
 			self.palette.type=self.attrs._attrs['type']
+			print self.type, self.palette.name
 
 	def characters(self, data):
 		self.value = data
@@ -444,7 +471,8 @@ class PaletteWidget(PyWidget, Publisher):
 		self.compute_num_cells()
 		self.normalize_start()
 		self.issue(VIEW)
-		self.UpdateWhenIdle()
+#		self.UpdateWhenIdle()
+		self.tk.call(self._w, 'update')
 
 	def RedrawMethod(self, region = None):
 		win = self.tkwin
@@ -452,7 +480,7 @@ class PaletteWidget(PyWidget, Publisher):
 		height =win.height
 		self.gc.StartDblBuffer()
 		self.gc.SetFillColor(StandardColors.black)
-		self.gc.FillRectangle(0, 0, height, width)
+		self.gc.FillRectangle(0, 0, height, width)		
 
 		x = 0
 		FillRectangle = self.gc.FillRectangle
@@ -462,6 +490,11 @@ class PaletteWidget(PyWidget, Publisher):
 		create_color = CreateRGBColor
 		rgbs = self.unipalette.colors
 		rgbs = rgbs[self.start_idx:self.start_idx + self.num_cells]
+		###widget refresh###
+		r,g,b=tk_to_rgb(app.uimanager.currentColorTheme.bg)
+		SetFillColor(apply(create_color, (r, g, b)))
+		FillRectangle(0, 0,  width, height)
+		####################		
 		for rgb in rgbs:
 			SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
 			FillRectangle(0, x,  width, x + width)
