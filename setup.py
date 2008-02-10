@@ -211,7 +211,7 @@ if __name__ == "__main__":
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [tkpng_src+'tkImgPNG.c', tkpng_src+'tkImgPNGInit.c'],
-			libraries=['tk8.5', 'tcl8.5'])
+			libraries=['tk8.5', 'tcl8.5', 'z'])
 
 			
 	setup (name = 'sK1',
