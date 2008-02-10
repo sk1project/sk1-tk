@@ -17,8 +17,8 @@
 
 #include <zlib.h>
 #include <math.h>
-#include "tcl.h"
-#include "tk.h"
+#include <tcl.h>
+#include <tk.h>
 
 /* Every PNG image starts with the following 8-byte signature */
 
