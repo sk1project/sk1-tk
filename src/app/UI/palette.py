@@ -357,7 +357,6 @@ class XMLPaletteReader(handler.ContentHandler):
 			self.type=self.attrs._attrs['type']
 			self.palette.name=self.attrs._attrs['name']
 			self.palette.type=self.attrs._attrs['type']
-			print self.type, self.palette.name
 
 	def characters(self, data):
 		self.value = data
