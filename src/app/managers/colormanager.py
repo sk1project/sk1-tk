@@ -5,10 +5,21 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 import os, app
-from lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
-	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
-	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
-	
+
+try:
+	from lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
+		 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
+		 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
+except:
+	try:
+		from lcms.lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
+			 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
+			 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC		
+	except:
+		import sys
+		print "Cann't find Python binding for LittleCMS!"
+		sys.exit(1)
+			
 class ColorManager:
 	rgb_monitor=None
 	cmyk_rgb=None
