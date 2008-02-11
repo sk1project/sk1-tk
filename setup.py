@@ -146,7 +146,7 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],	
 			sources = [filter_src+'streamfilter.c', filter_src+'filterobj.c', filter_src+'linefilter.c', 
 					filter_src+'subfilefilter.c', filter_src+'base64filter.c', filter_src+'nullfilter.c', 
-					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c', filter_src+'config.c'])
+					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c'])
  
  	type1mod_src=src_path+'extentions/type1mod/'				
 	type1mod_module = Extension('sk1.app.modules._type1module',
