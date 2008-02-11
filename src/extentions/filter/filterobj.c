@@ -944,7 +944,7 @@ filter_setattr(PyObject * self, char * name, PyObject * v)
 
 
 PyTypeObject FilterType = {
-	PyObject_HEAD_INIT(&PyType_Type)
+	PyObject_HEAD_INIT(NULL)
 	0,
 	"filter",
 	sizeof(FilterObject),

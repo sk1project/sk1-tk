@@ -608,9 +608,10 @@ binfile_setattr(PyObject * self, char * name, PyObject * v)
     return PyMember_Set((char *)self, binfile_memberlist, name, v);
 }
 
+staticforward PyTypeObject BinaryInputType;
 
-PyTypeObject BinaryInputType = {
-	PyObject_HEAD_INIT(&PyType_Type)
+statichere PyTypeObject BinaryInputType = {
+	PyObject_HEAD_INIT(NULL)
 	0,
 	"binaryinput",
 	sizeof(BinaryInputObject),
@@ -649,6 +650,8 @@ BinFile_FromStream(PyObject * stream, int byte_order, int int_size)
 	PyErr_SetString(PyExc_TypeError, "Only strings supported as input");
 	return NULL;
     }
+
+    BinaryInputType.ob_type = &PyType_Type;
 
     binfile = PyObject_New(BinaryInputObject, &BinaryInputType);
     if (!binfile)

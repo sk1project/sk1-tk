@@ -60,7 +60,7 @@ struct _inittab _PyImport_Inittab[] = {
 	{"imp", initimp},
 
 	/* This lives in Python/Python-ast.c */
-// 	{"_ast", init_ast},
+// 	{"_ast", init_ast}*/,
 
 	/* This lives in Python/_types.c */
 // 	{"_types", init_types},
