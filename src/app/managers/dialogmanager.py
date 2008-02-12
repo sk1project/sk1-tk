@@ -117,11 +117,11 @@ class DialogManager:
 			self.desktop=UNKNOWN_DESKTOP
 	
 	def validate_binaries(self):
-		if os.path.isfile('/usr/bin/kdialog'):
-			self.is_kdialog=1
-		else:
+		if os.system('which kdialog>/dev/null'):
 			self.is_kdialog=0
-		if os.system('zenity --help-misc>/dev/null'):
+		else:
+			self.is_kdialog=1
+		if os.system('which zenity>/dev/null'):
 			self.is_zenity=0
 		else:
 			self.is_zenity=1
