@@ -96,6 +96,7 @@ class UIManager:
 		self.root.tk.call('source', os.path.join(tcl,'tkmenu.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'tkfbox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'repeater.tcl'))
+		self.root.tk.call('source', os.path.join(tcl,'launch_dialog.tcl'))
 		#self.root.tk.call('source', os.path.join(tcl,'scrollbar.tcl'))
 	
 	def createTestWidgets(self):

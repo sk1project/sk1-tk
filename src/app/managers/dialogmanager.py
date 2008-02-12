@@ -9,6 +9,7 @@ import Tkinter, app, os, string, math
 from app.utils import os_utils
 from app.utils import locale_utils
 from app import _
+from Tkinter import StringVar
 
 
 def convertForKdialog(filetypes):
@@ -290,17 +291,13 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	initialdir=check_initialdir(kw['initialdir'])
 	filetypes=convertForKdialog(kw['filetypes'])	
 #	master.update()
-	winid=str(master.winfo_id())	
-	from_K = os.popen('kdialog --title "'+name+
+	winid=str(master.winfo_id())
+	execline=StringVar(master, name='execline')
+	execline.set('kdialog --title "'+name+
 					  '" --caption "'+title+'" --embed "'+winid+
 					  '" --name "'+name+'" --icon "'+icon+
 					  '" --getopenfilename "'+initialdir+'" "'+ filetypes+' "')
-	file=from_K.readline()
-	filename=locale_utils.strip_line(file)
-	from_K.close()
-#	global STOP_LOOP
-#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-#	master.quit()
+	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
 def KDE_GetSaveFilename(master, name, title, icon, **kw):
@@ -317,19 +314,14 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	'''
 	initialdir=check_initialdir(kw['initialdir'])
 	filetypes=convertForKdialog(kw['filetypes'])	
-#	master.update()
 	winid=str(master.winfo_id())
 	#--name='title'
-	from_K = os.popen('kdialog --title "'+name+
+	execline=StringVar(master, name='execline')
+	execline.set('kdialog --title "'+name+
 					  '" --caption "'+title+'" --embed "'+winid+
 					  '" --name "'+name+'" --icon "'+icon+
 					  '" --getsavefilename "'+initialdir+'" "'+ filetypes+'"')
-	file=from_K.readline()
-	filename=locale_utils.strip_line(file)
-	from_K.close()
-#	global STOP_LOOP
-#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-#	master.quit()
+	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetOpenFilename(master, name, title, icon, **kw):
@@ -346,15 +338,11 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	initialdir=check_initialdir(kw['initialdir'])
 	master.update()
 	winid=str(master.winfo_id())
-	name+=' - '+title
-	from_K = os.popen('zenity --file-selection --name="'+name+
-					  '" --filename="'+initialdir+'/" --window-icon="'+icon+'"')
-	file=from_K.readline()
-	filename=locale_utils.strip_line(file)
-	from_K.close()
-#	global STOP_LOOP
-#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-#	master.quit()
+	name+='\ -\ '+title
+	execline=StringVar(master, name='execline')
+	execline.set('zenity --file-selection --name='+name+' --filename='+initialdir+'/ --window-icon='+icon)
+	print execline.get()
+	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
 def Gnome_GetSaveFilename(master, name, title, icon, **kw):
@@ -373,17 +361,10 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	initialfile=kw['initialfile']
 	if not initialfile:
 		initialfile=''
-#	master.update()
 	winid=str(master.winfo_id())
-	name+=' - '+title
-	from_K = os.popen('zenity --file-selection --save --name="'+name+
-					  '" --filename="'+os.path.join(initialdir,initialfile)+
-					  '" --window-icon="'+icon+'" --confirm-overwrite')	
-	file=from_K.readline()
-	filename=locale_utils.strip_line(file)
-	from_K.close()
-#	global STOP_LOOP
-#	STOP_LOOP=(master.tk.system_to_utf8(filename), filename)
-#	master.quit()
+	name+='\ -\ '+title
+	execline=StringVar(master, name='execline')
+	execline.set('zenity --file-selection --save --name='+name+' --filename='+os.path.join(initialdir,initialfile)+' --window-icon='+icon+' --confirm-overwrite')	
+	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
