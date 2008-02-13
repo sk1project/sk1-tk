@@ -133,13 +133,22 @@ class DialogManager:
 			if not self.desktop:
 				dialog_type=TK_DIALOG
 			else:
-				dialog_type=self.desktop
+				dialog_type=self.desktop	
+				
+			if dialog_type==TK_DIALOG and self.is_zenity==1 and self.desktop==0:
+				dialog_type==GNOME_DIALOG
+				
+			if dialog_type==TK_DIALOG and self.is_kdialog==1 and self.desktop==0:
+				dialog_type==KDE_DIALOG
 		else:
 			dialog_type=dialog_mode
+			
 		if dialog_type==KDE_DIALOG and self.is_kdialog==0:
 			dialog_type==TK_DIALOG
 		if dialog_type==GNOME_DIALOG and self.is_zenity==0:
-			dialog_type==TK_DIALOG			
+			dialog_type==TK_DIALOG
+
+							
 		if mode==SAVEMODE:
 			if dialog_type==KDE_DIALOG:
 				return KDE_GetSaveFilename
@@ -224,16 +233,6 @@ class DialogManager:
 	
 	def dialog_thread(self, dialog_type, name, title,  **kw):
 		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
-#		if dialog_type==TkGetOpenFilename or dialog_type==TkGetOpenFilename:
-#			return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
-#		else:
-#			global STOP_LOOP
-#			STOP_LOOP=None
-#			import thread
-#			thread.start_new_thread(dialog_type, (self.root, name, title, self.app_icon), kw)
-#			while not STOP_LOOP:
-#				self.root.mainloop()	
-#			return STOP_LOOP
 
 def check_initialdir(initialdir):
 	if not os.path.exists(initialdir):
@@ -289,8 +288,7 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	Returns: tuple of utf8 and system encoded file names
 	'''
 	initialdir=check_initialdir(kw['initialdir'])
-	filetypes=convertForKdialog(kw['filetypes'])	
-#	master.update()
+	filetypes=convertForKdialog(kw['filetypes'])
 	winid=str(master.winfo_id())
 	execline=StringVar(master, name='execline')
 	execline.set('kdialog --title "'+name+
@@ -315,7 +313,6 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	initialdir=check_initialdir(kw['initialdir'])
 	filetypes=convertForKdialog(kw['filetypes'])	
 	winid=str(master.winfo_id())
-	#--name='title'
 	execline=StringVar(master, name='execline')
 	execline.set('kdialog --title "'+name+
 					  '" --caption "'+title+'" --embed "'+winid+
