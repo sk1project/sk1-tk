@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import Tkinter, app, os, string, math
+import Tkinter, app, os, string, math, string
 from app.utils import os_utils
 from app.utils import locale_utils
 from app import _
@@ -332,13 +332,14 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	
 	Returns: tuple of utf8 and system encoded file names
 	'''
-	initialdir=check_initialdir(kw['initialdir'])
+	initialdir=string.replace(check_initialdir(kw['initialdir']),' ','\ ')
 	master.update()
 	winid=str(master.winfo_id())
-	name+='\ -\ '+title
+	name+=' - '+title
+	name=string.replace(name,' ','\ ')
+	icon=string.replace(icon,' ','\ ')
 	execline=StringVar(master, name='execline')
 	execline.set('zenity --file-selection --name='+name+' --filename='+initialdir+'/ --window-icon='+icon)
-	print execline.get()
 	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
@@ -354,12 +355,15 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	
 	Returns: tuple of utf8 and system encoded file names
 	'''
-	initialdir=check_initialdir(kw['initialdir'])
-	initialfile=kw['initialfile']
-	if not initialfile:
+	initialdir=string.replace(check_initialdir(kw['initialdir']),' ','\ ')
+	if kw['initialfile']:
+		initialfile=string.replace(kw['initialfile'],' ','\ ')
+	else:
 		initialfile=''
 	winid=str(master.winfo_id())
-	name+='\ -\ '+title
+	name+=' - '+title
+	name=string.replace(name,' ','\ ')
+	icon=string.replace(icon,' ','\ ')
 	execline=StringVar(master, name='execline')
 	execline.set('zenity --file-selection --save --name='+name+' --filename='+os.path.join(initialdir,initialfile)+' --window-icon='+icon+' --confirm-overwrite')	
 	filename=master.tk.call('::desktop_integration::launch_dialog')
