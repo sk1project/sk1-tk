@@ -983,7 +983,10 @@ class EditorWrapper:
 
 	def compatible(self, aclass):
 		obj = self.editor
-		return isinstance(obj, aclass) or issubclass(obj.EditedClass, aclass)
+		#Just a hack. Don't unerstand why normal editor is not recognized.
+		#This hack may produces a problem in future.
+		return 1
+#		return isinstance(obj, aclass) or issubclass(obj.EditedClass, aclass)
 
 
 

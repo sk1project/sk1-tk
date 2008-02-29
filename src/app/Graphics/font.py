@@ -469,8 +469,8 @@ freetype_lib = ft2.Library()
 def scan_fonts_dirs():
 	fontfile_list=[]
 	user_font_dir=os.path.join(gethome(),config.preferences.user_font_dir)
-	win_dir='/mnt/win_c/WINDOWS/Fonts'
-	for path in [config.preferences.system_font_dir, win_dir]:# user_font_dir]:
+#	win_dir='/mnt/win_c/WINDOWS/Fonts'
+	for path in [config.preferences.system_font_dir, user_font_dir]:
 		fontfile_list+=get_files_tree(path,'ttf')       
 		fontfile_list+=get_files_tree(path,'TTF')       
 		
@@ -601,7 +601,6 @@ class Font:
 		# with a size of SIZE. The coordinates of the rectangle are
 		# relative to the origin of the first character.
 		self.init_face()
-		self.fontsize=size
 		self.face.setCharSize(10240, 10240, resolution, resolution)
 
 		posx = posy = 0
@@ -612,9 +611,9 @@ class Font:
 		for c in text:
 			thisIndex = self.enc_vector[ord(c)]
 			glyph = ft2.Glyph(self.face, thisIndex, 0)
-			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
-			posx += kerning[0] << 10
-			posy += kerning[1] << 10
+#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+#			posx += kerning[0] << 10
+#			posy += kerning[1] << 10
 			posx += glyph.advance[0]
 			posy += glyph.advance[1]
 			lastIndex = thisIndex
@@ -627,32 +626,40 @@ class Font:
 			text_ymin = min(text_ymin, gl_ymin)
 			text_xmax = max(text_xmax, gl_xmax)
 			text_ymax = max(text_ymax, gl_ymax)             
-		return (text_xmin*self.fontsize/10240.0, text_ymin*self.fontsize/10240.0, 
-				text_xmax*self.fontsize/10240.0, text_ymax*self.fontsize/10240.0)
-		#llx, lly, urx, ury = self.metric.string_bbox(text)
-		#size = size / 1000.0
-		#return (llx * size, lly * size, urx * size, ury * size)
+		return (text_xmin*size/10240.0, text_ymin*size/10240.0, 
+				posx*size/10240000.0, text_ymax*size/10240.0)
+
 
 	def TextCoordBox(self, text, size):
 		# Return the coord rectangle of TEXT when set in this font with
 		# a size of SIZE. The coordinates of the rectangle are relative
 		# to the origin of the first character.
-		#metric = self.metric
-		#width = metric.string_width(text)
-		#size = size / 1000.0
 		return self.TextBoundingBox(text, size)
-		#return (0,              metric.descender * size,
-				#width * size,   metric.ascender * size)
 
 	def TextCaretData(self, text, pos, size):
 		llx,lly,urx,ury=self.TextBoundingBox(text[0:pos],size)
+		if llx==lly==urx==ury==0:
+			llx,lly,urx,ury=self.TextBoundingBox('|',size)
 		x = urx-llx
 		t = 0;
 		up = ury - lly
 		return Point(x - t * lly, lly), Point(-t * up, up)
 
 	def TypesetText(self, text):
-		return self.metric.typeset_string(text)
+		self.init_face()
+		self.face.setCharSize(10240, 10240, resolution, resolution)		
+		posx = 0
+		lastIndex = 0
+		result=[Point(0,0),]
+		for c in text:
+			thisIndex = self.enc_vector[ord(c)]
+			glyph = ft2.Glyph(self.face, thisIndex, 0)
+#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+#			posx += kerning[0] << 10
+			posx += glyph.advance[0]/1000
+			lastIndex = thisIndex
+			result.append(Point(posx/10240.0,0))			
+		return result[0:-1]
 
 	def IsPrintable(self, char):
 		return 1
@@ -660,7 +667,7 @@ class Font:
 	def GetPaths(self, text):
 		self.init_face()
 		# convert glyph data into bezier polygons
-		print self.fontfile		
+#		print self.fontfile		
 		paths = []
 		offset = i = 0
 		for i in text:		
@@ -709,28 +716,13 @@ class Font:
 						path.AppendBezier(c1, c2, last_point, cont)
 				path.ClosePath()
 				path.Translate(offset, 0)
-				path.Transform(Scale(2*self.fontsize/102400.0))
+				path.Transform(Scale(0.5/1024.0))
 				paths.append(path)
 			offset = offset + glyph.advance[0]/1000
-		print 'glyph.advance[0]:' ,glyph.advance[0]/1000, 'fontsize: ', self.fontsize
 		return tuple(paths)
 
 	def GetOutline(self, char):		
-		if self.outlines is None:
-			self.char_strings, self.cs_interp = read_outlines(self.PostScriptName())
-			self.outlines = {}
-		char_name = self.encoding[ord(char)]
-		outline = self.outlines.get(char_name)
-		if outline is None:
-			self.cs_interp.execute(self.char_strings[char_name])
-			outline = convert_outline(self.cs_interp.paths)
-			self.outlines[char_name] = outline
-			self.cs_interp.reset()
-		copy = []
-		for path in outline:
-			path = path.Duplicate()
-			copy.append(path)
-		return tuple(copy)
+		return self.GetPaths(char)
 
 	def FontFileName(self):
 		return font_file_name(self.PostScriptName())
