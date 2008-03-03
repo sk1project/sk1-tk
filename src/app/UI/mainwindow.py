@@ -712,7 +712,7 @@ class SketchMainWindow(Publisher):
 		self.canvas.focus()
 		self.canvas.SetScrollbars(hbar, vbar)
 		self.canvas.SetRulers(hrule, vrule)
-
+		
 		vrule.SetCanvas(self.canvas)
 		hrule.SetCanvas(self.canvas)
 
@@ -785,6 +785,7 @@ class SketchMainWindow(Publisher):
 		self.canvas.bind('<Control-Button-5>', self.ScrollRightCanvas)
 		self.canvas.bind('<Shift-Button-4>', self.CanvasZoomingOut)
 		self.canvas.bind('<Shift-Button-5>', self.CanvasZoomingIn)
+
 
 	def make_file_menu(self):
 		cmds = self.commands
