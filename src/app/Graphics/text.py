@@ -423,19 +423,13 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def AsBezier(self):
 		if self.text:
-			objects = []
+			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			pos = self.properties.font.TypesetText(self.text)
-			for i in range(len(self.text)):
-				paths = self.properties.font.GetOutline(self.text[i])
-				if paths:
-					obj = PolyBezier(paths = paths,
-										properties = self.properties.Duplicate())
-					trafo = base_trafo(Translation(pos[i]))
-					obj.Transform(trafo)
-					objects.append(obj)
-			return Group(objects)
+			paths = self.properties.font.GetPaths(self.text)
+			obj = PolyBezier(paths, self.properties.Duplicate())
+			obj.Transform(base_trafo)
+			return obj
 
 	def Paths(self):
 		paths = []
