@@ -548,6 +548,10 @@ class Font:
 		font_cache[self.name] = self
 		self.fontstream=None
 		self.fontsize=10
+		self.use_unicode = 0
+		
+		self.init_face()
+		self.face.setCharSize(10240, 10240, resolution, resolution)
 
 	def __del__(self):
 		if font_cache.has_key(self.name):
@@ -556,19 +560,19 @@ class Font:
 	def __repr__(self):
 		return "<Font %s>" % self.name
 
-	def GetXLFD(self, size_trafo):
-		if type(size_trafo) == TrafoType:
-			if size_trafo.m11 == size_trafo.m22 > 0\
-				and size_trafo.m12 == size_trafo.m21 == 0:
-				# a uniform scaling. Special case for better X11R5
-				# compatibility
-				return xlfd_template % (self.xlfd_start,
-										int(round(size_trafo.m11)),
-										self.encoding_name)
-			return xlfd_template % (self.xlfd_start, xlfd_matrix(size_trafo),
-									self.encoding_name)
-		return xlfd_template % (self.xlfd_start, int(round(size_trafo)),
-								self.encoding_name)
+#	def GetXLFD(self, size_trafo):
+#		if type(size_trafo) == TrafoType:
+#			if size_trafo.m11 == size_trafo.m22 > 0\
+#				and size_trafo.m12 == size_trafo.m21 == 0:
+#				# a uniform scaling. Special case for better X11R5
+#				# compatibility
+#				return xlfd_template % (self.xlfd_start,
+#										int(round(size_trafo.m11)),
+#										self.encoding_name)
+#			return xlfd_template % (self.xlfd_start, xlfd_matrix(size_trafo),
+#									self.encoding_name)
+#		return xlfd_template % (self.xlfd_start, int(round(size_trafo)),
+#								self.encoding_name)
 
 	def PostScriptName(self):
 		return self.name
@@ -582,17 +586,16 @@ class Font:
 				f.close()
 				self.fontstream= StringIO.StringIO(s)
 						
-			self.face=ft2.Face(freetype_lib, self.fontstream, 0)
-			use_unicode = 0
+			self.face=ft2.Face(freetype_lib, self.fontstream, 0)			
 			
 			for index in range(self.face.num_charmaps):
 				cm = ft2.CharMap(self.face, index)
 				if cm.encoding_as_string == "unic":
-					use_unicode = 1
+					self.use_unicode = 1
 					self.face.setCharMap(cm)
 					break
 			
-			if not use_unicode:
+			if not self.use_unicode:
 				self.face.setCharMap(ft2.CharMap(self.face, 0, 0))
 			self.enc_vector = self.face.encodingVector()
 
@@ -600,16 +603,16 @@ class Font:
 		# Return the bounding rectangle of TEXT when set in this font
 		# with a size of SIZE. The coordinates of the rectangle are
 		# relative to the origin of the first character.
-		self.init_face()
-		self.face.setCharSize(10240, 10240, resolution, resolution)
 
 		posx = posy = 0
 		lastIndex = 0
 		text_xmin = text_ymin = 0
 		text_xmax = text_ymax = 0
-
 		for c in text:
-			thisIndex = self.enc_vector[ord(c)]
+			try:
+				thisIndex = self.enc_vector[ord(c)]
+			except:
+				thisIndex = self.enc_vector[ord('?')]
 			glyph = ft2.Glyph(self.face, thisIndex, 0)
 #			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 #			posx += kerning[0] << 10
@@ -640,19 +643,21 @@ class Font:
 		llx,lly,urx,ury=self.TextBoundingBox(text[0:pos],size)
 		if llx==lly==urx==ury==0:
 			llx,lly,urx,ury=self.TextBoundingBox('|',size)
+			urx=llx
 		x = urx-llx
 		t = 0;
 		up = ury - lly
 		return Point(x - t * lly, lly), Point(-t * up, up)
 
-	def TypesetText(self, text):
-		self.init_face()
-		self.face.setCharSize(10240, 10240, resolution, resolution)		
+	def TypesetText(self, text):		
 		posx = 0
 		lastIndex = 0
 		result=[Point(0,0),]
 		for c in text:
-			thisIndex = self.enc_vector[ord(c)]
+			try:
+				thisIndex = self.enc_vector[ord(c)]
+			except:
+				thisIndex = self.enc_vector[ord('?')]
 			glyph = ft2.Glyph(self.face, thisIndex, 0)
 #			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 #			posx += kerning[0] << 10
@@ -665,14 +670,14 @@ class Font:
 		return 1
 	
 	def GetPaths(self, text):
-		self.init_face()
-		# convert glyph data into bezier polygons
-#		print self.fontfile		
+		# convert glyph data into bezier polygons	
 		paths = []
-		offset = i = 0
-		for i in text:		
-			#print "character:", i,
-			thisIndex = self.enc_vector[ord(i)]
+		offset = c = 0
+		for c in text:		
+			try:
+				thisIndex = self.enc_vector[ord(c)]
+			except:
+				thisIndex = self.enc_vector[ord('?')]
 			glyph = ft2.Glyph(self.face, thisIndex, 1)
 			for contour in glyph.outline:
 				# rotate contour so that it begins with an onpoint

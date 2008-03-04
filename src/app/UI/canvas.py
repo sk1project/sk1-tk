@@ -675,8 +675,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				stroke = mod + sym
 				cmd = self.MapKeystroke(stroke)
 
-			if cmd:
-				if cmd.invoke_with_keystroke:
+			if cmd:				
+				if cmd.invoke_with_event:
+					cmd.Invoke(event)
+				elif cmd.invoke_with_keystroke:
 					cmd.Invoke(stroke)
 				else:
 					cmd.Invoke()
@@ -777,7 +779,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 					template, dict = text
 					text = format(template, converters, dict)
 				self.selection_info_text = text
-			return self.selection_info_text
+			return self.selection_info_text.encode('utf-8')
 
 
 	#

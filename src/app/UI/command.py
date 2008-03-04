@@ -147,6 +147,7 @@ class CommandClass:
 	is_command = 1
 	is_check = 0
 	invoke_with_keystroke = 0
+	invoke_with_event = 0
 
 
 	callable_attributes = ('name_cb', 'sensitive_cb', 'value_cb')

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000 by Bernhard Herzog
 #
@@ -86,20 +87,22 @@ from app import config
 from app.conf import const
 
 import handle
-import selinfo
+import selinfo, codecs
 from base import Primitive, RectangularPrimitive, Creator, Editor
 from compound import Compound
 from group import Group
 from bezier import PolyBezier, CombineBeziers
 from blend import Blend, MismatchError, BlendTrafo
 from properties import PropertyStack, FactoryTextStyle, DefaultTextProperties
-import color, pattern
+import color, pattern, app
 
 import graphics, font
 font_module = font
 
 from app.Lib import encoding; iso_latin_1 = encoding.iso_latin_1
 
+
+(encoder,decoder, sr,sw)=codecs.lookup('utf-8')
 
 
 printable = ''
@@ -200,14 +203,18 @@ class CommonTextEditor(Editor):
 	def Caret(self):
 		return self.caret
 
-	def InsertCharacter(self, char):
-		if len(char) == 1 and self.properties.font.IsPrintable(char):
+	def InsertCharacter(self, event):
+#		if len(char) == 1 and self.properties.font.IsPrintable(char):
+		try:			
+			char = event.char
+			char=char.decode('utf-8')			
 			text = self.text;	caret = self.caret
 			text = text[:caret] + char + text[caret:]
 			return self.SetText(text, caret + 1)
-		return NullUndo
+		except:
+			return NullUndo
 	AddCmd(commands, InsertCharacter, '', key_stroke = tuple(printable),
-			invoke_with_keystroke = 1)
+			invoke_with_event = 1)
 
 	def DeleteCharBackward(self):
 		if self.text and self.caret > 0:
