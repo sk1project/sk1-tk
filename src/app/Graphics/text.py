@@ -432,18 +432,26 @@ class SimpleText(CommonText, RectangularPrimitive):
 			return obj
 
 	def Paths(self):
-		paths = []
+#		paths = []
 		if self.text:
+			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			pos = self.properties.font.TypesetText(self.text)
-			for i in range(len(self.text)):
-				outline = self.properties.font.GetOutline(self.text[i])
-				trafo = base_trafo(Translation(pos[i]))
-				for path in outline:
-					path.Transform(trafo)
-					paths.append(path)
-		return tuple(paths)            
+			paths = self.properties.font.GetPaths(self.text)
+			obj = PolyBezier(paths, self.properties.Duplicate())
+			obj.Transform(base_trafo)
+		return obj.paths 
+							
+#			base_trafo = self.trafo(self.atrafo)
+#			base_trafo = base_trafo(Scale(self.properties.font_size))
+#			pos = self.properties.font.TypesetText(self.text)
+#			for i in range(len(self.text)):
+#				outline = self.properties.font.GetOutline(self.text[i])
+#				trafo = base_trafo(Translation(pos[i]))
+#				for path in outline:
+#					path.Transform(trafo)
+#					paths.append(path)
+#		return tuple(paths)            
 
 	def Editor(self):
 		return SimpleTextEditor(self)
