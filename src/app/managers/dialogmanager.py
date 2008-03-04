@@ -7,7 +7,6 @@
 
 import Tkinter, app, os, string, math, string
 from app.utils import os_utils
-from app.utils import locale_utils
 from app import _
 from Tkinter import StringVar
 
