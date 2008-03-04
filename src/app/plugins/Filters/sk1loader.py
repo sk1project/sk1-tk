@@ -334,8 +334,8 @@ class SKLoader(GenericLoader):
 		return line
 
 	functions.append('txt')
-	def txt(self, thetext, trafo, halign = text.ALIGN_LEFT,
-			valign = text.ALIGN_BASE):
+	def txt(self, thetext, trafo, halign = text.ALIGN_LEFT, valign = text.ALIGN_BASE):
+		thetext = self.unicode_decoder(thetext)
 		if len(trafo) == 2:
 			trafo = Translation(trafo)
 		else:
@@ -344,6 +344,16 @@ class SKLoader(GenericLoader):
 									halign = halign, valign = valign,
 									properties = self.get_prop_stack())
 		self.append_object(object)
+		
+	def unicode_decoder(self, text):
+		output=''
+		for word in text.split('\u')[1:]:
+				num=int(word,16)
+				if num > 256:
+					output+=('\u'+word).decode('raw_unicode_escape')
+				else:
+					output+=chr(int(num))
+		return output
 
 	functions.append('im')
 	def im(self, trafo, id):

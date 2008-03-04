@@ -501,6 +501,7 @@ class SKSaver:
 				write("bC()\n")
 
 	def SimpleText(self, text, trafo, halign, valign):
+		text = self.unicode_encoder(text)
 		write = self.file.write
 		write('txt(%s,' % `text`)
 		if trafo.matrix() != IdentityMatrix:
@@ -510,6 +511,12 @@ class SKSaver:
 		if halign or valign:
 			write(',%d,%d' % (halign, valign))
 		write(')\n')
+		
+	def unicode_encoder(self, text):
+		output=''
+		for char in text:
+			output+='\u0%x'%ord(char)
+		return output
 
 	def write_image(self, image, relative_filename = 1):
 		write = self.file.write
