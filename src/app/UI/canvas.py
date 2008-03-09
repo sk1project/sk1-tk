@@ -771,7 +771,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			if type(self.current_info_text) == TupleType:
 				template, dict = self.current_info_text
 				self.current_info_text = format(template, converters, dict)
-			return self.current_info_text
+			return self.current_info_text.encode('utf-8')
 		else:
 			if self.selection_info_text is None:
 				text = self.document.SelectionInfoText()
