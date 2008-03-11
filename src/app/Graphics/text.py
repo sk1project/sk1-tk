@@ -215,6 +215,17 @@ class CommonTextEditor(Editor):
 			return NullUndo
 	AddCmd(commands, InsertCharacter, '', key_stroke = tuple(printable),
 			invoke_with_event = 1)
+	
+	def InsertTextFromClipboard(self):
+		try:			
+			insertion = app.root.tk.call('::tk::GetSelection','.','CLIPBOARD')
+			insertion=insertion.decode('utf-8')		
+			text = self.text;	caret = self.caret
+			text = text[:caret] + insertion + text[caret:]
+			return self.SetText(text, caret + len(insertion))
+		except:
+			return NullUndo
+	AddCmd(commands, InsertTextFromClipboard, '', key_stroke = ('Ctrl+v', 'Shift+Insert'))
 
 	def DeleteCharBackward(self):
 		if self.text and self.caret > 0:
@@ -399,8 +410,11 @@ class SimpleText(CommonText, RectangularPrimitive):
 		self.coord_rect = trafo(rect)
 
 	def Info(self):
+		text=self.text.replace('\n','')
+		text=text.replace('\r','')
+		text=text.strip()
 		return (_("Text `%(text)s' at %(position)[position]"),
-				{'text':self.text[:10], 'position':self.trafo.offset()} )
+				{'text':text[:10], 'position':self.trafo.offset()} )
 
 	def FullTrafo(self):
 		# XXX perhaps the Trafo method should return
