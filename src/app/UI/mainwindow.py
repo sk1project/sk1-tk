@@ -665,9 +665,25 @@ class SketchMainWindow(Publisher):
 		self.tframe.pack(side = LEFT, fill=Y)
 		
 		####################################
-		# Drawing area creating
+		# Drawing area creating 
 		####################################
-		frame = TFrame(root, name = 'canvas_frame', style="CanvasFrame", borderwidth=5)
+		base_frame = TFrame(root, name = 'drawing_area_frame', style='FlatFrame', borderwidth=0)
+		base_frame.pack(side = LEFT, fill = BOTH, expand = 1)
+		
+		label=TLabel(base_frame,style='DrawingAreaTop', image='space_5')
+		label.pack(side = TOP, fill = X)
+
+		label=TLabel(base_frame,style='DrawingAreaBottom', image='space_5')
+		label.pack(side = BOTTOM, fill = X)
+				
+		label=TLabel(base_frame,style='DrawingAreaLeft', image='space_5')
+		label.pack(side = LEFT, fill = Y, expand = 1)
+		
+		label=TLabel(base_frame,style='DrawingAreaRight', image='space_5')
+		label.pack(side = RIGHT, fill = Y, expand = 1)
+
+		####################################
+		frame = TFrame(base_frame, name = 'canvas_frame', style='FlatFrame', borderwidth=0)
 		frame.pack(side = LEFT, fill = BOTH, expand = 1)
 
 		vbar = TScrollbar(frame)
