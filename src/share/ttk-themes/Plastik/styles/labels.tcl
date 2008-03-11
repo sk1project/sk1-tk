@@ -76,6 +76,50 @@
 	style element create VLine2.label image $K(vline2)
 	
 	# -------------
+	style layout DrawingAreaTop {
+		DrawingAreaTop.background -children {
+			DrawingAreaTop.label
+			}
+		}
+	style configure DrawingAreaTop  -relief flat 
+	
+	style element create DrawingAreaTop.background image $K(draw_area_top) \
+		-border {5 5 5 5} -padding {0 0 0 0} -sticky ew
+	
+	# -------------
+	style layout DrawingAreaBottom {
+		DrawingAreaBottom.background -children {
+			DrawingAreaBottom.label
+			}
+		}
+	style configure DrawingAreaBottom  -relief flat 
+	
+	style element create DrawingAreaBottom.background image $K(draw_area_bottom) \
+		-border {5 5 5 5} -padding {0 0 0 0} -sticky ew
+	
+	# -------------
+	style layout DrawingAreaLeft {
+		DrawingAreaLeft.background -children {
+			DrawingAreaLeft.label
+			}
+		}
+	style configure DrawingAreaLeft  -relief flat 
+	
+	style element create DrawingAreaLeft.background image $K(draw_area_left) \
+		-border {5 5 5 5} -padding {0 0 0 0} -sticky ns
+	
+	# -------------
+	style layout DrawingAreaRight {
+		DrawingAreaRight.background -children {
+			DrawingAreaRight.label
+			}
+		}
+	style configure DrawingAreaRight  -relief flat 
+	
+	style element create DrawingAreaRight.background image $K(draw_area_right) \
+		-border {5 5 5 5} -padding {0 0 0 0} -sticky ns
+	
+	# -------------
 	style layout PalLBorder {
 		PalLBorder.background -children {
 			PalLBorder.label
