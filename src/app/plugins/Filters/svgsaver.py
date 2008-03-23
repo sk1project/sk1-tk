@@ -20,6 +20,7 @@ from math import atan2, hypot, pi
 
 from app import Bezier, EmptyPattern, Trafo, Rotation, Translation
 from app.conf import const
+from app._sketch import RGBColor
 
 def csscolor(color):
 	return "#%02x%02x%02x" \
@@ -185,7 +186,7 @@ class SVGSaver:
 				stops[i] = 1.0 - pos, color
 		for pos, color in stops:
 			write('<stop offset="%g" style="stop-color:%s"/>\n'
-					% (pos, csscolor(color)))
+					% (pos, csscolor(color.RGB())))
 		write('</%s>\n' % tag)
 		write('</defs>')
 		return gradient_id
