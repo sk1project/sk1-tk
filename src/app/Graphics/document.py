@@ -1274,7 +1274,7 @@ class EditDocument(SketchDocument, QueueingPublisher):
 		# XXX this method should be removed in favour of the more
 		# generic SetProperties.
 		self.SetProperties(line_pattern = SolidPattern(color),
-							if_type_present = 1)
+							if_type_present = 0)
 
 	def SetProperties(self, **kw):
 		self.apply_to_selected(_("Set Properties"),
