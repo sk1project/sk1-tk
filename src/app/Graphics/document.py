@@ -517,6 +517,14 @@ class EditDocument(SketchDocument, QueueingPublisher):
 					self.add_undo(undo)
 					self.add_undo(self.AddClearRect(object.bounding_rect))
 					self.__set_selection(selected, SelectSet)
+					if self.CanUngroup():
+						self.add_undo(self.remove_selected())
+						info, group = self.selection.GetInfo()[0]
+						objects = group.Ungroup()
+						select, undo_insert = self.insert(objects, at = info[1:],
+															layer = info[0])
+						self.add_undo(undo_insert)
+						self.__set_selection(select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:
@@ -1518,17 +1526,23 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			try:
 				try:
 					self.add_undo(self.remove_selected())
-					exctracted_select=[]
+					extracted_select=[]
 					for info, object in self.selection.GetInfo():
 						objects = self.ExtractNonGroup(object)
 						select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
-						exctracted_select+=select
+						extracted_select+=select
 						self.add_undo(undo_insert)
-					self.__set_selection(exctracted_select, SelectSet)
+					self.__set_selection(extracted_select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:
 				self.end_transaction()
+				
+	def ModifyAndCopy(self):
+		if self.selection:
+			copies=self.copy_objects(self.selection.GetObjects())
+		self.Undo()
+		self.Insert(copies, undo_text=_("Modify&Copy"))	
 
 	def CanCreateMaskGroup(self):
 		infos = self.selection.GetInfo()

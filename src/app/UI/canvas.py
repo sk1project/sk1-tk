@@ -593,10 +593,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				
 				if self.copy_flag==1:
 					self.copy_flag=0
-					x=self.document.selection.coord_rect[0]-self.start_rect[0]
-					y=self.document.selection.coord_rect[1]-self.start_rect[1]
-					self.document.Undo()
-					self.document.MoveAndCopy(x, y, Point(0,0))
+					self.document.ModifyAndCopy()
 	
 			elif event.button == const.Button2:
 				pass
