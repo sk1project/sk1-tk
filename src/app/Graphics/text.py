@@ -413,6 +413,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 		text=self.text.replace('\n','')
 		text=text.replace('\r','')
 		text=text.strip()
+		text=text.encode('utf-8')
 		return (_("Text `%(text)s' at %(position)[position]"),
 				{'text':text[:10], 'position':self.trafo.offset()} )
 

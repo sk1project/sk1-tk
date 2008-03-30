@@ -39,7 +39,7 @@ factor_format = '%.1f%%'
 def conv_factor(factor):
 	return factor_format % (100 * factor)
 
-angle_format = '%.1f╟'
+angle_format = '%.1fº'
 def conv_angle(angle):
 	angle = angle * 180 / math.pi
 	while angle > 180:
