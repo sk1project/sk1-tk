@@ -534,12 +534,6 @@ class EditDocument(SketchDocument, QueueingPublisher):
 						extracted_select+=select
 						self.add_undo(undo_insert)
 					self.__set_selection(extracted_select, SelectSet)
-					
-#					info, objects = self.selection.GetInfo()[0]
-#					select, undo_insert = self.insert(objects, at = info[1:],
-#														layer = info[0])
-#					self.add_undo(undo_insert)
-#					self.__set_selection(select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:
@@ -576,6 +570,9 @@ class EditDocument(SketchDocument, QueueingPublisher):
 							# guide lines cannot be selected in the
 							# ordinary way, but other objects on the
 							# guide layer can.
+#							pass
+########################################################################
+########################################################################
 							selected = None
 				self.__set_selection(selected, type)
 

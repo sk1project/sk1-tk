@@ -130,11 +130,6 @@ class TkApplication:
 		from app.managers.dialogmanager import DialogManager
 		app.dialogman=DialogManager(self.root)
 		
-		#self.root.tk.call('lappend', 'auto_path', config.sk_themes)
-		#self.root.tk.call('package', 'require', 'tkpng')
-		#self.root.tk.call('package', 'require', 'tile')
-		#self.root.tk.call('tile::setTheme', config.preferences.style)
-		
 		# Reset locale again to make sure we get properly translated
 		# messages if desired by the user. For some reason it may
 		# have been reset by Tcl/Tk.
@@ -247,9 +242,6 @@ class SketchApplication(TkApplication, Publisher):
 		app.init_modules_from_widget(root)
 		app.uimanager.setApplicationIcon()
 		app.uimanager.maximizeApp()
-		#root.iconname('sK1')
-		#root.tk.call('wm', 'attributes', root, '-zoomed', 1)
-		#root.tk.call('wm', 'iconphoto', root, 'icon_sk1_16')
 		root.group(root)
 		config.add_options(root)
 
