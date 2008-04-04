@@ -193,7 +193,11 @@ class ClipboardWrapper:
 
 	def __del__(self):
 		pdebug('__del__', '__del__', self)
-		self.object.Destroy()
+		if type(self.object) == ListType:
+			for obj in self.object:
+				obj.Destroy()
+		else:
+			self.object.Destroy()
 
 	def Object(self):
 		return self.object

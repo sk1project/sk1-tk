@@ -506,25 +506,40 @@ class EditDocument(SketchDocument, QueueingPublisher):
 		self.end_transaction(queue_edited = 1)
 
 	def Insert(self, object, undo_text = _("Create Object")):
+		group_flag = 0
 		if isinstance(object, guide.GuideLine):
 			self.add_guide_line(object)
 		else:
 			self.begin_transaction(undo_text, clear_selection_rect = 0)
 			try:
 				try:
-					object.SetDocument(self)
+					if type(object) == ListType:
+						gobject = Group(object)
+					else:
+						gobject = object
 					selected, undo = self.insert(object)
 					self.add_undo(undo)
-					self.add_undo(self.AddClearRect(object.bounding_rect))
+					self.add_undo(self.AddClearRect(gobject.bounding_rect))
 					self.__set_selection(selected, SelectSet)
-					if self.CanUngroup():
-						self.add_undo(self.remove_selected())
-						info, group = self.selection.GetInfo()[0]
-						objects = group.Ungroup()
-						select, undo_insert = self.insert(objects, at = info[1:],
-															layer = info[0])
+					self.add_undo(self.remove_selected())
+					
+					extracted_select=[]
+					for info, object in self.selection.GetInfo():
+						objects=[]
+						if type(object) == ListType:
+							objects = object
+						else:
+							objects.append(object)												
+						select, undo_insert = self.insert(objects, at = info[1:], layer = info[0])
+						extracted_select+=select
 						self.add_undo(undo_insert)
-						self.__set_selection(select, SelectSet)
+					self.__set_selection(extracted_select, SelectSet)
+					
+#					info, objects = self.selection.GetInfo()[0]
+#					select, undo_insert = self.insert(objects, at = info[1:],
+#														layer = info[0])
+#					self.add_undo(undo_insert)
+#					self.__set_selection(select, SelectSet)
 				except:
 					self.abort_transaction()
 			finally:
@@ -1392,22 +1407,26 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			copies.append(obj.Duplicate())
 
 		if len(copies) > 1:
-			copies = Group(copies)
+			for copy in copies:
+				copy.UntieFromDocument()
+				copy.SetDocument(None)
 		else:
-			copies = copies[0]
+			copy = copies[0]
 			# This is ugly: Special case for internal path text objects.
 			# If the internal path text object is the only selected
 			# object, turn the copy into a normal simple text object.
 			# Thsi avoids some of the problems when you "Copy" an
 			# internal path text.
 			import text
-			if copies.is_PathTextText:
-				properties = copies.Properties().Duplicate()
-				copies = text.SimpleText(text = copies.Text(),
+			if copy.is_PathTextText:
+				properties = copy.Properties().Duplicate()
+				copy = text.SimpleText(text = copy.Text(),
 											properties = properties)
 
-		copies.UntieFromDocument()
-		copies.SetDocument(None)
+			copy.UntieFromDocument()
+			copy.SetDocument(None)
+			copies[0]=copy
+			
 		return copies
 
 	def CopyForClipboard(self):

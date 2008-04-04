@@ -1794,8 +1794,10 @@ class SketchMainWindow(Publisher):
 			self.application.SetClipboard(objects)
 			if self.application.ClipboardContainsData():
 					obj = self.application.GetClipboard().Object()
-					obj = obj.Duplicate()
-					self.canvas.PlaceObject(obj)
+					copies=self.document.copy_objects(self.application.GetClipboard())
+					self.document.Insert(copies, undo_text=_("Paste"))
+#					obj = obj.Duplicate()
+#					self.canvas.PlaceObject(obj)
 
 	def FitToNat (self):
 		hp=float(self.canvas.winfo_screenheight())
@@ -1847,12 +1849,12 @@ class SketchMainWindow(Publisher):
 
 	def PasteClipboard(self):
 		if self.application.ClipboardContainsData():
-			obj = self.application.GetClipboard().Object()
-			obj = obj.Duplicate()
+			obj = self.document.copy_objects(self.application.GetClipboard().Object())
+#			obj = obj.Duplicate()
 			if config.preferences.insertion_mode:
 				self.canvas.PlaceObject(obj)
 			else:
-				self.document.Insert(obj)
+				self.document.Insert(obj, undo_text=_("Paste"))
 
 	#
 	#       Undo/Redo
