@@ -11,6 +11,7 @@ import xml.sax
 from xml.sax.xmlreader import InputSource
 from app.conf.configurator import XMLPrefReader, ErrorHandler, EntityResolver, DTDHandler
 from app.utils import os_utils
+from app.conf import const
 			
 class ColorTheme:
 	bg ='#959ba2'
@@ -85,7 +86,13 @@ class UIManager:
 		self.setColorTheme(app.config.preferences.color_theme)
 		self.setFonts()
 		self.resetTile()
-			
+		self.defineCursors()
+		
+	def defineCursors(self):
+		cur_dir=os.path.join(app.config.sk_share_dir,'cursors')
+		setattr(const, 'CurEdit', ('@' + os.path.join(cur_dir,'CurEdit.xbm'),'black'))
+		setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir,'CurZoom.xbm'),'black'))
+		
 	def uploadExtentions(self):
 		self.root.tk.call('lappend', 'auto_path', os.path.join(app.config.sk_dir,'app'))
 		self.root.tk.call('lappend', 'auto_path', app.config.user_themes)
