@@ -832,6 +832,11 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				value_on = 'Create:SimpleTextCreator',
 				sensitive_cb = 'can_create')
 	def Create(self, gfx_name = None):
+		if gfx_name=='SimpleTextCreator':
+			infos = self.document.selection.GetInfo()
+			if len(infos) == 1 and infos[0][-1].is_SimpleText:
+				self.EditMode()
+				return			
 		self.begin_transaction()
 		if gfx_name is None:
 			gfx_name = self.create_type
@@ -841,7 +846,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def creation_enter(self, gfx_name):
 		self.create_creator = getattr(app, gfx_name)
 		self.create_type = gfx_name
-		self.push_static_cursor(const.CurCreate)
+		if gfx_name=='SimpleTextCreator':
+			self.push_static_cursor(const.CurText)
+		else:
+			self.push_static_cursor(const.CurCreate)
 		self.mode.text = self.create_creator.creation_text
 
 	def creation_begin(self, p, button, state):
@@ -1857,6 +1865,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 							cursor = const.CurHGuide
 						else:
 							cursor = const.CurVGuide
+					elif object.is_SimpleText and self.IsEditMode():
+						cursor = const.CurText
 					elif self.IsSelectionMode():
 						cursor = const.CurMove
 			self.set_window_cursor(cursor)
