@@ -29,6 +29,7 @@ from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO
 from Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
 from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 from Ttk import  TFrame, TScrollbar, TLabel, TButton
+from doctabs import TabsPanel
 import Tkinter
 from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, ToolbarButton, \
 				CommandCheckbutton, MakeCommand, MultiButton, \
@@ -100,6 +101,7 @@ class SketchMainWindow(Publisher):
 		self.canvas = None
 		self.document = None
 		self.commands = None
+		self.tabspanel=None
 		self.NewDocument()
 		self.create_commands()
 		self.build_window()
@@ -198,7 +200,7 @@ class SketchMainWindow(Publisher):
 			self.commands.Update()
 		
 
-	AddCmd('NewDocument', _("New"), key_stroke = ('Ctrl+N', 'Ctrl+n'))
+	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n'))
 	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
 
 	def NewDocument(self):
@@ -208,13 +210,13 @@ class SketchMainWindow(Publisher):
 
 	AddCmd('LoadFromFile', _("Open..."), image = 'menu_file_open',  key_stroke = ('Ctrl+O', 'Ctrl+o',))
 	
-	AddCmd('LoadMRU0', '', 'LoadFromFile', args = 0, key_stroke = 'Alt+1',
+	AddCmd('LoadMRU0', '', 'LoadFromFile', image = 'menu_doc_icon', args = 0, key_stroke = 'Alt+1',
 			name_cb = lambda: os.path.split(config.preferences.mru_files[0])[1])
-	AddCmd('LoadMRU1', '', 'LoadFromFile', args = 1, key_stroke = 'Alt+2',
+	AddCmd('LoadMRU1', '', 'LoadFromFile', image = 'menu_doc_icon', args = 1, key_stroke = 'Alt+2',
 			name_cb = lambda: os.path.split(config.preferences.mru_files[1])[1])
-	AddCmd('LoadMRU2', '', 'LoadFromFile', args = 2, key_stroke = 'Alt+3',
+	AddCmd('LoadMRU2', '', 'LoadFromFile', image = 'menu_doc_icon', args = 2, key_stroke = 'Alt+3',
 			name_cb = lambda: os.path.split(config.preferences.mru_files[2])[1])
-	AddCmd('LoadMRU3', '', 'LoadFromFile', args = 3, key_stroke = 'Alt+4',
+	AddCmd('LoadMRU3', '', 'LoadFromFile', image = 'menu_doc_icon', args = 3, key_stroke = 'Alt+4',
 			name_cb = lambda: os.path.split(config.preferences.mru_files[3])[1])
 
 	def LoadFromFile(self, filename = None, directory = None):
@@ -254,10 +256,10 @@ class SketchMainWindow(Publisher):
 				app.MessageBox(title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
 			doc.meta.load_messages = ''
 
-	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', subscribe_to = UNDO,
+	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', image = 'menu_file_save', subscribe_to = UNDO,
 				sensitive_cb = ('document', 'WasEdited'),  #bitmap = pixmaps.Save, 
 				key_stroke = ('Ctrl+S', 'Ctrl+s'))
-	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', #bitmap = pixmaps.SaveAs,
+	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image = 'menu_file_saveas', #bitmap = pixmaps.SaveAs,
 		   args = 1)
 	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', #bitmap = pixmaps.ExportV,
 		   args = 2)
@@ -503,7 +505,7 @@ class SketchMainWindow(Publisher):
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
 	AddCmd('KPrinting', 
 		   _("Print..."), 
-		   'KPrinting', 
+		   'KPrinting', image = 'menu_file_print', 
 		   #bitmap = pixmaps.Printer, 
 		   key_stroke = ('Ctrl+P', 'Ctrl+p'))
 	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))#, bitmap = pixmaps.QPrinter)
@@ -581,7 +583,7 @@ class SketchMainWindow(Publisher):
 		dialog.Subscribe(CLOSED, self.__dlg_closed, info.class_name)
 		self.dialogs[info.class_name] = dialog
 
-	AddCmd('SetOptions', _("Options..."))
+	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
 	def SetOptions(self):
 		import optiondlg
 		optiondlg.OptionDialog(self.root, self.canvas)
@@ -627,7 +629,7 @@ class SketchMainWindow(Publisher):
 
 		self.application.Mainloop()
 
-	AddCmd('Exit', _("Exit"), key_stroke = ('Alt+F4'))
+	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	def Exit(self):
 		if self.save_doc_if_edited(_("EXIT        ")) != tkext.Cancel:
 			self.commands = None
@@ -670,8 +672,9 @@ class SketchMainWindow(Publisher):
 		base_frame = TFrame(root, name = 'drawing_area_frame', style='FlatFrame', borderwidth=0)
 		base_frame.pack(side = LEFT, fill = BOTH, expand = 1)
 		
-		label=TLabel(base_frame,style='DrawingAreaTop', image='space_5')
-		label.pack(side = TOP, fill = X)
+		self.tabspanel = TabsPanel(base_frame, self)
+#		label=TLabel(base_frame,style='DrawingAreaTop', image='space_5')
+		self.tabspanel.panel.pack(side = TOP, fill = X)
 
 		label=TLabel(base_frame,style='DrawingAreaBottom', image='space_5')
 		label.pack(side = BOTTOM, fill = X)
@@ -846,7 +849,6 @@ class SketchMainWindow(Publisher):
 					self.commands.PasteClipboard,
 					None,
 					self.commands.RemoveSelected,
-					self.commands.CopyPaste,
 					self.commands.DuplicateSelected,
 					self.commands.SelectAll,
 #                                       None,
@@ -1740,7 +1742,7 @@ class SketchMainWindow(Publisher):
 	AddDocCmd('MoveRight', _("Move Right"), 'HandleMoveSelected', args=(1,0), key_stroke = ('Right', 'KP_Right'))
 	AddDocCmd('MoveLeft', _("Move Left"), 'HandleMoveSelected', args=(-1,0), key_stroke = ('Left', 'KP_Left'))
 
-	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'))#, bitmap = pixmaps.Delete)
+	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'), image = 'menu_edit_delete')
 
 	AddDocCmd('MoveSelectedToTop', _("Move to Top"), #bitmap = pixmaps.MoveToTop,
 			  key_stroke = ('Shift+PgUp', 'Shift+Prior', 'Shift-KP_Prior'))
@@ -1809,7 +1811,7 @@ class SketchMainWindow(Publisher):
 
 	AddCmd('CopySelected', _("Copy"), 'CutCopySelected',
 			args= ('CopyForClipboard',), subscribe_to = SELECTION,
-			#bitmap = pixmaps.Copy,
+			image = 'menu_edit_copy',
 			key_stroke = ('Ctrl+C', 'Ctrl+c'),
 			sensitive_cb = ('document', 'HasSelection'))
 			
@@ -1819,12 +1821,12 @@ class SketchMainWindow(Publisher):
 	
 	AddCmd('CutSelected', _("Cut"), 'CutCopySelected',
 			args= ('CutForClipboard',), subscribe_to = SELECTION,
-			#bitmap = pixmaps.Cut, 
+			image = 'menu_edit_cut', 
 			key_stroke = ('Ctrl+X', 'Ctrl+x'),
 			sensitive_cb = ('document', 'HasSelection'))
 			
 	AddCmd('PasteClipboard', _("Paste"),
-			#bitmap = pixmaps.Paste,
+			image = 'menu_edit_paste',
 			key_stroke = ('Ctrl+V', 'Ctrl+v'),
 			subscribe_to = ('application', CLIPBOARD),
 			sensitive_cb = ('application', 'ClipboardContainsData'))
@@ -1863,14 +1865,14 @@ class SketchMainWindow(Publisher):
 	AddDocCmd('Undo', _("Undo"), 
 			  subscribe_to = UNDO, 
 			  sensitive_cb = 'CanUndo',
-			  #bitmap = pixmaps.Undo, 
+			  image = 'menu_edit_undo', 
 			  name_cb = 'UndoMenuText', 
 			  key_stroke = ('Ctrl+Z', 'Ctrl+z'))
 	AddDocCmd('Redo', _("Redo"), 
 			  subscribe_to = UNDO, 
 			  sensitive_cb = 'CanRedo', 
 			  name_cb = 'RedoMenuText',
-			  #bitmap = pixmaps.Redo,
+			  image = 'menu_edit_redo', 
 			  key_stroke = ('Ctrl+Shift+Z', 'Ctrl+Z'))
 
 	AddDocCmd('ResetUndo', _("Discard Undo History"), subscribe_to = None, sensitive_cb = None)
