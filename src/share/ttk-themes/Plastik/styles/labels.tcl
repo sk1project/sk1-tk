@@ -58,7 +58,7 @@
 	style configure HLine  -relief flat 
 	
 	style element create HLine.background image $K(hline) \
-		-border {4 4 4 4} -padding {0 0 0 0} -sticky ew
+		-border {1 1 1 1} -padding {0 0 0 0} -sticky ew
 		
 	style element create HLine.label image $K(hline)
 	
