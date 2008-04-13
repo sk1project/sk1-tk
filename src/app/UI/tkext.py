@@ -173,6 +173,7 @@ class MenuCommand(AutoUpdate, WidgetWithCommand, MenuEntry):
 	def __init__(self, text = '', command = None, args = (),
 					sensitivecb = None, updatecb = None, bitmap = None, image = 'none16',
 					**rest):
+		self.image=image
 		AutoUpdate.__init__(self, sensitivecb, updatecb)
 		WidgetWithCommand.__init__(self)
 		theme=app.uimanager.currentColorTheme
@@ -190,6 +191,13 @@ class MenuCommand(AutoUpdate, WidgetWithCommand, MenuEntry):
 			rest['label'] = text
 		self.set_command(command, args)
 
+	def SetSensitive(self, on):
+#		if on:
+#			self['image']=self.image
+#		else:
+#			self['image']='menu_icon_mask'
+		AutoUpdate.SetSensitive(self, on)
+		
 
 	def clean_up(self):
 		AutoUpdate.clean_up(self)
@@ -618,14 +626,16 @@ def AppendMenu(mbar, text, menu_list, underline):
 
 cmd_classes = (command.Command, command.ObjectCommand)
 
-def MakeCommand(label, func = None, args = (), sensitive = None, update =None):
+def MakeCommand(label, func = None, args = (), sensitive = None, update = None, image = 'none16'):
 	if label:
 		if type(label) == TupleType:
 			return apply(MakeCommand, label)
 		elif type(label) == ListType:
 			text = label[0]
 			if type(text) == TupleType:
+				print 'HERE'
 				text, kwargs = text
+				print text, kwargs
 			else:
 				kwargs = {}
 			return apply(MenuCascade, (text, map(MakeCommand, label[1:])), kwargs)
@@ -642,7 +652,7 @@ def MakeCommand(label, func = None, args = (), sensitive = None, update =None):
 		elif label[0] == '*':
 			return MenuCheck(label[1:], func, args, sensitivecb = sensitive, updatecb = update)
 		else:
-			return MenuCommand(label, func, args, sensitivecb = sensitive, updatecb = update)
+			return MenuCommand(label, func, args, sensitivecb = sensitive, updatecb = update, image = image)
 	else:
 		return MenuSeparator()
 

@@ -59,8 +59,6 @@
 	
 	style element create HLine.background image $K(hline) \
 		-border {1 1 1 1} -padding {0 0 0 0} -sticky ew
-		
-	style element create HLine.label image $K(hline)
 	
 	# -------------
 	style layout VLine2 {
@@ -71,9 +69,7 @@
 	style configure VLine2  -relief flat 
 	
 	style element create VLine2.background image $K(vline2) \
-		-border {2 2 2 2} -padding {0 0 0 0} -sticky ns
-		
-	style element create VLine2.label image $K(vline2)
+		-border {1 1 1 1} -padding {0 0 0 0} -sticky ns
 	
 	# -------------
 	style layout DrawingAreaTop {
@@ -153,3 +149,40 @@
 		}
 	style element create Tooltips.background image $K(tooltips_bg) \
 		-border {1 1 1 1} -padding {4 1 4 1} -sticky news
+# ------------------------------------DocTabs--------------------------------------------------
+		
+	# ------DocTabsLeft-------
+	style layout DocTabsLeft {
+		DocTabsLeft.background -children {
+			DocTabsLeft.label
+			}
+		}
+	style configure DocTabsLeft  -relief flat 
+	
+	style element create DocTabsLeft.background image $K(doctabs_left) \
+		-border {4 4 1 2} -padding {1 1 1 1} -sticky ew		
+		
+	# ------DocTabsLeftActive-------
+	style layout DocTabsLeftActive {
+		DocTabsLeftActive.background -children {
+			DocTabsLeftActive.label
+			}
+		}
+	style configure DocTabsLeftActive  -relief flat 
+	
+	style element create DocTabsLeftActive.background image $K(doctabs_left_active) \
+		-border {4 4 1 2} -padding {1 1 1 1} -sticky ew	
+		
+	# ------DocTabsRight-------
+	style layout DocTabsRight {
+		DocTabsRight.background -children {
+			DocTabsRight.label
+			}
+		}
+	style configure DocTabsRight  -relief flat 
+	
+	style element create DocTabsRight.background image $K(doctabs_right) \
+		-border {1 4 4 2} -padding {1 1 1 1} -sticky ew	
+		
+
+		

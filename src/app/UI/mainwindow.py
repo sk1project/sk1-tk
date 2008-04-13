@@ -674,7 +674,7 @@ class SketchMainWindow(Publisher):
 		
 		self.tabspanel = TabsPanel(base_frame, self)
 #		label=TLabel(base_frame,style='DrawingAreaTop', image='space_5')
-		self.tabspanel.panel.pack(side = TOP, fill = X)
+		self.tabspanel.pack(side = TOP, fill = X)
 
 		label=TLabel(base_frame,style='DrawingAreaBottom', image='space_5')
 		label.pack(side = BOTTOM, fill = X)
