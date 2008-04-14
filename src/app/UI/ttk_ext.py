@@ -6,11 +6,72 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget
-from tkext import WidgetWithCommand, ComboMenu, ComboCommand
+from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, END
+from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
+from app import _
 
 from Ttk import TFrame, TButton, TEntry, TMenubutton
 
+
+class TEntryExt(TEntry):
+	
+	def __init__(self, master=None, cnf={}, **kw):
+		TEntry.__init__(self, master, kw)
+		self.bind('<ButtonPress-3>', self.popup_context_menu)
+
+#--------ContextMenu-----------------------------------------------------------
+	def popup_context_menu(self, event):
+		self.context_menu = UpdatedMenu(self, [], tearoff = 0, auto_rebuild = self.build_context_menu)
+		self.context_menu.Popup(event.x_root, event.y_root)
+
+	def build_context_menu(self):
+		entries=[]
+		if self.can_cut():		
+			entries += [(_("Cut"), self.cut,(),None,None,'menu_edit_cut')]
+		if self.can_copy():
+			entries +=[(_("Copy"), self.copy,(),None,None,'menu_edit_copy')]
+		if self.can_paste():
+			entries +=[(_("Paste"), self.paste,(),None,None,'menu_edit_paste')]
+		entries +=[(_("Clear All"), self.clear_all,(),None,None, 'menu_edit_clear'),
+				(None,'small_separator'),
+				(_("Select All"), self.select_all,(),None,None)
+				]
+		return map(MakeCommand, entries)	
+
+	def can_cut(self):
+		return self.select_present()
+	
+	def can_copy(self):
+		return self.select_present()
+	
+	def can_paste(self):
+		if self.clipboar_get():
+			return 1
+		return 0
+	
+	def select_all(self):
+		self.select_range(0, END)
+		
+	def clear_all(self):
+		self.delete(0, END)
+		
+	def clipboar_get(self):
+		try:
+			return self.tk.call('::tk::GetSelection','.','CLIPBOARD')
+		except:
+			return None
+		
+	def cut(self):
+		self.tk.call('::ttk::entry::Cut',self._w)
+		
+	def copy(self):
+		self.tk.call('::ttk::entry::Copy',self._w)
+	
+	def paste(self):
+		self.tk.call('::ttk::entry::Paste',self._w)
+		
+#--------ContextMenu-----------------------------------------------------------
+	
 class TSpinbox(TFrame):
 	def __init__(self, master=None, min=0, max=100, step=1, textvariable=None, var=0, vartype=0, command=None, state='enabled', width=5, args=(), **kw):
 		'''vartype=0 - integer   vartype=1 - float '''
@@ -28,7 +89,7 @@ class TSpinbox(TFrame):
 		self.width=width
 		apply(TFrame.__init__, (self, master), kw)
 		self["style"]="FlatFrame"
-		self.entry=TEntry(self, textvariable=self.text_var, width=self.width, style='SpinEntry')
+		self.entry=TEntryExt(self, textvariable=self.text_var, width=self.width, style='SpinEntry')
 		self.entry.pack(side = LEFT, expand = 1, fill = BOTH)
 		self.button_frame=TFrame(self,style="FlatFrame")
 		self.button_frame.pack(side = LEFT,fill = Y)
@@ -138,7 +199,7 @@ class TEntrybox(TFrame):
 		self.width=width
 		apply(TFrame.__init__, (self, master), kw)
 		self["style"]="FlatFrame"
-		self.entry=TEntry(self, textvariable=self.text_var, width=self.width)
+		self.entry=TEntryExt(self, textvariable=self.text_var, width=self.width)
 		self.entry.pack(side = LEFT, expand = 1, fill = BOTH)
 		
 		self.text_var.set(text)

@@ -361,11 +361,11 @@ class MenuSeparator(MenuEntry):
 
 	tk_entry_type = 'command'
 
-	def __init__(self, **rest):
+	def __init__(self, image='separator', **rest):
 		theme=app.uimanager.currentColorTheme
 		rest['background'] = theme.bg
 		rest['activebackground'] = theme.bg
-		rest['image']='separator'
+		rest['image']=image
 		rest['font']='fixed 3'
 		rest['hidemargin']='true'
 		MenuEntry.__init__(self, rest)
@@ -654,8 +654,10 @@ def MakeCommand(label, func = None, args = (), sensitive = None, update = None, 
 		else:
 			return MenuCommand(label, func, args, sensitivecb = sensitive, updatecb = update, image = image)
 	else:
-		return MenuSeparator()
-
+		if func:
+			return MenuSeparator(image=func)
+		else:
+			return MenuSeparator()
 
 class UpdatedLabel(Ttk.TLabel, AutoUpdate):
 

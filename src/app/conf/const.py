@@ -205,6 +205,7 @@ CurDragColor	= 'spraycan'
 CurHGuide       = 'sb_v_double_arrow'
 CurVGuide       = 'sb_h_double_arrow'
 CurZoom		= 'plus'	# is replaced by custom cursor in uimanager
+CurCopy		= 'plus'	# is replaced by custom cursor in uimanager
 CurUp ='based_arrow_up'
 CurUpDown = 'sb_v_double_arrow'
 CurDown ='based_arrow_down'
