@@ -26,16 +26,17 @@ class TEntryExt(TEntry):
 
 	def build_context_menu(self):
 		entries=[]
-		if self.can_cut():		
-			entries += [(_("Cut"), self.cut,(),None,None,'menu_edit_cut')]
-		if self.can_copy():
-			entries +=[(_("Copy"), self.copy,(),None,None,'menu_edit_copy')]
-		if self.can_paste():
-			entries +=[(_("Paste"), self.paste,(),None,None,'menu_edit_paste')]
-		entries +=[(_("Clear All"), self.clear_all,(),None,None, 'menu_edit_clear'),
-				(None,'small_separator'),
-				(_("Select All"), self.select_all,(),None,None)
-				]
+		if self["state"]=='normal':
+			if self.can_cut():		
+				entries += [(_("Cut"), self.cut,(),None,None,'menu_edit_cut')]
+			if self.can_copy():
+				entries +=[(_("Copy"), self.copy,(),None,None,'menu_edit_copy')]
+			if self.can_paste():
+				entries +=[(_("Paste"), self.paste,(),None,None,'menu_edit_paste')]
+			entries +=[(_("Clear All"), self.clear_all,(),None,None, 'menu_edit_clear'),
+					(None,'small_separator'),
+					(_("Select All"), self.select_all,(),None,None)
+					]
 		return map(MakeCommand, entries)	
 
 	def can_cut(self):
