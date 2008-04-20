@@ -123,6 +123,9 @@ class TabsPanel(TFrame, Publisher):
 			self.check_state()
 		return result
 
+	def saveAll(self):
+		for item in self.content:
+			item.saveTab()
 			
 	def closeActiveTab(self):
 		for item in self.content:

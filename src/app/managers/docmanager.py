@@ -146,16 +146,8 @@ class DocumentManager:
 		if self.mw.canvas is not None:
 			self.mw.canvas.SetDocument(self.mw.document)
 		self.mw.issue_document()
-		# issue_document has to be called before old_doc is destroyed,
-		# because destroying it causes all connections to be deleted and
-		# some dialogs (derived from SketchDlg) try to unsubscribe in
-		# response to our DOCUMENT message. The connector currently
-		# raises an exception in this case. Perhaps it should silently
-		# ignore Unsubscribe() calls with methods that are actually not
-		# subscribers (any more)
-#		if old_doc is not None:
-#			old_doc.Destroy()
-		self.mw.set_window_title()
+		
+		self.set_window_title()
 		self.mw.document.Subscribe(SELECTION, self.mw.refresh_buffer)		
 		if self.mw.commands:
 			self.mw.commands.Update()
@@ -233,7 +225,7 @@ class DocumentManager:
 		else:
 			self.mw.add_mru_file(filename)
 
-		self.mw.set_window_title()	
+		self.set_window_title()	
 		
 	def save_doc_if_edited(self, document, title = _("sK1 - Save Document...")):
 		if document is not None and document.WasEdited():
@@ -244,4 +236,25 @@ class DocumentManager:
 				self.SaveDocument(document)
 			return result
 		return tkext.No
+	
+	def set_window_title(self):
+		self.mw.root.client(os_utils.gethostname())
+		if self.mw.document:
+			appname = config.name
+			meta = self.mw.document.meta
+			if meta.compressed:
+				docname = os.path.split(meta.compressed_file)[1]
+				docname = os.path.splitext(docname)[0]
+			else:
+				if meta.fullpathname:					
+					docname = meta.fullpathname
+				else:
+					docname = os.path.splitext(meta.filename)[0]
+			title = config.preferences.window_title_template % locals()
+			command = (config.sk_command, meta.fullpathname)
+		else:
+			title = config.name
+			command = (config.sk_command, )
+		self.mw.root.title(title)
+		self.mw.root.command(command)
 			

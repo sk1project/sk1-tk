@@ -247,8 +247,8 @@ class SketchApplication(TkApplication, Publisher):
 		config.add_options(root)
 
 	def build_window(self):
-		from app.UI.mainwindow import SketchMainWindow
-		self.main_window = SketchMainWindow(self, self.filename, self.run_script)
+		from app.UI.mainwindow import sK1MainWindow
+		self.main_window = sK1MainWindow(self, self.filename, self.run_script)
 
 
 	def SavePreferences(self, *args):

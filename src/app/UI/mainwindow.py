@@ -87,7 +87,7 @@ def AddDocCmd(name, menu_name, method_name = None, **kw):
 	command_list.append(cmd)
 
 
-class SketchMainWindow(Publisher):
+class sK1MainWindow(Publisher):
 
 	tk_basename = 'sk1'
 	tk_class_name = 'sK1'
@@ -113,278 +113,6 @@ class SketchMainWindow(Publisher):
 		self.__init_dlgs()
 		self.document.Subscribe(SELECTION, self.refresh_buffer)
 
-		
-	def issue_document(self):
-		self.issue(DOCUMENT, self.document)
-		
-	def refresh_buffer(self):
-		if self.canvas:
-			self.canvas.bitmap_buffer=None
-
-	def create_commands(self):
-		cmds = Commands()
-		keymap = Keymap()
-		for cmd_class in command_list:
-			cmd = cmd_class.InstantiateFor(self)
-			setattr(cmds, cmd.name, cmd)
-			keymap.AddCommand(cmd)
-		self.commands = cmds
-		self.commands.Update()
-		self.keymap = keymap
-
-	def MapKeystroke(self, stroke):
-		return self.keymap.MapKeystroke(stroke)
-
-	def Document(self): 
-		return self.document		
-
-	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
-	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
-
-	def NewDocument(self): 
-		self.docmanager.NewDocument()
-
-	AddCmd('LoadFromFile', _("Open..."), image = 'menu_file_open',  key_stroke = ('Ctrl+O', 'Ctrl+o',))
-	
-	AddCmd('LoadMRU0', '', 'LoadFromFile', image = 'menu_doc_icon', args = 0, key_stroke = 'Alt+1',
-			name_cb = lambda: os.path.split(config.preferences.mru_files[0])[1])
-	AddCmd('LoadMRU1', '', 'LoadFromFile', image = 'menu_doc_icon', args = 1, key_stroke = 'Alt+2',
-			name_cb = lambda: os.path.split(config.preferences.mru_files[1])[1])
-	AddCmd('LoadMRU2', '', 'LoadFromFile', image = 'menu_doc_icon', args = 2, key_stroke = 'Alt+3',
-			name_cb = lambda: os.path.split(config.preferences.mru_files[2])[1])
-	AddCmd('LoadMRU3', '', 'LoadFromFile', image = 'menu_doc_icon', args = 3, key_stroke = 'Alt+4',
-			name_cb = lambda: os.path.split(config.preferences.mru_files[3])[1])
-
-	def LoadFromFile(self, filename = None, directory = None):
-		self.docmanager.OpenDocument(filename, directory)
-
-	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', image = 'menu_file_save', subscribe_to = UNDO,
-				sensitive_cb = ('document', 'WasEdited'), key_stroke = ('Ctrl+S', 'Ctrl+s'))
-	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image = 'menu_file_saveas', args = 1)
-	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', args = 2)
-
-	def SaveToFileInteractive(self, use_dialog = SAVE_MODE):
-		self.docmanager.SaveDocument(self.document, use_dialog)
-		
-	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image = 'menu_file_close')	
-	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
-		
-	def CloseCurrentDocument(self):
-		self.tabspanel.closeActiveTab()
-		
-	def CloseAllDocuments(self):
-		self.tabspanel.closeAll()
-
-	def add_mru_file(self, filename):
-		if filename:
-			config.add_mru_file(filename)
-			self.update_mru_files()
-
-	def remove_mru_file(self, filename):
-		if filename:
-			config.remove_mru_file(filename)
-			self.update_mru_files()
-
-	def update_mru_files(self):
-		self.commands.LoadMRU0.Update()
-		self.commands.LoadMRU1.Update()
-		self.commands.LoadMRU2.Update()
-		self.commands.LoadMRU3.Update()
-		self.file_menu.RebuildMenu()
-
-	AddCmd('InsertFile', _("Import vector..."))#, bitmap = pixmaps.ImportVector)
-	def InsertFile(self, filename = None):
-		app = self.application
-		if not filename:
-			directory = config.preferences.dir_for_vector_import
-			if directory=='~':
-				directory=os_utils.gethome()
-			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
-			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
-			if not filename:
-				return
-		try:
-			if not os.path.isabs(filename):
-				filename = os.path.join(os.getcwd(), filename)
-			doc = load.load_drawing(filename)
-			group = doc.as_group()
-		except SketchError, value:
-			group=None
-			app.MessageBox(title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
-			self.remove_mru_file(filename)
-		else:
-			messages = doc.meta.load_messages
-			if messages:
-				app.MessageBox(title = _("Import vector"), message=_("\nWarnings from the import filter:\n\n") + messages)
-			doc.meta.load_messages = ''
-		if group is not None:
-			if config.preferences.import_insertion_mode:
-				self.canvas.PlaceObject(group)
-			else:
-				self.document.Insert(group)
-		else:
-			app.MessageBox(title = _("Import vector"), message=_("\nThe document is empty!\n"))
-		config.preferences.dir_for_vector_import=os.path.dirname(filename)
-
-
-	AddCmd('LoadPalette', _("Load Palette..."))
-	def LoadPalette(self, filename = None):
-		if not filename:
-			directory = config.user_palettes
-			if not directory:
-				directory = os_utils.gethome()
-				
-			filename, sysfilename=dialogman.getGenericOpenFilename(_("Load Palette"),
-																   app.managers.dialogmanager.palette_types,
-																   initialdir = directory, initialfile = filename)
-			if not filename:
-				return
-
-		pal = palette.LoadPalette(filename)
-		if not pal:
-			self.application.MessageBox(title = _("Load Palette"),
-								message = _("\nCannot load palette %(filename)s!\n") % {'filename': filename})
-		else:
-			self.palette.SetPalette(pal)
-			config.preferences.palette = filename
-
-	def __init_dlgs(self):
-		self.dialogs = {}
-
-	def CreateDialog(self, module, dlgname):
-		if self.dialogs.has_key(dlgname):
-			dialog = self.dialogs[dlgname]
-			dialog.deiconify_and_raise()
-		else:
-			exec "from %s import %s" % (module, dlgname)
-			dlgclass = locals()[dlgname]
-			dialog = dlgclass(self.root, self, self.document)
-			dialog.Subscribe(CLOSED, self.__dlg_closed, dlgname)
-			self.dialogs[dlgname] = dialog
-
-	def HideDialogs(self):
-		for dialog in self.dialogs.values():
-			dialog.withdraw()
-	AddCmd('HideDialogs', _("Hide Dialogs"))
-
-	def ShowDialogs(self):
-		for dialog in self.dialogs.values():
-			dialog.deiconify_and_raise()
-	AddCmd('ShowDialogs', _("Show Dialogs"))
-
-	def __dlg_closed(self, dialog, name):
-		try:
-			del self.dialogs[name]
-		except:
-			# This might happen if the dialog is buggy...
-			warn(INTERNAL, 'dialog %s alread removed from dialog list', name)
-
-	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
-	AddCmd('CreateAlignDialog', _("Align to ..."), 'CreateDialog', args = ('dlg_align', 'AlignPanel'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
-	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'), bitmap = pixmaps.DGrid)
-	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
-	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
-	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f', bitmap = pixmaps.DText)
-	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
-	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
-	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'), bitmap = pixmaps.DPage)
-	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
-	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
-	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
-	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'))
-	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
-	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
-	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'), bitmap = pixmaps.Rotate)
-	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'), bitmap = pixmaps.Size)
-	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
-
-	def KGetOpenFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
-		self.root.update()
-		winid=str(self.root.winfo_id())
-		from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
-		file=from_K.readline()
-		file=locale_utils.strip_line(file)
-		from_K.close()
-		file=locale_utils.locale_to_utf(file)
-		return file
-
-	def KPrinting(self):
-		self.root.update()
-		app = self.application
-		bbox = self.document.BoundingRect(visible = 0, printable = 1)
-		if bbox is None:
-			app.MessageBox(title = _("PostScript saving"), message = _("\nThe document doesn't have \n any printable layers!\n"))
-			return
-		try:
-			self.canvas.commands.ForceRedraw
-			filename = ''
-			file = None
-			title = 'sK1'
-			file = os.popen('kprinter --stdin --caption sK1 --', 'w')
-
-			try:
-				dev = PostScriptDevice
-				ps_dev = dev(file, as_eps = 1, bounding_box = tuple(bbox),
-								rotate = 0, # page rotate?
-								For = os_utils.get_real_username(),
-								CreationDate = os_utils.current_date(), Title = title,
-								document = self.document)
-				self.document.Draw(ps_dev)
-				ps_dev.Close()
-				if filename:
-					self.document.meta.ps_filename = filename
-					self.document.meta.ps_directory =os.path.split(filename)[0]
-			finally:
-				# close the file. Check for the close attribute first
-				# because file can be either a string or a file object.
-				if hasattr(file, "close"):
-					file.close()
-
-		except IOError, value:
-			return
-		except:
-			warn_tb(INTERNAL, 'printing to %s', file)
-
-
-	def CreatePluginDialog(self, info):
-		if info.HasCustomDialog():
-			dialog = info.CreateCustomDialog(self.root, self, self.document)
-		else:
-			from plugindlg import PluginPanel
-			dialog = PluginPanel(self.root, self, self.document, info)
-		dialog.Subscribe(CLOSED, self.__dlg_closed, info.class_name)
-		self.dialogs[info.class_name] = dialog
-
-	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
-	def SetOptions(self):
-		import optiondlg
-		optiondlg.OptionDialog(self.root, self.canvas)
-
-	def set_window_title(self):
-		self.root.client(os_utils.gethostname())
-		if self.document:
-			appname = config.name
-			meta = self.document.meta
-			if meta.compressed:
-				docname = os.path.split(meta.compressed_file)[1]
-				docname = os.path.splitext(docname)[0]
-			else:
-				if meta.fullpathname:					
-					docname = meta.fullpathname
-				else:
-					docname = os.path.splitext(meta.filename)[0]
-			title = config.preferences.window_title_template % locals()
-			command = (config.sk_command, meta.fullpathname)
-		else:
-			title = config.name
-			command = (config.sk_command, )
-		self.root.title(title)
-		self.root.command(command)
-
-	def UpdateCommands(self):
-		self.canvas.UpdateCommands()
-
 	def Run(self):
 		if self.filename:
 			if os.path.isdir(self.filename):
@@ -405,12 +133,7 @@ class SketchMainWindow(Publisher):
 
 		self.application.Mainloop()
 
-	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
-	def Exit(self):
-		if not self.tabspanel.closeAll(exit=1)== tkext.Cancel:
-			self.commands = None
-			self.application.Exit()
-
+################### Window build ###############################
 	def build_window(self):
 		root = self.application.root
 		
@@ -579,453 +302,7 @@ class SketchMainWindow(Publisher):
 		self.canvas.bind('<Control-Button-5>', self.ScrollRightCanvas)
 		self.canvas.bind('<Shift-Button-4>', self.CanvasZoomingOut)
 		self.canvas.bind('<Shift-Button-5>', self.CanvasZoomingIn)
-
-
-	def make_file_menu(self):
-		cmds = self.commands
-		return map(MakeCommand,
-					[cmds.NewDocument,
-					cmds.LoadFromFile,
-					None,
-					cmds.SaveToFile,
-					cmds.SaveToFileAs,
-					None,
-					cmds.CloseDoc,
-					cmds.CloseAll,
-					None,
-					cmds.CreateImage,
-					cmds.InsertFile,
-					cmds.ExportAs,
-					cmds.ExportRaster, #cmds.SavePS,
-					#cmds.export_bitmap,
-					None,
-					cmds.KPrinting,
-					cmds.CreatePrintDialog,
-					None,
-					#cmds.CreateExportDialog,
-					#None,
-					cmds.SetOptions,
-					None,
-					cmds.DocumentInfo,
-					None,
-					cmds.LoadMRU0,
-					cmds.LoadMRU1,
-					cmds.LoadMRU2,
-					cmds.LoadMRU3,
-					None,
-					cmds.Exit])
-
-	def make_edit_menu(self):
-		cmds = self.canvas.commands
-		return map(MakeCommand,
-					[self.commands.Undo,
-					self.commands.Redo,
-					self.commands.ResetUndo,
-					None,
-					self.commands.CutSelected,
-					self.commands.CopySelected,
-					self.commands.PasteClipboard,
-					None,
-					self.commands.RemoveSelected,
-					self.commands.DuplicateSelected,
-					self.commands.SelectAll,
-#                                       None,
-#                                       [(_("Create"), {'auto_rebuild':self.creation_entries}),
-#                                               []],
-					None,
-					cmds.SelectionMode,
-					cmds.EditMode,
-					])
-
-	def creation_entries(self):
-		cmds = self.canvas.commands
-		entries = [cmds.CreateRectangle,
-					cmds.CreateEllipse,
-					cmds.CreatePolyBezier,
-					cmds.CreatePolyLine,
-					cmds.CreateSimpleText,
-					self.commands.CreateImage,
-					None]
-		items = plugins.object_plugins.items()
-		items.sort()
-		place = self.place_plugin_object
-		dialog = self.CreatePluginDialog
-		group = self.create_plugin_group
-		for name, plugin in items:
-			if plugin.UsesSelection():
-				entries.append((plugin.menu_text, group, plugin))
-			elif plugin.HasParameters() or plugin.HasCustomDialog():
-				entries.append((plugin.menu_text + '...', dialog, plugin))
-			else:
-				entries.append((plugin.menu_text, place, plugin))
-		return map(MakeCommand, entries)
-
-	def place_plugin_object(self, info):
-		self.canvas.PlaceObject(info())
-
-	def create_plugin_group(self, info):
-		self.document.group_selected(info.menu_text, info.CallFactory)
-
-	def PlaceObject(self, object):
-		self.canvas.PlaceObject(object)
-
-	def make_effects_menu(self):
-		return map(MakeCommand,
-					[self.commands.CreateMoveDialog,
-					self.commands.CreateSizeDialog,
-					self.commands.CreateRotateDialog,
-					None,
-					self.commands.FlipHorizontal,
-					self.commands.FlipVertical,
-					None,
-					self.commands.RemoveTransformation,
-					None,
-					self.commands.CreateBlendDialog,
-					self.commands.CancelBlend,
-					None,
-					self.commands.CreateMaskGroup,
-					self.commands.CreatePathText
-					])
-
-
-	def make_curve_menu(self):
-		canvas = self.canvas
-		cmds = self.canvas.commands.PolyBezierEditor
-		return map(MakeCommand,
-					[cmds.ContAngle,
-					cmds.ContSmooth,
-					cmds.ContSymmetrical,
-					cmds.SegmentsToLines,
-					cmds.SegmentsToCurve,
-					cmds.SelectAllNodes,
-					None,
-					cmds.DeleteNodes,
-					cmds.InsertNodes,
-					None,
-					cmds.CloseNodes,
-					cmds.OpenNodes,
-					None,
-					self.commands.CombineBeziers,
-					self.commands.SplitBeziers,
-					None,
-					self.commands.ConvertToCurve])
-
-	def make_view_menu(self):
-		def MakeEntry(scale, call = self.canvas.SetScale):
-			percent = int(100 * scale)
-			return (('%3d%%' % percent), call, scale)
-		def Make11(scale, call = self.canvas.SetScale):
-			percent = int(100 * scale)
-			return (("Zoom 1:1"), call, scale)
-		cmds = self.canvas.commands
-		scale = map(MakeEntry, [ 0.125, 0.25, 0.5, 1, 2, 4, 8])
-		return map(MakeCommand,
-					[Make11(1.16),
-					[_("Zoom")] + scale,
-					cmds.ZoomIn,
-					cmds.ZoomOut,
-					cmds.ZoomMode,
-					None,
-					cmds.FitToWindow,
-					cmds.FitSelectedToWindow,
-					cmds.FitPageToWindow,
-					cmds.RestoreViewport,
-					None,
-					cmds.ForceRedraw,
-					None,
-					cmds.ToggleOutlineMode,
-					cmds.TogglePageOutlineMode,
-					None,
-					cmds.ToggleCrosshairs,
-					None,
-					self.commands.LoadPalette
-					])
-
-	def make_layout_menu(self):
-		return map(MakeCommand,
-					[self.commands.CreateLayoutDialog,
-					None,
-					self.commands.CreateGridDialog,
-					self.commands.CreateGuideDialog,
-					None,
-					self.commands.AddHorizGuideLine,
-					self.commands.AddVertGuideLine,
-					None,
-					self.canvas.commands.ToggleSnapToGrid,
-					self.canvas.commands.ToggleSnapToGuides,
-					self.canvas.commands.ToggleSnapToObjects
-					#None,
-					#self.canvas.commands.ToggleSnapMoveRelative,
-					#self.canvas.commands.ToggleSnapBoundingRect
-					])
-
-	def make_arrange_menu(self):
-		commands = [self.commands.CreateAlignDialog,
-					None,
-					self.commands.MoveSelectedToTop,
-					self.commands.MoveSelectedToBottom,
-					self.commands.MoveSelectionUp,
-					self.commands.MoveSelectionDown,
-					None,
-					self.commands.AbutHorizontal,
-					self.commands.AbutVertical,
-					None,
-					self.commands.GroupSelected,
-					self.commands.UngroupSelected
-					]
-		if config.preferences.show_advanced_snap_commands:
-			commands.append(None)
-			commands.append(self.canvas.commands.ToggleSnapMoveRelative)
-			commands.append(self.canvas.commands.ToggleSnapBoundingRect)
-		#commands = commands + [None,
-			#                     self.commands.CreateLayoutDialog
-			#                    ]
-		return map(MakeCommand, commands)
-
-	def make_style_menu(self):
-		return map(MakeCommand,
-					[self.commands.FillNone,
-					self.commands.CreateFillStyleDialog,
-					self.canvas.commands.FillSolid,
-					None,
-					self.commands.LineNone,
-					self.commands.CreateLineStyleDialog,
-					None,
-					self.commands.CreateStyleFromSelection,
-					self.commands.CreateStyleDialog,
-					self.commands.UpdateStyle# ,
-#                                       None,
-#                                       self.commands.CreateFontDialog
-					])
-
-	def make_window_menu(self):
-		cmds = self.commands
-		return map(MakeCommand,
-					[cmds.HideDialogs,
-					cmds.ShowDialogs,
-					None,
-					cmds.CreateLayerDialog,
-					cmds.CreateAlignDialog,
-					cmds.CreateGridDialog,
-					None,
-					cmds.CreateLineStyleDialog,
-					cmds.CreateFillStyleDialog,
-					cmds.CreateFontDialog,
-					cmds.CreateStyleDialog,
-					None,
-					cmds.CreateLayoutDialog,
-					None,
-					cmds.CreateBlendDialog,
-					cmds.CreateCurveDialog
-					])
-
-	def make_help_menu(self):
-		return map(MakeCommand,
-					[self.commands.AboutBox
-					])
-
-
-	def make_special_menu(self):
-		cmdlist = [self.commands.python_prompt,
-					self.commands.CreateReloadPanel,
-					self.commands.DocumentInfo,
-					None,
-					self.commands.DumpXImage,
-					self.commands.CreateClone,
-					#self.commands.export_bitmap,
-					]
-		app.Issue(None, const.ADD_TO_SPECIAL_MENU, cmdlist)
-		return map(MakeCommand, cmdlist)
-
-	def make_script_menu(self):
-		tree = app.Scripting.Registry.MenuTree()
-		cmdlist = self.convert_menu_tree(tree)
-		return map(MakeCommand, cmdlist)
-
-
-	def convert_menu_tree(self, tree):
-		result = []
-		for title, item in tree:
-			if type(item) == ListType:
-				result.append([title] + self.convert_menu_tree(item))
-			else:
-				result.append((title, item.Execute))
-		return result
-
-	def build_Xmenu(self):
-		root=self.root
-		bar=Tkinter.Menu(root,)
-		filem=Tkinter.Menu(bar)
-		filem.add_command(label="Test",command = self.MenuOne)
-		bar.add_cascade(label="Test", menu=filem)
-		root.config(menu=bar)
-		mbar = self.mbar
-		canvas = self.canvas
-		b = UpdatedCheckbutton(mbar,  text= 'File', borderwidth=0, highlightthickness = 0, indicatoron = 0, selectcolor = '',
-											underline=0, width = 4, bd=0, bg='#D9E2EA', activebackground='white', #activeforeground='white',
-											command = self.MenuOne)
-		b.pack(side = LEFT,  fill=Y)
-		b = UpdatedCheckbutton(mbar, text= 'Edit', borderwidth=0, highlightthickness = 0, indicatoron = 0, selectcolor = '',
-											underline=0, width = 4, bd=0, bg='#D9E2EA', activebackground='white', #activeforeground='white',
-											command = self.HideMenu)
-		b.pack(side = LEFT,  fill=Y)
-		b = UpdatedCheckbutton(mbar, text= 'View', borderwidth=0, highlightthickness = 0, indicatoron = 0, selectcolor = '',
-											underline=0, width = 5, bd=0, bg='#D9E2EA', activebackground='white', #activeforeground='white',
-											command = self.Spacer)
-		b.pack(side = LEFT,  fill=Y)
 		
-	def HideMenu(self):
-		menu1.withdraw()
-
-	def build_menu(self):
-		mbar = self.mbar
-		self.file_menu = AppendMenu(mbar, _("File"), self.make_file_menu(), 0)
-		AppendMenu(mbar, _("Edit"), self.make_edit_menu(), 0)
-		AppendMenu(mbar, _("View"), self.make_view_menu(), 0)
-		AppendMenu(mbar, _("Layout"), self.make_layout_menu(), 0)
-		AppendMenu(mbar, _("Arrange"), self.make_arrange_menu(), 0)
-		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
-		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
-		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
-		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
-		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
-
-		if config.preferences.show_special_menu:
-			AppendMenu(mbar, _("Special"), self.make_special_menu())
-		self.update_mru_files()
-		self.file_menu.RebuildMenu()
-
-	def build_smartpanel(self):
-		fkbar = self.fkbar
-		canvas = self.canvas
-		
-		label = TLabel(fkbar, image = "toolbar_left")
-		label.pack(side = LEFT)
-
-		#Page Info Container
-		sb2f = Frame(fkbar, relief='sunken', borderwidth=1)
-		sb2f.pack(side = LEFT)
-		sb2 = Frame(sb2f, relief='flat', bg='#8B898B', borderwidth=1)
-		sb2.pack(side = LEFT, fill=BOTH)
-		#Page Info
-		stat_mode = UpdatedLabel(sb2, name = 'mode', text = '', updatecb = canvas.PageInfoText, style='SmallFlatLabel', border=0)
-		stat_mode.pack(side = 'left', expand = 1)
-		stat_mode.Update()
-		canvas.Subscribe(POSITION, stat_mode.Update)
-		b = CommandButton(sb2f, self.commands.CreateLayoutDialog)
-		b.pack(side = RIGHT, fill = Y)
-
-		bitmap1 = pixmaps.load_image(pixmaps.Sizes)
-		label = Label(fkbar, image = bitmap1, borderwidth=0)
-		label.pack(side = LEFT)
-
-
-		b = CommandButton(fkbar, self.commands.CreateCurveDialog)
-		b.pack(side = LEFT)
-		self.cbar2 = Frame(fkbar, name = 'cbar2' )
-		self.cbar2.pack(side = LEFT, fill=Y)
-		b = CommandButton(self.cbar2, self.commands.CombineBeziers)
-		b.pack(side = TOP)
-		b = CommandButton(self.cbar2, self.commands.SplitBeziers)
-		b.pack(side = TOP)
-
-		self.cbar3 = Frame(fkbar, name = 'cbar3' )
-		self.cbar3.pack(side = LEFT, fill=Y)
-		b = CommandButton(self.cbar3, self.commands.GroupSelected)
-		b.pack(side = TOP)
-		b = CommandButton(self.cbar3, self.commands.UngroupSelected)
-		b.pack(side = TOP)
-
-		b = CommandButton(fkbar, self.commands.UngrAll)
-		b.pack(side = LEFT)
-
-
-		b = CommandButton(fkbar, self.commands.CreateFontDialog)
-		b.pack(side = LEFT)
-
-
-		b = CommandButton(fkbar, self.commands.ConvertToCurve)
-		b.pack(side = LEFT)
-
-
-	def build_tools(self):
-		tframe = self.tframe
-		canvas = self.canvas
-		
-		fr=TFrame(tframe, style='FlatFrame', borderwidth=12)
-		fr.pack(side = TOP, fill = X)
-		label = TLabel(fr, style='FlatLabel')
-		label.pack(side = TOP, fill = X)
-		
-		label = TLabel(tframe, style='HLine')
-		label.pack(side = TOP, fill = X)
-
-		#Selection Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.SelectionMode, image='tools_pointer')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.SelectionMode.menu_name)
-		#CurveEdit Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.EditMode, image='tools_shaper')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.EditMode.menu_name)
-		#Zoom Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.ZoomMode, image='tools_zoom')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.ZoomMode.menu_name)
-
-		#PolyLine Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.CreatePolyLine, image='tools_pencil_line')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.CreatePolyLine.menu_name)
-		#PolyBezier Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.CreatePolyBezier, image='tools_pencil_curve')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.CreatePolyBezier.menu_name)
-
-		#Ellipse Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.CreateEllipse, image='tools_ellipse')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.CreateEllipse.menu_name)
-		
-		#Rectangle Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.CreateRectangle, image='tools_rectangle')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.CreateRectangle.menu_name)
-
-		#SimpleText Mode Button
-		b = ToolsCheckbutton(tframe, canvas.commands.CreateSimpleText, image='tools_text')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, canvas.commands.CreateSimpleText.menu_name)
-
-		b = TLabel(tframe, style='HLine')
-		b.pack(side = TOP, fill = X)
-
-		#Outline Button
-		b = ToolsButton(tframe, self.commands.CreateLineStyleDialog, image='tools_color_line')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, self.commands.CreateLineStyleDialog.menu_name)
-
-		#Fill Button
-		b = ToolsButton(tframe, self.commands.CreateFillStyleDialog, image='tools_color_fill')
-		b.pack(side = TOP)
-		tooltips.AddDescription(b, self.commands.CreateFillStyleDialog.menu_name)
-		#Spacer
-		b = TLabel(tframe, style='HLine')
-		b.pack(side = TOP, fill = X)
-
-		b = TLabel(tframe, style='HLine')
-		b.pack(side = BOTTOM, fill = X)
-		
-		b = ToolbarButton(tframe, self.commands.MoveSelectedToBottom, image='tools_lower')
-		b.pack(side =  BOTTOM, fill= X)
-		b = ToolbarButton(tframe, self.commands.MoveSelectionDown, image='tools_backward')
-		b.pack(side = BOTTOM, fill= X)
-		b = ToolbarButton(tframe, self.commands.MoveSelectionUp, image='tools_forward')
-		b.pack(side = BOTTOM, fill= X)
-		b = ToolbarButton(tframe, self.commands.MoveSelectedToTop, image='tools_raise')
-		b.pack(side =  BOTTOM, fill= X)
-
 	def build_toolbar(self):
 		tbar = self.tbar
 		canvas = self.canvas
@@ -1050,12 +327,20 @@ class SketchMainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.SaveToFileAs, image="toolbar_saveas")
 		tooltips.AddDescription(b, commands.SaveToFileAs.menu_name)
 		b.pack(side = LEFT)
+
 		
 		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
 		
 		b = ToolbarButton(tbar, commands.KPrinting, image="toolbar_print")
 		tooltips.AddDescription(b, commands.KPrinting.menu_name)
+		b.pack(side = LEFT)
+
+		label = TLabel(tbar, image = "toolbar_sep")
+		label.pack(side = LEFT)
+		
+		b = ToolbarButton(tbar, commands.CloseDoc, image="toolbar_fileclose")
+		tooltips.AddDescription(b, commands.CloseDoc.menu_name)
 		b.pack(side = LEFT)
 
 		label = TLabel(tbar, image = "toolbar_sep")
@@ -1160,40 +445,83 @@ class SketchMainWindow(Publisher):
 		
 		label = TLabel(tbar, image = "sb_sep")
 		label.pack(side = LEFT)
-	
-	def build_toolbar1(self):
-		tbar = self.tbar
+		
+	def build_tools(self):
+		tframe = self.tframe
 		canvas = self.canvas
+		
+		fr=TFrame(tframe, style='FlatFrame', borderwidth=12)
+		fr.pack(side = TOP, fill = X)
+		label = TLabel(fr, style='FlatLabel')
+		label.pack(side = TOP, fill = X)
+		
+		label = TLabel(tframe, style='HLine')
+		label.pack(side = TOP, fill = X)
 
-		cmds = [self.commands.CreatePrintDialog,
-				#self.commands.Spacer, #
-				#self.commands.CreateCurveDialog,
-				#self.commands.CreateFontDialog,
-				#self.commands.DuplicateSelected,
-				#None,
-				]
+		#Selection Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.SelectionMode, image='tools_pointer')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.SelectionMode.menu_name)
+		#CurveEdit Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.EditMode, image='tools_shaper')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.EditMode.menu_name)
+		#Zoom Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.ZoomMode, image='tools_zoom')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.ZoomMode.menu_name)
 
-		buttons = []
-		x=-1
-		for cmd in cmds:
-			x=x+1
-			if cmd is None:
-				b = Frame(tbar, class_ = 'TBSeparator')
-				b.pack(side = LEFT, fill = Y)
-			else:
-				if cmd.is_check:
-					b = CommandCheckbutton(tbar, cmd)
-				else:
-					b = CommandButton(tbar, cmd)
-				tooltips.AddDescription(b, cmd.menu_name)
-				b.pack(side = LEFT, fill = Y)
+		#PolyLine Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.CreatePolyLine, image='tools_pencil_line')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.CreatePolyLine.menu_name)
+		#PolyBezier Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.CreatePolyBezier, image='tools_pencil_curve')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.CreatePolyBezier.menu_name)
 
-		def state_changed(buttons = buttons):
-			for button in buttons:
-				button.Update()
+		#Ellipse Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.CreateEllipse, image='tools_ellipse')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.CreateEllipse.menu_name)
+		
+		#Rectangle Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.CreateRectangle, image='tools_rectangle')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.CreateRectangle.menu_name)
 
-		canvas.Subscribe(STATE, state_changed)
+		#SimpleText Mode Button
+		b = ToolsCheckbutton(tframe, canvas.commands.CreateSimpleText, image='tools_text')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, canvas.commands.CreateSimpleText.menu_name)
 
+		b = TLabel(tframe, style='HLine')
+		b.pack(side = TOP, fill = X)
+
+		#Outline Button
+		b = ToolsButton(tframe, self.commands.CreateLineStyleDialog, image='tools_color_line')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, self.commands.CreateLineStyleDialog.menu_name)
+
+		#Fill Button
+		b = ToolsButton(tframe, self.commands.CreateFillStyleDialog, image='tools_color_fill')
+		b.pack(side = TOP)
+		tooltips.AddDescription(b, self.commands.CreateFillStyleDialog.menu_name)
+		#Spacer
+		b = TLabel(tframe, style='HLine')
+		b.pack(side = TOP, fill = X)
+
+		b = TLabel(tframe, style='HLine')
+		b.pack(side = BOTTOM, fill = X)
+		
+		b = ToolbarButton(tframe, self.commands.MoveSelectedToBottom, image='tools_lower')
+		b.pack(side =  BOTTOM, fill= X)
+		b = ToolbarButton(tframe, self.commands.MoveSelectionDown, image='tools_backward')
+		b.pack(side = BOTTOM, fill= X)
+		b = ToolbarButton(tframe, self.commands.MoveSelectionUp, image='tools_forward')
+		b.pack(side = BOTTOM, fill= X)
+		b = ToolbarButton(tframe, self.commands.MoveSelectedToTop, image='tools_raise')
+		b.pack(side =  BOTTOM, fill= X)				
 
 	def build_status_bar(self):
 		status_bar = self.status_bar
@@ -1315,17 +643,636 @@ class SketchMainWindow(Publisher):
 		canvas.Subscribe(SELECTION, update)
 		canvas.Subscribe(CURRENTINFO, update)
 		canvas.Subscribe(EDITED, update)
+				
+################### Document managment #########################
+	def Document(self): 
+		return self.document
+
+	def NewDocument(self): 
+		self.docmanager.NewDocument()
+		
+	def LoadFromFile(self, filename = None, directory = None):
+		self.docmanager.OpenDocument(filename, directory)
+		
+	def SaveToFileInteractive(self, use_dialog = SAVE_MODE):
+		self.docmanager.SaveDocument(self.document, use_dialog)
+		
+	def SaveAllDocuments(self):
+		self.tabspanel.saveAll()
+
+	def CloseCurrentDocument(self):
+		self.tabspanel.closeActiveTab()
+		
+	def CloseAllDocuments(self):
+		self.tabspanel.closeAll()
+
+	def Exit(self):
+		if not self.tabspanel.closeAll(exit=1)== tkext.Cancel:
+			self.commands = None
+			self.application.Exit()
+			
+################### Window comands #############################	
+	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
+	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
+	AddCmd('LoadFromFile', _("Open..."), image = 'menu_file_open',  key_stroke = ('Ctrl+O', 'Ctrl+o',))	
+	AddCmd('LoadMRU0', '', 'LoadFromFile', image = 'menu_doc_icon', args = 0, key_stroke = 'Alt+1', name_cb = lambda: os.path.split(config.preferences.mru_files[0])[1])
+	AddCmd('LoadMRU1', '', 'LoadFromFile', image = 'menu_doc_icon', args = 1, key_stroke = 'Alt+2', name_cb = lambda: os.path.split(config.preferences.mru_files[1])[1])
+	AddCmd('LoadMRU2', '', 'LoadFromFile', image = 'menu_doc_icon', args = 2, key_stroke = 'Alt+3', name_cb = lambda: os.path.split(config.preferences.mru_files[2])[1])
+	AddCmd('LoadMRU3', '', 'LoadFromFile', image = 'menu_doc_icon', args = 3, key_stroke = 'Alt+4', name_cb = lambda: os.path.split(config.preferences.mru_files[3])[1])
+	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', image = 'menu_file_save', subscribe_to = UNDO, sensitive_cb = ('document', 'WasEdited'), key_stroke = ('Ctrl+S', 'Ctrl+s'))
+	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image = 'menu_file_saveas', args = 1)
+	AddCmd('SaveAll', _("Save All"), 'SaveAllDocuments')
+	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', args = 2)		
+	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image = 'menu_file_close')	
+	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
+	AddCmd('InsertFile', _("Import vector..."))
+	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
+	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
+	AddCmd('AboutBox', _("About sK1..."))
+	
+	AddCmd('AddHorizGuideLine', _("Add Horizontal Guide Line"), 'AddGuideLine', args = 1)
+	AddCmd('AddVertGuideLine', _("Add Vertical Guide Line"), 'AddGuideLine', args = 0)
+	
+	AddCmd('FitToNat', _("Zoom 1:1"), 'FitToNat')
+	AddCmd('CopySelected', _("Copy"), 'CutCopySelected',args= ('CopyForClipboard',), subscribe_to = SELECTION, image = 'menu_edit_copy',
+			key_stroke = ('Ctrl+C', 'Ctrl+c'), sensitive_cb = ('document', 'HasSelection'))
+			
+	AddCmd('CopyPaste', _("Copy&Paste"), 'CopyPasteSelected', args= ('CopyForClipboard',), subscribe_to = SELECTION, key_stroke = 'F6',
+			sensitive_cb = ('document', 'HasSelection'))
+	
+	AddCmd('CutSelected', _("Cut"), 'CutCopySelected', args= ('CutForClipboard',), subscribe_to = SELECTION, image = 'menu_edit_cut', 
+			key_stroke = ('Ctrl+X', 'Ctrl+x'), sensitive_cb = ('document', 'HasSelection'))
+			
+	AddCmd('PasteClipboard', _("Paste"), image = 'menu_edit_paste', key_stroke = ('Ctrl+V', 'Ctrl+v'),
+			subscribe_to = ('application', CLIPBOARD), sensitive_cb = ('application', 'ClipboardContainsData'))
+			
+	AddCmd('ExportRaster', _("Export Bitmap..."), 'ExportRaster')
+	
+			
+	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
+	AddCmd('CreateAlignDialog', _("Align to ..."), 'CreateDialog', args = ('dlg_align', 'AlignPanel'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
+	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'), bitmap = pixmaps.DGrid)
+	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
+	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
+	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f', bitmap = pixmaps.DText)
+	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
+	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
+	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'), bitmap = pixmaps.DPage)
+	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
+	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
+	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
+	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'))
+	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
+	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
+	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'), bitmap = pixmaps.Rotate)
+	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'), bitmap = pixmaps.Size)
+	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
+	AddCmd('HideDialogs', _("Hide Dialogs"))
+	AddCmd('ShowDialogs', _("Show Dialogs"))
+	
+	AddCmd('LoadPalette', _("Load Palette..."))	
+	AddCmd('InsertFile', _("Import vector..."))
+	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to = None)
+	AddCmd('DocumentInfo', "Document Info...")	
+	AddCmd('CreateStyleFromSelection', _("Name Style..."), sensitive_cb = ('document', 'CanCreateStyle'), subscribe_to = SELECTION)	
+	
+################### Document comands ############################	
+	AddDocCmd('SelectAll', _("Select All"), sensitive_cb = 'IsSelectionMode', subscribe_to = MODE)
+	AddDocCmd('SelectNextObject', _("Select Next"), key_stroke = 'Alt+Right')
+	AddDocCmd('SelectPreviousObject', _("Select Previous"), key_stroke = 'Alt+Left')
+	AddDocCmd('SelectFirstChild', _("Select First Child"), key_stroke = 'Alt+Down')
+	AddDocCmd('SelectParent', _("Select Parent"), key_stroke = 'Alt+Up')
+
+	AddDocCmd('MoveUp', _("Move Up"), 'HandleMoveSelected', args=(0,1), key_stroke = ('Up', 'KP_Up'))        
+	AddDocCmd('MoveDown', _("Move Down"), 'HandleMoveSelected', args=(0,-1), key_stroke = ('Down', 'KP_Down'))
+	AddDocCmd('MoveRight', _("Move Right"), 'HandleMoveSelected', args=(1,0), key_stroke = ('Right', 'KP_Right'))
+	AddDocCmd('MoveLeft', _("Move Left"), 'HandleMoveSelected', args=(-1,0), key_stroke = ('Left', 'KP_Left'))
+
+	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'), image = 'menu_edit_delete')
+
+	AddDocCmd('MoveSelectedToTop', _("Move to Top"), key_stroke = ('Shift+PgUp', 'Shift+Prior', 'Shift-KP_Prior'))
+	AddDocCmd('MoveSelectedToBottom', _("Move to Bottom"), key_stroke = ('Shift+PgDown', 'Shift+Next', 'Shift-KP_Next'))
+
+	AddDocCmd('MoveSelectionUp', _("Move One Up"), key_stroke = ('Ctrl+PgUp', 'Ctrl+Prior', 'Ctrl+KP_Prior'))
+	AddDocCmd('MoveSelectionDown', _("Move One Down"), key_stroke = ('Ctrl+PgDown', 'Ctrl+Next', 'Ctrl+KP_Next'))
+
+	AddDocCmd('ApplyToDuplicate', _("Duplicate0"))
+	AddDocCmd('DuplicateSelected', _("Duplicate"), key_stroke = ('Ctrl+D', 'Ctrl+d'))
+	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'), bitmap = pixmaps.Group)
+	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
+	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'), bitmap = pixmaps.ToCurve)
+	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'), bitmap = pixmaps.CCombine)
+	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
+
+	AddDocCmd('AbutHorizontal', _("Abut Horizontal"))
+	AddDocCmd('AbutVertical', _("Abut Vertical"))
+
+	AddDocCmd('FlipHorizontal', _("Flip Horizontal"), 'FlipSelected', args = (1, 0), bitmap = pixmaps.FlipHorizontal)
+	AddDocCmd('FlipVertical', _("Flip Vertical"), 'FlipSelected', args = (0, 1), bitmap = pixmaps.FlipVertical)
+
+	AddDocCmd('CancelBlend', _("Cancel Blend"), sensitive_cb = 'CanCancelBlend')
+	AddDocCmd('RemoveTransformation', _("Remove Transformation"))
+	AddDocCmd('CreateMaskGroup', _("Create Mask Group"), sensitive_cb = 'CanCreateMaskGroup')
+	AddDocCmd('CreatePathText', _("Create Path Text"), sensitive_cb = 'CanCreatePathText')
+	AddDocCmd('CreateClone', _("Create Clone"), sensitive_cb = 'CanCreateClone')
+	
+	AddDocCmd('RotLeft', _("Rotate Left 90"), 'RotateSelected', args=(90),  bitmap = pixmaps.RotLeft)
+	AddDocCmd('Rot180', _("Rotate 180"), 'RotateSelected', args=(180),  bitmap = pixmaps.Rot180)
+	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(-90),  bitmap = pixmaps.RotRight)
+	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll', bitmap = pixmaps.UngrAll)
+
+	AddDocCmd('Undo', _("Undo"), subscribe_to = UNDO, sensitive_cb = 'CanUndo', image = 'menu_edit_undo', name_cb = 'UndoMenuText', key_stroke = ('Ctrl+Z', 'Ctrl+z'))
+	AddDocCmd('Redo', _("Redo"), subscribe_to = UNDO, sensitive_cb = 'CanRedo', name_cb = 'RedoMenuText', image = 'menu_edit_redo', key_stroke = ('Ctrl+Shift+Z', 'Ctrl+Z'))
+	AddDocCmd('ResetUndo', _("Discard Undo History"), subscribe_to = None, sensitive_cb = None)
+
+	AddDocCmd('FillNone', _("No Fill"), 'AddStyle', args = EmptyFillStyle)
+	AddDocCmd('LineNone', _("No Line"), 'AddStyle', args = EmptyLineStyle)
+	AddDocCmd('UpdateStyle', _("Update Style"), 'UpdateDynamicStyleSel')
+	
+################### Menu build ############################	
+	def build_menu(self):
+		mbar = self.mbar
+		self.file_menu = AppendMenu(mbar, _("File"), self.make_file_menu(), 0)
+		AppendMenu(mbar, _("Edit"), self.make_edit_menu(), 0)
+		AppendMenu(mbar, _("View"), self.make_view_menu(), 0)
+		AppendMenu(mbar, _("Layout"), self.make_layout_menu(), 0)
+		AppendMenu(mbar, _("Arrange"), self.make_arrange_menu(), 0)
+		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
+		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
+		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
+		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
+		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
+
+		if config.preferences.show_special_menu:
+			AppendMenu(mbar, _("Special"), self.make_special_menu())
+		self.update_mru_files()
+		self.file_menu.RebuildMenu()
+		
+	def add_mru_file(self, filename):
+		if filename:
+			config.add_mru_file(filename)
+			self.update_mru_files()
+
+	def remove_mru_file(self, filename):
+		if filename:
+			config.remove_mru_file(filename)
+			self.update_mru_files()
+
+	def update_mru_files(self):
+		self.commands.LoadMRU0.Update()
+		self.commands.LoadMRU1.Update()
+		self.commands.LoadMRU2.Update()
+		self.commands.LoadMRU3.Update()
+		self.file_menu.RebuildMenu()
+	
+	def make_file_menu(self):
+		cmds = self.commands
+		return map(MakeCommand,
+					[cmds.NewDocument,
+					cmds.LoadFromFile,
+					None,
+					cmds.SaveToFile,
+					cmds.SaveToFileAs,
+					cmds.SaveAll,
+					None,
+					cmds.CloseDoc,
+					cmds.CloseAll,
+					None,
+					cmds.CreateImage,
+					cmds.InsertFile,
+					cmds.ExportAs,
+					cmds.ExportRaster, #cmds.SavePS,
+					#cmds.export_bitmap,
+					None,
+					cmds.KPrinting,
+					cmds.CreatePrintDialog,
+					None,
+					#cmds.CreateExportDialog,
+					#None,
+					cmds.SetOptions,
+					None,
+					cmds.DocumentInfo,
+					None,
+					cmds.LoadMRU0,
+					cmds.LoadMRU1,
+					cmds.LoadMRU2,
+					cmds.LoadMRU3,
+					None,
+					cmds.Exit])
+		
+	def make_edit_menu(self):
+		cmds = self.canvas.commands
+		return map(MakeCommand,
+					[self.commands.Undo,
+					self.commands.Redo,
+					self.commands.ResetUndo,
+					None,
+					self.commands.CutSelected,
+					self.commands.CopySelected,
+					self.commands.PasteClipboard,
+					None,
+					self.commands.RemoveSelected,
+					self.commands.DuplicateSelected,
+					self.commands.SelectAll,
+#                                       None,
+#                                       [(_("Create"), {'auto_rebuild':self.creation_entries}),
+#                                               []],
+					None,
+					cmds.SelectionMode,
+					cmds.EditMode,
+					])
+		
+	def make_view_menu(self):
+		def MakeEntry(scale, call = self.canvas.SetScale):
+			percent = int(100 * scale)
+			return (('%3d%%' % percent), call, scale)
+		def Make11(scale, call = self.canvas.SetScale):
+			percent = int(100 * scale)
+			return (("Zoom 1:1"), call, scale)
+		cmds = self.canvas.commands
+		scale = map(MakeEntry, [ 0.125, 0.25, 0.5, 1, 2, 4, 8])
+		return map(MakeCommand,
+					[Make11(1.16),
+					[_("Zoom")] + scale,
+					cmds.ZoomIn,
+					cmds.ZoomOut,
+					cmds.ZoomMode,
+					None,
+					cmds.FitToWindow,
+					cmds.FitSelectedToWindow,
+					cmds.FitPageToWindow,
+					cmds.RestoreViewport,
+					None,
+					cmds.ForceRedraw,
+					None,
+					cmds.ToggleOutlineMode,
+					cmds.TogglePageOutlineMode,
+					None,
+					cmds.ToggleCrosshairs,
+					None,
+					self.commands.LoadPalette
+					])				
+
+	def make_layout_menu(self):
+		return map(MakeCommand,
+					[self.commands.CreateLayoutDialog,
+					None,
+					self.commands.CreateGridDialog,
+					self.commands.CreateGuideDialog,
+					None,
+					self.commands.AddHorizGuideLine,
+					self.commands.AddVertGuideLine,
+					None,
+					self.canvas.commands.ToggleSnapToGrid,
+					self.canvas.commands.ToggleSnapToGuides,
+					self.canvas.commands.ToggleSnapToObjects
+					#None,
+					#self.canvas.commands.ToggleSnapMoveRelative,
+					#self.canvas.commands.ToggleSnapBoundingRect
+					])
+		
+	def make_arrange_menu(self):
+		commands = [self.commands.CreateAlignDialog,
+					None,
+					self.commands.MoveSelectedToTop,
+					self.commands.MoveSelectedToBottom,
+					self.commands.MoveSelectionUp,
+					self.commands.MoveSelectionDown,
+					None,
+					self.commands.AbutHorizontal,
+					self.commands.AbutVertical,
+					None,
+					self.commands.GroupSelected,
+					self.commands.UngroupSelected
+					]
+		if config.preferences.show_advanced_snap_commands:
+			commands.append(None)
+			commands.append(self.canvas.commands.ToggleSnapMoveRelative)
+			commands.append(self.canvas.commands.ToggleSnapBoundingRect)
+		#commands = commands + [None,
+			#                     self.commands.CreateLayoutDialog
+			#                    ]
+		return map(MakeCommand, commands)
+
+	def make_effects_menu(self):
+		return map(MakeCommand,
+					[self.commands.CreateMoveDialog,
+					self.commands.CreateSizeDialog,
+					self.commands.CreateRotateDialog,
+					None,
+					self.commands.FlipHorizontal,
+					self.commands.FlipVertical,
+					None,
+					self.commands.RemoveTransformation,
+					None,
+					self.commands.CreateBlendDialog,
+					self.commands.CancelBlend,
+					None,
+					self.commands.CreateMaskGroup,
+					self.commands.CreatePathText
+					])	
+
+	def make_curve_menu(self):
+		canvas = self.canvas
+		cmds = self.canvas.commands.PolyBezierEditor
+		return map(MakeCommand,
+					[cmds.ContAngle,
+					cmds.ContSmooth,
+					cmds.ContSymmetrical,
+					cmds.SegmentsToLines,
+					cmds.SegmentsToCurve,
+					cmds.SelectAllNodes,
+					None,
+					cmds.DeleteNodes,
+					cmds.InsertNodes,
+					None,
+					cmds.CloseNodes,
+					cmds.OpenNodes,
+					None,
+					self.commands.CombineBeziers,
+					self.commands.SplitBeziers,
+					None,
+					self.commands.ConvertToCurve])
+	
+	def make_style_menu(self):
+		return map(MakeCommand,
+					[self.commands.FillNone,
+					self.commands.CreateFillStyleDialog,
+					self.canvas.commands.FillSolid,
+					None,
+					self.commands.LineNone,
+					self.commands.CreateLineStyleDialog,
+					None,
+					self.commands.CreateStyleFromSelection,
+					self.commands.CreateStyleDialog,
+					self.commands.UpdateStyle# ,
+#                                       None,
+#                                       self.commands.CreateFontDialog
+					])
+
+	def make_script_menu(self):
+		tree = app.Scripting.Registry.MenuTree()
+		cmdlist = self.convert_menu_tree(tree)
+		return map(MakeCommand, cmdlist)			
+
+	def make_window_menu(self):
+		cmds = self.commands
+		return map(MakeCommand,
+					[cmds.HideDialogs,
+					cmds.ShowDialogs,
+					None,
+					cmds.CreateLayerDialog,
+					cmds.CreateAlignDialog,
+					cmds.CreateGridDialog,
+					None,
+					cmds.CreateLineStyleDialog,
+					cmds.CreateFillStyleDialog,
+					cmds.CreateFontDialog,
+					cmds.CreateStyleDialog,
+					None,
+					cmds.CreateLayoutDialog,
+					None,
+					cmds.CreateBlendDialog,
+					cmds.CreateCurveDialog
+					])
+
+	def make_help_menu(self):
+		return map(MakeCommand,
+					[self.commands.AboutBox
+					])
+
+	def make_special_menu(self):
+		cmdlist = [self.commands.python_prompt,
+					self.commands.CreateReloadPanel,
+					self.commands.DocumentInfo,
+					None,
+					self.commands.DumpXImage,
+					self.commands.CreateClone,
+					#self.commands.export_bitmap,
+					]
+		app.Issue(None, const.ADD_TO_SPECIAL_MENU, cmdlist)
+		return map(MakeCommand, cmdlist)		
+																				
+################### Utilite methods ############################
+		
+	def issue_document(self):
+		self.issue(DOCUMENT, self.document)
+		
+	def refresh_buffer(self):
+		if self.canvas:
+			self.canvas.bitmap_buffer=None
+
+	def create_commands(self):
+		cmds = Commands()
+		keymap = Keymap()
+		for cmd_class in command_list:
+			cmd = cmd_class.InstantiateFor(self)
+			setattr(cmds, cmd.name, cmd)
+			keymap.AddCommand(cmd)
+		self.commands = cmds
+		self.commands.Update()
+		self.keymap = keymap
+
+	def MapKeystroke(self, stroke):
+		return self.keymap.MapKeystroke(stroke)
+
+	def InsertFile(self, filename = None):
+		app = self.application
+		if not filename:
+			directory = config.preferences.dir_for_vector_import
+			if directory=='~':
+				directory=os_utils.gethome()
+			if not os.path.isdir(directory):
+				directory=os_utils.gethome()
+			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
+			if not filename:
+				return
+		try:
+			if not os.path.isabs(filename):
+				filename = os.path.join(os.getcwd(), filename)
+			doc = load.load_drawing(filename)
+			group = doc.as_group()
+		except SketchError, value:
+			group=None
+			app.MessageBox(title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
+			self.remove_mru_file(filename)
+		else:
+			messages = doc.meta.load_messages
+			if messages:
+				app.MessageBox(title = _("Import vector"), message=_("\nWarnings from the import filter:\n\n") + messages)
+			doc.meta.load_messages = ''
+		if group is not None:
+			if config.preferences.import_insertion_mode:
+				self.canvas.PlaceObject(group)
+			else:
+				self.document.Insert(group)
+		else:
+			app.MessageBox(title = _("Import vector"), message=_("\nThe document is empty!\n"))
+		config.preferences.dir_for_vector_import=os.path.dirname(filename)
+
+	def LoadPalette(self, filename = None):
+		if not filename:
+			directory = config.user_palettes
+			if not directory:
+				directory = os_utils.gethome()
+				
+			filename, sysfilename=dialogman.getGenericOpenFilename(_("Load Palette"),
+																   app.managers.dialogmanager.palette_types,
+																   initialdir = directory, initialfile = filename)
+			if not filename:
+				return
+
+		pal = palette.LoadPalette(filename)
+		if not pal:
+			self.application.MessageBox(title = _("Load Palette"),
+								message = _("\nCannot load palette %(filename)s!\n") % {'filename': filename})
+		else:
+			self.palette.SetPalette(pal)
+			config.preferences.palette = filename
+
+	def __init_dlgs(self):
+		self.dialogs = {}
+
+	def CreateDialog(self, module, dlgname):
+		if self.dialogs.has_key(dlgname):
+			dialog = self.dialogs[dlgname]
+			dialog.deiconify_and_raise()
+		else:
+			exec "from %s import %s" % (module, dlgname)
+			dlgclass = locals()[dlgname]
+			dialog = dlgclass(self.root, self, self.document)
+			dialog.Subscribe(CLOSED, self.__dlg_closed, dlgname)
+			self.dialogs[dlgname] = dialog
+
+	def HideDialogs(self):
+		for dialog in self.dialogs.values():
+			dialog.withdraw()
+
+
+	def ShowDialogs(self):
+		for dialog in self.dialogs.values():
+			dialog.deiconify_and_raise()
+
+
+	def __dlg_closed(self, dialog, name):
+		try:
+			del self.dialogs[name]
+		except:
+			# This might happen if the dialog is buggy...
+			warn(INTERNAL, 'dialog %s alread removed from dialog list', name)
+
+	def KGetOpenFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
+		self.root.update()
+		winid=str(self.root.winfo_id())
+		from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
+		file=from_K.readline()
+		file=locale_utils.strip_line(file)
+		from_K.close()
+		file=locale_utils.locale_to_utf(file)
+		return file
+
+	def KPrinting(self):
+		self.root.update()
+		app = self.application
+		bbox = self.document.BoundingRect(visible = 0, printable = 1)
+		if bbox is None:
+			app.MessageBox(title = _("PostScript saving"), message = _("\nThe document doesn't have \n any printable layers!\n"))
+			return
+		try:
+			self.canvas.commands.ForceRedraw
+			filename = ''
+			file = None
+			title = 'sK1'
+			file = os.popen('kprinter --stdin --caption sK1 --', 'w')
+
+			try:
+				dev = PostScriptDevice
+				ps_dev = dev(file, as_eps = 1, bounding_box = tuple(bbox),
+								rotate = 0, # page rotate?
+								For = os_utils.get_real_username(),
+								CreationDate = os_utils.current_date(), Title = title,
+								document = self.document)
+				self.document.Draw(ps_dev)
+				ps_dev.Close()
+				if filename:
+					self.document.meta.ps_filename = filename
+					self.document.meta.ps_directory =os.path.split(filename)[0]
+			finally:
+				# close the file. Check for the close attribute first
+				# because file can be either a string or a file object.
+				if hasattr(file, "close"):
+					file.close()
+
+		except IOError, value:
+			return
+		except:
+			warn_tb(INTERNAL, 'printing to %s', file)
+
+
+	def CreatePluginDialog(self, info):
+		if info.HasCustomDialog():
+			dialog = info.CreateCustomDialog(self.root, self, self.document)
+		else:
+			from plugindlg import PluginPanel
+			dialog = PluginPanel(self.root, self, self.document, info)
+		dialog.Subscribe(CLOSED, self.__dlg_closed, info.class_name)
+		self.dialogs[info.class_name] = dialog
+
+
+	def SetOptions(self):
+		import optiondlg
+		optiondlg.OptionDialog(self.root, self.canvas)
+
+
+	def UpdateCommands(self):
+		self.canvas.UpdateCommands()
+
+	def creation_entries(self):
+		cmds = self.canvas.commands
+		entries = [cmds.CreateRectangle,
+					cmds.CreateEllipse,
+					cmds.CreatePolyBezier,
+					cmds.CreatePolyLine,
+					cmds.CreateSimpleText,
+					self.commands.CreateImage,
+					None]
+		items = plugins.object_plugins.items()
+		items.sort()
+		place = self.place_plugin_object
+		dialog = self.CreatePluginDialog
+		group = self.create_plugin_group
+		for name, plugin in items:
+			if plugin.UsesSelection():
+				entries.append((plugin.menu_text, group, plugin))
+			elif plugin.HasParameters() or plugin.HasCustomDialog():
+				entries.append((plugin.menu_text + '...', dialog, plugin))
+			else:
+				entries.append((plugin.menu_text, place, plugin))
+		return map(MakeCommand, entries)
+
+	def place_plugin_object(self, info):
+		self.canvas.PlaceObject(info())
+
+	def create_plugin_group(self, info):
+		self.document.group_selected(info.menu_text, info.CallFactory)
+
+	def PlaceObject(self, object):
+		self.canvas.PlaceObject(object)
+
+	def convert_menu_tree(self, tree):
+		result = []
+		for title, item in tree:
+			if type(item) == ListType:
+				result.append([title] + self.convert_menu_tree(item))
+			else:
+				result.append((title, item.Execute))
+		return result
 
 	def EditedInfoText(self):
 		if self.document.WasEdited():
 			return _("modified")
 		return _("unmodified")
-
-
-	AddCmd('AboutBox', _("About sK1..."))
-
-	def BellTest(self, event):
-			self.root.bell()
 
 #Pallette Scrolling
 	def ScrollUpPallette(self, delta):
@@ -1351,8 +1298,7 @@ class SketchMainWindow(Publisher):
 			self.CreateDialog('dlg_grid', 'GridPanel')
 	def RulerDoublePressV(self, event):
 			self.CreateDialog('dlg_layer', 'LayerPanel')
-	def MenuOne(self):
-			self.CreateDialog('menu1', 'Menu1')
+
 	def GuideDialog(self, action=None):
 			self.CreateDialog('dlg_guide', 'GuidePanel')
 
@@ -1373,10 +1319,6 @@ class SketchMainWindow(Publisher):
 		self.application.MessageBox(title = _("About sK1"), message = abouttext, icon = 'construct')
 
 
-	#
-	#       Special methods. Mainly interesting for debugging
-	#
-	AddCmd('DocumentInfo', "Document Info...")#, bitmap = pixmaps.DocInfo)
 
 	def DocumentInfo(self):
 		text = self.document.DocumentInfo()
@@ -1417,10 +1359,6 @@ class SketchMainWindow(Publisher):
 
 
 	#
-	#       Insert Special Objects
-	#
-
-	#
 	#       Create Image
 	#
 
@@ -1437,7 +1375,7 @@ class SketchMainWindow(Publisher):
 													initialfile = initialfile)
 		return filename
 
-	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to = None)
+
 	def CreateImage(self, filename = None):
 		if not filename:
 			filename = self.GetOpenImageFilename(title = _("to import bitmap - sK1"),
@@ -1465,16 +1403,9 @@ class SketchMainWindow(Publisher):
 								% {'filename':`os.path.split(filename)[1]`,
 									'message':value})
 
-	AddCmd('AddHorizGuideLine', _("Add Horizontal Guide Line"), 'AddGuideLine', args = 1)
-	AddCmd('AddVertGuideLine', _("Add Vertical Guide Line"), 'AddGuideLine', args = 0)
 	def AddGuideLine(self, horizontal = 1):
 		self.canvas.PlaceObject(GuideLine(Point(0, 0), horizontal))
 
-	#
-	#
-	#
-
-	AddCmd('CreateStyleFromSelection', _("Name Style..."), sensitive_cb = ('document', 'CanCreateStyle'), subscribe_to = SELECTION)
 	def CreateStyleFromSelection(self):
 		import styledlg
 		doc = self.document
@@ -1497,66 +1428,6 @@ class SketchMainWindow(Publisher):
 		styledlg.set_properties(self.root, self.document, title, category,
 								{prop: EmptyPattern})
 
-
-	#
-	#       Document commands
-	#
-
-	AddDocCmd('SelectAll', _("Select All"), sensitive_cb = 'IsSelectionMode',
-				subscribe_to = MODE)
-	AddDocCmd('SelectNextObject', _("Select Next"), key_stroke = 'Alt+Right')
-	AddDocCmd('SelectPreviousObject', _("Select Previous"),
-				key_stroke = 'Alt+Left')
-	AddDocCmd('SelectFirstChild', _("Select First Child"),
-				key_stroke = 'Alt+Down')
-	AddDocCmd('SelectParent', _("Select Parent"), key_stroke = 'Alt+Up')
-
-	# rearrange object
-
-	AddDocCmd('MoveUp', _("Move Up"), 'HandleMoveSelected', args=(0,1), key_stroke = ('Up', 'KP_Up'))        
-	AddDocCmd('MoveDown', _("Move Down"), 'HandleMoveSelected', args=(0,-1), key_stroke = ('Down', 'KP_Down'))
-	AddDocCmd('MoveRight', _("Move Right"), 'HandleMoveSelected', args=(1,0), key_stroke = ('Right', 'KP_Right'))
-	AddDocCmd('MoveLeft', _("Move Left"), 'HandleMoveSelected', args=(-1,0), key_stroke = ('Left', 'KP_Left'))
-
-	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'), image = 'menu_edit_delete')
-
-	AddDocCmd('MoveSelectedToTop', _("Move to Top"), #bitmap = pixmaps.MoveToTop,
-			  key_stroke = ('Shift+PgUp', 'Shift+Prior', 'Shift-KP_Prior'))
-	AddDocCmd('MoveSelectedToBottom', _("Move to Bottom"),#bitmap = pixmaps.MoveToBottom,
-			  key_stroke = ('Shift+PgDown', 'Shift+Next', 'Shift-KP_Next'))
-
-	AddDocCmd('MoveSelectionUp', _("Move One Up"), #bitmap = pixmaps.MoveOneUp,
-			  key_stroke = ('Ctrl+PgUp', 'Ctrl+Prior', 'Ctrl+KP_Prior'))
-	AddDocCmd('MoveSelectionDown', _("Move One Down"), #bitmap = pixmaps.MoveOneDown,
-			  key_stroke = ('Ctrl+PgDown', 'Ctrl+Next', 'Ctrl+KP_Next'))
-
-	AddDocCmd('ApplyToDuplicate', _("Duplicate0"))
-	AddDocCmd('DuplicateSelected', _("Duplicate"), #bitmap = pixmaps.Duplicate,
-			  key_stroke = ('Ctrl+D', 'Ctrl+d'))
-	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'), bitmap = pixmaps.Group)
-	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
-	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'), bitmap = pixmaps.ToCurve)
-	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'), bitmap = pixmaps.CCombine)
-	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
-
-	#
-	#       Align
-	#
-	AddDocCmd('AbutHorizontal', _("Abut Horizontal"))
-	AddDocCmd('AbutVertical', _("Abut Vertical"))
-
-	AddDocCmd('FlipHorizontal', _("Flip Horizontal"), 'FlipSelected', args = (1, 0), bitmap = pixmaps.FlipHorizontal)
-	AddDocCmd('FlipVertical', _("Flip Vertical"), 'FlipSelected', args = (0, 1), bitmap = pixmaps.FlipVertical)
-
-
-	# effects
-	AddDocCmd('CancelBlend', _("Cancel Blend"), sensitive_cb = 'CanCancelBlend')
-	AddDocCmd('RemoveTransformation', _("Remove Transformation"))
-	AddDocCmd('CreateMaskGroup', _("Create Mask Group"), sensitive_cb = 'CanCreateMaskGroup')
-	AddDocCmd('CreatePathText', _("Create Path Text"), sensitive_cb = 'CanCreatePathText')
-	AddDocCmd('CreateClone', _("Create Clone"), sensitive_cb = 'CanCreateClone')
-
-
 	#
 	#       Cut/Paste
 	#
@@ -1577,88 +1448,23 @@ class SketchMainWindow(Publisher):
 #					obj = obj.Duplicate()
 #					self.canvas.PlaceObject(obj)
 
-	def FitToNat (self):
-		hp=float(self.canvas.winfo_screenheight())
-		hm=float(self.canvas.winfo_screenmmheight())
-		self.canvas.SetScale(1.07+hm/hp)
-
-
-	AddCmd('FitToNat', _("Zoom 1:1"), 'FitToNat')#, bitmap = pixmaps.FitToNative)
-
-	AddCmd('CopySelected', _("Copy"), 'CutCopySelected',
-			args= ('CopyForClipboard',), subscribe_to = SELECTION,
-			image = 'menu_edit_copy',
-			key_stroke = ('Ctrl+C', 'Ctrl+c'),
-			sensitive_cb = ('document', 'HasSelection'))
-			
-	AddCmd('CopyPaste', _("Copy&Paste"), 'CopyPasteSelected',
-			args= ('CopyForClipboard',), subscribe_to = SELECTION, key_stroke = 'F6',
-			sensitive_cb = ('document', 'HasSelection'))
-	
-	AddCmd('CutSelected', _("Cut"), 'CutCopySelected',
-			args= ('CutForClipboard',), subscribe_to = SELECTION,
-			image = 'menu_edit_cut', 
-			key_stroke = ('Ctrl+X', 'Ctrl+x'),
-			sensitive_cb = ('document', 'HasSelection'))
-			
-	AddCmd('PasteClipboard', _("Paste"),
-			image = 'menu_edit_paste',
-			key_stroke = ('Ctrl+V', 'Ctrl+v'),
-			subscribe_to = ('application', CLIPBOARD),
-			sensitive_cb = ('application', 'ClipboardContainsData'))
-			
-	AddCmd('ExportRaster', 
-		   _("Export Bitmap..."), 
-		   #bitmap = pixmaps.ExportR, 
-		   'ExportRaster')
-
-	AddDocCmd('RotLeft', _("Rotate Left 90"), 'RotateSelected', args=(90),  bitmap = pixmaps.RotLeft)
-	AddDocCmd('Rot180', _("Rotate 180"), 'RotateSelected', args=(180),  bitmap = pixmaps.Rot180)
-	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(-90),  bitmap = pixmaps.RotRight)
-	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll', bitmap = pixmaps.UngrAll)
-
-
-
-
-	def Spacer(self):
-			pass
-	def ExportRaster(self):
-			export_raster_more_interactive(self)
-
 	def PasteClipboard(self):
 		if self.application.ClipboardContainsData():
 			obj = self.document.copy_objects(self.application.GetClipboard().Object())
-#			obj = obj.Duplicate()
 			if config.preferences.insertion_mode:
 				self.canvas.PlaceObject(obj)
 			else:
 				self.document.Insert(obj, undo_text=_("Paste"))
 
-	#
-	#       Undo/Redo
-	#
 
-	AddDocCmd('Undo', _("Undo"), 
-			  subscribe_to = UNDO, 
-			  sensitive_cb = 'CanUndo',
-			  image = 'menu_edit_undo', 
-			  name_cb = 'UndoMenuText', 
-			  key_stroke = ('Ctrl+Z', 'Ctrl+z'))
-	AddDocCmd('Redo', _("Redo"), 
-			  subscribe_to = UNDO, 
-			  sensitive_cb = 'CanRedo', 
-			  name_cb = 'RedoMenuText',
-			  image = 'menu_edit_redo', 
-			  key_stroke = ('Ctrl+Shift+Z', 'Ctrl+Z'))
+	def FitToNat (self):
+		hp=float(self.canvas.winfo_screenheight())
+		hm=float(self.canvas.winfo_screenmmheight())
+		self.canvas.SetScale(1.07+hm/hp)
 
-	AddDocCmd('ResetUndo', _("Discard Undo History"), subscribe_to = None, sensitive_cb = None)
+	def ExportRaster(self):
+			export_raster_more_interactive(self)
 
 
-	#
-	#       Styles
-	#
-	AddDocCmd('FillNone', _("No Fill"), 'AddStyle', args = EmptyFillStyle)
-	AddDocCmd('LineNone', _("No Line"), 'AddStyle', args = EmptyLineStyle)
-	AddDocCmd('UpdateStyle', _("Update Style"), 'UpdateDynamicStyleSel')
 
 	

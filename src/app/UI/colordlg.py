@@ -26,7 +26,6 @@ from Ttk import TFrame, TButton, TLabel
 from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
 from tkext import PyWidget
 from ttk_ext import TSpinbox, TEntrybox
-from miniscroll import create_mini_entry
 from sketchdlg import SKModal
 
 import string
