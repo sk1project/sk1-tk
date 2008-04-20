@@ -18,6 +18,7 @@ from app.conf.const import CLIPBOARD
 
 from Tkinter import Tk, TclError, PhotoImage, Wm
 from app.UI import tkext
+from types import ListType
 
 from app.UI import tooltips
 

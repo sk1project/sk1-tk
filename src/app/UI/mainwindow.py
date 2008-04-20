@@ -22,6 +22,7 @@ import app
 from app.Graphics import image, eps
 import app.Scripting
 from app.Graphics.color import rgb_to_tk
+from app.managers.docmanager import DocumentManager 
 
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
@@ -102,36 +103,16 @@ class SketchMainWindow(Publisher):
 		self.document = None
 		self.commands = None
 		self.tabspanel=None
-		self.NewDocument()
+		self.docmanager=DocumentManager(self)
 		self.create_commands()
 		self.build_window()
 		self.build_menu()
 		self.build_toolbar()
 		self.build_tools()
-		#self.build_smartpanel()
 		self.build_status_bar()
 		self.__init_dlgs()
 		self.document.Subscribe(SELECTION, self.refresh_buffer)
-#               self.canvas.bind('<Configure>', self.autozoom)
-		
-##      self.bind('<Map>', self.init_size)
-##      self.canvas.commands.FitPageToWindow
-##      self.check_height = int(self.winfo_height())
-##      self.check_width = int(self.winfo_width())
 
-##    def init_size(self, event, root):
-##       self.check_height = int(self.root.winfo_height())
-##       self.check_width = int(self.root.winfo_width())
-##       print self.check_width, ' x ', self.check_height
-
-	def autozoom(self, event):
-		check_height=-1*(int(self.canvas.winfo_height())-self.myHeight)/2
-		self.myHeight=int(self.canvas.winfo_height())
-		check_width=-1*(int(self.canvas.winfo_width())-self.myWidth)/2
-		self.myWidth=int(self.canvas.winfo_width())
-		self.canvas.ScrollXUnits(check_width) 
-		self.counter=self.counter+1
-		print check_width, '_X', self.counter,'X_', check_height
 		
 	def issue_document(self):
 		self.issue(DOCUMENT, self.document)
@@ -139,7 +120,6 @@ class SketchMainWindow(Publisher):
 	def refresh_buffer(self):
 		if self.canvas:
 			self.canvas.bitmap_buffer=None
-#			self.canvas.save_bitmap_buffer()
 
 	def create_commands(self):
 		cmds = Commands()
@@ -155,58 +135,14 @@ class SketchMainWindow(Publisher):
 	def MapKeystroke(self, stroke):
 		return self.keymap.MapKeystroke(stroke)
 
-	def save_doc_if_edited(self, title = _("Save Document - sK1...       ")):
-		if self.document is not None and self.document.WasEdited():
-			message = _("\nFile: <%s> has been changed ! \n\nDo you want to save it?\n") % self.document.meta.filename
-			result = self.application.MessageBox(title = title, message = message, buttons = tkext.SaveDSCancel)
-			self.root.deiconify()
-			if result == tkext.Save:
-				self.SaveToFileInteractive()
-			return result
-		return tkext.No
+	def Document(self): 
+		return self.document		
 
-	def Document(self):
-		return self.document
-
-	def SetDocument(self, document):
-		channels = (SELECTION, UNDO, MODE)
-		if self.canvas:		
-			self.canvas.bitmap_buffer=None
-		old_doc = self.document
-		if old_doc is not None:
-			for channel in channels:
-				old_doc.Unsubscribe(channel, self.issue, channel)
-		self.document = document
-		for channel in channels:
-			self.document.Subscribe(channel, self.issue, channel)
-		if self.canvas is not None:
-			self.canvas.SetDocument(document)
-		self.issue_document()
-		# issue_document has to be called before old_doc is destroyed,
-		# because destroying it causes all connections to be deleted and
-		# some dialogs (derived from SketchDlg) try to unsubscribe in
-		# response to our DOCUMENT message. The connector currently
-		# raises an exception in this case. Perhaps it should silently
-		# ignore Unsubscribe() calls with methods that are actually not
-		# subscribers (any more)
-		if old_doc is not None:
-			old_doc.Destroy()
-			#import gc
-			#del(old_doc)
-			#gc.collect()
-		self.set_window_title()
-		self.document.Subscribe(SELECTION, self.refresh_buffer)
-		if self.commands:
-			self.commands.Update()
-		
-
-	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n'))
+	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
 	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
 
-	def NewDocument(self):
-		if self.save_doc_if_edited(_("New Document        ")) == tkext.Cancel:
-			return
-		self.SetDocument(Document(create_layer = 1))
+	def NewDocument(self): 
+		self.docmanager.NewDocument()
 
 	AddCmd('LoadFromFile', _("Open..."), image = 'menu_file_open',  key_stroke = ('Ctrl+O', 'Ctrl+o',))
 	
@@ -220,162 +156,24 @@ class SketchMainWindow(Publisher):
 			name_cb = lambda: os.path.split(config.preferences.mru_files[3])[1])
 
 	def LoadFromFile(self, filename = None, directory = None):
-		self.root.update()
-		app = self.application
-		if self.save_doc_if_edited(_("Open Document        ")) == tkext.Cancel:
-			return
-		if type(filename) == type(0):
-			filename = config.preferences.mru_files[filename]
-		if not filename:
-			if not directory:
-				directory = self.document.meta.directory
-			if not directory:
-				directory = config.preferences.dir_for_open
-			if directory=='~':
-				directory=os_utils.gethome()
-			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
-			filename, sysfilename=dialogman.getOpenFilename(initialdir = directory, initialfile = filename)							
-			if filename=='':
-				return
-		try:
-			if not os.path.isabs(filename):
-				filename = os.path.join(os.getcwd(), filename)
-			config.preferences.dir_for_open=os.path.dirname(filename)	
-			doc = load.load_drawing(filename)
-			self.SetDocument(doc)
-			self.add_mru_file(filename)
-			self.canvas.bitmap_buffer=None			
-			self.canvas.commands.ForceRedraw
-		except SketchError, value:
-			app.MessageBox(title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
-			self.remove_mru_file(filename)
-		else:
-			messages = doc.meta.load_messages
-			if messages:
-				app.MessageBox(title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
-			doc.meta.load_messages = ''
+		self.docmanager.OpenDocument(filename, directory)
 
 	AddCmd('SaveToFile', _("Save"), 'SaveToFileInteractive', image = 'menu_file_save', subscribe_to = UNDO,
-				sensitive_cb = ('document', 'WasEdited'),  #bitmap = pixmaps.Save, 
-				key_stroke = ('Ctrl+S', 'Ctrl+s'))
-	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image = 'menu_file_saveas', #bitmap = pixmaps.SaveAs,
-		   args = 1)
-	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', #bitmap = pixmaps.ExportV,
-		   args = 2)
+				sensitive_cb = ('document', 'WasEdited'), key_stroke = ('Ctrl+S', 'Ctrl+s'))
+	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image = 'menu_file_saveas', args = 1)
+	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', args = 2)
 
 	def SaveToFileInteractive(self, use_dialog = SAVE_MODE):
-		filename =  self.document.meta.fullpathname
-		native_format = self.document.meta.native_format
-		compressed_file = self.document.meta.compressed_file
-		compressed = self.document.meta.compressed
-		app = self.application
-		if use_dialog or not filename or not native_format:
-			directory = self.document.meta.directory
-			
-			if not directory:
-				if use_dialog==SAVE_AS_MODE or use_dialog==SAVE_MODE:
-					directory= config.preferences.dir_for_save
-				if use_dialog==EXPORT_MODE:
-					directory=config.preferences.dir_for_vector_export
-							
-			if directory=='~':
-				directory=os_utils.gethome()
-			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
-				
-			if use_dialog==SAVE_MODE:
-				filename, sysfilename=dialogman.getSaveFilename(initialdir = directory, initialfile = filename)			
-			if use_dialog==SAVE_AS_MODE:
-				filename, sysfilename=dialogman.getSaveAsFilename(initialdir = directory, initialfile = filename)
-			if use_dialog==EXPORT_MODE:
-				filename, sysfilename=dialogman.getExportFilename(initialdir = directory, initialfile = filename)	
-
-			if not filename:
-				return
-			extension = os.path.splitext(filename)[1]
-			fileformat = plugins.guess_export_plugin(extension)
-			if not fileformat:
-				fileformat = plugins.NativeFormat
-			compressed_file = '' # guess compression from filename
-			compressed = ''
-		else:
-			fileformat = plugins.NativeFormat
-		if use_dialog==SAVE_AS_MODE:
-			config.preferences.dir_for_save=os.path.dirname(filename)	
-		if use_dialog==EXPORT_MODE:
-			config.preferences.dir_for_vector_export=os.path.dirname(filename)				
-		self.SaveToFile(filename, fileformat, compressed, compressed_file)
-
-	def SaveToFile(self, filename, fileformat = None, compressed = '', compressed_file = ''):
-		sysname=locale_utils.utf_to_locale(filename)
-		app = self.application
-		try:
-			if not self.document.meta.backup_created:
-				try:
-					if compressed_file:
-						os_utils.make_backup(compressed_file)
-					else:
-						os_utils.make_backup(sysname)
-				except os_utils.BackupError, value:
-					backupfile = locale_utils.utf_to_locale(value.filename)
-					strerror = value.strerror
-					msg = (_("\nCannot create backup file %(filename)s:\n"
-								"%(message)s\n\n"
-								"Choose `continue' to try saving anyway,\n"
-								"or `cancel' to cancel saving.")
-							% {'filename':`backupfile`, 'message':strerror})
-					cancel = _("Cancel")
-					result = app.MessageBox(title = _("Save To File"), message = msg, buttons = (_("Continue"), cancel))
-					if result == cancel:
-						return
-
-				self.document.meta.backup_created = 1
-			if fileformat is None:
-				fileformat = plugins.NativeFormat
-			try:
-				saver = plugins.find_export_plugin(fileformat)
-				if compressed:
-					# XXX there should be a plugin interface for this kind
-					# of post-processing
-					if compressed == "gzip":
-						cmd = 'gzip -c -9 > ' + os_utils.sh_quote(compressed_file)
-					elif compressed == "bzip2":
-						cmd = 'bzip2 > ' + os_utils.sh_quote(compressed_file)
-					file = os.popen(cmd, 'w')
-					saver(self.document, filename, file = file)
-				else:
-					saver(self.document, sysname)
-			finally:
-				saver.UnloadPlugin()
-		except IOError, value:
-			if type(value) == type(()):
-				value = value[1]
-			app.MessageBox(title = _("Save To File"),
-							message = _("\nCannot save %(filename)s:\n\n"
-										"%(message)s") \
-							% {'filename':`os.path.split(filename)[1]`,
-								'message':value})
-			self.remove_mru_file(filename)
-			return
-
-		if fileformat == plugins.NativeFormat:
-			dir, name = os.path.split(filename)
-			# XXX should meta.directory be set for non-native formats as well
-			self.document.meta.directory = dir
-			self.document.meta.filename = name
-			self.document.meta.fullpathname = filename
-			self.document.meta.file_type = plugins.NativeFormat
-			self.document.meta.native_format = 1
-		if not compressed_file:
-			self.document.meta.compressed_file = ''
-			self.document.meta.compressed = ''
-		if compressed_file:
-			self.add_mru_file(compressed_file)
-		else:
-			self.add_mru_file(filename)
-
-		self.set_window_title()
+		self.docmanager.SaveDocument(self.document, use_dialog)
+		
+	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image = 'menu_file_close')	
+	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
+		
+	def CloseCurrentDocument(self):
+		self.tabspanel.closeActiveTab()
+		
+	def CloseAllDocuments(self):
+		self.tabspanel.closeAll()
 
 	def add_mru_file(self, filename):
 		if filename:
@@ -485,17 +283,8 @@ class SketchMainWindow(Publisher):
 	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'CreateDialog', args = ('dlg_align', 'AlignPanel'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
 	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'), bitmap = pixmaps.DGrid)
-	AddCmd('CreateLineStyleDialog', 
-		   _("Outline..."), 
-		   'CreateDialog', 
-		   args = ('dlg_line', 'LinePanel'), 
-		   #bitmap = pixmaps.OutlineButton, 
-		   key_stroke = 'F12')
-	AddCmd('CreateFillStyleDialog', 
-		   _("Fill..."), 'CreateDialog', 
-		   args = ('filldlg', 'FillPanel'), 
-		   #bitmap = pixmaps.FillButton, 
-		   key_stroke = 'F11')
+	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
+	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
 	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f', bitmap = pixmaps.DText)
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
 	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
@@ -503,33 +292,17 @@ class SketchMainWindow(Publisher):
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
-	AddCmd('KPrinting', 
-		   _("Print..."), 
-		   'KPrinting', image = 'menu_file_print', 
-		   #bitmap = pixmaps.Printer, 
-		   key_stroke = ('Ctrl+P', 'Ctrl+p'))
-	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))#, bitmap = pixmaps.QPrinter)
+	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'))
+	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
 	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
 	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'), bitmap = pixmaps.Rotate)
 	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'), bitmap = pixmaps.Size)
-
 	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
 
 	def KGetOpenFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
 		self.root.update()
 		winid=str(self.root.winfo_id())
 		from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
-		file=from_K.readline()
-		file=locale_utils.strip_line(file)
-		from_K.close()
-		file=locale_utils.locale_to_utf(file)
-		return file
-
-	def KGetSaveFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
-		self.root.update()
-		winid=str(self.root.winfo_id())
-		from_K = os.popen('kdialog -caption \''+title+'\' --embed \''+winid+'\' --getsavefilename \''
-		+initialdir+'\''+ filetypes)
 		file=from_K.readline()
 		file=locale_utils.strip_line(file)
 		from_K.close()
@@ -597,9 +370,12 @@ class SketchMainWindow(Publisher):
 				docname = os.path.split(meta.compressed_file)[1]
 				docname = os.path.splitext(docname)[0]
 			else:
-				docname = self.document.meta.filename
+				if meta.fullpathname:					
+					docname = meta.fullpathname
+				else:
+					docname = os.path.splitext(meta.filename)[0]
 			title = config.preferences.window_title_template % locals()
-			command = (config.sk_command, self.document.meta.fullpathname)
+			command = (config.sk_command, meta.fullpathname)
 		else:
 			title = config.name
 			command = (config.sk_command, )
@@ -631,7 +407,7 @@ class SketchMainWindow(Publisher):
 
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	def Exit(self):
-		if self.save_doc_if_edited(_("EXIT        ")) != tkext.Cancel:
+		if not self.tabspanel.closeAll(exit=1)== tkext.Cancel:
 			self.commands = None
 			self.application.Exit()
 
@@ -654,7 +430,6 @@ class SketchMainWindow(Publisher):
 
 		# the smartpanel
 		self.ctxpanel=ctxPanel.ContexPanel(root, self)
-		#self.fkbar = TFrame(root, name = 'fastkeys', style='ToolBarFrame', borderwidth=0)
 		self.ctxpanel.panel.pack(fill=X)
 
 
@@ -672,9 +447,9 @@ class SketchMainWindow(Publisher):
 		base_frame = TFrame(root, name = 'drawing_area_frame', style='FlatFrame', borderwidth=0)
 		base_frame.pack(side = LEFT, fill = BOTH, expand = 1)
 		
-		self.tabspanel = TabsPanel(base_frame, self)
-#		label=TLabel(base_frame,style='DrawingAreaTop', image='space_5')
+		self.tabspanel = TabsPanel(base_frame, self)		
 		self.tabspanel.pack(side = TOP, fill = X)
+		self.docmanager.Activate(self.tabspanel)
 
 		label=TLabel(base_frame,style='DrawingAreaBottom', image='space_5')
 		label.pack(side = BOTTOM, fill = X)
@@ -814,6 +589,9 @@ class SketchMainWindow(Publisher):
 					None,
 					cmds.SaveToFile,
 					cmds.SaveToFileAs,
+					None,
+					cmds.CloseDoc,
+					cmds.CloseAll,
 					None,
 					cmds.CreateImage,
 					cmds.InsertFile,
@@ -1555,7 +1333,6 @@ class SketchMainWindow(Publisher):
 	def ScrollDownPallette(self, delta):
 			self.palette.ScrollXUnits(1)
 
-#Canvas Scrolling self.canvas.commands.ZoomOut
 	def ScrollUpCanvas(self, delta):
 			self.canvas.ScrollYUnits(-1)
 	def ScrollDownCanvas(self, delta):
@@ -1660,8 +1437,7 @@ class SketchMainWindow(Publisher):
 													initialfile = initialfile)
 		return filename
 
-	AddCmd('CreateImage', _("Import bitmap..."), #bitmap = pixmaps.ImportImage,
-			subscribe_to = None)
+	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to = None)
 	def CreateImage(self, filename = None):
 		if not filename:
 			filename = self.GetOpenImageFilename(title = _("to import bitmap - sK1"),
