@@ -1376,23 +1376,22 @@ class sK1MainWindow(Publisher):
 		return filename
 
 
-	def CreateImage(self, filename = None):
-		if not filename:
-			filename = self.GetOpenImageFilename(title = _("to import bitmap - sK1"),
-										initialdir = config.preferences.image_dir,
-													initialfile = '')
-		if filename:
+	def CreateImage(self, sysfilename = None):
+		if not sysfilename:
+			filename, sysfilename=dialogman.getImportBMFilename(initialdir = config.preferences.dir_for_bitmap_import, initialfile = '')
+
+		if sysfilename:
 			try:
 				self.canvas.commands.ForceRedraw
-				file = open(filename, 'r')
+				file = open(sysfilename, 'r')
 				is_eps = eps.IsEpsFileStart(file.read(256))
 				file.close()
 				dir, name = os.path.split(filename)
 				config.preferences.image_dir = dir
 				if is_eps:
-					imageobj = eps.EpsImage(filename = filename)
+					imageobj = eps.EpsImage(filename = sysfilename)
 				else:
-					imageobj = image.Image(imagefile = filename)
+					imageobj = image.Image(imagefile = sysfilename)
 				self.canvas.PlaceObject(imageobj)
 			except IOError, value:
 				if type(value) == TupleType:

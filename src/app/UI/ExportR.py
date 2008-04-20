@@ -34,6 +34,7 @@ import PIL.Image, PIL.ImageChops
 from app.utils import os_utils
 from app import _, PostScriptDevice
 from app.conf import const
+from app import dialogman, config
 
 # for parameter dialogs
 from app.UI.sketchdlg import SKModal
@@ -208,10 +209,10 @@ def export_raster_interactive(context, alpha = 0, use_bbox = 0, render_ppi=72):
 	# popup a filedialog and export the document
 
 	doc = context.document
-	filelist =' \'*.png *.PNG|Portable Network Graphics files - *.png \n'
-	filelist =filelist + ' *.jpeg *.JPEG *.jpg *.JPG|JPEG files - *.jpeg, *.jpg \n'
-	filelist =filelist + '*.ppm *.PPM|Portable Pixmap files - *.ppm \n'
-	filelist =filelist + ' *.pgm *.PGM|Portable Graymap files - *.pgm \''
+#	filelist =' \'*.png *.PNG|Portable Network Graphics files - *.png \n'
+#	filelist =filelist + ' *.jpeg *.JPEG *.jpg *.JPG|JPEG files - *.jpeg, *.jpg \n'
+#	filelist =filelist + '*.ppm *.PPM|Portable Pixmap files - *.ppm \n'
+#	filelist =filelist + ' *.pgm *.PGM|Portable Graymap files - *.pgm \''
 	# construct the tk filetypes list
 	#extensions = {}
 	#for text, ext in filelist:
@@ -227,17 +228,19 @@ def export_raster_interactive(context, alpha = 0, use_bbox = 0, render_ppi=72):
 	#    default_ext = '.ppm'
 	#    filetypes=tuple(filelist)
 
-	filename = KGetSaveFilename(
-		title = _("for export bitmap - sK1"),
-		filetypes = filelist,
-		initialdir = doc.meta.directory)
-	if filename:
-		ext = os.path.splitext(filename)[1]
+#	filename = KGetSaveFilename(
+#		title = _("for export bitmap - sK1"),
+#		filetypes = filelist,
+#		initialdir = doc.meta.directory)
+	
+	filename, sysfilename=dialogman.getExportBMFilename(initialdir = config.preferences.dir_for_bitmap_export, initialfile = '')
+	if sysfilename:
+		ext = os.path.splitext(sysfilename)[1]
 		if extensions.has_key(ext):
 			if alpha:
-				export_alpha(context, filename, render_ppi, use_bbox)
+				export_alpha(context, sysfilename, render_ppi, use_bbox)
 			else:
-				export_raster(context, filename, render_ppi, use_bbox)
+				export_raster(context, sysfilename, render_ppi, use_bbox)
 		else:
 			message = _("unknown extension %s") % ext
 			context.application.MessageBox(title = _("Export Raster"),
