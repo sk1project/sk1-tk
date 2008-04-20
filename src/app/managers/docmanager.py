@@ -35,6 +35,7 @@ class DocumentManager:
 		doc=Document(create_layer = 1)
 		self.counter+=1
 		doc.meta.filename='New Document %u.sk1'%self.counter
+		doc.meta.view=None
 		self.SetActiveDocument(doc)
 		if self.tabspanel:
 			self.tabspanel.addNewTab(self.activedoc)
@@ -42,8 +43,6 @@ class DocumentManager:
 	def OpenDocument(self, filename = None, directory = None):
 		self.mw.root.update()
 		app = self.mw.application
-#		if self.save_doc_if_edited(_("Open Document        ")) == tkext.Cancel:
-#			return
 		if type(filename) == type(0):
 			filename = config.preferences.mru_files[filename]
 		if not filename:
@@ -133,10 +132,14 @@ class DocumentManager:
 	
 	def SetActiveDocument(self, doc):
 		channels = (SELECTION, UNDO, MODE)
+		view=None
 		if self.mw.canvas:		
 			self.mw.canvas.bitmap_buffer=None
+			self.activedoc.meta.view=self.mw.canvas.get_viewport_data()
 		old_doc = self.activedoc
+		
 		self.activedoc=doc
+			
 		if old_doc is not None:
 			for channel in channels:
 				old_doc.Unsubscribe(channel, self.mw.issue, channel)
@@ -151,6 +154,9 @@ class DocumentManager:
 		self.mw.document.Subscribe(SELECTION, self.mw.refresh_buffer)		
 		if self.mw.commands:
 			self.mw.commands.Update()
+		if self.activedoc.meta.view is not None:
+			self.mw.canvas.restore_viewport_from_data(self.activedoc.meta.view)
+
 			
 	def Activate(self, tabspanel):
 		self.tabspanel=tabspanel

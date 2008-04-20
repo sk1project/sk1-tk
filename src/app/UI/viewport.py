@@ -386,3 +386,12 @@ class Viewport:
 			del self.viewport_ring[0]
 			self.SetScale(scale / self.pixel_per_point, do_center = 0)
 			self.set_origin(vx, vy, move_contents = 0)
+			
+	def restore_viewport_from_data(self,view):
+		scale, vx, vy = view
+		print scale, vx, vy
+		self.SetScale(scale / self.pixel_per_point, do_center = 0)
+		self.set_origin(vx, vy, move_contents = 0)
+		
+	def get_viewport_data(self):
+		return (self.scale, self.virtual_x, self.virtual_y)

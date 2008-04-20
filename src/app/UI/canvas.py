@@ -1936,8 +1936,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#	other view related methods
 
 	AddCmd('FitToWindow', _("Fit to Window"), key_stroke = 'F4', subscribe_to = None)
-	AddSelCmd('FitSelectedToWindow', _("Fit Selected to Window"), 'FitToWindow', args = 1, #bitmap = pixmaps.FitToSelected,
-			  key_stroke = 'F1')
+	AddSelCmd('FitSelectedToWindow', _("Fit Selected to Window"), 'FitToWindow', args = 1, key_stroke = 'F1')
 	
 	def FitToWindow(self, selected_only = 0, save_viewport = 1):
 		self.begin_transaction()
