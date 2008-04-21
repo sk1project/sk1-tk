@@ -1,2 +1,2 @@
-package ifneeded tkpng 0.7 \
+package ifneeded tkpng 0.8 \
     [list load [file join $dir libtkpng.so]]
