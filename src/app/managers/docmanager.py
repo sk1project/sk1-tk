@@ -62,10 +62,11 @@ class DocumentManager:
 				filename = os.path.join(os.getcwd(), filename)
 			config.preferences.dir_for_open=os.path.dirname(filename)	
 			doc = load.load_drawing(filename)
+			doc.meta.view=None
 			self.SetActiveDocument(doc)
 			self.mw.add_mru_file(filename)
 			self.mw.canvas.bitmap_buffer=None			
-			self.mw.canvas.commands.ForceRedraw
+			self.mw.canvas.commands.ForceRedraw			
 			if self.tabspanel:
 				self.tabspanel.addNewTab(self.activedoc)
 		except SketchError, value:

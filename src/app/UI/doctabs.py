@@ -79,10 +79,10 @@ class TabsPanel(TFrame, Publisher):
 	
 	def setActive(self,tab):
 		if not tab.is_Active:
-			self.docmanager.SetActiveDocument(tab.document)			
 			for item in self.content:
 				item.setNonActive()
 			tab.setActive()
+			self.docmanager.SetActiveDocument(tab.document)
 			self.ReSubscribe()
 			if self.content[0].is_Active:
 				self.left_label["style"]=LEFT_CORNER_ACTIVE
