@@ -5,12 +5,13 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel, TButton
+from app.UI.Ttk import TFrame, TLabel, TButton
 from Tkinter import LEFT, RIGHT, TOP, X, Y, BOTH, BOTTOM
-from tkext import MenuCommand, UpdatedMenu, MakeCommand
+from app.UI.tkext import MenuCommand, UpdatedMenu, MakeCommand
 from app.conf.const import UNDO, DOCUMENT
 from app import _, Publisher
-import os, tkext
+from app.UI.dialogs import msgdialog
+import os 
 
 
 LEFT_CORNER='DocTabsLeft'
@@ -106,7 +107,7 @@ class TabsPanel(TFrame, Publisher):
 	def closeTab(self,tab, exit=0):
 		result = self.docmanager.save_doc_if_edited(tab.document)
 		index=self.content.index(tab)
-		if not result==tkext.Cancel:			
+		if not result==msgdialog.Cancel:			
 			self.content.remove(tab)
 			if not len(self.content):
 				if not exit:
@@ -136,16 +137,16 @@ class TabsPanel(TFrame, Publisher):
 		self.setActive(tab)
 		for item in []+self.content:
 			if not item.is_Active:
-				if self.closeTab(item)==tkext.Cancel:
+				if self.closeTab(item)==msgdialog.Cancel:
 					return
 		self.check_state()
 		
 	def closeAll(self, exit=0):		
 		for item in []+self.content:
-			if self.closeTab(item, exit)==tkext.Cancel:
+			if self.closeTab(item, exit)==msgdialog.Cancel:
 				self.check_state()
-				return tkext.Cancel
-		return tkext.Yes	
+				return msgdialog.Cancel
+		return msgdialog.Yes	
 		
 
 
@@ -221,8 +222,7 @@ class DocTab(TButton):
 			return 0
 		
 	def refreshTab(self):
-		self.parent.mainwindow.canvas.bitmap_buffer=None
-		self.parent.mainwindow.canvas.commands.ForceRedraw
+		self.parent.mainwindow.canvas.commands.ForceRedraw()
 		
 	def saveTab(self):
 		self.parent.docmanager.SaveDocument(self.document)

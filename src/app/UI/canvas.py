@@ -1890,6 +1890,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	AddCmd('ForceRedraw', _("Refresh Window"), key_stroke = ('Alt+R','Alt+r'), subscribe_to = None)
+	
+	def ForceRedraw(self):
+		self.bitmap_buffer=None
+		SketchView.ForceRedraw(self)
 
 
 	def set_origin(self, xorg, yorg, move_contents = 1):
@@ -1922,9 +1926,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 
 	# add commands for inherited methods
-	AddCmd('ScrollYPages', 'Page Up', args = -1, key_stroke = 'Prior',
+	AddCmd('ScrollYPages', 'Page Up', args = -1,# key_stroke = 'Prior',
 			subscribe_to = None)
-	AddCmd('ScrollYPages', 'Page Down', args = +1, key_stroke = 'Next',
+	AddCmd('ScrollYPages', 'Page Down', args = +1,# key_stroke = 'Next',
 			subscribe_to = None)
 
 	# scrolling with the cursor keys

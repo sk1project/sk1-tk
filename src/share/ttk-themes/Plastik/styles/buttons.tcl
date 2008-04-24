@@ -329,3 +329,109 @@
 	style element create DocTabActive.button image $K(doctabs_tab_active) \
 		-border {2 3 3 2} -padding {5 3 5 2} -sticky ew	
 				
+# ------------------------------------Pager----------------------------------------------------	
+	# ------HOME-------
+	style layout PagerHome {
+		PagerHome.background
+		PagerHome.button -children {
+			PagerHome.focus -children {
+				PagerHome.label -sticky ns
+			}
+		}
+	}
+
+	style element create PagerHome.button image [list $K(pager_normal_bg) \
+			{pressed !disabled} $K(pager_pressed_bg) \
+			{active !disabled}  $K(pager_active_bg)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news 
+			
+	style element create PagerHome.label image [list $K(pager_home_arrow) \
+			{pressed !disabled} $K(pager_home_arrow_pressed)] -sticky news 
+
+	# ------END-------
+	style layout PagerEnd {
+		PagerEnd.background
+		PagerEnd.button -children {
+			PagerEnd.focus -children {
+				PagerEnd.label -sticky ns
+			}
+		}
+	}
+
+	style element create PagerEnd.button image [list $K(pager_normal_bg) \
+			{pressed !disabled} $K(pager_pressed_bg) \
+			{active !disabled}  $K(pager_active_bg)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news 
+			
+	style element create PagerEnd.label image [list $K(pager_end_arrow) \
+			{pressed !disabled} $K(pager_end_arrow_pressed)] -sticky news 
+	
+	# ------PREVIOUS-------
+	style layout PagerPrevious {
+		PagerPrevious.background
+		PagerPrevious.button -children {
+			PagerPrevious.focus -children {
+				PagerPrevious.label -sticky ns
+			}
+		}
+	}
+
+	style element create PagerPrevious.button image [list $K(pager_normal_bg) \
+			{pressed !disabled} $K(pager_pressed_bg) \
+			{active !disabled}  $K(pager_active_bg)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news 
+			
+	style element create PagerPrevious.label image [list $K(pager_previous_arrow) \
+			{pressed !disabled} $K(pager_previous_arrow_pressed)] -sticky news  
+			
+	# ------NEXT-------
+	style layout PagerNext {
+		PagerNext.background
+		PagerNext.button -children {
+			PagerNext.focus -children {
+				PagerNext.label -sticky ns
+			}
+		}
+	}
+
+	style element create PagerNext.button image [list $K(pager_normal_bg) \
+			{pressed !disabled} $K(pager_pressed_bg) \
+			{active !disabled}  $K(pager_active_bg)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news 
+			
+	style element create PagerNext.label image [list $K(pager_next_arrow) \
+			{pressed !disabled} $K(pager_next_arrow_pressed)] -sticky news 
+			
+	# ------ADD-------
+	style layout PagerAdd {
+		PagerAdd.background
+		PagerAdd.button -children {
+			PagerAdd.focus -children {
+				PagerAdd.label -sticky ns
+			}
+		}
+	}
+
+	style element create PagerAdd.button image [list $K(pager_normal_bg) \
+			{pressed !disabled} $K(pager_pressed_bg) \
+			{active !disabled}  $K(pager_active_bg)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news 
+			
+	style element create PagerAdd.label image [list $K(pager_plus) \
+			{pressed !disabled} $K(pager_plus_pressed)] -sticky news 		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

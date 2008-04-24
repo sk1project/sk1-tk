@@ -11,7 +11,8 @@ from app.utils import os_utils, locale_utils
 from app.plugins import plugins
 from app.io import load
 import app, os, sys, string
-from app.UI import tkext
+from app.UI.dialogs.msgdialog import msgDialog
+from app.UI.dialogs import msgdialog
 
 
 EXPORT_MODE=2
@@ -64,18 +65,17 @@ class DocumentManager:
 			doc = load.load_drawing(filename)
 			doc.meta.view=None
 			self.SetActiveDocument(doc)
-			self.mw.add_mru_file(filename)
-			self.mw.canvas.bitmap_buffer=None			
-			self.mw.canvas.commands.ForceRedraw			
+			self.mw.add_mru_file(filename)			
+			self.mw.canvas.ForceRedraw()			
 			if self.tabspanel:
 				self.tabspanel.addNewTab(self.activedoc)
 		except SketchError, value:
-			app.MessageBox(title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
+			msgDialog(self.mw.root, title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
 			self.mw.remove_mru_file(filename)
 		else:
 			messages = doc.meta.load_messages
 			if messages:
-				app.MessageBox(title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
+				msgDialog(self.mw.root, title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
 			doc.meta.load_messages = ''
 	
 	def SaveDocument(self, document, use_dialog = SAVE_MODE):
@@ -183,7 +183,7 @@ class DocumentManager:
 								"or `cancel' to cancel saving.")
 							% {'filename':`backupfile`, 'message':strerror})
 					cancel = _("Cancel")
-					result = app.MessageBox(title = _("Save To File"), message = msg, buttons = (_("Continue"), cancel))
+					result = msgDialog(self.mw.root, title = _("Save To File"), message = msg, buttons = (_("Continue"), cancel))
 					if result == cancel:
 						return
 
@@ -208,7 +208,7 @@ class DocumentManager:
 		except IOError, value:
 			if type(value) == type(()):
 				value = value[1]
-			app.MessageBox(title = _("Save To File"),
+			msgDialog(self.mw.root, title = _("Save To File"),
 							message = _("\nCannot save %(filename)s:\n\n"
 										"%(message)s") \
 							% {'filename':`os.path.split(filename)[1]`,
@@ -237,12 +237,12 @@ class DocumentManager:
 	def save_doc_if_edited(self, document, title = _("sK1 - Save Document...")):
 		if document is not None and document.WasEdited():
 			message = _("\nFile: <%s> has been changed ! \n\nDo you want to save it?\n") % document.meta.filename
-			result = self.mw.application.MessageBox(title = title, message = message, buttons = tkext.SaveDSCancel)
+			result = msgDialog(self.mw.root, title = title, message = message, buttons = msgdialog.SaveDontSaveCancel)
 			self.mw.root.deiconify()
-			if result == tkext.Save:
+			if result == msgdialog.Save:
 				self.SaveDocument(document)
 			return result
-		return tkext.No
+		return msgdialog.No
 	
 	def set_window_title(self):
 		self.mw.root.client(os_utils.gethostname())

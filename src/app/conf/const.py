@@ -96,6 +96,7 @@ REDRAW = 'REDRAW'
 STYLE = 'STYLE'
 UNDO = 'UNDO'
 GUIDE_LINES = 'GUIDE_LINES'
+PAGE = 'PAGE'
 
 
 # graphics object

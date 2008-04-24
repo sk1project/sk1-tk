@@ -36,6 +36,7 @@ class Layer(EditableCompound):
 	is_SpecialLayer = 0
 	is_GridLayer = 0
 	is_GuideLayer = 0
+	is_MasterLayer = 0
 
 	def __init__(self, name = _("New Layer"),
 					visible = 1, printable = 1, locked = 0,

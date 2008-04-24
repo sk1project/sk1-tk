@@ -30,7 +30,8 @@ from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO
 from Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
 from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 from Ttk import  TFrame, TScrollbar, TLabel, TButton
-from doctabs import TabsPanel
+from widgets.doctabs import TabsPanel
+from widgets.pager import Pager
 import Tkinter
 from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, ToolbarButton, \
 				CommandCheckbutton, MakeCommand, MultiButton, \
@@ -151,7 +152,7 @@ class sK1MainWindow(Publisher):
 		self.tbar = TFrame(root, name = 'toolbar', style='ToolBarFrame', borderwidth=2)
 		self.tbar.pack(fill=X)
 
-		# the smartpanel
+		# the context panel
 		self.ctxpanel=ctxPanel.ContexPanel(root, self)
 		self.ctxpanel.panel.pack(fill=X)
 
@@ -192,8 +193,16 @@ class sK1MainWindow(Publisher):
 		vbar.bind('<Button-4>', self.ScrollUpCanvas)
 		vbar.bind('<Button-5>', self.ScrollDownCanvas)
 		
-		hbar = TScrollbar(frame, orient = HORIZONTAL)
-		hbar.grid(in_ = frame, column = 2, row = 2, sticky = 'ew')
+		############Pager###################
+		pframe = TFrame(frame, style='FlatFrame', borderwidth=0)
+		pframe.grid(in_ = frame, column = 2, row = 2, sticky = 'ew')
+		
+		lab=Pager(pframe,self)
+		lab.pack(side = LEFT, fill=Y)
+		####################################
+		hbar = TScrollbar(pframe, orient = HORIZONTAL)
+#		hbar.grid(in_ = frame, column = 2, row = 2, sticky = 'ew')
+		hbar.pack(side = RIGHT, fill = X, expand = 1)
 		hbar.bind('<Button-4>', self.ScrollLeftCanvas)
 		hbar.bind('<Button-5>', self.ScrollRightCanvas)
 		####################################
@@ -671,6 +680,24 @@ class sK1MainWindow(Publisher):
 			self.commands = None
 			self.application.Exit()
 			
+################### Pages managment #########################
+	def InsertPage(self):
+		self.document.InsertPages(number=1, index=self.document.active_page)
+		self.document.SelectNone()				
+		self.canvas.ForceRedraw()
+	
+	def NextPage(self):
+		if self.document.active_page < len(self.document.pages)-1:
+			self.document.GoToPage(self.document.active_page+1)
+			self.document.SelectNone()			
+			self.canvas.ForceRedraw()
+	
+	def PreviousPage(self):
+		if self.document.active_page > 0:
+			self.document.GoToPage(self.document.active_page-1)	
+			self.document.SelectNone()			
+			self.canvas.ForceRedraw()
+			
 ################### Window comands #############################	
 	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
 	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
@@ -689,6 +716,10 @@ class sK1MainWindow(Publisher):
 	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	AddCmd('AboutBox', _("About sK1..."))
+	
+	AddCmd('InsertPage', _("Insert Page"), 'InsertPage')
+	AddCmd('NextPage', _("Next Page"), 'NextPage', key_stroke = ('PgDn', 'Next', 'KP_Next'))
+	AddCmd('PreviousPage', _("Previous Page"), 'PreviousPage', key_stroke = ('PgUp', 'Prior', 'KP_Prior'))
 	
 	AddCmd('AddHorizGuideLine', _("Add Horizontal Guide Line"), 'AddGuideLine', args = 1)
 	AddCmd('AddVertGuideLine', _("Add Vertical Guide Line"), 'AddGuideLine', args = 0)
@@ -750,8 +781,8 @@ class sK1MainWindow(Publisher):
 
 	AddDocCmd('RemoveSelected', _("Delete"), key_stroke = ('Del', 'Delete', 'KP_Delete'), image = 'menu_edit_delete')
 
-	AddDocCmd('MoveSelectedToTop', _("Move to Top"), key_stroke = ('Shift+PgUp', 'Shift+Prior', 'Shift-KP_Prior'))
-	AddDocCmd('MoveSelectedToBottom', _("Move to Bottom"), key_stroke = ('Shift+PgDown', 'Shift+Next', 'Shift-KP_Next'))
+	AddDocCmd('MoveSelectedToTop', _("Move to Top"), key_stroke = ('Shift+PgUp', 'Shift+Prior', 'Shift+KP_Prior'))
+	AddDocCmd('MoveSelectedToBottom', _("Move to Bottom"), key_stroke = ('Shift+PgDown', 'Shift+Next', 'Shift+KP_Next'))
 
 	AddDocCmd('MoveSelectionUp', _("Move One Up"), key_stroke = ('Ctrl+PgUp', 'Ctrl+Prior', 'Ctrl+KP_Prior'))
 	AddDocCmd('MoveSelectionDown', _("Move One Down"), key_stroke = ('Ctrl+PgDown', 'Ctrl+Next', 'Ctrl+KP_Next'))
@@ -916,7 +947,10 @@ class sK1MainWindow(Publisher):
 
 	def make_layout_menu(self):
 		return map(MakeCommand,
-					[self.commands.CreateLayoutDialog,
+					[self.commands.InsertPage,
+					self.commands.NextPage,
+					self.commands.PreviousPage,
+					self.commands.CreateLayoutDialog,
 					None,
 					self.commands.CreateGridDialog,
 					self.commands.CreateGuideDialog,

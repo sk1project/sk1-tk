@@ -56,7 +56,7 @@ from pattern import SolidPattern
 import guide
 from selection import SizeSelection, EditSelection, TrafoSelection, TrafoRectangle
 from math import *
-from app.conf.const import STYLE, SELECTION, EDITED, MODE, UNDO, REDRAW, LAYOUT
+from app.conf.const import STYLE, SELECTION, EDITED, MODE, UNDO, REDRAW, LAYOUT, PAGE
 from app.conf.const import LAYER, LAYER_ORDER, LAYER_ACTIVE, GUIDE_LINES, GRID
 from app.conf.const import SelectSet, SelectAdd,SelectSubtract,SelectSubobjects,\
 		SelectDrag, SelectGuide, Button1Mask
@@ -76,20 +76,27 @@ class SketchDocument(Protocols):
 	script_access = {}
 
 	def __init__(self, create_layer = 0):
+		self.pages = []
+		self.active_page=0
 		self.snap_grid = GridLayer()
 		self.snap_grid.SetDocument(self)
 		self.guide_layer = GuideLayer(_("Guide Lines"))
 		self.guide_layer.SetDocument(self)
+		layer=Layer(_("MasterLayer 1"))
+		layer.SetDocument(self)
+		layer.is_MasterLayer=1
+		self.master_layers=[layer]
 		if create_layer:
 			# a new empty document
 			self.active_layer = Layer(_("Layer 1"))
 			self.active_layer.SetDocument(self)
-			self.layers = [self.active_layer, self.guide_layer,
-							self.snap_grid]
+			self.layers = [self.snap_grid]+[self.active_layer] + self.master_layers + [self.guide_layer]
+			self.pages.append([self.active_layer])
 		else:
 			# we're being created by the load module
 			self.active_layer = None
 			self.layers = []
+			self.pages.append(self.layers)
 
 	def __del__(self):
 		if __debug__:
@@ -105,7 +112,7 @@ class SketchDocument(Protocols):
 				return self.layers[idx[0]]
 		raise ValueError, 'invalid index %s' % `idx`
 
-	def AppendLayer(self, layer_name = None, *args, **kw_args):
+	def AppendLayer(self, layer_name = None, master=0, *args, **kw_args):
 		try:
 			old_layers = self.layers[:]
 			if layer_name is None:
@@ -114,14 +121,88 @@ class SketchDocument(Protocols):
 				layer_name = str(layer_name)
 			layer = apply(Layer, (layer_name,) + args, kw_args)
 			layer.SetDocument(self)
-			self.layers.append(layer)
+			if master:
+				layer.is_MasterLayer=1
+				mlayers=self.getMasterLayers()
+				mlayers.append(layer)
+				self.layers = [self.snap_grid] + self.getRegularLayers() + mlayers + [self.guide_layer]
+			else:
+				rlayers=self.getRegularLayers()
+				rlayers.append(layer)
+				self.layers = [self.snap_grid] + rlayers + self.getMasterLayers() + [self.guide_layer]
 			if not self.active_layer:
-				self.active_layer = layer
+				self.active_layer = layer			
 			return layer
 		except:
 			self.layers[:] = old_layers
 			raise
 	script_access['AppendLayer'] = SCRIPT_OBJECT
+	
+	def RearrangeLayers(self):
+		if not len(self.getMasterLayers()):
+			layer=Layer(_("MasterLayer 1"))
+			layer.SetDocument(self)
+			layer.is_MasterLayer=1
+			self.layers.append(layer)
+		self.layers = [self.snap_grid] + self.getRegularLayers() + self.getMasterLayers() + [self.guide_layer]
+	
+	def getRegularLayers(self):
+		result=[]
+		for layer in self.layers:
+			if not layer.is_SpecialLayer and not layer.is_MasterLayer:
+				result.append(layer)
+		return result
+	
+	def getMasterLayers(self):
+		result=[]
+		for layer in self.layers:
+			if layer.is_MasterLayer:
+				result.append(layer)
+		return result
+	
+	def insert_pages(self, number=1, index=0, is_before=0):
+		for item in range(number):
+			if is_before:
+				self.pages.insert(index, self.NewPage())
+				self.setActivePage(self.pages[index])
+			else:
+				self.pages.insert(index+item+1, self.NewPage())
+				self.setActivePage(self.pages[index+1])		
+			
+	def setActivePage(self, page):
+		self.pages[self.active_page]=self.getRegularLayers()
+		self.layers=[self.snap_grid] + page + self.getMasterLayers() + [self.guide_layer]
+		self.active_page=self.pages.index(page)
+		self.active_layer=page[0]
+		
+	def NewPage(self):
+		page=[]
+		new_layer=Layer(_("Layer 1"))
+		new_layer.SetDocument(self)
+		page.append(new_layer)
+		return page				
+	
+	def delete_page(self, index=0):
+		if len(self.pages)==1:
+			return
+		if index == self.active_page:
+			self.setActivePage(self.pages[index-1])
+		self.pages.remove(self.pages[index])
+		
+	def delete_pages(self, number=1, index=0,is_before=0):
+		for item in range(number):
+			self.delete_page(index+is_before)
+
+	def move_page(self, index=0, backward=0):
+		if index==0 or index==len(self.pages)-1:
+			return
+		else:
+			page=self.pages[index]
+			self.pages.remove(page)
+			self.pages.insert(index+1-2*backward, page)
+		if index==self.active_page:
+			self.active_page=self.active_page+1-2*backward
+			
 
 	def BoundingRect(self, visible = 1, printable = 0):
 		rects = []
@@ -243,6 +324,7 @@ class SketchDocument(Protocols):
 			self.layers.append(self.guide_layer)
 		if add_grid_layer:
 			self.layers.append(self.snap_grid)
+		self.RearrangeLayers()
 
 
 #
@@ -2075,8 +2157,61 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			finally:
 				self.end_transaction()
 
+
 	#
+	#  PAGES MANAGMENT
 	#
+	def CanGoToPage(self):
+		return len(self.pages)>1
+	
+	def GoToPage(self, index=0):
+		self.begin_transaction(clear_selection_rect = 0)
+		try:
+			try:
+				self.setActivePage(self.pages[index])
+			except:
+				self.abort_transaction()
+		finally:
+			self.end_transaction()
+			self.issue(PAGE)
+	
+	def InsertPages(self, number=1, index=0, is_before=0):
+		if number>1:
+			self.begin_transaction(_("Insert Pages"), clear_selection_rect = 0)
+		else:
+			self.begin_transaction(_("Insert Page"), clear_selection_rect = 0)
+		try:
+			try:
+				self.add_undo((self.delete_pages,number,index,is_before))
+				self.insert_pages(number,index,is_before)
+			except:
+				self.abort_transaction()
+		finally:
+			self.end_transaction()			
+			self.issue(PAGE)
+	
+	def CanDeletePage(self,index):
+		return 0 <= index < len(self.pages)
+	
+	def _insert_page(self,index,page):
+		self.pages.insert(index,page)
+	
+	def DeletePage(self, index=0):
+		if self.CanDeletePage(index):
+			self.begin_transaction(_("Delete Page"), clear_selection_rect = 0)
+			try:
+				try:
+					self.add_undo((self._insert_page,index,self.pages[index]))
+					self.delete_page(index)
+				except:
+					self.abort_transaction()
+			finally:
+				self.end_transaction()				
+				self.issue(PAGE)
+		
+
+	#
+	#  LAYERS METHODS
 	#
 
 	def Layers(self):
