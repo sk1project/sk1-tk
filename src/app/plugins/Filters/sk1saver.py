@@ -320,10 +320,18 @@ class SKSaver:
 	def BeginLayer(self, name, visible, printable, locked, outlined, color):
 		self.file.write('layer(%s,%d,%d,%d,%d,%s)\n'
 						% (`name`, visible, printable, locked, outlined,
-							color_repr(color)))
+							color_repr(color)))	
+		
+	def BeginMasterLayer(self, name, visible, printable, locked, outlined, color):
+		self.file.write('masterlayer(%s,%d,%d,%d,%d,%s)\n'
+						% (`name`, visible, printable, locked, outlined,
+							color_repr(color)))		
 
 	def EndLayer(self):
 		pass
+	
+	def Page(self):
+		self.file.write('page()\n')
 
 	def BeginGuideLayer(self, name, visible, printable, locked, outlined,
 						color):

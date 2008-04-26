@@ -80,16 +80,15 @@ class SKLoader(GenericLoader):
 
 	base_style = base_style
 
-	functions = ['document', 'layer', ('bezier', 'b'), ('rectangle', 'r'),
-					('ellipse', 'e'),
-					'group', ('group', 'G'), 'endgroup', ('endgroup', 'G_'),
-					'guess_cont']
+	functions = ['document', 'layer', 'masterlayer', 'page', ('bezier', 'b'), 
+				('rectangle', 'r'),	('ellipse', 'e'), 'group', 
+				('group', 'G'), 'endgroup', ('endgroup', 'G_'), 'guess_cont']
 
 	def __init__(self, file, filename, match):
 		GenericLoader.__init__(self, file, filename, match)
 		if atoi(match.group('minor')) > 2:
 			self.add_message(_("The file was created by a newer version"
-								" of Sketch, there might be inaccuracies."))
+								" of sK1, there might be inaccuracies."))
 		if self.filename:
 			self.directory = os.path.split(filename)[0]
 		else:

@@ -23,6 +23,8 @@ namespace eval ttk { namespace eval button { } }
 bind TButton <Enter>		{ %W state active }
 bind TButton <Leave>		{ %W state !active }
 bind TButton <Key-space>	{ ttk::button::activate %W }
+bind TButton <Return>	{ ttk::button::activate %W }
+bind TButton <KP_Enter>	{ ttk::button::activate %W }
 bind TButton <<Invoke>> 	{ ttk::button::activate %W }
 
 bind TButton <ButtonPress-1>    { %W instate !disabled { %W state pressed } } 

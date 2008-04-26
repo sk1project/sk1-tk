@@ -53,6 +53,9 @@ class ModalDialog:
 
 	def build_dlg(self):
 		pass
+		
+	def stub(self):
+		pass
 
 	def ok(self, *args):
 		self.close_dlg()
@@ -63,7 +66,7 @@ class ModalDialog:
 	def close_dlg(self, result = None):
 		self.result = result
 		if self.old_focus is not None:
-			self.old_focus.focus_set()
+#			self.old_focus.focus_set()
 			self.old_focus = None
 		self.top.destroy()
 

@@ -56,6 +56,7 @@ class MessageDialog(ModalDialog):
 	
 		frame = TFrame(top, name = 'bot', style='FlatFrame')
 		frame.pack(side = BOTTOM)#, fill = X, expand = 1)
+		root.protocol('WM_DELETE_WINDOW', self.stub)
 	
 		command = self.ok
 		for i in range(len(self.buttons)):

@@ -682,21 +682,47 @@ class sK1MainWindow(Publisher):
 			
 ################### Pages managment #########################
 	def InsertPage(self):
-		self.document.InsertPages(number=1, index=self.document.active_page)
-		self.document.SelectNone()				
+		from dialogs.insertpagedlg import insertpgDialog
+		insertpgDialog(self.root)
+		import time
+		time.sleep(.1)
+		self.document.SelectNone()
 		self.canvas.ForceRedraw()
-	
+		
 	def NextPage(self):
+		from dialogs.insertpagedlg import insertpgDialog
 		if self.document.active_page < len(self.document.pages)-1:
 			self.document.GoToPage(self.document.active_page+1)
-			self.document.SelectNone()			
-			self.canvas.ForceRedraw()
+		else:
+			insertpgDialog(self.root)
+		self.document.SelectNone()
+		self.canvas.ForceRedraw()
 	
 	def PreviousPage(self):
+		from dialogs.insertpagedlg import insertpgDialog
 		if self.document.active_page > 0:
 			self.document.GoToPage(self.document.active_page-1)	
-			self.document.SelectNone()			
-			self.canvas.ForceRedraw()
+		else:
+			insertpgDialog(self.root, 1)
+		self.document.SelectNone()			
+		self.canvas.ForceRedraw()
+
+	def DeletePage(self):
+		from dialogs.deletepagedlg import deletepgDialog
+		deletepgDialog(self.root)
+		import time
+		time.sleep(.1)
+		self.document.SelectNone()
+		self.canvas.ForceRedraw()
+		
+	def GotoPage(self):
+		from dialogs.gotopagedlg import gotopgDialog
+		gotopgDialog(self.root)
+		import time
+		time.sleep(.1)
+		self.document.SelectNone()
+		self.canvas.ForceRedraw()		
+		
 			
 ################### Window comands #############################	
 	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
@@ -717,9 +743,11 @@ class sK1MainWindow(Publisher):
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	AddCmd('AboutBox', _("About sK1..."))
 	
-	AddCmd('InsertPage', _("Insert Page"), 'InsertPage')
+	AddCmd('InsertPage', _("Insert Page..."), 'InsertPage')
+	AddCmd('DeletePage', _("Delete Page..."), 'DeletePage', subscribe_to = UNDO, sensitive_cb = ('document','CanBePageDeleting'))
 	AddCmd('NextPage', _("Next Page"), 'NextPage', key_stroke = ('PgDn', 'Next', 'KP_Next'))
 	AddCmd('PreviousPage', _("Previous Page"), 'PreviousPage', key_stroke = ('PgUp', 'Prior', 'KP_Prior'))
+	AddCmd('GotoPage', _("Go to Page..."), 'GotoPage')
 	
 	AddCmd('AddHorizGuideLine', _("Add Horizontal Guide Line"), 'AddGuideLine', args = 1)
 	AddCmd('AddVertGuideLine', _("Add Vertical Guide Line"), 'AddGuideLine', args = 0)
@@ -948,10 +976,12 @@ class sK1MainWindow(Publisher):
 	def make_layout_menu(self):
 		return map(MakeCommand,
 					[self.commands.InsertPage,
+					self.commands.DeletePage,
+					self.commands.GotoPage,
 					self.commands.NextPage,
 					self.commands.PreviousPage,
-					self.commands.CreateLayoutDialog,
 					None,
+					self.commands.CreateLayoutDialog,
 					self.commands.CreateGridDialog,
 					self.commands.CreateGuideDialog,
 					None,

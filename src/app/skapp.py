@@ -188,6 +188,7 @@ class SketchApplication(TkApplication, Publisher):
 	def build_window(self):
 		from app.UI.mainwindow import sK1MainWindow
 		self.main_window = sK1MainWindow(self, self.filename, self.run_script)
+		app.mw = self.main_window
 
 
 	def SavePreferences(self, *args):

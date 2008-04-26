@@ -164,16 +164,25 @@ class SketchDocument(Protocols):
 		for item in range(number):
 			if is_before:
 				self.pages.insert(index, self.NewPage())
-				self.setActivePage(self.pages[index])
+				self.active_page+=1
+				self.setActivePage(index)
 			else:
 				self.pages.insert(index+item+1, self.NewPage())
-				self.setActivePage(self.pages[index+1])		
+				self.setActivePage(index+1)	
 			
-	def setActivePage(self, page):
+	def setActivePage(self, index):
 		self.pages[self.active_page]=self.getRegularLayers()
-		self.layers=[self.snap_grid] + page + self.getMasterLayers() + [self.guide_layer]
-		self.active_page=self.pages.index(page)
-		self.active_layer=page[0]
+		self.layers=[self.snap_grid] + self.pages[index] + self.getMasterLayers() + [self.guide_layer]
+		self.active_page=index
+		self.active_layer=(self.pages[index])[0]
+#		print '===========PAGES============='
+#		print self.pages
+#		print '=======ACTIVE LAYER=========='
+#		print self.active_layer
+#		print '============================='
+
+	def updateActivePage(self):
+		self.pages[self.active_page]=self.getRegularLayers()
 		
 	def NewPage(self):
 		page=[]
@@ -185,8 +194,13 @@ class SketchDocument(Protocols):
 	def delete_page(self, index=0):
 		if len(self.pages)==1:
 			return
-		if index == self.active_page:
-			self.setActivePage(self.pages[index-1])
+		if self.active_page and index == self.active_page:
+			self.setActivePage(index-1)
+		if not self.active_page and index == self.active_page:
+			self.setActivePage(1)
+			self.active_page=0	
+		if self.active_page and self.active_page>index:
+			self.active_page-=1					
 		self.pages.remove(self.pages[index])
 		
 	def delete_pages(self, number=1, index=0,is_before=0):
@@ -290,11 +304,23 @@ class SketchDocument(Protocols):
 		return join(info, '\n')
 
 	def SaveToFile(self, file):
+		self.updateActivePage()
 		file.BeginDocument()
 		self.page_layout.SaveToFile(file)
 		self.write_styles(file)
-		for layer in self.layers:
-			layer.SaveToFile(file)
+		self.snap_grid.SaveToFile(file)
+		
+#		for layer in self.pages[0]:
+#			layer.SaveToFile(file)
+			
+		for page in self.pages:
+			file.Page()
+			for layer in page:
+				layer.SaveToFile(file)			
+
+		for layer in self.getMasterLayers():
+			layer.SaveToFile(file)			
+		self.guide_layer.SaveToFile(file)
 		file.EndDocument()
 
 	def load_AppendObject(self, layer):
@@ -324,8 +350,34 @@ class SketchDocument(Protocols):
 			self.layers.append(self.guide_layer)
 		if add_grid_layer:
 			self.layers.append(self.snap_grid)
+		self.extract_pages()
 		self.RearrangeLayers()
-
+		print '===========PAGES============='
+		print self.pages
+		print '=======ACTIVE LAYER=========='
+		print self.active_layer
+		print '============================='
+		
+	def extract_pages(self):
+		layers=self.getRegularLayers()
+		if layers[0].is_Page:
+			self.pages=[]
+			for layer in layers:
+				if layer.is_Page:
+					page=[]
+					self.pages.append(page)
+				else:
+					page.append(layer)
+			pages=[]+self.pages
+			for page in pages:
+				if not len(page):		
+					self.pages.remove(page)
+		else:
+			self.pages=[]
+			self.pages.append(layers)
+		self.active_page=0
+		self.layers=[self.snap_grid] + self.pages[0] + self.getMasterLayers() + [self.guide_layer]
+		self.active_layer=(self.pages[0])[0]
 
 #
 #	Class MetaInfo
@@ -2161,20 +2213,32 @@ class EditDocument(SketchDocument, QueueingPublisher):
 	#
 	#  PAGES MANAGMENT
 	#
+	
+############
 	def CanGoToPage(self):
 		return len(self.pages)>1
 	
 	def GoToPage(self, index=0):
-		self.begin_transaction(clear_selection_rect = 0)
+		self.begin_transaction(_("Go to page"),clear_selection_rect = 0)
 		try:
 			try:
-				self.setActivePage(self.pages[index])
+				current_page=self.active_page
+				if self.CanUndo():
+					self.add_undo((self._return_to_page, current_page))
+				self.setActivePage(index)
 			except:
 				self.abort_transaction()
 		finally:
 			self.end_transaction()
-			self.issue(PAGE)
+			self.issue(PAGE)			
 	
+	def _return_to_page(self, index):
+		current_page=self.active_page
+		self.setActivePage(index)
+		self.issue(PAGE)
+		return (self._return_to_page, current_page)
+	
+############	
 	def InsertPages(self, number=1, index=0, is_before=0):
 		if number>1:
 			self.begin_transaction(_("Insert Pages"), clear_selection_rect = 0)
@@ -2182,7 +2246,8 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			self.begin_transaction(_("Insert Page"), clear_selection_rect = 0)
 		try:
 			try:
-				self.add_undo((self.delete_pages,number,index,is_before))
+				for_del=abs(is_before-1)
+				self.add_undo((self._delete_pages,number,index,for_del))
 				self.insert_pages(number,index,is_before)
 			except:
 				self.abort_transaction()
@@ -2190,24 +2255,51 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			self.end_transaction()			
 			self.issue(PAGE)
 	
+	def _insert_pages(self,number,index,is_before):
+		self.insert_pages(number,index,is_before)
+		self.issue(PAGE)
+		return (self._delete_pages,number,index,is_before)
+		
+	def _delete_pages(self, number=1, index=0,is_before=0):
+		self.delete_pages(number,index,is_before)
+		self.issue(PAGE)
+		return (self._insert_pages,number,index,is_before)
+	
+############
 	def CanDeletePage(self,index):
-		return 0 <= index < len(self.pages)
+		return 0 <= index < len(self.pages) and len(self.pages) > 1
 	
-	def _insert_page(self,index,page):
-		self.pages.insert(index,page)
-	
+	def CanBePageDeleting(self):
+		return len(self.pages) > 1
+		
 	def DeletePage(self, index=0):
 		if self.CanDeletePage(index):
 			self.begin_transaction(_("Delete Page"), clear_selection_rect = 0)
 			try:
 				try:
 					self.add_undo((self._insert_page,index,self.pages[index]))
-					self.delete_page(index)
+					self.delete_page(index)					
 				except:
 					self.abort_transaction()
 			finally:
 				self.end_transaction()				
 				self.issue(PAGE)
+	
+	def _insert_page(self,index,page):
+		current_page = self.pages[self.active_page]
+		self.pages.insert(index,page)		
+		self.active_page = self.pages.index(current_page)
+		self.SelectNone()
+		self.issue(PAGE)
+		return (self._delete_page,index,page)
+
+	def _delete_page(self,index,page):
+		current_page = self.pages[self.active_page]
+		self.pages.remove(page)
+		self.active_page = self.pages.index(current_page)
+		self.SelectNone()
+		self.issue(PAGE)
+		return (self._insert_page,index,page)		
 		
 
 	#

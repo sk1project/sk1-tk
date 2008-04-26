@@ -198,6 +198,14 @@ class GenericLoader(LoaderWithComposites):
 
 	def layer(self, *args, **kw):
 		self.begin_layer_class(layer.Layer, args, kw)
+		
+	def masterlayer(self, *args, **kw):
+		kw['is_MasterLayer']=1
+		self.begin_layer_class(layer.Layer, args, kw)
+		
+	def page(self, *args, **kw):
+		kw['is_Page']=1
+		self.begin_layer_class(layer.Layer, args, kw)
 
 	def end_layer(self):
 		self.end_composite()

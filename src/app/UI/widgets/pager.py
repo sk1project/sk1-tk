@@ -61,15 +61,19 @@ class Pager(TFrame, Publisher):
 		
 	def PageHome(self):
 		self.mainwindow.document.GoToPage(0)
+		self.mainwindow.document.SelectNone()
+		self.mainwindow.canvas.ForceRedraw()
 	
 	def PageEnd(self):
 		self.mainwindow.document.GoToPage(len(self.mainwindow.document.pages)-1)
-		
+		self.mainwindow.document.SelectNone()
+		self.mainwindow.canvas.ForceRedraw()
+				
 	def PagePrevious(self):
-		self.mainwindow.document.GoToPage(self.mainwindow.document.active_page-1)
+		self.mainwindow.PreviousPage()
 		
 	def PageNext(self):
-		self.mainwindow.document.GoToPage(self.mainwindow.document.active_page+1)	
+		self.mainwindow.NextPage()	
 		
 		
 
