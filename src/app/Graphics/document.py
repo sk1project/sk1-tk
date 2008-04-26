@@ -175,11 +175,6 @@ class SketchDocument(Protocols):
 		self.layers=[self.snap_grid] + self.pages[index] + self.getMasterLayers() + [self.guide_layer]
 		self.active_page=index
 		self.active_layer=(self.pages[index])[0]
-#		print '===========PAGES============='
-#		print self.pages
-#		print '=======ACTIVE LAYER=========='
-#		print self.active_layer
-#		print '============================='
 
 	def updateActivePage(self):
 		self.pages[self.active_page]=self.getRegularLayers()
@@ -352,11 +347,6 @@ class SketchDocument(Protocols):
 			self.layers.append(self.snap_grid)
 		self.extract_pages()
 		self.RearrangeLayers()
-		print '===========PAGES============='
-		print self.pages
-		print '=======ACTIVE LAYER=========='
-		print self.active_layer
-		print '============================='
 		
 	def extract_pages(self):
 		layers=self.getRegularLayers()
