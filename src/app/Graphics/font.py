@@ -256,53 +256,6 @@ def _add_ps_filename(ps_name, filename):
 		filename = ps_to_filename[ps_name] + filename
 	ps_to_filename[ps_name] = filename
 
-#def read_font_dirs():
-	##print 'read_font_dirs'
-	#if __debug__:
-		#import time
-		#start = time.clock()
-
-	#rx_sfd = re.compile(r'^.*\.sfd$')
-	#for directory in config.font_path:
-		##print directory
-		#try:
-			#filenames = os.listdir(directory)
-		#except os.error, exc:
-			#warn(USER, _("Cannot list directory %s:%s\n"
-							#"ignoring it in font_path"),
-					#directory, str(exc))
-			#continue
-		#dirfiles = filter(rx_sfd.match, filenames)
-		#for filename in dirfiles:
-			#filename = os.path.join(directory, filename)
-			##print filename
-			#try:
-				#file = open(filename, 'r')
-				#line_nr = 0
-				#for line in file.readlines():
-					#line_nr = line_nr + 1
-					#line = strip(line)
-					#if not line or line[0] == '#':
-						#continue
-					#info = map(intern, split(line, ','))
-					#if len(info) == 6:
-						#psname = info[0]
-						#fontlist.append(tuple(info[:-1]))
-						#_add_ps_filename(psname, info[-1])
-						#fontmap[psname] = tuple(info[1:-1])
-					#elif len(info) == 2:
-						#psname, basename = info
-						#_add_ps_filename(psname, basename)
-					#else:
-						#warn(INTERNAL,'%s:%d: line must have exactly 6 fields',
-								#filename, line_nr)
-				#file.close()
-			#except IOError, value:
-				#warn(USER, _("Cannot load sfd file %(filename)s:%(message)s;"
-								#"ignoring it"),
-						#filename = filename, message = value.strerror)
-	#if __debug__:
-		#pdebug('timing', 'time to read font dirs: %g', time.clock() - start)
 
 def make_family_to_fonts():
 	families = {}
@@ -322,134 +275,6 @@ xlfd_template = "%s--%s-*-*-*-*-*-%s"
 font_cache = SKCache()
 
 
-#_warned_about_font = {}
-#def GetFont(fontname):
-	#if font_cache.has_key(fontname):
-		#return font_cache[fontname]
-	#if not fontmap.has_key(fontname):
-		#if not _warned_about_font.get(fontname):
-			#warn(USER, _("I can't find font %(fontname)s. "
-							#"I'll use %(fallback)s instead"),
-					#fontname = fontname,
-					#fallback = config.preferences.fallback_font)
-			#_warned_about_font[fontname] = 1
-		#if fontname != config.preferences.fallback_font:
-			#return GetFont(config.preferences.fallback_font)
-		#raise ValueError, 'Cannot find font %s.' % fontname
-	#return Font(fontname)
-
-
-#class Font:
-
-	#def __init__(self, name):
-		#self.name = name
-		#info = fontmap[name]
-		#family, font_attrs, xlfd_start, encoding_name = info
-		#self.family = family
-		#self.font_attrs = font_attrs
-		#self.xlfd_start = lower(xlfd_start)
-		#self.encoding_name = encoding_name
-		#self.metric, self.encoding = read_metric(self.PostScriptName())
-		#self.outlines = None
-
-		#self.ref_count = 0
-		#font_cache[self.name] = self
-
-	#def __del__(self):
-		#if font_cache.has_key(self.name):
-			#del font_cache[self.name]
-
-	#def __repr__(self):
-		#return "<Font %s>" % self.name
-
-	#def GetXLFD(self, size_trafo):
-		#if type(size_trafo) == TrafoType:
-			#if size_trafo.m11 == size_trafo.m22 > 0\
-				#and size_trafo.m12 == size_trafo.m21 == 0:
-				## a uniform scaling. Special case for better X11R5
-				## compatibility
-				#return xlfd_template % (self.xlfd_start,
-										#int(round(size_trafo.m11)),
-										#self.encoding_name)
-			#return xlfd_template % (self.xlfd_start, xlfd_matrix(size_trafo),
-									#self.encoding_name)
-		#return xlfd_template % (self.xlfd_start, int(round(size_trafo)),
-								#self.encoding_name)
-
-	#def PostScriptName(self):
-		#return self.name
-
-	#def TextBoundingBox(self, text, size):
-		## Return the bounding rectangle of TEXT when set in this font
-		## with a size of SIZE. The coordinates of the rectangle are
-		## relative to the origin of the first character.
-		#llx, lly, urx, ury = self.metric.string_bbox(text)
-		#size = size / 1000.0
-		#return (llx * size, lly * size, urx * size, ury * size)
-
-	#def TextCoordBox(self, text, size):
-		## Return the coord rectangle of TEXT when set in this font with
-		## a size of SIZE. The coordinates of the rectangle are relative
-		## to the origin of the first character.
-		#metric = self.metric
-		#width = metric.string_width(text)
-		#size = size / 1000.0
-		#return (0,             metric.descender * size,
-				#width * size,  metric.ascender * size)
-
-	#def TextCaretData(self, text, pos, size):
-		#from math import tan, pi
-		#size = size / 1000.0
-		#x = self.metric.string_width(text, pos) * size
-		#lly = self.metric.lly * size
-		#ury = self.metric.ury * size
-		#t = tan(self.metric.italic_angle * pi / 180.0);
-		#up = ury - lly
-		#return Point(x - t * lly, lly), Point(-t * up, up)
-
-	#def TypesetText(self, text):
-		#return self.metric.typeset_string(text)
-
-	#def IsPrintable(self, char):
-		#return self.encoding[ord(char)] != encoding.notdef
-
-	#def GetOutline(self, char):
-		#if self.outlines is None:
-			#self.char_strings, self.cs_interp \
-								#= read_outlines(self.PostScriptName())
-			#self.outlines = {}
-		#char_name = self.encoding[ord(char)]
-		#outline = self.outlines.get(char_name)
-		#if outline is None:
-			#self.cs_interp.execute(self.char_strings[char_name])
-			#outline = convert_outline(self.cs_interp.paths)
-			#self.outlines[char_name] = outline
-			#self.cs_interp.reset()
-		#copy = []
-		#for path in outline:
-			#path = path.Duplicate()
-			#copy.append(path)
-		#return tuple(copy)
-
-	#def FontFileName(self):
-		#return font_file_name(self.PostScriptName())
-
-#_warned_about_font = {}
-#def GetFont(fontname):
-	#if font_cache.has_key(fontname):
-		#return font_cache[fontname]
-	#if not fontmap.has_key(fontname):
-		#if not _warned_about_font.get(fontname):
-			#warn(USER, _("I can't find font %(fontname)s. "
-							#"I'll use %(fallback)s instead"),
-					#fontname = fontname,
-					#fallback = config.preferences.fallback_font)
-			#_warned_about_font[fontname] = 1
-		#if fontname != config.preferences.fallback_font:
-			#return GetFont(config.preferences.fallback_font)
-		#raise ValueError, 'Cannot find font %s.' % fontname
-	#return Font(fontname)
-
 #===============NEW FONT ENGINE IMPLEMENTATION===========================
 # font types: PS1 - Postscript Type1; TTF - TrueType; OTF - OpenType
 # Currently TTF support only
@@ -464,12 +289,12 @@ font_cache = SKCache()
 #filename
 #bold -flag
 #italic -flag
+
 freetype_lib = ft2.Library()
 
 def scan_fonts_dirs():
 	fontfile_list=[]
 	user_font_dir=os.path.join(gethome(),config.preferences.user_font_dir)
-#	win_dir='/mnt/win_c/WINDOWS/Fonts'
 	for path in [config.preferences.system_font_dir, user_font_dir]:
 		fontfile_list+=get_files_tree(path,'ttf')       
 		fontfile_list+=get_files_tree(path,'TTF')       
@@ -560,20 +385,6 @@ class Font:
 	def __repr__(self):
 		return "<Font %s>" % self.name
 
-#	def GetXLFD(self, size_trafo):
-#		if type(size_trafo) == TrafoType:
-#			if size_trafo.m11 == size_trafo.m22 > 0\
-#				and size_trafo.m12 == size_trafo.m21 == 0:
-#				# a uniform scaling. Special case for better X11R5
-#				# compatibility
-#				return xlfd_template % (self.xlfd_start,
-#										int(round(size_trafo.m11)),
-#										self.encoding_name)
-#			return xlfd_template % (self.xlfd_start, xlfd_matrix(size_trafo),
-#									self.encoding_name)
-#		return xlfd_template % (self.xlfd_start, int(round(size_trafo)),
-#								self.encoding_name)
-
 	def PostScriptName(self):
 		return self.name
 	
@@ -604,33 +415,40 @@ class Font:
 		# with a size of SIZE. The coordinates of the rectangle are
 		# relative to the origin of the first character.
 
-		posx = posy = 0
+		posx = posy = posx_max = posy_max= 0
 		lastIndex = 0
 		text_xmin = text_ymin = 0
 		text_xmax = text_ymax = 0
-		for c in text:
-			try:
-				thisIndex = self.enc_vector[ord(c)]
-			except:
-				thisIndex = self.enc_vector[ord('?')]
-			glyph = ft2.Glyph(self.face, thisIndex, 0)
-#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
-#			posx += kerning[0] << 10
-#			posy += kerning[1] << 10
-			posx += glyph.advance[0]
-			posy += glyph.advance[1]
-			lastIndex = thisIndex
-			(gl_xmin, gl_ymin, gl_xmax, gl_ymax) = glyph.getCBox(ft2.ft_glyph_bbox_subpixels)
-			gl_xmin += posx >> 10
-			gl_ymin += posy >> 10 
-			gl_xmax += posx >> 10
-			gl_ymax += posy >> 10
-			text_xmin = min(text_xmin, gl_xmin)
-			text_ymin = min(text_ymin, gl_ymin)
-			text_xmax = max(text_xmax, gl_xmax)
-			text_ymax = max(text_ymax, gl_ymax)             
-		return (text_xmin*size/10240.0, text_ymin*size/10240.0, 
-				posx*size/10240000.0, text_ymax*size/10240.0)
+		
+		fheight=self.getFontHeight()*5
+		lines=split(text, '\n')
+		for line in lines:
+			posx = 0
+			for c in line:
+				try:
+					thisIndex = self.enc_vector[ord(c)]
+				except:
+					thisIndex = self.enc_vector[ord('?')]
+				glyph = ft2.Glyph(self.face, thisIndex, 0)
+	#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+	#			posx += kerning[0] << 10
+	#			posy += kerning[1] << 10
+				posx += glyph.advance[0]
+				posy += glyph.advance[1]
+				lastIndex = thisIndex
+				(gl_xmin, gl_ymin, gl_xmax, gl_ymax) = glyph.getCBox(ft2.ft_glyph_bbox_subpixels)
+				gl_xmin += posx >> 10
+				gl_ymin += posy >> 10 
+				gl_xmax += posx >> 10
+				gl_ymax += posy >> 10
+				text_xmin = min(text_xmin, gl_xmin)
+				text_ymin = min(text_ymin, gl_ymin)
+				text_xmax = max(text_xmax, gl_xmax)
+				text_ymax = max(text_ymax, gl_ymax)
+			posx_max = max(posx_max,posx)
+			posy_max -= fheight            
+		return (text_xmin*size/10240.0, text_ymax*size/10240.0, 
+				posx_max*size/10240000.0, posy_max*size/10240.0 + text_ymax*size/10240.0)
 
 
 	def TextCoordBox(self, text, size):
@@ -640,10 +458,15 @@ class Font:
 		return self.TextBoundingBox(text, size)
 
 	def TextCaretData(self, text, pos, size):
-		llx,lly,urx,ury=self.TextBoundingBox(text[0:pos],size)
+		fheight=self.getFontHeight()*5*size/10240.0
+		vofset=-1*(len(split(text[0:pos], '\n'))-1)*fheight	
+		fragment=split(text[0:pos], '\n')[-1]	
+		llx,lly,urx,ury=self.TextBoundingBox(fragment,size)
 		if llx==lly==urx==ury==0:
 			llx,lly,urx,ury=self.TextBoundingBox('|',size)
 			urx=llx
+		lly=vofset-fheight*1/4
+		ury=vofset+fheight*3/4
 		x = urx-llx
 		t = 0;
 		up = ury - lly
@@ -651,79 +474,104 @@ class Font:
 
 	def TypesetText(self, text):		
 		posx = 0
+		posy = 0
 		lastIndex = 0
-		result=[Point(0,0),]
-		for c in text:
-			try:
-				thisIndex = self.enc_vector[ord(c)]
-			except:
-				thisIndex = self.enc_vector[ord('?')]
-			glyph = ft2.Glyph(self.face, thisIndex, 0)
-#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
-#			posx += kerning[0] << 10
-			posx += glyph.advance[0]/1000
-			lastIndex = thisIndex
-			result.append(Point(posx/10240.0,0))			
+		result=[]
+		
+		fheight=self.getFontHeight()*5
+		voffset=0
+		lines=split(text, '\n')
+		for line in lines:
+			result.append(Point(0,voffset/10240.0))
+			for c in line:
+				try:
+					thisIndex = self.enc_vector[ord(c)]
+				except:
+					thisIndex = self.enc_vector[ord('?')]
+				glyph = ft2.Glyph(self.face, thisIndex, 0)
+	#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+	#			print 'kerning',kerning
+	#			posx += kerning[0] #<< 10
+	#			posy += kerning[1] #<< 10
+				posx += glyph.advance[0]/1000
+				posy += glyph.advance[1]/1000
+				lastIndex = thisIndex
+				result.append(Point(posx/10240.0,voffset/10240.0))				
+			voffset-=fheight
+			posx = 0
+					
 		return result[0:-1]
 
 	def IsPrintable(self, char):
 		return 1
 	
-	def GetPaths(self, text):
+	# face.getMetrics() returns tuple:	
+	#(x_ppem, y_ppem, x_scale, y_scale, 
+	# ascender, descender, height, max_advance)
+	def getFontHeight(self):
+#		return (self.face.getMetrics()[5]-self.face.getMetrics()[6])/5
+		return abs(self.face.getMetrics()[7]/5.35)
+		
+	def GetPaths(self, text, properties):
 		# convert glyph data into bezier polygons	
 		paths = []
-		offset = c = 0
-		for c in text:		
-			try:
-				thisIndex = self.enc_vector[ord(c)]
-			except:
-				thisIndex = self.enc_vector[ord('?')]
-			glyph = ft2.Glyph(self.face, thisIndex, 1)
-			for contour in glyph.outline:
-				# rotate contour so that it begins with an onpoint
-				x, y, onpoint = contour[0]
-				if onpoint:
-					for j in range(1, len(contour)):
-						x, y, onpoint = contour[j]
-						if onpoint:
-							contour = contour[j:] + contour[:j]
-							break
-				else:
-					print "unsupported type of contour (no onpoint)"
-				# create a sK1 path object
-				path = CreatePath()
-				j = 0
-				npoints = len(contour)
-				x, y, onpoint = contour[0]
-				last_point = Point(x, y)
-				while j <= npoints:
-					if j == npoints:
-						x, y, onpoint = contour[0]
-					else:
-						x, y, onpoint = contour[j]
-					point = Point(x, y)
-					j = j + 1
+		fheight=self.getFontHeight()
+		voffset=0
+		lines=split(text, '\n')
+		for line in lines:
+			offset = c = 0
+			for c in line:		
+				try:
+					thisIndex = self.enc_vector[ord(c)]
+				except:
+					thisIndex = self.enc_vector[ord('?')]
+				glyph = ft2.Glyph(self.face, thisIndex, 1)
+				for contour in glyph.outline:
+					# rotate contour so that it begins with an onpoint
+					x, y, onpoint = contour[0]
 					if onpoint:
-						path.AppendLine(point)
-						last_point = point
+						for j in range(1, len(contour)):
+							x, y, onpoint = contour[j]
+							if onpoint:
+								contour = contour[j:] + contour[:j]
+								break
 					else:
-						c1 = last_point + (point - last_point) * 2.0 / 3.0
-						x, y, onpoint = contour[j % npoints]
-						if onpoint:
-							j = j + 1
-							cont = ContAngle
+						print "unsupported type of contour (no onpoint)"
+					# create a sK1 path object
+					path = CreatePath()
+					j = 0
+					npoints = len(contour)
+					x, y, onpoint = contour[0]
+					last_point = Point(x, y)
+					while j <= npoints:
+						if j == npoints:
+							x, y, onpoint = contour[0]
 						else:
-							x = point.x + (x - point.x) * 0.5
-							y = point.y + (y - point.y) * 0.5
-							cont = ContSmooth
-						last_point = Point(x, y)
-						c2 = last_point + (point - last_point) * 2.0 / 3.0
-						path.AppendBezier(c1, c2, last_point, cont)
-				path.ClosePath()
-				path.Translate(offset, 0)
-				path.Transform(Scale(0.5/1024.0))
-				paths.append(path)
-			offset = offset + glyph.advance[0]/1000
+							x, y, onpoint = contour[j]
+						point = Point(x, y)
+						j = j + 1
+						if onpoint:
+							path.AppendLine(point)
+							last_point = point
+						else:
+							c1 = last_point + (point - last_point) * 2.0 / 3.0
+							x, y, onpoint = contour[j % npoints]
+							if onpoint:
+								j = j + 1
+								cont = ContAngle
+							else:
+								x = point.x + (x - point.x) * 0.5
+								y = point.y + (y - point.y) * 0.5
+								cont = ContSmooth
+							last_point = Point(x, y)
+							c2 = last_point + (point - last_point) * 2.0 / 3.0
+							path.AppendBezier(c1, c2, last_point, cont)
+					path.ClosePath()
+					path.Translate(offset, voffset)
+					path.Transform(Scale(0.5/1024.0))
+					paths.append(path)
+				offset = offset + glyph.advance[0]/1000
+			voffset-=fheight
 		return tuple(paths)
 
 	def GetOutline(self, char):		

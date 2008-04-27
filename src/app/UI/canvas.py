@@ -1076,8 +1076,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 	#	Edit mode
 	#
-	AddModeCmd('EditMode', _("Edit Mode"), #bitmap = pixmaps.EditMode,
-				value_on = 'Edit')
+	AddModeCmd('EditMode', _("Edit Mode"), value_on = 'Edit')
 	def EditMode(self):
 		self.begin_transaction()
 		self.document.SetMode(EditMode)

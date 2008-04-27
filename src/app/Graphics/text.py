@@ -213,8 +213,17 @@ class CommonTextEditor(Editor):
 			return self.SetText(text, caret + 1)
 		except:
 			return NullUndo
-	AddCmd(commands, InsertCharacter, '', key_stroke = tuple(printable),
-			invoke_with_event = 1)
+	AddCmd(commands, InsertCharacter, '', key_stroke = tuple(printable), invoke_with_event = 1)
+	
+	def InsertEOL(self):
+		try:	
+			text = self.text;	caret = self.caret
+			text = text[:caret] + '\n' + text[caret:]
+			return self.SetText(text, caret + 1)
+		except:
+			return NullUndo
+	AddCmd(commands, InsertEOL, '', key_stroke = ('Return','KP_Enter'))
+	
 	
 	def InsertTextFromClipboard(self):
 		try:			
@@ -241,33 +250,88 @@ class CommonTextEditor(Editor):
 			text = text[:caret] + text[caret + 1:]
 			return self.SetText(text, caret)
 		return NullUndo
-	AddCmd(commands, DeleteCharForward, '', key_stroke = ('Delete', 'C-d'))
+	AddCmd(commands, DeleteCharForward, '', key_stroke = ('Delete', 'KP_Delete'))
 
 	def MoveForwardChar(self):
 		if self.caret < len(self.text):
 			self.SetCaret(self.caret + 1)
 			self.update_selection()
 		return NullUndo
-	AddCmd(commands, MoveForwardChar, '', key_stroke = ('Right', 'C-f'))
+	AddCmd(commands, MoveForwardChar, '', key_stroke = ('Right', 'KP_Right'))
 
 	def MoveBackwardChar(self):
 		if self.caret > 0:
 			self.SetCaret(self.caret - 1)
 			self.update_selection()
 		return NullUndo
-	AddCmd(commands, MoveBackwardChar, '', key_stroke = ('Left', 'C-b'))
+	AddCmd(commands, MoveBackwardChar, '', key_stroke = ('Left', 'KP_Left'))
+
+	def MoveToNextLine(self):
+		lines=split(self.text, '\n')
+		index, line_index = self.get_position()
+		if line_index < len(lines)-1:
+			if index>len(lines[line_index+1]):
+				self.SetCaret(self.caret + len(lines[line_index+1])+len(lines[line_index])-index+2)
+			else:
+				self.SetCaret(self.caret + len(lines[line_index])+1)
+			self.update_selection()
+		return NullUndo
+	AddCmd(commands, MoveToNextLine, '', key_stroke = ('Down', 'KP_Down'))
+	
+	def MoveToPreviousLine(self):
+		lines=split(self.text, '\n')
+		index, line_index = self.get_position()
+		if line_index > 0:
+			if index>len(lines[line_index-1]):
+				self.SetCaret(self.caret - index)
+			else:
+				self.SetCaret(self.caret - len(lines[line_index-1])-1)
+			self.update_selection()
+		return NullUndo
+	AddCmd(commands, MoveToPreviousLine, '', key_stroke = ('Up', 'KP_Up'))
 
 	def MoveToBeginningOfLine(self):
+		index, line_index = self.get_position()
+		self.SetCaret(self.caret-index+1)
+		self.update_selection()
+		return NullUndo
+	AddCmd(commands, MoveToBeginningOfLine, '', key_stroke = ('Home', 'KP_Home'))
+	
+	def MoveToBeginningOfText(self):
 		self.SetCaret(0)
 		self.update_selection()
 		return NullUndo
-	AddCmd(commands, MoveToBeginningOfLine, '', key_stroke = ('Home', 'C-a'))
+	AddCmd(commands, MoveToBeginningOfText, '', key_stroke = ('Ctrl-Home', 'Ctrl-KP_Home'))
 
 	def MoveToEndOfLine(self):
+		lines=split(self.text, '\n')
+		index, line_index = self.get_position()
+		self.SetCaret(self.caret+len(lines[line_index])-index+1)
+		self.update_selection()
+		return NullUndo
+	AddCmd(commands, MoveToEndOfLine, '', key_stroke = ('End', 'KP_End'))
+	
+	def MoveToEndOfText(self):
 		self.SetCaret(len(self.text))
 		self.update_selection()
 		return NullUndo
-	AddCmd(commands, MoveToEndOfLine, '', key_stroke = ('End', 'C-e'))
+	AddCmd(commands, MoveToEndOfText, '', key_stroke = ('Ctrl-End', 'Ctrl-KP_End'))
+	
+	def get_position(self):
+		lines=split(self.text, '\n')
+		caret=self.caret+1
+		index=0
+		line_index=0
+		for line in lines:
+			line+='\n'
+			caret-=len(line)
+			if caret<=0:
+				index=len(line)+caret
+				break
+			line_index+=1
+		return (index,line_index)
+				
+		
 
 
 RegisterCommands(CommonTextEditor)
@@ -367,18 +431,12 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def DrawShape(self, device, rect = None, clip = 0):
 		RectangularPrimitive.DrawShape(self, device)
-		# Workaround for a bug in my Xserver.
-		#==============================
-		text = split(self.text, '\n')[0]
 		base_trafo = self.trafo(self.atrafo)
 		base_trafo = base_trafo(Scale(self.properties.font_size))
-		paths = self.properties.font.GetPaths(self.text)
+		paths = self.properties.font.GetPaths(self.text, self.properties)
 		obj = PolyBezier(paths, self.properties.Duplicate())
-		#trafo = base_trafo(Translation(pos[i]))
 		obj.Transform(base_trafo)
-		#rect = apply(Rect, self.properties.font.TextBoundingBox(self.text, self.properties.font_size))
 		device.MultiBezier(obj.paths, rect, clip)
-		#device.DrawText(self.text, self.trafo(self.atrafo), clip,	cache = self.cache)
 
 	def update_atrafo(self):
 		a = self.properties
@@ -441,7 +499,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			paths = self.properties.font.GetPaths(self.text)
+			paths = self.properties.font.GetPaths(self.text, self.properties)
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 			return obj
@@ -452,7 +510,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			paths = self.properties.font.GetPaths(self.text)
+			paths = self.properties.font.GetPaths(self.text, self.properties)
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 		return obj.paths 
@@ -536,6 +594,7 @@ class SimpleTextEditor(CommonTextEditor):
 			dists.append((abs(pts[i].x - p2.x), i))
 		caret = min(dists)[-1]
 		self.SetCaret(caret)
+		print "CATCHED!"
 		return 1
 
 	def Destroy(self):
