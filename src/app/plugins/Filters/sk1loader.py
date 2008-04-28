@@ -64,9 +64,8 @@ base_style.font_size = 12.0
 # sanity check: does base_style have all properties?
 for key in dir(properties.factory_defaults):
 	if not hasattr(base_style, key):
-		warn(INTERNAL, 'added default for property %s', key)
-		setattr(base_style, key,
-				getattr(properties.factory_defaults, key))
+		#warn(INTERNAL, 'added default for property %s', key)
+		setattr(base_style, key, getattr(properties.factory_defaults, key))
 
 papersizes = [    'A0', 'A1', 'A2',
 	'A3', 'A4', 'A5', 'A6', 'A7',
@@ -333,7 +332,7 @@ class SKLoader(GenericLoader):
 		return line
 
 	functions.append('txt')
-	def txt(self, thetext, trafo, halign = text.ALIGN_LEFT, valign = text.ALIGN_BASE):
+	def txt(self, thetext, trafo, halign=text.ALIGN_LEFT, valign=text.ALIGN_BASE, chargap=1.0, wordgap=1.0, linegap=1.0):
 		thetext = self.unicode_decoder(thetext)
 		if len(trafo) == 2:
 			trafo = Translation(trafo)
@@ -342,6 +341,7 @@ class SKLoader(GenericLoader):
 		object = text.SimpleText(text = thetext, trafo = trafo,
 									halign = halign, valign = valign,
 									properties = self.get_prop_stack())
+		object.properties.SetProperty(chargap=chargap, wordgap=wordgap, linegap=linegap)		
 		self.append_object(object)
 		
 	def unicode_decoder(self, text):

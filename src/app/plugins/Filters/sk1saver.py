@@ -508,16 +508,17 @@ class SKSaver:
 			if path.closed:
 				write("bC()\n")
 
-	def SimpleText(self, text, trafo, halign, valign):
+	def SimpleText(self, text, trafo, halign, valign, chargap, wordgap, linegap):
 		text = self.unicode_encoder(text)
 		write = self.file.write
 		write('txt(%s,' % `text`)
 		if trafo.matrix() != IdentityMatrix:
 			write('(%g,%g,%g,%g,%g,%g)' % trafo.coeff())
 		else:
-			write('(%g,%g)' % (trafo.v1, trafo.v2))
-		if halign or valign:
-			write(',%d,%d' % (halign, valign))
+			write('(%g,%g)' % (trafo.v1, trafo.v2))		
+		write(',%d,%d' % (halign, valign))
+		write(',%g,%g,%g' % (chargap, wordgap, linegap))
+		
 		write(')\n')
 		
 	def unicode_encoder(self, text):

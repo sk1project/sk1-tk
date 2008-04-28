@@ -159,6 +159,12 @@ class CommonText:
 		else:
 			undo = self.properties.SetProperty(font = font)
 		return self.properties_changed(undo)
+	
+	def SetGap(self, char, word, line):		
+		undo = self.properties.SetProperty(chargap = char,
+								wordgap = word,
+								linegap = line)
+		return self.properties_changed(undo)
 
 	def SetFontSize(self, size):
 		undo = self.properties.SetProperty(font_size = size)
@@ -367,6 +373,8 @@ class SimpleText(CommonText, RectangularPrimitive):
 			self.valign = valign
 			if properties is None:
 				self.properties = PropertyStack(base=FactoryTextStyle())
+			self.properties.align = self.halign
+			self.properties.valign = self.valign
 		self.cache = {}
 
 	def Disconnect(self):
@@ -375,7 +383,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def Hit(self, p, rect, device, clip = 0):
 		a = self.properties
-		llx, lly, urx, ury = a.font.TextBoundingBox(self.text, a.font_size)
+		llx, lly, urx, ury = a.font.TextBoundingBox(self.text, a.font_size, a)
 		trafo = self.trafo(self.atrafo)
 		trafo = trafo(Trafo(urx - llx, 0, 0, ury - lly, llx, lly))
 		return device.ParallelogramHit(p, trafo, 1, 1, 1,
@@ -386,18 +394,20 @@ class SimpleText(CommonText, RectangularPrimitive):
 		if multiple:
 			return trafo(NullPoint)
 		else:
-			pts = self.properties.font.TypesetText(self.text)
+			pts = self.properties.font.TypesetText(self.text,self.properties)
 			return map(trafo, pts)
-
 
 	def SetAlignment(self, horizontal, vertical):
 		undo = (self.SetAlignment, self.halign, self.valign)
 		if horizontal is not None:
 			self.halign = horizontal
+			self.properties.align = horizontal
 		if vertical is not None:
 			self.valign = vertical
+			self.properties.valign = vertical
 		self._changed()
 		return undo
+	
 	AddCmd(commands, 'AlignLeft', _("Align Left"), SetAlignment,
 			args = (ALIGN_LEFT, None))
 	AddCmd(commands, 'AlignRight', _("Align Right"), SetAlignment,
@@ -414,13 +424,13 @@ class SimpleText(CommonText, RectangularPrimitive):
 			args = (None, ALIGN_BOTTOM))
 
 	def Alignment(self):
-		return self.halign, self.valign
+		return self.properties.align, self.properties.valign
 
 	def RemoveTransformation(self):
 		if self.trafo.matrix() != IdentityMatrix:
 			a = self.properties
 			trafo = self.trafo
-			llx, lly, urx, ury = a.font.TextCoordBox(self.text, a.font_size)
+			llx, lly, urx, ury = a.font.TextCoordBox(self.text, a.font_size, a)
 			try:
 				undostyle = Primitive.Transform(self, trafo.inverse())
 			except SingularMatrix:
@@ -439,32 +449,34 @@ class SimpleText(CommonText, RectangularPrimitive):
 		device.MultiBezier(obj.paths, rect, clip)
 
 	def update_atrafo(self):
-		a = self.properties
-		llx, lly, urx, ury = a.font.TextCoordBox(self.text, a.font_size)
-		hj = self.halign
-		if hj == ALIGN_RIGHT:
-			xoff = llx - urx
-		elif hj == ALIGN_CENTER:
-			xoff = (llx - urx) / 2
-		else:
-			xoff = 0
-		vj = self.valign
-		if vj == ALIGN_TOP:
-			yoff = -ury
-		elif vj == ALIGN_CENTER:
-			yoff = (lly - ury) / 2 - lly
-		elif vj == ALIGN_BOTTOM:
-			yoff = -lly
-		else:
-			yoff = 0
+#		a = self.properties
+#		llx, lly, urx, ury = a.font.TextCoordBox(self.text, a.font_size, a)
+#		hj = self.halign
+#		if hj == ALIGN_RIGHT:
+#			xoff = llx - urx
+#		elif hj == ALIGN_CENTER:
+#			xoff = (llx - urx) / 2
+#		else:
+#			xoff = 0
+		xoff = 0
+		yoff=0
+#		vj = self.valign
+#		if vj == ALIGN_TOP:
+#			yoff = -ury
+#		elif vj == ALIGN_CENTER:
+#			yoff = (lly - ury) / 2 - lly
+#		elif vj == ALIGN_BOTTOM:
+#			yoff = -lly
+#		else:
+#			yoff = 0
 		self.atrafo = Translation(xoff, yoff)
 
 	def update_rects(self):
 		trafo = self.trafo(self.atrafo)
 		a = self.properties
-		rect = apply(Rect, a.font.TextBoundingBox(self.text, a.font_size))
+		rect = apply(Rect, a.font.TextBoundingBox(self.text, a.font_size, a))
 		self.bounding_rect = trafo(rect).grown(2)
-		rect = apply(Rect, a.font.TextCoordBox(self.text, a.font_size))
+		rect = apply(Rect, a.font.TextCoordBox(self.text, a.font_size, a))
 		self.coord_rect = trafo(rect)
 
 	def Info(self):
@@ -482,7 +494,12 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def SaveToFile(self, file):
 		RectangularPrimitive.SaveToFile(self, file)
-		file.SimpleText(self.text, self.trafo, self.halign, self.valign)
+		file.SimpleText(self.text, self.trafo, 
+					self.properties.align, 
+					self.properties.valign,
+					self.properties.chargap,
+					self.properties.wordgap,
+					self.properties.linegap)
 
 	def Blend(self, other, p, q):
 		if self.__class__ != other.__class__ \
@@ -579,7 +596,7 @@ class SimpleTextEditor(CommonTextEditor):
 
 	def GetHandles(self):
 		a = self.properties
-		pos, up = a.font.TextCaretData(self.text, self.caret, a.font_size)
+		pos, up = a.font.TextCaretData(self.text, self.caret, a.font_size, a)
 		pos = self.trafo(self.atrafo(pos))
 		up = self.trafo.DTransform(up)
 		return [handle.MakeCaretHandle(pos, up)]
@@ -588,13 +605,13 @@ class SimpleTextEditor(CommonTextEditor):
 		trafo = self.trafo(self.atrafo(Scale(self.properties.font_size)))
 		trafo = trafo.inverse()
 		p2 = trafo(p)
-		pts = self.properties.font.TypesetText(self.text + ' ')
+		pts = self.properties.font.TypesetText(self.text + ' ',self.properties)
 		dists = []
 		for i in range(len(pts)):
 			dists.append((abs(pts[i].x - p2.x), i))
 		caret = min(dists)[-1]
 		self.SetCaret(caret)
-		print "CATCHED!"
+#		print "CATCHED!"
 		return 1
 
 	def Destroy(self):
@@ -639,11 +656,11 @@ def coord_sys_at(lengths, pos, type):
 		return Trafo(diff.x, diff.y, -diff.y, diff.x, p.x, p.y)
 
 
-def pathtext(path, start_pos, text, font, size, type):
+def pathtext(path, start_pos, text, font, size, type, properties):
 	metric = font.metric
 	lengths = path.arc_lengths(start_pos)
 	scale = Scale(size); factor = size / 2000.0
-	pos = font.TypesetText(text)
+	pos = font.TypesetText(text, properties)
 	pos = map(scale, pos)
 	trafos = []
 	for idx in range(len(text)):
@@ -703,12 +720,12 @@ class InternalPathText(CommonText, Primitive):
 		length = len(self.trafos)
 		sizes = [a.font_size] * length
 
-		boxes = map(a.font.TextBoundingBox, self.text[:length], sizes)
+		boxes = map(a.font.TextBoundingBox, self.text[:length], sizes, a)
 		rects = map(lambda *a:a, map(apply, [Rect] * length, boxes))
 		self.bounding_rect = reduce(UnionRects, map(apply, self.trafos, rects),
 									EmptyRect)
 
-		boxes = map(a.font.TextCoordBox, self.text[:length], sizes)
+		boxes = map(a.font.TextCoordBox, self.text[:length], sizes, a)
 		rects = map(lambda *a:a, map(apply, [Rect] * length, boxes))
 		self.coord_rect = reduce(UnionRects, map(apply, self.trafos, rects),
 									EmptyRect)
@@ -717,7 +734,7 @@ class InternalPathText(CommonText, Primitive):
 		self.trafos = map(self.trafo, pathtext(self.paths[0], self.start_pos,
 												self.text, self.properties.font,
 												self.properties.font_size,
-												self.model))
+												self.model,self.properties))
 	def update_paths(self):
 		paths = self.parent.get_paths()
 		try:
@@ -783,7 +800,7 @@ class InternalPathText(CommonText, Primitive):
 		text = self.text; trafos = self.trafos
 
 		for idx in range(len(trafos)):
-			llx, lly, urx, ury = bbox(text[idx], font_size)
+			llx, lly, urx, ury = bbox(text[idx], font_size, self.properties)
 			trafo = trafos[idx](Trafo(urx - llx, 0, 0, ury - lly, llx, lly))
 			if device.ParallelogramHit(p, trafo, 1, 1, 1,
 										ignore_outline_mode = 1):
@@ -853,7 +870,7 @@ class InternalPathTextEditor(CommonTextEditor):
 				# XXX fix this
 				self.start_point = self.paths[0].point_at(self.start_pos)
 				return [handle.MakeNodeHandle(self.start_point, 1)]
-		pos, up = a.font.TextCaretData(text, caret, a.font_size)
+		pos, up = a.font.TextCaretData(text, caret, a.font_size, a)
 		pos = trafo(pos)
 		up = trafo.DTransform(up)
 		self.start_point = self.trafos[0].offset()
@@ -895,7 +912,7 @@ class InternalPathTextEditor(CommonTextEditor):
 		font = self.properties.font; font_size = self.properties.font_size
 		t = self.nearest_start_pos(self.drag_cur)
 		trafos = map(self.trafo, pathtext(self.paths[0], t, text, font,
-											font_size, self.model))
+											font_size, self.model, self.properties))
 
 		device.BeginComplexText(0, self.cache)
 		for idx in range(len(trafos)):

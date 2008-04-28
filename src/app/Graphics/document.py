@@ -2808,4 +2808,4 @@ class EditDocument(SketchDocument, QueueingPublisher):
 			return Group(groups)
 		else:
 			return None
-
+		

@@ -37,7 +37,7 @@ from app import Scale, CreatePath, Point, ContAngle, ContSmooth, \
 		
 from app.conf import const
 from app.Lib import encoding
-
+import properties
 
 from app.events.warn import warn, INTERNAL, USER, pdebug
 from app.utils.os_utils import find_in_path, find_files_in_path, get_files_tree, gethome
@@ -306,28 +306,36 @@ def scan_fonts_dirs():
 		except:
 			sys.stderr.write("error opening file %s\n" % (fontfile))
 			continue
-		ps_name=face.getPostscriptName()
-		info=(ps_name,
-				face.family_name,
-				face.style_name,
-				'',
-				'UTF8',
-				fontfile,
-				face.style_flags & ft2.FT_STYLE_FLAG_BOLD,
-				face.style_flags & ft2.FT_STYLE_FLAG_ITALIC)
-		fontlist.append(info)
-		fontmap[ps_name] = (face.family_name,
-				face.style_name,
-				'',
-				'UTF8',
-				fontfile,
-				face.style_flags & ft2.FT_STYLE_FLAG_BOLD,
-				face.style_flags & ft2.FT_STYLE_FLAG_ITALIC)
-
-		filename = (fontfile,)
-		if ps_to_filename.has_key(ps_name):
-			filename = ps_to_filename[ps_name] + filename
-		ps_to_filename[ps_name] = filename
+		#Check for Unicode support into font
+		is_unicode=0
+		for index in range(face.num_charmaps):
+			cm = ft2.CharMap(face, index)
+			if cm.encoding_as_string == "unic":
+				is_unicode = 1
+				break
+		if is_unicode:			
+			ps_name=face.getPostscriptName()
+			info=(ps_name,
+					face.family_name,
+					face.style_name,
+					'',
+					'UTF8',
+					fontfile,
+					face.style_flags & ft2.FT_STYLE_FLAG_BOLD,
+					face.style_flags & ft2.FT_STYLE_FLAG_ITALIC)
+			fontlist.append(info)
+			fontmap[ps_name] = (face.family_name,
+					face.style_name,
+					'',
+					'UTF8',
+					fontfile,
+					face.style_flags & ft2.FT_STYLE_FLAG_BOLD,
+					face.style_flags & ft2.FT_STYLE_FLAG_ITALIC)
+	
+			filename = (fontfile,)
+			if ps_to_filename.has_key(ps_name):
+				filename = ps_to_filename[ps_name] + filename
+			ps_to_filename[ps_name] = filename
 		
 		f.close()
 		
@@ -410,7 +418,8 @@ class Font:
 				self.face.setCharMap(ft2.CharMap(self.face, 0, 0))
 			self.enc_vector = self.face.encodingVector()
 
-	def TextBoundingBox(self, text, size):
+################
+	def TextBoundingBox(self, text, size, prop):
 		# Return the bounding rectangle of TEXT when set in this font
 		# with a size of SIZE. The coordinates of the rectangle are
 		# relative to the origin of the first character.
@@ -420,7 +429,7 @@ class Font:
 		text_xmin = text_ymin = 0
 		text_xmax = text_ymax = 0
 		
-		fheight=self.getFontHeight()*5
+		fheight=self.getFontHeight(prop)*5
 		lines=split(text, '\n')
 		for line in lines:
 			posx = 0
@@ -433,14 +442,17 @@ class Font:
 	#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 	#			posx += kerning[0] << 10
 	#			posy += kerning[1] << 10
-				posx += glyph.advance[0]
+				if c==' ':
+					posx += glyph.advance[0]*prop.chargap*prop.wordgap
+				else:
+					posx += glyph.advance[0]*prop.chargap
 				posy += glyph.advance[1]
 				lastIndex = thisIndex
 				(gl_xmin, gl_ymin, gl_xmax, gl_ymax) = glyph.getCBox(ft2.ft_glyph_bbox_subpixels)
-				gl_xmin += posx >> 10
-				gl_ymin += posy >> 10 
-				gl_xmax += posx >> 10
-				gl_ymax += posy >> 10
+				gl_xmin += int(posx) >> 10
+				gl_ymin += int(posy) >> 10 
+				gl_xmax += int(posx) >> 10
+				gl_ymax += int(posy) >> 10
 				text_xmin = min(text_xmin, gl_xmin)
 				text_ymin = min(text_ymin, gl_ymin)
 				text_xmax = max(text_xmax, gl_xmax)
@@ -451,17 +463,18 @@ class Font:
 				posx_max*size/10240000.0, posy_max*size/10240.0 + text_ymax*size/10240.0)
 
 
-	def TextCoordBox(self, text, size):
+	def TextCoordBox(self, text, size, prop):
 		# Return the coord rectangle of TEXT when set in this font with
 		# a size of SIZE. The coordinates of the rectangle are relative
 		# to the origin of the first character.
-		return self.TextBoundingBox(text, size)
+		return self.TextBoundingBox(text, size, prop)
 
-	def TextCaretData(self, text, pos, size):
-		fheight=self.getFontHeight()*5*size/10240.0
+################
+	def TextCaretData(self, text, pos, size, prop):
+		fheight=self.getFontHeight(prop)*5*size/10240.0
 		vofset=-1*(len(split(text[0:pos], '\n'))-1)*fheight	
 		fragment=split(text[0:pos], '\n')[-1]	
-		llx,lly,urx,ury=self.TextBoundingBox(fragment,size)
+		llx,lly,urx,ury=self.TextBoundingBox(fragment,size, prop)
 		if llx==lly==urx==ury==0:
 			llx,lly,urx,ury=self.TextBoundingBox('|',size)
 			urx=llx
@@ -472,13 +485,14 @@ class Font:
 		up = ury - lly
 		return Point(x - t * lly, lly), Point(-t * up, up)
 
-	def TypesetText(self, text):		
+################
+	def TypesetText(self, text, prop):		
 		posx = 0
 		posy = 0
 		lastIndex = 0
 		result=[]
 		
-		fheight=self.getFontHeight()*5
+		fheight=self.getFontHeight(prop)*5
 		voffset=0
 		lines=split(text, '\n')
 		for line in lines:
@@ -493,7 +507,10 @@ class Font:
 	#			print 'kerning',kerning
 	#			posx += kerning[0] #<< 10
 	#			posy += kerning[1] #<< 10
-				posx += glyph.advance[0]/1000
+				if c==' ':
+					posx += glyph.advance[0]*prop.chargap*prop.wordgap/1000
+				else:
+					posx += glyph.advance[0]*prop.chargap/1000
 				posy += glyph.advance[1]/1000
 				lastIndex = thisIndex
 				result.append(Point(posx/10240.0,voffset/10240.0))				
@@ -504,18 +521,23 @@ class Font:
 
 	def IsPrintable(self, char):
 		return 1
-	
+
+################	
 	# face.getMetrics() returns tuple:	
 	#(x_ppem, y_ppem, x_scale, y_scale, 
 	# ascender, descender, height, max_advance)
-	def getFontHeight(self):
-#		return (self.face.getMetrics()[5]-self.face.getMetrics()[6])/5
-		return abs(self.face.getMetrics()[7]/5.35)
-		
-	def GetPaths(self, text, properties):
+	def getFontHeight(self,prop):
+		return (abs(self.face.getMetrics()[5])+abs(self.face.getMetrics()[6]))*prop.linegap/5.35
+#		return abs(self.face.getMetrics()[7]/5.35)*prop.linegap
+
+	def getAlignOffset(self,prop):
+		pass
+
+################		
+	def GetPaths(self, text, prop):
 		# convert glyph data into bezier polygons	
 		paths = []
-		fheight=self.getFontHeight()
+		fheight=self.getFontHeight(prop)
 		voffset=0
 		lines=split(text, '\n')
 		for line in lines:
@@ -570,7 +592,10 @@ class Font:
 					path.Translate(offset, voffset)
 					path.Transform(Scale(0.5/1024.0))
 					paths.append(path)
-				offset = offset + glyph.advance[0]/1000
+				if c==' ':
+					offset = offset + glyph.advance[0]*prop.chargap*prop.wordgap/1000
+				else:
+					offset = offset + glyph.advance[0]*prop.chargap/1000
 			voffset-=fheight
 		return tuple(paths)
 
