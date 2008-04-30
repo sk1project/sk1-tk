@@ -393,15 +393,6 @@ def _set_defaults(prop, title, short_title, type, value,
 
 black = StandardCMYKColors.black
 
-ALIGN_BASE = 0
-ALIGN_CENTER = 1
-ALIGN_TOP = 2
-ALIGN_BOTTOM = 3
-
-ALIGN_LEFT = 0
-ALIGN_CENTER = 1
-ALIGN_RIGHT = 2
-
 # XXX the default properties should be defined by the user.
 _set_defaults('fill_pattern', _("Fill Pattern"), _("Pattern"), FillProperty,
 				EmptyPattern, blend = Blend, transform = 1)
@@ -425,8 +416,8 @@ _set_defaults('font_size', _("Font Size"), _("Size"), FontProperty, 12, blend = 
 _set_defaults('linegap', _("Linegap"), _("Linegap"), FontProperty, 1.0)
 _set_defaults('wordgap', _("Wordgap"), _("Wordgap"), FontProperty, 1.0)
 _set_defaults('chargap', _("Chargap"), _("Chargap"), FontProperty, 1.0)
-_set_defaults('align', _("Text Alignment"), _("Alignment"), FontProperty, ALIGN_LEFT)
-_set_defaults('valign', _("Text Vertical Alignment"), _("VAlignment"), FontProperty, ALIGN_BASE)
+_set_defaults('align', _("Text Alignment"), _("Alignment"), FontProperty, const.ALIGN_LEFT)
+_set_defaults('valign', _("Text Vertical Alignment"), _("VAlignment"), FontProperty, const.ALIGN_BASE)
 
 
 factory_text_style = factory_defaults.Copy()

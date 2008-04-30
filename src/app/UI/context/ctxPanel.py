@@ -18,6 +18,7 @@ from jump_panel import JumpPanel
 from page_panel import PagePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from text_prop_panel import TextPropPanel 
+from textalign_panel import TextAlignPanel 
 from subpanel import CtxSubPanel
 
 
@@ -34,7 +35,7 @@ EditMode=1
 
 forPage=['PagePanel', 'UnitPanel','JumpPanel','GuidesPanel']
 forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
-forSimpleText=['TextPropPanel','ToCurvePanel']
+forSimpleText=['TextPropPanel','TextAlignPanel','ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 
 class ContexPanel(Publisher):
@@ -100,6 +101,8 @@ class ContexPanel(Publisher):
 			else:
 				if obj_type==GROUP:
 					self.changeContent(forGroup)
+				elif obj_type==SIMPLE_TEXT:
+					self.changeContent(forSimpleText)
 				else:
 					self.changeContent(forObject)	
 		else:
@@ -123,5 +126,6 @@ class ContexPanel(Publisher):
 			return IMAGE
 		return UNKNOWN_OBJ
 
-PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, TextPropPanel, 
-		   FlipPanel, UnitPanel, GroupPanel, CombinePanel, ToCurvePanel]
+PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
+		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
+		CombinePanel, ToCurvePanel]

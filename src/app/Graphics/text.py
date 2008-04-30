@@ -110,7 +110,6 @@ for n in range(len(iso_latin_1)):
 	if iso_latin_1[n] != encoding.notdef:
 		printable = printable + chr(n)
 
-
 # Alignment. Defaults are 0
 ALIGN_BASE = 0
 ALIGN_CENTER = 1
@@ -164,6 +163,11 @@ class CommonText:
 		undo = self.properties.SetProperty(chargap = char,
 								wordgap = word,
 								linegap = line)
+		return self.properties_changed(undo)
+	
+	def SetAlign(self, align, valign):		
+		undo = self.properties.SetProperty(align = align,
+								valign = valign)
 		return self.properties_changed(undo)
 
 	def SetFontSize(self, size):
@@ -359,8 +363,8 @@ class SimpleText(CommonText, RectangularPrimitive):
 	_lazy_attrs = RectangularPrimitive._lazy_attrs.copy()
 	_lazy_attrs['atrafo'] = 'update_atrafo'
 
-	def __init__(self, trafo = None, text = '', halign = ALIGN_LEFT,
-					valign = ALIGN_BASE, properties = None, duplicate = None):
+	def __init__(self, trafo = None, text = '', halign = const.ALIGN_LEFT,
+					valign = const.ALIGN_BASE, properties = None, duplicate = None):
 		CommonText.__init__(self, text, duplicate)
 		RectangularPrimitive.__init__(self, trafo, properties = properties,
 										duplicate = duplicate)
@@ -409,19 +413,19 @@ class SimpleText(CommonText, RectangularPrimitive):
 		return undo
 	
 	AddCmd(commands, 'AlignLeft', _("Align Left"), SetAlignment,
-			args = (ALIGN_LEFT, None))
+			args = (const.ALIGN_LEFT, None))
 	AddCmd(commands, 'AlignRight', _("Align Right"), SetAlignment,
-			args =(ALIGN_RIGHT,None))
+			args =(const.ALIGN_RIGHT,None))
 	AddCmd(commands, 'AlignHCenter', _("Align H. Center"), SetAlignment,
-			args = (ALIGN_CENTER, None))
+			args = (const.ALIGN_CENTER, None))
 	AddCmd(commands, 'AlignTop', _("Align Top"), SetAlignment,
-			args = (None, ALIGN_TOP))
+			args = (None, const.ALIGN_TOP))
 	AddCmd(commands, 'AlignVCenter', _("Align V. Center"), SetAlignment,
-			args =(None, ALIGN_CENTER))
+			args =(None, const.ALIGN_CENTER))
 	AddCmd(commands, 'AlignBase', _("Align Baseline"), SetAlignment,
-			args = (None, ALIGN_BASE))
+			args = (None, const.ALIGN_BASE))
 	AddCmd(commands, 'AlignBottom', _("Align Bottom"), SetAlignment,
-			args = (None, ALIGN_BOTTOM))
+			args = (None, const.ALIGN_BOTTOM))
 
 	def Alignment(self):
 		return self.properties.align, self.properties.valign

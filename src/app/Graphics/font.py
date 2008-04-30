@@ -427,25 +427,33 @@ class Font:
 		posx = posy = posx_max = posy_max= 0
 		lastIndex = 0
 		text_xmin = text_ymin = 0
-		text_xmax = text_ymax = 0
+		text_xmax = text_ymax = 0		
 		
 		fheight=self.getFontHeight(prop)*5
 		lines=split(text, '\n')
+		adv=0
+		tab=1
+		align_offset=0
 		for line in lines:
 			posx = 0
 			for c in line:
+				if c=='\t':
+					c=' ';tab=4
+				else:
+					tab=1
 				try:
 					thisIndex = self.enc_vector[ord(c)]
 				except:
 					thisIndex = self.enc_vector[ord('?')]
 				glyph = ft2.Glyph(self.face, thisIndex, 0)
-	#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
-	#			posx += kerning[0] << 10
-	#			posy += kerning[1] << 10
+				kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+				posx += kerning[0] << 10
+				posy += kerning[1] << 10
 				if c==' ':
-					posx += glyph.advance[0]*prop.chargap*prop.wordgap
+					adv= glyph.advance[0]*prop.chargap*prop.wordgap*tab
 				else:
-					posx += glyph.advance[0]*prop.chargap
+					adv= glyph.advance[0]*prop.chargap
+				posx+=adv
 				posy += glyph.advance[1]
 				lastIndex = thisIndex
 				(gl_xmin, gl_ymin, gl_xmax, gl_ymax) = glyph.getCBox(ft2.ft_glyph_bbox_subpixels)
@@ -457,10 +465,21 @@ class Font:
 				text_ymin = min(text_ymin, gl_ymin)
 				text_xmax = max(text_xmax, gl_xmax)
 				text_ymax = max(text_ymax, gl_ymax)
+			align_offset=min(self.getAlignOffset(line,prop),align_offset)
 			posx_max = max(posx_max,posx)
-			posy_max -= fheight            
-		return (text_xmin*size/10240.0, text_ymax*size/10240.0, 
-				posx_max*size/10240000.0, posy_max*size/10240.0 + text_ymax*size/10240.0)
+			posy_max -= fheight
+		posy_max =posy_max + fheight + text_ymin
+		x1=text_xmin*size/10240.0
+		y1=text_ymax*size/10240.0
+		x2=posx_max*size/10240000.0
+		y2=posy_max*size/10240.0
+		if prop.align:
+			if prop.align==const.ALIGN_RIGHT:
+				return (-x2, y1, x1, y2)
+			if prop.align==const.ALIGN_CENTER:
+				return (x1-x2/2, y1, x2/2, y2)
+		else:
+			return (x1, y1, x2, y2)
 
 
 	def TextCoordBox(self, text, size, prop):
@@ -472,52 +491,29 @@ class Font:
 ################
 	def TextCaretData(self, text, pos, size, prop):
 		fheight=self.getFontHeight(prop)*5*size/10240.0
-		vofset=-1*(len(split(text[0:pos], '\n'))-1)*fheight	
-		fragment=split(text[0:pos], '\n')[-1]	
-		llx,lly,urx,ury=self.TextBoundingBox(fragment,size, prop)
-		if llx==lly==urx==ury==0:
-			llx,lly,urx,ury=self.TextBoundingBox('|',size)
-			urx=llx
-		lly=vofset-fheight*1/4
+		vofset=-(len(split(text[0:pos], '\n'))-1)*fheight
+		lly=vofset-fheight*1/4*.75
 		ury=vofset+fheight*3/4
-		x = urx-llx
-		t = 0;
+		
+		line=split(text, '\n')[len(split(text[0:pos], '\n'))-1]
+		x1,y1,x2,y2=self.TextBoundingBox(line,size, prop)
+		align_offset=x1-x2
+		
+		fragment=split(text[0:pos], '\n')[-1]
+		x1,y1,x2,y2=self.TextBoundingBox(fragment,size, prop)
+		if prop.align:
+			if prop.align==const.ALIGN_RIGHT:
+				x=align_offset-x1
+			if prop.align==const.ALIGN_CENTER:
+				x=x2*2+align_offset/2
+		else:
+			x=x2	
 		up = ury - lly
-		return Point(x - t * lly, lly), Point(-t * up, up)
+		return Point(x, lly), Point(0, up)
 
 ################
-	def TypesetText(self, text, prop):		
-		posx = 0
-		posy = 0
-		lastIndex = 0
-		result=[]
-		
-		fheight=self.getFontHeight(prop)*5
-		voffset=0
-		lines=split(text, '\n')
-		for line in lines:
-			result.append(Point(0,voffset/10240.0))
-			for c in line:
-				try:
-					thisIndex = self.enc_vector[ord(c)]
-				except:
-					thisIndex = self.enc_vector[ord('?')]
-				glyph = ft2.Glyph(self.face, thisIndex, 0)
-	#			kerning = self.face.getKerning(lastIndex, thisIndex, 0)
-	#			print 'kerning',kerning
-	#			posx += kerning[0] #<< 10
-	#			posy += kerning[1] #<< 10
-				if c==' ':
-					posx += glyph.advance[0]*prop.chargap*prop.wordgap/1000
-				else:
-					posx += glyph.advance[0]*prop.chargap/1000
-				posy += glyph.advance[1]/1000
-				lastIndex = thisIndex
-				result.append(Point(posx/10240.0,voffset/10240.0))				
-			voffset-=fheight
-			posx = 0
-					
-		return result[0:-1]
+	def TypesetText(self, text, prop):					
+		return self.cacl_typeset(text, prop)[0:-1]
 
 	def IsPrintable(self, char):
 		return 1
@@ -527,27 +523,88 @@ class Font:
 	#(x_ppem, y_ppem, x_scale, y_scale, 
 	# ascender, descender, height, max_advance)
 	def getFontHeight(self,prop):
-		return (abs(self.face.getMetrics()[5])+abs(self.face.getMetrics()[6]))*prop.linegap/5.35
+		return (abs(self.face.getMetrics()[5])+abs(self.face.getMetrics()[6]))*prop.linegap/5.583
 #		return abs(self.face.getMetrics()[7]/5.35)*prop.linegap
-
-	def getAlignOffset(self,prop):
-		pass
-
+	
+	def getAlignOffset(self,line,prop):
+		if prop.align:
+			typeset=self.cacl_typeset(line, prop,1)
+			x1,y1=typeset[0]
+			x2,y2=typeset[-1]
+			if prop.align==const.ALIGN_RIGHT:
+				return x1-x2
+			if prop.align==const.ALIGN_CENTER:
+				return (x1-x2)/2	
+		else:
+			return 0
+		
+	def cacl_typeset(self, text, prop, noalign=0): 
+		posx = 0
+		posy = 0
+		lastIndex = 0
+		result=[]
+		tab=1
+		
+		fheight=self.getFontHeight(prop)*5
+		voffset=0
+		lines=split(text, '\n')
+		for line in lines:
+			if noalign:
+				align_offset=0
+			else:
+				align_offset=self.getAlignOffset(line,prop)
+			result.append(Point(align_offset,voffset/10240.0))
+			for c in line:
+				if c=='\t':
+					c=' ';tab=4
+				else:
+					tab=1
+				try:
+					thisIndex = self.enc_vector[ord(c)]
+				except:
+					thisIndex = self.enc_vector[ord('?')]
+				glyph = ft2.Glyph(self.face, thisIndex, 0)
+				kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+				posx += kerning[0]
+				posy += kerning[1]
+				if c==' ':
+					posx += glyph.advance[0]*prop.chargap*prop.wordgap*tab/1000
+				else:
+					posx += glyph.advance[0]*prop.chargap/1000
+				posy += glyph.advance[1]/1000
+				lastIndex = thisIndex
+				result.append(Point(posx/10240.0+align_offset,voffset/10240.0))				
+			voffset-=fheight
+			posx = 0
+		return result
+					
 ################		
 	def GetPaths(self, text, prop):
 		# convert glyph data into bezier polygons	
 		paths = []
 		fheight=self.getFontHeight(prop)
 		voffset=0
+		tab=1
+		lastIndex=0
 		lines=split(text, '\n')
 		for line in lines:
 			offset = c = 0
-			for c in line:		
+			align_offset=self.getAlignOffset(line,prop)
+			for c in line:
+				if c=='\t':
+					c=' ';tab=4
+				else:
+					tab=1		
 				try:
 					thisIndex = self.enc_vector[ord(c)]
 				except:
 					thisIndex = self.enc_vector[ord('?')]
 				glyph = ft2.Glyph(self.face, thisIndex, 1)
+				kerning = self.face.getKerning(lastIndex, thisIndex, 0)
+				lastIndex = thisIndex
+				print offset, voffset
+				offset += kerning[0]  / 3.0 
+				voffset += kerning[1] / 3.0 
 				for contour in glyph.outline:
 					# rotate contour so that it begins with an onpoint
 					x, y, onpoint = contour[0]
@@ -591,9 +648,10 @@ class Font:
 					path.ClosePath()
 					path.Translate(offset, voffset)
 					path.Transform(Scale(0.5/1024.0))
+					path.Translate(align_offset, 0)
 					paths.append(path)
 				if c==' ':
-					offset = offset + glyph.advance[0]*prop.chargap*prop.wordgap/1000
+					offset = offset + glyph.advance[0]*prop.chargap*prop.wordgap*tab/1000
 				else:
 					offset = offset + glyph.advance[0]*prop.chargap/1000
 			voffset-=fheight

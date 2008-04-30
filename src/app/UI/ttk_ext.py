@@ -109,10 +109,9 @@ class TSpinbox(TFrame):
 		self.entry.bind('<Button-5>', self.wheel_decrease)
 		self.entry.bind('<Key-Return>', self.command)
 		self.entry.bind('<Key-KP_Enter>', self.command)
-		self.entry.bind ( '<KeyPress>', self.check_input)
+		#self.entry.bind ( '<KeyPress>', self.check_input)
 		
 	def check_input(self, event):
-		print event.char
 		event=None
 		
 	def set_state(self, state):

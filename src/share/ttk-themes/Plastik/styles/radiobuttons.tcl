@@ -27,3 +27,21 @@
 				-border {2 2 2 2} \
 				-padding {3 3 3 3} \
 				-width 33 -height 33  
+				
+# ----------------------------------ToolbarRadiobutton-------------------------------------------- 			
+style layout ToolbarRadiobutton {
+	ToolbarRadiobutton.indicator -children {
+	ToolbarRadiobutton.focus -children {
+		   ToolbarRadiobutton.label
+}    
+	}
+}			
+style element create ToolbarRadiobutton.indicator image [list $K(toolbutton_normal)\
+		{!active  !disabled !selected} $K(toolbutton_normal) \
+		{!active  !disabled selected} $K(toolbutton_selected) \
+		{active  !disabled selected} $K(toolbutton_selected) \
+		{active  !disabled !selected} $K(toolbutton_over) \
+		{disabled selected} $K(toolbutton_selected) \
+		{disabled !selected} $K(toolbutton_normal) ] \
+		-border {2 2 2 2} \
+		-padding {3 3 3 3} 

@@ -28,12 +28,12 @@ class JumpPanel(CtxSubPanel):
 		var_jump_unit = StringVar(self.mw.root)
 		self.var_jump = LengthVar(10, unit, self.var_jump_number, var_jump_unit)
 		
-		label = TLabel(self.panel, text=_(" Jump: "))
+		label = TLabel(self.panel, text=_(" Jump:"))
 		label.pack(side = LEFT)
 		self.entry_jump = TSpinbox(self.panel,  var=0, 
 						vartype=1, textvariable = self.var_jump_number,
 						min = 0, max = 1000, step = .1, width = 6, command = self.applyJump)
-		self.entry_jump.pack(side = LEFT)
+		self.entry_jump.pack(side = LEFT, padx=5)
 		config.preferences.Subscribe(CHANGED, self.update)		
 		self.var_jump.set(config.preferences.handle_jump)
 		self.update(0, 0)	
