@@ -165,9 +165,12 @@ class CommonText:
 								linegap = line)
 		return self.properties_changed(undo)
 	
-	def SetAlign(self, align, valign):		
-		undo = self.properties.SetProperty(align = align,
-								valign = valign)
+	def SetAlign(self, align, valign):	
+		if align == const.ALIGN_CENTER:
+			valign=const.ALIGN_CENTER
+		else:
+			valign=const.ALIGN_BASE	
+		undo = self.properties.SetProperty(align = align, valign = valign)		
 		return self.properties_changed(undo)
 
 	def SetFontSize(self, size):
@@ -602,7 +605,7 @@ class SimpleTextEditor(CommonTextEditor):
 		a = self.properties
 		pos, up = a.font.TextCaretData(self.text, self.caret, a.font_size, a)
 		pos = self.trafo(self.atrafo(pos))
-		up = self.trafo.DTransform(up)
+#		up = self.trafo.DTransform(up)
 		return [handle.MakeCaretHandle(pos, up)]
 
 	def SelectPoint(self, p, rect, device, mode):
