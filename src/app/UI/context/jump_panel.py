@@ -38,7 +38,7 @@ class JumpPanel(CtxSubPanel):
 		self.var_jump.set(config.preferences.handle_jump)
 		self.update(0, 0)	
 
-	def update(self,event, event2):
+	def update(self,*arg):
 		if self.my_changes:
 			self.my_changes=0
 		else:
@@ -46,7 +46,7 @@ class JumpPanel(CtxSubPanel):
 			self.var_jump.set(config.preferences.handle_jump)
 
 		
-	def applyJump(self,  event):
+	def applyJump(self,*arg):
 		self.my_changes=1
 		self.var_jump.unit=config.preferences.default_unit
 		config.preferences.handle_jump=self.var_jump.get()
