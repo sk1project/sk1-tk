@@ -101,7 +101,12 @@ class FontPanel(CtxSubPanel):
 			self.style_name['values']=self.make_styles()
 			self.var_font_size.set(object.FontSize())
 		else:
-			default = font.GetFont(config.preferences.default_font)
+			try:
+				default = font.GetFont(config.preferences.default_font)
+			except:
+				name = self.family_to_fonts.keys()[0]#[0]
+				fonts = self.family_to_fonts[name]
+				default = font.GetFont(fonts[1])
 			self.var_font_name.set(default.family)
 			self.var_style_name.set(default.font_attrs)
 			self.style_name['values']=self.make_styles()

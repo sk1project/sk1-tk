@@ -356,6 +356,10 @@ def GetFont(fontname):
 			_warned_about_font[fontname] = 1
 		if fontname != config.preferences.fallback_font:
 			return GetFont(config.preferences.fallback_font)
+		else:
+			names = fontmap.keys()
+			names.sort()
+			return GetFont(names[0])
 		raise ValueError, 'Cannot find font %s.' % fontname
 	return Font(fontname)
 
