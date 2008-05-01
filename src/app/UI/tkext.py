@@ -321,17 +321,17 @@ class MenuCheck(AutoUpdate, WidgetWithCommand, MenuEntry):
 
 class MenuCheck2(MenuEntry):
 
-	tk_entry_type = 'checkbutton'
+	tk_entry_type = 'command'
 
 	def __init__(self, command, **rest):
+		
 		self.command = command
 		self.var_value = Tkinter.IntVar()
 		self.var_value.set(command.IsOn())
-		rest['variable'] = self.var_value
+		#rest['variable'] = self.var_value
 		rest = self.add_kw_args(rest)
 		rest['command'] = MakeMethodCommand(self.command.Invoke)
 		MenuEntry.__init__(self, rest)
-
 		command.Subscribe(CHANGED, self._update)
 
 	def add_kw_args(self, dict):
@@ -339,10 +339,16 @@ class MenuCheck2(MenuEntry):
 		cmd = self.command
 		dict['label'] = cmd.menu_name
 		dict['state'] = cmd.sensitive and NORMAL or DISABLED
+		if cmd.IsOn():
+			dict['image']='menucheck_yes'
+		else:
+			dict['image']='menucheck_no'
 		dict['background'] = theme.bg
 		dict['foreground'] = theme.foreground
 		dict['activebackground'] = theme.selectbackground
 		dict['activeforeground'] = theme.selectforeground
+		dict['compound']='left'
+		dict['hidemargin']='false'
 		key_stroke = cmd.key_stroke
 		
 		if key_stroke:
@@ -353,7 +359,7 @@ class MenuCheck2(MenuEntry):
 		return dict
 
 	def _update(self):
-		self.var_value.set(self.command.IsOn())
+#		self.var_value.set(self.command.IsOn())
 		apply(self.configure, (), self.add_kw_args(self.rest))
 
 
@@ -633,7 +639,6 @@ def MakeCommand(label, func = None, args = (), sensitive = None, update = None, 
 		elif type(label) == ListType:
 			text = label[0]
 			if type(text) == TupleType:
-				print 'HERE'
 				text, kwargs = text
 				print text, kwargs
 			else:

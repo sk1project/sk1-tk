@@ -991,8 +991,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	# enter selection mode
-	AddModeCmd('SelectionMode', _("Selection Mode"), #bitmap = pixmaps.SelectionMode,
-			   value_on = 'Select')
+	AddModeCmd('SelectionMode', _("Selection Mode"), value_on = 'Select')
 	def SelectionMode(self):
 		self.begin_transaction()
 		self.document.SetMode(SelectionMode)
@@ -1624,7 +1623,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return config.preferences.use_cms
 
 	AddCmd('ToggleSnapToGrid', _("Snap to Grid"),
-			value = 0, value_cb = 'IsSnappingToGrid', is_check = 1, key_stroke = 'Ctrl+y')
+			value = 0, value_cb = 'IsSnappingToGrid', is_check = 1, key_stroke = ('Ctrl+Y','Ctrl+y'))
 	def ToggleSnapToGrid(self):
 		self.begin_transaction()
 		try:
@@ -1653,7 +1652,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return self.snap_to_object
 
 	AddCmd('ToggleSnapToGuides', _("Snap to Guides"),
-			value = 0, value_cb = 'IsSnappingToGuides', is_check = 1, key_stroke = 'Alt+y')
+			value = 0, value_cb = 'IsSnappingToGuides', is_check = 1, key_stroke = ('Alt+Y','Alt+y'))
 	def ToggleSnapToGuides(self):
 		self.begin_transaction()
 		try:

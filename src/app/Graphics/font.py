@@ -298,8 +298,6 @@ def scan_fonts_dirs():
 	for path in [config.preferences.system_font_dir, user_font_dir]:
 		fontfile_list+=get_files_tree(path,'ttf')       
 		fontfile_list+=get_files_tree(path,'TTF')  
-		fontfile_list+=get_files_tree(path,'otf') 
-		fontfile_list+=get_files_tree(path,'OTF')     
 		
 	for fontfile in fontfile_list:
 		try:
@@ -444,7 +442,7 @@ class Font:
 			posx = 0
 			for c in line:
 				if c=='\t':
-					c=' ';tab=4
+					c=' ';tab=3
 				else:
 					tab=1
 				try:
@@ -562,7 +560,7 @@ class Font:
 			result.append(Point(align_offset,voffset/10240.0))
 			for c in line:
 				if c=='\t':
-					c=' ';tab=4
+					c=' ';tab=3
 				else:
 					tab=1
 				try:
@@ -598,7 +596,7 @@ class Font:
 			align_offset=self.getAlignOffset(line,prop)
 			for c in line:
 				if c=='\t':
-					c=' ';tab=4
+					c=' ';tab=3
 				else:
 					tab=1		
 				try:
