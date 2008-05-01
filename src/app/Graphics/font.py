@@ -297,7 +297,9 @@ def scan_fonts_dirs():
 	user_font_dir=os.path.join(gethome(),config.preferences.user_font_dir)
 	for path in [config.preferences.system_font_dir, user_font_dir]:
 		fontfile_list+=get_files_tree(path,'ttf')       
-		fontfile_list+=get_files_tree(path,'TTF')       
+		fontfile_list+=get_files_tree(path,'TTF')  
+		fontfile_list+=get_files_tree(path,'otf') 
+		fontfile_list+=get_files_tree(path,'OTF')     
 		
 	for fontfile in fontfile_list:
 		try:
@@ -602,7 +604,6 @@ class Font:
 				glyph = ft2.Glyph(self.face, thisIndex, 1)
 				kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 				lastIndex = thisIndex
-				print offset, voffset
 				offset += kerning[0]  / 3.0 
 				voffset += kerning[1] / 3.0 
 				for contour in glyph.outline:

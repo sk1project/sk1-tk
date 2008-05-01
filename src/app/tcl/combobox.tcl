@@ -92,8 +92,10 @@ bind TCombobox <Alt-KeyPress>		{# nothing}
 bind TCombobox <Meta-KeyPress>		{# nothing}
 bind TCombobox <Control-KeyPress> 		{# nothing}
 bind TCombobox <Key-Escape> 		{# nothing}
-bind TCombobox <Key-Return> 		{# nothing}
-bind TCombobox <Key-KP_Enter> 		{# nothing}
+
+bind TCombobox <Key-Return> 		{ttk::combobox::Run %W}
+bind TCombobox <Key-KP_Enter> 		{ttk::combobox::Run %W}
+
 bind TCombobox <Key-Tab> 			{# nothing}
 
 # Argh.  Apparently on Windows, the NumLock modifier is interpreted
@@ -327,6 +329,10 @@ proc ttk::combobox::PopdownShell {cb} {
 	grid rowconfigure $popdown 0 -weight 1
     }
     return $cb.popdown
+}
+	
+proc ttk::combobox::Run {cb} {
+	uplevel #0 [$cb cget -postcommand]
 }
 
 ## combobox::Post $cb --

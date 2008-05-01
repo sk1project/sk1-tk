@@ -29,7 +29,7 @@ class TextPropPanel(CtxSubPanel):
 
 		
 		label = TLabel(self.panel, image='context_between_word')
-		label.pack(side = LEFT, padx=5)
+		label.pack(side = LEFT)
 		tooltips.AddDescription(label, _('Distance between words'))
 		self.entry_word = TSpinbox(self.panel, var=100.0, vartype=1, textvariable = self.text_wordgap,
 						min = 0, max = 5000, step = 10, width = 6, command = self.applyProperties)
@@ -38,7 +38,7 @@ class TextPropPanel(CtxSubPanel):
 		label = TLabel(self.panel, text='% ')
 		label.pack(side = LEFT)
 		label = TLabel(self.panel, image='context_between_line')
-		label.pack(side = LEFT, padx=5)
+		label.pack(side = LEFT)
 		tooltips.AddDescription(label, _('Distance between lines'))
 		self.entry_line = TSpinbox(self.panel, var=100.0, vartype=1, textvariable = self.text_linegap,
 						min = 0, max = 5000, step = 10, width = 6, command = self.applyProperties)
@@ -47,7 +47,7 @@ class TextPropPanel(CtxSubPanel):
 		label = TLabel(self.panel, text='% ')
 		label.pack(side = LEFT)	
 		label = TLabel(self.panel, image='context_between_char')
-		label.pack(side = LEFT, padx=5)
+		label.pack(side = LEFT)
 		tooltips.AddDescription(label, _('Distance between characters'))
 		self.entry_char = TSpinbox(self.panel, var=100.0, vartype=1, textvariable = self.text_chargap,
 						min = 0, max = 5000, step = 10, width = 6, command = self.applyProperties)

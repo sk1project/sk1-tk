@@ -19,6 +19,7 @@ from page_panel import PagePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from text_prop_panel import TextPropPanel 
 from textalign_panel import TextAlignPanel 
+from font_panel import FontPanel
 from subpanel import CtxSubPanel
 
 
@@ -35,7 +36,7 @@ EditMode=1
 
 forPage=['PagePanel', 'UnitPanel','JumpPanel','GuidesPanel']
 forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
-forSimpleText=['TextPropPanel','TextAlignPanel','ToCurvePanel']
+forSimpleText=['TextPropPanel','FontPanel','TextAlignPanel','ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 
 class ContexPanel(Publisher):
@@ -128,4 +129,4 @@ class ContexPanel(Publisher):
 
 PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
-		CombinePanel, ToCurvePanel]
+		FontPanel,CombinePanel, ToCurvePanel]
