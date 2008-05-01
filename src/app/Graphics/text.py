@@ -236,7 +236,15 @@ class CommonTextEditor(Editor):
 		except:
 			return NullUndo
 	AddCmd(commands, InsertEOL, '', key_stroke = ('Return','KP_Enter'))
-	
+
+	def InsertTAB(self):
+		try:	
+			text = self.text;	caret = self.caret
+			text = text[:caret] + '\t' + text[caret:]
+			return self.SetText(text, caret + 1)
+		except:
+			return NullUndo
+	AddCmd(commands, InsertTAB, '', key_stroke = 'Tab')	
 	
 	def InsertTextFromClipboard(self):
 		try:			
@@ -605,7 +613,7 @@ class SimpleTextEditor(CommonTextEditor):
 		a = self.properties
 		pos, up = a.font.TextCaretData(self.text, self.caret, a.font_size, a)
 		pos = self.trafo(self.atrafo(pos))
-#		up = self.trafo.DTransform(up)
+		up = self.trafo.DTransform(up)
 		return [handle.MakeCaretHandle(pos, up)]
 
 	def SelectPoint(self, p, rect, device, mode):
