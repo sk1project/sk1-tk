@@ -53,6 +53,7 @@ savefiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1
 exportfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),
 				 (_('Sketch and Skencil files - *.sk'),('*.sk', '*.SK')),
 				 (_('Adobe Illustrator files (ver. 5.0) - *.ai'),('*.ai', '*.AI')),
+				 (_('Portable Document Format (PDF 1.5) - *.pdf'),('*.pdf', '*.PDF')),
 				 (_('Computer Graphics Metafile files - *.cgm'),('*.cgm', '*.CGM')),
 				 (_('Scalable Vector Graphics files - *.svg'),('*.svg', '*.SVG')),
 				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),
