@@ -606,8 +606,8 @@ class Font:
 				glyph = ft2.Glyph(self.face, thisIndex, 1)
 				kerning = self.face.getKerning(lastIndex, thisIndex, 0)
 				lastIndex = thisIndex
-				offset += kerning[0]  / 3.0 
-				voffset += kerning[1] / 3.0 
+				offset += kerning[0]  / 4.0
+				voffset += kerning[1] / 4.0
 				for contour in glyph.outline:
 					# rotate contour so that it begins with an onpoint
 					x, y, onpoint = contour[0]
