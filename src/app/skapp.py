@@ -16,7 +16,7 @@ from app.Graphics import document
 
 from app.conf.const import CLIPBOARD
 
-from Tkinter import Tk, TclError, PhotoImage, Wm
+from Tkinter import Tk, TclError, PhotoImage, Wm, StringVar, DoubleVar
 from app.UI import tkext
 from types import ListType
 
@@ -69,6 +69,11 @@ class TkApplication:
 		
 		from app.managers.dialogmanager import DialogManager
 		app.dialogman=DialogManager(self.root)
+		
+		
+		app.info1=StringVar(self.root,'')
+		app.info2=StringVar(self.root,'')
+		app.info3=DoubleVar(self.root,0)
 		
 		# Reset locale again to make sure we get properly translated
 		# messages if desired by the user. For some reason it may

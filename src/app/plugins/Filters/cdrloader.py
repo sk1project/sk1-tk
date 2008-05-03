@@ -24,7 +24,7 @@ from struct import unpack, calcsize
 
 from streamfilter import BinaryInput
 
-from app import CreatePath, Point, ContSmooth, ContAngle, ContSymmetrical, \
+from app import _, CreatePath, Point, ContSmooth, ContAngle, ContSymmetrical, \
 		SolidPattern, EmptyPattern, LinearGradient, RadialGradient, \
 		ConicalGradient, MultiGradient,\
 		CreateRGBColor, CreateCMYKColor, Trafo, Point, Polar, Translation, \
@@ -34,6 +34,7 @@ from app import CreatePath, Point, ContSmooth, ContAngle, ContSymmetrical, \
 from app.events.warn import INTERNAL, warn_tb, warn, USER
 from app.io.load import GenericLoader, SketchLoadError, EmptyCompositeError
 from app.Lib import units
+import app
 
 def load_file(file):
 	f = open(file, 'rb')
@@ -555,10 +556,11 @@ class CDRLoader(GenericLoader):
 		self.file=file
 		
 	def Load(self):
-		try:
+		try:			
 			self.file.seek(0)
 			cdr = RiffChunk()
 			cdr.load(self.file.read())
+			app.updateInfo(inf2=_("Parsing is finished"),inf3=10)
 			
 			self.document()
 			self.layer('cdr_object', 1, 1, 0, 0, ('RGB',0,0,0))
@@ -598,7 +600,17 @@ class CDRLoader(GenericLoader):
 			raise
 		
 	def import_curves(self):
+		objcount=0
+		objnum=len(self.info.paths_heap)
+		jump=87.0/objnum
+		interval=int((objnum/20)/10)+1
+		interval_count=0
 		for obj in self.info.paths_heap:
+			objcount+=1			
+			interval_count+=1
+			if interval_count>interval:
+				interval_count=0
+				app.updateInfo(inf2=_("Interpreting object %u of %u")%(objcount,objnum),inf3=10+int(jump*objcount))
 			if obj==1:
 				self.begin_group()
 			elif obj==0:

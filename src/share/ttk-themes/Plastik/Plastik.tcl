@@ -34,7 +34,11 @@ namespace eval ttk::theme::Plastik {
 	    if {![info exists B($img)]} {
 		image create bitmap $img -file $file -foreground [.testEntry cget -background]
 	    }
-	}	
+		if {$img=="progress_bar_mask"} {
+		image create bitmap $img -file $file -foreground [.testEntry cget -selectbackground]	
+		}
+	}
+	
 	
     namespace import -force ::ttk::style
 	style theme create Plastik -parent alt -settings {
@@ -82,6 +86,7 @@ namespace eval ttk::theme::Plastik {
 	source [file join $styledir checkbuttons.tcl]
 	source [file join $styledir radiobuttons.tcl]
 	source [file join $styledir scrollbars.tcl]
+	source [file join $styledir progressbar.tcl]
 
 
 # ------------------------------------------------------------------------------------------------------- 

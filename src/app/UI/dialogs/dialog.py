@@ -20,6 +20,7 @@ class ModalDialog:
 
 	old_focus = None
 	focus_widget = None
+	wait=1
 
 	def __init__(self, master, **kw):
 		self.master = master
@@ -90,10 +91,13 @@ class ModalDialog:
 		else:
 			self.top.focus_set()
 		self.result = None
-		self.master.wait_window(self.top)
-		if grab_widget is not None:
-			if grab_status == 'global':
-				grab_widget.grab_set_global()
-			else:
-				grab_widget.grab_set()
-		return self.result
+		if self.wait:
+			self.master.wait_window(self.top)
+			if grab_widget is not None:
+				if grab_status == 'global':
+					grab_widget.grab_set_global()
+				else:
+					grab_widget.grab_set()
+			return self.result
+		else:
+			return

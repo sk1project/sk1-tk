@@ -43,7 +43,8 @@ class TabsPanel(TFrame, Publisher):
 				if self.docmanager.activedoc.WasEdited():
 					item.setNotSaved()
 				else:
-					item.setNotSaved(1)		
+					item.setNotSaved(1)	
+		self.updateTabNames()	
 
 	def refresh(self):
 		self.stub_label.foget()
@@ -132,6 +133,10 @@ class TabsPanel(TFrame, Publisher):
 		for item in self.content:
 			if item.is_Active:
 				self.closeTab(item)
+				
+	def updateTabNames(self):
+		for item in self.content:
+			item.updateTabName()
 			
 	def closeAllButThis(self,tab):
 		self.setActive(tab)
@@ -226,9 +231,12 @@ class DocTab(TButton):
 		
 	def saveTab(self):
 		self.parent.docmanager.SaveDocument(self.document)
+		self.updateTabName()
+		self.setNotSaved(1)
+		
+	def updateTabName(self):
 		self.name = os.path.splitext(self.document.meta.filename)[0]
 		self['text']=self.name.ljust(20)
-		self.setNotSaved(1)
 		
 	def stub(self):
 		pass		

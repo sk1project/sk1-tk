@@ -44,7 +44,7 @@ from app.events.undodict import UndoDict
 
 from app import Rect, Point, UnionRects, InfinityRect, Trafo, Rotation, Translation, Scale
 from app import UndoRedo, Undo, CreateListUndo, NullUndo, UndoAfter
-
+import app
 import color, selinfo, pagelayout
 
 from base import Protocols
@@ -305,12 +305,22 @@ class SketchDocument(Protocols):
 		self.write_styles(file)
 		self.snap_grid.SaveToFile(file)
 		
-#		for layer in self.pages[0]:
-#			layer.SaveToFile(file)
-			
+		pagesnum=len(self.pages)
+		pagecount=0
+		interval=100/pagesnum			
 		for page in self.pages:
 			file.Page()
+			pagecount+=1
+			app.updateInfo(inf2=_('Saving page %u of %u')%(pagecount,pagesnum),
+						 inf3=interval*pagecount)			
+			layercount=0
+			layersnum=len(page)
+			l_interval=interval/layersnum
 			for layer in page:
+				layercount+=1
+				app.updateInfo(inf2=_('Saving page %u of %u, layer %u of %u')%
+							(pagecount,pagesnum,layercount,layersnum),
+							 inf3=interval*pagecount)
 				layer.SaveToFile(file)			
 
 		for layer in self.getMasterLayers():

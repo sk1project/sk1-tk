@@ -665,9 +665,14 @@ class sK1MainWindow(Publisher):
 		
 	def SaveToFileInteractive(self, use_dialog = SAVE_MODE):
 		self.docmanager.SaveDocument(self.document, use_dialog)
+		self.tabspanel.updateTabNames()
 		
 	def SaveAllDocuments(self):
 		self.tabspanel.saveAll()
+		self.tabspanel.updateTabNames()
+		
+	def InsertFile(self, filename = None):
+		self.docmanager.ImportVector(filename)
 
 	def CloseCurrentDocument(self):
 		self.tabspanel.closeActiveTab()
@@ -1141,40 +1146,6 @@ class sK1MainWindow(Publisher):
 	def MapKeystroke(self, stroke):
 		return self.keymap.MapKeystroke(stroke)
 
-	def InsertFile(self, filename = None):
-		app = self.application
-		if not filename:
-			directory = config.preferences.dir_for_vector_import
-			if directory=='~':
-				directory=os_utils.gethome()
-			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
-			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
-			if not filename:
-				return
-		try:
-			if not os.path.isabs(filename):
-				filename = os.path.join(os.getcwd(), filename)
-			doc = load.load_drawing(filename)
-			group = doc.as_group()
-		except SketchError, value:
-			group=None
-			app.MessageBox(title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
-			self.remove_mru_file(filename)
-		else:
-			messages = doc.meta.load_messages
-			if messages:
-				app.MessageBox(title = _("Import vector"), message=_("\nWarnings from the import filter:\n\n") + messages)
-			doc.meta.load_messages = ''
-		if group is not None:
-			if config.preferences.import_insertion_mode:
-				self.canvas.PlaceObject(group)
-			else:
-				self.document.Insert(group)
-		else:
-			app.MessageBox(title = _("Import vector"), message=_("\nThe document is empty!\n"))
-		config.preferences.dir_for_vector_import=os.path.dirname(filename)
-
 	def LoadPalette(self, filename = None):
 		if not filename:
 			directory = config.user_palettes
@@ -1237,42 +1208,8 @@ class sK1MainWindow(Publisher):
 		return file
 
 	def KPrinting(self):
+		self.docmanager.PrintDocument(self.document)
 		self.root.update()
-		app = self.application
-		bbox = self.document.BoundingRect(visible = 0, printable = 1)
-		if bbox is None:
-			app.MessageBox(title = _("PostScript saving"), message = _("\nThe document doesn't have \n any printable layers!\n"))
-			return
-		try:
-			self.canvas.commands.ForceRedraw
-			filename = ''
-			file = None
-			title = 'sK1'
-			file = os.popen('kprinter --stdin --caption sK1 --', 'w')
-
-			try:
-				dev = PostScriptDevice
-				ps_dev = dev(file, as_eps = 1, bounding_box = tuple(bbox),
-								rotate = 0, # page rotate?
-								For = os_utils.get_real_username(),
-								CreationDate = os_utils.current_date(), Title = title,
-								document = self.document)
-				self.document.Draw(ps_dev)
-				ps_dev.Close()
-				if filename:
-					self.document.meta.ps_filename = filename
-					self.document.meta.ps_directory =os.path.split(filename)[0]
-			finally:
-				# close the file. Check for the close attribute first
-				# because file can be either a string or a file object.
-				if hasattr(file, "close"):
-					file.close()
-
-		except IOError, value:
-			return
-		except:
-			warn_tb(INTERNAL, 'printing to %s', file)
-
 
 	def CreatePluginDialog(self, info):
 		if info.HasCustomDialog():

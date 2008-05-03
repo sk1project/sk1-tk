@@ -25,9 +25,10 @@
 
 from math import atan2, pi
 import PIL
-from app import Bezier, EmptyPattern, Rotation, Translation, _sketch
+from app import _,Bezier, EmptyPattern, Rotation, Translation, _sketch
 from app.Graphics.curveop import arrow_trafos
 import reportlab.pdfgen.canvas
+import app
 
 
 def make_pdf_path(pdfpath, paths):
@@ -339,7 +340,12 @@ class PDFGenSaver:
 	def Save(self):
 		self.document.updateActivePage()
 		masters=self.document.getMasterLayers()
+		count=0
+		pagenum=len(self.document.pages)
+		interval=int(97/pagenum)
 		for page in self.document.pages:
+			count+=1
+			app.updateInfo(inf2=_('Composing page %u of %u')%(count,pagenum),inf3=count*interval)
 			layers=page+masters
 			for layer in layers:
 				if not layer.is_SpecialLayer and layer.Printable():
@@ -367,6 +373,8 @@ class PDFGenSaver:
 
 
 def save(document, file, filename, options = {}):
+	app.updateInfo(inf1=_('PDF generation.'),inf2=_('Start document composing'),inf3=3)
 	saver = PDFGenSaver(file, filename, document, options)
 	saver.Save()
 	saver.close()
+	app.updateInfo(inf2=_('Document generation is finished'),inf3=100)

@@ -13,6 +13,8 @@ from app.io import load
 import app, os, sys, string
 from app.UI.dialogs.msgdialog import msgDialog
 from app.UI.dialogs import msgdialog
+from app.UI.dialogs.progressdialog import ProgressDialog
+import time
 
 
 EXPORT_MODE=2
@@ -43,7 +45,6 @@ class DocumentManager:
 	
 	def OpenDocument(self, filename = None, directory = None):
 		self.mw.root.update()
-		app = self.mw.application
 		if type(filename) == type(0):
 			filename = config.preferences.mru_files[filename]
 		if not filename:
@@ -62,7 +63,10 @@ class DocumentManager:
 			if not os.path.isabs(filename):
 				filename = os.path.join(os.getcwd(), filename)
 			config.preferences.dir_for_open=os.path.dirname(filename)	
-			doc = load.load_drawing(filename)
+			############--->
+			dlg = ProgressDialog(self.mw.root, 'File opening')
+			doc=dlg.RunDialog(self.open_callback, filename)
+			############ <---
 			doc.meta.view=None
 			self.SetActiveDocument(doc)
 			self.mw.add_mru_file(filename)			
@@ -77,13 +81,22 @@ class DocumentManager:
 			if messages:
 				msgDialog(self.mw.root, title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
 			doc.meta.load_messages = ''
+			
+	def open_callback(self, arg):
+		app.updateInfo(inf1=_('Document parsing'), 
+					inf2=_('Start document processing'), inf3=3)
+		filename=arg[0]
+		doc = load.load_drawing(filename)
+		app.updateInfo(inf1=_('Document parsing'), 
+					inf2=_('Document has been loaded'), inf3=100)
+		time.sleep(.1)
+		return doc
 	
 	def SaveDocument(self, document, use_dialog = SAVE_MODE):
 		filename = document.meta.fullpathname
 		native_format = document.meta.native_format
 		compressed_file = document.meta.compressed_file
 		compressed = document.meta.compressed
-		app = self.mw.application
 		if use_dialog or not filename or not native_format:
 			directory = document.meta.directory
 			
@@ -119,8 +132,18 @@ class DocumentManager:
 		if use_dialog==SAVE_AS_MODE:
 			config.preferences.dir_for_save=os.path.dirname(filename)	
 		if use_dialog==EXPORT_MODE:
-			config.preferences.dir_for_vector_export=os.path.dirname(filename)				
-		self.SaveToFile(document, filename, fileformat, compressed, compressed_file)
+			config.preferences.dir_for_vector_export=os.path.dirname(filename)
+		############ --->
+		dlg = ProgressDialog(self.mw.root, 'File saving')
+		dlg.RunDialog(self.save_callback, document, filename, fileformat, compressed, compressed_file)
+		
+	def save_callback(self,arg):
+		app.updateInfo(inf1=_('Document saving/exporting'), 
+					inf2=_('Start document processing'), inf3=3)
+		self.SaveToFile(arg[0],arg[1],arg[2],arg[3],arg[4])
+		app.updateInfo(inf2=_('Finish document processing'), inf3=100)		
+		time.sleep(.1)
+		return None
 	
 	def SaveDocumentAs(self):
 		pass
@@ -128,6 +151,79 @@ class DocumentManager:
 	def CloseDocument(self, document):
 		if document is not None:
 			document.Destroy()
+			
+	def PrintDocument(self, document):
+		bbox = document.BoundingRect(visible = 0, printable = 1)
+		if bbox is None:
+			msgDialog(self.mw.root, 
+					title = _("Printing"), 
+					message = _("The document doesn't have \n any printable layers!\n"))
+			return
+		############ --->
+		dlg = ProgressDialog(self.mw.root, 'File importing')
+		dlg.RunDialog(self.print_callback, document)
+
+	def print_callback(self, arg):
+		document=arg[0]
+		from tempfile import NamedTemporaryFile
+		pdffile=NamedTemporaryFile()
+		fileformat = plugins.guess_export_plugin('.pdf')
+		self.SaveToFile(document, pdffile.name, fileformat, '', '')
+		
+		os.popen('kprinter --caption sK1 "'+ pdffile.name + '"', 'w')
+		
+		self.mw.root.update()
+		self.mw.canvas.ForceRedraw()
+		time.sleep(.5)
+		return None
+	
+	def ImportVector(self, filename = None):
+		if not filename:
+			directory = config.preferences.dir_for_vector_import
+			if directory=='~':
+				directory=os_utils.gethome()
+			if not os.path.isdir(directory):
+				directory=os_utils.gethome()
+			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
+			if not filename:
+				return
+		try:
+			if not os.path.isabs(filename):
+				filename = os.path.join(os.getcwd(), filename)
+			############--->
+			dlg = ProgressDialog(self.mw.root, 'File importing')
+			doc=dlg.RunDialog(self.import_callback, filename)
+			############ <---			doc = load.load_drawing(filename)
+			group = doc.as_group()
+		except SketchError, value:
+			group=None
+			msgDialog(self.mw.root, title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
+			self.mw.remove_mru_file(filename)
+			dlg.close_dlg()
+		else:
+			messages = doc.meta.load_messages
+			if messages:
+				msgDialog(self.mw.root, title = _("Import vector"), message=_("\nWarnings from the import filter:\n\n") + messages)
+			doc.meta.load_messages = ''
+		if group is not None:
+			if config.preferences.import_insertion_mode:
+				self.mw.canvas.PlaceObject(group)
+			else:
+				self.mw.document.Insert(group)
+		else:
+			msgDialog(self.mw.root, title = _("Import vector"), message=_("\nThe document is empty!\n"))
+		config.preferences.dir_for_vector_import=os.path.dirname(filename)
+		
+	def import_callback(self, arg):
+		app.updateInfo(inf1=_('File importing'), 
+					inf2=_('Start file parsing'), inf3=3)
+		filename=arg[0]
+		doc = load.load_drawing(filename)
+		app.updateInfo(inf1=_('File importing'), 
+					inf2=_('File has been imported'), inf3=100)
+		time.sleep(.1)
+		return doc		
+		
 
 ################## Utilite methods #############################
 	
@@ -166,7 +262,6 @@ class DocumentManager:
 		
 	def SaveToFile(self, document, filename, fileformat = None, compressed = '', compressed_file = ''):
 		sysname=locale_utils.utf_to_locale(filename)
-		app = self.mw.application
 		try:
 			if not document.meta.backup_created:
 				try:
@@ -227,10 +322,11 @@ class DocumentManager:
 		if not compressed_file:
 			document.meta.compressed_file = ''
 			document.meta.compressed = ''
-		if compressed_file:
-			self.mw.add_mru_file(compressed_file)
-		else:
-			self.mw.add_mru_file(filename)
+		if fileformat == plugins.NativeFormat:
+			if compressed_file:
+				self.mw.add_mru_file(compressed_file)
+			else:
+				self.mw.add_mru_file(filename)
 
 		self.set_window_title()	
 		

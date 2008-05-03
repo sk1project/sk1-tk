@@ -27,7 +27,7 @@ format_name = 'sK1'
 (''"sK1 Document")
 
 from types import StringType, TupleType
-import os, sys
+import os, sys, app
 from string import atoi
 
 from app.events.warn import warn, INTERNAL, pdebug, warn_tb
@@ -477,11 +477,17 @@ class SKLoader(GenericLoader):
 		bezier_load = self.bezier_load
 		num = 1
 		line = '#'
+		fileinfo=os.stat(self.filename)
+		totalsize=fileinfo[6]
+		interval=int((totalsize/200)/10)+1
+		interval_count=0
 		if __debug__:
 			import time
 			start_time = time.clock()
 		try:
 			line = readline()
+			parsed=int(file.tell()*100/totalsize)
+			app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
 			while line:
 				num = num + 1
 				if line[0] == 'b' and line[1] in 'sc':
@@ -518,6 +524,11 @@ class SKLoader(GenericLoader):
 						self.add_message(_("Unknown function %s") % funcname)
 					
 				line = readline()
+				interval_count+=1
+				if interval_count>interval:
+					interval_count=0
+					parsed=int(file.tell()*100/totalsize)
+					app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
 
 		except (SketchLoadError, SyntaxError), value:
 			# a loader specific error occurred
@@ -542,6 +553,7 @@ class SKLoader(GenericLoader):
 		for style in self.style_dict.values():
 			self.object.load_AddStyle(style)
 		self.object.load_Completed()
+		app.updateInfo(inf2='Pasing is finished',inf3=100)
 
 		self.object.meta.native_format = 1
 

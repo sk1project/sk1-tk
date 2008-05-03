@@ -110,7 +110,8 @@ class LoaderWithComposites:
 				self.append_object(composite)
 			else:
 				self.__pop()
-				raise EmptyCompositeError
+				#may be just pass the problem?
+				#raise EmptyCompositeError
 		else:
 			raise SketchLoadError('no composite to end')
 
