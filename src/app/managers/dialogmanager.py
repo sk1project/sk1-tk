@@ -79,6 +79,9 @@ imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.
 palette_types = ((_("sK1 xml palette"), ('*.skp', '*.SKP')),
 				(_("All Files"),	 '*'))
 
+pdf_types = ((_("Portable Document Format (PDF 1.5) - *.pdf"), ('*.pdf', '*.PDF')),
+				(_("All Files"),	 '*'))
+
 KDE_DIALOG=1
 GNOME_DIALOG=2
 TK_DIALOG=3
@@ -193,7 +196,6 @@ class DialogManager:
 
 	def getGenericSaveFilename(self, title, filetypes,  **kw):
 		name=app.config.name
-		title=_('Save file')
 		kw['filetypes']=filetypes
 		dialog_type=self.get_dialog_type(SAVEMODE)
 		if dialog_type==Gnome_GetSaveFilename:

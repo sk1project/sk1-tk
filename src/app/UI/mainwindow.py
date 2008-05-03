@@ -344,6 +344,11 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.KPrinting, image="toolbar_print")
 		tooltips.AddDescription(b, commands.KPrinting.menu_name)
 		b.pack(side = LEFT)
+		
+		
+		b = ToolbarButton(tbar, commands.PrintToPDF, image="print_tofile")
+		tooltips.AddDescription(b, commands.PrintToPDF.menu_name)
+		b.pack(side = LEFT)
 
 		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
@@ -351,7 +356,7 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.CloseDoc, image="toolbar_fileclose")
 		tooltips.AddDescription(b, commands.CloseDoc.menu_name)
 		b.pack(side = LEFT)
-
+		
 		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
 
@@ -673,6 +678,9 @@ class sK1MainWindow(Publisher):
 		
 	def InsertFile(self, filename = None):
 		self.docmanager.ImportVector(filename)
+		
+	def PrintToPDF(self):
+		self.docmanager.PrintDocument(self.document, 1)
 
 	def CloseCurrentDocument(self):
 		self.tabspanel.closeActiveTab()
@@ -786,7 +794,8 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
 	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'))
-	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
+	AddCmd('PrintToPDF', _("Print to PDF..."), 'PrintToPDF', image = 'menu_file_pdf')
+#	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
 	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
 	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'), bitmap = pixmaps.Rotate)
 	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'), bitmap = pixmaps.Size)
@@ -910,7 +919,7 @@ class sK1MainWindow(Publisher):
 					#cmds.export_bitmap,
 					None,
 					cmds.KPrinting,
-					cmds.CreatePrintDialog,
+					cmds.PrintToPDF, #cmds.CreatePrintDialog,
 					None,
 					#cmds.CreateExportDialog,
 					#None,

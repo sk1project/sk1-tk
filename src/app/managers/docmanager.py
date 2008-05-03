@@ -152,16 +152,27 @@ class DocumentManager:
 		if document is not None:
 			document.Destroy()
 			
-	def PrintDocument(self, document):
+	def PrintDocument(self, document, tofile=0):
 		bbox = document.BoundingRect(visible = 0, printable = 1)
 		if bbox is None:
 			msgDialog(self.mw.root, 
 					title = _("Printing"), 
 					message = _("The document doesn't have \n any printable layers!\n"))
 			return
-		############ --->
-		dlg = ProgressDialog(self.mw.root, 'File importing')
-		dlg.RunDialog(self.print_callback, document)
+		############ --->		
+		if tofile:
+			directory=config.preferences.dir_for_vector_export
+			filename = document.meta.filename
+			filename, pdffile=dialogman.getGenericSaveFilename(_("Print into PDF file"), 
+															app.managers.dialogmanager.pdf_types, 
+															initialdir = directory, initialfile = filename)
+			if filename=='':
+				return
+			dlg = ProgressDialog(self.mw.root, 'PDF generation')
+			dlg.RunDialog(self.print_tofile_callback, document, pdffile)
+		else:
+			dlg = ProgressDialog(self.mw.root, 'PDF generation')
+			dlg.RunDialog(self.print_callback, document)
 
 	def print_callback(self, arg):
 		document=arg[0]
@@ -175,6 +186,20 @@ class DocumentManager:
 		self.mw.root.update()
 		self.mw.canvas.ForceRedraw()
 		time.sleep(.5)
+		return None
+	
+	def print_tofile_callback(self, arg):
+		document=arg[0]
+		pdffile=arg[1]
+#		from tempfile import NamedTemporaryFile
+#		pdffile=NamedTemporaryFile()
+
+		
+		fileformat = plugins.guess_export_plugin('.pdf')
+		self.SaveToFile(document, pdffile, fileformat, '', '')
+		
+		self.mw.root.update()
+		self.mw.canvas.ForceRedraw()
 		return None
 	
 	def ImportVector(self, filename = None):
@@ -199,7 +224,7 @@ class DocumentManager:
 			group=None
 			msgDialog(self.mw.root, title = _("Import vector"), message = _("\nAn error occurred:\n\n") + str(value))
 			self.mw.remove_mru_file(filename)
-			dlg.close_dlg()
+			dlg.close_dlg
 		else:
 			messages = doc.meta.load_messages
 			if messages:
