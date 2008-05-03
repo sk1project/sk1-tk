@@ -35,10 +35,10 @@ class TextAlignPanel(CtxSubPanel):
 								command=self.applyProperties, variable = self.var_reference, style='ToolbarRadiobutton')
 		radio.pack(side=LEFT)
 		tooltips.AddDescription(radio, _('Right alignment'))
-		radio = UpdatedRadiobutton(self.panel, value = 'justify', image='context_text_justify_disabled', 
-								command=self.applyProperties, variable = self.var_stub, style='ToolbarRadiobutton', state='disabled')
-		radio.pack(side=LEFT)
-		tooltips.AddDescription(radio, _('Justify'))
+#		radio = UpdatedRadiobutton(self.panel, value = 'justify', image='context_text_justify_disabled', 
+#								command=self.applyProperties, variable = self.var_stub, style='ToolbarRadiobutton', state='disabled')
+#		radio.pack(side=LEFT)
+#		tooltips.AddDescription(radio, _('Justify'))
 						
 		self.ReSubscribe()
 

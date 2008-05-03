@@ -80,10 +80,10 @@ class FontPanel(CtxSubPanel):
 		self.italic_check.pack(side=LEFT, padx=2)
 		tooltips.AddDescription(self.italic_check, _('Italic'))
 		
-		self.underline_check = UpdatedRadiobutton(self.panel, value = 'under', image='context_text_under_disabled', state='disabled', 
-								command=self.action, variable = self.var_underline, style='ToolbarRadiobutton')
-		self.underline_check.pack(side=LEFT, padx=2)
-		tooltips.AddDescription(self.underline_check, _('Underline'))
+#		self.underline_check = UpdatedRadiobutton(self.panel, value = 'under', image='context_text_under_disabled', state='disabled', 
+#								command=self.action, variable = self.var_underline, style='ToolbarRadiobutton')
+#		self.underline_check.pack(side=LEFT, padx=2)
+#		tooltips.AddDescription(self.underline_check, _('Underline'))
 		
 		self.ReSubscribe()
 
