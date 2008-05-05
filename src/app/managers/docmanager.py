@@ -191,10 +191,7 @@ class DocumentManager:
 	def print_tofile_callback(self, arg):
 		document=arg[0]
 		pdffile=arg[1]
-#		from tempfile import NamedTemporaryFile
-#		pdffile=NamedTemporaryFile()
-
-		
+				
 		fileformat = plugins.guess_export_plugin('.pdf')
 		self.SaveToFile(document, pdffile, fileformat, '', '')
 		

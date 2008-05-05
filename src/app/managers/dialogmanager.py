@@ -9,6 +9,7 @@ import Tkinter, app, os, string, math, string
 from app.utils import os_utils
 from app import _
 from Tkinter import StringVar
+from app.UI.dialogs.msgdialog import msgDialog
 
 
 def convertForKdialog(filetypes):
@@ -100,6 +101,11 @@ class DialogManager:
 	dialogObject=None
 	is_kdialog=0
 	is_zenity=0
+	is_konqueror=0
+	is_firefox=0
+	is_mozilla=0
+	is_opera=0
+	is_kprinter=0
 	def __init__(self, root):
 		self.root=root
 		self.check_enviroment()
@@ -129,6 +135,26 @@ class DialogManager:
 			self.is_zenity=0
 		else:
 			self.is_zenity=1
+		if os.system('which konqueror>/dev/null'):
+			self.is_konqueror=0
+		else:
+			self.is_konqueror=1
+		if os.system('which firefox>/dev/null'):
+			self.is_firefox=0
+		else:
+			self.is_firefox=1
+		if os.system('which mozilla>/dev/null'):
+			self.is_mozilla=0
+		else:
+			self.is_mozilla=1
+		if os.system('which opera>/dev/null'):
+			self.is_opera=0
+		else:
+			self.is_opera=1		
+		if os.system('which kprinter>/dev/null'):
+			self.is_kprinter=0
+		else:
+			self.is_kprinter=1		
 			
 	def get_dialog_type(self, mode):
 		dialog_mode=app.config.preferences.dialog_type
@@ -166,6 +192,23 @@ class DialogManager:
 				return Gnome_GetOpenFilename
 			if dialog_type==TK_DIALOG:
 				return TkGetOpenFilename
+			
+	def launchBrowserURL(self,url):
+		if self.is_konqueror:
+			os.spawnlp(os.P_NOWAIT, 'konqueror', 'konqueror', url)
+		elif self.is_firefox:
+			os.spawnlp(os.P_NOWAIT, 'firefox', 'firefox', url)
+		elif self.is_mozilla:
+			os.spawnlp(os.P_NOWAIT, 'mozilla', 'mozilla', url)
+		elif self.is_opera:
+			os.spawnlp(os.P_NOWAIT, 'opera', 'opera','-newpage', url)
+		else:
+			msgDialog(self.root, 
+					title = _("Browser not found"), 
+					message=_("sK1 has checked presence of following browsers:\n" +
+							'konqueror, firefox, mozilla, opera\n' +
+							_("and all the browsers are absent in the system!\n")+
+							_("Please consider installing browser in your system.")))
 			
 	def getGenericOpenFilename(self, title, filetypes, **kw):
 		name=app.config.name

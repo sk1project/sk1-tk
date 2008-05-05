@@ -51,19 +51,7 @@ namespace eval ttk::theme::Plastik {
 		-selectbg	#678DB2
 		-selectfg	#FFFFFF
 	}
-	
-#        array set colors {
-#            -frame      "#EFEFEF"
-#            -lighter    "#cccccc"
-#            -window     "#EFEFEF"
-#            -selectbg   "#eeeeee"
-#            -selectfg   "#000000"
-#            -disabledfg "#aaaaaa"
-#        }
 
-        # -----------------------------------------------------------------
-        # Theme defaults  $colors(-frame)
-        #
         style configure "." \
 				-borderwidth 0 \
 				-lighter #cccccc \
@@ -87,59 +75,7 @@ namespace eval ttk::theme::Plastik {
 	source [file join $styledir radiobuttons.tcl]
 	source [file join $styledir scrollbars.tcl]
 	source [file join $styledir progressbar.tcl]
-
-
-# ------------------------------------------------------------------------------------------------------- 
-        # The layout for the menubutton is modified to have a button element
-        # drawn on top of the background. This means we can have transparent
-        # pixels in the button element. Also, the pixmap has a special
-        # region on the right for the arrow. So we draw the indicator as a
-        # sibling element to the button, and draw it after (ie on top of) the
-        # button image.
-#        style layout TMenubutton {
-#            Menubutton.background
-#           Menubutton.button -children {
-#                Menubutton.focus -children {
-#                    Menubutton.padding -children {
-#                        Menubutton.label -side left -expand true
-#                    }
-#                }
-#            }
-#            Menubutton.indicator -side right
-#        }
-#        style element create Menubutton.button image $I(mbut-n) \
-#            -map [list {active !disabled} $I(mbut-a) \
-#                      {pressed !disabled} $I(mbut-a) \
-#                      {disabled}          $I(mbut-d)] \
-#            -border {7 10 29 15} -padding {7 4 29 4} -sticky news
-#        style element create Menubutton.indicator image $I(mbut-arrow-n) \
-#            -width 11 -sticky w -padding {0 0 18 0}
-	    
-
-		
-
-
-       
-# ---------------------------------------------------------------------------------------------------------------------------------	    
-	    
-       
-#        style element create Scale.slider image $I(hslider-n) -border 3
-        
-#        style element create Vertical.Scale.slider image $I(vslider-n) -border 3
-        
-#        style element create Horizontal.Progress.bar image $I(hsb-n) \
-#            -border {6 4}  -sticky news
-        
-#        style element create Vertical.Progress.bar image $I(vsb-n) \
-#            -border {4 6}
-        
-        
-        # -----------------------------------------------------------------
-        # Notebook elements
-        #
-#        style element create tab image $I(tab-n) \
-#            -map [list selected $I(tab-p) active $I(tab-p)] \
-#            -border {6 6 6 2} -height 12
+	source [file join $styledir notebook.tcl]
 
     }
 }

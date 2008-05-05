@@ -360,6 +360,7 @@ class TButton(Tkinter.Widget):
 	def state(self, state):
 		return self.tk.call(self, 'state', state)
 	
+#----------------------------------------------------------------------------------------------------------------------------------------	
 class TCombobox(Tkinter.Widget):
 	"""OptionMenu which allows the user to select a value from a menu."""
 	def __init__(self, master, **kwargs):
@@ -394,7 +395,7 @@ class TCombobox(Tkinter.Widget):
 		Tkinter.Widget.destroy(self)
 		#self.__menu = None
 
-
+#----------------------------------------------------------------------------------------------------------------------------------------	
 class LabelFrame(Tkinter.Widget):
 	"""Frame widget which may contain other widgets and can have a 3D border."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -413,6 +414,7 @@ class LabelFrame(Tkinter.Widget):
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'labelframe', cnf, {}, extra)
 		
+#----------------------------------------------------------------------------------------------------------------------------------------	
 class TProgressbar(Tkinter.Widget):
 	"""ttk::progressbar - Provide progress feedback"""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -452,3 +454,66 @@ class TProgressbar(Tkinter.Widget):
 		"""Destroy this widget and the associated menu."""
 		self.stop()
 		Tkinter.Widget.destroy(self)
+		
+#----------------------------------------------------------------------------------------------------------------------------------------	
+class TNotebook(Tkinter.Widget):
+	"""ttk::notebook - Multi-paned container widget"""
+	def __init__(self, master=None, cnf={}, **kw):
+		"""Construct a frame widget with the parent MASTER.
+			STANDARD OPTIONS:
+			class, cursor, style, takefocus
+			
+			WIDGET-SPECIFIC OPTIONS: 
+			height, padding, width
+			
+			TAB OPTIONS:
+			state, sticky, padding, text, image, compound, underline
+			"""
+		cnf = _cnfmerge((cnf, kw))
+		extra = ()
+		if cnf.has_key('class_'):
+			extra = ('-class', cnf['class_'])
+			del cnf['class_']
+		elif cnf.has_key('class'):
+			extra = ('-class', cnf['class'])
+			del cnf['class']
+		Tkinter.Widget.__init__(self, master, 'ttk::notebook', cnf, {}, extra)
+		
+	def add(self, window, cnf={}, **kw):
+		"""Adds a new tab to the notebook. See TAB OPTIONS for the list of 
+		available options. If window is currently managed by the notebook 
+		but hidden, it is restored to its previous position."""
+		self.tk.call((self._w, 'add', window) + self._options(cnf, kw))
+				
+	def forget(self, tabid):
+		"""Removes the tab specified by tabid, unmaps and unmanages the 
+		associated window."""
+		self.tk.call(self._w, 'forget', tabid)
+		
+	def hide(self, tabid):
+		"""Hides the tab specified by tabid. The tab will not be displayed, 
+		but the associated window remains managed by the notebook and its 
+		configuration remembered. Hidden tabs may be restored with the add 
+		command."""
+		self.tk.call(self._w, 'hide', tabid)
+		
+	def index(self, tabid):
+		"""Returns the numeric index of the tab specified by tabid, or the 
+		total number of tabs if tabid is the string 'end'."""
+		self.tk.call(self._w, 'index', tabid)
+		
+	def insert(self, pos, window, cnf={}, **kw):
+		"""Inserts a pane at the specified position. pos is either the string 
+		end, an integer index, or the name of a managed subwindow. If subwindow 
+		is already managed by the notebook, moves it to the specified position. 
+		See TAB OPTIONS for the list of available options."""
+		self.tk.call(self._w, 'insert', pos, window._w, cnf, kw)
+
+	def select(self, tabid):
+		"""Selects the specified tab. The associated slave window will be 
+		displayed, and the previously-selected window (if different) is unmapped. 
+		If tabid is omitted, returns the widget name of the currently selected 
+		pane."""
+		self.tk.call(self._w, 'select', tabid)
+		
+	

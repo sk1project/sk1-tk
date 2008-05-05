@@ -10,7 +10,8 @@ from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, END
 from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
 from app import _
 
-from Ttk import TFrame, TButton, TEntry, TMenubutton
+from Ttk import TFrame, TButton, TEntry, TMenubutton, TScrollbar
+import string
 
 
 class TEntryExt(TEntry):

@@ -55,6 +55,7 @@ import skpixmaps
 pixmaps = skpixmaps.PixmapTk
 
 from app import skapp
+from dialogs.aboutdlg import aboutDialog
 
 
 EXPORT_MODE=2
@@ -754,7 +755,10 @@ class sK1MainWindow(Publisher):
 	AddCmd('InsertFile', _("Import vector..."))
 	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
+	
+	AddCmd('ProjectSite', _("Project web site..."))
 	AddCmd('AboutBox', _("About sK1..."))
+	
 	
 	AddCmd('InsertPage', _("Insert Page..."), 'InsertPage')
 	AddCmd('DeletePage', _("Delete Page..."), 'DeletePage', subscribe_to = UNDO, sensitive_cb = ('document','CanBePageDeleting'))
@@ -793,7 +797,7 @@ class sK1MainWindow(Publisher):
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
-	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'))
+	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'), sensitive_cb ='HasKPrinter')
 	AddCmd('PrintToPDF', _("Print to PDF..."), 'PrintToPDF', image = 'menu_file_pdf')
 #	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
 	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
@@ -1117,7 +1121,9 @@ class sK1MainWindow(Publisher):
 
 	def make_help_menu(self):
 		return map(MakeCommand,
-					[self.commands.AboutBox
+					[self.commands.ProjectSite,
+					None,
+					self.commands.AboutBox
 					])
 
 	def make_special_menu(self):
@@ -1140,6 +1146,9 @@ class sK1MainWindow(Publisher):
 	def refresh_buffer(self):
 		if self.canvas:
 			self.canvas.bitmap_buffer=None
+	
+	def HasKPrinter(self):
+		return dialogman.is_kprinter
 
 	def create_commands(self):
 		cmds = Commands()
@@ -1311,22 +1320,27 @@ class sK1MainWindow(Publisher):
 
 	def GuideDialog(self, action=None):
 			self.CreateDialog('dlg_guide', 'GuidePanel')
+			
+	def ProjectSite(self):
+		dialogman.launchBrowserURL('http://sk1project.org')
 
 	def AboutBox(self):
-		abouttext = _("sK1 (%(version)s) - A Python&Tcl/Tk -based vector graphics editor for printing industry.\n "
-						"(c) 2003-2006 by Igor E. Novikov\n\n"
-						"This program is free software under the terms of "
-						"the GNU LGPL v.2.0. For more info - COPYRIGHTS file in sK1 root directory.\n\n"
-						"Libraries versions:\n"
-						"Python:\t%(py)s\t\nTcl:\t%(tcl)s\n"
-						"Tkinter:\t%(tkinter)s\t\nTk:\t%(tk)s") \
-					% {'version':sKVersion,
-						'py':string.split(sys.version)[0],
-						'tcl':TclVersion,
-						'tkinter':string.split(Tkinter.__version__)[1],
-						'tk':TkVersion}
-
-		self.application.MessageBox(title = _("About sK1"), message = abouttext, icon = 'construct')
+		aboutDialog(self.root)
+		
+#		abouttext = _("sK1 (%(version)s) - A Python&Tcl/Tk -based vector graphics editor for printing industry.\n "
+#						"(c) 2003-2006 by Igor E. Novikov\n\n"
+#						"This program is free software under the terms of "
+#						"the GNU LGPL v.2.0. For more info - COPYRIGHTS file in sK1 root directory.\n\n"
+#						"Libraries versions:\n"
+#						"Python:\t%(py)s\t\nTcl:\t%(tcl)s\n"
+#						"Tkinter:\t%(tkinter)s\t\nTk:\t%(tk)s") \
+#					% {'version':sKVersion,
+#						'py':string.split(sys.version)[0],
+#						'tcl':TclVersion,
+#						'tkinter':string.split(Tkinter.__version__)[1],
+#						'tk':TkVersion}
+#
+#		self.application.MessageBox(title = _("About sK1"), message = abouttext, icon = 'construct')
 
 
 
