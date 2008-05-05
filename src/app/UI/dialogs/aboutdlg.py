@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from app import _
-import app, os
+import app, os, string, sys
 from dialog import ModalDialog
 from msgdialog import msgDialog
 from app import dialogman
@@ -14,7 +14,7 @@ from app.conf import const
 
 from app.UI.Ttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
 from app.UI.ttk_ext import TSpinbox
-from Tkinter import StringVar, Text
+from Tkinter import StringVar, Text, TclVersion
 from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 
 
@@ -37,9 +37,17 @@ class AboutDialog(ModalDialog):
 		icon=TLabel(panel, style='FlatLabel', image='icon_sk1_48')
 		icon.pack(side = LEFT, padx=5,pady=5)
 		
+		panel = TFrame(panel, style='FlatFrame', borderwidth = 5)		
+		panel.pack(side = LEFT)
+		
 		text=TLabel(panel, style='FlatLabel', text='sK1 v.%s'%app.sKVersion, 
 				font=app.config.preferences.large_font+' bold')
-		text.pack(side = LEFT, padx=5,pady=5)
+		text.pack(side = TOP, anchor=W)
+		
+		text=TLabel(panel, style='FlatLabel', 
+				text=_('Uses libraries: Tcl/Tk %s; Python %s')%
+				(TclVersion, string.split(sys.version)[0]))
+		text.pack(side = TOP, anchor=W)
 		
 		self.nb = TNotebook(self.root, height=150, width=500, padding=5)
 		self.nb.pack(side = TOP, fill = BOTH, expand = 1)

@@ -21,6 +21,7 @@ from text_prop_panel import TextPropPanel
 from textalign_panel import TextAlignPanel 
 from font_panel import FontPanel
 from subpanel import CtxSubPanel
+from nodeedit_panel import NodeEditPanel
 
 
 UNKNOWN_OBJ=-1
@@ -38,6 +39,8 @@ forPage=['PagePanel', 'UnitPanel','JumpPanel','GuidesPanel']
 forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
 forSimpleText=['TextPropPanel','FontPanel','TextAlignPanel','ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
+forNodes=['ResizePanel','UnitPanel', 'CombinePanel','NodeEditPanel']
+
 
 class ContexPanel(Publisher):
 	
@@ -104,6 +107,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forGroup)
 				elif obj_type==SIMPLE_TEXT:
 					self.changeContent(forSimpleText)
+				elif obj_type==BEZIER:
+					self.changeContent(forNodes)
 				else:
 					self.changeContent(forObject)	
 		else:
@@ -129,4 +134,4 @@ class ContexPanel(Publisher):
 
 PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
-		FontPanel,CombinePanel, ToCurvePanel]
+		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel]

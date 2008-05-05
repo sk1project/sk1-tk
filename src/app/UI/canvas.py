@@ -125,8 +125,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 							#None,
 							#'CreateLineStyleDialog',
 							# 'LineNone',
-							None,
-							'CreateFontDialog'
+#							None,
+#							'CreateFontDialog'
 							#None,
 							#'CreateStyleFromSelection',
 							# None,

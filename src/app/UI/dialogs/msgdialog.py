@@ -50,9 +50,9 @@ class MessageDialog(ModalDialog):
 		frame = TFrame(top, name = 'top', style='FlatFrame')
 		frame.pack(side = TOP, fill = BOTH, expand = 1)
 		label = TLabel(frame, image = 'messagebox_'+self.image, style='FlatLabel')
-		label.pack(side = LEFT, padx = 5, pady = 5)
+		label.pack(side = LEFT, padx = 10, pady = 5)
 		label = TLabel(frame, text = self.message, name = 'msg', style='FlatLabel', justify='center', anchor='center')
-		label.pack(side = RIGHT, fill = BOTH, expand = 1)
+		label.pack(side = RIGHT, fill = BOTH, expand = 1, padx = 5)
 	
 		frame = TFrame(top, name = 'bot', style='FlatFrame')
 		frame.pack(side = BOTTOM)#, fill = X, expand = 1)

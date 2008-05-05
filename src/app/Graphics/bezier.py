@@ -848,8 +848,7 @@ class PolyBezierEditor(Editor):
 				else:
 					paths.append(path)
 		return self.set_paths(paths)
-	AddCmd(commands, OpenNodes, _("Cut Curve"), key_stroke = 'c',
-			bitmap = pixmaps.BezierOpenNodes)
+	AddCmd(commands, OpenNodes, _("Cut Curve"), key_stroke = 'c')
 
 	def CloseNodes(self):
 		# find out if close is possible
@@ -932,8 +931,7 @@ class PolyBezierEditor(Editor):
 		else:
 			return
 		return undo
-	AddCmd(commands, CloseNodes, _("Close Nodes"),
-			bitmap = pixmaps.BezierCloseNodes)
+	AddCmd(commands, CloseNodes, _("Close Nodes"))
 
 	def SetContinuity(self, cont):
 		new_paths = []
@@ -943,12 +941,9 @@ class PolyBezierEditor(Editor):
 			else:
 				new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, 'ContAngle', _("Angle"), SetContinuity,
-			args = ContAngle, bitmap = pixmaps.BezierAngle, key_stroke = 'a')
-	AddCmd(commands, 'ContSmooth', _("Smooth"), SetContinuity,
-			args = ContSmooth, bitmap = pixmaps.BezierSmooth, key_stroke = 's')
-	AddCmd(commands, 'ContSymmetrical', _("Symmetrical"), SetContinuity,
-			args = ContSymmetrical, bitmap = pixmaps.BezierSymm, key_stroke='y')
+	AddCmd(commands, 'ContAngle', _("Angle"), SetContinuity,args = ContAngle, key_stroke = 'a')
+	AddCmd(commands, 'ContSmooth', _("Smooth"), SetContinuity, args = ContSmooth, key_stroke = 's')
+	AddCmd(commands, 'ContSymmetrical', _("Symmetrical"), SetContinuity, args = ContSymmetrical, key_stroke='y')
 
 	def SegmentsToLines(self):
 		if self.selection_type == SelCurvePoint:
@@ -1020,8 +1015,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, InsertNodes, _("Insert Nodes"), key_stroke = '+',
-			bitmap = pixmaps.BezierInsertNode)
+	AddCmd(commands, InsertNodes, _("Insert Nodes"), key_stroke = '+')
 
 	def ChangeRect(self):
 		prop = self.properties

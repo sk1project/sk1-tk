@@ -787,22 +787,22 @@ class sK1MainWindow(Publisher):
 			
 	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'CreateDialog', args = ('dlg_align', 'AlignPanel'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
-	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'), bitmap = pixmaps.DGrid)
+	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'))
 	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
 	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
-	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f', bitmap = pixmaps.DText)
+	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
 	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
-	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'), bitmap = pixmaps.DPage)
+	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
-	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'), bitmap = pixmaps.DNodes)
+	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
 	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'), sensitive_cb ='HasKPrinter')
 	AddCmd('PrintToPDF', _("Print to PDF..."), 'PrintToPDF', image = 'menu_file_pdf')
 #	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
-	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9', bitmap = pixmaps.Move)
-	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'), bitmap = pixmaps.Rotate)
-	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'), bitmap = pixmaps.Size)
+	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9')
+	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'))
+	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'))
 	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
 	AddCmd('HideDialogs', _("Hide Dialogs"))
 	AddCmd('ShowDialogs', _("Show Dialogs"))
@@ -835,17 +835,17 @@ class sK1MainWindow(Publisher):
 
 	AddDocCmd('ApplyToDuplicate', _("Duplicate0"))
 	AddDocCmd('DuplicateSelected', _("Duplicate"), key_stroke = ('Ctrl+D', 'Ctrl+d'))
-	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'), bitmap = pixmaps.Group)
-	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'), bitmap = pixmaps.Ungroup)
-	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'), bitmap = pixmaps.ToCurve)
-	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'), bitmap = pixmaps.CCombine)
-	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'), bitmap = pixmaps.Break)
+	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'))
+	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'))
+	AddDocCmd('ConvertToCurve', _("Convert To Curve"), sensitive_cb = 'CanConvertToCurve', key_stroke = ('Ctrl+Q', 'Ctrl+q'))
+	AddDocCmd('CombineBeziers', _("Combine Beziers"), sensitive_cb = 'CanCombineBeziers', key_stroke = ('Ctrl+L','Ctrl+l'))
+	AddDocCmd('SplitBeziers', _("Split Beziers"), sensitive_cb = 'CanSplitBeziers', key_stroke = ('Ctrl+K', 'Ctrl+k'))
 
 	AddDocCmd('AbutHorizontal', _("Abut Horizontal"))
 	AddDocCmd('AbutVertical', _("Abut Vertical"))
 
-	AddDocCmd('FlipHorizontal', _("Flip Horizontal"), 'FlipSelected', args = (1, 0), bitmap = pixmaps.FlipHorizontal)
-	AddDocCmd('FlipVertical', _("Flip Vertical"), 'FlipSelected', args = (0, 1), bitmap = pixmaps.FlipVertical)
+	AddDocCmd('FlipHorizontal', _("Flip Horizontal"), 'FlipSelected', args = (1, 0))
+	AddDocCmd('FlipVertical', _("Flip Vertical"), 'FlipSelected', args = (0, 1))
 
 	AddDocCmd('CancelBlend', _("Cancel Blend"), sensitive_cb = 'CanCancelBlend')
 	AddDocCmd('RemoveTransformation', _("Remove Transformation"))
@@ -853,10 +853,10 @@ class sK1MainWindow(Publisher):
 	AddDocCmd('CreatePathText', _("Create Path Text"), sensitive_cb = 'CanCreatePathText')
 	AddDocCmd('CreateClone', _("Create Clone"), sensitive_cb = 'CanCreateClone')
 	
-	AddDocCmd('RotLeft', _("Rotate Left 90"), 'RotateSelected', args=(90),  bitmap = pixmaps.RotLeft)
-	AddDocCmd('Rot180', _("Rotate 180"), 'RotateSelected', args=(180),  bitmap = pixmaps.Rot180)
-	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(-90),  bitmap = pixmaps.RotRight)
-	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll', bitmap = pixmaps.UngrAll)
+	AddDocCmd('RotLeft', _("Rotate Left 90"), 'RotateSelected', args=(90))
+	AddDocCmd('Rot180', _("Rotate 180"), 'RotateSelected', args=(180))
+	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(-90))
+	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll')
 
 	AddDocCmd('Undo', _("Undo"), subscribe_to = UNDO, sensitive_cb = 'CanUndo', image = 'menu_edit_undo', name_cb = 'UndoMenuText', key_stroke = ('Ctrl+Z', 'Ctrl+z'))
 	AddDocCmd('Redo', _("Redo"), subscribe_to = UNDO, sensitive_cb = 'CanRedo', name_cb = 'RedoMenuText', image = 'menu_edit_redo', key_stroke = ('Ctrl+Shift+Z', 'Ctrl+Z'))
@@ -875,10 +875,10 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Layout"), self.make_layout_menu(), 0)
 		AppendMenu(mbar, _("Arrange"), self.make_arrange_menu(), 0)
 		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
-		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
+#		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
-		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
+#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+#		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
 
 		if config.preferences.show_special_menu:
@@ -927,9 +927,9 @@ class sK1MainWindow(Publisher):
 					None,
 					#cmds.CreateExportDialog,
 					#None,
-					cmds.SetOptions,
-					None,
-					cmds.DocumentInfo,
+#					cmds.SetOptions,
+#					None,
+#					cmds.DocumentInfo,
 					None,
 					cmds.LoadMRU0,
 					cmds.LoadMRU1,
@@ -1026,7 +1026,9 @@ class sK1MainWindow(Publisher):
 					self.commands.AbutVertical,
 					None,
 					self.commands.GroupSelected,
-					self.commands.UngroupSelected
+					self.commands.UngroupSelected,
+					None,
+					self.commands.ConvertToCurve
 					]
 		if config.preferences.show_advanced_snap_commands:
 			commands.append(None)
