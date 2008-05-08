@@ -168,7 +168,7 @@ class DialogManager:
 				dialog_type=GNOME_DIALOG
 				
 			if dialog_type==TK_DIALOG and self.is_kdialog==1:
-				dialog_type==KDE_DIALOG
+				dialog_type=KDE_DIALOG
 		else:
 			dialog_type=dialog_mode
 			
@@ -177,7 +177,7 @@ class DialogManager:
 		if dialog_type==GNOME_DIALOG and self.is_zenity==0:
 			dialog_type=TK_DIALOG
 			
-		print 'self.is_kdialog', self.is_kdialog
+		print 'self.is_kdialog', self.is_kdialog, dialog_type
 
 							
 		if mode==SAVEMODE:
