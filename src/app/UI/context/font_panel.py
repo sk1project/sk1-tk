@@ -111,6 +111,7 @@ class FontPanel(CtxSubPanel):
 			self.var_style_name.set(default.font_attrs)
 			self.style_name['values']=self.make_styles()
 			self.var_font_size.set(properties.default_text_style.font_size)
+		self.checkBI()
 		
 	def make_families(self):
 		result=()
