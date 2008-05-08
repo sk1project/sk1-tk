@@ -341,7 +341,9 @@ class SKLoader(GenericLoader):
 		object = text.SimpleText(text = thetext, trafo = trafo,
 									halign = halign, valign = valign,
 									properties = self.get_prop_stack())
-		object.properties.SetProperty(chargap=chargap, wordgap=wordgap, linegap=linegap)		
+		
+		object.properties.SetProperty(align=halign, valign=valign, 
+									chargap=chargap, wordgap=wordgap, linegap=linegap)		
 		self.append_object(object)
 		
 	def unicode_decoder(self, text):
