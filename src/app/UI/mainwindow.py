@@ -56,6 +56,7 @@ pixmaps = skpixmaps.PixmapTk
 
 from app import skapp
 from dialogs.aboutdlg import aboutDialog
+from pluginpanels.plugincontainer import PluginContainer
 
 
 EXPORT_MODE=2
@@ -139,8 +140,14 @@ class sK1MainWindow(Publisher):
 	def build_window(self):
 		root = self.application.root
 		
-		palette_frame = TFrame(root, style='FlatFrame', borderwidth=2)
+		p_frame = TFrame(root, style='FlatFrame', borderwidth=0)
+		p_frame.pack(side = 'right', fill = Y)
+		
+		palette_frame = TFrame(p_frame, style='FlatFrame', borderwidth=2)
 		palette_frame.pack(side = 'right', fill = Y)
+		
+		self.pc=PluginContainer(p_frame,self,style='RoundedFrame')
+#		self.pc.pack(side = 'right', fill = Y)
 		
 		b = TLabel(root, style='VLine2')
 		b.pack(side = 'right', fill = Y)
@@ -461,6 +468,10 @@ class sK1MainWindow(Publisher):
 		label = TLabel(tbar, image = "sb_sep")
 		label.pack(side = LEFT)
 		
+		b = ToolbarButton(tbar, commands.PCshowHide, image="show_side_panel")
+		tooltips.AddDescription(b, commands.PCshowHide.menu_name)
+		b.pack(side = LEFT)
+		
 	def build_tools(self):
 		tframe = self.tframe
 		canvas = self.canvas
@@ -758,6 +769,7 @@ class sK1MainWindow(Publisher):
 	
 	AddCmd('ProjectSite', _("Project web site..."))
 	AddCmd('AboutBox', _("About sK1..."))
+	AddCmd('PCshowHide', _("Sidebar"))
 	
 	
 	AddCmd('InsertPage', _("Insert Page..."), 'InsertPage')
@@ -1151,6 +1163,9 @@ class sK1MainWindow(Publisher):
 	
 	def HasKPrinter(self):
 		return dialogman.is_kprinter
+	
+	def PCshowHide(self):
+		self.pc.showHide()
 
 	def create_commands(self):
 		cmds = Commands()
