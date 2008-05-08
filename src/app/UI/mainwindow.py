@@ -146,7 +146,7 @@ class sK1MainWindow(Publisher):
 		palette_frame = TFrame(p_frame, style='FlatFrame', borderwidth=2)
 		palette_frame.pack(side = 'right', fill = Y)
 		
-		self.pc=PluginContainer(p_frame,self,style='RoundedFrame')
+		self.pc=PluginContainer(p_frame,self,style='RoundedFrame', borderwidth=5)
 #		self.pc.pack(side = 'right', fill = Y)
 		
 		b = TLabel(root, style='VLine2')
@@ -769,7 +769,7 @@ class sK1MainWindow(Publisher):
 	
 	AddCmd('ProjectSite', _("Project web site..."))
 	AddCmd('AboutBox', _("About sK1..."))
-	AddCmd('PCshowHide', _("Sidebar"))
+	AddCmd('PCshowHide', _("Plugins strip"))
 	
 	
 	AddCmd('InsertPage', _("Insert Page..."), 'InsertPage')
