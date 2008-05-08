@@ -184,6 +184,9 @@ class UIManager:
 		if not os.path.isdir(path):
 			path=os.path.join(app.config.sk_icons, 'CrystalSVG')
 			#path=os.path.join(app.config.user_icons, self.getIconSets()[0])
+		self.load_icons(path)
+
+	def load_icons(self, path):
 		icons=os_utils.get_files_tree(path)	
 		for icon in icons:
 			item=os.path.basename(icon)[:-4]
