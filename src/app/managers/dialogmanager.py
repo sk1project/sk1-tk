@@ -127,31 +127,31 @@ class DialogManager:
 			self.desktop=UNKNOWN_DESKTOP
 	
 	def validate_binaries(self):
-		if os.system('which kdialog>/dev/null'):
+		if os.system('which kdialog>/dev/null 2>/dev/null'):
 			self.is_kdialog=0
 		else:
 			self.is_kdialog=1
-		if os.system('which zenity>/dev/null'):
+		if os.system('which zenity>/dev/null 2>/dev/null'):
 			self.is_zenity=0
 		else:
 			self.is_zenity=1
-		if os.system('which konqueror>/dev/null'):
+		if os.system('which konqueror>/dev/null 2>/dev/null'):
 			self.is_konqueror=0
 		else:
 			self.is_konqueror=1
-		if os.system('which firefox>/dev/null'):
+		if os.system('which firefox>/dev/null 2>/dev/null'):
 			self.is_firefox=0
 		else:
 			self.is_firefox=1
-		if os.system('which mozilla>/dev/null'):
+		if os.system('which mozilla>/dev/null 2>/dev/null'):
 			self.is_mozilla=0
 		else:
 			self.is_mozilla=1
-		if os.system('which opera>/dev/null'):
+		if os.system('which opera>/dev/null 2>/dev/null'):
 			self.is_opera=0
 		else:
 			self.is_opera=1		
-		if os.system('which kprinter>/dev/null'):
+		if os.system('which kprinter>/dev/null 2>/dev/null'):
 			self.is_kprinter=0
 		else:
 			self.is_kprinter=1		
