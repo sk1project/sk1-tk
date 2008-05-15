@@ -347,10 +347,10 @@ def GetFont(fontname):
 		return font_cache[fontname]
 	if not fontmap.has_key(fontname):
 		if not _warned_about_font.get(fontname):
-			warn(USER, _("I can't find font %(fontname)s. "
-							"I'll use %(fallback)s instead"),
-					fontname = fontname,
-					fallback = config.preferences.fallback_font)
+#			warn(USER, _("I can't find font %(fontname)s. "
+#							"I'll use %(fallback)s instead"),
+#					fontname = fontname,
+#					fallback = config.preferences.fallback_font)
 			_warned_about_font[fontname] = 1
 		if fontname != config.preferences.fallback_font:
 			return GetFont(config.preferences.fallback_font)
