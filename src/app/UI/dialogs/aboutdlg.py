@@ -15,7 +15,7 @@ from app.conf import const
 from app.UI.Ttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
 from app.UI.ttk_ext import TSpinbox
 from Tkinter import StringVar, Text, TclVersion
-from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
+from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE
 
 
 class AboutDialog(ModalDialog):
@@ -97,13 +97,18 @@ class AboutDialog(ModalDialog):
 		self.nb.add(panel, text='Authors')
 		
 		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)		
-		subpanel.pack(side = TOP, fill = BOTH, expand = 1)
+		subpanel.grid(sticky=N+S+E+W)
+		
+		panel.rowconfigure(0, weight=1)
+		panel.columnconfigure(0, weight=1)
+		subpanel.rowconfigure(0, weight=1)
+		subpanel.columnconfigure(0, weight=1)
 		
 		sb=TScrollbar(subpanel)
-		sb.pack(side = RIGHT, fill=Y, expand = 1)
+		sb.grid(row=0, column=1,sticky=N+S)
 				
-		text=Text(subpanel, bg='white',highlightthickness=0)
-		text.pack(side = LEFT, fill = BOTH, expand = 1)
+		text=Text(subpanel, bg='white',highlightthickness=0, wrap=NONE)
+		text.grid(row=0, column=0,sticky=N+S+E+W)
 		
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
@@ -122,13 +127,18 @@ class AboutDialog(ModalDialog):
 		self.nb.add(panel, text='Localization')
 		
 		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)		
-		subpanel.pack(side = TOP, fill = BOTH, expand = 1)
+		subpanel.grid(sticky=N+S+E+W)
+		
+		panel.rowconfigure(0, weight=1)
+		panel.columnconfigure(0, weight=1)
+		subpanel.rowconfigure(0, weight=1)
+		subpanel.columnconfigure(0, weight=1)
 		
 		sb=TScrollbar(subpanel)
-		sb.pack(side = RIGHT, fill=Y, expand = 1)
+		sb.grid(row=0, column=1,sticky=N+S)
 				
-		text=Text(subpanel, bg='white',highlightthickness=0)
-		text.pack(side = LEFT, fill = BOTH, expand = 1)
+		text=Text(subpanel, bg='white',highlightthickness=0, wrap=NONE)
+		text.grid(row=0, column=0,sticky=N+S+E+W)
 		
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
@@ -144,14 +154,19 @@ class AboutDialog(ModalDialog):
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 5)
 		self.nb.add(panel, text='License')
 		
-		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)		
-		subpanel.pack(side = TOP, fill = BOTH, expand = 1)
+		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)
+		subpanel.grid(sticky=N+S+E+W)
+		
+		panel.rowconfigure(0, weight=1)
+		panel.columnconfigure(0, weight=1)
+		subpanel.rowconfigure(0, weight=1)
+		subpanel.columnconfigure(0, weight=1)
 		
 		sb=TScrollbar(subpanel)
-		sb.pack(side = RIGHT, fill=Y, expand = 1)
-				
-		text=Text(subpanel, highlightthickness=0, font=app.config.preferences.fixed_font)
-		text.pack(side = LEFT, fill = BOTH, expand = 1)
+		sb.grid(row=0, column=1,sticky=N+S)
+						
+		text=Text(subpanel, highlightthickness=0, font=app.config.preferences.fixed_font, wrap=NONE)
+		text.grid(row=0, column=0,sticky=N+S+E+W)
 		
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
