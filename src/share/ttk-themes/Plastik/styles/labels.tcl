@@ -72,6 +72,17 @@
 		-border {1 1 1 1} -padding {0 0 0 0} -sticky ns
 	
 	# -------------
+	style layout VLine3 {
+		VLine3.background -children {
+			VLine3.label
+			}
+		}
+	style configure VLine3  -relief flat 
+	
+	style element create VLine3.background image $K(vline3) \
+		-border {1 1 1 1} -padding {0 0 0 0} -sticky ns
+	
+	# -------------
 	style layout DrawingAreaTop {
 		DrawingAreaTop.background -children {
 			DrawingAreaTop.label

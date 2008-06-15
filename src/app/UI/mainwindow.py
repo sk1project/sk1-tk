@@ -143,10 +143,13 @@ class sK1MainWindow(Publisher):
 		p_frame = TFrame(root, style='FlatFrame', borderwidth=0)
 		p_frame.pack(side = 'right', fill = Y)
 		
-		palette_frame = TFrame(p_frame, style='FlatFrame', borderwidth=2)
+		palette_frame = TFrame(p_frame, style='FlatFrame', borderwidth=3)
 		palette_frame.pack(side = 'right', fill = Y)
 		
-		self.pc=PluginContainer(p_frame,self,style='RoundedFrame', borderwidth=5)
+		b = TLabel(p_frame, style='VLine3')
+		
+		self.pc=PluginContainer(p_frame,self,style='FlatFrame', borderwidth=4)
+		self.pc.rborder=b
 #		self.pc.pack(side = 'right', fill = Y)
 		
 		b = TLabel(root, style='VLine2')
@@ -767,7 +770,10 @@ class sK1MainWindow(Publisher):
 	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	
+	
+	AddCmd('ReportBug', _("Report bug..."))
 	AddCmd('ProjectSite', _("Project web site..."))
+	AddCmd('ProjectForum', _("Project forum..."))
 	AddCmd('AboutBox', _("About sK1..."))
 	AddCmd('PCshowHide', _("Plugins strip"))
 	
@@ -1135,7 +1141,10 @@ class sK1MainWindow(Publisher):
 
 	def make_help_menu(self):
 		return map(MakeCommand,
-					[self.commands.ProjectSite,
+					[self.commands.ReportBug,
+					None,
+					self.commands.ProjectSite,
+					self.commands.ProjectForum,
 					None,
 					self.commands.AboutBox
 					])
@@ -1340,6 +1349,12 @@ class sK1MainWindow(Publisher):
 			
 	def ProjectSite(self):
 		dialogman.launchBrowserURL('http://sk1project.org')
+		
+	def ProjectForum(self):
+		dialogman.launchBrowserURL('http://sk1project.org/forum/')
+		
+	def ReportBug(self):
+		dialogman.launchBrowserURL('https://bugs.launchpad.net/sk1/')
 
 	def AboutBox(self):
 		aboutDialog(self.root)

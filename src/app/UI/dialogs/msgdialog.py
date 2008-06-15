@@ -9,7 +9,7 @@
 from app import _
 from dialog import ModalDialog
 
-from app.UI.Ttk import TButton, TLabel, TFrame
+from Ttk import TButton, TLabel, TFrame
 from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH
 from types import TupleType
 

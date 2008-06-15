@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from app.UI.Ttk import TButton, TLabel
+from Ttk import TButton, TLabel
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import SELECTION, CHANGED, EDITED
 from Tkinter import LEFT, RIGHT, DoubleVar, StringVar

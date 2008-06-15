@@ -12,7 +12,7 @@ from msgdialog import msgDialog
 from app import dialogman
 from app.conf import const
 
-from app.UI.Ttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
+from Ttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
 from app.UI.ttk_ext import TSpinbox
 from Tkinter import StringVar, Text, TclVersion
 from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE

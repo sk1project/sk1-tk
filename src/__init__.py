@@ -40,6 +40,8 @@ if sys.argv[1]=='--help':
 
 _pkgdir = __path__[0]
 sys.path.insert(1, _pkgdir)
+_ttkdir = os.path.join(_pkgdir, 'lib-ttk')
+sys.path.insert(1, _ttkdir)
 
 import sys, app
 app.config.sk_command = sys.argv[0]

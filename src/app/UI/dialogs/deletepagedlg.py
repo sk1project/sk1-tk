@@ -10,7 +10,7 @@ import app
 from dialog import ModalDialog
 from msgdialog import msgDialog
 
-from app.UI.Ttk import TButton, TLabel, TFrame
+from Ttk import TButton, TLabel, TFrame
 from app.UI.ttk_ext import TSpinbox
 from Tkinter import StringVar
 from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W

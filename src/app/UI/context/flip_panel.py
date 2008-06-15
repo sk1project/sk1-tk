@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from app.UI.Ttk import TButton
+from Ttk import TButton
 from Tkinter import LEFT
 from subpanel import CtxSubPanel
 from app import  _

@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from app.UI.Ttk import TLabel, TCombobox
+from Ttk import TLabel, TCombobox
 from app.conf.const import CHANGED
 from Tkinter import LEFT, StringVar
 from subpanel import CtxSubPanel
