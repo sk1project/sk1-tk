@@ -25,10 +25,10 @@ from Tkinter import LEFT, DISABLED, NORMAL, END, RAISED, SUNKEN
 import Tkinter
 
 import command
-from skpixmaps import PixmapTk
-
-import skpixmaps
-pixmaps = skpixmaps.PixmapTk
+#from skpixmaps import PixmapTk
+#
+#import skpixmaps
+#pixmaps = skpixmaps.PixmapTk
 
 class SketchDropTarget:
 
@@ -742,14 +742,14 @@ class CommandButton(Tkinter.Button):
 			args = (args,)
 		self.args = args
 		kw['command'] = MakeMethodCommand(self.command.Invoke)
-		if command.bitmap:
-			bitmap = PixmapTk.load_image(command.bitmap)
-			if type(bitmap) == StringType:
-				kw['bitmap'] = bitmap
-			else:
-				kw['image'] = bitmap
-		else:
-			kw['text'] = command.button_name
+#		if command.bitmap:
+#			bitmap = PixmapTk.load_image(command.bitmap)
+#			if type(bitmap) == StringType:
+#				kw['bitmap'] = bitmap
+#			else:
+#				kw['image'] = bitmap
+#		else:
+		kw['text'] = command.button_name
 		command.Subscribe(CHANGED, self._update)
 		apply(Tkinter.Button.__init__, (self, master), kw)
 		tooltips.AddDescription(self, command.menu_name)
@@ -757,14 +757,14 @@ class CommandButton(Tkinter.Button):
 
 	def _update(self):
 		state = self.command.sensitive and NORMAL or DISABLED
-		if self.command.bitmap:
-			bitmap = PixmapTk.load_image(self.command.bitmap)
-			if type(bitmap) == StringType:
-				self.configure(bitmap = bitmap, state = state)
-			else:
-				self.configure(image = bitmap, state = state)
-		else:
-			self.configure(text = self.command.button_name, state = state)
+#		if self.command.bitmap:
+#			bitmap = PixmapTk.load_image(self.command.bitmap)
+#			if type(bitmap) == StringType:
+#				self.configure(bitmap = bitmap, state = state)
+#			else:
+#				self.configure(image = bitmap, state = state)
+#		else:
+		self.configure(text = self.command.button_name, state = state)
 		tooltips.AddDescription(self, self.command.menu_name)
 
 	def destroy(self):

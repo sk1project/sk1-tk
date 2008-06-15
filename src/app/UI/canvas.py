@@ -36,8 +36,6 @@ from app.conf.const import STATE, MODE, SELECTION, VIEW, POSITION, EDITED, \
 import app
 
 import command
-#import skpixmaps
-#pixmaps = skpixmaps.PixmapTk
 from tkext import MakeCommand, UpdatedMenu
 
 from cursorstack import CursorStack

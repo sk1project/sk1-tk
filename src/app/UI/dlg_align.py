@@ -20,8 +20,6 @@ from app import _
 
 from tkext import UpdatedButton, UpdatedCheckbutton, UpdatedRadiobutton
 from sketchdlg import CommandPanel
-import skpixmaps
-pixmaps = skpixmaps.PixmapTk
 
 def make_button(*args, **kw):
 	kw['style'] ='FineRadiobutton'

@@ -31,9 +31,6 @@ from app import _, SingularMatrix, PointsToRect, Trafo, Polar,\
 		RoundedRectanglePath, RectanglePath, NullUndo
 from app.events.warn import warn, INTERNAL
 
-import app.UI.skpixmaps
-pixmaps = app.UI.skpixmaps.PixmapTk
-
 from base import Primitive, RectangularPrimitive, RectangularCreator, Editor
 from bezier import PolyBezier
 import handle

@@ -26,8 +26,6 @@ from app import _, Point, Polar, Trafo, SingularMatrix, Rect, UnionRects, \
 import graphics
 
 from app.UI.command import AddCmd
-import app.UI.skpixmaps
-pixmaps = app.UI.skpixmaps.PixmapTk
 
 import handle
 from base import Primitive, RectangularPrimitive, RectangularCreator, Creator,\
