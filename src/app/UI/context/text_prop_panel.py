@@ -14,7 +14,7 @@ from app import  _, config
 from math import floor, ceil
 from app.UI.lengthvar import LengthVar
 from app.Graphics import text
-from app.UI import tooltips
+import tooltips
 
 class TextPropPanel(CtxSubPanel):
 	

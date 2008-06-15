@@ -15,7 +15,7 @@ from app import  _, config
 from math import floor, ceil
 from app.UI.lengthvar import LengthVar
 from app.Graphics import text, font, properties
-from app.UI import tooltips
+import tooltips
 from string import atof
 
 class FontPanel(CtxSubPanel):

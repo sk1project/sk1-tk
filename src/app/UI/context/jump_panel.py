@@ -11,7 +11,7 @@ from app.conf.const import CHANGED
 from Tkinter import LEFT, DoubleVar, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
-from app.UI import tooltips
+import tooltips
 from app.UI.lengthvar import LengthVar
 
 class JumpPanel(CtxSubPanel):

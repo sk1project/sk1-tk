@@ -9,7 +9,7 @@ from Ttk import TButton
 from Tkinter import LEFT
 from subpanel import CtxSubPanel
 from app import  _
-from app.UI import tooltips
+import tooltips
 
 class FlipPanel(CtxSubPanel):
 	

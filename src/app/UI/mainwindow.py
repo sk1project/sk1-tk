@@ -47,8 +47,8 @@ from canvas import SketchCanvas
 from ExportR import export_raster_more_interactive
 import tkruler
 from poslabel import PositionLabel
-import palette, tooltips
-
+import palette
+import tooltips
 import math, pathutils
 
 import skpixmaps

@@ -11,9 +11,7 @@
 #
 
 from types import InstanceType
-
 from Tkinter import Toplevel
-
 from Ttk import TLabel
 
 

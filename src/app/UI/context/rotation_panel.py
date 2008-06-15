@@ -11,7 +11,7 @@ from app.conf.const import SELECTION
 from Tkinter import LEFT, RIGHT, DoubleVar
 from subpanel import CtxSubPanel
 from app import  _
-from app.UI import tooltips
+import tooltips
 
 class RotatePanel(CtxSubPanel):
 	
