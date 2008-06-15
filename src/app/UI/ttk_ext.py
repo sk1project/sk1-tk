@@ -75,7 +75,8 @@ class TEntryExt(TEntry):
 #--------ContextMenu-----------------------------------------------------------
 	
 class TSpinbox(TFrame):
-	def __init__(self, master=None, min=0, max=100, step=1, textvariable=None, var=0, vartype=0, command=None, state='enabled', width=5, args=(), **kw):
+	def __init__(self, master=None, min=0, max=100, step=1, textvariable=None, var=0, vartype=0, 
+				command=None, state='enabled', width=5, args=(), **kw):
 		'''vartype=0 - integer   vartype=1 - float '''
 		self.min_value=min
 		self.max_value=max

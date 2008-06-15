@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2003-2008 by Igor E. Novikov
 # Copyright (C) 1997, 1998, 1999 by Bernhard Herzog 
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 #
-# A very primitive balloon help mechanism for Python/Tk
+# Balloon help mechanism for Python/Tk
 #
 
 from types import InstanceType
@@ -16,12 +16,9 @@ from Tkinter import Toplevel
 
 from Ttk import TLabel
 
-from app import config
-
-import tkext
-
 
 class Tooltips:
+	tooltip_delay=100
 
 	def __init__(self):
 		self.descriptions = {}
@@ -90,20 +87,18 @@ class Tooltips:
 		self.after_id = None
 		self.popup_balloon(widget_name, x, y, text)
 
-	def enter_widget(self, widget_name):
+	def enter_widget(self, event):		
+		widget_name = event.widget
 		text = self.GetDescription(widget_name)
 		if text:
-			widget = self.root.nametowidget(widget_name)
-			x = widget.winfo_rootx() + widget.winfo_width() / 2
-			y = widget.winfo_rooty() + widget.winfo_height()
-			#y = y + height
-			#x = x + width / 2
+			x=event.x;y=event.y
 			if self.after_id:
 				print 'after_id in enter'
 				self.root.after_cancel(self.after_id)
-			self.after_id = self.root.after(config.preferences.tooltip_delay, self.popup_delayed, widget_name, x, y, text)
+			self.after_id = self.root.after(self.tooltip_delay, self.popup_delayed, widget_name, x, y, text)
 
-	def leave_widget(self, widget_name):
+	def leave_widget(self, event):
+		widget_name = event.widget
 		global last_widget, after_id
 		if self.after_id is not None:
 			self.root.after_cancel(self.after_id)
@@ -123,10 +118,12 @@ _tooltips = Tooltips()
 AddDescription = _tooltips.AddDescription
 
 
-def Init(root):
-	if config.preferences.activate_tooltips:
-		root.tk.call('bind', 'all', '<Enter>', tkext.MakeMethodCommand(_tooltips.enter_widget, '%W'))
-		root.tk.call('bind', 'all', '<Leave>', tkext.MakeMethodCommand(_tooltips.leave_widget, '%W'))
-		root.tk.call('bind', 'all', '<ButtonPress>', tkext.MakeMethodCommand(_tooltips.button_press, '%W'))
+def Init(root, tooltip_delay=100, activate_tooltips=1):
+	if activate_tooltips:
+	   	root.bind_all('<Enter>', _tooltips.enter_widget)
+	   	root.bind_all('<Leave>', _tooltips.leave_widget)
+	   	root.bind_all('<ButtonPress>', _tooltips.button_press)
+	   	_tooltips.tooltip_delay = tooltip_delay
 		_tooltips.create_balloon(root)
-
+		
+		

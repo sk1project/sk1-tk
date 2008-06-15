@@ -169,7 +169,7 @@ class SketchApplication(TkApplication, Publisher):
 
 	def Run(self):
 		self.SetClipboard(None)
-		tooltips.Init(self.root)
+		tooltips.Init(self.root, config.preferences.tooltip_delay, config.preferences.activate_tooltips)
 		self.main_window.UpdateCommands()
 		# Enter Main Loop
 		self.main_window.Run()
