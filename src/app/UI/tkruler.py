@@ -11,16 +11,12 @@ from string import atoi
 from types import TupleType
 import operator
 
-from command import CommandClass, Keymap, Commands
 from app import config, GuideLine, Point
 from app.conf import const
-from app.events.warn import warn, USER
 from app.conf.const import CHANGED
 from tkgraphics import NumWriter
 
-from tkext import PyWidget
 from Tkinter import Canvas
-
 from app.Lib import units
 
 HORIZONTAL = 0
