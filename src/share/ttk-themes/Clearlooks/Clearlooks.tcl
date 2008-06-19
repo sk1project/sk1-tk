@@ -1,24 +1,22 @@
-# Plastik.tcl - Pixmap & icon theme for sK1.
+# Clearlooks.tcl - Pixmap & icon theme for sK1.
 #
 #  This theme is specialized and not recommended for general 
 #  use with Ttk
 #
-#  Copyright (c) 2004 Googie
-#  Copyright (c) 2004 Pat Thoyts <patthoyts@users.sourceforge.net>
-#  Copyright (c) 2006 Igor E. Novikov  <igor.e.novikov@gmail.com>
+#  Copyright (c) 2008 Igor E. Novikov  <igor.e.novikov@gmail.com>
 
 
 package require Tk 8.4;                 # minimum version for Ttk
 
 namespace eval ttk {
     namespace eval theme {
-        namespace eval Plastik {
+        namespace eval Clearlooks {
             variable version 0.4.0
         }
     }
 }
 
-namespace eval ttk::theme::Plastik {
+namespace eval ttk::theme::Clearlooks {
 
 	set imgdir [file join [file dirname [info script]] widgets]
 
@@ -41,7 +39,7 @@ namespace eval ttk::theme::Plastik {
 	
 	
     namespace import -force ::ttk::style
-	style theme create Plastik -parent alt -settings {
+	style theme create Clearlooks -parent alt -settings {
     
     	variable colors
 	array set colors {
@@ -80,5 +78,5 @@ namespace eval ttk::theme::Plastik {
     }
 }
 
-package provide ttk::theme::Plastik $::ttk::theme::Plastik::version
+package provide ttk::theme::Clearlooks $::ttk::theme::Clearlooks::version
 
