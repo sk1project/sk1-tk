@@ -232,7 +232,6 @@ class DocTab(TButton):
 	def saveTab(self):
 		self.parent.docmanager.SaveDocument(self.document)
 		self.updateTabName()
-		print 'self.can_be_saved()', self.can_be_saved()
 		self.setNotSaved(abs(self.can_be_saved()-1))
 		
 	def updateTabName(self):
