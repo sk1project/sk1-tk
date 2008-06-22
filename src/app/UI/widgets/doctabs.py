@@ -202,13 +202,13 @@ class DocTab(TButton):
 		self.context_menu.Popup(event.x_root, event.y_root)
 		
 	def build_context_menu(self):
-		entries = [(_("New Tab"), self.parent.docmanager.NewDocument,(),None,None,'menu_tab_new')]
+		entries = [(_("New Document"), self.parent.docmanager.NewDocument,(),None,None,'menu_tab_new')]
 		if self.can_be_refreshed():
-			entries +=[(_("Refresh Tab"), self.refreshTab,(),None,None,'menu_tab_reload')]
+			entries +=[(_("Refresh Document"), self.refreshTab,(),None,None,'menu_tab_reload')]
 		if self.can_be_saved():	
 			entries +=[(_("Save Document"), self.saveTab,(),None,None,'menu_file_save')]
 		if self.can_be_closed_other():
-			entries +=[None,(_("Close Other Tabs"), self.parent.closeAllButThis,(self),None,None,'menu_tab_remove_other')]
+			entries +=[None,(_("Close Other Documents"), self.parent.closeAllButThis,(self),None,None,'menu_tab_remove_other')]
 									
 		base_entries = [None,
 			(_("Close Tab"), self.parent.closeTab,(self),None,None,'menu_file_close')]
@@ -232,7 +232,8 @@ class DocTab(TButton):
 	def saveTab(self):
 		self.parent.docmanager.SaveDocument(self.document)
 		self.updateTabName()
-		self.setNotSaved(1)
+		print 'self.can_be_saved()', self.can_be_saved()
+		self.setNotSaved(abs(self.can_be_saved()-1))
 		
 	def updateTabName(self):
 		self.name = os.path.splitext(self.document.meta.filename)[0]

@@ -1395,7 +1395,9 @@ class EditDocument(SketchDocument, QueueingPublisher):
 
 	def WasEdited(self):
 		# return true if document has changed since last save
-		return self.undo.UndoCount()
+		if self.undo.UndoCount():
+		  return 1
+		return 0
 	script_access['WasEdited'] = SCRIPT_GET
 
 	def ClearEdited(self):
