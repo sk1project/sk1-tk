@@ -163,8 +163,10 @@
         style element create Toolbutton.button image [list $K(toolbutton_normal) \
 				{pressed !disabled} $K(toolbutton_pressed) \
 				{active  !disabled}   $K(toolbutton_over) ] \
-				-border {2 2 2 2} \
-				-padding {3 3 3 3}  -sticky news
+				-sticky nwes \
+				-border {3 3 3 3} \
+				-padding {2 0 0 0}
+#  -width 28 -height 28
 
 # ---------------------------------------------------------------------------------------------------
 	
@@ -210,7 +212,9 @@
         }
 
         style element create ToolCheckbutton.button image $K(tools_pressed) \
-            -border {2 2 2 2} -padding {3 3 3 3}
+		-sticky nwes \
+            -border {3 3 3 3} -padding {2 0 0 0}
+#  -width 28 -height 28
 	    
 # ---------------------------------------------------------------------------------------------------
 	
@@ -223,7 +227,9 @@
         }
 
         style element create ToolbarCheckbutton.button image $K(toolbutton_selected) \
-            -border {2 2 2 2} -padding {3 3 3 3} 
+		-sticky nwes \
+            -border {3 3 3 3} -padding {2 0 0 0}
+#  -width 28 -height 28
 # ---------------------------------------------------------------------------------------------------
 	
         style layout ToolsButton {
@@ -237,9 +243,10 @@
         style element create ToolsButton.button image [list $K(tools_normal) \
 				{pressed !disabled} $K(tools_button_pressed) \
 				{active  !disabled}   $K(tools_active)]\
-				-border {2 2 2 2} \
-				-padding {3 3 3 3} \
-				-width 33 -height 33
+				-sticky nwes \
+				-border {3 3 3 3} \
+				-padding {2 0 0 0}
+#				-width 28 -height 28
 				
 # ---------------------------------------------------------------------------------------------------
 	
@@ -255,9 +262,10 @@
 				{pressed !disabled} $K(tools_button_pressed) \
 				{selected} $K(toolbutton_selected) \
 				{active  !disabled}   $K(tools_active)]\
-				-border {2 2 2 2} \
-				-padding {3 3 3 3} \
-				-width 28 -height 28	 
+				-sticky nwes \
+				-border {3 3 3 3} \
+				-padding {2 0 0 0}
+#				-width 28 -height 28	 
 
 # -------------------------------------RootMenubutton-----------------------------------------
         style layout TRootMenubutton {
