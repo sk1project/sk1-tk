@@ -7,10 +7,10 @@ style layout Horizontal.Progress {
 
 
 
-style element create Horizontal.Progressbar.trough image $K(progress_bg) -border 2
+style element create Horizontal.Progressbar.trough image $K(progress_bg) -border {1 1 2 1}
 
 style element create fg image $K(progress_bar)\
-			-border {2 2}  -sticky news
+			-border {0 0}  -sticky news
 style element create Horizontal.Progress.pbar image "progress_bar_mask"\
             -border {0 0}  -sticky news
 			

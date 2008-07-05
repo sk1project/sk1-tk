@@ -165,7 +165,7 @@
 				{active  !disabled}   $K(toolbutton_over) ] \
 				-sticky nwes \
 				-border {3 3 3 3} \
-				-padding {2 0 0 0}
+				-padding {0 0 0 0}
 #  -width 28 -height 28
 
 # ---------------------------------------------------------------------------------------------------
@@ -213,7 +213,7 @@
 
         style element create ToolCheckbutton.button image $K(tools_pressed) \
 		-sticky nwes \
-            -border {3 3 3 3} -padding {2 0 0 0}
+            -border {3 3 3 3} -padding {0 0 0 0}
 #  -width 28 -height 28
 	    
 # ---------------------------------------------------------------------------------------------------
@@ -228,7 +228,7 @@
 
         style element create ToolbarCheckbutton.button image $K(toolbutton_selected) \
 		-sticky nwes \
-            -border {3 3 3 3} -padding {2 0 0 0}
+            -border {3 3 3 3} -padding {0 0 0 0}
 #  -width 28 -height 28
 # ---------------------------------------------------------------------------------------------------
 	
@@ -245,7 +245,7 @@
 				{active  !disabled}   $K(tools_active)]\
 				-sticky nwes \
 				-border {3 3 3 3} \
-				-padding {2 0 0 0}
+				-padding {0 0 0 0}
 #				-width 28 -height 28
 				
 # ---------------------------------------------------------------------------------------------------
@@ -264,7 +264,7 @@
 				{active  !disabled}   $K(tools_active)]\
 				-sticky nwes \
 				-border {3 3 3 3} \
-				-padding {2 0 0 0}
+				-padding {0 0 0 0}
 #				-width 28 -height 28	 
 
 # -------------------------------------RootMenubutton-----------------------------------------
@@ -320,9 +320,7 @@
 		}
 	style configure DocTabNormal  -relief flat 
 	
-	style element create DocTabNormal.button image [list $K(doctabs_tab) \
-					{pressed !disabled} $K(doctabs_tab_selected) \
-					{active !disabled}  $K(doctabs_tab_selected)] \
+	style element create DocTabNormal.button image $K(doctabs_tab) \
 		-border {1 5 2 4} -padding {5 5 5 4} -sticky ew	
 		
 	# ------DocTabActive-------
