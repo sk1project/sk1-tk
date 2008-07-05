@@ -295,7 +295,7 @@ proc ttk::combobox::LBTab {lb dir} {
 #
 proc ttk::combobox::PopdownShell {cb} {
     if {![winfo exists $cb.popdown]} {
-	set popdown [toplevel $cb.popdown -relief solid -bd 1]
+	set popdown [toplevel $cb.popdown -relief flat -bd 1 -bg [.testEntry cget -disabledforeground]]
 	wm withdraw $popdown
 	wm overrideredirect $popdown 1
 	wm transient $popdown [winfo toplevel $cb]
@@ -398,7 +398,7 @@ proc ttk::combobox::Post {cb} {
     } else {
 	set Y [expr {$y + $h - $yoff}]
     }
-    wm geometry $popdown ${w}x${H}+${x}+${Y}
+    wm geometry $popdown ${w}x${H}+${x}+${Y}	
 
     # Post the listbox:
     #
