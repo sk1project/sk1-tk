@@ -385,14 +385,15 @@ class UpdatedMenu:
 	rebuild_func = None
 
 	def __init__(self, master, entries, auto_update = 1, auto_rebuild = None, **rest):
-	
+		
+		theme=app.uimanager.currentColorTheme
 		if auto_update:
 			rest['postcommand'] = MakeMethodCommand(self.Update)
 		if auto_rebuild is not None:
 			rest['postcommand'] = MakeMethodCommand(self.RebuildMenu)
 			self.rebuild_func = auto_rebuild
 		rest['tearoffcommand'] = MakeMethodCommand(self._tearoff)
-#               rest['bg']='#8D8D8D'
+		rest['bg']=theme.disabledforeground
 		rest['relief']='flat'
 		rest['bd']=1
 		rest['activeborderwidth']=0   
@@ -407,7 +408,7 @@ class UpdatedMenu:
 		
 	def recolor(self,event):
 		theme=app.uimanager.currentColorTheme
-		self.menu['bg']=theme.foreground
+		self.menu['bg']=theme.disabledforeground
 
 	def clean_up(self):
 		if self.entries:
@@ -493,13 +494,14 @@ class ComboMenu:
 
 	def __init__(self, master, entries, auto_update = 1, auto_rebuild = None, **rest):
 	
+		theme=app.uimanager.currentColorTheme
 		if auto_update:
 			rest['postcommand'] = MakeMethodCommand(self.Update)
 		if auto_rebuild is not None:
 			rest['postcommand'] = MakeMethodCommand(self.RebuildMenu)
 			self.rebuild_func = auto_rebuild
 		rest['tearoffcommand'] = MakeMethodCommand(self._tearoff)
-		rest['bg']='black'
+		rest['bg']=theme.disabledforeground
 		rest['relief']='flat'
 		rest['bd']=1
 		rest['activeborderwidth']=0
