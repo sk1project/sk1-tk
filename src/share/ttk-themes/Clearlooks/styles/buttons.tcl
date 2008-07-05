@@ -26,8 +26,7 @@
         }
         style element create Pal2TopButton.button image [list $K(pal_top_dbl_normal) \
 				{pressed !disabled} $K(pal_top_dbl_pressed) \
-				{active !disabled}  $K(pal_top_dbl_normal) \
-				disabled $K(pal_top_dbl_disabled)] \
+				{active !disabled}  $K(pal_top_dbl_normal) ] \
 				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
 
         style configure Pal2TopButton -padding {3 3}	
@@ -44,8 +43,7 @@
 
         style element create PalTopButton.button image [list $K(pal_top_normal) \
 				{pressed !disabled} $K(pal_top_pressed) \
-				{active !disabled}  $K(pal_top_normal) \
-				disabled $K(pal_top_disabled)] \
+				{active !disabled}  $K(pal_top_normal) ] \
 				-border {3 3 3 3} -padding {3 3 3 3} -sticky news
 
         style configure PalTopButton -padding {3 3}	
@@ -61,8 +59,7 @@
 
         style element create PalBottomButton.button image [list $K(pal_bot_normal) \
 				{pressed !disabled} $K(pal_bot_pressed) \
-				{active !disabled}  $K(pal_bot_normal) \
-				disabled $K(pal_bot_disabled)] \
+				{active !disabled}  $K(pal_bot_normal) ] \
 				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
 		      
         style configure PalBottomButton -padding {3 3}
@@ -78,8 +75,7 @@
 
         style element create Pal2BottomButton.button image [list $K(pal_bot_dbl_normal) \
 				{pressed !disabled} $K(pal_bot_dbl_pressed) \
-				{active !disabled}  $K(pal_bot_dbl_normal) \
-				disabled $K(pal_bot_dbl_disabled)] \
+				{active !disabled}  $K(pal_bot_dbl_normal) ] \
 				-border {3 3 3 3} -padding {3 3 3 3} -sticky news 
 		      
         style configure Pal2BottomButton -padding {3 3}	
