@@ -211,7 +211,7 @@ class DocTab(TButton):
 			entries +=[None,(_("Close Other Documents"), self.parent.closeAllButThis,(self),None,None,'menu_tab_remove_other')]
 									
 		base_entries = [None,
-			(_("Close Tab"), self.parent.closeTab,(self),None,None,'menu_file_close')]
+			(_("Close Document"), self.parent.closeTab,(self),None,None,'menu_file_close')]
 		return map(MakeCommand, entries + base_entries)		
 
 	def can_be_saved(self):
