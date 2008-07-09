@@ -194,7 +194,7 @@
 				{pressed !disabled} $K(button_pressed) \
 				{active !disabled}  $K(button_active) \
 				disabled $K(clear15)] \
-				-border {3 3 3 3} -padding {5 3 5 3} -sticky news
+				-border {4 4 4 4} -padding {5 3 5 3} -sticky news
 			
 				
 # ---------------------------------------------------------------------------------------------------
