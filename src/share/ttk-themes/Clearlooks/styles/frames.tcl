@@ -27,14 +27,6 @@
 		}
 	
 	style configure FlatFrame -borderwidth 2 -relief flat	
-		
-	# -------------
-	style layout CanvasFrame {
-		CanvasFrame.panel -expand true
-		}
-	
-	style element create CanvasFrame.panel image $K(draw_area) \
-	-border {5 5 5 5} -padding {3 3 3 3} -sticky news
 	
 	# -------------
 	style layout RoundedFrame {
