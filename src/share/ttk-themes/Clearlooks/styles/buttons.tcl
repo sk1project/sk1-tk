@@ -263,28 +263,6 @@
 				-padding {0 0 0 0}
 #				-width 28 -height 28	 
 
-# -------------------------------------RootMenubutton-----------------------------------------
-        style layout TRootMenubutton {
-	TRootMenubutton.background{
-            TRootMenubutton.button -children {
-                TRootMenubutton.focus -children {
-                    TRootMenubutton.padding -children {
-                        TRootMenubutton.label -side left 
-                    }
-                }
-            }
-        }
-	}
-	
-		style configure TRootMenubutton -relief flat -sticky ew -side left
-		style configure TRootMenubutton.background -relief flat -sticky ew -side left
-		style element create TRootMenubutton.button image [list $K(menubutton_normal)  \
-				pressed $K(menubutton_pressed) \
-				active $K(menubutton_active) \
-				disabled $K(menubutton_normal)] \
-				-border {4 6 4 3} -sticky ew 
-		
-
 # -------------------------------------TComboSmall-----------------------------------------
         style layout TComboSmall {
 	TComboSmall.background{
