@@ -43,7 +43,7 @@
 					readonly $K(spin_entry_normal) \
 					{active !readonly} $K(spin_entry_focusin) \
 					{active readonly} $K(combo_entry_readonly_active)] \
-					-border {2 1 1 1} -padding {8 1 1 1} -sticky ew 
+					-border {3 2 2 1} -padding {8 1 1 1} -sticky ew 
 					
 			style element create PseudoActive.field image $K(clear)  -padding {0 3 0 3}
 	

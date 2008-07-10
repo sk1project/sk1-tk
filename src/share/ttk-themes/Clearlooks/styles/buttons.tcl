@@ -295,7 +295,7 @@
 	style configure DocTabNormal  -relief flat 
 	
 	style element create DocTabNormal.button image $K(doctabs_tab) \
-		-border {1 5 2 4} -padding {5 5 5 4} -sticky ew	
+		-border {2 5 3 4} -padding {5 5 5 4} -sticky ew	
 		
 	# ------DocTabActive-------
 	style layout DocTabActive {
@@ -307,7 +307,7 @@
 	style configure DocTabActive  -relief flat 
 	
 	style element create DocTabActive.button image $K(doctabs_tab_active) \
-		-border {2 3 3 2} -padding {5 3 5 2} -sticky ew	
+		-border {3 3 3 2} -padding {5 3 5 2} -sticky ew	
 				
 # ------------------------------------Pager----------------------------------------------------	
 	# ------HOME-------
