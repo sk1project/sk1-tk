@@ -43,5 +43,5 @@ style element create ToolbarRadiobutton.indicator image [list $K(toolbutton_norm
 		{active  !disabled !selected} $K(toolbutton_over) \
 		{disabled selected} $K(toolbutton_selected) \
 		{disabled !selected} $K(toolbutton_normal) ] \
-		-border {2 2 2 2} \
+		-border {4 4 4 4} \
 		-padding {3 3 3 3} 

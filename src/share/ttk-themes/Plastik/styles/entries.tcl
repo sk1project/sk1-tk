@@ -7,7 +7,7 @@
 	style element create TEntry.border image [list $K(entry_normal) \
 				disabled $K(entry_disabled) \
 				readonly $K(entry_disabled) \
-				active $K(entry_focusin)] \
+				focus $K(entry_focusin)] \
 				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
 				
 	style configure TEntry -cursor xterm		
@@ -20,5 +20,5 @@
 	style element create SpinEntry.border image [list $K(spin_entry_normal) \
 				disabled $K(spin_entry_disabled) \
 				readonly $K(spin_entry_disabled) \
-				active $K(spin_entry_focusin)] \
+				focus $K(spin_entry_focusin)] \
 				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
