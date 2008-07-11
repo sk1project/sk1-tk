@@ -129,10 +129,11 @@ class UIManager:
 		self.testEntry['highlightcolor']=self.currentColorTheme.highlightcolor
 		self.testEntry['disabledforeground']=self.currentColorTheme.disabledforeground
 		self.testEntry['selectbackground']=self.currentColorTheme.selectbackground
-		self.testEntry['selectforeground']=self.currentColorTheme.selectforeground
-		
-		self.root.tk.call('tk_setPalette', self.currentColorTheme.bg)
-		
+		self.testEntry['selectforeground']=self.currentColorTheme.selectforeground	
+			
+		if not self.currentColorTheme.name=='System':
+			self.root.tk.call('tk_setPalette', self.currentColorTheme.bg)
+					
 		self.root.tk.call('option', 'add', '*background', self.currentColorTheme.bg, 'interactive')
 		self.root.tk.call('option', 'add', '*foreground', self.currentColorTheme.foreground, 'interactive')
 		self.root.tk.call('option', 'add', '*selectForeground', self.currentColorTheme.selectforeground, 'interactive')
