@@ -1,7 +1,7 @@
 """Wrapper functions for Tile widgets
 
 Original Tkinter library is modified for sK1 distribution by
-Igor Novikov (C) 2003-2006 
+Igor Novikov (C) 2006, 2007, 2008 
 """
 
 __version__ = "$Revision: 0.1.0.0 $"
