@@ -2,6 +2,9 @@
 
 Original Tkinter library is modified for sK1 distribution by
 Igor Novikov (C) 2006, 2007, 2008 
+
+This library is covered by GNU Library General Public License.
+For more info see COPYRIGHTS file in sK1 root directory.
 """
 
 __version__ = "$Revision: 0.1.0.0 $"
