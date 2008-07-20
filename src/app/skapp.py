@@ -188,7 +188,6 @@ class SketchApplication(TkApplication, Publisher):
 		app.uimanager.setApplicationIcon()
 		app.uimanager.maximizeApp()
 		root.group(root)
-		config.add_options(root)
 
 	def build_window(self):
 		from app.UI.mainwindow import sK1MainWindow

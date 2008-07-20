@@ -104,7 +104,6 @@ class UIManager:
 		self.root.tk.call('source', os.path.join(tcl,'tkfbox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'repeater.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'launch_dialog.tcl'))
-		#self.root.tk.call('source', os.path.join(tcl,'scrollbar.tcl'))
 	
 	def createTestWidgets(self):
 		self.testEntry = Tkinter.Entry(self.root, name='testEntry')
@@ -140,6 +139,10 @@ class UIManager:
 		self.root.tk.call('option', 'add', '*selectBackground', self.currentColorTheme.selectbackground, 'interactive')
 		self.root.tk.call('option', 'add', '*highlightBackground', self.currentColorTheme.highlightbackground, 'interactive')
 		self.root.tk.call('option', 'add', '*highlightColor', self.currentColorTheme.highlightcolor, 'interactive')
+		
+		self.root.tk.call('option', 'add', '*highlightThickness', '0', 'interactive')
+		self.root.tk.call('option', 'add', '*borderWidth', '0', 'interactive')		
+		
 	
 	def setColorTheme(self, theme_name='System'):
 		if theme_name=='System':

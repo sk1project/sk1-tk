@@ -140,7 +140,7 @@ class sK1MainWindow(Publisher):
 	def build_window(self):
 		root = self.application.root
 		
-		p_frame = TFrame(root, style='FlatFrame', borderwidth=0)
+		p_frame = TFrame(root, style='FlatFrame')
 		p_frame.pack(side = 'right', fill = Y)
 		
 		palette_frame = TFrame(p_frame, style='FlatFrame', borderwidth=3)
@@ -179,7 +179,7 @@ class sK1MainWindow(Publisher):
 		####################################
 		# Drawing area creating 
 		####################################
-		base_frame = TFrame(root, name = 'drawing_area_frame', style='FlatFrame', borderwidth=0)
+		base_frame = TFrame(root, name = 'drawing_area_frame', style='FlatFrame')
 		base_frame.pack(side = LEFT, fill = BOTH, expand = 1)
 		
 		self.tabspanel = TabsPanel(base_frame, self)		
@@ -196,7 +196,7 @@ class sK1MainWindow(Publisher):
 		label.pack(side = RIGHT, fill = Y, expand = 1)
 
 		####################################
-		frame = TFrame(base_frame, name = 'canvas_frame', style='FlatFrame', borderwidth=0)
+		frame = TFrame(base_frame, name = 'canvas_frame', style='FlatFrame')
 		frame.pack(side = LEFT, fill = BOTH, expand = 1)
 
 		vbar = TScrollbar(frame)
@@ -205,22 +205,20 @@ class sK1MainWindow(Publisher):
 		vbar.bind('<Button-5>', self.ScrollDownCanvas)
 		
 		############Pager###################
-		pframe = TFrame(frame, style='FlatFrame', borderwidth=0)
+		pframe = TFrame(frame, style='FlatFrame')
 		pframe.grid(in_ = frame, column = 2, row = 2, sticky = 'ew')
 		
 		lab=Pager(pframe,self)
 		lab.pack(side = LEFT, fill=Y)
 		####################################
 		hbar = TScrollbar(pframe, orient = HORIZONTAL)
-#		hbar.grid(in_ = frame, column = 2, row = 2, sticky = 'ew')
 		hbar.pack(side = RIGHT, fill = X, expand = 1)
 		hbar.bind('<Button-4>', self.ScrollLeftCanvas)
 		hbar.bind('<Button-5>', self.ScrollRightCanvas)
 		####################################
-		#tempframe = Frame(root, name = 'temp_frame')
 		
 		hrule = tkruler.Ruler(frame, orient = tkruler.HORIZONTAL, 
-							  bg=config.preferences.ruler_color, bd=0, highlightthickness=0, relief='flat') 
+							  bg=config.preferences.ruler_color, relief='flat') 
 		
 		hrule.grid(in_ = frame, column = 2, row = 0, sticky = 'nsew', columnspan = 2)
 		hrule.bind('<Double-Button-1>', self.RulerDoublePressH)
@@ -228,23 +226,22 @@ class sK1MainWindow(Publisher):
 		####################################
 
 		vrule = tkruler.Ruler(frame, orient = tkruler.VERTICAL,
-							  bg=config.preferences.ruler_color, bd=0, highlightthickness=0, relief='flat')
+							  bg=config.preferences.ruler_color, relief='flat')
 		
 		vrule.grid(in_ = frame, column = 1, row = 1, sticky = 'nsew', rowspan = 2)
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		
 		#ruler corner 
 		b = TLabel(frame, style="FlatLabel", image="rulers_corner")
-		#b = TButton(frame, command=self.GuideDialog, style="TCornerButton", image="icon_dlg_guides", takefocus=0)
-		#b = TLabel(frame, style='FlatLabel')
 		b.bind('<Button-1>', self.GuideDialog)
 		tooltips.AddDescription(b, self.commands.CreateGuideDialog.menu_name)
 		b.grid(column = 1, row = 0, sticky = 'news')
-		#ruler corner  //
 		
 		resolution = config.preferences.screen_resolution
-		self.canvas = SketchCanvas(root, toplevel = root, background = 'white', name = 'canvas',
+		self.canvas = SketchCanvas(root, toplevel = root, background = 'white', name = 'canvas', 
+				width = self.root.winfo_screenwidth(), height = self.root.winfo_screenheight(),
 				resolution = resolution, main_window = self, document = self.document)
+		
 		self.canvas.grid(in_ = frame, column = 2, row = 1, sticky = 'news')
 		self.canvas.focus()
 		self.canvas.SetScrollbars(hbar, vbar)
@@ -267,8 +264,8 @@ class sK1MainWindow(Publisher):
 
 		pal = palette.GetStandardPalette()
 		
-		palette_trough = TFrame(palette_frame, style='FlatFrame', borderwidth=0)
-		palette_container = TFrame(palette_trough, style='FlatFrame', borderwidth=0)
+		palette_trough = TFrame(palette_frame, style='FlatFrame')
+		palette_container = TFrame(palette_trough, style='FlatFrame')
 		
 		self.palette = palette.PaletteWidget(palette_container)
 		
@@ -292,7 +289,7 @@ class sK1MainWindow(Publisher):
 		palette_container.pack(side = LEFT, fill = Y, expand = 1)
 				
 		but= UpdatedTButton(palette_container, style='PalNoColorButton', image='pal_no_color',
-					command = self.no_pattern, args = 'fill', borderwidth=0)
+					command = self.no_pattern, args = 'fill')
 		but.pack(side = TOP)
 		but.bind('<ButtonPress-3>', self.no_pattern, 'line')
 		tooltips.AddDescription(but, "No color")
@@ -646,7 +643,7 @@ class sK1MainWindow(Publisher):
 					
 				return _(filltxt + "\n" + outlinetxt)
 
-		space = Frame(status_bar, relief='flat', borderwidth=0, width=5)
+		space = Frame(status_bar, relief='flat', width=5)
 		space.pack(side = RIGHT, fill=Y)
 		sb3f = Frame(status_bar, relief='flat', borderwidth=1, width=20, height=15)
 		sb3f.pack(side = RIGHT)

@@ -139,7 +139,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.exposed_after_covering=0
 		self.init_handles()
 		self.init_modes()
-		self.init_cross_hairs()
+		self.init_cross_hairs()		
 		WidgetWithModes.__init__(self)
 		kw['show_visible'] = 1
 		kw['show_printable'] = 0

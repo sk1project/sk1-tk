@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, END
+from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, END, VERTICAL
 from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
 from app import _
 
@@ -271,4 +271,12 @@ class TComboSmall(WidgetWithCommand, TMenubutton):
 		if name == 'menu':
 			return self.__menu.menu
 		return Widget.__getitem__(self, name)
+	
+	
+class TSmartScrollbar(TScrollbar):
+	
+	def __init__(self, master, orient = VERTICAL):
+		pass
+	
+	
 	

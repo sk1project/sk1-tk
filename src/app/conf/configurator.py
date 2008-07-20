@@ -69,17 +69,10 @@ class Configurator:
 		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
 		self.fontmetric_dir = self.user_fonts  # Subdirectory for the font metrics. On startup it is expanded to an absolute pathname.
 		self.postscript_prolog = os.path.join(self.user_config_dir, 'ps_templates/sk1-proc.ps')  # PostScript Prolog.
-		self.tk_defaults = os.path.join(self.sk_dir, 'app/tkdefaults') # tk_defaults. relative to std_res_dir
-		
-		#self.small_font = '-*-dejavu sans-medium-r-*-*-8-*-*-*-*-*-*'
-		#self.normal_font = '-*-dejavu sans-medium-r-*-*-10-*-*-*-*-*-*'		
 		#============================================
 		
 	def save_user_preferences(self):
 		self.preferences.save(self.user_preferences_file)
-		
-	def add_options(self, root):
-		root.option_readfile(self.tk_defaults, 'startupFile')
 		
 	#def add_program_default(self,key, value):
 		#setattr(configurato.ProgramDefaults, key, value)
@@ -347,11 +340,14 @@ class Preferences(connector.Publisher):
 	menu_tearoff_fix = 1		#	Menus
 
 	#---------UI managment---------
-	style = 'Plastik'
-	color_theme = 'System'
-	#color_theme = 'UbuntuLooks'
-	icons='CrystalSVG'
-	#icons='Tango'
+#	style = 'Plastik'
+	style = 'Clearlooks'	
+#	color_theme = 'System'
+	color_theme = 'UbuntuLooks'
+#	color_theme = 'ClassicPlastik'
+#	icons='CrystalSVG'
+#	icons='Tango'
+	icons='Human'
 	
 	#---------UI fonts---------
 	small_font='Tahoma 8'
