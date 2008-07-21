@@ -61,8 +61,7 @@ class AboutDialog(ModalDialog):
 		self.focus_widget = ok
 		
 		self.top.bind('<Escape>', self.cancel)
-		self.top.protocol('WM_DELETE_WINDOW', self.cancel)		
-#		self.top.resizable (width=0, height=0)
+		self.top.protocol('WM_DELETE_WINDOW', self.cancel)
 	
 	def build_tab_about(self):	
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 10)

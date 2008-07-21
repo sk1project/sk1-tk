@@ -340,14 +340,16 @@ class Preferences(connector.Publisher):
 	menu_tearoff_fix = 1		#	Menus
 
 	#---------UI managment---------
-#	style = 'Plastik'
-	style = 'Clearlooks'	
-#	color_theme = 'System'
-	color_theme = 'UbuntuLooks'
+	style = 'Plastik'
+#	style = 'Clearlooks'
+	
+	color_theme = 'System'
+#	color_theme = 'UbuntuLooks'
 #	color_theme = 'ClassicPlastik'
-#	icons='CrystalSVG'
+
+	icons='CrystalSVG'
 #	icons='Tango'
-	icons='Human'
+#	icons='Human'
 	
 	#---------UI fonts---------
 	small_font='Tahoma 8'

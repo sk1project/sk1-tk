@@ -207,11 +207,13 @@ CurHGuide       = 'sb_v_double_arrow'
 CurVGuide       = 'sb_h_double_arrow'
 CurZoom		= 'plus'	# is replaced by custom cursor in uimanager
 CurCopy		= 'plus'	# is replaced by custom cursor in uimanager
-CurUp ='based_arrow_up'
-CurUpDown = 'sb_v_double_arrow'
-CurDown ='based_arrow_down'
-CurEdit = 'left_ptr'	# is replaced by custom cursor in uimanager
-CurText = 'xterm'
+CurUp       = 'based_arrow_up'
+CurUpDown   = 'sb_v_double_arrow'
+CurDown     = 'based_arrow_down'
+CurEdit     = 'left_ptr'	# is replaced by custom cursor in uimanager
+CurText     = 'xterm'
+CurHResize  = 'sb_h_double_arrow'
+CurVResize  = 'sb_v_double_arrow'
 
 # unused as yet
 CurHelp		= 'question_arrow'

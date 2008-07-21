@@ -95,7 +95,7 @@ class UIManager:
 		
 	def uploadExtentions(self):
 		self.root.tk.call('lappend', 'auto_path', os.path.join(app.config.sk_dir,'app'))
-		self.root.tk.call('lappend', 'auto_path', app.config.user_themes)
+		self.root.tk.call('lappend', 'auto_path', app.config.sk_themes)
 		self.root.tk.call('package', 'require', 'tkpng')
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')
 		self.root.tk.call('source', os.path.join(tcl,'combobox.tcl'))
@@ -160,7 +160,7 @@ class UIManager:
 		return result
 	
 	def getStyles(self):
-		return os_utils.get_dirs(app.config.user_themes)
+		return os_utils.get_dirs(app.config.sk_themes)
 		
 	def setApplicationIcon(self, icon='icon_sk1_16', iconname='sK1'):
 		self.root.iconname(iconname)
@@ -200,7 +200,7 @@ class UIManager:
 			
 	def loadWidgetsElements(self):
 		elements=[]
-		path=os.path.join(app.config.user_themes, app.config.preferences.style, 'widgets')
+		path=os.path.join(app.config.sk_themes, app.config.preferences.style, 'widgets')
 		elements=os_utils.get_files_withpath(path,'png')
 		for element in elements:
 			item=os.path.basename(element)[:-4]

@@ -56,6 +56,7 @@ pixmaps = skpixmaps.PixmapTk
 
 from app import skapp
 from dialogs.aboutdlg import aboutDialog
+from cc.ccenter import cCenter
 from pluginpanels.plugincontainer import PluginContainer
 
 
@@ -468,6 +469,10 @@ class sK1MainWindow(Publisher):
 		label = TLabel(tbar, image = "sb_sep")
 		label.pack(side = LEFT)
 		
+		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+		tooltips.AddDescription(b, commands.Preferences.menu_name)
+		b.pack(side = LEFT)
+		
 		b = ToolbarButton(tbar, commands.PCshowHide, image="show_side_panel")
 		tooltips.AddDescription(b, commands.PCshowHide.menu_name)
 		b.pack(side = LEFT)
@@ -765,6 +770,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
 	AddCmd('InsertFile', _("Import vector..."))
 	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
+	AddCmd('Preferences', _("Preferences..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	
 	
@@ -942,7 +948,7 @@ class sK1MainWindow(Publisher):
 					None,
 					#cmds.CreateExportDialog,
 					#None,
-#					cmds.SetOptions,
+					cmds.Preferences,
 #					None,
 #					cmds.DocumentInfo,
 					None,
@@ -1355,6 +1361,9 @@ class sK1MainWindow(Publisher):
 
 	def AboutBox(self):
 		aboutDialog(self.root)
+		
+	def Preferences(self):
+		cCenter(self.root)
 		
 #		abouttext = _("sK1 (%(version)s) - A Python&Tcl/Tk -based vector graphics editor for printing industry.\n "
 #						"(c) 2003-2006 by Igor E. Novikov\n\n"

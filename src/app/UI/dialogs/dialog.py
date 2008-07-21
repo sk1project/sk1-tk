@@ -21,6 +21,8 @@ class ModalDialog:
 	old_focus = None
 	focus_widget = None
 	wait=1
+	width=0
+	height=0
 
 	def __init__(self, master, **kw):
 		self.master = master
@@ -39,11 +41,15 @@ class ModalDialog:
 		mcy = master.winfo_rooty() + master.winfo_height() / 2
 		top.withdraw()
 		top.update()
-		width = top.winfo_reqwidth()
-		height = top.winfo_reqheight()
+		if self.width==0 and self.height==0:
+			width = top.winfo_reqwidth()
+			height = top.winfo_reqheight()
+		else:
+			width = self.width
+			height = self.height
 		posx = max(min(top.winfo_screenwidth() - width, mcx - width / 2), 0)
 		posy = max(min(top.winfo_screenheight() - height, mcy - height / 2), 0)
-		top.geometry('%+d%+d' % (posx, posy))
+		top.geometry('%dx%d%+d%+d' % (width, height, posx, posy))
 		top.deiconify()
 
 		self.result = None

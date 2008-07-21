@@ -195,5 +195,8 @@
 	style element create DocTabsRight.background image $K(doctabs_right) \
 		-border {1 4 4 2} -padding {1 1 1 1} -sticky ew	
 		
+		
+#########################################################################	
+		
 
 		
