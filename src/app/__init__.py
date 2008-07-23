@@ -83,8 +83,6 @@ IdentityMatrix = Identity.matrix()
 from _sketch import CreatePath, RectanglePath, RoundedRectanglePath, approx_arc, CreateFontMetric, SKCache, TransformRectangle
 from _sketch import ContAngle, ContSmooth, ContSymmetrical, SelNone, SelNodes, SelSegmentFirst, SelSegmentLast, Bezier, Line
 
-# import config
-# config.init_directories(_parentdir)
 
 
 from events.skexceptions import *
