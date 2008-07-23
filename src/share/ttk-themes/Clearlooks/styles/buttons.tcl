@@ -401,7 +401,37 @@
 			{pressed !disabled} $K(pager_plus_pressed)] -sticky news 		
 			
 			
+	# ------Grip-------
+	
+	style layout VGrip {
+		VGrip.background
+		VGrip.button -children {
+			VGrip.focus -children {
+				VGrip.label
+			}
+		}
+	}
+
+	style element create VGrip.button image [list $K(gripbg) \
+			{active !disabled}  $K(gripbg_active)] \
+			-border {0 0 0 0} -padding {0 0 0 0} -sticky ns 
 			
+	style configure VGrip -image $K(vgrip)		
+			
+	style layout HGrip {
+		HGrip.background
+		HGrip.button -children {
+			HGrip.focus -children {
+				HGrip.label
+			}
+		}
+	}
+
+	style element create HGrip.button image [list $K(gripbg) \
+			{active !disabled}  $K(gripbg_active)] \
+			-border {0 0 0 0} -padding {0 0 0 0} -sticky ew 
+			
+	style configure HGrip -image $K(hgrip)			
 			
 			
 			

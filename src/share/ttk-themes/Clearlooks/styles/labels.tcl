@@ -59,6 +59,17 @@
 	
 	style element create HLine.background image $K(hline) \
 		-border {1 1 1 1} -padding {0 0 0 0} -sticky ew
+		
+	# -------------
+	style layout HLine2 {
+		HLine2.background -children {
+			HLine2.label
+			}
+		}
+	style configure HLine2  -relief flat 
+	
+	style element create HLine2.background image $K(hline2) \
+		-border {1 1 1 1} -padding {0 0 0 0} -sticky ew
 	
 	# -------------
 	style layout VLine2 {
