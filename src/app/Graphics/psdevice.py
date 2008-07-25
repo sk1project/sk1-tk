@@ -165,7 +165,6 @@ class PostScriptDevice(CommonDevice):
 		write('%%BeginProlog\n')
 		#procfile = os.path.join(config.user_config_dir, config.postscript_prolog)
 		procfile=config.postscript_prolog
-		print procfile
 		procfile = open(procfile, 'r')
 		line = procfile.readline()
 		self.supplied_resources.append(join(split(strip(line))[1:]))
