@@ -4,7 +4,6 @@ include src/sk1
 include src/app/modules/descr.txt
 include src/app/modules/pkgIndex.tcl
 include src/app/VERSION
-include src/app/tkdefaults
 recursive-include src/app/plugins/Filters *.py
 recursive-include src/app/plugins/Objects *.py
 recursive-include src/app/plugins/Objects/Lib/multilinetext *.py
