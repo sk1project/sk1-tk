@@ -15,7 +15,7 @@
 				readonly $K(combo_entry_readonly) \
 				{focus !readonly} $K(spin_entry_focusin) \
 				{active readonly} $K(combo_entry_readonly_active)] \
-				-border {3 2 2 2} -padding {8 1 1 1} -sticky ew 
+				-border {4 2 2 2} -padding {8 1 1 1} -sticky ew 
 				
 		style element create ComboNormal.field image $K(clear)  -padding {0 3 0 3}
 
@@ -43,7 +43,7 @@
 					readonly $K(spin_entry_normal) \
 					{focus !readonly} $K(spin_entry_focusin) \
 					{active readonly} $K(combo_entry_readonly_active)] \
-					-border {3 2 2 1} -padding {8 1 1 1} -sticky ew 
+					-border {4 2 2 1} -padding {8 1 1 1} -sticky ew 
 					
 			style element create PseudoActive.field image $K(clear)  -padding {0 3 0 3}
 	

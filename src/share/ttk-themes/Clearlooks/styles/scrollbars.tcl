@@ -37,8 +37,9 @@
 				-border {1 1 1 1} -padding {0 0 0 0} -width 15 -height 34 -sticky news
 	
         style element create Vertical.Scrollbar.thumbface image [list $K(vscroll_thumb)  \
-				{pressed !disabled} $K(vscroll_thumb_pressed)] \
-				-border {3 8 3 8} -width 15 -height 34 -sticky news
+				{pressed !disabled} $K(vscroll_thumb_pressed) \
+				{active !disabled} $K(vscroll_thumb_pressed)] \
+				-border {3 7 3 7} -width 15 -height 34 -sticky news
 				
         style element create vscrollbg image $K(vscroll_bg) 
 		#"bg_mask"	
@@ -57,8 +58,9 @@
 				-border {1 1 1 1} -padding {0 0 0 0} -width 34 -height 15 -sticky news
 
 		style element create Horizontal.Scrollbar.thumbface image [list $K(hscroll_thumb) \
-				{pressed !disabled} $K(hscroll_thumb_pressed)] \
-				-border {8 3 8 3} -width 34 -height 15 -sticky news
+				{pressed !disabled} $K(hscroll_thumb_pressed) \
+				{active !disabled} $K(hscroll_thumb_pressed)] \
+				-border {7 3 7 3} -width 34 -height 15 -sticky news
 	    
 		style element create Horizontal.Scrollbar.label  image $K(hscroll_grave) 
 
