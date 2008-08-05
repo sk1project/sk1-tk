@@ -10,6 +10,7 @@
         style element create button image [list $K(button) \
 				{pressed !disabled} $K(button_pressed) \
 				{active !disabled}  $K(button_active) \
+				{focus} $K(button_focus) \
 				disabled $K(button_disabled)] \
 				-border {4 4 4 4} -padding {15 3 15 3} -sticky news
 			
@@ -151,18 +152,17 @@
         style layout Toolbutton {
             Toolbutton.button -children {
 	    	Toolbutton.focus -children {
-                    Toolbutton.label
+                    Toolbutton.label -sticky ns
 		}    
             }
         }
 
         style element create Toolbutton.button image [list $K(toolbutton_normal) \
 				{pressed !disabled} $K(toolbutton_pressed) \
-				{active  !disabled}   $K(toolbutton_over) ] \
+				{active  !disabled} $K(toolbutton_over) ] \
 				-sticky nwes \
 				-border {3 3 3 3} \
 				-padding {0 0 0 0}
-#  -width 28 -height 28
 
 # ---------------------------------------------------------------------------------------------------
 	
@@ -176,7 +176,7 @@
 
         style element create TSmallbutton.button image [list $K(clear) \
 				{pressed !disabled} $K(smallbutton_pressed) \
-				{active  !disabled}   $K(smallbutton_over) ] \
+				{active  !disabled} $K(smallbutton_over) ] \
 				-border {1 1 1 1} \
 				-padding {1 1 1 1} -sticky ew
 
@@ -193,6 +193,7 @@
         style element create TextButton.button image [list $K(clear15) \
 				{pressed !disabled} $K(button_pressed) \
 				{active !disabled}  $K(button_active) \
+				{focus}  $K(button_focus) \
 				disabled $K(clear15)] \
 				-border {4 4 4 4} -padding {5 3 5 3} -sticky news
 			
@@ -202,7 +203,7 @@
         style layout ToolCheckbutton {
             ToolCheckbutton.button -children {
 	    	ToolCheckbutton.focus -children {
-                    ToolCheckbutton.label
+                    ToolCheckbutton.label -sticky ns
 		}
             }
         }
@@ -217,7 +218,7 @@
         style layout ToolbarCheckbutton {
             ToolbarCheckbutton.button -children {
 	    	ToolbarCheckbutton.focus -children {
-                    ToolbarCheckbutton.label
+                    ToolbarCheckbutton.label -sticky ns
 		}
             }
         }
@@ -231,7 +232,7 @@
         style layout ToolsButton {
             ToolsButton.button -children {
 	    	ToolsButton.focus -children {
-                    ToolsButton.label
+                    ToolsButton.label -sticky ns
 		}    
             }
         }
@@ -249,7 +250,7 @@
         style layout ToolBarCheckButton {
             ToolBarCheckButton.button -children {
 	    	ToolBarCheckButton.focus -children {
-                    ToolBarCheckButton.label
+                    ToolBarCheckButton.label -sticky ns
 		}    
             }
         }
@@ -401,7 +402,37 @@
 			{pressed !disabled} $K(pager_plus_pressed)] -sticky news 		
 			
 			
+	# ------Grip-------
+	
+	style layout VGrip {
+		VGrip.background
+		VGrip.button -children {
+			VGrip.focus -children {
+				VGrip.label
+			}
+		}
+	}
+
+	style element create VGrip.button image [list $K(gripbg) \
+			{active !disabled}  $K(gripbg_active)] \
+			-border {0 0 0 0} -padding {0 0 0 0} -sticky ns 
 			
+	style configure VGrip -image $K(vgrip)		
+			
+	style layout HGrip {
+		HGrip.background
+		HGrip.button -children {
+			HGrip.focus -children {
+				HGrip.label
+			}
+		}
+	}
+
+	style element create HGrip.button image [list $K(gripbg) \
+			{active !disabled}  $K(gripbg_active)] \
+			-border {0 0 0 0} -padding {0 0 0 0} -sticky ew 
+			
+	style configure HGrip -image $K(hgrip)			
 			
 			
 			

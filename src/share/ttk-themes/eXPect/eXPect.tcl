@@ -11,7 +11,7 @@ package require Tk 8.4;                 # minimum version for Ttk
 namespace eval ttk {
     namespace eval theme {
         namespace eval eXPect {
-            variable version 0.4.0
+            variable version 0.1.0
         }
     }
 }

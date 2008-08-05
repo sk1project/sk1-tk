@@ -31,39 +31,49 @@
             }
         }
 
-        style configure TScrollbar -width 15 
+        style configure TScrollbar -width 17 
 # -------------------------------------Vertical.Scrollbar Definition-------------------------------------------------   
         style element create Vertical.Scrollbar.thumb image "scroll_mask" \
-				-border {1 1 1 1} -padding {0 0 0 0} -width 15 -height 34 -sticky news
+				-border {1 1 1 1} -padding {0 0 0 0} -width 17 -height 34 -sticky news
 	
         style element create Vertical.Scrollbar.thumbface image [list $K(vscroll_thumb)  \
-				{pressed !disabled} $K(vscroll_thumb_pressed)] \
-				-border {3 8 3 8} -width 15 -height 34 -sticky news
+				{pressed !disabled} $K(vscroll_thumb_pressed) \
+				{active !disabled} $K(vscroll_thumb_active)] \
+				-border {3 7 3 7} -width 17 -height 34 -sticky news
 				
         style element create vscrollbg image $K(vscroll_bg) 
-		#"bg_mask"	
+
 		style element create Vertical.Scrollbar.label  image $K(vscroll_grave) 
 	
-        style element create uparrowface image [list $K(vscroll_up_arrow)  {pressed !disabled} $K(vscroll_up_arrow_pressed)]
+        style element create uparrowface image [list $K(vscroll_up_arrow)  \
+				{pressed !disabled} $K(vscroll_up_arrow_pressed) \
+				{active !disabled}  $K(vscroll_up_arrow_active) ] 
 		style element create uparrow image "scroll_mask"
 		
-        style element create downarrowface image [list $K(vscroll_down_arrow) {pressed !disabled} $K(vscroll_down_arrow_pressed)]
+        style element create downarrowface image [list $K(vscroll_down_arrow) \
+				{pressed !disabled} $K(vscroll_down_arrow_pressed) \
+				{active !disabled}  $K(vscroll_down_arrow_active) ] 
 		style element create downarrow image "scroll_mask"
 
 # -----------------------------------------------Horizontal.Scrollbar Definition--------------------------------------
-        style element create hscrollbg image $K(hscroll_bg)  
+        style element create hscrollbg image $K(hscroll_bg) 
 
 		style element create Horizontal.Scrollbar.thumb image "scroll_mask" \
-				-border {1 1 1 1} -padding {0 0 0 0} -width 34 -height 15 -sticky news
+				-border {1 1 1 1} -padding {0 0 0 0} -width 34 -height 17 -sticky news
 
 		style element create Horizontal.Scrollbar.thumbface image [list $K(hscroll_thumb) \
-				{pressed !disabled} $K(hscroll_thumb_pressed)] \
-				-border {8 3 8 3} -width 34 -height 15 -sticky news
+				{pressed !disabled} $K(hscroll_thumb_pressed) \
+				{active !disabled} $K(hscroll_thumb_active)] \
+				-border {7 3 7 3} -width 34 -height 17 -sticky news
 	    
 		style element create Horizontal.Scrollbar.label  image $K(hscroll_grave) 
 
-        style element create rightarrowface image [list $K(hscroll_right_arrow) {pressed !disabled} $K(hscroll_right_arrow_pressed)]
+        style element create rightarrowface image [list $K(hscroll_right_arrow) \
+				{pressed !disabled} $K(hscroll_right_arrow_pressed) \
+				{active !disabled}  $K(hscroll_right_arrow_active) ]
 		style element create rightarrow image "scroll_mask"
 
-        style element create leftarrowface image [list $K(hscroll_left_arrow) {pressed !disabled} $K(hscroll_left_arrow_pressed)]
+        style element create leftarrowface image [list $K(hscroll_left_arrow) \
+				{pressed !disabled} $K(hscroll_left_arrow_pressed) \
+				{active !disabled}  $K(hscroll_left_arrow_active) ]
 		style element create leftarrow image "scroll_mask" 
