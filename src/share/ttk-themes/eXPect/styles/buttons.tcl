@@ -100,9 +100,7 @@
         style layout SpinUpButton {
             SpinUpButton.background
             SpinUpButton.button -children {
-                SpinUpButton.focus -children {
-                    SpinUpButton.label -sticky ns
-                }
+                SpinUpButton.focus
             }
         }
 
@@ -118,9 +116,7 @@
         style layout SpinDownButton {
             SpinDownButton.background
             SpinDownButton.button -children {
-                SpinDownButton.focus -children {
-                    SpinDownButton.label -sticky ns
-                }
+                SpinDownButton.focus
             }
         }
 

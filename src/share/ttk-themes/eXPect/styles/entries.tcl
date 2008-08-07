@@ -19,6 +19,5 @@
 	}		
 	style element create SpinEntry.border image [list $K(spin_entry_normal) \
 				disabled $K(spin_entry_disabled) \
-				readonly $K(spin_entry_disabled) \
-				focus $K(spin_entry_focusin)] \
+				readonly $K(spin_entry_disabled) ] \
 				-border {5 3 3 3} -padding {4 5 3 3} -sticky ew 
