@@ -389,6 +389,7 @@ proc ::tk::MbPost {w {x {}} {y {}}} {
 
 proc ::tk::MenuUnpost menu {
     global tcl_platform
+    global sk1_bg sk1_fg
     variable ::tk::Priv
     set mb $Priv(postedMb)
 
@@ -410,8 +411,8 @@ proc ::tk::MenuUnpost menu {
 	    #$mb configure -cursor $Priv(cursor)
 	    $mb configure -relief $Priv(relief)
 	    #ugly hack - should be corrected!!!
-	    $mb configure -bg [.testEntry cget -background] 
-            $mb configure -fg [.testEntry cget -foreground]
+	    $mb configure -bg $sk1_bg 
+            $mb configure -fg $sk1_fg 
 	} elseif {[string compare $Priv(popup) ""]} {
 	    $Priv(popup) unpost
 	    set Priv(popup) {}
@@ -462,7 +463,7 @@ proc ::tk::MenuUnpost menu {
 	    set Priv(tearoff) 0
 	}
     }
-    $menu configure -bg [.testEntry cget -background]
+    $menu configure -bg $sk1_bg
 }
 
 # ::tk::MbMotion --

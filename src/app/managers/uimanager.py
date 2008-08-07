@@ -12,15 +12,25 @@ from xml.sax.xmlreader import InputSource
 from app.conf.configurator import XMLPrefReader, ErrorHandler, EntityResolver, DTDHandler
 from app.utils import os_utils
 from app.conf import const
-			
+from Tkinter import StringVar
+
+	
 class ColorTheme:
 	bg ='#959ba2'
 	foreground ='#000000'
 	highlightbackground ='#ededed'
 	highlightcolor ='#000000'
-	disabledforeground ='#a3a3a3'
+	disabledforeground =None
 	selectbackground ='#4e87da'
 	selectforeground ='#000000'
+	
+	menubackground=None
+	menuforeground=None
+	menuselectbackground=None
+	menuselectforeground=None
+	menudisabledforeground=None
+	menubordercolor=None
+	
 	name=None
 	
 	def __init__(self, colorTheme=None):
@@ -52,9 +62,25 @@ class ColorTheme:
 				traceback.print_exc()
 				raise
 				self.name=None
-				
+		if self.menubackground is None:
+			self.menubackground=self.bg
+		if self.menuforeground is None:
+			self.menuforeground=self.foreground
+		if self.menuselectbackground is None:
+			self.menuselectbackground=self.selectbackground
+		if self.menuselectforeground is None:
+			self.menuselectforeground=self.selectforeground
+		if self.menudisabledforeground is None:
+			self.menudisabledforeground=self.disabledforeground
+		if self.menubordercolor is None:
+			self.menubordercolor=self.disabledforeground
+							
 	def correctColor(self):
 		self.disabledforeground=self.recalc(self.foreground, self.bg, 0.7)
+		if self.menudisabledforeground is None:
+			self.menudisabledforeground=self.disabledforeground
+		if self.menubordercolor is None:
+			self.menubordercolor=self.disabledforeground
 				
 	def recalc(self, dark, light, factor):
 		r=int(string.atoi(dark[1:3], 0x10)+string.atoi(light[1:3], 0x10))*factor
@@ -77,16 +103,30 @@ class UIManager:
 			self.root = Tkinter._default_root
 		else:
 			self.root=root
-		self.uploadExtentions()
-		self.loadIcons()
-		self.loadIcons(app.config.preferences.icons)
+		self.initGlobalVariables()
 		self.createTestWidgets()
 		self.systemColorTheme=ColorTheme()
 		self.getSystemColors()
 		self.setColorTheme(app.config.preferences.color_theme)
 		self.setFonts()
+		self.uploadExtentions()
+		self.loadIcons()
+		self.loadIcons(app.config.preferences.icons)
 		self.resetTile()
 		self.defineCursors()
+		
+	def initGlobalVariables(self):
+		self.sk1_bg = StringVar(self.root, name='sk1_bg')
+		self.sk1_fg = StringVar(self.root, name='sk1_fg')
+		self.sk1_highlightbg = StringVar(self.root, name='sk1_highlightbg')
+		self.sk1_highlightcolor = StringVar(self.root, name='sk1_highlightcolor')
+		self.sk1_disabledfg = StringVar(self.root, name='sk1_disabledfg')
+		self.sk1_selectbg = StringVar(self.root, name='sk1_selectbg')
+		self.sk1_selectfg= StringVar(self.root, name='sk1_selectfg')
+		
+		self.sk1_txtsmall= StringVar(self.root, name='sk1_txtsmall')
+		self.sk1_txtnormal= StringVar(self.root, name='sk1_txtnormal')
+		self.sk1_txtlarge= StringVar(self.root, name='sk1_txtlarge')
 		
 	def defineCursors(self):
 		cur_dir=os.path.join(app.config.sk_share_dir,'cursors')
@@ -119,16 +159,22 @@ class UIManager:
 		self.systemColorTheme.disabledforeground=self.testEntry.cget('disabledforeground')
 		self.systemColorTheme.selectbackground=self.testEntry.cget('selectbackground')
 		self.systemColorTheme.selectforeground=self.testEntry.cget('selectforeground')
+		
+		self.systemColorTheme.menubackground = self.systemColorTheme.bg
+		self.systemColorTheme.menuforeground = self.systemColorTheme.foreground
+		self.systemColorTheme.menuselectbackground = self.systemColorTheme.selectbackground
+		self.systemColorTheme.menuselectforeground = self.systemColorTheme.selectforeground
+		
 		self.systemColorTheme.correctColor()
 		
 	def refreshColors(self):
-		self.testEntry['bg']=self.currentColorTheme.bg
-		self.testEntry['foreground']=self.currentColorTheme.foreground
-		self.testEntry['highlightbackground']=self.currentColorTheme.highlightbackground
-		self.testEntry['highlightcolor']=self.currentColorTheme.highlightcolor
-		self.testEntry['disabledforeground']=self.currentColorTheme.disabledforeground
-		self.testEntry['selectbackground']=self.currentColorTheme.selectbackground
-		self.testEntry['selectforeground']=self.currentColorTheme.selectforeground	
+		self.sk1_bg.set(self.currentColorTheme.bg)
+		self.sk1_fg.set(self.currentColorTheme.foreground)
+		self.sk1_highlightbg.set(self.currentColorTheme.highlightbackground)
+		self.sk1_highlightcolor.set(self.currentColorTheme.highlightcolor)
+		self.sk1_disabledfg.set(self.currentColorTheme.disabledforeground)
+		self.sk1_selectbg.set(self.currentColorTheme.selectbackground)
+		self.sk1_selectfg.set(self.currentColorTheme.selectforeground)
 			
 		if not self.currentColorTheme.name=='System':
 			self.root.tk.call('tk_setPalette', self.currentColorTheme.bg)
@@ -173,10 +219,10 @@ class UIManager:
 		self.root.tk.call('ttk::setTheme', app.config.preferences.style)
 		
 	def setFonts(self):
-		self.root.tk.call('option', 'add', '*Font', app.config.preferences.normal_font )
-		self.testSmallLabel['font'] = app.config.preferences.small_font
-		self.testNormalLabel['font'] = app.config.preferences.normal_font 
-		self.testLargeLabel['font'] = app.config.preferences.large_font 
+		self.root.tk.call('option', 'add', '*font', app.config.preferences.normal_font )
+		self.sk1_txtsmall.set(app.config.preferences.small_font)
+		self.sk1_txtnormal.set(app.config.preferences.normal_font)
+		self.sk1_txtlarge.set(app.config.preferences.large_font)
 		
 	def getIconSets(self):
 		return os_utils.get_dirs(app.config.user_icons)

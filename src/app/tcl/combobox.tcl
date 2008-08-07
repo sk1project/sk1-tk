@@ -294,8 +294,9 @@ proc ttk::combobox::LBTab {lb dir} {
 #	creating it if necessary.
 #
 proc ttk::combobox::PopdownShell {cb} {
+    global sk1_disabledfg sk1_txtnormal
     if {![winfo exists $cb.popdown]} {
-	set popdown [toplevel $cb.popdown -relief flat -bd 1 -bg [.testEntry cget -disabledforeground]]
+	set popdown [toplevel $cb.popdown -relief flat -bd 1 -bg $sk1_disabledfg]
 	wm withdraw $popdown
 	wm overrideredirect $popdown 1
 	wm transient $popdown [winfo toplevel $cb]
@@ -319,6 +320,7 @@ proc ttk::combobox::PopdownShell {cb} {
             -selectborderwidth 0 \
 	    -activestyle none \
 		-background #ffffff \
+		-font $sk1_txtnormal
 	    ;
 
 	bindtags $popdown.l \

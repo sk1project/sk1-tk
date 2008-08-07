@@ -7,4 +7,11 @@
 	<disabledforeground>'#9d9d92'</disabledforeground>
 	<selectbackground>'#316ac5'</selectbackground>
 	<selectforeground>'#ffffff'</selectforeground>
+	<!-- Optional parameters-->
+	<menubackground>'#ffffff'</menubackground>
+	<menuforeground>'#000000'</menuforeground>
+	<menuselectbackground>'#316ac5'</menuselectbackground>
+	<menuselectforeground>'#ffffff'</menuselectforeground>
+	<menudisabledforeground>'#9d9d92'</menudisabledforeground>
+	<menubordercolor>'#9d9d92'</menubordercolor>
 </preferences>

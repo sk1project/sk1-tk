@@ -6,7 +6,7 @@
 #  Copyright (c) 2008 Igor E. Novikov  <igor.e.novikov@gmail.com>
 
 
-package require Tk 8.4;                 # minimum version for Ttk
+package require Tk 8.5;                 # minimum version for Ttk
 
 namespace eval ttk {
     namespace eval theme {
@@ -17,6 +17,10 @@ namespace eval ttk {
 }
 
 namespace eval ttk::theme::Clearlooks {
+	
+	global sk1_bg sk1_fg sk1_highlightbg sk1_highlightcolor
+	global sk1_disabledfg sk1_selectbg sk1_selectfg
+	global sk1_txtsmall sk1_txtnormal sk1_txtlarge
 
 	set imgdir [file join [file dirname [info script]] widgets]
 
@@ -30,10 +34,10 @@ namespace eval ttk::theme::Clearlooks {
 	foreach file [glob -directory $imgdir *.xbm] {	    
 	    set img [file tail [file rootname $file]]
 	    if {![info exists B($img)]} {
-		image create bitmap $img -file $file -foreground [.testEntry cget -background]
+		image create bitmap $img -file $file -foreground $sk1_bg
 	    }
 		if {$img=="progress_bar_mask"} {
-		image create bitmap $img -file $file -foreground [.testEntry cget -selectbackground]	
+		image create bitmap $img -file $file -foreground $sk1_selectbg	
 		}
 	}
 	
@@ -53,14 +57,14 @@ namespace eval ttk::theme::Clearlooks {
         style configure "." \
 				-borderwidth 0 \
 				-lighter #cccccc \
-				-background [.testEntry cget -background] \
-				-troughcolor [.testEntry cget -highlightbackground] \
-				-selectbackground [.testEntry cget -selectbackground] \
-				-selectforeground [.testEntry cget -selectforeground] \
-				-font [.testNormalLabel cget -font] \
+				-background $sk1_bg \
+				-troughcolor $sk1_highlightbg \
+				-selectbackground $sk1_selectbg \
+				-selectforeground $sk1_selectfg \
+				-font $sk1_txtnormal \
             ;
 
-        style map . -foreground [list disabled [.testEntry cget -disabledforeground]]
+        style map . -foreground [list disabled $sk1_disabledfg]
 	
 	set styledir [file join [file dirname [info script]] styles]	
 

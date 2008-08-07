@@ -8,7 +8,7 @@
 	style layout SmallFlatLabel {
 		SmallFlatLabel.label
 		}
-	style configure SmallFlatLabel -borderwidth 4 -relief flat -font [.testSmallLabel cget -font]	
+	style configure SmallFlatLabel -borderwidth 4 -relief flat -font $sk1_txtsmall	
 	
 	# -------------ColorWatch total==14x40 px inside==12x38 px
 	style layout ColorWatchNormal {

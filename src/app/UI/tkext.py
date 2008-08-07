@@ -178,10 +178,10 @@ class MenuCommand(AutoUpdate, WidgetWithCommand, MenuEntry):
 		WidgetWithCommand.__init__(self)
 		theme=app.uimanager.currentColorTheme
 		rest['command'] = ''
-		rest['background'] = theme.bg
-		rest['foreground'] = theme.foreground
-		rest['activebackground'] = theme.selectbackground
-		rest['activeforeground'] = theme.selectforeground
+		rest['background'] = theme.menubackground
+		rest['foreground'] = theme.menuforeground
+		rest['activebackground'] = theme.menuselectbackground
+		rest['activeforeground'] = theme.menuselectforeground
 		rest['compound']='left'
 		rest['image']=image
 		MenuEntry.__init__(self, rest)
@@ -216,10 +216,10 @@ class ComboCommand(AutoUpdate, WidgetWithCommand, MenuEntry):
 		WidgetWithCommand.__init__(self)
 		theme=app.uimanager.currentColorTheme
 		rest['command'] = ''
-		rest['background'] = 'white'
-		rest['foreground'] = 'black'
-		rest['activebackground'] = theme.selectbackground
-		rest['activeforeground'] = theme.selectforeground
+		rest['background'] = theme.menubackground
+		rest['foreground'] = theme.menuforeground
+		rest['activebackground'] = theme.menuselectbackground
+		rest['activeforeground'] = theme.menuselectforeground
 		rest['compound']='left'
 		MenuEntry.__init__(self, rest)
 		if bitmap:
@@ -252,20 +252,20 @@ class MenuCommand2(MenuEntry):
 		dict['label'] = cmd.menu_name
 		dict['state'] = cmd.sensitive and NORMAL or DISABLED
 		if dict['state'] =='disabled':
-			dict['background'] = theme.bg
-			dict['foreground'] = theme.disabledforeground
-			dict['activebackground'] = theme.bg
-			dict['activeforeground'] = theme.disabledforeground
+			dict['background'] = theme.menubackground
+			dict['foreground'] = theme.menudisabledforeground
+			dict['activebackground'] = theme.menubackground
+			dict['activeforeground'] = theme.menudisabledforeground
 			dict['compound']='left'
 			dict['hidemargin']='false'
 			dict['image']=cmd.image
 			dict['state']='normal'
 			dict['command']=None
 		else:           
-			dict['background'] = theme.bg
-			dict['foreground'] = theme.foreground
-			dict['activebackground'] = theme.selectbackground
-			dict['activeforeground'] = theme.selectforeground
+			dict['background'] = theme.menubackground
+			dict['foreground'] = theme.menuforeground
+			dict['activebackground'] = theme.menuselectbackground
+			dict['activeforeground'] = theme.menuselectforeground
 			dict['compound']='left'
 			dict['hidemargin']='false'
 			dict['image']=cmd.image
@@ -303,10 +303,10 @@ class MenuCheck(AutoUpdate, WidgetWithCommand, MenuEntry):
 		AutoUpdate.__init__(self, sensitivecb, updatecb)
 		WidgetWithCommand.__init__(self)
 		rest['command'] = ''
-		rest['background'] = theme.bg
-		rest['foreground'] = theme.foreground
-		rest['activebackground'] = theme.selectbackground
-		rest['activeforeground'] = theme.selectforeground
+		rest['background'] = theme.menubackground
+		rest['foreground'] = theme.menuforeground
+		rest['activebackground'] = theme.menuselectbackground
+		rest['activeforeground'] = theme.menuselectforeground
 		MenuEntry.__init__(self, rest)
 		if bitmap:
 			rest['bitmap'] = bitmap
@@ -343,10 +343,10 @@ class MenuCheck2(MenuEntry):
 			dict['image']='menucheck_yes'
 		else:
 			dict['image']='menucheck_no'
-		dict['background'] = theme.bg
-		dict['foreground'] = theme.foreground
-		dict['activebackground'] = theme.selectbackground
-		dict['activeforeground'] = theme.selectforeground
+		dict['background'] = theme.menubackground
+		dict['foreground'] = theme.menuforeground
+		dict['activebackground'] = theme.menuselectbackground
+		dict['activeforeground'] = theme.menuselectforeground
 		dict['compound']='left'
 		dict['hidemargin']='false'
 		key_stroke = cmd.key_stroke
@@ -369,8 +369,8 @@ class MenuSeparator(MenuEntry):
 
 	def __init__(self, image='separator', **rest):
 		theme=app.uimanager.currentColorTheme
-		rest['background'] = theme.bg
-		rest['activebackground'] = theme.bg
+		rest['background'] = theme.menubackground
+		rest['activebackground'] = theme.menubackground
 		rest['image']=image
 		rest['font']='fixed 3'
 		rest['hidemargin']='true'
@@ -393,7 +393,7 @@ class UpdatedMenu:
 			rest['postcommand'] = MakeMethodCommand(self.RebuildMenu)
 			self.rebuild_func = auto_rebuild
 		rest['tearoffcommand'] = MakeMethodCommand(self._tearoff)
-		rest['bg']=theme.disabledforeground
+		rest['bg']=theme.menubordercolor
 		rest['relief']='flat'
 		rest['bd']=1
 		rest['activeborderwidth']=0   
@@ -408,7 +408,7 @@ class UpdatedMenu:
 		
 	def recolor(self,event):
 		theme=app.uimanager.currentColorTheme
-		self.menu['bg']=theme.disabledforeground
+		self.menu['bg']=theme.menubordercolor
 
 	def clean_up(self):
 		if self.entries:
@@ -501,7 +501,7 @@ class ComboMenu:
 			rest['postcommand'] = MakeMethodCommand(self.RebuildMenu)
 			self.rebuild_func = auto_rebuild
 		rest['tearoffcommand'] = MakeMethodCommand(self._tearoff)
-		rest['bg']=theme.disabledforeground
+		rest['bg']=theme.menubordercolor
 		rest['relief']='flat'
 		rest['bd']=1
 		rest['activeborderwidth']=0
@@ -599,9 +599,9 @@ class MenuCascade(MenuEntry):
 		theme=app.uimanager.currentColorTheme
 		if menu:
 			self.submenu = apply(UpdatedMenu, (menu, self.entries),self.kwargs)
-			menu.add('cascade', label = self.label, background= theme.bg,
-			foreground = theme.foreground, activebackground = theme.selectbackground, 
-			activeforeground = theme.selectforeground,
+			menu.add('cascade', label = self.label, background= theme.menubackground,
+			foreground = theme.menuforeground, activebackground = theme.menuselectbackground, 
+			activeforeground = theme.menuselectforeground,
 			image='none16', compound='left', menu = self.submenu.menu)
 		self.menu = menu
 
@@ -612,11 +612,11 @@ def AppendMenu(mbar, text, menu_list, underline):
 	button = Menubutton(mbar, text = text, underline=underline)
 	button['background'] = theme.bg
 	button['foreground'] = theme.foreground
-	button['activebackground'] = theme.selectbackground
+	button['activebackground'] = theme.menuselectbackground
 	button['activeforeground'] = theme.selectforeground
 	button['relief'] = 'flat'
-	button['highlightbackground'] = theme.selectbackground
-	button['highlightcolor'] = theme.selectforeground
+	button['highlightbackground'] = theme.menuselectbackground
+	button['highlightcolor'] = theme.menuselectforeground
 	button['highlightthickness'] = 0
 	button['bd'] = 0
 	button.pack(side = LEFT)
