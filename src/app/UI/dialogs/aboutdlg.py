@@ -112,6 +112,7 @@ class AboutDialog(ModalDialog):
 		
 		txt=_('\nTo report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n\n')
 		txt+=_('Igor Novikov\n   igor.e.novikov@gmail.com\n   Project Leader\n\n')
+		txt+=_('Maxim Barabash\n   maxim.s.barabash@gmail.com\n   Designer\n\n')
 		txt+=_('Acknowledgments:\n=======================================\n')
 		txt+=_('Valek Fillipov\n   CDR format reverse engineering\n\n')
 		txt+=_('Alexandre Prokoudine\n   alexandre.prokoudine@gmail.com\n   Information support (http://linuxgraphics.ru)')
