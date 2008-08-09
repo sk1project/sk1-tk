@@ -204,7 +204,7 @@
             }
         }
 
-        style element create ToolCheckbutton.button image $K(tools_pressed) \
+        style element create ToolCheckbutton.button image $K(toolbutton_selected) \
 		-sticky nwes \
             -border {3 3 3 3} -padding {0 0 0 0}
 #  -width 28 -height 28
@@ -275,8 +275,8 @@
 	
 		style configure TComboSmall -relief flat -sticky ew -side left
         style element create TComboSmall.button image [list $K(combo_normal)  \
-				pressed $K(combo_active) \
-				active $K(combo_active) \
+				{active !pressed} $K(combo_active) \
+				pressed $K(combo_pressed) \
 				disabled $K(combo_disabled)] \
 				-border {4 2 20 2} -padding {4 2 20 2} -sticky ew 
 				
