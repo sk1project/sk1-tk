@@ -29,9 +29,20 @@ class ColorManager:
 	hRGB=None
 	hCMYK=None
 	hMONITOR=None
+	colors_pool=[]
 	
 	def __init__(self):
 		self.refresh_profiles()
+		
+	def add_to_pool(self,color):
+		self.colors_pool.append(color)
+		
+	def remove_from_pool(self,color):
+		self.colors_pool.remove(color)
+		
+	def update(self):
+		for color in self.colors_pool:
+			color.update()
 		
 	def refresh_profiles(self):
 		if app.config.preferences.user_rgb_profile and os.path.isfile(app.config.preferences.user_rgb_profile):

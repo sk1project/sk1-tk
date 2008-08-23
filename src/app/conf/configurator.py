@@ -342,12 +342,15 @@ class Preferences(connector.Publisher):
 	#---------UI managment---------
 	style = 'Plastik'
 #	style = 'Clearlooks'
+#	style = 'eXPect'
 	
 	color_theme = 'System'
 #	color_theme = 'UbuntuLooks'
+#	color_theme = 'eXPect'
 #	color_theme = 'ClassicPlastik'
 
 	icons='CrystalSVG'
+#	icons='eXPect'
 #	icons='Tango'
 #	icons='Human'
 	
