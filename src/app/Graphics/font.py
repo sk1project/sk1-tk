@@ -19,7 +19,7 @@
 #       Font management...
 #
 
-import os, re, operator
+import os, re, operator, sys
 from string import split, strip, atoi, atof, lower, translate, maketrans
 
 
