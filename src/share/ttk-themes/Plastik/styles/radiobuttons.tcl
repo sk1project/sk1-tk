@@ -13,7 +13,7 @@
         style layout FineRadiobutton {
             FineRadiobutton.indicator -children {
 	    	FineRadiobutton.focus -children {
-                   FineRadiobutton.label
+                   FineRadiobutton.label -sticky ns
 		}    
             }
         }			
@@ -32,7 +32,7 @@
 style layout ToolbarRadiobutton {
 	ToolbarRadiobutton.indicator -children {
 	ToolbarRadiobutton.focus -children {
-		   ToolbarRadiobutton.label
+		   ToolbarRadiobutton.label -sticky ns
 }    
 	}
 }			

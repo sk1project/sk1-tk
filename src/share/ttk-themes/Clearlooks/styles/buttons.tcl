@@ -151,7 +151,7 @@
         style layout Toolbutton {
             Toolbutton.button -children {
 	    	Toolbutton.focus -children {
-                    Toolbutton.label
+                    Toolbutton.label -sticky ns
 		}    
             }
         }
@@ -202,7 +202,7 @@
         style layout ToolCheckbutton {
             ToolCheckbutton.button -children {
 	    	ToolCheckbutton.focus -children {
-                    ToolCheckbutton.label
+                    ToolCheckbutton.label -sticky ns
 		}
             }
         }
@@ -217,7 +217,7 @@
         style layout ToolbarCheckbutton {
             ToolbarCheckbutton.button -children {
 	    	ToolbarCheckbutton.focus -children {
-                    ToolbarCheckbutton.label
+                    ToolbarCheckbutton.label -sticky ns
 		}
             }
         }
@@ -231,7 +231,7 @@
         style layout ToolsButton {
             ToolsButton.button -children {
 	    	ToolsButton.focus -children {
-                    ToolsButton.label
+                    ToolsButton.label -sticky ns
 		}    
             }
         }
@@ -249,7 +249,7 @@
         style layout ToolBarCheckButton {
             ToolBarCheckButton.button -children {
 	    	ToolBarCheckButton.focus -children {
-                    ToolBarCheckButton.label
+                    ToolBarCheckButton.label -sticky ns
 		}    
             }
         }
