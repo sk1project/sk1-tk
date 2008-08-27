@@ -1693,8 +1693,8 @@ class EditDocument(SketchDocument, QueueingPublisher):
 	def ModifyAndCopy(self):
 		if self.selection:
 			copies=self.copy_objects(self.selection.GetObjects())
-		self.Undo()
-		self.Insert(copies, undo_text=_("Modify&Copy"))	
+			self.Undo()
+			self.Insert(copies, undo_text=_("Modify&Copy"))	
 
 	def CanCreateMaskGroup(self):
 		infos = self.selection.GetInfo()
