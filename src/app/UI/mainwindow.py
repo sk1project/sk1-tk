@@ -989,7 +989,7 @@ class sK1MainWindow(Publisher):
 			percent = int(100 * scale)
 			return (("Zoom 1:1"), call, scale)
 		cmds = self.canvas.commands
-		scale = map(MakeEntry, [ 0.125, 0.25, 0.5, 1, 2, 4, 8])
+		scale = map(MakeEntry, [ 0.05, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 24, 30])
 		return map(MakeCommand,
 					[Make11(1.16),
 					[_("Zoom")] + scale,

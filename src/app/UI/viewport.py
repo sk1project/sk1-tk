@@ -14,8 +14,8 @@ from app.Graphics.papersize import Papersize
 
 class Viewport:
 
-	max_scale = 16
-	min_scale = 0.05
+	max_scale = 30
+	min_scale = 0.01
 
 	def __init__(self, resolution = None):
 		self.hbar = None

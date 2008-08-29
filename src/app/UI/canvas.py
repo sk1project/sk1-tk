@@ -1912,6 +1912,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.queue_update_handles()
 		finally:
 			self.end_transaction()
+		self.ForceRedraw()
 
 	def ZoomFactor(self, factor):
 		self.SetScale(self.scale * factor)
