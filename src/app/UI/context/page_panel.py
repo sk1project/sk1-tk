@@ -50,13 +50,13 @@ class PagePanel(CtxSubPanel):
 		
 		label = TLabel(self.panel, text=_("  H: "))
 		label.pack(side = LEFT)
-		self.widthentry = TSpinbox(self.panel, textvariable = var_width_number, command = self.update_size,
+		self.widthentry = TSpinbox(self.panel, textvariable = var_width_number, command = self.applyResize,
 								vartype=1, min = 5, max = 50000, step = jump, width = 7)
 		self.widthentry.pack(side = LEFT)
 		
 		label = TLabel(self.panel, text=_("  V: "))
 		label.pack(side = LEFT)		
-		self.heightentry = TSpinbox(self.panel, textvariable =var_height_number, command = self.update_size,
+		self.heightentry = TSpinbox(self.panel, textvariable =var_height_number, command = self.applyResize,
 		 						vartype=1, min = 5, max = 50000, step = jump, width = 7)
 		self.heightentry.pack(side = LEFT)
 		
@@ -86,20 +86,16 @@ class PagePanel(CtxSubPanel):
 	
 	def set_portrait(self):
 		self.page_orientation=0
-		formatname = self.var_format_name.get()
-		if formatname == USER_SPECIFIC:
-			height, width=self.var_width.get(),self.var_height.get()
-			self.var_width.set(width)
-			self.var_height.set(height)
+		width =min(self.var_width.get(),self.var_height.get())
+		height=max(self.var_width.get(),self.var_height.get())
+		self.update_size(width, height)
 		self.set_size()
 		
 	def set_landscape(self):
 		self.page_orientation=1
-		formatname = self.var_format_name.get()
-		if formatname == USER_SPECIFIC:
-			height, width=self.var_width.get(),self.var_height.get()
-			self.var_width.set(width)
-			self.var_height.set(height)
+		width =max(self.var_width.get(),self.var_height.get())
+		height=min(self.var_width.get(),self.var_height.get())
+		self.update_size(width, height)
 		self.set_size()
 			
 	def set_size(self):
@@ -109,7 +105,6 @@ class PagePanel(CtxSubPanel):
 		self.update()
 				
 	def set_format(self):		
-		self.update()
 		self.set_size()
 
 	def update_pref(self, arg1, arg2):
@@ -119,13 +114,13 @@ class PagePanel(CtxSubPanel):
 		
 	def update(self):		
 		self.set_entry_sensitivity()
+		self.update_size_from_name(self.var_format_name.get())
 		if self.page_orientation:
 			self.portrait_val.set('')
 			self.landscape_val.set('1')
 		else:
 			self.portrait_val.set('1')
 			self.landscape_val.set('')
-		self.update_size_from_name(self.var_format_name.get())
 		if self.my_changes:
 			self.apply_settings()
 			self.my_changes=0		
@@ -148,10 +143,18 @@ class PagePanel(CtxSubPanel):
 			width, height = Papersize[formatname]
 			if self.page_orientation:
 				width, height = height, width
-		else:
+			self.update_size(width, height)
+
+	def applyResize (self, event):
+		try:
 			width=self.var_width.get()
 			height=self.var_height.get()
-		self.update_size(width, height)
+			if width <= height:
+				self.set_portrait()
+			else:
+				self.set_landscape()
+		except:
+			return
 		
 	def apply_settings(self):
 		formatname = self.var_format_name.get()
