@@ -34,7 +34,7 @@ Example: sk1 drawing.cdr
 
 import sys, os
 
-if sys.argv[1]=='--help':
+if len(sys.argv) > 1 and sys.argv[1]=='--help':
 	print __doc__
 	sys.exit(0)
 
