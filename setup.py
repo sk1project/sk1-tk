@@ -147,6 +147,11 @@ if __name__ == "__main__":
 			sources = [filter_src+'streamfilter.c', filter_src+'filterobj.c', filter_src+'linefilter.c', 
 					filter_src+'subfilefilter.c', filter_src+'base64filter.c', filter_src+'nullfilter.c', 
 					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c'])
+	
+	tcl_include_path = "/usr/include/tcl8.5"
+	if os.path.isdir(tcl_include_path): tcl_include_dirs = [tcl_include_path]
+	else: tcl_include_dirs = []
+	
  
  	type1mod_src=src_path+'extentions/type1mod/'				
 	type1mod_module = Extension('sk1.app.modules._type1module',
@@ -171,6 +176,7 @@ if __name__ == "__main__":
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [paxtkinter_src+'paxtkinter.c'],
+			include_dirs = tcl_include_dirs,
 			libraries=['X11', 'tk8.5', 'tcl8.5'])
 			
  	ft2_src=src_path+'extentions/freetype2/'				
@@ -182,7 +188,9 @@ if __name__ == "__main__":
 			libraries=['freetype'],
 			extra_compile_args=["-Wall"])
 			
- 	pax_src=src_path+'extentions/pax/'				
+ 	pax_src=src_path+'extentions/pax/'
+ 	pax_include_dirs=['/usr/include/cairo']
+ 	pax_include_dirs.extend(tcl_include_dirs)
 	pax_module = Extension('sk1.app.modules.paxmodule',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
@@ -191,7 +199,7 @@ if __name__ == "__main__":
 					pax_src+'imageobject.c', pax_src+'intl.c', pax_src+'paxmodule.c', 
 					pax_src+'paxutil.c', pax_src+'pixmapobject.c', pax_src+'regionobject.c', 
 					pax_src+'tkwinobject.c'],
-			include_dirs=['/usr/include/cairo'],
+			include_dirs=pax_include_dirs,
 			libraries=['X11', 'Xext', 'tk8.5', 'tcl8.5', 'cairo'])
 			
  	skmod_src=src_path+'extentions/skmod/'	
@@ -211,6 +219,7 @@ if __name__ == "__main__":
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [tkpng_src+'tkImgPNG.c', tkpng_src+'tkImgPNGInit.c'],
+			include_dirs = tcl_include_dirs,
 			libraries=['tk8.5', 'tcl8.5', 'z'])
 
 			
