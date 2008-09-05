@@ -187,12 +187,12 @@ paxcm_QueryColors(PaxCMapObject *self, PyObject *args)
 
     if (!PyArg_ParseTuple(args, "O!", &PyList_Type, &pixels))
 	return NULL;
-    
+
     npixels = PyList_Size(pixels);
     defs = PyMem_Malloc(sizeof(XColor) * npixels);
     if (defs == NULL)
 	return PyErr_NoMemory();
-    
+
     for (i = 0; i < npixels; i++)
     {
 	item = PyList_GetItem(pixels, i);
@@ -305,7 +305,7 @@ static PyObject *
 paxcm_CopyColormapAndFree(PaxCMapObject *self, PyObject *args)
 {
     Colormap cmap;
-    
+
     if (!PyArg_ParseTuple(args, ""))
 	return NULL;
 
@@ -330,7 +330,7 @@ static PyMethodDef paxcm_methods[] = {
     {"QueryColors",	(PyCFunction)paxcm_QueryColors,		1},
     {"StoreColors",	(PyCFunction)paxcm_StoreColors,		1},
     {"CopyColormapAndFree",(PyCFunction)paxcm_CopyColormapAndFree, 1},
-    {NULL, NULL}, 
+    {NULL, NULL},
 };
 
 static PyObject *

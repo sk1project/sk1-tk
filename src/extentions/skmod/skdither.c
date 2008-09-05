@@ -61,7 +61,7 @@ skvisual_init_dither(SKVisualObject * self)
 	{ 63, 31, 55, 23, 61, 29, 53, 21 }
     };
 
-  
+
     shades_r = self->shades_r;
     shades_g = self->shades_g;
     shades_b = self->shades_b;

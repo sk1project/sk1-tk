@@ -45,7 +45,7 @@ estimate_number_of_points(SKCurveObject * self)
 {
     int i, count = 0;
     CurveSegment * segment;
-    
+
     segment = self->segments;
     for (i = 0; i < self->len; i++, segment++)
     {
@@ -217,7 +217,7 @@ SKCurve_PyDrawTransformed(SKCurveObject * self, PyObject * args)
 	fprintf(stderr, "DrawTransformed: length = 1\n");
     }
 #endif
-    
+
     if (points != point_array)
     {
 	free(points);
@@ -488,7 +488,7 @@ SKCurve_PyDrawMultipath(PyObject* self, PyObject * args)
 	    Region region = XPolygonRegion(points, length, EvenOddRule);
 	    XUnionRegion(oregion->region, region, oregion->region);
 	    XDestroyRegion(region);
-	    
+
 	    if (is_proc_fill)
 	    {
 		PyObject * result;
@@ -614,7 +614,7 @@ SKCurve_PyCairoDrawMultipath(PyObject* self, PyObject * args)
 		if(j == 0)
 		{
 			SKTrafo_TransformXY(trafo, segment->x, segment->y, &lastx, &lasty);
-			cairo_move_to(gc_object->cairo, (double)lastx, (double)lasty);	
+			cairo_move_to(gc_object->cairo, (double)lastx, (double)lasty);
 		}
 		else
 		{
@@ -637,7 +637,7 @@ SKCurve_PyCairoDrawMultipath(PyObject* self, PyObject * args)
 	    }
 	if(path->closed == 1)
 		cairo_close_path(gc_object->cairo);
-	cairo_stroke(gc_object->cairo);		
+	cairo_stroke(gc_object->cairo);
     }
 
     Py_INCREF(Py_None);
@@ -673,11 +673,11 @@ SKCurve_PyCairoFillMultipath(PyObject* self, PyObject * args)
 
 // cairo_set_fill_rule(gc_object->cairo, 0);
 
-cairo_new_path(gc_object->cairo);	
+cairo_new_path(gc_object->cairo);
     for (i = 0; i < PyTuple_Size(paths); i++)
     {
 // 	printf("Path No. %d\n", i);
-	path = (SKCurveObject*)PyTuple_GetItem(paths, i);		
+	path = (SKCurveObject*)PyTuple_GetItem(paths, i);
 	if (!SKCurve_Check(path))
 	{
 	    PyErr_SetString(PyExc_TypeError,
@@ -685,7 +685,7 @@ cairo_new_path(gc_object->cairo);
 	    cairo_set_fill_rule(gc_object->cairo, 1);
 	    return NULL;
 	}
-// 	cairo_new_path(gc_object->cairo);	
+// 	cairo_new_path(gc_object->cairo);
 	segment=path->segments;
 	    for (j = 0; j < path->len; j++, segment++)
    	   {
@@ -693,7 +693,7 @@ cairo_new_path(gc_object->cairo);
 		if(j == 0)
 		{
 			SKTrafo_TransformXY(trafo, segment->x, segment->y, &lastx, &lasty);
-			cairo_move_to(gc_object->cairo, (double)lastx, (double)lasty);			
+			cairo_move_to(gc_object->cairo, (double)lastx, (double)lasty);
 		}
 		else
 		{
@@ -713,8 +713,8 @@ cairo_new_path(gc_object->cairo);
 						    (double)lastx, (double)lasty);
 			}
 		}
-	    }	
-	cairo_close_path(gc_object->cairo);	
+	    }
+	cairo_close_path(gc_object->cairo);
     }
 // printf("FILLING... \n");
 // cairo_set_tolerance(gc_object->cairo, 1.0);
@@ -825,7 +825,7 @@ SKCurve_PyMultipathRegion(PyObject* self, PyObject * args)
 	XUnionRegion(oregion->region, region, oregion->region);
 	XDestroyRegion(region);
     }
-    
+
     free(points);
 
     Py_INCREF(Py_None);

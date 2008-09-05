@@ -113,14 +113,14 @@ int _Filter_Overflow(FilterObject*, int);
 typedef struct {
     int (*Filter_Underflow)(FilterObject*);
     int (*Filter_Overflow)(FilterObject*, int);
-    
+
     /* decoder methods */
     size_t (*Filter_Read)(PyObject * filter, char * buffer, size_t length);
     size_t (*Filter_ReadToChar)(PyObject * filter, char * buffer,
 				size_t length, int character);
     PyObject * (*Filter_GetLine)(PyObject * filter, int);
     int (*Filter_Ungetc)(PyObject*, int);
-    
+
     /* endcoder methods */
     int (*Filter_Write)(PyObject * filter, const char * buffer, size_t length);
     int (*Filter_Flush)(PyObject * filter, int flush_target);

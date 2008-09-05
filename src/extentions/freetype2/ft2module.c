@@ -1,57 +1,57 @@
-/* 
+/*
 (c) 2007 Igor E.Novikov <igor.e.novikov@gmail.com>
 http://sk1project.org
 
 (c) 2002 Abel Deuring <a.deuring@satzbau-gmbh.de>
 http://www.satzbau-gmbh.de/staff/abel/ft2/index.html
-  
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-  
+
 */
 
-#include <ft2build.h> 
+#include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 
 /* relations between Freetype objects and Python objects:
-   
+
    The Freetype library has roughly the following class structure
    (see freetype2/docs/design/design-4.html)
-   
+
    - the "core" is an instance of FT_Library
    - the FT_Library has (via FT_Module instances) one or more
-     FT_Face objects. 
+     FT_Face objects.
    - An FT_Face object has an FT_Stream, an FT_CharMap,
      an FT_GlypSlot, and an FT_Size instance.
      Moreover, FT_Glyph instances can be copied.
-   
-   If an FT_xxx instance is destroyed via the FT_xxx_Done call, its 
+
+   If an FT_xxx instance is destroyed via the FT_xxx_Done call, its
    child objects are destroyed, except glyph objects. (But probably
    certain glyph operations require an existing face object...)
-   
+
    Hence it must be ensured that no parent object is destroyed before
    its parent object. So each Python object keeps a reference to its
    parent object in order to guarantee that Python code like:
-   
+
    def get_a_face(filename):
        lib = ft2.Library()
        f = open(filename)
        return ft2.Face(lib, f, 0)
-   
+
    does not crash, because the FT_Library object is destroyed during
-   the "return". 
+   the "return".
 */
 
 /* TODO
@@ -67,7 +67,7 @@ http://www.satzbau-gmbh.de/staff/abel/ft2/index.html
 const struct {
     int err_code;
     const char* err_msg;
-} ft_errors[] = 
+} ft_errors[] =
 #include FT_ERRORS_H
 
 #include <Python.h>
@@ -76,7 +76,7 @@ static PyObject *ft2Error;
 
 static PyObject* pFT_Error(FT_Error error) {
     int i = 0;
-    while (error != ft_errors[i].err_code && ft_errors[i].err_msg) 
+    while (error != ft_errors[i].err_code && ft_errors[i].err_msg)
         i++;
     if (ft_errors[i].err_msg)
         PyErr_SetString(ft2Error, ft_errors[i].err_msg);
@@ -101,7 +101,7 @@ static PyObject* FT_Char_conv(FT_Char *fchar) {
 #endif
 
 static PyObject* FT_Int_conv(FT_Int *i) {
-    return PyInt_FromLong(*i); 
+    return PyInt_FromLong(*i);
 }
 
 #ifdef COMPILE_UNUSED
@@ -142,7 +142,7 @@ static PyObject *FT_PtrDist_conv(FT_PtrDist *i) {
 
 /* "typedef char FT_String": We assume that FT_String* is used
    everywhere
-*/   
+*/
 static PyObject *FT_String_conv(FT_String **s) {
     return PyString_FromString(*s);
 }
@@ -211,11 +211,11 @@ static PyObject *char_as_int_conv(char *i) {
 /* we need to access a few dozen attributes of FT objects
    from Python, i.e., via an attribute name, so we use
    hashes to find the proper converter function
-   
+
    Since we are in the comfortable position to know which
    values to hash at program start, we need to check only
    there for duplicates. And we can use a small hash table.
-   
+
    This implementation is stolen from freetype's bdflib.c
 */
 
@@ -258,19 +258,19 @@ typedef struct {
     ConverterFunction f;
 } conversionResult;
 
-/* return: 
+/* return:
    res.f == NULL -> attribute not found
                Python error must be set by caller
-   res.f != NULL -> converter found; 
+   res.f != NULL -> converter found;
                Either res.pyVal contains a valid PyObject pointer,
                or a valid Python error has been set by the converter
-   
+
 */
 
 static void convert(hashEntry* hTable, const char* attr, void* recPtr,
                     conversionResult *res) {
     short index = strhash(attr);
-    if ((res->f = hTable[index].conv) == NULL) 
+    if ((res->f = hTable[index].conv) == NULL)
         return;
 
     res->pyVal = (*(res->f))(recPtr + hTable[index].offset);
@@ -290,42 +290,42 @@ static PyObject* pFT_Library_new(PyObject* self, PyObject* args) {
     FT_Error err;
     pFT_Library *lib;
     FT_Library clib;
-    
+
     if (!PyArg_ParseTuple(args, ""))
         return NULL;
 
     err = FT_Init_FreeType(&clib);
-    if (err) 
+    if (err)
         return pFT_Error(err);
 
     lib = PyObject_New(pFT_Library, &pFT_Library_Type);
-    
+
     if (!lib) {
         FT_Done_FreeType(clib);
         return NULL;
     }
-    
+
     lib->lib = clib;
-    
+
     return (PyObject*) lib;
 }
 
 static void pFT_Library_del(pFT_Library* self) {
     FT_Error err;
-    
+
     err = FT_Done_FreeType(self->lib);
-    
-    /* xxx how can we return an error from the destructor ??? 
+
+    /* xxx how can we return an error from the destructor ???
     if (err)
         return pFT_Error(err);
     */
-    
+
     PyObject_Del(self);
 }
 
 static PyMethodDef pFT_LibraryMethods[] = {
 #if 0
-    {"version", (PyCFunction) pFT_Library_version, METH_VARARGS, 
+    {"version", (PyCFunction) pFT_Library_version, METH_VARARGS,
      "version() --"
      "return the Freetype version. Return value is the tuple "
      "(major, minor, patchlevel)"
@@ -388,22 +388,22 @@ static unsigned long readfunction(FT_Stream stream,
     PyObject *pResult;
     unsigned long size;
     char *pBuffer;
-    
+
     pResult = PyObject_CallMethod(pFile, "seek", "ii", offset, 0);
-    if (pResult == 0) 
+    if (pResult == 0)
         // xxx is there a "real" way to return an error?
         return 0;
     Py_DECREF(pResult);
     pResult = PyObject_CallMethod(pFile, "read", "i", count);
-    
-    if (pResult == 0) 
+
+    if (pResult == 0)
         return 0;
 
     size = PyString_Size(pResult);
     pBuffer = PyString_AsString(pResult);
-    
+
     memcpy(buffer, pBuffer, size);
-    
+
     Py_DECREF(pResult);
     return size;
 }
@@ -420,25 +420,25 @@ static PyObject *init_stream(PyObject *pStream, FT_StreamRec *fStream,
       return NULL;
     }
     Py_DECREF(pResult);
-    
+
     pResult = PyObject_CallMethod(pStream, "tell", "");
     if (pResult == NULL) {
       return NULL;
     }
     streamsize = PyInt_AsLong(pResult);
     Py_DECREF(pResult);
-    
+
     pResult = PyObject_CallMethod(pStream, "seek", "ii", 0, 0);
     if (pResult == NULL)
         return NULL;
     Py_DECREF(pResult);
-    
+
     fStream->read = readfunction;
     fStream->descriptor.pointer = pStream;
     Py_INCREF(pStream);
     fStream->size = streamsize;
     fStream->pos = 0;
-    
+
     memset(openargs, 0, sizeof(FT_Open_Args));
     openargs->flags = FT_OPEN_STREAM;
     openargs->stream = fStream;
@@ -454,12 +454,12 @@ static PyObject* pFT_Face_new(PyObject* self, PyObject* args) {
     pFT_Library *pLibrary;
     PyObject *pStream;
     FT_Long index;
-    
-    
-    if (!PyArg_ParseTuple(args, "O!Ol", &pFT_Library_Type, &pLibrary, 
+
+
+    if (!PyArg_ParseTuple(args, "O!Ol", &pFT_Library_Type, &pLibrary,
                           &pStream, &index))
         return NULL;
-    
+
     pFace = PyObject_New(pFT_Face, &pFT_Face_Type);
     if (!pFace) {
         return NULL;
@@ -481,7 +481,7 @@ static PyObject* pFT_Face_new(PyObject* self, PyObject* args) {
     }
 
     pFace->face = face;
-    
+
     return (PyObject*) pFace;
 }
 
@@ -500,11 +500,11 @@ static PyObject *pFT_SetCharSize(pFT_Face *self, PyObject *args) {
     FT_Error error;
     if (!PyArg_ParseTuple(args, "iiii", &w, &h, &hr, &vr))
         return NULL;
-    
+
     error = FT_Set_Char_Size(self->face, w, h, hr, vr);
     if (error)
         return pFT_Error(error);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -514,11 +514,11 @@ static PyObject *pFT_SetPixelSizes(pFT_Face *self, PyObject *args) {
     FT_Error error;
     if (!PyArg_ParseTuple(args, "ii", &w, &h))
         return NULL;
-    
+
     error = FT_Set_Pixel_Sizes(self->face, w, h);
     if (error)
         return pFT_Error(error);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -530,15 +530,15 @@ static PyObject *pFT_SetPixelSizes(pFT_Face *self, PyObject *args) {
 static PyObject *pFT_SetTransform(pFT_Face *self, PyObject *args) {
     FT_Matrix matrix;
     FT_Vector vector;
-    
-    if (!PyArg_ParseTuple(args, "(iiii)(ii)", 
+
+    if (!PyArg_ParseTuple(args, "(iiii)(ii)",
          &matrix.xx, &matrix.xy, &matrix.yx, &matrix.yy,
          &vector.x, &vector.y)) {
         return NULL;
     }
-    
+
     FT_Set_Transform(self->face, &matrix, &vector);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -548,14 +548,14 @@ static PyObject *pFT_GetKerning(pFT_Face *self, PyObject *args) {
     FT_UInt left, right, mode;
     FT_Error err;
     FT_Vector kerning;
-    
+
     if (!PyArg_ParseTuple(args, "iii", &left, &right, &mode))
         return NULL;
-    
+
     err = FT_Get_Kerning(self->face, left, right, mode, &kerning);
     if (err)
         return pFT_Error(err);
-    
+
     return Py_BuildValue("(i,i)", kerning.x, kerning.y);
 }
 
@@ -565,14 +565,14 @@ static PyObject *pFT_GetGlyphName(pFT_Face *self, PyObject *args) {
     FT_Error err;
     FT_UInt index;
     char name[100];
-    
+
     if (!PyArg_ParseTuple(args, "i", &index))
         return NULL;
-    
+
     err = FT_Get_Glyph_Name(self->face, index, name, 100);
     if (err)
         return pFT_Error(err);
-    
+
     return Py_BuildValue("s", name);
 }
 #endif
@@ -588,10 +588,10 @@ static PyObject *pFT_GetPostscriptName(pFT_Face *self, PyObject *args) {
 static PyObject *pFT_GetCharIndex(pFT_Face *self, PyObject *args) {
     FT_ULong index;
     FT_UInt glyphIndex;
-    
+
     if (!PyArg_ParseTuple(args, "i", &index))
         return NULL;
-    
+
     glyphIndex = FT_Get_Char_Index(self->face, index);
     if (!glyphIndex) {
         PyErr_SetString(ft2Error, "undefined character code");
@@ -602,7 +602,7 @@ static PyObject *pFT_GetCharIndex(pFT_Face *self, PyObject *args) {
 }
 
 /* return a Python dict containing the mapping charCode -> glyphIndex */
-/* xxx should we move this method to the charmap class ??? 
+/* xxx should we move this method to the charmap class ???
    would look reasonable. OTOH, we need to access methods from FT_Face in
    order to get the mapping.
 */
@@ -610,14 +610,14 @@ static PyObject *pFT_encodingVector(pFT_Face *self, PyObject* args) {
     PyObject *res, *pCharcode, *pGlyphIndex;
     FT_ULong charcode;
     FT_UInt glyphindex;
-    
+
     if (!PyArg_ParseTuple(args, ""))
         return NULL;
 
     res = PyDict_New();
     if (res == NULL)
         return res;
-    
+
     charcode = FT_Get_First_Char(self->face, &glyphindex);
 
     while(glyphindex) {
@@ -636,13 +636,13 @@ static PyObject *pFT_encodingVector(pFT_Face *self, PyObject* args) {
             Py_DECREF(pGlyphIndex);
             return NULL;
         }
-        
+
         Py_DECREF(pCharcode);
         Py_DECREF(pGlyphIndex);
 
         charcode = FT_Get_Next_Char(self->face, charcode, &glyphindex);
     }
-    
+
     return res;
 }
 
@@ -652,7 +652,7 @@ static PyObject *pFT_setCharMap(pFT_Face *self, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "O!", &pFT_CharMap_Type, &charmap))
         return NULL;
-    
+
     if ((pFT_Face*)charmap->face != self) {
         /* xxx we could avoid this error by replacing this method
            with something like "Charmap.selectThis()"
@@ -660,11 +660,11 @@ static PyObject *pFT_setCharMap(pFT_Face *self, PyObject *args) {
         PyErr_SetString(ft2Error, "Charmap object does no refer to Face object");
         return NULL;
     }
-    
+
     err = FT_Set_Charmap(self->face, charmap->charmap);
     if (err)
         return pFT_Error(err);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -674,7 +674,7 @@ static PyObject *pFT_get_Name_Index(pFT_Face *self, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "s", &name))
         return NULL;
-    
+
     return PyInt_FromLong(FT_Get_Name_Index(self->face, name));
 }
 
@@ -685,8 +685,8 @@ static PyObject *pFT_Attach_Stream(pFT_Face *self, PyObject *args) {
     if (!PyArg_ParseTuple(args, "O", &pStream)) {
         return NULL;
     }
-    
-    if (NULL == init_stream(pStream, &self->attachedFStream, 
+
+    if (NULL == init_stream(pStream, &self->attachedFStream,
                             &self->attachedOpenargs)) {
         return NULL;
     }
@@ -695,7 +695,7 @@ static PyObject *pFT_Attach_Stream(pFT_Face *self, PyObject *args) {
     if (err)  {
         return pFT_Error(err);
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 
@@ -705,7 +705,7 @@ static PyObject* pFT_GetMetrics(pFT_Face *self, PyObject *args) {
     if (!PyArg_ParseTuple(args, "")) {
         return NULL;
     }
-    return Py_BuildValue("iiiiiiii", 
+    return Py_BuildValue("iiiiiiii",
              (int) self->face->size->metrics.x_ppem,
              (int) self->face->size->metrics.y_ppem,
              (int) self->face->size->metrics.x_scale,
@@ -724,20 +724,20 @@ static PyObject* pFT_GetMetrics(pFT_Face *self, PyObject *args) {
    FT_Render_Glyph -- we use FT_Glyph_To_Bitmap in the Glyph class
    FT_Select_Charmap -- FT_Set_Charmap should be enough
    FT_Get_Name_Index -- not so important ...
-   
+
    implemented elsewhere:
    FT_Load_Glyph is used in the Python Glyph object constructor
 */
 
 static PyMethodDef pFT_FaceMethods[] = {
-    {"setCharSize", (PyCFunction) pFT_SetCharSize, METH_VARARGS, 
+    {"setCharSize", (PyCFunction) pFT_SetCharSize, METH_VARARGS,
      "setCharSize(self, width, height, hres, vres) -- "
      "set the character dimensions. Values must be integer "
      "see FT_Set_Char_Size for details "
      "xxx allow float too "
      "return: None"
     },
-    {"setPixelSizes", (PyCFunction) pFT_SetPixelSizes, METH_VARARGS, 
+    {"setPixelSizes", (PyCFunction) pFT_SetPixelSizes, METH_VARARGS,
      "setPixelSizes(self, pixel_width, pixel_height) -- "
      "set the character dimension. Values must be integer "
      "see FT_Set_Pixel_Sizes for details "
@@ -773,12 +773,12 @@ static PyMethodDef pFT_FaceMethods[] = {
     {"encodingVector", (PyCFunction) pFT_encodingVector, METH_VARARGS,
      "encodingVector(self) -- "
      "return the encoding vector as a Python dict for the selected charmap"
-    },    
+    },
     {"setCharMap", (PyCFunction) pFT_setCharMap, METH_VARARGS,
      "setCharMap(self, charmap) -- "
      "set the charmap. charmap must be of type CharMap and must have been "
      "created for this face object."
-    },    
+    },
     {"getNameIndex", (PyCFunction) pFT_get_Name_Index, METH_VARARGS,
     "getNameIndex(self, glyphName) -- "
     "return the glyph index of the glyph with the name glyphName or 0, "
@@ -813,9 +813,9 @@ static void _initFaceAttr() {
     ACCESSOR(hFace, FT_FaceRec, num_glyphs, FT_Long_conv)
     ACCESSOR(hFace, FT_FaceRec, family_name, FT_String_conv)
     ACCESSOR(hFace, FT_FaceRec, style_name, FT_String_conv)
-    /* access to FT_Bitmap_SizeP is too complicated for the simple 
+    /* access to FT_Bitmap_SizeP is too complicated for the simple
        converter function: The pointer may be 0, and in this case
-       the converter function should return an AttributeError, 
+       the converter function should return an AttributeError,
        and in order to do that, it needs the attribute name. Since
        this would be so far the only attribute with this requirement,
        we simply do not convert available_sizes here ;)
@@ -835,14 +835,14 @@ static void _initFaceAttr() {
     /* xxx FT_Size_conv missing
     ACCESSOR(hFace, FT_FaceRec, size, FT_Size_conv)
     */
-    
+
 
 }
 
 static PyObject* pFT_Face_getattr(pFT_Face* self, char* name) {
     conversionResult res;
     convert(hFace, name, self->face, &res);
-    if (res.f) 
+    if (res.f)
         return res.pyVal;
 
     if (0 == strcmp(name, "available_sizes")) {
@@ -857,7 +857,7 @@ static PyObject* pFT_Face_getattr(pFT_Face* self, char* name) {
                 Py_DECREF(sizes);
                 return NULL;
             }
-            if (PyTuple_SetItem(sizes, i, s)) 
+            if (PyTuple_SetItem(sizes, i, s))
                 goto error;
             if (NULL == (n = PyInt_FromLong(self->face->available_sizes[i].width)))
                 goto error;
@@ -874,7 +874,7 @@ static PyObject* pFT_Face_getattr(pFT_Face* self, char* name) {
         }
         return sizes;
     }
-    
+
     return Py_FindMethod(pFT_FaceMethods, (PyObject*) self, name);
 }
 
@@ -898,7 +898,7 @@ static PyTypeObject pFT_Face_Type = {
 
 /*---------------------------------------------------------------*/
 
-/* CharMap(f, i) -- return the charmap with index i of Face f) 
+/* CharMap(f, i) -- return the charmap with index i of Face f)
    or none, if the index is out of range
 */
 static PyObject* pFT_CharMap_new(PyObject *self, PyObject *args) {
@@ -908,12 +908,12 @@ static PyObject* pFT_CharMap_new(PyObject *self, PyObject *args) {
 
     if (!PyArg_ParseTuple(args, "O!i", &pFT_Face_Type, &face, &index))
         return NULL;
-    
+
     if (index >= face->face->num_charmaps || index < 0) {
         PyErr_SetString(ft2Error, "charmap index out pf range");
         return NULL;
     }
-    
+
     cm = PyObject_New(pFT_CharMap, &pFT_CharMap_Type);
     if (cm == NULL)
         return NULL;
@@ -944,7 +944,7 @@ static PyObject* pFT_CharMap_getattr(pFT_CharMap* self, char* name) {
     conversionResult res;
     char senc[5] = "eeee";
     convert(hCharMap, name, self->charmap, &res);
-    if (res.f) 
+    if (res.f)
         return res.pyVal;
     if (0 == strcmp(name, "encoding_as_string")) {
         senc[0] = self->charmap->encoding >> 24;
@@ -989,47 +989,47 @@ static PyObject* pFT_Glyph_new(PyObject* self, PyObject* args) {
     FT_Error err;
     FT_UInt index;
     FT_Int32 flags;
-    FT_Glyph glyph; 
+    FT_Glyph glyph;
     pFT_Glyph *pGlyph;
-    
-    pFT_Face *pFace; 
-    
-    if (!PyArg_ParseTuple(args, "O!ii", &pFT_Face_Type, &pFace, 
+
+    pFT_Face *pFace;
+
+    if (!PyArg_ParseTuple(args, "O!ii", &pFT_Face_Type, &pFace,
                           &index, &flags))
         return NULL;
 
     err = FT_Load_Glyph(pFace->face, index, flags);
-    if (err) 
+    if (err)
         return pFT_Error(err);
     err = FT_Get_Glyph(pFace->face->glyph, &glyph);
     if (err)
         return pFT_Error(err);
 
     pGlyph = PyObject_New(pFT_Glyph, &pFT_Glyph_Type);
-    
+
     if (!pGlyph) {
         FT_Done_Glyph(glyph);
         return NULL;
     }
-    
+
     pGlyph->glyph = glyph;
     glyph->format = FT_GLYPH_FORMAT_OUTLINE;
     /* although the Freetype docs state that glyph objects
        are "independent" of other Freetype obejcts, we get
-       a segfault in FT_Done_glyph, if the library or the face 
+       a segfault in FT_Done_glyph, if the library or the face
        object are deleted before the glyph object is deleted.
-       
+
        So we'll reference the face object here
     */
-    
+
     pGlyph->face = pFace;
     Py_INCREF(pFace);
-    
+
     return (PyObject*) pGlyph;
 }
 
 static void pFT_Glyph_del(pFT_Glyph* self) {
-    
+
     FT_Done_Glyph(self->glyph);
     Py_DECREF(self->face);
     PyObject_Del(self);
@@ -1040,15 +1040,15 @@ static PyObject* pFT_Glyph_Copy(pFT_Glyph *self, PyObject *args) {
     FT_Error err;
     FT_Glyph newGlyph;
     pFT_Glyph *res;
-    
+
     if (!PyArg_ParseTuple(args, "")) {
         return NULL;
     }
-    
+
     err = FT_Glyph_Copy(self->glyph, &newGlyph);
     if (err)
         return pFT_Error(err);
-    
+
     res = PyObject_New(pFT_Glyph, &pFT_Glyph_Type);
     if (!res) {
         FT_Done_Glyph(newGlyph);
@@ -1065,17 +1065,17 @@ static PyObject* pFT_Glyph_Transform(pFT_Glyph *self,  PyObject *args) {
     FT_Error err;
     FT_Matrix matrix;
     FT_Vector vector;
-    
-    if (!PyArg_ParseTuple(args, "(iiii)(ii)", 
+
+    if (!PyArg_ParseTuple(args, "(iiii)(ii)",
          &matrix.xx, &matrix.xy, &matrix.yx, &matrix.yy,
          &vector.x, &vector.y)) {
         return NULL;
     }
-    
+
     err = FT_Glyph_Transform(self->glyph, &matrix, &vector);
-    if (err) 
+    if (err)
         return pFT_Error(err);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -1084,19 +1084,19 @@ static PyObject* pFT_Glyph_Transform(pFT_Glyph *self,  PyObject *args) {
 static PyObject * pFT_Glyph_Get_CBox(pFT_Glyph *self, PyObject *args) {
     FT_UInt bbox_mode;
     FT_BBox bbox;
-    
+
     if (!PyArg_ParseTuple(args, "i", &bbox_mode)) {
         return NULL;
     }
-    
+
     FT_Glyph_Get_CBox(self->glyph, bbox_mode, &bbox);
     return FT_BBox_conv(&bbox);
 }
 
 
 static PyMethodDef pFT_GlyphMethods[] = {
-    {"copy", (PyCFunction) pFT_Glyph_Copy, METH_VARARGS, 
-    
+    {"copy", (PyCFunction) pFT_Glyph_Copy, METH_VARARGS,
+
      "copy(self) -- "
      "return a copy of this glyph object"
     },
@@ -1109,7 +1109,7 @@ static PyMethodDef pFT_GlyphMethods[] = {
      "see FT_Set_Transform for details "
      "return: None"
     },
-    {"getCBox", (PyCFunction) pFT_Glyph_Get_CBox, METH_VARARGS, 
+    {"getCBox", (PyCFunction) pFT_Glyph_Get_CBox, METH_VARARGS,
      "getCBox(self, mode) -- "
      "returns the bounding box data as (xmin, ymin, xmax, ymax) "
     },
@@ -1154,8 +1154,8 @@ static PyObject* pFT_Glyph_getattr(pFT_Glyph* self, char* name) {
 	// 				(double)outline.points[j].y / 64,
 	// 				outline.flags[j] & 1);
 	// 	else
-			p = Py_BuildValue("iii", (int)(*glyph_outline).points[j].x, 
-							(int)(*glyph_outline).points[j].y, 
+			p = Py_BuildValue("iii", (int)(*glyph_outline).points[j].x,
+							(int)(*glyph_outline).points[j].y,
 							(int)(*glyph_outline).tags[j]&1);
 			PyTuple_SetItem(contour, k, p);
 		}
@@ -1202,43 +1202,43 @@ static PyObject* pFT_Bitmap_new(PyObject* self, PyObject* args) {
     FT_Vector origin;
     FT_Render_Mode mode;
     FT_Glyph bitmap;
-    
+
     pFT_Bitmap *res;
     pFT_Glyph *glyph;
-    
+
     if (!PyArg_ParseTuple(args, "O!iii", &pFT_Glyph_Type, &glyph,
                           &mode, &origin.x, &origin.y))
         return NULL;
-    
+
     err = FT_Glyph_Copy(glyph->glyph, &bitmap);
     if (err)
         return pFT_Error(err);
-    
+
     err = FT_Glyph_To_Bitmap(&bitmap, mode, &origin, 1);
     if (err) {
         FT_Done_Glyph(bitmap);
         return pFT_Error(err);
     }
-    
+
     res = PyObject_New(pFT_Bitmap, &pFT_Bitmap_Type);
-    
+
     if (!res) {
         FT_Done_Glyph(bitmap);
         return NULL;
     }
-    
+
     res->bitmap = (FT_BitmapGlyph) bitmap;
     res->face = glyph->face;
     Py_INCREF(res->face);
-    
+
     return (PyObject*) res;
 }
 
 static void pFT_Bitmap_del(pFT_Bitmap* self) {
-    
+
     FT_Done_Glyph((FT_Glyph) self->bitmap);
     Py_DECREF(self->face);
-    
+
     PyObject_Del(self);
 }
 
@@ -1264,7 +1264,7 @@ static void _initBitmapAttr() {
     /* xxxxx FT_PIXEL_MODE_xxx and FT_PALETTE_MODE_xxx definitions
        are missing
     */
-    
+
     memset(hGlyphBitmap, 0, sizeof(hBitmap));
     ACCESSOR(hGlyphBitmap, FT_BitmapGlyphRec, left, FT_Int_conv)
     ACCESSOR(hGlyphBitmap, FT_BitmapGlyphRec, top, FT_Int_conv)
@@ -1277,15 +1277,15 @@ static PyObject* pFT_Bitmap_getattr(pFT_Bitmap* self, char* name) {
     PyObject *pRes;
     int i, pitch, width, rows;
     char *dst, *src;
-    
+
     convert(hBitmap, name, &self->bitmap->bitmap, &res);
-    if (res.f) 
+    if (res.f)
         return res.pyVal;
-    
+
     convert(hGlyphBitmap, name, self->bitmap, &res);
     if (res.f)
         return res.pyVal;
-    
+
     if (0 == strcmp(name, "bitmap")) {
         bitmap = self->bitmap->bitmap;
         pRes = PyString_FromStringAndSize(NULL, bitmap.width * bitmap.rows);
@@ -1297,21 +1297,21 @@ static PyObject* pFT_Bitmap_getattr(pFT_Bitmap* self, char* name) {
         pitch = bitmap.pitch;
         rows = bitmap.rows;
         width = bitmap.width;
-        
+
         if (pitch < 0)
             src -= pitch * bitmap.rows;
-        
+
         for (i = 0; i < bitmap.rows; i++) {
             memcpy(dst, src, bitmap.width);
             dst += bitmap.width;
             src += pitch;
         }
-        
+
         return pRes;
     }
     PyErr_SetString(PyExc_AttributeError, name);
     return NULL;
-    
+
 }
 
 static PyTypeObject pFT_Bitmap_Type = {
@@ -1420,7 +1420,7 @@ static struct {
 
      DEF_CONST(FT_STYLE_FLAG_ITALIC),
      DEF_CONST(FT_STYLE_FLAG_BOLD),
-     
+
      DEF_CONST(ft_glyph_bbox_unscaled),
      DEF_CONST(ft_glyph_bbox_subpixels),
      DEF_CONST(ft_glyph_bbox_gridfit),

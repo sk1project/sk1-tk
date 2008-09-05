@@ -111,11 +111,11 @@ close_ASCII85(void * clientdata, PyObject * target)
     unsigned char * dest = (unsigned char *)encoded;
     int i;
     unsigned long res;
-	
+
     if (state->quartet)
     {
 	state->sum <<= 8 * (4 - state->quartet);
-	
+
 	for (i = 4; i > (4 - state->quartet); i--)
 	{
 	    res = state->sum / eighty_five[i];
@@ -262,7 +262,7 @@ Filter_ASCII85Decode(PyObject * self, PyObject * args)
 {
     PyObject *source, *subfiledecode, *tuple;
     ASCII85DecodeState * state;
-    
+
     if (!PyArg_ParseTuple(args, "O", &source))
 	return NULL;
 
@@ -280,7 +280,7 @@ Filter_ASCII85Decode(PyObject * self, PyObject * args)
     Py_DECREF(tuple);
     if (!subfiledecode)
 	return NULL;
-    
+
     state = malloc(sizeof(ASCII85DecodeState));
     if (!state)
 	return PyErr_NoMemory();

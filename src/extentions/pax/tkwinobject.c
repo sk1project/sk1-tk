@@ -21,7 +21,7 @@ TkWin_FromTkWindow(Tcl_Interp * interp, Tk_Window tkwin)
 
     self->interp = interp;
     self->tkwin = tkwin;
-	
+
     return (PyObject*)self;
 }
 
@@ -75,7 +75,7 @@ tkwin_##name(TkWinObject * self, PyObject * args)\
    c-functions */
 TKWIN_COBJ_METHOD(c_display, Tk_Display)
 TKWIN_COBJ_METHOD(c_visual, Tk_Visual)
-    
+
 
 static PyObject *
 tkwin_colormap(TkWinObject * self, PyObject * args)
@@ -92,10 +92,10 @@ tkwin_QueryPointer(TkWinObject * self, PyObject * args)
     int root_x = 0, root_y = 0, win_x = 0, win_y = 0;
     unsigned int mask = 0;
     Bool retval;
-    
+
     if (!PyArg_ParseTuple(args, ""))
 	return NULL;
-    
+
     retval = XQueryPointer(Tk_Display(self->tkwin),
 			   Tk_WindowId(self->tkwin),
 			   &root, &child, &root_x, &root_y,
@@ -162,7 +162,7 @@ tkwin_SetBackground(TkWinObject * self, PyObject * args)
     else
 	return PyErr_Format(PyExc_TypeError,
 			    "argument must be integer or pixmap");
-	
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -176,7 +176,7 @@ tkwin_SetBorderWidth(TkWinObject * self, PyObject * args)
 	return NULL;
 
     Tk_SetWindowBorderWidth(self->tkwin, width);
-	
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -190,7 +190,7 @@ tkwin_SetBorder(TkWinObject * self, PyObject * args)
 	return NULL;
 
     Tk_SetWindowBorder(self->tkwin, pixel);
-	
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -265,16 +265,16 @@ tkwin_CreatePixmap(TkWinObject * self, PyObject * args)
     int depth;
     Pixmap pixmap;
     Drawable d;
-	    
+
     display = Tk_Display(tkwin);
     width = Tk_Width(tkwin);
     height = Tk_Height(tkwin);
     depth = Tk_Depth(tkwin);
     if (!PyArg_ParseTuple(args, "|iii", &width, &height, &depth))
 	return NULL;
-	
+
     d = RootWindowOfScreen(Tk_Screen(tkwin));
-    
+
     pixmap = XCreatePixmap(display, d, width, height, depth);
     return PaxPixmap_FromPixmap(display, pixmap, 1);
 }
@@ -290,10 +290,10 @@ tkwin_ReadBitmapFile(TkWinObject * self, PyObject * args)
     int hotspot_x, hotspot_y, error;
     Pixmap	bitmap;
     PyObject *pixmap, *tuple;
-    
+
     if (!PyArg_ParseTuple(args, "s", &arg1))
 	return NULL;
-    
+
     display = Tk_Display(self->tkwin);
     d = RootWindowOfScreen(Tk_Screen(self->tkwin));
     error = XReadBitmapFile(display, d, arg1,
@@ -358,7 +358,7 @@ tkwin_CreateImage(TkWinObject *self, PyObject *args)
 	return PyErr_NoMemory();
     if (data)
     	memcpy(newdata, data, datalength);
-    
+
     ximage = XCreateImage(Tk_Display(self->tkwin), Tk_Visual(self->tkwin),
 			  depth, format, offset, newdata, width,
 			  height, bitmap_pad, bytes_per_line);
@@ -408,7 +408,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "iiz#ii|i", &depth, &format,
 			  &data, &datalength, &width, &height, &read_only))
 	return NULL;
-	
+
     /* create shminfo */
     shminfo = PyMem_Malloc(sizeof(XShmSegmentInfo));
     if (shminfo == NULL)
@@ -441,7 +441,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
 	PyErr_SetFromErrno(PyExc_RuntimeError);
 	goto error;
     }
-	
+
     if (read_only)
 	shminfo->readOnly = True;
     else
@@ -453,7 +453,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
 	goto error;
     }
     XSync(Tk_Display(self->tkwin), False);
-	
+
     retval = PaxImage_FromShmImage(ximage, shminfo, Tk_Display(self->tkwin));
     if (!retval)
 	goto error;
@@ -471,7 +471,7 @@ tkwin_ShmCreateImage(TkWinObject *self, PyObject *args)
 	    fprintf(stderr, "image data longer that ximage\n");
 	}
     }
-	
+
     return (PyObject*)retval;
 
  error:
@@ -502,7 +502,7 @@ tkwin_ShmQueryVersion(TkWinObject *self, PyObject *args)
     Bool pixmaps;
 
     XShmQueryVersion(Tk_Display(self->tkwin), &major, &minor, &pixmaps);
-        
+
     return Py_BuildValue("iii", major, minor, pixmaps);
 }
 
@@ -526,7 +526,7 @@ static PyObject * try_shm_image(TkWinObject * self)
 {
     XImage *ximage = NULL;
     XShmSegmentInfo * shminfo = NULL;
-	
+
     /* create shminfo */
     shminfo = PyMem_Malloc(sizeof(XShmSegmentInfo));
     if (shminfo == NULL)
@@ -560,9 +560,9 @@ static PyObject * try_shm_image(TkWinObject * self)
 	PyErr_SetFromErrno(PyExc_RuntimeError);
 	goto error;
     }
-	
+
     shminfo->readOnly = True;
-    
+
     XShmAttach(Tk_Display(self->tkwin), shminfo);
     XSync(Tk_Display(self->tkwin), False);
 
@@ -591,13 +591,13 @@ static PyObject * try_shm_image(TkWinObject * self)
     }
     return NULL;
 }
-    
+
 
 static PyObject *
 tkwin_ShmCheckExtension(TkWinObject * self, PyObject * args)
 {
     PyObject * result;
-    
+
     if (XShmQueryExtension(Tk_Display(self->tkwin)))
     {
 	int (*orighandler)(Display *, XErrorEvent *);
@@ -641,7 +641,7 @@ tkwin_ClearArea(TkWinObject *self, PyObject *args)
     unsigned int width;
     unsigned int height;
     int exposures;
-    
+
     if (!PyArg_ParseTuple(args, "iiiii", &x, &y, &width, &height, &exposures))
 	return NULL;
 
@@ -738,10 +738,10 @@ tkwin_ListFonts(TkWinObject *self, PyObject *args)
     char **fontnames;
     int count;
     PyObject *list;
-    
+
     if (!PyArg_ParseTuple(args, "s", &pattern))
 	return NULL;
-    
+
     fontnames = XListFonts(Tk_Display(self->tkwin), pattern, 10000, &count);
     if (fontnames == NULL)
 	count = 0;
@@ -771,7 +771,7 @@ tkwin_LoadQueryFont(TkWinObject *self, PyObject *args)
 {
     char *name;
     PyObject *result;
-    
+
     if (!PyArg_ParseTuple(args, "s", &name))
 	return NULL;
     result = PaxFont_FromName(Tk_Display(self->tkwin), name);
@@ -828,7 +828,7 @@ static struct PyMethodDef tkwin_methods[] = {
 #endif
     /* ShmCheckExtension is always available. see above */
     {"ShmCheckExtension",(PyCFunction)tkwin_ShmCheckExtension,	1},
-    
+
     {"QueryBestCursor",	(PyCFunction)tkwin_QueryBestCursor,	1},
     {"Sync",		(PyCFunction)tkwin_Sync,		1},
     {"c_display",	(PyCFunction)tkwin_c_display,		1},
@@ -884,5 +884,5 @@ PyTypeObject TkWinType = {
     0,				/*tp_as_sequence*/
     0,				/*tp_as_mapping*/
     0,				/*tp_hash*/
-    (ternaryfunc)0,		/*tp_call*/ 
+    (ternaryfunc)0,		/*tp_call*/
 };

@@ -97,9 +97,9 @@ read_dsc_comment(PSTokenizerObject * self)
 	int c = GETC();
 	if (c == EOF)
 	    break;
-	    
+
 	*buf++ = c;
-	    
+
 	if ((char_types[c] & NEWLINE) == NEWLINE)
 	{
 	    read_newline(self, c);
@@ -124,7 +124,7 @@ read_dsc_comment(PSTokenizerObject * self)
 	if (_PyString_Resize(&value, size) < 0)
 	    return NULL;
     }
-    
+
     return value;
 }
 
@@ -172,7 +172,7 @@ read_comment(PSTokenizerObject * self)
     {
 	value = read_dsc_comment(self);
     }
-    else 
+    else
     {
 	if (c == '_' && self->ai_pseudo_comments)
 	{
@@ -211,7 +211,7 @@ read_string(PSTokenizerObject * self)
 	return NULL;
     buf = PyString_AsString(value);
     end = buf + maxsize;
-    
+
     for (;;)
     {
 	int c = GETC();
@@ -222,7 +222,7 @@ read_string(PSTokenizerObject * self)
 	    Py_DECREF(value);
 	    PyErr_SetString(PyExc_EOFError, "unexpected end of input");
 	    return NULL;
-	    
+
 	case '(':
 	    depth += 1;
 	    *buf++ = c;
@@ -280,7 +280,7 @@ read_string(PSTokenizerObject * self)
 		break;
 	    case '\n':
 		break;
-		
+
 	    default:
 		*buf++ = c;
 	    }
@@ -292,7 +292,7 @@ read_string(PSTokenizerObject * self)
 		BACK(c);
 	    *buf++ = '\n';
 	    break;
-	    
+
 	default:
 	    *buf++ = c;
 	}
@@ -310,7 +310,7 @@ read_string(PSTokenizerObject * self)
 
     /* unreachable */
     return NULL;
-} 
+}
 
 /*
  * Return the PostScript hex string literal as a Python string object.
@@ -332,7 +332,7 @@ read_hex_string(PSTokenizerObject * self)
 	return NULL;
     buf = PyString_AsString(value);
     end = buf + maxsize;
-    
+
     for (;;)
     {
 	int c = GETC();
@@ -344,7 +344,7 @@ read_hex_string(PSTokenizerObject * self)
 	    Py_DECREF(value);
 	    PyErr_SetString(PyExc_EOFError, "unexpected end of input");
 	    return NULL;
-	    
+
 	case '>':
 	    size = buf - PyString_AsString(value);
 	    if (_PyString_Resize(&value, size) < 0)
@@ -365,7 +365,7 @@ read_hex_string(PSTokenizerObject * self)
 	case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
 	    digit = c - 'a' + 10;
 	    break;
-		
+
 	default:
 	    if (!(char_types[c] & WHITESPACE))
 	    {
@@ -398,12 +398,12 @@ read_hex_string(PSTokenizerObject * self)
 		end = PyString_AsString(value) + maxsize;
 	    }
 	}
-		
+
     }  /* for (;;) */
 
     /* unreachable */
     return NULL;
-} 
+}
 
 
 
@@ -425,13 +425,13 @@ read_name_or_number(PSTokenizerObject * self, int * token, int isname)
 	return NULL;
     buf = PyString_AsString(value);
     end = buf + maxsize;
-    
+
     for (;;)
     {
 	int c = GETC();
 	if (c == EOF)
 	    break;
-	    
+
 	if ((char_types[c] & NAMECHAR) == 0)
 	{
 	    BACK(c);
@@ -501,10 +501,10 @@ read_name_or_number(PSTokenizerObject * self, int * token, int isname)
 
     *token = OPERATOR;
     return value;
-    
-} 
 
-static PyObject * 
+}
+
+static PyObject *
 pslex(PSTokenizerObject * self)
 {
     int token = 0;
@@ -524,13 +524,13 @@ pslex(PSTokenizerObject * self)
 	    value = Py_None;
 	    token = END;
 	    break;
-	    
+
 	case '%':
 	    value = read_comment(self);
 	    if (value)
 		token = DSC_COMMENT;
 	    break;
-	    
+
 	case '[': case ']': case '{': case '}':
 	    /* a single character token */
 	{
@@ -557,7 +557,7 @@ pslex(PSTokenizerObject * self)
 	    value = read_name_or_number(self, &token, 1);
 	    token = NAME;
 	    break;
-	    
+
 	default:
 	    ctype = char_types[c];
 	    if (ctype & WHITESPACE)
@@ -592,7 +592,7 @@ pslex(PSTokenizerObject * self)
 
     if (token < 0 || value == NULL)
 	return NULL;
-    
+
     result = Py_BuildValue("(iO)", token, value);
     Py_DECREF(value);
     return result;
@@ -672,7 +672,7 @@ pstokenizer_read(PSTokenizerObject * self, PyObject * args)
     }
     if (_PyString_Resize(&result, read) < 0)
 	return NULL;
-    
+
     return result;
 }
 
@@ -698,7 +698,7 @@ PSTokenizer_FromStream(FilterObject * filter)
     return (PyObject*)self;
 }
 
-static void 
+static void
 pstokenizer_dealloc(PSTokenizerObject * self)
 {
     Py_DECREF(self->source);
@@ -788,7 +788,7 @@ static PyObject *
 pstokenizer_new(PyObject * self, PyObject * args)
 {
     FilterObject * source;
-    
+
     if (!PyArg_ParseTuple(args, "O!", Filter_Type, &source))
 	return NULL;
 
@@ -834,7 +834,7 @@ initpstokenize(void)
     ADD_INT(DSC_COMMENT);
     ADD_INT(END);
     ADD_INT(MAX_DATA_TOKEN);
-    
+
     /* import some objects from filter */
     filter = PyImport_ImportModule("streamfilter");
     if (filter)

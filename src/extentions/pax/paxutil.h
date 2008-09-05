@@ -7,3 +7,4 @@ int pax_checkshortlist(int width, PyObject *list,
 int pax_checkdoublelist(int width, PyObject *list,
 		       double **parray, int *pnitems);
 #endif /* PAXUTIL_H */
+

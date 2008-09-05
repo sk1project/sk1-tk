@@ -1,5 +1,5 @@
 /***********************************************************
-Copyright (C) 1997 Martin von Löwis
+Copyright (C) 1997 Martin von Lï¿½wis
 
 Permission to use, copy, modify, and distribute this software and its
 documentation for any purpose and without fee is hereby granted,
@@ -82,7 +82,7 @@ PyIntl_localeconv(PyObject* self,PyObject* args)
     char tmp[2]; \
     tmp[0]=l->c;tmp[1]='\0';\
     PyDict_SetItemString(result,#c,PyString_FromString(tmp)); \
-  }  
+  }
 
     /* Numeric information */
   RESULT_STRING(decimal_point);

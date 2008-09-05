@@ -48,7 +48,7 @@ read_zlib(void* clientdata, PyObject * source, char * buf, size_t length)
     {
 	if (state->zstr.avail_in == 0)
 	{
-	    state->zstr.next_in = state->buffer;	    
+	    state->zstr.next_in = state->buffer;
 	    bytesread = Filter_Read(source, state->buffer,
 				    state->buffer_length);
 	    if (bytesread == 0)
@@ -66,7 +66,7 @@ read_zlib(void* clientdata, PyObject * source, char * buf, size_t length)
 	else if (result != Z_OK)
 	{
 	    if (state->zstr.msg == Z_NULL)
-		PyErr_Format(PyExc_IOError, "FlateDecode: Error %i", result); 
+		PyErr_Format(PyExc_IOError, "FlateDecode: Error %i", result);
 	    else
 		PyErr_Format(PyExc_IOError, "FlateDecode: Error %i: %.200s",
 			     result, state->zstr.msg);
@@ -123,15 +123,15 @@ Filter_FlateDecode(PyObject * self, PyObject * args)
 	    PyErr_SetString(PyExc_MemoryError,
 			    "FlateDecode: No memory for z_stream");
 	}
-	else 
+	else
 	{
 	    if (state->zstr.msg == Z_NULL)
 		PyErr_Format(PyExc_IOError, "FlateDecode: Zlib Error %i",
-			     result); 
+			     result);
 	    else
 		PyErr_Format(PyExc_IOError,
 			     "FlateDecode: Zlib Error %i: %.200s",
-			     result, state->zstr.msg);  
+			     result, state->zstr.msg);
 	}
 	PyMem_Free(state->buffer);
 	PyMem_Free(state);

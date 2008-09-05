@@ -24,7 +24,7 @@ pixmap_CreateGC(PaxPixmapObject *self, PyObject *args, PyObject * kwargs)
     }
     else
 	dict = kwargs;
-    
+
     display = self->display;
     d = self->pixmap;
 
@@ -33,7 +33,7 @@ pixmap_CreateGC(PaxPixmapObject *self, PyObject *args, PyObject * kwargs)
 	if (!PaxGC_MakeValues(dict, &mask, &values))
 	    return NULL;
     }
-    
+
     gc = XCreateGC(display, d, mask, &values);
     return PaxGC_FromGC(display, d, gc, PAXGC_OWNED, (PyObject*)self);
 }
@@ -178,8 +178,8 @@ pixmap_GetXbmStrings(PaxPixmapObject * self, PyObject * args)
 	PyErr_SetString(PyExc_RuntimeError, "Cannot get pixmap geometry");
 	return NULL;
     }
-	    
-	
+
+
     /* Convert bitmap to an image */
     image = XGetImage(self->display, self->pixmap,
 		      0, 0, width, height, 1L, XYPixmap);
@@ -193,13 +193,13 @@ pixmap_GetXbmStrings(PaxPixmapObject * self, PyObject * args)
     /* Get standard format for data */
     data = Format_Image(image, &size);
     XDestroyImage(image);
-    if (!data) 
+    if (!data)
 	return NULL;
 
     result = PyList_New(0);
     if (!result)
 	goto fail;
-	
+
     line[0] = '\0';
     for (byte = 0, ptr = data; byte < size; byte++, ptr++)
     {
@@ -234,7 +234,7 @@ pixmap_GetXbmStrings(PaxPixmapObject * self, PyObject * args)
 	if (PyList_Append(result, string) == -1)
 	    goto fail;
     }
-    
+
     return result;
 
 fail:
@@ -321,7 +321,7 @@ pixmap_Intersected(PaxPixmapObject * self, PyObject * args)
 	PyErr_SetString(PyExc_TypeError, "pixmap must have depth 1");
 	return NULL;
     }
-    
+
     bitmap = XCreatePixmap(self->display, self->pixmap, width, height, 1);
 
     values.foreground = 0;
@@ -330,7 +330,7 @@ pixmap_Intersected(PaxPixmapObject * self, PyObject * args)
 		   &values);
     XFillRectangle(self->display, bitmap, gc, 0, 0, width, height);
     XSetForeground(self->display, gc, 1);
-    
+
     if (PaxRegion_Check(other))
     {
 	XSetRegion(self->display, gc, PaxRegion_AsRegion(other));
@@ -353,7 +353,7 @@ pixmap_Intersected(PaxPixmapObject * self, PyObject * args)
 			"argument must be either pixmap or region");
 	return NULL;
     }
-	
+
     XFreeGC(self->display, gc);
 
     return PaxPixmap_FromPixmap(self->display, bitmap, 1);

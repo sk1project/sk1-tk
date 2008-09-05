@@ -109,7 +109,7 @@ read_base64(void* clientdata, PyObject * source, char * buf, size_t length)
 	    this_ch = (*ascii_data & 0x7f);
 	    if (this_ch == '\r' || this_ch == '\n' || this_ch == ' ')
 		continue;
-		
+
 	    if (this_ch == BASE64_PAD)
 		npad++;
 	    this_ch = table_a2b_base64[(*ascii_data) & 0x7f];
@@ -234,7 +234,7 @@ close_base64encode(void * clientdata, PyObject * target)
     Base64EncodeState * state = (Base64EncodeState*)clientdata;
     unsigned char buf[4];
     unsigned char * ascii_data = buf;
-    
+
     if (state->leftbits == 2)
     {
 	*ascii_data++ = table_b2a_base64[(state->leftchar & 3) << 4];
@@ -246,7 +246,7 @@ close_base64encode(void * clientdata, PyObject * target)
 	*ascii_data++ = table_b2a_base64[(state->leftchar & 0xf) << 2];
 	*ascii_data++ = BASE64_PAD;
     }
-    
+
     if (ascii_data > buf || state->column != 0)
     {
 	*ascii_data++ = '\n';	/* Append a courtesy newline */

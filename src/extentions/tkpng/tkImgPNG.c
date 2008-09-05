@@ -190,7 +190,7 @@ Tk_PhotoImageFormat tkImgFmtPNG = {
 	StringWritePNG		/* stringWriteProc */
 };
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -218,7 +218,7 @@ voidpf PNGZAlloc(voidpf opaque, uInt items, uInt itemSz)
 	return (voidpf)attemptckalloc(items * itemSz);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -242,7 +242,7 @@ void PNGZFree(voidpf opaque, voidpf ptr)
 	if (ptr) ckfree((char *)ptr);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -320,7 +320,7 @@ PNGInit(Tcl_Interp* interp, PNGImage* pPNG,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -371,7 +371,7 @@ PNGCleanup(PNGImage* pPNG)
 		ckfree((char *)pPNG -> mpLastLine);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -493,7 +493,7 @@ PNGReadBase64(Tcl_Interp* interp, PNGImage* pPNG,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -548,7 +548,7 @@ PNGReadByteArray(Tcl_Interp* interp, PNGImage* pPNG,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -621,7 +621,7 @@ PNGRead(Tcl_Interp* interp, PNGImage* pPNG,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -656,7 +656,7 @@ PNGReadInt32(Tcl_Interp* interp, PNGImage* pPNG, uLong* pResult, uLong* pCRC)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -696,7 +696,7 @@ int CheckCRC(Tcl_Interp* interp, PNGImage* pPNG, uLong calculated)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -745,11 +745,11 @@ SkipChunk(Tcl_Interp* interp, PNGImage* pPNG, int chunkSz, uLong crc)
 	return TCL_OK;
 }
 
-
+
 /*
 4.3. Summary of standard chunks
 
-This table summarizes some properties of the standard chunk types. 
+This table summarizes some properties of the standard chunk types.
 
 	Critical chunks (must appear in this order, except PLTE
 					is optional):
@@ -785,7 +785,7 @@ This table summarizes some properties of the standard chunk types.
 	[From the PNG specification.]
 */
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -956,7 +956,7 @@ ReadChunkHeader(Tcl_Interp* interp, PNGImage* pPNG,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1122,7 +1122,7 @@ PNGCheckColor(Tcl_Interp* interp, PNGImage* pPNG)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1287,7 +1287,7 @@ ReadIHDR(Tcl_Interp* interp, PNGImage* pPNG)
 	return CheckCRC(interp, pPNG, crc);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1365,7 +1365,7 @@ ReadPLTE(Tcl_Interp* interp, PNGImage* pPNG, int chunkSz, uLong crc)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1513,7 +1513,7 @@ ReadtRNS(Tcl_Interp* interp, PNGImage* pPNG, int chunkSz, uLong crc)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -1943,7 +1943,7 @@ DecodeLine(Tcl_Interp* interp, PNGImage* pPNG)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2056,7 +2056,7 @@ ReadIDAT(Tcl_Interp* interp, PNGImage* pPNG, int chunkSz, uLong crc)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2111,7 +2111,7 @@ void ApplyAlpha(PNGImage* pPNG)
 	}
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2202,7 +2202,7 @@ ParseFormat(Tcl_Interp* interp, Tcl_Obj* pObjFmt, PNGImage* pPNG)
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2466,7 +2466,7 @@ PNGDecode(Tcl_Interp* interp, PNGImage* pPNG, Tcl_Obj* pObjFmt,
 	return TCL_OK;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2510,7 +2510,7 @@ FileMatchPNG(Tcl_Channel chan, CONST char *fileName, Tcl_Obj *pObjFmt,
 	return match;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2548,7 +2548,7 @@ FileReadPNG(Tcl_Interp *interp, Tcl_Channel chan, CONST char *fileName,
 	return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2593,7 +2593,7 @@ StringMatchPNG(Tcl_Obj *pObjData, Tcl_Obj *pObjFmt, int *widthPtr,
 	return match;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2629,7 +2629,7 @@ StringReadPNG(Tcl_Interp *interp, Tcl_Obj *pObjData, Tcl_Obj *pObjFmt,
 	return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2704,7 +2704,7 @@ PNGWriteByte(Tcl_Interp* interp, PNGImage* pPNG, Byte c, uLong* pCRC)
 	return PNGWrite(interp, pPNG, &c, 1, pCRC);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2735,7 +2735,7 @@ PNGWriteInt32(Tcl_Interp* interp, PNGImage* pPNG, uLong L, uLong* pCRC)
 	return PNGWrite(interp, pPNG, pc, 4, pCRC);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2782,7 +2782,7 @@ PNGWriteChunk(Tcl_Interp* interp, PNGImage* pPNG,
 	return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2862,7 +2862,7 @@ WriteIHDR(Tcl_Interp* interp, PNGImage* pPNG, Tk_PhotoImageBlock *blockPtr)
 	return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -2977,7 +2977,7 @@ WriteIDAT(Tcl_Interp* interp, PNGImage* pPNG, Tk_PhotoImageBlock *blockPtr)
 	return PNGWriteChunk(interp, pPNG, CHUNK_IDAT, pPNG->mBlock.pixelPtr,
 		(uLong)pPNG->mBlockSz);
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -3088,7 +3088,7 @@ PNGEncode(Tcl_Interp* interp, Tk_PhotoImageBlock *blockPtr, PNGImage* pPNG)
 	return PNGWriteChunk(interp, pPNG, CHUNK_IEND, NULL, 0);
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -3152,7 +3152,7 @@ cleanup:
 	return result;
 }
 
-
+
 /*
  *----------------------------------------------------------------------
  *

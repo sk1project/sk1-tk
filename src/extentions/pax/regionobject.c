@@ -2,7 +2,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include "regionobject.h"
-#include "gcobject.h" 
+#include "gcobject.h"
 
 PyObject *
 PaxRegion_FromRegion(Region region)
@@ -165,7 +165,7 @@ static PyMethodDef region_methods[] = {
 	{"UnionRectWithRegion", (PyCFunction)region_UnionRectWithRegion,1},
 	{"UnionRegion",		(PyCFunction)region_UnionRegion,	1},
 	{"XorRegion",		(PyCFunction)region_XorRegion,		1},
-	{0, 0} 
+	{0, 0}
 };
 
 static

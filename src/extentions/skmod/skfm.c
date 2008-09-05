@@ -252,7 +252,7 @@ static struct memberlist skfm_memberlist[] = {
     {"urx",		T_INT,		OFF(urx),		RO},
     {"ury",		T_INT,		OFF(ury),		RO},
     {"italic_angle",	T_FLOAT,	OFF(italic_angle),	RO},
-    {NULL} 
+    {NULL}
 };
 
 static struct PyMethodDef skfm_methods[] = {

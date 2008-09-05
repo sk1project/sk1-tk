@@ -36,7 +36,7 @@ read_string(void* clientdata, PyObject * source, char * buf, size_t length)
 {
     StringDecodeState * state = (StringDecodeState*)clientdata;
     size_t copy;
-    
+
     if (state->left > 0)
     {
 	if (state->left > length)

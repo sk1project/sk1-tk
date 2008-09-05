@@ -375,7 +375,7 @@ SKCurve_PyApproxArc(PyObject * self, PyObject * args)
 	    SKCurve_AppendLine(arc, arc->segments[0].x, arc->segments[0].y,
 			       ContAngle);
 	}
-	
+
 	arc->closed = 1;
     }
 
@@ -465,24 +465,24 @@ SKCurve_PyRoundedRectanglePath(PyObject * self, PyObject * args)
 
     SKCurve_AppendLine(path, trafo->v1 + ellipse_trafo.m11,
 		       trafo->v2 + ellipse_trafo.m21, ContSmooth);
-    
+
     SKCurve_AppendLine(path, trafo->v1 + trafo->m11 - ellipse_trafo.m11,
 		       trafo->v2 + trafo->m21 - ellipse_trafo.m21,
 		       ContSmooth);
     append_round_corner(path, &ellipse_trafo, 3);
-    
+
     SKCurve_AppendLine(path,
 		       trafo->v1 + trafo->m11 + trafo->m12 - ellipse_trafo.m12,
 		       trafo->v2 + trafo->m21 + trafo->m22 - ellipse_trafo.m22,
 		       ContSmooth);
     append_round_corner(path, &ellipse_trafo, 0);
-    
+
     SKCurve_AppendLine(path,
 		       trafo->v1 + ellipse_trafo.m11 + trafo->m12,
 		       trafo->v2 + ellipse_trafo.m21 + trafo->m22,
 		       ContSmooth);
     append_round_corner(path, &ellipse_trafo, 1);
-    
+
     SKCurve_AppendLine(path, trafo->v1 + ellipse_trafo.m12,
 		       trafo->v2 + ellipse_trafo.m22, ContSmooth);
     append_round_corner(path, &ellipse_trafo, 2);

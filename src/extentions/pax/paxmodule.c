@@ -212,32 +212,32 @@ Tk_CustomOption tk_PyObject_option = {
 };
 
 static Tk_ConfigSpec configSpecs[] = {
-    
+
 #define CFGIDX_OBJECT	0
     {TK_CONFIG_CUSTOM, "-pyobject", "", "",
      "", Tk_Offset(PaxWidget, obj), TK_CONFIG_DONT_SET_DEFAULT,
      &tk_PyObject_option},
-    
+
 #define CFGIDX_HEIGHT	1
     {TK_CONFIG_PIXELS, "-height", "height", "Height",
      "0", Tk_Offset(PaxWidget, height), 0},
-    
+
 #define CFGIDX_WIDTH	2
     {TK_CONFIG_PIXELS, "-width", "width", "Width",
      "0", Tk_Offset(PaxWidget, width), 0},
-    
+
 #define CFGIDX_BACKGROUND 3
     {TK_CONFIG_BORDER, "-background", "background", "Background",
      "#d9d9d9", Tk_Offset(PaxWidget, background), 0},
-    
+
 #define CFGIDX_CURSOR	4
     {TK_CONFIG_ACTIVE_CURSOR, "-cursor", "cursor", "Cursor",
      "", Tk_Offset(PaxWidget, cursor), TK_CONFIG_NULL_OK},
-    
+
 #define CFGIDX_CLASS	5
     {TK_CONFIG_STRING, "-class", "class", "Class",
      "", Tk_Offset(PaxWidget, class_name), TK_CONFIG_NULL_OK},
-    
+
     {TK_CONFIG_END, (char *) NULL, (char *) NULL, (char *) NULL,
 	(char *) NULL, 0, 0}
 };
@@ -275,7 +275,7 @@ paxwidget_cmd(ClientData data, Tcl_Interp * interp, int argc, char** argv)
 	int length;
 	char c;
 	char * arg;
-	
+
 	arg = argv[i];
 	length = strlen(arg);
 	if (length < 2)
@@ -641,7 +641,7 @@ name_to_window(PyObject * self, PyObject * args)
     Tcl_Interp * interp;
     Tk_Window	tkwin;
     char * name;
-    
+
     if (!PyArg_ParseTuple(args, "sO", &name, &app_or_interpaddr))
 	return NULL;
 
@@ -762,7 +762,7 @@ call_py_method(ClientData data, Tcl_Interp * interp, int argc, char** argv)
 	return TCL_OK;
     }
 
-    
+
     if (argc > 3)
     {
 	int i;
@@ -807,7 +807,7 @@ create_tcl_commands(PyObject * self, PyObject * args)
 {
     PyObject * app_or_interpaddr;
     Tcl_Interp * interp;
-    
+
     if (!PyArg_ParseTuple(args, "O", &app_or_interpaddr))
 	return NULL;
 
@@ -844,7 +844,7 @@ static PyMethodDef pax_methods[] = {
     {"name_to_window",	name_to_window,			1},
     {"do_one_event",	do_one_event,			1},
     {"create_tcl_commands",	create_tcl_commands,	1},
-    {NULL, NULL} 
+    {NULL, NULL}
 };
 
 
@@ -852,7 +852,7 @@ static void
 add_int(PyObject * dict, int i, char * name)
 {
     PyObject *v;
-    
+
     v = Py_BuildValue("i", i);
     if (v)
     {
@@ -865,7 +865,7 @@ static void
 add_string(PyObject * dict, char * str, char * name)
 {
     PyObject *v;
-    
+
     v = Py_BuildValue("s", str);
     if (v)
     {
@@ -877,7 +877,7 @@ add_string(PyObject * dict, char * str, char * name)
 static Pax_Functions pax_functions = {
     PaxPixmap_FromPixmap
 };
-    
+
 
 
 void
@@ -888,7 +888,7 @@ initpax(void)
 
     m = Py_InitModule("pax", pax_methods);
     d = PyModule_GetDict(m);
-    
+
 #define ADD_INT(name) add_int(d, name, #name)
     ADD_INT(TCL_WINDOW_EVENTS);
     ADD_INT(TCL_FILE_EVENTS);
@@ -906,7 +906,7 @@ initpax(void)
     ADD_INT(TK_3D_DARK_GC);
     add_string(d, TK_VERSION, "TK_VERSION");
     add_string(d, TCL_VERSION, "TCL_VERSION");
-    
+
     for (i = 0; i < NUM_METHOD_NAMES; i++)
     {
 	/* Python 1.5! */

@@ -57,10 +57,10 @@ static PyMethodDef curve_functions[] = {
     {"Translation",		sktrafo_translation,		1},
     {"Rotation",		sktrafo_rotation,		1},
     {"trafos_allocted",		sktrafo_allocated,		1},
-    
+
     /* FontMetric functions */
     {"CreateFontMetric",	SKFM_PyCreateMetric,		1},
-    
+
     /* Curve functions */
     {"draw_multipath",		SKCurve_PyDrawMultipath,	1},
     {"cairo_draw_multipath",		SKCurve_PyCairoDrawMultipath,	1},
@@ -101,9 +101,9 @@ static PyMethodDef curve_functions[] = {
     {"IdIndex",			SKAux_IdIndex,			1},
     {"xlfd_char_range",		xlfd_char_range,		1},
     {"SKCache",			SKCache_PyCreate,		1},
-    
+
     /* */
-    {NULL,		NULL} 
+    {NULL,		NULL}
 };
 
 /*
@@ -120,7 +120,7 @@ static void
 add_int(PyObject * dict, int i, char * name)
 {
     PyObject *v;
-    
+
     v = Py_BuildValue("i", i);
     if (v)
     {
@@ -137,7 +137,7 @@ init_sketch(void)
     m = Py_InitModule("_sketch", curve_functions);
     d = PyModule_GetDict(m);
 
-   
+
     /* Rect specific initialization */
     /* The InfinityRect is initialized with FLT_MAX instead of HUGE_VAL
        now (Sketch 0.5.4), because of problems with HUGE_VAL on Alpha
@@ -148,7 +148,7 @@ init_sketch(void)
 	PyDict_SetItemString(d, "InfinityRect", r);
 	SKRect_InfinityRect = (SKRectObject*)r;
     }
-    
+
     r = SKRect_FromDouble(0.0, 0.0, 0.0, 0.0);
     if (r)
     {

@@ -176,7 +176,7 @@ curve_check_state(SKCurveObject * self, int warn, const char * funcname)
 
 /* Resize the bezier path SELF to have at least NEW_LEN allocated
  * segments.
- * 
+ *
  * Return true if successful, otherwise, return false and set an
  * exception.
  */
@@ -272,7 +272,7 @@ curve_duplicate(SKCurveObject * self, PyObject * args)
 
     for (i = 0; i < self->len; i++)
 	copy->segments[i] = self->segments[i];
-    
+
     return (PyObject*)copy;
 }
 
@@ -322,7 +322,7 @@ curve_node_list(SKCurveObject * self, PyObject *args)
     length = self->len;
     if (self->closed)
 	length -= 1;
-    
+
     list = PyList_New(length);
     if (!list)
 	return NULL;
@@ -430,10 +430,10 @@ curve_segment(SKCurveObject * self, PyObject * args)
     }
     else
     {
-	result = Py_BuildValue("i()Oi", segment->type, p, segment->cont); 
+	result = Py_BuildValue("i()Oi", segment->type, p, segment->cont);
     }
     Py_XDECREF(p);
-    
+
     return result;
 }
 
@@ -498,7 +498,7 @@ SKCurve_AppendSegment(SKCurveObject * self, CurveSegment * segment)
 			"The first segment added to a curve must be a line");
 	return 0;
     }
-    
+
     if (!curve_grow(self, 1))
 	return 0;
 
@@ -523,7 +523,7 @@ SKCurve_AppendLine(SKCurveObject * self, double x, double y, int continuity)
 
     return SKCurve_AppendSegment(self, &segment);
 }
-    
+
 int
 SKCurve_AppendBezier(SKCurveObject * self, double x1, double y1,
 		     double x2, double y2, double x, double y,
@@ -580,7 +580,7 @@ curve__set_nodes_and_segments(SKCurveObject * self, PyObject * args)
     int allocated = -1, length = -1, closed = 0;
     PyObject * undo_segments = NULL;
     PyObject * result;
-    
+
     if (!PyArg_ParseTuple(args, "O!iii",
 			  &PyCObject_Type, &undo_segments,
 			  &length, &allocated, &closed))
@@ -627,7 +627,7 @@ curve_hit_point(SKCurveObject * self, PyObject * args)
 	if (SKRect_ContainsXY(rect, segment->x, segment->y))
 	    result = 1;
     }
-    
+
     return PyInt_FromLong(result);
 }
 
@@ -685,7 +685,7 @@ curve_coord_rect(SKCurveObject * self, PyObject * args)
 	rect = (SKRectObject*)SKRect_FromDouble(x, y, x, y);
 	if (!rect)
 	    return NULL;
-	
+
 	segment += 1;
 	for (i = 1; i < self->len; i++, segment++)
 	{
@@ -813,7 +813,7 @@ curve_accurate_rect(SKCurveObject * self, PyObject * args)
 						segment->x, segment->y);
 	if (!rect)
 	    return NULL;
-	
+
 	segment += 1;
 	for (i = 1; i < self->len; i++, segment++)
 	{
@@ -883,7 +883,7 @@ SKCurve_Transform(SKCurveObject * self, PyObject * trafo)
 	}
     }
     return 0;
-}    
+}
 
 static PyObject *
 curve_apply_trafo(SKCurveObject * self, PyObject * args)
@@ -909,7 +909,7 @@ curve_apply_translation(SKCurveObject * self, PyObject * args)
     double x, y;
     int i;
     CurveSegment * segment;
-    
+
     if (!PyArg_ParseTuple(args, "dd", &x, &y))
     {
 	PyObject * sequence;
@@ -966,7 +966,7 @@ curve__undo_close(SKCurveObject * self, PyObject * args)
     SWAP(dtemp, self->segments[lastidx].x, last_x);
     SWAP(dtemp, self->segments[lastidx].y, last_y);
     SWAP(itemp, self->segments[lastidx].cont, last_cont);
-    
+
     self->closed = closed;
 
     if (self->segments[lastidx].type == CurveBezier)
@@ -1006,7 +1006,7 @@ SKCurve_ClosePath(SKCurveObject * self)
 	self->segments[lastidx].x2 += self->segments[lastidx].x - last_x;
 	self->segments[lastidx].y2 += self->segments[lastidx].y - last_y;
     }
-    
+
     curve_check_state(self, 1, FUNCTION_NAME);
     return 0;
 }
@@ -1164,7 +1164,7 @@ curve_append_straight(SKCurveObject * self, PyObject * args)
 {
     double x, y;
     int cont = ContAngle;
-    
+
     if (!PyArg_ParseTuple(args, "dd|i", &x, &y, &cont))
     {
 	PyObject * sequence;
@@ -1192,7 +1192,7 @@ curve_append_curve(SKCurveObject * self, PyObject * args)
 {
     int cont = ContAngle;
     double x, y, x1, y1, x2, y2;
-    
+
     if (PyTuple_Size(args) > 4)
     {
 	if (!PyArg_ParseTuple(args, "dddddd|i", &x1, &y1, &x2, &y2, &x, &y,
@@ -1216,7 +1216,7 @@ curve_append_curve(SKCurveObject * self, PyObject * args)
 	    return NULL;
 	}
     }
-   
+
     if (!SKCurve_AppendBezier(self, x1, y1, x2, y2, x, y, cont))
 	return NULL;
 
@@ -1232,7 +1232,7 @@ curve_append_segment(SKCurveObject * self, PyObject * args)
     int cont = ContAngle;
     int type;
     PyObject * p, *p1, *p2, *tuple;
-    
+
     if (!PyArg_ParseTuple(args, "iOO|i", &type, &tuple, &p, &cont))
 	return NULL;
 
@@ -1274,7 +1274,7 @@ curve_set_straight(SKCurveObject * self, PyObject * args)
 {
     double x, y;
     int idx, cont = ContAngle;
-    
+
     if (!PyArg_ParseTuple(args, "idd|i", &idx, &x, &y, &cont))
     {
 	PyObject * sequence;
@@ -1324,7 +1324,7 @@ curve_set_curve(SKCurveObject * self, PyObject * args)
 {
     int idx, cont = ContAngle;
     double x, y, x1, y1, x2, y2;
-    
+
     if (PyTuple_Size(args) > 5)
     {
 	if (!PyArg_ParseTuple(args, "idddddd|i", &idx,
@@ -1360,7 +1360,7 @@ curve_set_curve(SKCurveObject * self, PyObject * args)
     self->segments[idx].x = x;	 self->segments[idx].y = y;
     self->segments[idx].x1 = x1; self->segments[idx].y1 = y1;
     self->segments[idx].x2 = x2; self->segments[idx].y2 = y2;
-    
+
     if (self->closed)
     {
 	if (idx == 0)
@@ -1389,7 +1389,7 @@ curve_set_segment(SKCurveObject * self, PyObject * args)
     int cont = ContAngle;
     int idx, type;
     PyObject * p, *p1, *p2, *tuple;
-    
+
     if (!PyArg_ParseTuple(args, "iOO|i", &idx, &type, &tuple, &p, &cont))
 	return NULL;
 
@@ -1426,7 +1426,7 @@ curve_set_segment(SKCurveObject * self, PyObject * args)
 	self->segments[idx].x1 = x1;	self->segments[idx].y1 = y1;
 	self->segments[idx].x2 = x2;	self->segments[idx].y2 = y2;
     }
-    
+
     if (self->closed)
     {
 	if (idx == 0)
@@ -1455,12 +1455,12 @@ curve_parse_string_append(SKCurveObject * self, const char * string)
 
     old_locale = strdup(setlocale(LC_NUMERIC, NULL));
     setlocale(LC_NUMERIC, "C");
-    
+
     if (string[1] == 'c')
     {
 	double x, y, x1, y1, x2, y2;
 	int cont;
-	
+
 	segment.type = CurveBezier;
 	if (sscanf(string, "bc%*[ (]%lf,%lf,%lf,%lf,%lf,%lf,%d",
 		   &x1, &y1, &x2, &y2, &x, &y, &cont) != 7)
@@ -1473,7 +1473,7 @@ curve_parse_string_append(SKCurveObject * self, const char * string)
 	segment.x = x;		segment.y = y;
 	segment.x1 = x1;	segment.y1 = y1;
 	segment.x2 = x2;	segment.y2 = y2;
-	
+
 	if (!SKCurve_AppendSegment(self, &segment))
 	    goto fail;
     }
@@ -1481,7 +1481,7 @@ curve_parse_string_append(SKCurveObject * self, const char * string)
     {
 	double x, y;
 	int cont;
-	
+
 	segment.type = CurveLine;
 	if (sscanf(string, "bs%*[ (]%lf,%lf,%d", &x, &y, &cont) != 3)
 	{
@@ -1773,7 +1773,7 @@ creator_draw_not_last(SKCurveObject * curve, PyObject * args)
     Py_INCREF(Py_None);
     return Py_None;
 }
-    
+
 /*
  *	Methods for interactive editing
  */
@@ -1854,7 +1854,7 @@ curve_select_rect(SKCurveObject * self, PyObject * args)
 	}
 	selected = selected || segment->selected;
     }
-    
+
     curve_check_state(self, 1, FUNCTION_NAME);
 
     return PyInt_FromLong(selected);
@@ -1868,7 +1868,7 @@ curve_select_segment(SKCurveObject * self, PyObject * args)
 
     if (!PyArg_ParseTuple(args, "i|i", &idx, &value))
 	return NULL;
-    
+
     if (idx < 0)
 	idx = idx + self->len;
 
@@ -1926,7 +1926,7 @@ curve_draw_dragged_nodes(SKCurveObject * self, PyObject * args)
     if (!PyArg_ParseTuple(args, "O!iOO", &SKPointType, &offset, &partially,
 			  &draw_bezier, &draw_line))
 	return NULL;
-    
+
     for (i = 1; i < self->len; i++, segment++)
     {
 	if (segment[-1].selected || segment->selected || !partially)
@@ -1961,7 +1961,7 @@ curve_draw_dragged_nodes(SKCurveObject * self, PyObject * args)
 	    }
 	}
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -2015,7 +2015,7 @@ curve_draw_unselected(SKCurveObject * self, PyObject * args)
 
     if (!PyArg_ParseTuple(args, "OO", &draw_bezier, &draw_line))
 	return NULL;
-    
+
     for (i = 1; i < self->len; i++, segment++)
     {
 	if (segment->type == CurveLine)
@@ -2028,7 +2028,7 @@ curve_draw_unselected(SKCurveObject * self, PyObject * args)
 			segment->x2, segment->y2, segment->x, segment->y);
 	}
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -2044,7 +2044,7 @@ curve_draw_unselected(SKCurveObject * self, PyObject * args)
 static struct memberlist curve_memberlist[] = {
     {"len",		T_INT,	OFF(len),		RO},
     {"closed",		T_BYTE,	OFF(closed),		RO},
-    {NULL} 
+    {NULL}
 };
 
 
@@ -2053,7 +2053,7 @@ static struct memberlist curve_memberlist[] = {
 static struct PyMethodDef curve_methods[] = {
     {"draw_transformed",(PyCFunction)SKCurve_PyDrawTransformed,	1},
     {"hit_point",	(PyCFunction)curve_hit_point,		1},
-    
+
     {"accurate_rect",	(PyCFunction)curve_accurate_rect,	1},
     {"coord_rect",	(PyCFunction)curve_coord_rect,		1},
 
@@ -2099,7 +2099,7 @@ static struct PyMethodDef curve_methods[] = {
     {"move_selected_nodes",(PyCFunction)curve_move_selected_nodes,1},
     {"nearest_point",	(PyCFunction)SKCurve_NearestPointPy,	1},
     {"point_at",	(PyCFunction)SKCurve_PointAtPy,		1},
-    
+
     /* creator methods */
     {"draw_not_last",	(PyCFunction)creator_draw_not_last,	1},
 

@@ -28,7 +28,7 @@ typedef float SKCoord;
 
 typedef struct {
     PyObject_HEAD
-    SKCoord	x, y; 
+    SKCoord	x, y;
 } SKPointObject;
 
 extern PyTypeObject SKPointType;

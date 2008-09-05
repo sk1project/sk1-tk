@@ -70,7 +70,7 @@ SKColor_FromRGB(double red, double green, double blue)
 			"color components must be in the range [0.0 .. 1.0]");
 	return NULL;
     }
-    
+
 #if SKCOLOR_SUBALLOCATE
     if (free_list == NULL) {
 	if ((free_list = fill_free_list()) == NULL)
@@ -132,7 +132,7 @@ skcolor_hash(SKColorObject * self)
     x = self->red * 65535.0;
     x = (255 * x) ^ (long)(self->green * 65535.0);
     x = (255 * x) ^ (long)(self->blue * 65535.0);
-    
+
     if (x == -1)
 	return -2;
     return x;
@@ -236,7 +236,7 @@ static struct memberlist skcolor_memberlist[] = {
     {"red",		T_FLOAT,	OFF(red),	RO},
     {"green",		T_FLOAT,	OFF(green),	RO},
     {"blue",		T_FLOAT,	OFF(blue),	RO},
-    {NULL} 
+    {NULL}
 };
 #undef OFF
 
@@ -303,11 +303,11 @@ skvisual_truecolor_get_pixel(SKVisualObject * self, SKColorObject * color)
 {
     int r, g, b;
 /*    double gamma = 1.0 / 2.2;*/
-    
+
     r = rint(pow(color->red, self->gamma_inv) * 255);
     g = rint(pow(color->green, self->gamma_inv) * 255);
     b = rint(pow(color->blue, self->gamma_inv) * 255);
-    
+
 /*    r = rint(color->red * 255);
     g = rint(color->green * 255);
     b = rint(color->blue * 255);*/
@@ -410,7 +410,7 @@ skvisual_fill_tile(SKVisualObject * self, SKColorObject * color)
 	    r = dither_red[red];
 	    g = dither_green[green];
 	    b = dither_blue[blue];
-		
+
 	    matrix = dither_matrix[x];
 	    *dest = colors[(r.c[matrix[r.s[1]]] +
 			    g.c[matrix[g.s[1]]] +
@@ -448,7 +448,7 @@ skvisual_pseudocolor_get_pixel(SKVisualObject * self, SKColorObject * color)
 		fprintf(stderr, "Cannot allocate tile pixmap, "
 			"using solid fill");
 	}
-	
+
 	/* the tile is solid color or the creation of the pixmap failed */
 	idx = (int)(color->blue * (self->shades_b - 1) + 0.5)
 	    + (self->shades_b
@@ -456,7 +456,7 @@ skvisual_pseudocolor_get_pixel(SKVisualObject * self, SKColorObject * color)
 		  + self->shades_g * (int)(color->red * (self->shades_r - 1)
 					   + 0.5)));
     }
-	
+
     if (idx < 0)
 	idx = 0;
     else if (idx > 255)
@@ -502,7 +502,7 @@ skvisual_init_pseudocolor(SKVisualObject * self, PyObject * args)
     int length, i;
     char * imgdata;
     XGCValues gcvalues;
-    
+
     if (!PyArg_ParseTuple(args, "iiiiO!", &r, &g, &b, &gray,
 			  &PyList_Type, &list))
 	return 0;
@@ -551,7 +551,7 @@ skvisual_init_pseudocolor(SKVisualObject * self, PyObject * args)
     self->dither_green = NULL;
     self->dither_blue = NULL;
     self->dither_gray = NULL;
-    
+
     length = PyList_Size(list);
     /* XXX: compare length with color cube */
     length = length > 256 ? 256 : length;
@@ -575,18 +575,18 @@ skvisual_init_pseudocolor(SKVisualObject * self, PyObject * args)
      */
     self->get_pixel = skvisual_pseudocolor_get_pixel;
     self->free_extra = skvisual_pseudocolor_free;
-    
+
     return 1;
 }
 
-    
+
 
 static PyObject *
 SKVisual_FromXVisualInfo(Display *display, XVisualInfo *info, PyObject * args)
 {
     SKVisualObject * self = PyObject_New(SKVisualObject, &SKVisualType);
     int result = 0;
-    
+
     if (!self)
 	return NULL;
 
@@ -612,7 +612,7 @@ SKVisual_FromXVisualInfo(Display *display, XVisualInfo *info, PyObject * args)
 	result = skvisual_init_pseudocolor(self, args);
     else
 	PyErr_SetString(PyExc_ValueError, "specified visual not supported");
-    
+
     if (!result)
     {
 	Py_DECREF(self);
@@ -621,7 +621,7 @@ SKVisual_FromXVisualInfo(Display *display, XVisualInfo *info, PyObject * args)
 
     return (PyObject*)self;
 }
-    
+
 
 static void
 skvisual_dealloc(SKVisualObject * self)
@@ -700,7 +700,7 @@ static struct memberlist skvisual_memberlist[] = {
     {"blue_mask",	T_ULONG,	OFF(blue_mask),		RO},
     {"colormap_size",	T_INT,		OFF(colormap_size),	RO},
     {"bits_per_rgb",	T_INT,		OFF(bits_per_rgb),	RO},
-    {NULL} 
+    {NULL}
 };
 #undef OFF
 

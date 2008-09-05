@@ -57,7 +57,7 @@ write_hex(void* clientdata, PyObject * target, const char * buf, size_t length)
 	chunk = maxbinary;
     else
 	chunk = todo;
-	
+
     for (i = 0, dest = encoded; i < chunk; i++, buf++)
     {
 	*dest++ = hexdigits[(int)((*buf & 0xF0) >> 4)];
@@ -69,7 +69,7 @@ write_hex(void* clientdata, PyObject * target, const char * buf, size_t length)
 	    state->column = 0;
 	}
     }
-    
+
     if (Filter_Write(target, encoded, dest - encoded) < 0)
 	return 0;
 
@@ -132,7 +132,7 @@ read_hex(void * clientdata, PyObject * source, char * buf, size_t length)
 	srclen = FBUFLEN;
     else
 	srclen = 2 * length;
-    
+
     bytesread = Filter_Read(source, encoded, srclen);
     if (bytesread == 0)
     {
@@ -188,7 +188,7 @@ Filter_HexDecode(PyObject * self, PyObject * args)
 {
     PyObject * source;
     HexDecodeState * state;
-    
+
     if (!PyArg_ParseTuple(args, "O", &source))
 	return NULL;
 

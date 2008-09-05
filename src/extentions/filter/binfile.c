@@ -149,7 +149,7 @@ typedef struct {
     UnpackFunctionInt unpack_signed;
     UnpackFunctionInt unpack_unsigned;
 } UnpackFunctionTable;
-    
+
 static PyObject *
 nu_char(const char *p)
 {
@@ -320,7 +320,7 @@ calcsize(BinaryInputObject * self, const char * format)
 	case 'l': case 'L': case 'f':
 	    size += 4;
 	    break;
-	    
+
 	case 'd':
 	    size += 8;
 	    break;
@@ -342,7 +342,7 @@ calcsize(BinaryInputObject * self, const char * format)
 static char * read_data(BinaryInputObject * self, int size)
 {
     char * result;
-    
+
     if (PyString_Check(self->stream))
     {
 	int length = PyString_Size(self->stream);
@@ -364,10 +364,10 @@ static char * read_data(BinaryInputObject * self, int size)
 			"Only strings as data source supported");
 	result = NULL;
     }
-    
+
     return result;
 }
-	    
+
 
 static PyObject *
 binfile_readstruct(BinaryInputObject * self, PyObject * args)
@@ -382,7 +382,7 @@ binfile_readstruct(BinaryInputObject * self, PyObject * args)
 
     if (!PyArg_ParseTuple(args, "s", &format))
 	return NULL;
-    
+
     if (self->byte_order == LittleEndian)
 	table = &littleendian_table;
     else
@@ -408,7 +408,7 @@ binfile_readstruct(BinaryInputObject * self, PyObject * args)
 	    v = table->unpack_char(data);
 	    data += 1;
 	    break;
-	    
+
 	case 'b':
 	    v = table->unpack_signed(data, 1);
 	    data += 1;
@@ -419,7 +419,7 @@ binfile_readstruct(BinaryInputObject * self, PyObject * args)
 	    data += 1;
 	    break;
 
-	case 'h': 
+	case 'h':
 	    v = table->unpack_signed(data, 2);
 	    data += 2;
 	    break;
@@ -469,7 +469,7 @@ binfile_readstruct(BinaryInputObject * self, PyObject * args)
 
 	if (!v)
 	    goto error;
-	
+
 	if (PyList_Append(list, v) < 0)
 	    goto error;
 	Py_DECREF(v);
@@ -664,7 +664,7 @@ BinFile_FromStream(PyObject * stream, int byte_order, int int_size)
     binfile->string_pos = 0;
 
     return (PyObject*)binfile;
-}    
+}
 
 PyObject *
 BinFile_New(PyObject * self, PyObject * args)

@@ -64,7 +64,7 @@ paxborder_Draw3DRectangle(PaxBorderObject * self, PyObject * args)
 {
     int x = 0, y = 0, width, height, border_width, relief;
     Drawable drawable;
-    
+
     if (!PyArg_ParseTuple(args, "O&iiiiii", pax_convert_drawable, &drawable,
 			  &x, &y, &width, &height, &border_width, &relief))
 	return NULL;
@@ -82,14 +82,14 @@ paxborder_Fill3DRectangle(PaxBorderObject * self, PyObject * args)
 {
     int x = 0, y = 0, width, height, border_width, relief;
     Drawable drawable;
-    
+
     if (!PyArg_ParseTuple(args, "O&iiiiii", pax_convert_drawable, &drawable,
 			  &x, &y, &width, &height, &border_width, &relief))
 	return NULL;
 
     Tk_Fill3DRectangle(self->tkwin, drawable, self->tkborder,
 		       x, y, width, height, border_width, relief);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -112,7 +112,7 @@ paxborder_Draw3DPolygon(PaxBorderObject * self, PyObject * args)
 	    PyErr_SetString(PyExc_TypeError, "argument should be XPoint[]");
 	return NULL;
     }
-    
+
     Tk_Draw3DPolygon(self->tkwin, drawable, self->tkborder, points, npoints,
 		     border_width, left_relief);
     PyMem_Free(points);
@@ -139,7 +139,7 @@ paxborder_Fill3DPolygon(PaxBorderObject * self, PyObject * args)
 	    PyErr_SetString(PyExc_TypeError, "argument should be XPoint[]");
 	return NULL;
     }
-    
+
     Tk_Fill3DPolygon(self->tkwin, drawable, self->tkborder, points, npoints,
 		     border_width, left_relief);
     PyMem_Free(points);
@@ -181,13 +181,13 @@ paxborder_VerticalBevel(PaxBorderObject * self, PyObject * args)
     Py_INCREF(Py_None);
     return Py_None;
 }
-    
+
 static PyObject *
 paxborder_BorderGC(PaxBorderObject * self, PyObject * args)
 {
     int which;
     GC gc;
-    
+
     if (!PyArg_ParseTuple(args, "i", &which))
 	return NULL;
 

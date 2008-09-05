@@ -79,7 +79,7 @@ SKAux_DrawGridAsLines(PyObject * self, PyObject * arg)
 	return NULL;
 
 //     points = malloc(sizeof(XPoint) * nx * ny);
-// 
+//
 //     current = points;
 	for (ix = 0; ix < nx; ix++)
 	{
@@ -88,7 +88,7 @@ SKAux_DrawGridAsLines(PyObject * self, PyObject * arg)
 		x1 = (int)rint(orig_x + xwidth * ix);
 		x2 = (int)rint(orig_x + xwidth * ix);
 		XDrawLine(gc_object->display, gc_object->drawable,
-			gc_object->gc, x1, y1, x2, y2);	
+			gc_object->gc, x1, y1, x2, y2);
 	}
 	for (iy = 0; iy < ny; iy++)
 	{
@@ -139,7 +139,7 @@ SKAux_GetPixel(PyObject * self, PyObject * arg)
     return PyInt_FromLong(retval);
 }
 
-    
+
 /*
  *	Bezier functions. Should be in a separate module ?
  */
@@ -152,7 +152,7 @@ SKAux_DrawBezier(PyObject * self, PyObject * arg)
 		y[4];
     XPoint	points[BEZIER_FILL_LENGTH];
     int		count;
-    
+
     if (!PyArg_ParseTuple(arg, "Oiiiiiiii",
 			  &gc_object,
 			  &x[0], &y[0], &x[1], &y[1],
@@ -163,13 +163,13 @@ SKAux_DrawBezier(PyObject * self, PyObject * arg)
     XDrawLines(gc_object->display, gc_object->drawable,
 	       gc_object->gc,
 	       points, count, CoordModeOrigin);
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 /*
- *	
+ *
  */
 
 PyObject *
@@ -249,7 +249,7 @@ SKAux_IdIndex(PyObject * self, PyObject * args)
     Py_INCREF(Py_None);
     return Py_None;
 }
-	    
+
 
 
 
@@ -309,7 +309,7 @@ xlfd_char_range(PyObject * self, PyObject * args)
 	else
 	    idx++;
     }
-    
+
     result = PyString_FromString(ranges + 1);
     free(ranges);
     return result;

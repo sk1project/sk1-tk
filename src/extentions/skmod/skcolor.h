@@ -53,7 +53,7 @@ typedef struct SKVisualObject_s {
     PyObject_HEAD
     Display * display;
     XVisualInfo * visualinfo;
-        
+
     SKVisual_GetPixel	get_pixel;
     SKVisual_FreeExtra	free_extra;
 
@@ -61,7 +61,7 @@ typedef struct SKVisualObject_s {
     double gamma_inv;	/* 1 / gamma */
 
     /* XXX: the data for different visual types should be a union (?) */
-    
+
     /* true color */
     long red_bits[256];
     long green_bits[256];

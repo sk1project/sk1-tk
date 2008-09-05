@@ -55,7 +55,7 @@ static PyObject * decode(PyObject * self, PyObject * args)
     if (!oresult)
 	return NULL;
     result = (unsigned char*)PyString_AsString(oresult);
-    
+
     for (i = 0; i < buffer_length; i++)
     {
 	cipher = buffer[i];

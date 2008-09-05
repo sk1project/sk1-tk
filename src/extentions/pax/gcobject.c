@@ -137,7 +137,7 @@ pax_checkcharlist(PyObject *list, char **parray, int *pnitems)
 	PyErr_SetString(PyExc_TypeError, "list of ints expected");
 	return 0;
     }
-    
+
     n = PyList_Size(list);
     *pnitems = n;
     *parray = PyMem_Malloc(n);
@@ -146,7 +146,7 @@ pax_checkcharlist(PyObject *list, char **parray, int *pnitems)
 	PyErr_NoMemory();
 	return 0;
     }
-    
+
     for (i = 0; i < n; i++)
     {
 	PyObject *item = PyList_GetItem(list, i);
@@ -191,7 +191,7 @@ PaxGC_FromGC(Display *display, Drawable drawable, GC gc, int shared,
     gp->cairo = NULL;
     gp->cairo_pattern = NULL;
     Py_XINCREF(gp->drawable_object);
-    
+
     return (PyObject *)gp;
 }
 
@@ -248,13 +248,13 @@ PaxGC_SetDashes(PaxGCObject * self, PyObject * args)
     Py_INCREF(Py_None);
     return Py_None;
 }
-	
-   
+
+
 static PyObject *
 PaxGC_SetForegroundAndFill(PaxGCObject *self, PyObject *args)
 {
     PyObject * pixel_or_pixmap;
-    
+
     if (self->shared != PAXGC_OWNED)
     {
 	PyErr_SetString(PyExc_TypeError, "can't modify shared GC");
@@ -280,7 +280,7 @@ static PyObject *
 PaxGC_SetClipMask(PaxGCObject *self, PyObject *args)
 {
     PyObject *object;
-    
+
     if (self->shared)
     {
 	PyErr_SetString(PyExc_TypeError, "can't modify shared GC");
@@ -302,11 +302,11 @@ PaxGC_SetClipMask(PaxGCObject *self, PyObject *args)
 		     "arg must be a region, a bitmap o a clkip mask object");
 	return NULL;
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
-    
+
 
 #ifndef PAX_NO_XSHM
 static PyObject *
@@ -1307,13 +1307,13 @@ if(width>height)
 {
 	cairo_scale (self->cairo, width/height, 1.0);
 	radius=height/2;
-}	
+}
 else
 {
 	cairo_scale (self->cairo, 1.0, height/width);
 	radius=width/2;
 }
-cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI); 
+cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
 cairo_close_path(self->cairo);
 
 cairo_restore (self->cairo);
@@ -1340,13 +1340,13 @@ if(width>height)
 {
 	cairo_scale (self->cairo, width/height, 1.0);
 	radius=height/2;
-}	
+}
 else
 {
 	cairo_scale (self->cairo, 1.0, height/width);
 	radius=width/2;
 }
-cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI); 
+cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
 cairo_close_path(self->cairo);
 cairo_fill(self->cairo);
 
@@ -1359,8 +1359,8 @@ cairo_restore (self->cairo);
 static PyObject *
 PaxGC_CairoFillPolygon(PaxGCObject * self, PyObject *args)
 {
-	PyObject *arg1; 
-	double *pts_arg1; 
+	PyObject *arg1;
+	double *pts_arg1;
 	int npts_arg1;
 	int i;
 
@@ -1393,8 +1393,8 @@ cairo_fill(self->cairo);
 static PyObject *
 PaxGC_CairoDrawPolygon(PaxGCObject * self, PyObject *args)
 {
-	PyObject *arg1; 
-	double *pts_arg1; 
+	PyObject *arg1;
+	double *pts_arg1;
 	int npts_arg1;
 	int i;
 
@@ -1586,10 +1586,10 @@ GetAttr(PaxGCObject *self, char *name)
     struct GCattr *p;
     XGCValues values;
     PyObject *result;
-    
+
     if (name[0] == '_' && strcmp(name, "__members__") == 0)
 	return MemberList();
-    
+
     result = Py_FindMethod(PaxGC_methods, (PyObject *)self, name);
     if (result != NULL)
 	return result;
@@ -1605,7 +1605,7 @@ GetAttr(PaxGCObject *self, char *name)
 	PyErr_SetString(PyExc_AttributeError, "drawable object is not set");
 	return NULL;
     }
-    
+
     for (p = GCattrdefs; ; p++)
     {
 	if (p->name == NULL)
@@ -1649,7 +1649,7 @@ SetAttr(PaxGCObject *self, char *name, PyObject *value)
 {
     struct GCattr *p;
     XGCValues values;
-    
+
     if (self->shared != PAXGC_OWNED)
     {
 	PyErr_SetString(PyExc_TypeError, "can't modify shared GC");

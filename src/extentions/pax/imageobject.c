@@ -26,11 +26,11 @@ static struct memberlist image_memberlist[] = {
     {"depth",		T_INT,		OFF(depth),		RO},
     {"bytes_per_line",	T_INT,		OFF(bytes_per_line),	RO},
     {"bits_per_pixel",	T_INT,		OFF(bits_per_pixel),	RO},
-    
+
     {"red_mask",	T_ULONG,	OFF(red_mask)},
     {"green_mask",	T_ULONG,	OFF(green_mask)},
     {"blue_mask",	T_ULONG,	OFF(blue_mask)},
-    {NULL} 
+    {NULL}
 };
 
 
@@ -116,8 +116,8 @@ image_shm_get_image(PaxImageObject * self, PyObject * args)
     return Py_None;
 }
 #endif
-	
-    
+
+
 
 static PyMethodDef image_methods[] = {
     {"GetPixel",	(PyCFunction)image_GetPixel,		1},
@@ -126,19 +126,19 @@ static PyMethodDef image_methods[] = {
 #ifndef PAX_NO_XSHM
     {"shm_get_image",	(PyCFunction)image_shm_get_image,	1},
 #endif
-    {NULL, NULL}, 
+    {NULL, NULL},
 };
 
 static PyObject *
 image_getattr(PaxImageObject *self, char *name)
 {
     PyObject * result;
-    
+
     result = PyMember_Get((char *)(self->ximage), image_memberlist, name);
     if (result != NULL)
 	return result;
     /* PyMember_Get failed. reset exceptions */
-    PyErr_Clear(); 
+    PyErr_Clear();
 
     return Py_FindMethod(image_methods, (PyObject *) self, name);
 }
@@ -158,7 +158,7 @@ image_dealloc(PaxImageObject *self)
     else
 #endif
 	XDestroyImage(self->ximage);
-    
+
     PyObject_Del(self);
 }
 

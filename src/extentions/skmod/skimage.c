@@ -1172,15 +1172,15 @@ fill_transformed_tile_rgb(ImagingObject * image, ImagingObject * tile,
 	}
     }
 }
-	
-				  
+
+
 
 PyObject *
 fill_transformed_tile(PyObject * self, PyObject * args)
 {
     ImagingObject * image, *tile;
     SKTrafoObject * trafo;
-    
+
 
     if (!PyArg_ParseTuple(args, "OOO!", &image, &tile, &SKTrafoType, &trafo))
 	return NULL;
@@ -1235,7 +1235,7 @@ convert_color(PyObject * object, GradientEntry * entry)
     }
     return 1;
 }
-	
+
 static Gradient
 gradient_from_list(PyObject * list)
 {
@@ -1248,7 +1248,7 @@ gradient_from_list(PyObject * list)
 	PyErr_SetString(PyExc_TypeError, "gradient list too short");
 	return NULL;
     }
-    
+
     gradient = malloc(length * sizeof(GradientEntry));
     if (!gradient)
     {
@@ -1340,7 +1340,7 @@ horizontal_axial_gradient(ImagingObject * image, Gradient gradient, int length,
 	memcpy(image->image->image32[y], image->image->image32[0],
 	       4 * image->image->xsize);
     }
-}    
+}
 
 static void
 vertical_axial_gradient(ImagingObject * image, Gradient gradient, int length,
@@ -1362,7 +1362,7 @@ vertical_axial_gradient(ImagingObject * image, Gradient gradient, int length,
 	    dest[x] = dest[0];
 	}
     }
-}    
+}
 
 
 #define ANGLE_EPSILON 0.01
@@ -1418,7 +1418,7 @@ fill_axial_gradient(PyObject * self, PyObject * args)
 	double lensqr = hypot(dx, dy) ; /*(double)dx * dx +  (double)dy * dy;*/
 	lensqr *= lensqr;
 	dt = dx / lensqr;
-	
+
 	maxx = image->image->xsize;
 	maxy = image->image->ysize;
 	for (y = 0; y < maxy; y++)
@@ -1486,7 +1486,7 @@ fill_axial_gradient(PyObject * self, PyObject * args)
 	double lensqr = hypot(dx, dy) ; /*(double)dx * dx +  (double)dy * dy;*/
 	lensqr *= lensqr;
 	dt = dx / lensqr;
-	
+
 	maxx = image->image->xsize - x0;
 	maxy = image->image->ysize - y0;
 	for (y = -y0; y < maxy; y++)
@@ -1545,7 +1545,7 @@ fill_radial_gradient(PyObject * self, PyObject * args)
 				 dest);
 	}
     }
-    
+
     free_gradient(gradient);
 
     Py_INCREF(Py_None);
@@ -1584,7 +1584,7 @@ fill_conical_gradient(PyObject * self, PyObject * args)
 	angle += 2 * PI;
     else if (angle > PI)
 	angle -= 2 * PI;
-    
+
     maxx = image->image->xsize - cx;
     maxy = image->image->ysize - cy;
     for (y = -cy; y < maxy; y++)
@@ -1606,7 +1606,7 @@ fill_conical_gradient(PyObject * self, PyObject * args)
 	    store_gradient_color(gradient, length, t, dest);
 	}
     }
-    
+
     free_gradient(gradient);
 
     Py_INCREF(Py_None);
@@ -1700,7 +1700,7 @@ skimage_write_ps_hex(PyObject * self, PyObject * args)
 			  &line_length, &prefix))
 	return NULL;
 
-    
+
     line_length = line_length - 2;
     if (line_length < 0)
 	line_length = 0;

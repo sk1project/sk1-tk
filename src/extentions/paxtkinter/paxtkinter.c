@@ -79,7 +79,7 @@ PERFORMANCE OF THIS SOFTWARE.
 #ifdef WITH_THREAD
 /* define to get readline/EventHook to work in a single-threaded but
    thread-enabled program */
-#define PAX_THREAD_HACK 
+#define PAX_THREAD_HACK
 #endif
 /* turn off all other threading specific code here */
 #undef WITH_THREAD
@@ -182,7 +182,7 @@ PERFORMANCE OF THIS SOFTWARE.
    Py_END_ALLOW_THREADS.  They should be used whenever a call into Tcl is made
    that could call an event handler, or otherwise affect the state of a Tcl
    interpreter.  These assume that the surrounding code has the Python
-   interpreter lock; inside the brackets, the Python interpreter lock has been 
+   interpreter lock; inside the brackets, the Python interpreter lock has been
    released and the lock for Tcl has been acquired.
 
    Sometimes, it is necessary to have both the Python lock and the Tcl lock.
@@ -296,7 +296,7 @@ typedef struct {
 (void *) v, ((PyObject *) v)->ob_refcnt))
 
 
-
+
 /**** Error Handling ****/
 
 static PyObject *Tkinter_TclError;
@@ -307,7 +307,7 @@ static PyObject *valInCmd;
 static PyObject *trbInCmd;
 
 
-
+
 static PyObject *
 Tkinter_Error(PyObject *v)
 {
@@ -316,7 +316,7 @@ Tkinter_Error(PyObject *v)
 }
 
 
-
+
 /**** Utils ****/
 
 #ifdef WITH_THREAD
@@ -339,7 +339,7 @@ Sleep(int milli)
 #endif /* MS_WINDOWS */
 #endif /* WITH_THREAD */
 
-
+
 static char *
 AsString(PyObject *value, PyObject *tmp)
 {
@@ -354,7 +354,7 @@ AsString(PyObject *value, PyObject *tmp)
 }
 
 
-
+
 #define ARGSZ 64
 
 static char *
@@ -428,7 +428,7 @@ Merge(PyObject *args)
 }
 
 
-
+
 static PyObject *
 Split(char *list)
 {
@@ -471,7 +471,7 @@ Split(char *list)
 }
 
 
-
+
 /**** Tkapp Object ****/
 
 int
@@ -489,7 +489,7 @@ Tcl_AppInit(Tcl_Interp *interp)
 }
 
 
-
+
 
 /* Initialize the Tk application; see the `main' function in
  * `tkMain.c'.
@@ -503,7 +503,7 @@ Tkapp_New(char *screenName, char *baseName, char *className, int interactive)
 {
 	TkappObject *v;
 	char *argv0;
-  
+
 	v = PyObject_New(TkappObject, &Tkapp_Type);
 	if (v == NULL)
 		return NULL;
@@ -550,7 +550,7 @@ Tkapp_New(char *screenName, char *baseName, char *className, int interactive)
 }
 
 
-
+
 /** Tcl Eval **/
 
 static PyObject *
@@ -705,7 +705,7 @@ Tkapp_Eval(PyObject *self, PyObject *args)
 	char *script;
 	PyObject *res = NULL;
 	int err;
-  
+
 	if (!PyArg_ParseTuple(args, "s", &script))
 		return NULL;
 
@@ -800,7 +800,7 @@ Tkapp_AddErrorInfo(PyObject *self, PyObject *args)
 }
 
 
-
+
 /** Tcl Variable **/
 
 static PyObject *
@@ -827,7 +827,7 @@ SetVar(PyObject *self, PyObject *args, int flags)
 		if (PyArg_ParseTuple(args, "ssO", &name1, &name2, &newValue)) {
 			s = AsString (newValue, tmp);
 			ENTER_TCL
-			ok = Tcl_SetVar2(Tkapp_Interp(self), name1, name2, 
+			ok = Tcl_SetVar2(Tkapp_Interp(self), name1, name2,
 					 s, flags);
 			LEAVE_TCL
 		}
@@ -858,7 +858,7 @@ Tkapp_GlobalSetVar(PyObject *self, PyObject *args)
 }
 
 
-
+
 static PyObject *
 GetVar(PyObject *self, PyObject *args, int flags)
 {
@@ -897,7 +897,7 @@ Tkapp_GlobalGetVar(PyObject *self, PyObject *args)
 }
 
 
-
+
 static PyObject *
 UnsetVar(PyObject *self, PyObject *args, int flags)
 {
@@ -938,7 +938,7 @@ Tkapp_GlobalUnsetVar(PyObject *self, PyObject *args)
 }
 
 
-
+
 /** Tcl to Python **/
 
 static PyObject *
@@ -1066,7 +1066,7 @@ Tkapp_ExprBoolean(PyObject *self, PyObject *args)
 }
 
 
-
+
 static PyObject *
 Tkapp_SplitList(PyObject *self, PyObject *args)
 {
@@ -1084,7 +1084,7 @@ Tkapp_SplitList(PyObject *self, PyObject *args)
 
 	if (!(v = PyTuple_New(argc)))
 		return NULL;
-	
+
 	for (i = 0; i < argc; i++) {
 		PyObject *s = PyString_FromString(argv[i]);
 		if (!s || PyTuple_SetItem(v, i, s)) {
@@ -1126,7 +1126,7 @@ Tkapp_Merge(PyObject *self, PyObject *args)
 }
 
 
-
+
 /** Tcl Command **/
 
 /* Client data struct */
@@ -1206,7 +1206,7 @@ PythonCmdDelete(ClientData clientData)
 }
 
 
-
+
 static PyObject *
 Tkapp_CreateCommand(PyObject *self, PyObject *args)
 {
@@ -1245,7 +1245,7 @@ Tkapp_CreateCommand(PyObject *self, PyObject *args)
 }
 
 
-
+
 static PyObject *
 Tkapp_DeleteCommand(PyObject *self, PyObject *args)
 {
@@ -1266,7 +1266,7 @@ Tkapp_DeleteCommand(PyObject *self, PyObject *args)
 }
 
 
-
+
 #ifdef HAVE_CREATEFILEHANDLER
 /** File Handler **/
 
@@ -1300,8 +1300,8 @@ static void
 DeleteFHCD(int id)
 {
 	FileHandler_ClientData *p, **pp;
-	
-	pp = &HeadFHCD; 
+
+	pp = &HeadFHCD;
 	while ((p = *pp) != NULL) {
 		if (p->id == id) {
 			*pp = p->next;
@@ -1416,7 +1416,7 @@ Tkapp_DeleteFileHandler(PyObject *self, PyObject *args)
 	PyObject *file;
 	int id;
 	FHANDLE tfile;
-  
+
 	if (!PyArg_ParseTuple(args, "O", &file))
 		return NULL;
 	id = GetFileNo(file);
@@ -1435,7 +1435,7 @@ Tkapp_DeleteFileHandler(PyObject *self, PyObject *args)
 }
 #endif /* HAVE_CREATEFILEHANDLER */
 
-
+
 /**** Tktt Object (timer token) ****/
 
 staticforward PyTypeObject Tktt_Type;
@@ -1477,7 +1477,7 @@ static TkttObject *
 Tktt_New(PyObject *func)
 {
 	TkttObject *v;
-  
+
 	v = PyObject_New(TkttObject, &Tktt_Type);
 	if (v == NULL)
 		return NULL;
@@ -1539,7 +1539,7 @@ static PyTypeObject Tktt_Type =
 };
 
 
-
+
 /** Timer Handler **/
 
 static void
@@ -1591,7 +1591,7 @@ Tkapp_CreateTimerHandler(PyObject *self, PyObject *args)
 	return (PyObject *) v;
 }
 
-
+
 /** Event Loop **/
 
 static PyObject *
@@ -1762,12 +1762,12 @@ Tkapp_WantObjects(PyObject *self, PyObject *args)
     int wantobjects;
     if (!PyArg_ParseTuple(args, "i:wantobjects", &wantobjects))
 	return NULL;
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-
+
 /**** Tkapp Method List ****/
 
 static PyMethodDef Tkapp_methods[] =
@@ -1814,7 +1814,7 @@ static PyMethodDef Tkapp_methods[] =
 };
 
 
-
+
 /**** Tkapp Type Methods ****/
 
 static void
@@ -1853,7 +1853,7 @@ static PyTypeObject Tkapp_Type =
 };
 
 
-
+
 /**** Tkinter Module ****/
 
 static PyObject *
@@ -1873,14 +1873,14 @@ Tkinter_Create(PyObject *self, PyObject *args)
 	else
 		baseName = Py_GetProgramName();
 	className = "Tk";
-  
+
 	if (!PyArg_ParseTuple(args, "|zssiiiiz:create",
 			      &screenName, &baseName, &className,
 			      &interactive, &ignored_int, &ignored_int,
 			      &ignored_int, &ignored_charp))
 		return NULL;
 
-	return (PyObject *) Tkapp_New(screenName, baseName, className, 
+	return (PyObject *) Tkapp_New(screenName, baseName, className,
 				      interactive);
 }
 
@@ -2087,7 +2087,7 @@ initpaxtkinter(void) /* function name changed for pax */
 }
 
 
-
+
 #ifdef macintosh
 
 /*
@@ -2098,12 +2098,12 @@ void
 panic(char * format, ...)
 {
 	va_list varg;
-	
+
 	va_start(varg, format);
-	
+
 	vfprintf(stderr, format, varg);
 	(void) fflush(stderr);
-	
+
 	va_end(varg);
 
 	Py_FatalError("Tcl/Tk panic");
@@ -2159,7 +2159,7 @@ Tcl_FileReady(Tcl_File file, /* File handle for a stream. */
 	return TclMacSocketReady(file, mask);
     } else if (type == TCL_MAC_FILE) {
 	/*
-	 * Under the Macintosh, files are always ready, so we just 
+	 * Under the Macintosh, files are always ready, so we just
 	 * return the mask that was passed in.
 	 */
 
@@ -2167,19 +2167,19 @@ Tcl_FileReady(Tcl_File file, /* File handle for a stream. */
     } else if (type == TCL_UNIX_FD) {
 	fd_set readset, writeset, excset;
 	struct timeval tv;
-	
+
 	FD_ZERO(&readset);
 	FD_ZERO(&writeset);
 	FD_ZERO(&excset);
-	
+
 	if ( mask & TCL_READABLE ) FD_SET(fd, &readset);
 	if ( mask & TCL_WRITABLE ) FD_SET(fd, &writeset);
 	if ( mask & TCL_EXCEPTION ) FD_SET(fd, &excset);
-	
+
 	tv.tv_sec = tv.tv_usec = 0;
 	if ( select(fd+1, &readset, &writeset, &excset, &tv) <= 0 )
 		return 0;
-	
+
 	mask = 0;
 	if ( FD_ISSET(fd, &readset) ) mask |= TCL_READABLE;
 	if ( FD_ISSET(fd, &writeset) ) mask |= TCL_WRITABLE;
@@ -2187,7 +2187,7 @@ Tcl_FileReady(Tcl_File file, /* File handle for a stream. */
 
 	return mask;
     }
-    
+
     return 0;
 }
 #endif /* USE_GUSI */
@@ -2232,7 +2232,7 @@ init_tkinter_shlib(CFragInitBlockPtr data)
 static
 mac_addlibresources()
 {
-	if ( !loaded_from_shlib ) 
+	if ( !loaded_from_shlib )
 		return;
 	(void)FSpOpenResFile(&library_fss, fsRdPerm);
 }

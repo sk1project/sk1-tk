@@ -520,7 +520,7 @@ bezier_point_at(double *x, double *y, double t,
     *result_x = EVAL(coeff_x, t);
     *result_y = EVAL(coeff_y, t);
 }
-    
+
 #define EVALDIFF(coeff, t) ((3 * coeff[0] * t + 2 * coeff[1]) * t + coeff[2])
 void
 bezier_tangent_at(double *x, double *y, double t,

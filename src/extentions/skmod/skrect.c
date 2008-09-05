@@ -29,11 +29,11 @@
  * left < right and bottom < top.
  *
  * Rectangles are immutable.
- * 
+ *
  * In Sketch these rectangles are used to represent bounding rects and
  * similar things.
  */
- 
+
 #include <math.h>
 #include <Python.h>
 #include <structmember.h>
@@ -159,7 +159,7 @@ skrect_repr(SKRectObject * self)
     else if (self == SKRect_InfinityRect)
 	return PyString_FromString("InfinityRect");
     else
-    {	
+    {
 	char buf[1000];
 	sprintf(buf, "Rect(%.10g, %.10g, %.10g, %.10g)",
 		self->left, self->bottom, self->right, self->top);
@@ -300,7 +300,7 @@ skrect_translated(SKRectObject * self, PyObject * args)
 	Py_INCREF(self);
 	return (PyObject*)self;
     }
-    
+
     if (PyTuple_Size(args) == 2)
 	arg = args;
     else if (!PyArg_ParseTuple(args, "O", &arg))
@@ -311,7 +311,7 @@ skrect_translated(SKRectObject * self, PyObject * args)
 	return SKRect_FromDouble(self->left + x,  self->bottom + y,
 				 self->right + x, self->top + y);
     }
-    
+
     PyErr_SetString(PyExc_TypeError, "arguments must be either two numbers "
 		    "or one seqeuence of two numbers");
     return NULL;
@@ -338,7 +338,7 @@ skrect_contains_point(SKRectObject * self, PyObject * args)
     {
 	return PyInt_FromLong(SKRect_ContainsXY(self, x, y));
     }
-    
+
     PyErr_SetString(PyExc_TypeError, "arguments must be either two numbers "
 		    "or one seqeuence of two numbers");
     return NULL;
@@ -365,13 +365,13 @@ skrect_contains_rect(SKRectObject * self, PyObject * args)
      *		I |	1	0	0
      *	other	E |	1	1	1
      *		r |	1	0	?
-     */ 
+     */
     if (self == SKRect_InfinityRect || r == SKRect_EmptyRect)
 	return PyInt_FromLong(1);
-    
+
     if (self == SKRect_EmptyRect || r == SKRect_InfinityRect)
 	return PyInt_FromLong(0);
-    
+
     return PyInt_FromLong(   r->left >= self->left && r->right <= self->right
 			  && r->top <= self->top && r->bottom >= self->bottom);
 }
@@ -393,7 +393,7 @@ skrect_overlaps(SKRectObject * self, PyObject * args)
     if (self == SKRect_InfinityRect || self == SKRect_EmptyRect
 	|| r == SKRect_InfinityRect || r == SKRect_EmptyRect)
 	return PyInt_FromLong(1);
-    
+
     return PyInt_FromLong(   r->left <= self->right && r->right >= self->left
 			  && r->top >= self->bottom && r->bottom <= self->top);
 }
@@ -433,7 +433,7 @@ static struct memberlist skrect_memberlist[] = {
     {"bottom",		T_SKCOORD,	OFF(bottom),	RO},
     {"right",		T_SKCOORD,	OFF(right),	RO},
     {"top",		T_SKCOORD,	OFF(top),	RO},
-    {NULL} 
+    {NULL}
 };
 
 
@@ -576,7 +576,7 @@ skrect_intersect(PyObject * self, PyObject * args)
      *		I |	I	E	r2
      *	r2	E |	E	E	E
      *		r |	r1	E	?
-     */ 
+     */
     if (r1 == SKRect_InfinityRect)
     {
 	Py_INCREF(r2);
@@ -601,8 +601,8 @@ skrect_intersect(PyObject * self, PyObject * args)
     {
 	Py_INCREF(SKRect_EmptyRect);
 	return (PyObject*)SKRect_EmptyRect;
-    }	    
-    
+    }
+
     return SKRect_FromDouble(left, bottom, right, top);
 }
 
@@ -639,7 +639,7 @@ skrect_PointsToRect(PyObject * self, PyObject * args)
 	p = PySequence_GetItem(points, idx);
 	is_point = skpoint_extract_xy(p, &x, &y);
 	Py_DECREF(p);
-	
+
 	if (!is_point)
 	{
 	    PyErr_SetString(PyExc_TypeError,
@@ -711,7 +711,7 @@ int
 SKRect_AddXY(SKRectObject * self, double x, double y)
 {
     skrect_normalize(self);
-    
+
     if (x < self->left)
 	self->left = x;
     else if (x > self->right)
@@ -733,7 +733,7 @@ int
 SKRect_AddX(SKRectObject * self, double x)
 {
     skrect_normalize(self);
-    
+
     if (x < self->left)
 	self->left = x;
     else if (x > self->right)
@@ -750,7 +750,7 @@ int
 SKRect_AddY(SKRectObject * self, double y)
 {
     skrect_normalize(self);
-    
+
     if (y > self->top)
 	self->top = y;
     else if (y < self->bottom)
@@ -758,4 +758,4 @@ SKRect_AddY(SKRectObject * self, double y)
 
     return 1;
 }
-    
+

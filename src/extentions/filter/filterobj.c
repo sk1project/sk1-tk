@@ -117,7 +117,7 @@ new_filter(PyObject * stream, const char * name, int flags,
 	   void * client_data)
 {
     FilterObject * self;
-    
+
     self = PyObject_New(FilterObject, &FilterType);
     if (!self)
 	return NULL;
@@ -157,7 +157,7 @@ new_filter(PyObject * stream, const char * name, int flags,
 
     return self;
 }
-    
+
 
 PyObject *
 Filter_NewEncoder(PyObject * target, const char * name, int flags,
@@ -171,7 +171,7 @@ Filter_NewEncoder(PyObject * target, const char * name, int flags,
 	PyErr_SetString(PyExc_TypeError, "target must be file or filter");
 	return NULL;
     }
-    
+
     self = new_filter(target, name, flags, close, dealloc, client_data);
     if (!self)
 	return NULL;
@@ -195,7 +195,7 @@ Filter_NewDecoder(PyObject * source, const char * name, int flags,
 	return NULL;
     }
     */
-    
+
     self = new_filter(source, name, flags, close, dealloc, client_data);
     if (!self)
 	return NULL;
@@ -293,7 +293,7 @@ int
 _Filter_Underflow(FilterObject * self)
 {
     int c;
-    
+
     c = _Filter_Uflow(self);
     if (c != EOF)
 	self->current++;
@@ -309,7 +309,7 @@ Filter_Flush(PyObject * filter, int flush_target)
 	PyErr_SetString(PyExc_TypeError, "FilterObject expected");
 	return EOF;
     }
-    
+
     self = (FilterObject*)filter;
     if (Filter_IsEncoder(self))
     {
@@ -366,7 +366,7 @@ Filter_Close(PyObject * filter)
 {
     FilterObject * self;
     int result = 0;
-    
+
     if (!Filter_Check(filter))
     {
 	PyErr_SetString(PyExc_TypeError, "FilterObject expected");
@@ -378,7 +378,7 @@ Filter_Close(PyObject * filter)
     if (self->flags & FILTER_CLOSED)
 	/* filter is already closed, do nothing */
 	return 0;
-    
+
     if (Filter_IsEncoder(self) && Filter_Flush((PyObject*)self, 1) < 0)
 	return EOF;
 
@@ -389,7 +389,7 @@ Filter_Close(PyObject * filter)
     return result;
 }
 
-    
+
 
 size_t
 Filter_Read(PyObject * filter, char * buffer, size_t length)
@@ -401,7 +401,7 @@ Filter_Read(PyObject * filter, char * buffer, size_t length)
     {
 	FILE * file = PyFile_AsFile(filter);
 	size_t result;
-	
+
 	Py_BEGIN_ALLOW_THREADS
 	result = fread(buffer, 1, length, file);
 	Py_END_ALLOW_THREADS
@@ -449,7 +449,7 @@ Filter_Read(PyObject * filter, char * buffer, size_t length)
 		    "filter may be FileObject or FilterObject");
     return 0;
 }
-		
+
 size_t
 Filter_ReadToChar(PyObject * filter, char * buffer, size_t length,
 		  int endchar)
@@ -593,7 +593,7 @@ int Filter_Ungetc(PyObject * filter, int c)
     }
     return 0;
 }
-    
+
 
 int
 Filter_Write(PyObject * filter, const char * buffer, size_t length)
@@ -676,7 +676,7 @@ filter_read(PyObject * self, PyObject * args)
 	    return NULL;
 	return PyString_FromString("");
     }
-	    
+
     if (read < length)
     {
 	if (_PyString_Resize(&string, read) < 0)
@@ -825,7 +825,7 @@ filter_write(PyObject * self, PyObject * args)
     Py_INCREF(Py_None);
     return Py_None;
 }
-	
+
 static PyObject *
 filter_flush(PyObject * self, PyObject * args)
 {
@@ -859,7 +859,7 @@ filter_seek(FilterObject * self, PyObject * args)
 {
     int pos;
     long cur_pos, offset;
-    
+
     if (!PyArg_ParseTuple(args, "i", &pos))
 	return NULL;
 
@@ -879,7 +879,7 @@ filter_seek(FilterObject * self, PyObject * args)
 	PyErr_SetString(PyExc_IOError, "cannot seek to specified position");
 	return NULL;
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -888,7 +888,7 @@ static PyObject *
 filter_tell(FilterObject * self, PyObject * args)
 {
     long cur_pos;
-    
+
     if (!PyArg_ParseTuple(args, ""))
 	return NULL;
 

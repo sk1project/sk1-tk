@@ -104,7 +104,7 @@ skpoint_add(SKPointObject * v, PyObject * w)
 {
     if (SKPoint_Check(v) && SKPoint_Check(w))
 	return SKPoint_FromXY(v->x + POINT(w)->x, v->y + POINT(w)->y);
-    
+
 #ifdef USE_NEWSTYLE_NUMBERS
     Py_INCREF(Py_NotImplemented);
     return Py_NotImplemented;
@@ -264,7 +264,7 @@ skpoint_coerce(PyObject ** pv, PyObject ** pw)
 	Py_INCREF(*pv);
 	return 0;
     }
-    
+
     return -1;
 }
 
@@ -295,7 +295,7 @@ skpoint_length(PyObject *self)
  * `concat' as `add'. (This applies to Python 1.5.1)
  */
 
-   
+
 static PyObject *
 skpoint_concat(PyObject *self, PyObject *other)
 {
@@ -349,7 +349,7 @@ skpoint_slice(PyObject *self, int ilow, int ihigh)
 /*
  * point.normalized()
  *
- * Return a point with the same direction but length 1. 
+ * Return a point with the same direction but length 1.
  */
 static PyObject *
 skpoint_normalized(SKPointObject * self, PyObject * args)
@@ -365,7 +365,7 @@ skpoint_normalized(SKPointObject * self, PyObject * args)
 	PyErr_SetString(PyExc_ZeroDivisionError, "Point().normalized");
 	return NULL;
     }
-    
+
     return SKPoint_FromXY(self->x / len, self->y / len);
 }
 
@@ -404,10 +404,10 @@ skpoint_polar(SKPointObject * self, PyObject * args)
 {
     double r = hypot(self->x, self->y);
     double phi = atan2(self->y, self->x);
-    
+
     if (r == 0.0)
     	phi = 0.0;
-	
+
     return Py_BuildValue("dd", r, phi);
 }
 
@@ -537,7 +537,7 @@ SKPoint_PyPoint(PyObject * self, PyObject * args)
 			"expected two numbers or a sequence of two numbers");
 	return NULL;
     }
-    
+
     return SKPoint_FromXY(x, y);
 }
 
@@ -599,7 +599,7 @@ skpoint_extract_xy(PyObject * sequence, double * x, double * y)
 	*y = ((SKPointObject*)sequence)->y;
 	return 1;
     }
-    
+
     if (PySequence_Check(sequence) && PySequence_Length(sequence) == 2)
     {
 	PyObject * xo = PySequence_GetItem(sequence, 0);
@@ -611,7 +611,7 @@ skpoint_extract_xy(PyObject * sequence, double * x, double * y)
 	}
 	Py_XDECREF(xo);
 	Py_XDECREF(yo);
-	
+
 	if(PyErr_Occurred())
 	    return 0;
 	return 1;

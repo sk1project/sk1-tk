@@ -20,7 +20,7 @@
 #define CURVEOBJECT_H
 
 #include "skpoint.h"  /* for SKCoord */
-#include "sktrafo.h" 
+#include "sktrafo.h"
 
 /*
  * A single curve segment

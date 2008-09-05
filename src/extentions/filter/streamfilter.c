@@ -54,20 +54,20 @@ static PyMethodDef filter_functions[] = {
 	{"ASCII85Decode",	Filter_ASCII85Decode,	METH_VARARGS},
 #endif
 	{"BinaryInput",		BinFile_New,		METH_VARARGS},
-	{NULL, NULL} 
+	{NULL, NULL}
 };
 
 static Filter_Functions functions = {
     /* internal methods */
     _Filter_Underflow,
     _Filter_Overflow,
-    
+
     /* decoder methods */
     Filter_Read,
     Filter_ReadToChar,
     Filter_GetLine,
     Filter_Ungetc,
-    
+
     /* endcoder methods */
     Filter_Write,
     Filter_Flush,

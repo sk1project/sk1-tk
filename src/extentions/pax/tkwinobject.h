@@ -8,7 +8,7 @@ typedef struct {
     PyObject_HEAD
     Tcl_Interp *interp;
     Tk_Window tkwin;
-    
+
 } TkWinObject;
 
 extern PyTypeObject TkWinType;

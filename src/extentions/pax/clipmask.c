@@ -35,7 +35,7 @@ mask_intersect_region_with_bitmap(Display * display, Region region,
 	PyErr_SetString(PyExc_TypeError, "pixmap must have depth 1");
 	return NULL;
     }
-    
+
     result = XCreatePixmap(display, bitmap, width, height, 1);
 
     values.foreground = 0;
@@ -46,7 +46,7 @@ mask_intersect_region_with_bitmap(Display * display, Region region,
     XSetForeground(display, gc, 1);
     XSetRegion(display, gc, region);
     XCopyPlane(display, bitmap, result, gc, 0, 0, width, height, 0, 0, 1);
-	
+
     XFreeGC(display, gc);
 
     return PaxPixmap_FromPixmap(display, result, 1);
@@ -92,7 +92,7 @@ mask_intersect_bitmaps(Display * display, Pixmap bitmap1, Pixmap bitmap2)
 	PyErr_SetString(PyExc_ValueError, "bitmaps must have the same size");
 	return NULL;
     }
-    
+
     result = XCreatePixmap(display, bitmap1, width, height, 1);
 
     values.foreground = 1;
@@ -102,7 +102,7 @@ mask_intersect_bitmaps(Display * display, Pixmap bitmap1, Pixmap bitmap2)
     XCopyPlane(display, bitmap1, result, gc, 0, 0, width, height, 0, 0, 1);
     XSetFunction(display, gc, GXand);
     XCopyPlane(display, bitmap2, result, gc, 0, 0, width, height, 0, 0, 1);
-	
+
     XFreeGC(display, gc);
 
     return PaxPixmap_FromPixmap(display, result, 1);
@@ -121,7 +121,7 @@ PaxClipMask_Intersect(PyObject * mask1, PyObject * mask2)
 	Py_INCREF(mask1);
 	return mask1;
     }
-    
+
     if (PaxRegion_Check(mask1))
     {
 	if (PaxRegion_Check(mask2))

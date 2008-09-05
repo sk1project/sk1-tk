@@ -66,7 +66,7 @@ curve_local_coord_system(SKCurveObject * self, PyObject * args)
 	tangent_x = x[3] - x[0];
 	tangent_y = y[3] - y[0];
     }
-    
+
     length = hypot(tangent_x, tangent_y);
     if (length > 0)
     {
@@ -84,7 +84,7 @@ add_point(PyObject * list, double length, PyObject * point)
 {
     PyObject * tuple = NULL;
     int result = -1;
-    
+
     if (point)
     {
 	tuple = Py_BuildValue("dO", length, point);
@@ -95,7 +95,7 @@ add_point(PyObject * list, double length, PyObject * point)
     Py_XDECREF(point);
     return result;
 }
-	
+
 
 static int
 curve_arc_length_curve(double * xs, double * ys, double start_param,
@@ -105,7 +105,7 @@ curve_arc_length_curve(double * xs, double * ys, double start_param,
     int		i, j;
     double	delta, t, t2, t3, x, y, lastx, lasty;
     int		num_steps = BEZIER_NUM_STEPS;
-    
+
     for (i = 0; i < 4; i++)
     {
 	coeff_x[i] = 0;
@@ -116,7 +116,7 @@ curve_arc_length_curve(double * xs, double * ys, double start_param,
 	    coeff_y[i] += bezier_basis[i][j] * ys[j];
 	}
     }
-    
+
     lastx = EVAL(coeff_x, start_param);
     lasty = EVAL(coeff_y, start_param);
 
@@ -147,7 +147,7 @@ curve_arc_length_straight(double x1, double y1, double x2, double y2,
     *length += (1.0 - start_param) * hypot(x2 - x1, y2 - y1);
     return add_point(list, *length, SKPoint_FromXY(x2, y2));
 }
-    
+
 
 PyObject *
 curve_arc_lengths(SKCurveObject * self, PyObject * args)
@@ -225,7 +225,7 @@ curve_arc_lengths(SKCurveObject * self, PyObject * args)
     }
 
     return list;
-    
+
  fail:
     Py_DECREF(list);
     return NULL;
@@ -335,7 +335,7 @@ SKCurve_NearestPointPy(SKCurveObject * self, PyObject * args)
     bound_right = x + max_distance;
     bound_top = y + max_distance;
     bound_bottom = y - max_distance;
-	
+
     segment = self->segments + 1;
     for (i = 1; i < self->len; i++, segment++)
     {
@@ -353,7 +353,7 @@ SKCurve_NearestPointPy(SKCurveObject * self, PyObject * args)
 		SKRect_AddXY(&r, bx[1], by[1]);
 		SKRect_AddXY(&r, bx[2], by[2]);
 		SKRect_AddXY(&r, bx[3], by[3]);
-		
+
 		if (r.left > bound_right || r.right < bound_left
 		    || r.top < bound_bottom || r.bottom > bound_top)
 		{
@@ -367,7 +367,7 @@ SKCurve_NearestPointPy(SKCurveObject * self, PyObject * args)
 	    distance = nearest_on_line(segment[-1].x, segment[-1].y,
 				       segment->x, segment->y, x, y, &t);
 	}
-	
+
 	if (distance < min_distance)
 	{
 	    min_distance = distance;
@@ -397,7 +397,7 @@ SKCurve_PointAtPy(SKCurveObject * self, PyObject * args)
     double x[4], y[4];
     double t, px, py;
     int i;
-    
+
     if (!PyArg_ParseTuple(args, "d", &t))
 	return NULL;
 
@@ -433,4 +433,4 @@ SKCurve_PointAtPy(SKCurveObject * self, PyObject * args)
 
     return SKPoint_FromXY(px, py);
 }
-    
+

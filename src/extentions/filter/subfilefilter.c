@@ -128,7 +128,7 @@ Filter_SubFileDecode(PyObject * self, PyObject * args)
     state->chars_matched = 0;
     state->length = length;
     init_shift(state);
-    
+
     return Filter_NewDecoder(target, "SubFileDecode", 0, read_subfile,
 			     NULL, dealloc_subfile, state);
 }

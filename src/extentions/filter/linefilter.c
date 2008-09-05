@@ -39,7 +39,7 @@ read_nl(void * clientdata, PyObject * source, char * buf, size_t length)
 	maxlen = FBUFLEN;
     else
 	maxlen = length;
-    
+
     bytesread = Filter_Read(source, encoded, maxlen);
     if (bytesread == 0)
 	return 0;
@@ -51,7 +51,7 @@ read_nl(void * clientdata, PyObject * source, char * buf, size_t length)
     }
     else
 	src = encoded;
-    
+
     for (i = 0; i < bytesread; i++)
     {
 	if ((*dest++ = *src++) == '\r')
@@ -77,7 +77,7 @@ Filter_LineDecode(PyObject * self, PyObject * args)
 {
     PyObject * source;
     int * data;
-    
+
     if (!PyArg_ParseTuple(args, "O", &source))
 	return NULL;
 
