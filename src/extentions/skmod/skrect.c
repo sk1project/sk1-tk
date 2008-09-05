@@ -167,7 +167,7 @@ skrect_repr(SKRectObject * self)
     }
 }
 
-static int
+static Py_ssize_t
 skrect_length(PyObject *self)
 {
     return 4;
@@ -182,7 +182,7 @@ skrect_concat(PyObject *self, PyObject *bb)
 }
 
 static PyObject *
-skrect_repeat(PyObject *self, int n)
+skrect_repeat(PyObject *self, Py_ssize_t n)
 {
     PyErr_SetString(PyExc_RuntimeError,
 		    "repeat not supported for SKRectObjects");
@@ -190,7 +190,7 @@ skrect_repeat(PyObject *self, int n)
 }
 
 static PyObject *
-skrect_item(SKRectObject *self, int i)
+skrect_item(SKRectObject *self, Py_ssize_t i)
 {
     double item;
     switch (i)
@@ -216,7 +216,7 @@ skrect_item(SKRectObject *self, int i)
 }
 
 static PyObject *
-skrect_slice(PyObject *self, int ilow, int ihigh)
+skrect_slice(PyObject *self, Py_ssize_t ilow, Py_ssize_t ihigh)
 {
     PyErr_SetString(PyExc_RuntimeError,
 		    "slicing not supported for SKRectObjects");
@@ -227,7 +227,7 @@ static PySequenceMethods skrect_as_sequence = {
 	skrect_length,			/*sq_length*/
 	skrect_concat,			/*sq_concat*/
 	skrect_repeat,			/*sq_repeat*/
-	(intargfunc)skrect_item,	/*sq_item*/
+	(ssizeargfunc)skrect_item,			/*sq_item*/
 	skrect_slice,			/*sq_slice*/
 	0,				/*sq_ass_item*/
 	0,				/*sq_ass_slice*/

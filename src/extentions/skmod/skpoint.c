@@ -270,7 +270,7 @@ skpoint_coerce(PyObject ** pv, PyObject ** pw)
 
 /* point as sequence */
 
-static int
+static Py_ssize_t
 skpoint_length(PyObject *self)
 {
     return 2;
@@ -308,13 +308,13 @@ skpoint_concat(PyObject *self, PyObject *other)
 
 /* Repeat is needed for Python 2.1 and higher */
 static PyObject *
-skpoint_repeat(PyObject *self, int n)
+skpoint_repeat(PyObject *self, Py_ssize_t n)
 {
     return SKPoint_FromXY(POINT(self)->x * n, POINT(self)->y * n);
 }
 
 static PyObject *
-skpoint_item(SKPointObject *self, int i)
+skpoint_item(SKPointObject *self, Py_ssize_t i)
 {
     double item;
     switch (i)
@@ -334,7 +334,7 @@ skpoint_item(SKPointObject *self, int i)
 }
 
 static PyObject *
-skpoint_slice(PyObject *self, int ilow, int ihigh)
+skpoint_slice(PyObject *self, Py_ssize_t ilow, Py_ssize_t ihigh)
 {
     PyErr_SetString(PyExc_RuntimeError,
 		    "slicing not supported for SKPointObjects");
@@ -468,7 +468,7 @@ static PySequenceMethods skpoint_as_sequence = {
 	skpoint_length,			/*sq_length*/
 	skpoint_concat,			/*sq_concat*/
 	skpoint_repeat,			/*sq_repeat*/
-	(intargfunc)skpoint_item,	/*sq_item*/
+	(ssizeargfunc)skpoint_item,			/*sq_item*/
 	skpoint_slice,			/*sq_slice*/
 	0,				/*sq_ass_item*/
 	0,				/*sq_ass_slice*/

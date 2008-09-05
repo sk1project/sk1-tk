@@ -56,7 +56,7 @@ static struct GCattr {
 int
 PaxGC_MakeValues(PyObject *dict, unsigned long *pmask, XGCValues *pvalues)
 {
-    int pos;
+    Py_ssize_t pos;
     struct GCattr *p;
     PyObject *key, *value;
     if (dict == NULL || !PyDict_Check(dict))

@@ -147,7 +147,7 @@ skcolor_repr(SKColorObject * self)
 }
 
 
-static int
+static Py_ssize_t
 skcolor_length(PyObject *self)
 {
     return 3;
@@ -162,7 +162,7 @@ skcolor_concat(PyObject *self, PyObject *bb)
 }
 
 static PyObject *
-skcolor_repeat(PyObject *self, int n)
+skcolor_repeat(PyObject *self, Py_ssize_t n)
 {
     PyErr_SetString(PyExc_RuntimeError,
 		    "repeat not supported for SKColorObjects");
@@ -170,7 +170,7 @@ skcolor_repeat(PyObject *self, int n)
 }
 
 static PyObject *
-skcolor_item(SKColorObject *self, int i)
+skcolor_item(SKColorObject *self, Py_ssize_t i)
 {
     double item;
     switch (i)
@@ -193,7 +193,7 @@ skcolor_item(SKColorObject *self, int i)
 }
 
 static PyObject *
-skcolor_slice(PyObject *self, int ilow, int ihigh)
+skcolor_slice(PyObject *self, Py_ssize_t ilow, Py_ssize_t ihigh)
 {
     PyErr_SetString(PyExc_RuntimeError,
 		    "slicing not supported for SKColorObjects");
@@ -204,7 +204,7 @@ static PySequenceMethods skcolor_as_sequence = {
 	skcolor_length,			/*sq_length*/
 	skcolor_concat,			/*sq_concat*/
 	skcolor_repeat,			/*sq_repeat*/
-	(intargfunc)skcolor_item,	/*sq_item*/
+	(ssizeargfunc)skcolor_item,			/*sq_item*/
 	skcolor_slice,			/*sq_slice*/
 	0,				/*sq_ass_item*/
 	0,				/*sq_ass_slice*/
