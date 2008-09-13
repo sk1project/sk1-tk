@@ -25,8 +25,7 @@ from wrapper import DocumentWrapper
 class Context:
 
 	def __init__(self):
-		self.application = app.main.application
-		self.main_window = self.application.main_window
+		self.main_window = app.mw
 		self.document = self.main_window.document
 
 class Script:
