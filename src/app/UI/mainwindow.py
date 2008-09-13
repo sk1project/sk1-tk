@@ -898,7 +898,7 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
 #		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
 
