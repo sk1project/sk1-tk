@@ -26,6 +26,7 @@ class Context:
 
 	def __init__(self):
 		self.main_window = app.mw
+		self.application=self.main_window.application
 		self.document = self.main_window.document
 
 class Script:
