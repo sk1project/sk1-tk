@@ -31,6 +31,11 @@ class ColorTheme:
 	menudisabledforeground=None
 	menubordercolor=None
 	
+	editfieldbackground=None
+	editfieldforeground=None
+	
+	evencolor=None
+	
 	name=None
 	
 	def __init__(self, colorTheme=None):
@@ -74,6 +79,12 @@ class ColorTheme:
 			self.menudisabledforeground=self.disabledforeground
 		if self.menubordercolor is None:
 			self.menubordercolor=self.disabledforeground
+		if self.editfieldbackground is None:
+			self.editfieldbackground='#ffffff'
+		if self.editfieldforeground is None:
+			self.editfieldforeground=self.foreground
+		if self.evencolor is None:
+			self.evencolor=self.highlightbackground		
 							
 	def correctColor(self):
 		self.disabledforeground=self.recalc(self.foreground, self.bg, 0.7)
