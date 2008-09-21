@@ -33,6 +33,7 @@ class ColorTheme:
 	
 	editfieldbackground=None
 	editfieldforeground=None
+	treelinescolor=none
 	
 	evencolor=None
 	
@@ -85,6 +86,8 @@ class ColorTheme:
 			self.editfieldforeground=self.foreground
 		if self.evencolor is None:
 			self.evencolor=self.highlightbackground		
+		if self.treelinescolor is None:
+			self.treelinescolor=self.editfieldforeground	
 							
 	def correctColor(self):
 		self.disabledforeground=self.recalc(self.foreground, self.bg, 0.7)
