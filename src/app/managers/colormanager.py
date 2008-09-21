@@ -17,7 +17,7 @@ except:
 			 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC		
 	except:
 		import sys
-		print "Cann't find Python binding for LittleCMS!"
+		print "Cannot find Python binding for LittleCMS!"
 		sys.exit(1)
 			
 class ColorManager:
