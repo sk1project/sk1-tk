@@ -33,7 +33,7 @@ class ColorTheme:
 	
 	editfieldbackground=None
 	editfieldforeground=None
-	treelinescolor=none
+	treelinescolor=None
 	
 	evencolor=None
 	
