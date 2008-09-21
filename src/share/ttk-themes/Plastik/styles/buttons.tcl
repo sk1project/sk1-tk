@@ -428,8 +428,22 @@
 			{active !disabled}  $K(gripbg_active)] \
 			-border {0 0 0 0} -padding {0 0 0 0} -sticky ew 
 			
-	style configure HGrip -image $K(hgrip)		
+	style configure HGrip -image $K(hgrip)	
+	
+# ------PM But-------
+	
+			style layout PWButton {
+				PWButton.background
+				PWButton.button -children {
+						PWButton.label
+				}
+			}
 			
+	style element create PWButton.button image [list $K(pw_but_normal) \
+			{pressed !disabled} $K(pw_but_pressed) \
+			{active !disabled}  $K(pw_but_active) \
+			disabled $K(pw_but_normal)] \
+			-border {2 2 2 2} -padding {2 2 2 2} -sticky news
 			
 			
 			

@@ -162,6 +162,17 @@
 		-border {0 0 0 0} -padding {0 0 0 0} -sticky ns
 		
 	style element create PalRBorder.label image $K(pal_right_border)	
+	
+	# -------------
+	style layout PWLabel {
+		PWLabel.background -children {
+			PWLabel.label
+			}
+		}
+	style configure PWLabel -relief flat
+	
+	style element create PWLabel.background image $K(pw_but_normal) \
+		-border {0 0 0 0} -padding {0 0 0 0} -sticky ew
 # ------------------------------------Tooltips Label-------------------------------------------
 
 	style layout Tooltips {
