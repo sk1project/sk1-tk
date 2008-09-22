@@ -178,6 +178,11 @@ class UIManager:
 		self.systemColorTheme.menuforeground = self.systemColorTheme.foreground
 		self.systemColorTheme.menuselectbackground = self.systemColorTheme.selectbackground
 		self.systemColorTheme.menuselectforeground = self.systemColorTheme.selectforeground
+
+		self.systemColorTheme.editfieldbackground='#ffffff'
+		self.systemColorTheme.editfieldforeground=self.systemColorTheme.foreground
+		self.systemColorTheme.evencolor='#F0F0F0'	
+		self.systemColorTheme.treelinescolor=self.systemColorTheme.editfieldforeground
 		
 		self.systemColorTheme.correctColor()
 		

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2003-2008 by Igor E. Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -11,6 +11,8 @@ from app import Publisher
 from app.conf.const import DOCUMENT, SELECTION, MODE
 from app.UI.widgets.resframe import ResizableTFrame
 import app
+
+from pbrowser import PluginBrowser
 
 class PluginContainer(ResizableTFrame):
 	
@@ -23,25 +25,23 @@ class PluginContainer(ResizableTFrame):
 		self.mw=mw
 		self.master=master
 		ResizableTFrame.__init__(self, master, mw, size=180, orient=LEFT, min=100, max=300)
-		self.browserframe=ResizableTFrame(self.panel, mw, size=250, orient=BOTTOM, min=100, max=500)
+		self.browserframe=ResizableTFrame(self.panel, mw, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
-		from align_plugin import AlignPlugin
-		self.testpw=AlignPlugin()		
+		
+		self.pbrowser=PluginBrowser()
+				
 		
 		
 	def showHide(self):
-		if not self.testpw.activated:
-			self.testpw.init(self.browserframe.panel)
+		if not self.pbrowser.activated:
+			self.pbrowser.init(self.browserframe.panel, self)
+			self.pbrowser.forget()
+			self.pbrowser.pack(side=TOP, fill=BOTH, expand=1)
 			
 		if not self.visible:
 			self.visible=1
 			self.rborder.pack(side=RIGHT, fill=Y)
-			self.pack(side=RIGHT, fill=Y)
-#			if len(self.loaded)==0:
-#				inst=app.ppdict['Test Panel']
-#				loaded.append(inst)
-#				inst.init(self)
-							
+			self.pack(side=RIGHT, fill=Y)						
 		else:
 			self.visible=0
 			self.rborder.forget()

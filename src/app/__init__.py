@@ -71,7 +71,12 @@ info2=None
 info3=None
 info_win=None
 #######################################
-ppdict={}
+objprop_plugins=[]
+layout_plugins=[]
+transform_plugins=[]
+effects_plugins=[]
+extentions_plugins=[]
+
 
 from _sketch import Rect, PointsToRect, UnionRects, IntersectRects, EmptyRect, InfinityRect, RectType
 UnitRect = Rect(0, 0, 1, 1)

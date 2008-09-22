@@ -69,6 +69,7 @@ except AttributeError: pass
 class TScrollbar(Tkinter.Widget):
 	"""Scrollbar widget which displays a slider at a certain position."""
 	def __init__(self, master=None, cnf={}, **kw):
+		self.scroll_offset = 0.05
 		"""Construct a scrollbar widget with the parent MASTER.
 
 		Valid resource names: activebackground, activerelief,
@@ -78,6 +79,8 @@ class TScrollbar(Tkinter.Widget):
 		relief, repeatdelay, repeatinterval, takefocus,
 		troughcolor, width."""
 		Tkinter.Widget.__init__(self, master, 'ttk::scrollbar', cnf, kw)
+		self.bind("<Button-4>", self.scroll_up)
+		self.bind("<Button-5>", self.scroll_down)
 	def activate(self, index):
 		"""Display the element at INDEX with activebackground and activerelief.
 		INDEX can be "arrow1","slider" or "arrow2"."""
@@ -103,6 +106,34 @@ class TScrollbar(Tkinter.Widget):
 		"""Set the fractional values of the slider position (upper and
 		lower ends as value between 0 and 1)."""
 		self.tk.call((self._w, 'set') + args)
+	def scroll_up(self,*args):
+		top,down=self.get()
+		offset=0
+		if top > self.scroll_offset:
+			top-=self.scroll_offset
+			down-=self.scroll_offset
+			offset=-self.scroll_offset
+		else:
+			top=0
+			down-=top
+			offset-=top
+		self.set(top,down)
+		if self['command'] is not None:
+			self.tk.call(self['command'],'moveto',top)
+	def scroll_down(self,*args):
+		top,down=self.get()
+		offset=0
+		if 1-down > self.scroll_offset:
+			top+=self.scroll_offset
+			down+=self.scroll_offset
+			offset=self.scroll_offset
+		else:
+			top+=1-down
+			down=1.0
+			offset=1-down
+		self.set(top,down)
+		if self['command'] is not None:
+			self.tk.call(self['command'],'moveto',top)
 #----------------------------------------------------------------------------------------------------------------------------------------	
 class TFrame(Tkinter.Widget):
 	"""Frame widget which may contain other widgets and can have a 3D border."""
