@@ -30,7 +30,7 @@ class AlignPlugin(PluginPanel):
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
-		top = self.top
+		top = self.panel
 		
 		frame_bot = TFrame(top, borderwidth=3, style='FlatFrame')
 		frame_bot.pack(side = BOTTOM, expand = 0, fill = X)
@@ -114,5 +114,5 @@ class AlignPlugin(PluginPanel):
 		reference = self.var_reference.get()
 		return reference == 'page' and self.doc_has_selection()
 	
-instance=AlignPlugin()
-app.ppdict[instance.name]=instance
+#instance=AlignPlugin()
+#app.ppdict[instance.name]=instance
