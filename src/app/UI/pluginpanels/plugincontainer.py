@@ -27,10 +27,10 @@ class PluginContainer(ResizableTFrame):
 		ResizableTFrame.__init__(self, master, mw, size=180, orient=LEFT, min=100, max=300)
 		self.browserframe=ResizableTFrame(self.panel, mw, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
+		self.plugins=app.objprop_plugins+app.layout_plugins+app.transform_plugins
+		self.plugins+=app.effects_plugins+app.extentions_plugins
 		
-		self.pbrowser=PluginBrowser()
-				
-		
+		self.pbrowser=PluginBrowser()		
 		
 	def showHide(self):
 		if not self.pbrowser.activated:
@@ -46,5 +46,16 @@ class PluginContainer(ResizableTFrame):
 			self.visible=0
 			self.rborder.forget()
 			self.forget()
-			
+
+	def loadByName(self,name):
+		plugin=None
+		for item in self.plugins:
+			if item.name==name:
+				plugin=item
+		if plugin is not None:
+			if plugin.activated:
+				if not plugin.visible:
+					plugin.restore_panel()
+			else:
+				plugin.init(self.panel)
 		

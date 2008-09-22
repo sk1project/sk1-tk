@@ -35,7 +35,7 @@ class PluginBrowser(PluginPanel):
 		self.closebut.forget()
 		self.build_plugins_tree()
 				
-		item = PluginsTreeItem(self.ptree)		
+		item = PluginsTreeItem(self.ptree, self.pcontainer)		
 		node = TreeNode(self.scanvas.canvas, None, item, ctheme)
 		node.expand()
 		
@@ -81,8 +81,9 @@ class PluginsTreeItem(TreeItem):
 
 	"""The plugins tree browser """
 
-	def __init__(self, objects):
+	def __init__(self, objects, container):
 		self.objects = objects
+		self.container = container
 
 	def GetText(self):
 		return self.objects.title
@@ -105,12 +106,17 @@ class PluginsTreeItem(TreeItem):
 	def GetSubList(self):
 		sublist = []
 		for name in self.objects.contents:
-			item = PluginsTreeItem(name)
+			item = PluginsTreeItem(name,self.container)
 			sublist.append(item)
 		return sublist
 	
 	def addComment(self):
 		pass
 	
-	def OnClick(self):
-		pass		
+	def OnDoubleClick(self):
+		if not self.IsExpandable():
+			self.container.loadByName(self.objects.name)	
+		
+		
+		
+		
