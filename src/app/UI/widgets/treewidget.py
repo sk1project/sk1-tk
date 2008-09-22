@@ -91,6 +91,7 @@ class TreeNode:
 			self.view()
 
 	def collapse(self, event=None):
+		self.deselecttree()
 		if self.state != 'collapsed':
 			self.state = 'collapsed'
 			self.update()

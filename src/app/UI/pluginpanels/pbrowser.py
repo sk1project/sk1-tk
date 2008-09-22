@@ -30,7 +30,7 @@ class PluginBrowser(PluginPanel):
 		
 		self.browserframe=TFrame(top, style='RoundedFrame', borderwidth=3)
 		self.browserframe.pack(side=TOP, fill=BOTH, expand=1)
-		self.scanvas=ScrolledCanvas(self.browserframe, bg=ctheme.editfieldbackground, height=150, width=200)
+		self.scanvas=ScrolledCanvas(self.browserframe, bg=ctheme.editfieldbackground, height=150, width=150)
 		self.scanvas.frame.pack(side=TOP, fill=BOTH, expand=1)
 		self.closebut.forget()
 		self.build_plugins_tree()

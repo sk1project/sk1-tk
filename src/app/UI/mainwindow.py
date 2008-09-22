@@ -151,7 +151,6 @@ class sK1MainWindow(Publisher):
 		
 		self.pc=PluginContainer(p_frame,self.root)
 		self.pc.rborder=b
-#		self.pc.pack(side = 'right', fill = Y)
 		
 		b = TLabel(root, style='VLine2')
 		b.pack(side = 'right', fill = Y)

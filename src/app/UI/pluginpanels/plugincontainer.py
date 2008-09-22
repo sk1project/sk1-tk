@@ -24,7 +24,7 @@ class PluginContainer(ResizableTFrame):
 	def __init__(self, master, mw, cnf={}, **kw):
 		self.mw=mw
 		self.master=master
-		ResizableTFrame.__init__(self, master, mw, size=180, orient=LEFT, min=100, max=300)
+		ResizableTFrame.__init__(self, master, mw, size=200, orient=LEFT, min=100, max=300)
 		self.browserframe=ResizableTFrame(self.panel, mw, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
 		self.plugins=app.objprop_plugins+app.layout_plugins+app.transform_plugins
