@@ -25,8 +25,6 @@ def make_button(*args, **kw):
 class AlignPlugin(PluginPanel):
 	
 	name='Alignment'
-	category='Layout'
-	category_title=_("Layout")
 	title = _("Alignment")
 	
 	def init(self, master):
@@ -116,11 +114,5 @@ class AlignPlugin(PluginPanel):
 		return reference == 'page' and self.doc_has_selection()
 	
 instance=AlignPlugin()
-app.layout_plugins.append(instance)
+app.effects_plugins.append(instance)
 
-instance=AlignPlugin()
-instance.category='Transform'
-instance.category_title='Transform'
-instance.name='Align2'
-instance.title='Align2'
-app.layout_plugins.append(instance)

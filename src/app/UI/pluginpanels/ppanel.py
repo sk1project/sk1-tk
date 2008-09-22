@@ -9,6 +9,8 @@ from Ttk import TFrame, TLabel, TButton
 from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 from app import Publisher
 from app.conf.const import DOCUMENT, SELECTION, MODE
+from app.UI.tkext import UpdatedButton
+from app import _
 import app
 
 class PluginPanel(TFrame,Publisher):
@@ -53,8 +55,8 @@ class PluginPanel(TFrame,Publisher):
 		self.collapsebut.pack(side=RIGHT)
 		self.textlabel.bind("<Double-1>", self.collapse_panel)
 		
-		self.init_from_doc()
-		self.subscribe_receivers()
+#		self.init_from_doc()
+#		self.subscribe_receivers()
 		self.mw.Subscribe(DOCUMENT, self.doc_changed)
 		
 	def close_panel(self):
@@ -126,4 +128,11 @@ class PluginPanel(TFrame,Publisher):
 
 	def can_apply(self):
 		return 1
+	
+	def create_std_buttons(self, master):
+		frame = TFrame(master, style='FlatFrame', borderwidth=2)
+
+		button = UpdatedButton(frame, text = _("Apply"), command = self.do_apply, sensitivecb = self.can_apply, width = 15)
+		button.pack(side = TOP)
+		return frame
 			
