@@ -54,8 +54,10 @@ class PluginContainer(ResizableTFrame):
 				plugin=item
 		if plugin is not None:
 			if plugin.activated:
-				if not plugin.visible:
+				if not plugin.packed:
 					plugin.restore_panel()
+				if plugin.collapsed:
+					plugin.collapse_panel()
 			else:
 				plugin.init(self.panel)
 		

@@ -58,11 +58,11 @@ class PluginPanel(TFrame,Publisher):
 		self.mw.Subscribe(DOCUMENT, self.doc_changed)
 		
 	def close_panel(self):
-		self.visible=0
+		self.packed=0
 		self.forget()
 		
 	def restore_panel(self):
-		self.visible=1
+		self.packed=1
 		self.pack(side=TOP, fill=X)	
 		
 	def collapse_panel(self, *arg):
