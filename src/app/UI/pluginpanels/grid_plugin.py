@@ -11,7 +11,7 @@ from Tkinter import Frame, Label
 from Ttk import LabelFrame, TFrame, TLabel
 from Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, LEFT
 
-from app.conf.const import GRID
+from app.conf.const import GRID, DOCUMENT
 from app.conf import const
 from app import _
 import app
@@ -72,6 +72,8 @@ class GridPanel(PluginPanel):
 		f.pack(side = TOP, fill=X, pady=2)
 		
 		app.mw.docmanager.activedoc.Subscribe(GRID, self.init_from_doc)
+		app.mw.Subscribe(DOCUMENT, self.init_from_doc)
+		self.init_from_doc()
 		
 	def init_from_doc(self, *arg):
 		xorig, yorig, xwidth, ywidth = self.document.Grid().Geometry()

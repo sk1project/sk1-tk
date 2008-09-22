@@ -1,1 +1,2 @@
-import align_plugin, grid_plugin
+import align_plugin
+import grid_plugin, guidelines_plugin

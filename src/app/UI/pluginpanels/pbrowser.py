@@ -28,7 +28,7 @@ class PluginBrowser(PluginPanel):
 		self.pcontainer=pcontainer
 		ctheme=app.uimanager.currentColorTheme
 		
-		self.browserframe=TFrame(top, style='RoundedFrame', borderwidth=3)
+		self.browserframe=TFrame(top, style='RoundedFrame', borderwidth=5)
 		self.browserframe.pack(side=TOP, fill=BOTH, expand=1)
 		self.scanvas=ScrolledCanvas(self.browserframe, bg=ctheme.editfieldbackground, height=150, width=150)
 		self.scanvas.frame.pack(side=TOP, fill=BOTH, expand=1)

@@ -8,36 +8,33 @@
 
 from app import _, config
 from app.conf import const
-from app.conf.const import LAYOUT
+from app.conf.const import LAYOUT, DOCUMENT
 from app.Graphics.papersize import Papersize, PapersizesList
 from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
 
 from Tkinter import Frame, Label, StringVar, IntVar, DoubleVar
-from tkext import UpdatedButton, MyEntry, MyOptionMenu, UpdatedRadiobutton
+from app.UI.tkext import UpdatedButton, MyEntry, MyOptionMenu, UpdatedRadiobutton
 
 from Ttk import TLabel, TFrame, TLabelframe
-from ttk_ext import TSpinbox, TComboSmall
+from app.UI.ttk_ext import TSpinbox, TComboSmall
 
 from Tkinter import RIGHT, BOTTOM, X, BOTH, LEFT, TOP, W, E, NW, SW, DISABLED, NORMAL
+from ppanel import PluginPanel
 
+from app.UI.lengthvar import LengthVar, create_unit_menu
 
-
-from lengthvar import LengthVar, create_unit_menu
-from sketchdlg import SketchPanel
+import app
 
 USER_SPECIFIC = '<Custom Size>'
 
-class LayoutPanel(SketchPanel):
-
-	title = _("PAGE")
-	class_name = 'SKLayout'
-	receivers = SketchPanel.receivers[:]
-
-	def __init__(self, master, main_window, doc):
-		SketchPanel.__init__(self, master, main_window, doc,
-								name = 'layoutdlg')
-
-	def build_dlg(self):
+class PagePlugin(PluginPanel):
+	
+	name='Page'
+	title = _("Page")
+	
+	def init(self, master):
+		PluginPanel.init(self, master)
+		self.top = self.panel
 		root = self.top
 		
 		top_root = TFrame(root, borderwidth=2, style='FlatFrame')
@@ -129,10 +126,11 @@ class LayoutPanel(SketchPanel):
 		button = UpdatedButton(button_frame, text = _("Apply"), command = self.apply_settings, width=15)
 		button.pack(side = BOTTOM)
 		
-		root.resizable (width=0, height=0)
+		app.mw.docmanager.activedoc.Subscribe(LAYOUT, self.init_from_doc)
+		app.mw.Subscribe(DOCUMENT, self.init_from_doc)
 		
 
-	def init_from_doc(self):
+	def init_from_doc(self, *arg):
 		self.Update()
 
 	def update_size_from_name(self, formatname):
@@ -145,7 +143,6 @@ class LayoutPanel(SketchPanel):
 		self.var_width.set(width)
 		self.var_height.set(height)
 
-	receivers.append((LAYOUT, 'Update'))
 	def Update(self):
 		layout = self.document.Layout()
 		formatname = layout.FormatName()
@@ -196,3 +193,6 @@ class LayoutPanel(SketchPanel):
 			layout = PageLayout(formatname,
 								orientation = self.var_orientation.get())
 		self.document.SetLayout(layout)
+
+instance=PagePlugin()
+app.layout_plugins.append(instance)

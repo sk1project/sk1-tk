@@ -1,45 +1,38 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2003-2006 by Igor E. Novikov
-# Copyright (C) 1998, 1999 by Bernhard Herzog
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-#
-#	Edit the guide lines
-#
+from ppanel import PluginPanel
 
 from string import atoi
 
 from Tkinter import Frame, Label, DoubleVar, StringVar
-from tkext import UpdatedButton, MyEntry, UpdatedListbox
+from app.UI.tkext import UpdatedButton, UpdatedListbox
 
 from Ttk import TScrollbar, TFrame, TLabel
-from ttk_ext import TSpinbox, TComboSmall
+from app.UI.ttk_ext import TSpinbox, TComboSmall
 
 from Tkinter import BOTTOM, BOTH, LEFT, RIGHT, TOP, X, Y, E, W
 
-from app.conf.const import GUIDE_LINES, SELECTION
+from app.conf.const import GUIDE_LINES, SELECTION, DOCUMENT
 from app.conf import const
 from app import _, Point, config
+import app
+
+from app.UI.lengthvar import LengthVar, create_unit_menu
 
 
+class GuidelinesPanel(PluginPanel):
+	name='Guidelines'
+	title = _("Guidelines")
 
 
-from sketchdlg import SketchPanel
-from lengthvar import LengthVar, create_unit_menu
-
-class GuidePanel(SketchPanel):
-
-	title = _("GUIDES")
-	receivers = SketchPanel.receivers[:]
-
-	def __init__(self, master, canvas, doc):
-		SketchPanel.__init__(self, master, canvas, doc, name = 'guidedlg')
-
-	def build_dlg(self):
-		top = self.top
+	def init(self, master):
+		PluginPanel.init(self, master)
+		top = self.panel
 		
 		grid_top = TFrame(top, borderwidth=2, style='FlatFrame')
 		grid_top.pack(side = TOP, expand = 1, fill = X)
@@ -109,13 +102,14 @@ class GuidePanel(SketchPanel):
 		top2 = TFrame(frame, height=5, style='FlatFrame')
 		top2.pack(side = TOP, expand = 0, fill = X)
 		
-		top.resizable(width=0, height=0)
+		app.mw.docmanager.activedoc.Subscribe(GUIDE_LINES, self.init_from_doc)
+		app.mw.Subscribe(DOCUMENT, self.init_from_doc)
+		self.init_from_doc()
 
 	def set_unit(self, *rest):
 		apply(self.var_pos.UpdateUnit, rest)
 		self.update_list()
-
-	receivers.append((GUIDE_LINES, 'init_from_doc'))
+	
 	def init_from_doc(self, *rest):
 		self.guide_lines = self.document.GuideLines()
 		self.guide_lines.reverse()
@@ -179,3 +173,6 @@ class GuidePanel(SketchPanel):
 		self.var_pos.set(self.entry.get_value()*self.var_pos.Factor())
 		self.set_pos()
 		self.update_list()
+
+instance=GuidelinesPanel()
+app.layout_plugins.append(instance)

@@ -465,12 +465,12 @@ class sK1MainWindow(Publisher):
 		b.pack(side = LEFT)
 		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
 		
-		label = TLabel(tbar, image = "sb_sep")
+		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
 		
-		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
-		tooltips.AddDescription(b, commands.Preferences.menu_name)
-		b.pack(side = LEFT)
+#		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+#		tooltips.AddDescription(b, commands.Preferences.menu_name)
+#		b.pack(side = LEFT)
 		
 		b = ToolbarButton(tbar, commands.PCshowHide, image="show_side_panel")
 		tooltips.AddDescription(b, commands.PCshowHide.menu_name)
@@ -768,8 +768,8 @@ class sK1MainWindow(Publisher):
 	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image = 'menu_file_close')	
 	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
 	AddCmd('InsertFile', _("Import vector..."))
-	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
-	AddCmd('Preferences', _("Preferences..."), image = 'menu_file_configure')
+#	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
+#	AddCmd('Preferences', _("Preferences..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	
 	
@@ -805,32 +805,32 @@ class sK1MainWindow(Publisher):
 	AddCmd('ExportRaster', _("Export Bitmap..."), 'ExportRaster')
 	
 			
-	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
-	AddCmd('CreateAlignDialog', _("Align to ..."), 'CreateDialog', args = ('dlg_align', 'AlignPanel'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
-	AddCmd('CreateGridDialog', _("Grid Setup..."), 'CreateDialog', args = ('dlg_grid', 'GridPanel'))
+#	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
+	AddCmd('CreateAlignDialog', _("Align to ..."), 'LoadPlugin', args = ('Alignment'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
+	AddCmd('CreateGridDialog', _("Grid Setup..."), 'LoadPlugin', args = ('Grid'))#################################
 	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
 	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
-	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
+#	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
-	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
-	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
+#	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
+#	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
-	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
-	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'CreateDialog', args = ('dlg_guide', 'GuidePanel'))
+#	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
+	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'LoadPlugin', args = ('Guidelines'))
 	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'), sensitive_cb ='HasKPrinter')
 	AddCmd('PrintToPDF', _("Print to PDF..."), 'PrintToPDF', image = 'menu_file_pdf')
 #	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
 	AddCmd('CreateMoveDialog', _("Move..."), 'CreateDialog', args = ('dlg_move', 'MovePanel'), key_stroke = 'Alt+F9')
 	AddCmd('CreateRotateDialog', _("Rotate..."), 'CreateDialog', args = ('dlg_rotate', 'RotatePanel'))
 	AddCmd('CreateSizeDialog', _("Resize..."), 'CreateDialog', args = ('dlg_size', 'SizePanel'))
-	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
-	AddCmd('HideDialogs', _("Hide Dialogs"))
-	AddCmd('ShowDialogs', _("Show Dialogs"))
+#	AddCmd('CreateReloadPanel', _("Reload Module..."), 'CreateDialog', args = ('reloaddlg', 'ReloadPanel'))
+#	AddCmd('HideDialogs', _("Hide Dialogs"))
+#	AddCmd('ShowDialogs', _("Show Dialogs"))
 	
 	AddCmd('LoadPalette', _("Load Palette..."))	
 	AddCmd('InsertFile', _("Import vector..."))
 	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to = None)
-	AddCmd('DocumentInfo', "Document Info...")	
+#	AddCmd('DocumentInfo', "Document Info...")	
 	AddCmd('CreateStyleFromSelection', _("Name Style..."), sensitive_cb = ('document', 'CanCreateStyle'), subscribe_to = SELECTION)	
 	
 ################### Document comands ############################	
@@ -897,7 +897,7 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
 #		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
 
@@ -944,10 +944,10 @@ class sK1MainWindow(Publisher):
 					None,
 					cmds.KPrinting,
 					cmds.PrintToPDF, #cmds.CreatePrintDialog,
-					None,
+#					None,
 					#cmds.CreateExportDialog,
 					#None,
-					cmds.Preferences,
+#					cmds.Preferences,
 #					None,
 #					cmds.DocumentInfo,
 					None,
@@ -1019,7 +1019,7 @@ class sK1MainWindow(Publisher):
 					self.commands.NextPage,
 					self.commands.PreviousPage,
 					None,
-					self.commands.CreateLayoutDialog,
+#					self.commands.CreateLayoutDialog,
 					self.commands.CreateGridDialog,
 					self.commands.CreateGuideDialog,
 					None,
@@ -1068,13 +1068,13 @@ class sK1MainWindow(Publisher):
 					self.commands.FlipHorizontal,
 					self.commands.FlipVertical,
 					None,
-					self.commands.RemoveTransformation,
-					None,
-					self.commands.CreateBlendDialog,
-					self.commands.CancelBlend,
-					None,
-					self.commands.CreateMaskGroup,
-					self.commands.CreatePathText
+					self.commands.RemoveTransformation#,
+#					None,
+#					self.commands.CreateBlendDialog,
+#					self.commands.CancelBlend,
+#					None,
+#					self.commands.CreateMaskGroup,
+#					self.commands.CreatePathText
 					])	
 
 	def make_curve_menu(self):
@@ -1132,13 +1132,13 @@ class sK1MainWindow(Publisher):
 					None,
 					cmds.CreateLineStyleDialog,
 					cmds.CreateFillStyleDialog,
-					cmds.CreateFontDialog,
-					cmds.CreateStyleDialog,
-					None,
-					cmds.CreateLayoutDialog,
-					None,
-					cmds.CreateBlendDialog,
-					cmds.CreateCurveDialog
+#					cmds.CreateFontDialog,
+					cmds.CreateStyleDialog#,
+#					None,
+#					cmds.CreateLayoutDialog,
+#					None,
+#					cmds.CreateBlendDialog,
+#					cmds.CreateCurveDialog
 					])
 
 	def make_help_menu(self):
@@ -1151,17 +1151,17 @@ class sK1MainWindow(Publisher):
 					self.commands.AboutBox
 					])
 
-	def make_special_menu(self):
-		cmdlist = [self.commands.python_prompt,
-					self.commands.CreateReloadPanel,
-					self.commands.DocumentInfo,
-					None,
-					self.commands.DumpXImage,
-					self.commands.CreateClone,
-					#self.commands.export_bitmap,
-					]
-		app.Issue(None, const.ADD_TO_SPECIAL_MENU, cmdlist)
-		return map(MakeCommand, cmdlist)		
+#	def make_special_menu(self):
+#		cmdlist = [self.commands.python_prompt,
+#					self.commands.CreateReloadPanel,
+#					self.commands.DocumentInfo,
+#					None,
+#					self.commands.DumpXImage,
+#					self.commands.CreateClone,
+#					#self.commands.export_bitmap,
+#					]
+#		app.Issue(None, const.ADD_TO_SPECIAL_MENU, cmdlist)
+#		return map(MakeCommand, cmdlist)		
 																				
 ################### Utilite methods ############################
 		
@@ -1225,6 +1225,11 @@ class sK1MainWindow(Publisher):
 			dialog = dlgclass(self.root, self, self.document)
 			dialog.Subscribe(CLOSED, self.__dlg_closed, dlgname)
 			self.dialogs[dlgname] = dialog
+			
+	def LoadPlugin(self,pluginname):
+		if not self.pc.visible:
+			self.PCshowHide()
+		self.pc.loadByName(pluginname)
 
 	def HideDialogs(self):
 		for dialog in self.dialogs.values():
@@ -1341,13 +1346,13 @@ class sK1MainWindow(Publisher):
 			self.canvas.ZoomFactor(1.5)
 
 	def RulerDoublePressH(self, event):
-			self.root.bell()
-			self.CreateDialog('dlg_grid', 'GridPanel')
+			self.LoadPlugin("Grid")
+			
 	def RulerDoublePressV(self, event):
-			self.CreateDialog('dlg_layer', 'LayerPanel')
+			self.LoadPlugin("Grid")
 
 	def GuideDialog(self, action=None):
-			self.CreateDialog('dlg_guide', 'GuidePanel')
+			self.LoadPlugin("Guidelines")
 			
 	def ProjectSite(self):
 		dialogman.launchBrowserURL('http://sk1project.org')
