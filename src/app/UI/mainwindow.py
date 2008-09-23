@@ -44,7 +44,7 @@ from command import CommandClass, Keymap, Commands
 from math import floor, ceil
 
 from canvas import SketchCanvas
-from ExportR import export_raster_more_interactive
+#from ExportR import export_raster_more_interactive
 import tkruler
 from poslabel import PositionLabel
 import palette
@@ -403,9 +403,9 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.ExportAs, image = "toolbar_eVector")
 		tooltips.AddDescription(b, commands.ExportAs.menu_name)
 		b.pack(side = LEFT)
-		b = ToolbarButton(tbar, commands.ExportRaster, image = "toolbar_eRaster")
-		tooltips.AddDescription(b, commands.ExportRaster.menu_name)
-		b.pack(side = LEFT)
+#		b = ToolbarButton(tbar, commands.ExportRaster, image = "toolbar_eRaster")
+#		tooltips.AddDescription(b, commands.ExportRaster.menu_name)
+#		b.pack(side = LEFT)
 
 		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
@@ -939,7 +939,7 @@ class sK1MainWindow(Publisher):
 					cmds.CreateImage,
 					cmds.InsertFile,
 					cmds.ExportAs,
-					cmds.ExportRaster, #cmds.SavePS,
+#					cmds.ExportRaster, #cmds.SavePS,
 					#cmds.export_bitmap,
 					None,
 					cmds.KPrinting,

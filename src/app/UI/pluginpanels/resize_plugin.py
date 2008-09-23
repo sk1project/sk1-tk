@@ -5,47 +5,37 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
+from Ttk import TFrame, TLabel
+from Tkinter import DoubleVar, Spinbox
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
+from app.UI.tkext import UpdatedButton
+from app.UI.ttk_ext import TSpinbox
 
-import sketchdlg
-from Tkinter import Frame, Label, DoubleVar, Spinbox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E,\
-		DISABLED, NORMAL
-from tkext import UpdatedButton
-
-from sketchdlg import PropertyPanel
-from app.conf.const import SELECTION
-
-from app.Graphics.blendgroup import BlendGroup, BlendInterpolation, \
-		SelectStart, SelectEnd
+from app.conf.const import SELECTION, DOCUMENT, EDITED
 
 from app import _, config, Rect
 from app.conf import const
-import skpixmaps
-pixmaps = skpixmaps.PixmapTk
+import app
 
-from canvas import SketchCanvas
+from ppanel import PluginPanel
+
 from math import floor, ceil
 
-class SizePanel(PropertyPanel):
-
-	title = _("SIZE")
-	def __init__(self, master, main_window, doc):
-		PropertyPanel.__init__(self, master, main_window, doc,
-								name = 'sizedlg')
-
-	def build_dlg(self):
-		top = self.top
+class ResizePanel(PluginPanel):
+	name='Resize'
+	title = _("Resize")
 
 
-		format_label = Label(top, image = 'messagebox_construct', borderwidth=6)
-		format_label.pack(side = TOP)
+	def init(self, master):
+		PluginPanel.init(self, master)
 
-		sep_frame = Frame(top, relief = 'sunken', height= 5)
-		sep_frame.pack(side = TOP, fill=X)
+		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top.pack(side = TOP, fill=BOTH)
 
-		steps_frame = Frame(top, relief = 'flat', bd = 3)
+
+		steps_frame = TFrame(top, style='FlatFrame', borderwidth=3)
 		steps_frame.pack(side = TOP)
-		label = Label(steps_frame, text = _("  H (mm): "))
+		label = TLabel(steps_frame, style='FlatLabel', text = _("  H (mm): "))
 		label.pack(side = LEFT, anchor = E)
 
 		self.var_width=DoubleVar(top)
@@ -53,59 +43,55 @@ class SizePanel(PropertyPanel):
 		self.var_width.set(0)
 		self.var_height.set(0)
 
-		self.entry_width = Spinbox(steps_frame, name = 'width', width = 7,
-								textvariable = self.var_width, background = '#FFFFFF', 
-								selectbackground = '#21449C', selectforeground = '#FFFFFF', 
-								selectborderwidth=0, to=10000, increment = 1.0)
+		self.entry_width = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_width, 
+									min = -50000, max = 50000, step = .1, width = 6)
 								
 		self.entry_width.pack(side = LEFT, anchor = E)
 
-		steps_frame = Frame(top, relief = 'flat', bd = 3)
+		steps_frame = TFrame(top, style='FlatFrame', borderwidth=3)
 		steps_frame.pack(side = TOP)
-		label = Label(steps_frame, text = _("  V (mm): "))
+		label = TLabel(steps_frame, style='FlatLabel', text = _("  V (mm): "))
 		label.pack(side = LEFT, anchor = E)
 		
-		self.entry_height = Spinbox(steps_frame, name = 'height', width = 7,
-								textvariable = self.var_height, background = '#FFFFFF', 
-								selectbackground = '#21449C', selectforeground = '#FFFFFF', 
-								selectborderwidth=0, to=10000, increment = 1.0)
-
+		self.entry_height = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_height, 
+									min = -50000, max = 50000, step = .1, width = 6)
 								
 		self.entry_height.pack(side = LEFT, anchor = E)
 
 
-		button_frame = Frame(top)
+		button_frame = TFrame(top, style='FlatFrame', borderwidth=5)
 		button_frame.pack(side = BOTTOM, fill = BOTH)
+		
 
 		self.update_buttons = []
 		button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_resize,
 								sensitivecb = self.doc_can_move)
-		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
+		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=5)
 		self.Subscribe(SELECTION, button.Update)
-
+		
 		button = UpdatedButton(top, text = _("Apply to Copy"),
 								command = self.apply_to_copy,
 								sensitivecb = self.doc_can_move)
 		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
 		self.Subscribe(SELECTION, button.Update)
+				
+		self.document.Subscribe(SELECTION, self.init_from_doc)	
+		self.document.Subscribe(EDITED, self.init_from_doc)
+		self.init_from_doc()
 
-		sep_frame = Frame(top, height=10)
-		sep_frame.pack(side = BOTTOM, fill = X)
-
-		top.resizable (width=0, height=0)
 ###############################################################################
 	def doc_can_move(self):
 		return (len(self.document.selection) > 0)
 
 
-	def init_from_doc(self):
+	def init_from_doc(self, *arg):
 		self.Update()
 		self.issue(SELECTION)
 
 	def Update(self):
 		try:
-				br=self.main_window.canvas.SelectionSizeData()
+				br=app.mw.canvas.SelectionSizeData()
 				hor_sel=ceil(floor(10**3*(br.right - br.left)/2.83465)/10)/100
 				ver_sel=ceil(floor(10**3*(br.top - br.bottom)/2.83465)/10)/100
 				self.var_width.set(hor_sel)
@@ -119,7 +105,7 @@ class SizePanel(PropertyPanel):
 		try:
 			x=self.var_width.get()
 			y=self.var_height.get()
-			br=self.main_window.canvas.SelectionSizeData()
+			br=app.mw.canvas.SelectionSizeData()
 			hor_sel=ceil(floor(10**3*(br.right - br.left)/2.83465)/10)/100
 			ver_sel=ceil(floor(10**3*(br.top - br.bottom)/2.83465)/10)/100
 		except:
@@ -132,7 +118,7 @@ class SizePanel(PropertyPanel):
 		try:
 			x=self.var_width.get()
 			y=self.var_height.get()
-			br=self.main_window.canvas.SelectionSizeData()
+			br=app.mw.canvas.SelectionSizeData()
 			hor_sel=ceil(floor(10**3*(br.right - br.left)/2.83465)/10)/100
 			ver_sel=ceil(floor(10**3*(br.top - br.bottom)/2.83465)/10)/100
 		except:
@@ -141,4 +127,5 @@ class SizePanel(PropertyPanel):
 		self.document.ApplyToDuplicate()
 		self.document.ScaleSelected(x/hor_sel, y/ver_sel)
 
-
+instance=ResizePanel()
+app.transform_plugins.append(instance)
