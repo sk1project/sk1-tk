@@ -40,8 +40,26 @@
 	
 	# -------------
 	style configure TLabelframe -borderwidth 2 -relief groove -padding 5
+
 	
 	# -------------
+
+	style layout PWinHead {
+		PWinHead.panel
+		}  
+	style configure PWinHead -borderwidth 2 -relief flat
+	style element create PWinHead.panel image $K(pluginwinheader) -border {4 2 4 2} -sticky news
+
+	# -------------
+
+	style layout PWinBody {
+		PWinBody.panel
+		}  
+	style configure PWinBody -borderwidth 2 -relief flat
+	style element create PWinBody.panel image $K(pluginwinbody) -border {2 2 2 2} -sticky news
+	
+	# -------------	
+	
 	style layout RoundedSBFrame {
 		RoundedSBFrame.panel -expand true
 		}
