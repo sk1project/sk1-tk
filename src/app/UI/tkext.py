@@ -196,7 +196,7 @@ class MenuCommand(AutoUpdate, WidgetWithCommand, MenuEntry):
 #			self['image']=self.image
 #		else:
 #			self['image']='menu_icon_mask'
-		AutoUpdate.SetSensitive(self, on)
+		AutoUpdate.SetSensitive(self, on)		
 		
 
 	def clean_up(self):

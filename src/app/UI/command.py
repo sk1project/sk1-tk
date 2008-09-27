@@ -72,7 +72,6 @@ class Command(Publisher):
 		return changed
 
 	def get_sensitive(self):
-		#print 'get_sensitive', self
 		if self.sensitive_cb:
 			method = self.get_method(self.sensitive_cb)
 			if method:

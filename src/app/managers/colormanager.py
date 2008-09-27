@@ -19,6 +19,8 @@ except:
 		import sys
 		print "Cannot find Python binding for LittleCMS!"
 		sys.exit(1)
+		
+import pyCMS
 			
 class ColorManager:
 	rgb_monitor=None
@@ -30,6 +32,7 @@ class ColorManager:
 	hCMYK=None
 	hMONITOR=None
 	colors_pool=[]
+	image_pool=[]
 	
 	def __init__(self):
 		self.refresh_profiles()
@@ -37,12 +40,22 @@ class ColorManager:
 	def add_to_pool(self,color):
 		self.colors_pool.append(color)
 		
+	def add_to_image_pool(self,image):
+		self.image_pool.append(image)
+		
 	def remove_from_pool(self,color):
 		self.colors_pool.remove(color)
+		
+	def remove_from_image_pool(self,image):
+		self.image_pool.remove(image)
 		
 	def update(self):
 		for color in self.colors_pool:
 			color.update()
+			
+		for image in self.image_pool:
+			image.update()
+		
 		
 	def refresh_profiles(self):
 		if app.config.preferences.user_rgb_profile and os.path.isfile(app.config.preferences.user_rgb_profile):
@@ -160,8 +173,15 @@ class ColorManager:
 		cmsCloseProfile(self.hRGB)	
 		cmsCloseProfile(self.hMONITOR)	
 		
+	def ImageRGBtoCMYK(self, image):
+		rgb_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_rgb_profile)
+		cmyk_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_cmyk_profile)
+		return pyCMS.profileToProfile(image, rgb_profile, cmyk_profile, outputMode = "CMYK")
 		
-		
+	def ImageCMYKtoRGB(self, image):
+		rgb_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_rgb_profile)
+		cmyk_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_cmyk_profile)
+		return pyCMS.profileToProfile(image, cmyk_profile, rgb_profile, outputMode = "RGB")		
 		
 		
 		

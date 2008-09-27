@@ -304,8 +304,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			if self.context_menu_items[-1] != None:
 				# insert a separator if necessary
 				self.context_menu_items.append(None)
-			self.context_menu_items = self.context_menu_items \
-										+ list(aclass.context_commands)
+#			self.context_menu_items = self.context_menu_items \
+#										+ list(aclass.context_commands)
 
 		self.commands = cmds
 		self.object_keymap = None
@@ -720,7 +720,6 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 						x, y, button, state)
 			if self.context_commands is None:
 				self.build_context_commands()
-
 			items = []
 			last = None
 			for cmd in self.context_commands:

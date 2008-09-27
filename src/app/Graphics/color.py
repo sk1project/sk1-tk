@@ -98,7 +98,6 @@ class SK1_Color:
 	def __del__(self):
 		if colormanager is not None:
 			colormanager.remove_from_pool(self)
-			print "REMOVED"
 	
 	def getScreenColor(self):
 		pass

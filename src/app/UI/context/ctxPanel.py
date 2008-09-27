@@ -16,6 +16,7 @@ from flip_panel import FlipPanel
 from unit_panel import UnitPanel
 from jump_panel import JumpPanel
 from page_panel import PagePanel
+from image_panel import ImagePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from text_prop_panel import TextPropPanel 
 from textalign_panel import TextAlignPanel 
@@ -40,6 +41,7 @@ forObject=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'CombinePanel',
 forSimpleText=['TextPropPanel','FontPanel','TextAlignPanel','ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 forNodes=['ResizePanel','UnitPanel', 'CombinePanel','NodeEditPanel']
+forImage=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'ImagePanel']
 
 
 class ContexPanel(Publisher):
@@ -100,6 +102,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forGroup)
 				elif obj_type==SIMPLE_TEXT:
 					self.changeContent(forSimpleText)
+				elif obj_type==IMAGE:
+					self.changeContent(forImage)
 				else:
 					self.changeContent(forObject)
 			else:
@@ -109,6 +113,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forSimpleText)
 				elif obj_type==BEZIER:
 					self.changeContent(forNodes)
+				elif obj_type==IMAGE:
+					self.changeContent(forImage)					
 				else:
 					self.changeContent(forObject)	
 		else:
@@ -134,4 +140,4 @@ class ContexPanel(Publisher):
 
 PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
-		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel]
+		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel, ImagePanel]

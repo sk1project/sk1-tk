@@ -39,6 +39,7 @@ from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, Toolba
 			UpdatedTButton
 import tkext
 from context import ctxPanel
+from app.Graphics.image import RGB_IMAGE, RGBA_IMAGE, GRAYSCALE_IMAGE, CMYK_IMAGE,BW_IMAGE
 
 from command import CommandClass, Keymap, Commands
 from math import floor, ceil
@@ -885,6 +886,16 @@ class sK1MainWindow(Publisher):
 	AddDocCmd('FillNone', _("No Fill"), 'AddStyle', args = EmptyFillStyle)
 	AddDocCmd('LineNone', _("No Line"), 'AddStyle', args = EmptyLineStyle)
 	AddDocCmd('UpdateStyle', _("Update Style"), 'UpdateDynamicStyleSel')
+
+	
+
+	AddDocCmd('Convert_to_CMYK', _("Convert to CMYK"), 'ConvertImage', args = CMYK_IMAGE, sensitive_cb ='CanBeCMYK')
+	AddDocCmd('Convert_to_RGB', _("Convert to RGB"), 'ConvertImage', args = RGB_IMAGE, sensitive_cb ='CanBeRGB')
+	AddDocCmd('Convert_to_Grayscale', _("Convert to Grayscale"), 'ConvertImage', args = GRAYSCALE_IMAGE, sensitive_cb ='CanBeGrayscale')	
+	AddDocCmd('Convert_to_BW', _("Convert to B&W"), 'ConvertImage', args = BW_IMAGE, sensitive_cb ='CanBeBW')
+	
+	AddDocCmd('Invert', _("Invert Image"), 'Invert', sensitive_cb ='CanInvert')
+	AddDocCmd('Embed', _("Embed Image"), 'Embed', sensitive_cb ='CanEmbed')
 	
 ################### Menu build ############################	
 	def build_menu(self):
@@ -895,6 +906,7 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Layout"), self.make_layout_menu(), 0)
 		AppendMenu(mbar, _("Arrange"), self.make_arrange_menu(), 0)
 		AppendMenu(mbar, _("Effects"), self.make_effects_menu(), 4)
+		AppendMenu(mbar, _("Bitmaps"), self.make_bitmaps_menu(), 0)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
 #		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
@@ -1098,6 +1110,18 @@ class sK1MainWindow(Publisher):
 					self.commands.SplitBeziers,
 					None,
 					self.commands.ConvertToCurve])
+	
+	def make_bitmaps_menu(self):
+		cmds = self.commands
+		return map(MakeCommand,
+					[cmds.Convert_to_CMYK,
+					cmds.Convert_to_RGB,
+					cmds.Convert_to_Grayscale,
+					cmds.Convert_to_BW,
+					None,
+					cmds.Invert,
+					None,
+					cmds.Embed])
 	
 	def make_style_menu(self):
 		return map(MakeCommand,
@@ -1453,7 +1477,7 @@ class sK1MainWindow(Publisher):
 				is_eps = eps.IsEpsFileStart(file.read(256))
 				file.close()
 				dir, name = os.path.split(filename)
-				config.preferences.image_dir = dir
+				config.preferences.dir_for_bitmap_import = dir
 				if is_eps:
 					imageobj = eps.EpsImage(filename = sysfilename)
 				else:

@@ -87,25 +87,10 @@ class PluginPanel(TFrame,Publisher):
 		return self.document.HasSelection()
 	
 	def subscribe_receivers(self):
-		for info in self.receivers:
-			apply(self.document.Subscribe,
-					(info[0], getattr(self, info[1])) + info[2:])
+		pass
 
 	def unsubscribe_receivers(self):
-		for info in self.receivers:
-			apply(self.document.Unsubscribe,
-					(info[0], getattr(self, info[1])) + info[2:])
-			
-
-	def subscribe_receivers(self):
-		for info in self.receivers:
-			apply(self.document.Subscribe,
-					(info[0], getattr(self, info[1])) + info[2:])
-
-	def unsubscribe_receivers(self):
-		for info in self.receivers:
-			apply(self.document.Unsubscribe,
-					(info[0], getattr(self, info[1])) + info[2:])
+		pass
 
 	def SetDocument(self, doc):
 		if self.document:
