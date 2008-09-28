@@ -130,6 +130,8 @@ class RiffChunk:
 			self.infocollector.fill_chunks.append(self)
 		if self.fourcc == 'outl':
 			self.infocollector.outl_chunks.append(self)
+		if self.fourcc == 'bmp ':
+			self.infocollector.bmp_chunks.append(self)
 		self.contents = []
 		self.fullname = self.full_name()        
 		self.chunkname = self.chunk_name()
@@ -219,6 +221,7 @@ class InfoCollector:
 	bitmaps=0
 	compression=False
 	numcount=0
+	bmp_chunks=[]
 	obj_chunks=[]
 	fill_chunks=[]
 	outl_chunks=[]
@@ -242,7 +245,8 @@ class InfoCollector:
 		for chunk in self.outl_chunks:
 			self.process_outline(chunk,outl_index)
 			outl_index+=1		
-		self.obj_chunks.reverse()	
+		self.obj_chunks.reverse()
+		self.bmp_chunks.reverse()	
 		for chunk in self.obj_chunks:
 			if chunk:
 				if chunk.is_group:
@@ -322,10 +326,60 @@ class InfoCollector:
 				pass
 		
 		if not self.current_paths.count==[]:
-			self.paths_heap.append(BezierCurve(self.outlineIndex, self.colorIndex, self.current_paths))	
+			self.paths_heap.append(BezierCurve(self.outlineIndex, self.colorIndex, self.current_paths))
+		if type==5:
+			print offset
+			num = ord(chunk.data[0x1e+0x20])
+			[width] = struct.unpack('<L', chunk.data[0x1e+0x24:0x1e+0x28])
+			[height] = struct.unpack('<L', chunk.data[0x1e+0x28:0x1e+0x2c])
+			print 'Width*Height:\t%u/%u\n'%(width,height)
+			self.extract_bmp(num)			
+			print 'trafo: ',trafo
+			print 'colors:',self.outlineIndex,self.colorIndex	
+		
 		self.current_paths=[]
 		self.outlineIndex=None
 		self.colorIndex=None
+		
+	def extract_bmp(self, num):
+		print 'num',num 
+		print 'len',len(self.bmp_chunks)
+		chunk=self.bmp_chunks[num]
+		palflag = ord(chunk.data[0x36])
+		[bmpsize] = struct.unpack('<L',chunk.data[42:46])
+		[bmpstart] = struct.unpack('<L',chunk.data[50:54])
+		numcol = (bmpstart - 82)/3
+		if palflag == 5:
+			numcol = 256    
+		bmpstart2 = numcol*4 + 54
+		bmpstart2 = struct.pack('<L',bmpstart2)
+		print 'palflag',palflag
+		print 'numcol',numcol
+		print 'bmpstart2',bmpstart2
+
+#		if numcol > 1:
+#			if palflag == 3: #CMYK
+#				self.bmpbuf=chunk.data[122:122+numcol*4]
+#				mode = 'CMYK'
+#				width = numcol
+#				height = 
+#				mode2 = 'CMYK'
+#				bytes_per_line = numcol*4
+#			else: #Grayscale
+#				if palflag == 5:
+#					self.bmpbuf=chunk.data[0:122+numcol*3]
+#				else:#
+#					self.bmpbuf=chunk.data[122:122+numcol*3]
+#		else:           
+#			if palflag == 3:
+#				self.bmpbuf=chunk.data[bmpstart+40:]
+#			if palflag == 6: #Mono
+#				self.bmpbuf=chunk.data[bmpstart+40:]
+#			else:
+#				self.bmpbuf=chunk.data[bmpstart+40:]
+#				
+#		image = PIL.Image.fromstring('RGB', (width, height), data, 'raw',
+#											'BGR', bytes_per_line, -1)
 		
 	def loda_coords(self,chunk,type,offset,version,trafo):
 		if type == 1:  # rectangle
