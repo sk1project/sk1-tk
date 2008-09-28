@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\
 // includes
 /////////////////////////////////////////////////////////////////////////////
 #include "Python.h"
-//#include "patchlevel.h" // so we can include the Python version automatically in pyCMSdll.versions()
 #include "lcms.h"
 #include "Imaging.h"
 
@@ -115,7 +114,6 @@ typedef struct {
 /////////////////////////////////////////////////////////////////////////////
 DWORD
 findLCMStype (char* PILmode) {
-  char *errorMsg = NULL;
 
   if (strcmp(PILmode, "RGB") == 0) {
     return TYPE_RGBA_8;
@@ -292,7 +290,6 @@ buildTransformFromOpenProfiles (PyObject *self, PyObject *args) {
   void *pInputProfile;
   void *pOutputProfile;
   cmsHPROFILE hInputProfile, hOutputProfile;
-  void *hTransformPointer = NULL;
   cmsHTRANSFORM transform;
 
   if (!PyArg_ParseTuple(args, "OOss|i", &pInputProfile, &pOutputProfile, &sInMode, &sOutMode, &iRenderingIntent)) {
