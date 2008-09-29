@@ -8,7 +8,7 @@
 from ppanel import PluginPanel
 
 from Tkinter import Frame, Label
-from Ttk import LabelFrame, TFrame, TLabel
+from Ttk import TLabelframe, TFrame, TLabel
 from Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, LEFT
 
 from app.conf.const import GRID, DOCUMENT
@@ -36,7 +36,9 @@ class GridPanel(PluginPanel):
 # ===========================================================
 		do_apply = self.do_apply
 
-		frame=LabelFrame(top, text='Grid origin', borderwidth=2, relief='groove', pady=4, padx=4)
+		label=TLabel(top, text=_(" Grid origin "), style="FlatLabel")
+		label.pack()
+		frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		
 		frame.pack(side = TOP, fill=X, pady=4, padx=2)
 		
@@ -55,7 +57,9 @@ class GridPanel(PluginPanel):
 
 # ===========================================================
 
-		frame=LabelFrame(top, text='Grid size', borderwidth=2, relief='groove', pady=4, padx=4)
+		label=TLabel(top, text=_(" Grid size "), style="FlatLabel")
+		label.pack()
+		frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		frame.pack(side = TOP, fill=X, pady=4, padx=2)
 
 		f = TFrame(frame, style='FlatFrame')	

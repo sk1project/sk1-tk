@@ -40,7 +40,7 @@ class PluginPanel(TFrame,Publisher):
 		self.activated=1
 		self.visible=1
 		self.packed=1
-		self.pack(side=TOP, fill=X)
+		self.pack(side=TOP, fill=X, padx=1, pady=1)
 		self.top.pack(side=TOP, fill=X)
 		self.panel.pack(side=TOP, fill=BOTH, expand=1)
 		
@@ -65,7 +65,7 @@ class PluginPanel(TFrame,Publisher):
 		
 	def restore_panel(self):
 		self.packed=1
-		self.pack(side=TOP, fill=X)	
+		self.pack(side=TOP, fill=X, padx=1, pady=1)	
 		
 	def collapse_panel(self, *arg):
 		if self.collapsed:

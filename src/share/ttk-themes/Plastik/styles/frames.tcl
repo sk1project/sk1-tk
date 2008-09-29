@@ -75,6 +75,5 @@
 		}
 	
 	style element create Labelframe.border image $K(labelframe) \
-	-border {4 4 4 4} -padding {6 6 6 6} -sticky news
+	-border {6 6 6 6} -padding {6 6 6 6} -sticky news
 	
-	style configure Labelframe -borderwidth 6	

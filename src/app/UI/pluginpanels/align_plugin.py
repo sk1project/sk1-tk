@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Tkinter import Frame, Radiobutton, IntVar, StringVar, Label
-from Ttk import TLabel, TFrame, TRadiobutton, LabelFrame
+from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe
 from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
 
 from app.conf.const import SELECTION
@@ -36,8 +36,10 @@ class AlignPlugin(PluginPanel):
 		apply_button = UpdatedButton(frame_bot, text = _("Apply"), command = self.apply, sensitivecb = self.can_apply, width=15)
 		apply_button.pack(side = BOTTOM)
 		self.Subscribe(SELECTION, apply_button.Update)
-		
-		framec=LabelFrame(top, text='Alignment type', borderwidth=2, relief='groove', pady=4, padx=4)
+
+		label=TLabel(top, text=_(" Alignment type "), style="FlatLabel")
+		label.pack()
+		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		framec.pack(side = TOP, fill=X, padx=2, pady=2)
 		
 		framex = TFrame(framec, style='FlatFrame')
@@ -62,8 +64,9 @@ class AlignPlugin(PluginPanel):
 			button = make_button(framey, image = y_pixmaps[i - 1], value = i, variable = self.var_y, command = self.set_y)
 			button.pack(side = LEFT, padx = 3)
 		
-	
-		rel_frame=LabelFrame(top, text='Relative to', borderwidth=2, relief='groove', pady=4, padx=4)
+		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
+		label.pack()
+		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		rel_frame.pack(side = TOP, fill=X, padx=2, pady=2)
 		
 		button_frame=TFrame(rel_frame, style='FlatFrame')

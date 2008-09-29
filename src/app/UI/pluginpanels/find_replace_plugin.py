@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2008 by Igor Novikov
 # Copyright (C) 2008 by Darya Shumilina
 #
 # This library is covered by GNU Library General Public License.
@@ -13,15 +14,15 @@ from app import _
 import app
 from app.Graphics import document, text
 
-from Ttk import LabelFrame, TFrame, TLabel, TCheckbutton, TButton
+from Ttk import TLabelframe, TFrame, TLabel, TCheckbutton, TButton
 from app.UI.ttk_ext import TEntryExt
 from Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, W, Y, LEFT, StringVar, BooleanVar, DISABLED, NORMAL
 
 from app.UI.lengthvar import create_length_entry
 
 class FindReplacePanel(PluginPanel):
-	name='Find and Replace'
-	title = _("Find and Replace")
+	name='Text Find & Replace'
+	title = _("Text Find & Replace")
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
@@ -63,9 +64,12 @@ class FindReplacePanel(PluginPanel):
 		main_frame = TFrame(top, style='FlatFrame', borderwidth=3)
 		main_frame.pack(side = TOP)
 		#---------------------------------------------------------
-		parametersFrameLabel=LabelFrame(top, text=' Parameters ', borderwidth=2, relief='groove', pady=4, padx=4)
+		label=TLabel(top, text=_(" Parameters "), style="FlatLabel")
+		label.pack()
+		
+		parametersFrameLabel=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 
-		parametersFrameLabel.pack(side = TOP, fill=X, pady=4, padx=2)
+		parametersFrameLabel.pack(side = TOP, fill=X, pady=4, padx=4)
 		
 		parametersFrame = TFrame(parametersFrameLabel, style='FlatFrame')  
 		
