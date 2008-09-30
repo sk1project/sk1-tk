@@ -68,3 +68,13 @@
 	-border {4 4 4 4} -padding {4 4 4 4} -sticky news
 	
 	style configure RoundedSBFrame -borderwidth 2 -relief flat		 
+
+	# -------------
+	style layout Labelframe {		
+		Labelframe.border
+		Labelframe.text
+		}
+	
+	style element create Labelframe.border image $K(labelframe) \
+	-border {6 6 6 6} -padding {6 6 6 6} -sticky news
+	
