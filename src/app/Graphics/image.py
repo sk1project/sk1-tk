@@ -33,7 +33,7 @@ from external import ExternalData, get_cached, ExternalGraphics
 
 RGB_IMAGE=_('RGB')
 RGBA_IMAGE=_('RGBA')
-GRAYSCALE_IMAGE=_('Greyscale')
+GRAYSCALE_IMAGE=_('Grayscale')
 CMYK_IMAGE=_('CMYK')
 BW_IMAGE=_('Monochrome')
 UNSUPPORTED=_('UNSUPPORTED')
