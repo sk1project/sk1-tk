@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2008 by Igor Novikov
+# Copyright (C) 2008 by Igor E. Novikov
 # Copyright (C) 2008 by Darya Shumilina
 #
 # This library is covered by GNU Library General Public License.
