@@ -125,6 +125,8 @@ class RiffChunk:
 			self.infocollector.outl_chunks.append(self)
 		if self.fourcc == 'bmp ':
 			self.infocollector.bmp_chunks.append(self)
+		if self.fourcc == 'mcfg':
+			self.infocollector.page_chunk=self
 		self.contents = []
 		self.fullname = self.full_name()        
 		self.chunkname = self.chunk_name()
@@ -215,6 +217,7 @@ class InfoCollector:
 	compression=False
 	numcount=0
 	bmp_chunks=[]
+	bmp_dict={}
 	obj_chunks=[]
 	fill_chunks=[]
 	outl_chunks=[]
@@ -229,7 +232,9 @@ class InfoCollector:
 	scale =.0002835
 	loader=None
 	trafo_list=[]
-	extracted_image = []
+	extracted_image = None
+	page_chunk=None
+	doc_page=()
 	
 	def process_properties(self):
 		self.loda_type_func = {0xa:self.loda_outl,0x14:self.loda_fild,0x1e:self.loda_coords}	
@@ -240,7 +245,9 @@ class InfoCollector:
 			self.process_outline(chunk,outl_index)
 			outl_index+=1		
 		self.obj_chunks.reverse()
-#		self.bmp_chunks.reverse()	
+		for bmp in self.bmp_chunks:
+			self.bmp_dict[ord(bmp.data[0])]=bmp
+		self.get_page_size()	
 		for chunk in self.obj_chunks:
 			if chunk:
 				if chunk.is_group:
@@ -265,11 +272,21 @@ class InfoCollector:
 			else:
 				result.append(obj)				
 		self.paths_heap=result
+		
+	def get_page_size(self):
+		if self.page_chunk is None:
+			return
+		offset=0x4
+		if self.cdr_version >= 13:
+			offset=0xc
+		[width] = struct.unpack('<L', self.page_chunk.data[offset:offset+0x4])
+		[height] = struct.unpack('<L', self.page_chunk.data[offset+0x4:offset+0x8])
+		self.doc_page = (width, height)	   
 				
 	def check_trafo(self, chunk):
 		pass
 			
-	def get_trafo(self, trfd):
+	def get_trafo(self, trfd, scale=1):
 		cdr_version=self.cdr_version
 		
 		ieeestart = 32
@@ -277,14 +294,16 @@ class InfoCollector:
 			ieeestart = 40
 		if cdr_version == 5:
 			ieeestart = 18
-
+		
+		(x_shift,y_shift)=self.doc_page
+		
 		[var0] = struct.unpack('<d', trfd.data[ieeestart:ieeestart+8]) 
 		[var1] = struct.unpack('<d', trfd.data[ieeestart+8:ieeestart+8+8]) 
 		[var2] = struct.unpack('<d', trfd.data[ieeestart+2*8:ieeestart+8+2*8]) 		
 		[var3] = struct.unpack('<d', trfd.data[ieeestart+3*8:ieeestart+8+3*8]) 
 		[var4] = struct.unpack('<d', trfd.data[ieeestart+4*8:ieeestart+8+4*8]) 
 		[var5] = struct.unpack('<d', trfd.data[ieeestart+5*8:ieeestart+8+5*8])
-		return Trafo( var0, var3, var1, var4, var2, var5)
+		return Trafo( var0, var3, var1, var4, (var2+x_shift/2)*scale, (var5+y_shift/2)*scale)
 			
 	def process_paths(self, list):
 		cdr_version=self.cdr_version
@@ -311,18 +330,16 @@ class InfoCollector:
 		for i in range(numofparms):
 			[offset] = struct.unpack('<L',chunk.data[startofparms+i*4:startofparms+i*4+4])
 			[argtype] = struct.unpack('<L',chunk.data[startoftypes + (numofparms-1-i)*4:startoftypes + (numofparms-1-i)*4+4])
-
+			
 			if self.loda_type_func.has_key(argtype) == 1:
 				self.loda_type_func[argtype](chunk,type,offset,cdr_version,trafo)
-			else:
-				pass
 		
 		if not self.current_paths.count==[]:
 			self.paths_heap.append(BezierCurve(self.outlineIndex, self.colorIndex, self.current_paths))
 			
 		if self.extracted_image is not None:
-			print 'trafo',trafo
-			self.paths_heap.append((self.extracted_image, trafo))
+			trafo=self.get_trafo(trfd, self.scale)
+			self.paths_heap.append(('BMP',self.extracted_image, trafo))
 		
 		self.current_paths=[]
 		self.extracted_image = None
@@ -330,8 +347,9 @@ class InfoCollector:
 		self.colorIndex=None
 		
 	def extract_bmp(self, numbmp,width,height):
-		image=None
-		chunk=self.bmp_chunks[numbmp-2]
+		if not self.bmp_dict.has_key(numbmp):
+			return
+		chunk=self.bmp_dict[numbmp]
 		palflag = ord(chunk.data[0x36])
 		[bmpsize] = struct.unpack('<L',chunk.data[42:46])
 		[bmpstart] = struct.unpack('<L',chunk.data[50:54])
@@ -339,7 +357,7 @@ class InfoCollector:
 		numcol = (bmpstart - 82)/3
 		if palflag == 5:
 			numcol = 256    
-		bmpstart2 = numcol*4 + 66
+		bmpstart2 = numcol*4 + 54
 		bmpstart2 = struct.pack('<L',bmpstart2)
           
 		if palflag == 3:#CMYK image
@@ -349,21 +367,34 @@ class InfoCollector:
 		elif palflag == 5:#Grayscale image
 			self.bmpbuf=chunk.data[bmpstart+40:]
 			self.extracted_image = PIL.Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', 0, -1)
-			print self.extracted_image
 
-		elif palflag == 6: #Mono image		
+		elif palflag == 6: #Mono image
+			bmpstart2 = numcol*4 + 66
+			bmpstart2 = struct.pack('<L',bmpstart2)		
 			self.bmpbuf = 'BM'+chunk.data[42:50]+bmpstart2[0:4]+'\x28\x00\x00\x00'
-			self.bmpbuf = self.bmpbuf +chunk.data[62:72]+chunk.data[74:78]
-			self.bmpbuf = self.bmpbuf+'\x00\x00'+chunk.data[82:90]+'\x00\x00\x00\x00'
-			self.bmpbuf = self.bmpbuf+'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-			self.bmpbuf = self.bmpbuf+chunk.data[bmpstart+40:]			
+			self.bmpbuf += chunk.data[62:72]+chunk.data[74:78]
+			self.bmpbuf += '\x00\x00'+chunk.data[82:90]+'\x00\x00\x00\x00'
+			self.bmpbuf += '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+			self.bmpbuf += chunk.data[bmpstart+40:]			
 			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
 			self.extracted_image.load()
-		else:#RGB
+			
+		elif palflag == 1: #RGB
 			self.bmpbuf=chunk.data[bmpstart+40:]
 			self.extracted_image = PIL.Image.fromstring('RGB', (width, height), self.bmpbuf, 'raw', 'BGR', 0, -1)
-			
-						
+		
+		else:
+			self.bmpbuf = 'BM'+chunk.data[42:50]+bmpstart2[0:4]+'\x28\x00\x00\x00'
+			self.bmpbuf += chunk.data[62:72]+chunk.data[74:78]			
+			self.bmpbuf += '\x00\x00'+chunk.data[82:90]+'\x00\x00\x00\x00'
+			if numcol > 1:
+				self.bmpbuf = self.bmpbuf+'\x00\x01\x00\x00\x00\x00\x00\x00'
+				for i in range (numcol):
+					self.bmpbuf = self.bmpbuf+chunk.data[122+i*3:125+i*3]+'\x00'			
+			self.bmpbuf += chunk.data[bmpstart+40:]
+			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
+			self.extracted_image.load()
+									
 	def loda_coords(self,chunk,type,offset,version,trafo):
 		if type == 1:  # rectangle
 			CoordX1 = 0 
@@ -451,7 +482,7 @@ class InfoCollector:
 			[width] = struct.unpack('<L', chunk.data[offset+0x24:offset+0x28])
 			[height] = struct.unpack('<L', chunk.data[offset+0x28:offset+0x2c])
 			[idx1] = struct.unpack('<L', chunk.data[offset+0x2c:offset+0x30])
-			numbmp = ord(chunk.data[offset+0x20])
+			numbmp = ord(chunk.data[offset+0x30])
 			[idx2] = struct.unpack('<L', chunk.data[offset+0x34:offset+0x38])
 			[idx3] = struct.unpack('<L', chunk.data[offset+0x38:offset+0x3c])
 			self.extract_bmp(numbmp,width,height)
@@ -663,8 +694,8 @@ class CDRLoader(GenericLoader):
 				self.begin_group()
 			elif obj==0:
 				self.end_group()
-			elif type(obj)==TupleType:
-				self.image(obj[0],obj[1])
+			elif type(obj)==TupleType and obj[0]=='BMP':
+				self.image(obj[1],obj[2])
 			else:
 				style = self.style
 				if obj.colorIndex:
