@@ -279,6 +279,8 @@ class InfoCollector:
 		offset=0x4
 		if self.cdr_version >= 13:
 			offset=0xc
+		if self.cdr_version in [7,8]:
+			offset=0x0
 		[width] = struct.unpack('<L', self.page_chunk.data[offset:offset+0x4])
 		[height] = struct.unpack('<L', self.page_chunk.data[offset+0x4:offset+0x8])
 		self.doc_page = (width, height)	   
