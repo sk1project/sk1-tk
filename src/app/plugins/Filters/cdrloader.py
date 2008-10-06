@@ -368,7 +368,8 @@ class InfoCollector:
 			
 		elif palflag == 5:#Grayscale image
 			self.bmpbuf=chunk.data[bmpstart+40:]
-			self.extracted_image = PIL.Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', 0, -1)
+			bytes=math.ceil(width/2.0)*2
+			self.extracted_image = PIL.Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', bytes, -1)
 
 		elif palflag == 6: #Mono image
 			bmpstart2 = numcol*4 + 66
