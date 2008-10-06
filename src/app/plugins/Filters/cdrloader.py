@@ -379,9 +379,10 @@ class InfoCollector:
 			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
 			self.extracted_image.load()
 			
-		elif palflag == 1: #RGB
-			self.bmpbuf=chunk.data[bmpstart+40:]
-			self.extracted_image = PIL.Image.fromstring('RGB', (width, height), self.bmpbuf, 'raw', 'BGR', 0, -1)
+#		elif palflag == 1: #RGB
+#			print 'width, height', (width, height)
+#			self.bmpbuf=chunk.data[bmpstart+40:]
+#			self.extracted_image = PIL.Image.fromstring('RGB', (width, height), self.bmpbuf, 'raw', 'BGR', 0, -1)
 		
 		else:
 			self.bmpbuf = 'BM'+chunk.data[42:50]+bmpstart2[0:4]+'\x28\x00\x00\x00'
