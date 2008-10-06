@@ -24,7 +24,7 @@
 				{active  !disabled !selected} $K(fine_active) \
 				{disabled selected} $K(fine_selected) \
 				{disabled !selected} $K(fine_normal) ] \
-				-border {2 2 2 2} \
+				-border {3 3 3 3} \
 				-padding {3 3 3 3} \
 				-width 33 -height 33  
 				

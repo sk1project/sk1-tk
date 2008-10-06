@@ -3,7 +3,7 @@
 			ToolBarFrame.panel
 			}  
 		style configure ToolBarFrame -borderwidth 2 -relief flat
-        style element create ToolBarFrame.panel image $K(menu_bg) -border {3 3 3 3} -sticky news
+        style element create ToolBarFrame.panel image $K(menu_bg) -border {0 0 0 3} -sticky news
 
 	# -------------	
 	style layout MenuBarFrame {
@@ -11,7 +11,7 @@
 		} 
 	style configure MenuBarFrame -relief flat   
         style element create MenuBarFrame.panel image $K(menu_bg) \
-		 -border {3 3 3 4} -padding {3 3 3 4}
+		 -border {0 0 0 3} 
 	
 	# -------------	 
 	style layout MFrame {
@@ -19,7 +19,7 @@
 		}
 	
 	style element create MFrame.panel image $K(menu_bg) \
-	-border {3 3 3 3} -padding {3 3 3 3} -sticky news
+	-border {0 0 0 3}  -sticky news 
 	
 	# -------------	 
 		style layout FlatFrame {
