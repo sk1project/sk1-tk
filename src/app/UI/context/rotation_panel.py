@@ -46,8 +46,12 @@ class RotatePanel(CtxSubPanel):
 	def rotRight(self):
 		self.rotation(-90)
 		
-	def applyRotate(self, event):
+	def applyRotate(self, *arg):
 		self.rotation(self.angle.get())
 		
 	def rotation(self, angle):
+		if angle<0:
+			if angle<-360:
+				angle+=int(angle/360)*360
+			angle+=360
 		self.doc.RotateSelected(angle)

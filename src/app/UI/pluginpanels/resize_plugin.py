@@ -44,7 +44,7 @@ class ResizePanel(PluginPanel):
 		self.var_height.set(0)
 
 		self.entry_width = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_width, 
-									min = -50000, max = 50000, step = .1, width = 6)
+									min = -50000, max = 50000, step = .1, width = 6, command=self.apply_resize)
 								
 		self.entry_width.pack(side = LEFT, anchor = E)
 
@@ -54,7 +54,7 @@ class ResizePanel(PluginPanel):
 		label.pack(side = LEFT, anchor = E)
 		
 		self.entry_height = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_height, 
-									min = -50000, max = 50000, step = .1, width = 6)
+									min = -50000, max = 50000, step = .1, width = 6, command=self.apply_resize)
 								
 		self.entry_height.pack(side = LEFT, anchor = E)
 
@@ -64,11 +64,11 @@ class ResizePanel(PluginPanel):
 		
 
 		self.update_buttons = []
-		button = UpdatedButton(top, text = _("Apply"),
+		self.button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_resize,
 								sensitivecb = self.doc_can_move)
-		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=5)
-		self.Subscribe(SELECTION, button.Update)
+		self.button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=5)
+		self.Subscribe(SELECTION, self.button.Update)
 		
 		button = UpdatedButton(top, text = _("Apply to Copy"),
 								command = self.apply_to_copy,
@@ -101,7 +101,9 @@ class ResizePanel(PluginPanel):
 				self.var_height.set(0)
 
 
-	def apply_resize(self):
+	def apply_resize(self, *arg):
+		if self.button["state"]=="disabled":
+			return
 		try:
 			x=self.var_width.get()
 			y=self.var_height.get()

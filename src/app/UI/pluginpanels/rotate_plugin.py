@@ -41,18 +41,18 @@ class RotatePanel(PluginPanel):
 
 		
 		self.entry_width = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_rot, 
-									min = -5000, max = 5000, step = .1, width = 6)
+									min = -5000, max = 5000, step = .1, width = 6, command=self.apply_rotate)
 		self.entry_width.pack(side = LEFT, anchor = E)
 
 		button_frame = TFrame(top, style='FlatFrame', borderwidth=5)
 		button_frame.pack(side = BOTTOM, fill = BOTH)
 
 		self.update_buttons = []
-		button = UpdatedButton(top, text = _("Apply"),
+		self.button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_rotate,
 								sensitivecb = self.doc_can_rotate)
-		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=3)
-		self.Subscribe(SELECTION, button.Update)
+		self.button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=3)
+		self.Subscribe(SELECTION, self.button.Update)
 
 		button = UpdatedButton(top, text = _("Apply to Copy"),
 								command = self.apply_to_copy,
@@ -80,25 +80,34 @@ class RotatePanel(PluginPanel):
 #		self.var_width.set(self.entry_width)
 #		self.var_height.set(self.entry_height)
 
-	def apply_rotate(self):
+	def apply_rotate(self, *arg):
+		if self.button["state"]=="disabled":
+			return
 		try:
-			x=self.var_rot.get()
+			angle=self.var_rot.get()
 		except:
 				self.var_rot.set(0)
-
-		x=self.var_rot.get()
-		self.document.RotateSelected(x)
+		angle=self.var_rot.get()		
+		if angle<0:
+			if angle<-360:
+				angle+=int(angle/360)*360
+			angle+=360		
+		self.document.RotateSelected(angle)
 
 
 	def apply_to_copy(self):
 		try:
-			x=self.var_rot.get()
+			angle=self.var_rot.get()
 		except:
 				self.var_rot.set(0)
 
-		x=self.var_rot.get()
+		angle=self.var_rot.get()
+		if angle<0:
+			if angle<-360:
+				angle+=int(angle/360)*360
+			angle+=360
 		self.document.ApplyToDuplicate()
-		self.document.RotateSelected(x)
+		self.document.RotateSelected(angle)
 
 instance=RotatePanel()
 app.transform_plugins.append(instance)

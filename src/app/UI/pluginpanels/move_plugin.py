@@ -41,7 +41,7 @@ class MovePanel(PluginPanel):
 		self.var_height.set(0)
 		
 		self.entry_width = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_width, 
-									min = -50000, max = 50000, step = .1, width = 6)
+									min = -50000, max = 50000, step = .1, width = 6, command=self.apply_move)
 		     
 		self.entry_width.pack(side = LEFT, anchor = E)
 
@@ -52,7 +52,7 @@ class MovePanel(PluginPanel):
 		label.pack(side = LEFT, anchor = E)
 		
 		self.entry_height = TSpinbox(steps_frame,  var=0, vartype=1, textvariable = self.var_height, 
-									min = -50000, max = 50000, step = .1, width = 6)
+									min = -50000, max = 50000, step = .1, width = 6, command=self.apply_move)
 		self.entry_height.pack(side = LEFT, anchor = E)
 
 
@@ -60,11 +60,11 @@ class MovePanel(PluginPanel):
 		button_frame.pack(side = BOTTOM, fill = BOTH)
 
 		self.update_buttons = []
-		button = UpdatedButton(top, text = _("Apply"),
+		self.button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_move, 
 								sensitivecb = self.doc_can_move)
-		button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=3)
-		self.Subscribe(SELECTION, button.Update)
+		self.button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=3)
+		self.Subscribe(SELECTION, self.button.Update)
 
 		button = UpdatedButton(top, text = _("Apply to Copy"),
 								command = self.apply_to_copy,
@@ -89,7 +89,9 @@ class MovePanel(PluginPanel):
 	def Update(self):
 		pass
 		
-	def apply_move(self):
+	def apply_move(self, *arg):
+		if self.button["state"]=="disabled":
+			return
 		try:
 				x=self.var_width.get()
 		except:

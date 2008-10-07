@@ -835,7 +835,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateStyleFromSelection', _("Name Style..."), sensitive_cb = ('document', 'CanCreateStyle'), subscribe_to = SELECTION)	
 	
 ################### Document comands ############################	
-	AddDocCmd('SelectAll', _("Select All"), sensitive_cb = 'IsSelectionMode', subscribe_to = MODE)
+	AddDocCmd('SelectAll', _("Select All"), sensitive_cb = 'IsSelectionMode', subscribe_to = MODE, key_stroke = ('Ctrl+A', 'Ctrl+a'))
 	AddDocCmd('SelectNextObject', _("Select Next"), key_stroke = 'Alt+Right')
 	AddDocCmd('SelectPreviousObject', _("Select Previous"), key_stroke = 'Alt+Left')
 	AddDocCmd('SelectFirstChild', _("Select First Child"), key_stroke = 'Alt+Down')
@@ -876,7 +876,7 @@ class sK1MainWindow(Publisher):
 	
 	AddDocCmd('RotLeft', _("Rotate Left 90"), 'RotateSelected', args=(90))
 	AddDocCmd('Rot180', _("Rotate 180"), 'RotateSelected', args=(180))
-	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(-90))
+	AddDocCmd('RotRight', _("Rotate Right 90"), 'RotateSelected', args=(270))
 	AddDocCmd('UngrAll', _("Ungroup All"), 'UngroupAllSelected', sensitive_cb = 'CanUngroupAll')
 
 	AddDocCmd('Undo', _("Undo"), subscribe_to = UNDO, sensitive_cb = 'CanUndo', image = 'menu_edit_undo', name_cb = 'UndoMenuText', key_stroke = ('Ctrl+Z', 'Ctrl+z'))
