@@ -47,7 +47,7 @@
 		PWinHead.panel
 		}  
 	style configure PWinHead -borderwidth 2 -relief flat
-	style element create PWinHead.panel image $K(pluginwinheader) -border {4 2 4 2} -sticky news
+	style element create PWinHead.panel image $K(pluginwinheader) -border {3 4 5 2} -sticky news
 
 	# -------------
 
@@ -55,7 +55,7 @@
 		PWinBody.panel
 		}  
 	style configure PWinBody -borderwidth 2 -relief flat
-	style element create PWinBody.panel image $K(pluginwinbody) -border {2 2 2 2} -sticky news
+	style element create PWinBody.panel image $K(pluginwinbody) -border {3 0 5 5} -sticky news
 	
 	# -------------	
 	

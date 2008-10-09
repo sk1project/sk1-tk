@@ -419,7 +419,7 @@
 		HGrip.background
 		HGrip.button -children {
 			HGrip.focus -children {
-				HGrip.label
+				HGrip.label -sticky ns
 			}
 		}
 	}
