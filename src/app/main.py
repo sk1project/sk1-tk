@@ -30,30 +30,48 @@ import app
 from app.utils import os_utils
 
 usage = ''"""\
-Usage:	sketch [options] [filename]
+Usage:	sk1 [OPTION] [INPUT FILE]
+sk1 command without parameters just launches sK1 with new document.
 
-sketch accepts these options:
+sK1 is an open source vector graphics editor similar to CorelDRAW(tm), 
+Adobe (R) Illustrator(tm), or Adobe (R)Freehand(tm). 
+First of all sK1 is oriented for prepress industry.
+sK1 Team (http://sk1project.org), copyright (C) 2003-2008 by Igor E. Novikov.
+
+Allowed input formats:
+     AI  - Adobe Illustrator files (postscript based)
+     CDR - CorelDRAW Graphics files (7-X4 versions)
+     CDT - CorelDRAW templates files (7-X4 versions)
+     CCX - Corel Compressed Exchange files
+     CMX - Corel Presentation Exchange files (CMX1 format)
+     SVG - Scalable Vector Graphics files
+     FIG - XFig files
+     CGM - Computer Graphics Metafile files
+     AFF - Draw files
+     WMF - Windows Metafile files
+     SK  - Sketch/Skencil files
+     SK1 - sK1 vector graphics files
+
+Example: sk1 drawing.cdr
+
+sK1 accepts these options:
 
 	-h --help		Print this help message
 	-d --display=DISPLAY	Use DISPLAY a X Display
 	-g --geometry=WxH+X+Y	The geometry of the main window in standard X fashion
 	--run-script=script   Execute the file script after startup
 	--version		Print the version number to stdout
-
-for compatibility with other X software sketch also accepts geometry
-specifications in the standard X format:
-
-	-geometry WxH+X+Y
-
 """
 
 version = """\
-Sketch %s
-Copyright (C) 1998, 1999, 2000 Bernhard Herzog
-Sketch comes with ABSOLUTELY NO WARRANTY.
-You may redistribute copies of Sketch
+sK1 %s
+Copyright (C) 2003-2008 Igor E. Novikov
+sK1 is a Sketch fork
+Sketch (C) 1998, 1999, 2000 Bernhard Herzog
+Application comes with ABSOLUTELY NO WARRANTY.
+You may redistribute copies of sK1
 under the terms of the GNU Library General Public License.
-For more information about these matters, see the files named COPYING.
+For more information about these matters, see the files named COPYRIGHTS.
 """
 
 def process_args(args):
