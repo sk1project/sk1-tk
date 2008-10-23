@@ -109,8 +109,7 @@ class ImageData(ExternalData):
 	def Size(self):
 		return self.size
 
-	def Image(self):
-		print 'Image provided'
+	def Image(self):.
 		return self.orig_image
 
 	def Convert(self, mode):
@@ -131,11 +130,7 @@ class ImageData(ExternalData):
 
 
 
-def load_image(filename, cache = 1):
-	if type(filename) == StringType:
-		image = get_cached(filename)
-		if image:
-			return image
+def load_image(filename, cache = 0):
 	image = PIL.Image.open(filename)
 	if type(filename) != StringType:
 		filename = ''
