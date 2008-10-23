@@ -109,7 +109,7 @@ class ImageData(ExternalData):
 	def Size(self):
 		return self.size
 
-	def Image(self):.
+	def Image(self):
 		return self.orig_image
 
 	def Convert(self, mode):
