@@ -20,12 +20,12 @@ class ScrolledCanvas:
 		self.canvas.grid(row=0, column=0, sticky="nsew")
 		self.vbar = TScrollbar(self.frame, name="vbar")
 		self.vbar.grid(row=0, column=1, sticky="nse")
-#		self.hbar = TScrollbar(self.frame, name="hbar", orient="horizontal")
-#		self.hbar.grid(row=1, column=0, sticky="ews")
+		self.hbar = TScrollbar(self.frame, name="hbar", orient="horizontal")
+		self.hbar.grid(row=1, column=0, sticky="ews")
 		self.canvas['yscrollcommand'] = lambda f, l: self.scroll_sh(self.vbar, f, l)
 		self.vbar['command'] = self.canvas.yview
-#		self.canvas['xscrollcommand'] = lambda f, l: self.scroll_sh(self.hbar, f, l)
-#		self.hbar['command'] = self.canvas.xview
+		self.canvas['xscrollcommand'] = lambda f, l: self.scroll_sh(self.hbar, f, l)
+		self.hbar['command'] = self.canvas.xview
 		self.canvas.bind("<Key-Prior>", self.page_up)
 		self.canvas.bind("<Key-Next>", self.page_down)
 		self.canvas.bind("<Key-Up>", self.unit_up)
