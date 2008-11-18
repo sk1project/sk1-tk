@@ -524,15 +524,15 @@ class InfoCollector:
 		clrmode = ord(chunk.data[offset+0x30])
 		
 		if clrmode == 9:
-			outl.color=CreateCMYKColor(0, 0, 0, ord(chunk.data[offset+0x38]) /255.0)
+			outl.color=CreateCMYKColor(0, 0, 0, 1.0 - ord(chunk.data[offset+0x38]) /255.0)
 		elif clrmode == 5:
 			outl.color=CreateRGBColor(ord(chunk.data[offset+0x3a]) / 255.0, 
 						   ord(chunk.data[offset+0x39])/ 255.0,
 						   ord(chunk.data[offset+0x38]) / 255.0)
 		elif clrmode == 4:
-			outl.color=CreateCMYKColor(ord(chunk.data[offset+0x38])/100.0,
-							ord(chunk.data[offset+0x39])/100.0,
-							ord(chunk.data[offset+0x3a])/100.0, 0/100.0)
+			outl.color=CreateCMYKColor(ord(chunk.data[offset+0x38])/255.0,
+							ord(chunk.data[offset+0x39])/255.0,
+							ord(chunk.data[offset+0x3a])/255.0, 0.0)
 		elif clrmode == 2:
 			outl.color=CreateCMYKColor(ord(chunk.data[offset+0x38])/100.0,
 							ord(chunk.data[offset+0x39])/100.0,
@@ -582,22 +582,22 @@ class InfoCollector:
 				offset = 0x10
 				if cdr_version >= 13:
 					offset =0x23
-				if clrmode == 9:
-					fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, ord(chunk.data[offset]) /255.0)
-				elif clrmode == 5:
+				if clrmode == 9: #Grayscale
+					fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, 1.0 - ord(chunk.data[offset]) /255.0)
+				elif clrmode == 5: #RGB
 					fill_data[colorIndex]=CreateRGBColor(ord(chunk.data[offset+2]) / 255.0, 
 								   ord(chunk.data[offset+1])/ 255.0,
 								   ord(chunk.data[offset]) / 255.0)
-				elif clrmode == 4:
-					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/100.0,
-									ord(chunk.data[offset+1])/100.0,
-									ord(chunk.data[offset+2])/100.0, 0/100.0)
-				elif clrmode == 3:
+				elif clrmode == 4: #CMY
+					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/255.0,
+									ord(chunk.data[offset+1])/255.0,
+									ord(chunk.data[offset+2])/255.0, 0.0)
+				elif clrmode == 3:#CMYK255
 					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/255.0,
 									ord(chunk.data[offset+1])/255.0,
 									ord(chunk.data[offset+2])/255.0,
 									ord(chunk.data[offset+3])/255.0)					
-				elif clrmode == 2:
+				elif clrmode == 2: #CMYK
 					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/100.0,
 									ord(chunk.data[offset+1])/100.0,
 									ord(chunk.data[offset+2])/100.0,
@@ -612,7 +612,7 @@ class InfoCollector:
 									ord(chunk.data[offset+1])/255.0,
 									ord(chunk.data[offset+2])/255.0,
 									ord(chunk.data[offset+3])/255.0)
-				elif clrmode == 0x14:
+				elif clrmode == 0x14: #Registration Color
 					fill_data[colorIndex]=CreateCMYKColor(1,1,1,1)
 				else:
 					fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, .20)
