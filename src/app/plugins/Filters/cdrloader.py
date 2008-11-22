@@ -128,7 +128,7 @@ class RiffChunk:
 		if self.fourcc == 'mcfg':
 			self.infocollector.page_chunk=self
 		self.contents = []
-		self.fullname = self.full_name()        
+		self.fullname = self.full_name()
 		self.chunkname = self.chunk_name()
 		if self.fourcc == 'RIFF' or self.fourcc == 'LIST':
 			self.listtype = buf[offset+8:offset+12]
@@ -145,7 +145,7 @@ class RiffChunk:
 				self.infocollector.objects+=1
 				self.infocollector.obj_chunks.append(self)
 			if self.listtype == 'bmpt':
-				self.infocollector.bitmaps+=1	
+				self.infocollector.bitmaps+=1
 			if self.listtype == 'grp ':
 				self.infocollector.groups+=1
 				self.is_group=True
@@ -164,7 +164,7 @@ class RiffChunk:
 					self.contents.append(chunk)
 					offset += 8 + chunk.rawsize
 					
-			if self.listtype == 'grp ' or self.listtype == 'page':	
+			if self.listtype == 'grp ' or self.listtype == 'page':
 				self.infocollector.obj_chunks.append(None)
 	
 	def full_name(self):
@@ -183,19 +183,21 @@ class RiffChunk:
 			return '<'+self.listtype+'>'
 		return '<'+self.fourcc+'>'
 	
-class Outline:	
+class Outline:
 	outlineIndex=''
 	color = None
 	width = 0
 	caps=0
 	corner=0
+	spec=0
+	dashes = []
 	
-class BezierNode:	
+class BezierNode:
 	point1=None
 	point2=None
 	point3=None
 	
-class BezierCurve:	
+class BezierCurve:
 	outlineIndex=''
 	colorIndex=''
 	paths = []
@@ -204,7 +206,6 @@ class BezierCurve:
 		self.colorIndex=colorIndex
 		self.outlineIndex=outlineIndex
 		self.paths=paths
-		
 	
 class InfoCollector:
 	image=None
@@ -237,17 +238,17 @@ class InfoCollector:
 	doc_page=()
 	
 	def process_properties(self):
-		self.loda_type_func = {0xa:self.loda_outl,0x14:self.loda_fild,0x1e:self.loda_coords}	
+		self.loda_type_func = {0xa:self.loda_outl,0x14:self.loda_fild,0x1e:self.loda_coords}
 		for chunk in self.fill_chunks:
 			self.process_fill(chunk)
 		outl_index=0
 		for chunk in self.outl_chunks:
 			self.process_outline(chunk,outl_index)
-			outl_index+=1		
+			outl_index+=1
 		self.obj_chunks.reverse()
 		for bmp in self.bmp_chunks:
 			self.bmp_dict[ord(bmp.data[0])]=bmp
-		self.get_page_size()	
+		self.get_page_size()
 		for chunk in self.obj_chunks:
 			if chunk:
 				if chunk.is_group:
@@ -257,7 +258,7 @@ class InfoCollector:
 			else:
 				self.paths_heap.append(1)
 		self.validate_heap()
-				
+	
 	def validate_heap(self):
 		paths_heap=self.paths_heap
 		result=[]
@@ -270,9 +271,9 @@ class InfoCollector:
 				else:
 					result.append(obj)
 			else:
-				result.append(obj)				
+				result.append(obj)
 		self.paths_heap=result
-		
+	
 	def get_page_size(self):
 		if self.page_chunk is None:
 			return
@@ -284,10 +285,10 @@ class InfoCollector:
 		[width] = struct.unpack('<L', self.page_chunk.data[offset:offset+0x4])
 		[height] = struct.unpack('<L', self.page_chunk.data[offset+0x4:offset+0x8])
 		self.doc_page = (width, height)	   
-				
+	
 	def check_trafo(self, chunk):
 		pass
-			
+		
 	def get_trafo(self, trfd, scale=1):
 		cdr_version=self.cdr_version
 		
@@ -299,14 +300,14 @@ class InfoCollector:
 		
 		(x_shift,y_shift)=self.doc_page
 		
-		[var0] = struct.unpack('<d', trfd.data[ieeestart:ieeestart+8]) 
-		[var1] = struct.unpack('<d', trfd.data[ieeestart+8:ieeestart+8+8]) 
-		[var2] = struct.unpack('<d', trfd.data[ieeestart+2*8:ieeestart+8+2*8]) 		
-		[var3] = struct.unpack('<d', trfd.data[ieeestart+3*8:ieeestart+8+3*8]) 
-		[var4] = struct.unpack('<d', trfd.data[ieeestart+4*8:ieeestart+8+4*8]) 
+		[var0] = struct.unpack('<d', trfd.data[ieeestart:ieeestart+8])
+		[var1] = struct.unpack('<d', trfd.data[ieeestart+8:ieeestart+8+8])
+		[var2] = struct.unpack('<d', trfd.data[ieeestart+2*8:ieeestart+8+2*8])
+		[var3] = struct.unpack('<d', trfd.data[ieeestart+3*8:ieeestart+8+3*8])
+		[var4] = struct.unpack('<d', trfd.data[ieeestart+4*8:ieeestart+8+4*8])
 		[var5] = struct.unpack('<d', trfd.data[ieeestart+5*8:ieeestart+8+5*8])
 		return Trafo( var0, var3, var1, var4, (var2+x_shift/2)*scale, (var5+y_shift/2)*scale)
-			
+		
 	def process_paths(self, list):
 		cdr_version=self.cdr_version
 		chunk=None
@@ -326,7 +327,7 @@ class InfoCollector:
 		[numofparms] = struct.unpack('<L', chunk.data[0x4:0x8])
 		[startofparms] = struct.unpack('<L',chunk.data[0x8:0xC])
 		[startoftypes] = struct.unpack('<L',chunk.data[0xC:0x10])
-			
+		
 		type = ord(chunk.data[0x10])
 
 		for i in range(numofparms):
@@ -358,19 +359,17 @@ class InfoCollector:
 		
 		numcol = (bmpstart - 82)/3
 		if palflag == 5:
-			numcol = 256    
+			numcol = 256
 		bmpstart2 = numcol*4 + 54
 		bmpstart2 = struct.pack('<L',bmpstart2)
-          
+		
 		if palflag == 3:#CMYK image
 			self.bmpbuf=chunk.data[bmpstart+40:]
 			self.extracted_image = PIL.Image.fromstring('CMYK', (width, height), self.bmpbuf, 'raw', 'CMYK', 0, -1)
-			
 		elif palflag == 5:#Grayscale image
 			self.bmpbuf=chunk.data[bmpstart+40:]
 			bytes=math.ceil(width/2.0)*2
 			self.extracted_image = PIL.Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', bytes, -1)
-
 		elif palflag == 6: #Mono image
 			bmpstart2 = numcol*4 + 66
 			bmpstart2 = struct.pack('<L',bmpstart2)		
@@ -389,16 +388,16 @@ class InfoCollector:
 		
 		else:
 			self.bmpbuf = 'BM'+chunk.data[42:50]+bmpstart2[0:4]+'\x28\x00\x00\x00'
-			self.bmpbuf += chunk.data[62:72]+chunk.data[74:78]			
+			self.bmpbuf += chunk.data[62:72]+chunk.data[74:78]
 			self.bmpbuf += '\x00\x00'+chunk.data[82:90]+'\x00\x00\x00\x00'
 			if numcol > 1:
 				self.bmpbuf = self.bmpbuf+'\x00\x01\x00\x00\x00\x00\x00\x00'
 				for i in range (numcol):
-					self.bmpbuf = self.bmpbuf+chunk.data[122+i*3:125+i*3]+'\x00'			
+					self.bmpbuf = self.bmpbuf+chunk.data[122+i*3:125+i*3]+'\x00'
 			self.bmpbuf += chunk.data[bmpstart+40:]
 			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
 			self.extracted_image.load()
-									
+			
 	def loda_coords(self,chunk,type,offset,version,trafo):
 		if type == 1:  # rectangle
 			CoordX1 = 0 
@@ -410,8 +409,8 @@ class InfoCollector:
 			if CoordY2 > 0x7FFFFFFF:
 				CoordY2 = CoordY2 - 0x100000000
 			
-			CoordX1, CoordY1=trafo(CoordX1, CoordY1)	
-			CoordX2, CoordY2=trafo(CoordX2, CoordY2)	
+			CoordX1, CoordY1=trafo(CoordX1, CoordY1)
+			CoordX2, CoordY2=trafo(CoordX2, CoordY2)
 			
 			path = CreatePath()
 			path.AppendLine(Point(CoordX1*self.scale, CoordY1*self.scale))
@@ -420,7 +419,7 @@ class InfoCollector:
 			path.AppendLine(Point(CoordX1*self.scale, CoordY2*self.scale))
 			path.AppendLine(Point(CoordX1*self.scale, CoordY1*self.scale))
 			path.AppendLine(path.Node(0))
-			path.ClosePath()			
+			path.ClosePath()
 			self.current_paths.append(path)
 
 		if type == 3: # line and curve
@@ -431,19 +430,19 @@ class InfoCollector:
 			point2=None
 			cont=ContSymmetrical
 			for i in range (pointnum):
-				[CoordX] = struct.unpack('<L', chunk.data[offset+4+i*8:offset+8+i*8])                           
+				[CoordX] = struct.unpack('<L', chunk.data[offset+4+i*8:offset+8+i*8])
 				[CoordY] = struct.unpack('<L', chunk.data[offset+8+i*8:offset+12+i*8])
 				
 				if CoordX > 0x7FFFFFFF:
 					CoordX = CoordX - 0x100000000
 				if CoordY > 0x7FFFFFFF:
 					CoordY = CoordY - 0x100000000
-				CoordX, CoordY=trafo(CoordX, CoordY)		
-					
+				CoordX, CoordY=trafo(CoordX, CoordY)
+				
 				Type = ord(chunk.data[offset+4+pointnum*8+i])
 				
 				if Type&2 == 2:
-					pass                                                                                                                                                                  
+					pass
 				if Type&4 == 4:
 					pass
 				if Type&0x10 == 0 and Type&0x20 == 0:
@@ -463,11 +462,11 @@ class InfoCollector:
 					if path:
 						path.AppendLine(Point(CoordX*self.scale, CoordY*self.scale))
 						point1=None
-						point2=None                                                  
+						point2=None
 				if Type&0x40 == 0 and Type&0x80 == 0x80:
 					path.AppendBezier(point1,point2,Point(CoordX*self.scale, CoordY*self.scale),cont)
 					point1=None
-					point2=None                                             
+					point2=None
 				if Type&0x40 == 0x40 and Type&0x80 == 0x80:
 					if point1:
 						point2=Point(CoordX*self.scale, CoordY*self.scale)
@@ -476,9 +475,8 @@ class InfoCollector:
 				if Type&8 == 8:
 					if path:
 						path.ClosePath()
-			if path:	
+			if path:
 				self.current_paths.append(path)
-				
 		if type == 5: # bitmap
 			bmp_color_models = ('Invalid','Pal1','CMYK255','RGB','Gray','Mono','Pal6','Pal7','Pal8')
 			bmp_clrmode = ord(chunk.data[offset+0x30])
@@ -490,37 +488,39 @@ class InfoCollector:
 			[idx2] = struct.unpack('<L', chunk.data[offset+0x34:offset+0x38])
 			[idx3] = struct.unpack('<L', chunk.data[offset+0x38:offset+0x3c])
 			self.extract_bmp(numbmp,width,height)
-		
+
 	def loda_fild(self,chunk,type,offset,version,trafo):
 		self.colorIndex='%02X'%ord(chunk.data[offset])+'%02X'%ord(chunk.data[offset+1])+\
 					'%02X'%ord(chunk.data[offset+2])+'%02X'%ord(chunk.data[offset+3])
-		
+
 	def loda_outl(self,chunk,type,offset,version,trafo):
 		self.outlineIndex='%02X'%ord(chunk.data[offset])+'%02X'%ord(chunk.data[offset+1])+\
 				'%02X'%ord(chunk.data[offset+2])+'%02X'%ord(chunk.data[offset+3])
 
-			
+
 	def process_outline(self, chunk, usual):
 		cdr_version=self.cdr_version
 		outl = Outline()
 		outl.outlineIndex='%02X'%ord(chunk.data[0]) + '%02X'%ord(chunk.data[1]) + '%02X'%ord(chunk.data[2]) + '%02X'%ord(chunk.data[3])
 
+		ls_offset = 0x4
+		lc_offset = 0x6
 		ct_offset = 0x8
 		lw_offset = 0xc
-		lc_offset = 0x6
-		offset = 0x1c	
+		offset = 0x1c
 			
 		if cdr_version >= 13:
+			ls_offset = 0x18
+			lc_offset = 0x1a
 			ct_offset = 0x1c
 			lw_offset = 0x1e
-			lc_offset = 0x1a
 			offset = 0x28
-		
+			
+		outl.spec=ord(chunk.data[ls_offset])
 		outl.caps=ord(chunk.data[lc_offset])
 		outl.corner=ord(chunk.data[ct_offset])
 		[line_width] = struct.unpack('<L',chunk.data[lw_offset:lw_offset+4])
 		outl.width=line_width*self.scale
-		
 		clrmode = ord(chunk.data[offset+0x30])
 		
 		if clrmode == 9:
@@ -553,8 +553,6 @@ class InfoCollector:
 		else:
 			outl.color=None
 			
-#		if outl.width==0.0002835:
-#			outl.color=None
 		self.outl_data[outl.outlineIndex]=outl
 		if not usual:
 			self.default_outl_data=outl
@@ -571,12 +569,12 @@ class InfoCollector:
 		if	pal < 3:
 			fild_type = fild_pal_type[pal]
 		else:
-			fild_type = 'Unknown (%X)'%pal					
+			fild_type = 'Unknown (%X)'%pal
 		clr_offset = 0x8
 		if cdr_version >= 13:
 			clr_offset = 0x1b
 			
-		if clr_offset < chunk.rawsize:			
+		if clr_offset < chunk.rawsize:
 			clrmode = ord(chunk.data[clr_offset])
 			if fild_type == 'Solid':
 				offset = 0x10
@@ -586,8 +584,8 @@ class InfoCollector:
 					fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, 1.0 - ord(chunk.data[offset]) /255.0)
 				elif clrmode == 5: #RGB
 					fill_data[colorIndex]=CreateRGBColor(ord(chunk.data[offset+2]) / 255.0, 
-								   ord(chunk.data[offset+1])/ 255.0,
-								   ord(chunk.data[offset]) / 255.0)
+									ord(chunk.data[offset+1])/ 255.0,
+									ord(chunk.data[offset]) / 255.0)
 				elif clrmode == 4: #CMY
 					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/255.0,
 									ord(chunk.data[offset+1])/255.0,
@@ -596,7 +594,7 @@ class InfoCollector:
 					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/255.0,
 									ord(chunk.data[offset+1])/255.0,
 									ord(chunk.data[offset+2])/255.0,
-									ord(chunk.data[offset+3])/255.0)					
+									ord(chunk.data[offset+3])/255.0)
 				elif clrmode == 2: #CMYK
 					fill_data[colorIndex]=CreateCMYKColor(ord(chunk.data[offset])/100.0,
 									ord(chunk.data[offset+1])/100.0,
@@ -620,7 +618,7 @@ class InfoCollector:
 				fill_data[colorIndex]=None
 			if fild_type == 'Gradient':
 				fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, .3)
-	
+
 
 class RiffEOF(Exception):
 	pass
@@ -637,7 +635,7 @@ class CDRLoader(GenericLoader):
 		self.verbosity=False
 		self.info = None
 		self.file=file
-		
+
 	def Load(self):
 		try:			
 			self.file.seek(0)
@@ -647,7 +645,7 @@ class CDRLoader(GenericLoader):
 			
 			self.document()
 			self.layer('cdr_object', 1, 1, 0, 0, ('RGB',0,0,0))
-
+			
 			if self.verbosity:
 				text=''
 				if cdr.infocollector.cdr_version>0:
@@ -660,13 +658,13 @@ class CDRLoader(GenericLoader):
 					if cdr.infocollector.compression:
 						text+='   COMPRESSED'
 				sys.stderr.write(text)
-				
-			if cdr.infocollector.cdr_version>6:	
+			
+			if cdr.infocollector.cdr_version>6:
 				self.info=cdr.infocollector
 				self.info.loader=self
 				self.info.process_properties()
 				
-				self.import_curves()		
+				self.import_curves()
 				
 			else:
 				warn(USER, 'File <'+self.filename+
@@ -682,14 +680,14 @@ class CDRLoader(GenericLoader):
 			traceback.print_exc()
 			raise
 		
-	def import_curves(self):		
+	def import_curves(self):
 		objcount=0
 		objnum=len(self.info.paths_heap)
 		jump=87.0/objnum
 		interval=int((objnum/20)/10)+1
 		interval_count=0
 		for obj in self.info.paths_heap:
-			objcount+=1			
+			objcount+=1
 			interval_count+=1
 			if interval_count>interval:
 				interval_count=0
@@ -712,10 +710,12 @@ class CDRLoader(GenericLoader):
 					
 				if obj.outlineIndex:
 					if self.info.outl_data.has_key(obj.outlineIndex):
-						if self.info.outl_data[obj.outlineIndex].color:# and self.info.outl_data[obj.outlineIndex].width>0.2268:
-							style.line_pattern = SolidPattern(self.info.outl_data[obj.outlineIndex].color)
-						else:
+
+						if self.info.outl_data[obj.outlineIndex].spec & 0x01:
 							style.line_pattern = EmptyPattern
+						elif self.info.outl_data[obj.outlineIndex].spec & 0x02:
+							style.line_pattern = SolidPattern(self.info.outl_data[obj.outlineIndex].color)
+
 						style.line_width = self.info.outl_data[obj.outlineIndex].width
 						style.line_cap = self.info.outl_data[obj.outlineIndex].caps + 1
 						style.line_join = self.info.outl_data[obj.outlineIndex].corner
@@ -729,12 +729,8 @@ class CDRLoader(GenericLoader):
 							style.line_pattern = EmptyPattern
 						style.line_width = self.info.default_outl_data.width
 						style.line_cap = self.info.default_outl_data.caps + 1
-						style.line_join = self.info.default_outl_data.corner						
+						style.line_join = self.info.default_outl_data.corner
 					else:
 						style.line_pattern = EmptyPattern
 					
 				self.bezier(tuple(obj.paths))
-
-
-
-			
