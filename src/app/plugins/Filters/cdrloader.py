@@ -508,6 +508,7 @@ class InfoCollector:
 		ct_offset = 0x8
 		lw_offset = 0xc
 		offset = 0x1c
+		dash_offset = 0x68
 			
 		if cdr_version >= 13:
 			ls_offset = 0x18
@@ -515,12 +516,23 @@ class InfoCollector:
 			ct_offset = 0x1c
 			lw_offset = 0x1e
 			offset = 0x28
+			dash_offset = 0x74
 			
 		outl.spec=ord(chunk.data[ls_offset])
+		
 		outl.caps=ord(chunk.data[lc_offset])
 		outl.corner=ord(chunk.data[ct_offset])
 		[line_width] = struct.unpack('<L',chunk.data[lw_offset:lw_offset+4])
 		outl.width=line_width*self.scale
+
+		## dashes
+		[dashnum]= struct.unpack('<h', chunk.data[dash_offset:dash_offset+2])
+		if dashnum > 0:
+			outl.dashes = range(dashnum)
+			for i in outl.dashes:
+				[dash] = struct.unpack('<h', chunk.data[dash_offset+2+i*2:dash_offset+4+i*2])
+				outl.dashes[i] = dash
+
 		clrmode = ord(chunk.data[offset+0x30])
 		
 		if clrmode == 9:
@@ -710,12 +722,14 @@ class CDRLoader(GenericLoader):
 					
 				if obj.outlineIndex:
 					if self.info.outl_data.has_key(obj.outlineIndex):
-
 						if self.info.outl_data[obj.outlineIndex].spec & 0x01:
 							style.line_pattern = EmptyPattern
-						elif self.info.outl_data[obj.outlineIndex].spec & 0x02:
+						else:
 							style.line_pattern = SolidPattern(self.info.outl_data[obj.outlineIndex].color)
-
+						
+						if self.info.outl_data[obj.outlineIndex].spec & 0x04:
+							style.line_dashes = self.info.outl_data[obj.outlineIndex].dashes
+						
 						style.line_width = self.info.outl_data[obj.outlineIndex].width
 						style.line_cap = self.info.outl_data[obj.outlineIndex].caps + 1
 						style.line_join = self.info.outl_data[obj.outlineIndex].corner
@@ -723,10 +737,14 @@ class CDRLoader(GenericLoader):
 						style.line_pattern = EmptyPattern
 				else:
 					if self.info.default_outl_data:
-						if self.info.default_outl_data.color:
-							style.line_pattern = SolidPattern(self.info.default_outl_data.color)
-						else:
+						if self.info.default_outl_data.spec & 0x01:
 							style.line_pattern = EmptyPattern
+						else:
+							style.line_pattern = SolidPattern(self.info.default_outl_data.color)
+							
+						if self.info.default_outl_data.spec & 0x04:
+							style.line_dashes = self.info.default_outl_data.dashes
+
 						style.line_width = self.info.default_outl_data.width
 						style.line_cap = self.info.default_outl_data.caps + 1
 						style.line_join = self.info.default_outl_data.corner
