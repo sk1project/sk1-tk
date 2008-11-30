@@ -241,10 +241,10 @@ class SPOT_Color(SK1_Color):
 		return '("'+self.model+'","'+self.palette+'","'+self.name+'",'+R+G+B+C+M+Y+K+')'
 
 	
-class Registration_Color(SPOT_Color):
+class Registration_Black(SPOT_Color):
 	
-	def __init__(self, r=0, g=0, b=0, c=1, m=1, y=1, k=1, alpha=0, name='Registration color', palette='Unknown'):
-		SK1_Color.__init__(self,r, g, b, c, m, y, k, alpha, name, palette)
+	def __init__(self, r=0, g=0, b=0, c=1, m=1, y=1, k=1, alpha=0, name='All', palette='Unknown'):
+		SPOT_Color.__init__(self,r, g, b, c, m, y, k, alpha, name, palette)
 		
 #
 #       some standard colors.
