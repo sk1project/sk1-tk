@@ -737,7 +737,6 @@ class CDRLoader(GenericLoader):
 							style.line_dashes = self.info.outl_data[obj.outlineIndex].dashes
 						
 						if self.info.outl_data[obj.outlineIndex].spec & 0x20:
-							print "scale",obj.scale
 							style.line_width = self.info.outl_data[obj.outlineIndex].width*obj.scale
 						else:
 							style.line_width = self.info.outl_data[obj.outlineIndex].width
@@ -757,7 +756,6 @@ class CDRLoader(GenericLoader):
 							style.line_dashes = self.info.default_outl_data.dashes
 
 						if self.info.default_outl_data.spec & 0x20:
-							print "scale",obj.scale
 							style.line_width = self.info.default_outl_data.width*obj.scale
 						else:
 							style.line_width = self.info.default_outl_data.width
