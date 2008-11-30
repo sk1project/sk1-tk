@@ -201,11 +201,13 @@ class BezierCurve:
 	outlineIndex=''
 	colorIndex=''
 	paths = []
+	scale=1
 	
-	def __init__(self, outlineIndex, colorIndex, paths):
+	def __init__(self, outlineIndex, colorIndex, paths, scale):
 		self.colorIndex=colorIndex
 		self.outlineIndex=outlineIndex
 		self.paths=paths
+		self.scale=scale
 	
 class InfoCollector:
 	image=None
@@ -236,6 +238,7 @@ class InfoCollector:
 	extracted_image = None
 	page_chunk=None
 	doc_page=()
+	scale_with=1
 	
 	def process_properties(self):
 		self.loda_type_func = {0xa:self.loda_outl,0x14:self.loda_fild,0x1e:self.loda_coords}
@@ -306,6 +309,7 @@ class InfoCollector:
 		[var3] = struct.unpack('<d', trfd.data[ieeestart+3*8:ieeestart+8+3*8])
 		[var4] = struct.unpack('<d', trfd.data[ieeestart+4*8:ieeestart+8+4*8])
 		[var5] = struct.unpack('<d', trfd.data[ieeestart+5*8:ieeestart+8+5*8])
+		self.scale_with=var0
 		return Trafo( var0, var3, var1, var4, (var2+x_shift/2)*scale, (var5+y_shift/2)*scale)
 		
 	def process_paths(self, list):
@@ -338,7 +342,7 @@ class InfoCollector:
 				self.loda_type_func[argtype](chunk,type,offset,cdr_version,trafo)
 		
 		if not self.current_paths.count==[]:
-			self.paths_heap.append(BezierCurve(self.outlineIndex, self.colorIndex, self.current_paths))
+			self.paths_heap.append(BezierCurve(self.outlineIndex, self.colorIndex, self.current_paths, self.scale_with))
 			
 		if self.extracted_image is not None:
 			trafo=self.get_trafo(trfd, self.scale)
@@ -348,6 +352,7 @@ class InfoCollector:
 		self.extracted_image = None
 		self.outlineIndex=None
 		self.colorIndex=None
+		self.scale_with=1
 		
 	def extract_bmp(self, numbmp,width,height):
 		if not self.bmp_dict.has_key(numbmp):
@@ -563,7 +568,7 @@ class InfoCollector:
 		elif clrmode == 20:
 			outl.color=CreateCMYKColor(1.0,1.0,1.0,1.0)
 		else:
-			outl.color=None
+			outl.color=CreateCMYKColor(0, 1, 0, 0)
 			
 		self.outl_data[outl.outlineIndex]=outl
 		if not usual:
@@ -630,7 +635,8 @@ class InfoCollector:
 				fill_data[colorIndex]=None
 			if fild_type == 'Gradient':
 				fill_data[colorIndex]=CreateCMYKColor(0, 0, 0, .3)
-
+#			else:
+#				fill_data[colorIndex]=CreateCMYKColor(0, 1, 0, 0)
 
 class RiffEOF(Exception):
 	pass
@@ -730,7 +736,12 @@ class CDRLoader(GenericLoader):
 						if self.info.outl_data[obj.outlineIndex].spec & 0x04:
 							style.line_dashes = self.info.outl_data[obj.outlineIndex].dashes
 						
-						style.line_width = self.info.outl_data[obj.outlineIndex].width
+						if self.info.outl_data[obj.outlineIndex].spec & 0x20:
+							print "scale",obj.scale
+							style.line_width = self.info.outl_data[obj.outlineIndex].width*obj.scale
+						else:
+							style.line_width = self.info.outl_data[obj.outlineIndex].width
+							
 						style.line_cap = self.info.outl_data[obj.outlineIndex].caps + 1
 						style.line_join = self.info.outl_data[obj.outlineIndex].corner
 					else:
@@ -745,7 +756,11 @@ class CDRLoader(GenericLoader):
 						if self.info.default_outl_data.spec & 0x04:
 							style.line_dashes = self.info.default_outl_data.dashes
 
-						style.line_width = self.info.default_outl_data.width
+						if self.info.default_outl_data.spec & 0x20:
+							print "scale",obj.scale
+							style.line_width = self.info.default_outl_data.width*obj.scale
+						else:
+							style.line_width = self.info.default_outl_data.width
 						style.line_cap = self.info.default_outl_data.caps + 1
 						style.line_join = self.info.default_outl_data.corner
 					else:
