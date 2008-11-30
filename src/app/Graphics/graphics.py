@@ -816,10 +816,11 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		
 		dashes = self.properties.line_dashes 
 		if dashes:
-			if self.properties.line_width < 1.0:
-				scale = self.scale
-			else:
-				scale = self.properties.line_width * self.scale							
+#			scale = self.scale
+#			if self.properties.line_width < 1.0:
+#				scale = self.scale
+#			else:
+			scale = self.properties.line_width * self.scale		
 			dashes = map(operator.mul, dashes, [scale] * len(dashes))
 			dashes = map(int, map(round, dashes))
 			for idx in range(len(dashes)):
