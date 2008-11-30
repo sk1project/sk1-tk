@@ -309,7 +309,7 @@ class InfoCollector:
 		[var3] = struct.unpack('<d', trfd.data[ieeestart+3*8:ieeestart+8+3*8])
 		[var4] = struct.unpack('<d', trfd.data[ieeestart+4*8:ieeestart+8+4*8])
 		[var5] = struct.unpack('<d', trfd.data[ieeestart+5*8:ieeestart+8+5*8])
-		self.scale_with=var0
+		self.scale_with=min(var0*cmp(var0,0), var4*cmp(var4,0))
 		return Trafo( var0, var3, var1, var4, (var2+x_shift/2)*scale, (var5+y_shift/2)*scale)
 		
 	def process_paths(self, list):
@@ -568,7 +568,7 @@ class InfoCollector:
 		elif clrmode == 20:
 			outl.color=CreateCMYKColor(1.0,1.0,1.0,1.0)
 		else:
-			outl.color=CreateCMYKColor(0, 1, 0, 0)
+			outl.color=CreateCMYKColor(0, 0, 0, 1)
 			
 		self.outl_data[outl.outlineIndex]=outl
 		if not usual:
