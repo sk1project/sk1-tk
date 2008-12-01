@@ -28,7 +28,7 @@ from streamfilter import BinaryInput
 
 from app import _, CreatePath, Point, ContSmooth, ContAngle, ContSymmetrical, \
 		SolidPattern, EmptyPattern, LinearGradient, RadialGradient, \
-		ConicalGradient, MultiGradient,\
+		ConicalGradient, PolyBezier, MultiGradient,\
 		CreateRGBColor, CreateCMYKColor, Trafo, Point, Polar, Translation, \
 		Scale, StandardColors, ImageTilePattern, ImageData, MaskGroup, \
 		Arrow
@@ -763,5 +763,23 @@ class CDRLoader(GenericLoader):
 						style.line_join = self.info.default_outl_data.corner
 					else:
 						style.line_pattern = EmptyPattern
+						
+				object = PolyBezier(paths = tuple(obj.paths), properties = self.get_prop_stack())
+				self.bezier(object)
+				
+				if obj.outlineIndex:
+					if self.info.outl_data[obj.outlineIndex].spec & 0x10:
+						copy = object.Duplicate()
+						copy.properties.SetProperty(line_width=0)
+						self.bezier(copy)
+				else:
+					if self.info.default_outl_data.spec & 0x10:
+						copy = object.Duplicate()
+						copy.properties.SetProperty(line_width=0)
+						self.bezier(copy)
+				
+
+				
+
 					
-				self.bezier(tuple(obj.paths))
+				
