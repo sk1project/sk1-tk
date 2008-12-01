@@ -765,18 +765,18 @@ class CDRLoader(GenericLoader):
 						style.line_pattern = EmptyPattern
 						
 				object = PolyBezier(paths = tuple(obj.paths), properties = self.get_prop_stack())
-				self.bezier(object)
+				self.append_object(object)
 				
 				if obj.outlineIndex:
 					if self.info.outl_data[obj.outlineIndex].spec & 0x10:
 						copy = object.Duplicate()
 						copy.properties.SetProperty(line_width=0)
-						self.bezier(copy)
+						self.append_object(copy)
 				else:
 					if self.info.default_outl_data.spec & 0x10:
 						copy = object.Duplicate()
 						copy.properties.SetProperty(line_width=0)
-						self.bezier(copy)
+						self.append_object(copy)
 				
 
 				

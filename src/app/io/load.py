@@ -223,9 +223,6 @@ class GenericLoader(LoaderWithComposites):
 	def bezier(self, paths = None):
 		self.append_object(PolyBezier(paths = paths,
 										properties = self.get_prop_stack()))
-		
-	def bezier(self, obj = None):
-		self.append_object(obj)		
 
 	def rectangle(self, m11, m21, m12, m22, v1, v2, radius1 = 0, radius2 = 0):
 		trafo = Trafo(m11, m21, m12, m22, v1, v2)
