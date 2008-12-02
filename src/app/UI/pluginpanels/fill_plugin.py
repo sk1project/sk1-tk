@@ -9,6 +9,7 @@ from Ttk import TFrame, TLabel, TCheckbutton
 from Tkinter import IntVar
 from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.widgets.unicolorsel import UniColorSelector
+from app.UI.widgets.unicolorchooser import UniColorChooser
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 
@@ -35,6 +36,8 @@ class FillPanel(PluginPanel):
 		self.selector=UniColorSelector(top)
 		self.selector.pack(side=TOP, expand = 1, fill=X)
 		
+		self.picker=UniColorChooser(top)
+		self.picker.pack(side=TOP, expand = 1, fill=X)		
 
 
 		button = UpdatedButton(top, text = _("Apply"),

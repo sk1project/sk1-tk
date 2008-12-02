@@ -14,7 +14,7 @@ EMPTY=_('Empty pattern')
 RGB=_('RGB color')
 CMYK=_('CMYK color')
 SPOT=_('Spot color')
-REGISTRATION=_('Registration color')
+REGISTRATION=_('Registration Black')
 
 class UniColorSelector(TFrame):
 	
