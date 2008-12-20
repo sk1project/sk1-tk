@@ -87,7 +87,7 @@ class RiffChunk:
 		if len(decomp.unconsumed_tail):
 			raise Exception('unconsumed tail in compressed data (%u bytes)' % len(decomp.unconsumed_tail))
 		if len(decomp.unused_data) != blocksizessize:
-			raise Exception('mismatch in unused data after compressed data (%u != %u)' % (len(decomp.unused_data), bytesatend))
+			raise Exception('mismatch in unused data after compressed data (%u != %u)' % (len(decomp.unused_data), blocksizessize))
 		if len(self.uncompresseddata) != uncompressedsize:
 			raise Exception('mismatched compressed data size: expected %u got %u' % (uncompressedsize, len(self.uncompresseddata)))
 		chunk = RiffChunk(infocollector=self.infocollector)
