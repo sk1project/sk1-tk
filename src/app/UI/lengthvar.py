@@ -36,7 +36,7 @@ class LengthVar:
 		self.length = length
 		self.number_var = number_var
 		self.unit = unit
-		self.precision = 2
+		self.precision = precision
 		self.unit_var = unit_var
 		self.callback = command
 		if type(args) != TupleType:
