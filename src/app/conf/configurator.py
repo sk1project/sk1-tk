@@ -338,6 +338,7 @@ class Preferences(connector.Publisher):
 	print_destination = 'printer'	#	Default print destination. 'file' for file, 'printer' for printer	
 	print_directory = '~'		#	default directory for printing to file
 	menu_tearoff_fix = 1		#	Menus
+	drawing_precision = 3
 
 	#---------UI managment---------
 	style = 'Plastik'

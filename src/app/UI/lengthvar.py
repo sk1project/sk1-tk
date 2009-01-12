@@ -32,7 +32,7 @@ class LengthVar:
 
 	def __init__(self, length, unit, number_var = None, unit_var = None,
 					command = None, args = (),
-					precision = 2):
+					precision = config.preferences.drawing_precision):
 		self.length = length
 		self.number_var = number_var
 		self.unit = unit
