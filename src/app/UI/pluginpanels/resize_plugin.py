@@ -22,6 +22,7 @@ from ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 
+
 class ResizePanel(PluginPanel):
 	name='Resize'
 	title = _("Resize")
@@ -31,6 +32,7 @@ class ResizePanel(PluginPanel):
 		PluginPanel.init(self, master)
 
 		self.width_priority=1
+		
 		root=self.mw.root
 		self.var_width_number=DoubleVar(root)
 		self.var_height_number=DoubleVar(root)
@@ -63,7 +65,7 @@ class ResizePanel(PluginPanel):
 		label = TLabel(size_frameH, style='FlatLabel', text = _("H: "))
 		label.pack(side = LEFT, padx=5)
 		self.entry_width = TSpinbox(size_frameH,  var=0, vartype=1, textvariable = self.var_width_number, 
-									min = 0, max = 50000, step = jump, width = 6, command=self.apply_resize)
+									min = 0, max = 50000, step = jump, width = 10, command=self.apply_resize)
 		self.entry_width.pack(side = LEFT)
 
 		self.entry_width.down_button.bind('<ButtonRelease>', self.entry_width_chang)
@@ -86,7 +88,7 @@ class ResizePanel(PluginPanel):
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_height = TSpinbox(size_frameV, var=0, vartype=1, textvariable = self.var_height_number, 
-									min = 0, max = 50000, step = jump, width = 6, command=self.apply_resize)
+									min = 0, max = 50000, step = jump, width = 10, command=self.apply_resize)
 		self.entry_height.pack(side = LEFT)
 		
 		self.entry_height.down_button.bind('<ButtonRelease>', self.entry_height_chang)
@@ -180,17 +182,17 @@ class ResizePanel(PluginPanel):
 
 	def init_from_doc(self, *arg):
 		if self.is_selection():
-			self.entry_width.set_state("normal")
-			self.entry_height.set_state("normal")
-			self.proportional_check['state']="normal"
-			self.button['state']="normal"
-			self.button_copy['state']="normal"
+			self.entry_width.set_state(NORMAL)
+			self.entry_height.set_state(NORMAL)
+			self.proportional_check['state']=NORMAL
+			self.button['state']=NORMAL
+			self.button_copy['state']=NORMAL
 		else:
-			self.entry_width.set_state("disabled")
-			self.entry_height.set_state("disabled")
-			self.proportional_check['state']="disabled"
-			self.button['state']="disabled"
-			self.button_copy['state']="disabled"
+			self.entry_width.set_state(DISABLED)
+			self.entry_height.set_state(DISABLED)
+			self.proportional_check['state']=DISABLED
+			self.button['state']=DISABLED
+			self.button_copy['state']=DISABLED
 			self.var_width.set(0)
 			self.var_height.set(0)
 			
@@ -283,7 +285,7 @@ class ResizePanel(PluginPanel):
 			self.entry_height_chang()
 
 	def apply_resize(self, *arg):
-		if self.button["state"]=="disabled":
+		if self.button["state"]==DISABLED:
 			return
 		self.proportional()
 		try:
@@ -298,7 +300,7 @@ class ResizePanel(PluginPanel):
 		self.Update()
 
 	def apply_to_copy(self):
-		if self.button["state"]=="disabled":
+		if self.button["state"]==DISABLED:
 			return
 		self.proportional()
 		try:
@@ -316,6 +318,10 @@ class ResizePanel(PluginPanel):
 	def update_pref(self, *arg):
 		self.labelwunit['text']=config.preferences.default_unit
 		self.labelhunit['text']=config.preferences.default_unit
+		self.var_width.unit=config.preferences.default_unit
+		self.var_height.unit=config.preferences.default_unit
+		self.entry_width.step=config.preferences.default_unit_jump
+		self.entry_height.step=config.preferences.default_unit_jump
 		self.Update()
 		
 	def Update(self, *arg):
@@ -326,15 +332,11 @@ class ResizePanel(PluginPanel):
 		return (len(self.document.selection) > 0)
 
 	def update_size(self):
-		self.var_width.unit=config.preferences.default_unit
-		self.var_height.unit=config.preferences.default_unit
 		br=self.document.selection.coord_rect
 		width=br.right - br.left
 		height=br.top - br.bottom
 		self.var_width.set(width)
 		self.var_height.set(height)
-		self.entry_width.step=config.preferences.default_unit_jump
-		self.entry_height.step=config.preferences.default_unit_jump
 
 instance=ResizePanel()
 app.transform_plugins.append(instance)
