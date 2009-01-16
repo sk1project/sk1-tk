@@ -32,6 +32,10 @@ class MovePanel(PluginPanel):
 		root=self.mw.root
 		self.var_width_number=DoubleVar(root)
 		self.var_height_number=DoubleVar(root)
+		
+		self.var_width_base=DoubleVar(root)
+		self.var_height_base=DoubleVar(root)
+		
 
 		var_width_unit = StringVar(root)
 		var_height_unit = StringVar(root)
@@ -43,6 +47,9 @@ class MovePanel(PluginPanel):
 		jump=config.preferences.default_unit_jump
 		self.var_width.set(0)
 		self.var_height.set(0)
+		
+		self.var_width_base.set(0)
+		self.var_height_base.set(0)
 		
 		self.var_position = StringVar(root)
 		self.var_position.set('Аbsolute')
@@ -192,20 +199,16 @@ class MovePanel(PluginPanel):
 		if self.button["state"]==DISABLED:
 			return
 		try:
-				x=self.var_width.get()
-				y=self.var_height.get()
+				var_x=self.var_width.get()
+				var_y=self.var_height.get()
 		except:
 				return
-		br=self.document.selection.coord_rect
 		x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
-		var_x, var_y = self.var_width.get(), self.var_height.get()
-
-##		if self.var_position.get()=='Relative':
-##			if x!=None or y!=None:
-##				if round(x,3)!=var_x or round(y,3)!=var_y:
-##					self.var_basepoint.set('USER')
 
 		if self.var_position.get()=='Relative':
+			if self.var_width_base != self.var_width.get() or self.var_height_base != self.var_height.get():
+				self.var_basepoint.set('USER')
+			
 			x,y = var_x, var_y
 		else:
 			x,y = var_x-x, var_y-y
@@ -273,8 +276,6 @@ class MovePanel(PluginPanel):
 	def update_pref(self, *arg):
 		self.labelwunit['text']=config.preferences.default_unit
 		self.labelhunit['text']=config.preferences.default_unit
-		self.var_width.unit=config.preferences.default_unit
-		self.var_height.unit=config.preferences.default_unit
 		self.entry_width.step=config.preferences.default_unit_jump
 		self.entry_height.step=config.preferences.default_unit_jump
 		self.Update()
@@ -287,14 +288,22 @@ class MovePanel(PluginPanel):
 		return (len(self.document.selection) > 0)
 
 	def update_value(self):
-		x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
-		if x == None:
+		if self.var_basepoint.get() == 'USER':
 			x=self.var_width.get()
-		if y == None:
 			y=self.var_height.get()
-		
-		self.var_width.set(x)
-		self.var_height.set(y)
+			self.var_width.unit=config.preferences.default_unit
+			self.var_height.unit=config.preferences.default_unit
+			self.var_width.set(x)
+			self.var_height.set(y)
+		else:
+			self.var_width.unit=config.preferences.default_unit
+			self.var_height.unit=config.preferences.default_unit
+			x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
+			self.var_width.set(x)
+			self.var_height.set(y)
+			self.var_width_base=self.var_width.get()
+			self.var_height_base=self.var_height.get()
+
 
 
 instance=MovePanel()
