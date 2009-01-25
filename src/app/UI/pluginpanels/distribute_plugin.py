@@ -14,7 +14,7 @@ from app.conf.const import SELECTION
 from app.conf import const
 from app import _, Point
 
-##from app.UI.tkext import UpdatedRadiobutton
+from app.UI.tkext import UpdatedRadiobutton
 
 import app
 from ppanel import PluginPanel
