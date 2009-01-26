@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Tkinter import IntVar, StringVar
-from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe
+from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox
 from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
 
 from app.conf.const import SELECTION
@@ -18,6 +18,11 @@ from app.UI.tkext import UpdatedRadiobutton
 
 import app
 from ppanel import PluginPanel
+import tooltips
+
+
+SELECT=_("Selection")
+PAGE=_("Page")
 
 def make_button(*args, **kw):
 	kw['style'] ='ToolBarCheckButton'
@@ -32,58 +37,80 @@ class DistributePlugin(PluginPanel):
 		PluginPanel.init(self, master)
 		top = self.panel
 		
+		self.var_reference = StringVar(top)
+		self.var_reference.set(SELECT)
+		#---------------------------------------------------------
+		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
+		label.pack()
+		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
+		rel_frame.pack(side = TOP, fill=X, padx=5, pady=2)
+		button_frame=TFrame(rel_frame, style='FlatFrame')
+		button_frame.pack(side = TOP, fill = BOTH, padx=5)
+		
+		self.reference = TCombobox(button_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
+									 textvariable=self.var_reference)
+		self.reference.pack(side = TOP)
+
+		#---------------------------------------------------------
 		label=TLabel(top, text=_(" Distribute type "), style="FlatLabel")
 		label.pack()
 		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
-		framec.pack(side = TOP, fill=X, padx=2, pady=2)
+		framec.pack(side = TOP, fill=X, padx=5, pady=5)
 		
 		framex = TFrame(framec, style='FlatFrame')
-		framex.pack(side = TOP, expand = 0, padx = 5, pady = 5)
+		framex.pack(side = TOP, expand = 0)
 		
 		framey = TFrame(framec, style='FlatFrame')
-		framey.pack(side = TOP, expand = 0, padx = 5, pady = 5)
+		framey.pack(side = TOP, expand = 0)
 
 
 		x_pixmaps = ['doleft', 'docenterh', 'dospacingh', 'doright']
 		y_pixmaps = ['dotop', 'docenterv', 'dospacingv', 'dobottom']
+		x_tooltips = [_('Distribute left sides equidistantly'),
+						_('Distribute centers equidistantly horizontally'),
+						_('Make horizontal gaps between objects equal'),
+						_('Distribute right sides equidistantly')]
+
+		y_tooltips = [_('Distribute tops sides equidistantly'),
+						_('Distribute centers equidistantly vertically'),
+						_('Make vertical gaps between objects equal'),
+						_('Distribute bottoms sides equidistantly')]
+
 		self.var_x = IntVar(top)
 		self.var_x.set(0)
 		self.var_y = IntVar(top)
 		self.var_y.set(0)
-
+		
 		for i in range(1, 5):
 			button = make_button(framex, image = x_pixmaps[i - 1], value = i, variable = self.var_x, command = self.apply_x)
+			tooltips.AddDescription(button, x_tooltips[i - 1])
 			button.pack(side = LEFT, padx = 3)
 			button = make_button(framey, image = y_pixmaps[i - 1], value = i, variable = self.var_y, command = self.apply_y)
+			tooltips.AddDescription(button, y_tooltips[i - 1])
 			button.pack(side = LEFT, padx = 3)
 		
-		label=TLabel(top, text=_(" Distribute to "), style="FlatLabel")
-		label.pack()
-		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
-		rel_frame.pack(side = TOP, fill=X, padx=2, pady=2)
-		
-		button_frame=TFrame(rel_frame, style='FlatFrame')
-		button_frame.pack(side = TOP)
 
-		self.var_reference = StringVar(top)
-		self.var_reference.set('selection')
-		radio = UpdatedRadiobutton(button_frame, value = 'selection', text = _("Selection"), variable = self.var_reference)
-		radio.pack(side=TOP, anchor=W)
-		radio = UpdatedRadiobutton(button_frame, value = 'page', text = _("Page"), variable = self.var_reference)
-		radio.pack(side=TOP, anchor=W)
+###############################################################################
 
+	def make_cs_list(self):
+		cs=()
+		cs+=(SELECT,PAGE)
+		return cs
+
+	def set_cs(self):
+		pass
 
 	def is_selection(self):
 		return (len(self.document.selection) > 1)
 
-	def HDistributeSelection(self, x, reference = 'selection'):
+	def HDistributeSelection(self, x, reference = SELECT):
 		if self.is_selection() and x:
 			self.document.begin_transaction(_("Distribute Objects"))
 			try:
 				try:
 					add_undo = self.document.add_undo
 					objects = self.document.selection.GetObjects()
-					if reference == 'page':
+					if reference == PAGE:
 						brleft, brbottom, brright, brtop = self.document.PageRect()
 					else:
 						brleft,  brbottom, brright, brtop = self.document.selection.coord_rect
@@ -127,14 +154,14 @@ class DistributePlugin(PluginPanel):
 
 
 
-	def VDistributeSelection(self, y, reference = 'selection'):
+	def VDistributeSelection(self, y, reference = SELECT):
 		if self.is_selection() and y:
 			self.document.begin_transaction(_("Distribute Objects"))
 			try:
 				try:
 					add_undo = self.document.add_undo
 					objects = self.document.selection.GetObjects()
-					if reference == 'page':
+					if reference == PAGE:
 						brleft, brbottom, brright, brtop = self.document.PageRect()
 					else:
 						brleft,  brbottom, brright, brtop = self.document.selection.coord_rect
