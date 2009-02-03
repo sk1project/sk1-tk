@@ -169,18 +169,18 @@ class ResizePanel(PluginPanel):
 								command = self.apply_to_copy)
 		self.button_copy.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
 		
-		self.ReSubscribe()
-		self.init_from_doc()
+		self.subscribe_receivers()
+		self.Update()
 
 
 ###############################################################################
 
-	def ReSubscribe(self):
-		self.document.Subscribe(SELECTION, self.init_from_doc)	
-		self.document.Subscribe(EDITED, self.Update)
+	def subscribe_receivers(self):
+		self.document.Subscribe(SELECTION, self.Update)	
+		self.document.Subscribe(EDITED, self.update_var)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
 
-	def init_from_doc(self, *arg):
+	def Update(self, *arg):
 		if self.is_selection():
 			self.entry_width.set_state(NORMAL)
 			self.entry_height.set_state(NORMAL)
@@ -297,7 +297,7 @@ class ResizePanel(PluginPanel):
 			self.ScaleSelected(width/hor_sel, height/ver_sel, self.var_basepoint.get())
 		except:
 			return
-		self.Update()
+		self.update_var()
 
 	def apply_to_copy(self):
 		if self.button["state"]==DISABLED:
@@ -313,7 +313,7 @@ class ResizePanel(PluginPanel):
 			self.ScaleSelected(width/hor_sel, height/ver_sel, self.var_basepoint.get())
 		except:
 			return
-		self.Update()
+		self.update_var()
 		
 	def update_pref(self, *arg):
 		self.labelwunit['text']=config.preferences.default_unit
@@ -322,21 +322,19 @@ class ResizePanel(PluginPanel):
 		self.var_height.unit=config.preferences.default_unit
 		self.entry_width.step=config.preferences.default_unit_jump
 		self.entry_height.step=config.preferences.default_unit_jump
-		self.Update()
+		self.update_var()
 		
-	def Update(self, *arg):
+	def update_var(self, *arg):
 		if len(self.document.selection.GetInfo()):
-			self.update_size()
+			br=self.document.selection.coord_rect
+			width=br.right - br.left
+			height=br.top - br.bottom
+			self.var_width.set(width)
+			self.var_height.set(height)
 
 	def is_selection(self):
 		return (len(self.document.selection) > 0)
 
-	def update_size(self):
-		br=self.document.selection.coord_rect
-		width=br.right - br.left
-		height=br.top - br.bottom
-		self.var_width.set(width)
-		self.var_height.set(height)
 
 instance=ResizePanel()
 app.transform_plugins.append(instance)

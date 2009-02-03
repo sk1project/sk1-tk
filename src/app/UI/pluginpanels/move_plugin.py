@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2009 by Maxim S. Barabash
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -105,7 +106,7 @@ class MovePanel(PluginPanel):
 		# |     |     |
 		# SW -- S -- SE
 		#
-		# USER - bazepoint
+		# USER - basepoint
 		
 		label = TLabel(top, style='FlatLabel', text = _("Basepoint:"))
 		label.pack(side = TOP, fill = BOTH, padx=5)
@@ -158,18 +159,18 @@ class MovePanel(PluginPanel):
 								command = self.apply_to_copy)
 		self.button_copy.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
 		
-		self.ReSubscribe()
-		self.init_from_doc()
+		self.subscribe_receivers()
+		self.Update()
 
 
 ###############################################################################
 
-	def ReSubscribe(self):
-		self.document.Subscribe(SELECTION, self.init_from_doc)
-		self.document.Subscribe(EDITED, self.Update)
+	def subscribe_receivers(self):
+		self.document.Subscribe(SELECTION, self.Update)	
+		self.document.Subscribe(EDITED, self.update_var)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
-		
-	def init_from_doc(self, *arg):
+
+	def Update(self, *arg):
 		if self.is_selection():
 			self.entry_width.set_state(NORMAL)
 			self.entry_height.set_state(NORMAL)
@@ -193,7 +194,7 @@ class MovePanel(PluginPanel):
 	def position(self):
 		if self.var_position.get()=='Аbsolute' and self.var_basepoint.get()=='USER':
 			self.var_basepoint.set('C')
-		self.Update()
+		self.update_var()
 
 	def apply_move(self, *arg):
 		if self.button["state"]==DISABLED:
@@ -278,32 +279,28 @@ class MovePanel(PluginPanel):
 		self.labelhunit['text']=config.preferences.default_unit
 		self.entry_width.step=config.preferences.default_unit_jump
 		self.entry_height.step=config.preferences.default_unit_jump
-		self.Update()
+		self.update_var()
 
-	def Update(self, *arg):
+	def update_var(self, *arg):
 		if len(self.document.selection.GetInfo()):
-			self.update_value()
+			if self.var_basepoint.get() == 'USER':
+				x=self.var_width.get()
+				y=self.var_height.get()
+				self.var_width.unit=config.preferences.default_unit
+				self.var_height.unit=config.preferences.default_unit
+				self.var_width.set(x)
+				self.var_height.set(y)
+			else:
+				self.var_width.unit=config.preferences.default_unit
+				self.var_height.unit=config.preferences.default_unit
+				x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
+				self.var_width.set(x)
+				self.var_height.set(y)
+				self.var_width_base=self.var_width.get()
+				self.var_height_base=self.var_height.get()
 
 	def is_selection(self):
 		return (len(self.document.selection) > 0)
-
-	def update_value(self):
-		if self.var_basepoint.get() == 'USER':
-			x=self.var_width.get()
-			y=self.var_height.get()
-			self.var_width.unit=config.preferences.default_unit
-			self.var_height.unit=config.preferences.default_unit
-			self.var_width.set(x)
-			self.var_height.set(y)
-		else:
-			self.var_width.unit=config.preferences.default_unit
-			self.var_height.unit=config.preferences.default_unit
-			x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
-			self.var_width.set(x)
-			self.var_height.set(y)
-			self.var_width_base=self.var_width.get()
-			self.var_height_base=self.var_height.get()
-
 
 
 instance=MovePanel()

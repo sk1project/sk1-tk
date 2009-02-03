@@ -138,7 +138,7 @@ class DistributePlugin(PluginPanel):
 					brleft  += first_obj_dict[x]
 					brright -= last_obj_dict[x]
 					brwidth = (brright-brleft - total_width*width_obj_dict[x])
-					step = brwidth / (len(self.document.selection)-1)
+					step = brwidth / (len(posh)-1)
 					
 					part=part_obj_dict[x]
 					next = 0
@@ -190,7 +190,7 @@ class DistributePlugin(PluginPanel):
 					brtop  += first_obj_dict[y]
 					brbottom -= last_obj_dict[y]
 					brwidth = (brbottom-brtop - total_height*height_obj_dict[y])
-					step = brwidth / (len(self.document.selection)-1)
+					step = brwidth / (len(posv)-1)
 					part=part_obj_dict[y]
 					next = 0
 					for top, height, obj in posv[0:]:
