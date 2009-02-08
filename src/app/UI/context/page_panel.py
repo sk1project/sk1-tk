@@ -8,7 +8,7 @@
 from Ttk import TCombobox, TLabel,TCheckbutton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED
-from Tkinter import LEFT, RIGHT, DoubleVar, StringVar
+from Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
@@ -73,10 +73,29 @@ class PagePanel(CtxSubPanel):
 		self.landscape=TCheckbutton(self.panel, image='context_landscape', variable =self.landscape_val, 
 									command = self.set_landscape, style='ToolBarCheckButton')	
 		self.landscape.pack(side = LEFT)
-		self.update()
 		config.preferences.Subscribe(CHANGED, self.update_pref)
+		self.init_from_doc()
+
 		
+	def init_from_doc(self):
+		self.page_orientation=self.doc.Layout().Orientation()
 		
+		formatname=self.doc.Layout().FormatName()
+		if formatname=='':
+			formatname=USER_SPECIFIC
+			width, height = self.doc.PageSize()
+			if width <= height:
+				self.page_orientation=0
+			else:
+				self.page_orientation=1
+			self.update_size(width, height)
+		
+		self.var_format_name.set(formatname)
+		self.update()
+	
+	def ReSubscribe(self):
+		self.init_from_doc()
+	
 	def make_formats(self):
 		formats=()
 		for format in PapersizesList:
@@ -107,7 +126,7 @@ class PagePanel(CtxSubPanel):
 	def set_format(self):		
 		self.set_size()
 
-	def update_pref(self, arg1, arg2):
+	def update_pref(self, *arg):
 		self.var_width.unit=config.preferences.default_unit
 		self.var_height.unit=config.preferences.default_unit
 		self.update()
@@ -128,11 +147,11 @@ class PagePanel(CtxSubPanel):
 	def set_entry_sensitivity(self):
 		formatname = self.var_format_name.get()
 		if formatname != USER_SPECIFIC:
-			self.widthentry.set_state("disabled")
-			self.heightentry.set_state("disabled")
+			self.widthentry.set_state(DISABLED)
+			self.heightentry.set_state(DISABLED)
 		else:
-			self.widthentry.set_state("enabled")
-			self.heightentry.set_state("enabled")
+			self.widthentry.set_state(NORMAL)
+			self.heightentry.set_state(NORMAL)
 			
 	def update_size(self, width, height):
 		self.var_width.set(width)
