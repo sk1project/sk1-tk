@@ -22,8 +22,11 @@ class NodeEditPanel(CtxSubPanel):
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
 		self.builded=0
-		self.doc.Subscribe(SELECTION, self.update)
+		self.ReSubscribe()
 		
+	def ReSubscribe(self):
+		self.doc.Subscribe(SELECTION, self.update)
+	
 	def build_dlg(self):
 		if not self.builded:
 			cmds = self.mw.canvas.commands.PolyBezierEditor		
