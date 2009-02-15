@@ -98,11 +98,12 @@ class SVGSaver:
 				color = properties.line_pattern.Color().RGB()
 				style.append("stroke:" + csscolor(color))
 			if properties.line_dashes != ():
-				#FIXME: This could be much more intelligent, but this
-				#quick hack will only produce one style of dashed line
-				#for the moment.
-				style.append("stroke-dasharray:" + "6,3")
-			style.append('stroke-width:' + `properties.line_width`)
+				dash=[]
+				for d in properties.line_dashes:
+					dd=d*properties.line_width
+					dash.append ('%g' % dd)
+				style.append("stroke-dasharray:" + join(dash,','))
+			style.append('stroke-width:%g' % properties.line_width)
 			if properties.line_join != const.JoinMiter:
 				style.append('stroke-linejoin:'
 								+ svg_joins[properties.line_join])
