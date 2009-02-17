@@ -7,10 +7,11 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCheckbutton, TRadiobutton, TLabelframe
-from Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar, StringVar
+from Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar
 from Tkinter import RIGHT, BOTTOM, X, Y, W, E, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
-from app.UI.tkext import UpdatedButton, UpdatedRadiobutton
+from app.UI.tkext import UpdatedButton
 from app.UI.ttk_ext import TSpinbox
+from app.UI.widgets.basepoint import BasePointSelector
 
 from app.conf.const import SELECTION, CHANGED, EDITED
 
@@ -36,7 +37,6 @@ class MovePanel(PluginPanel):
 		
 		self.var_width_base=DoubleVar(root)
 		self.var_height_base=DoubleVar(root)
-		
 
 		var_width_unit = StringVar(root)
 		var_height_unit = StringVar(root)
@@ -95,66 +95,29 @@ class MovePanel(PluginPanel):
 		self.position_check = TCheckbutton(top, text = _("Аbsolute Coordinates"), variable = self.var_position,
 												onvalue='Аbsolute', offvalue='Relative', command = self.position)
 		self.position_check.pack(side = TOP, anchor=W, padx=5,pady=5)
-
-		
 		
 		#---------------------------------------------------------
 		# Basepoint check
-		# NW -- N -- NE
-		# |     |     |
-		# W  -- C --  E
-		# |     |     |
-		# SW -- S -- SE
-		#
-		# USER - basepoint
 		
 		label = TLabel(top, style='FlatLabel', text = _("Basepoint:"))
 		label.pack(side = TOP, fill = BOTH, padx=5)
 		basepoint_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		basepoint_frame.pack(side = TOP, fill=X, padx=5, pady=2)
 		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'NW', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'N', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'NE', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'W', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'C', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'E', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'SW', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'S', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'SE', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		
+		self.Basepoint = BasePointSelector(basepoint_frame, anchor=self.var_basepoint, command = self.apply_basepoint)
+		self.Basepoint.pack(side = TOP, fill = BOTH, padx=5)
 		
 		#---------------------------------------------------------
 		# Button frame 
 		
 		button_frame = TFrame(top, style='FlatFrame', borderwidth=5)
 		button_frame.pack(side = BOTTOM, fill = BOTH)
-
+		
 		self.update_buttons = []
 		self.button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_move)
 		self.button.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X, pady=3)
-
+		
 		self.button_copy = UpdatedButton(top, text = _("Apply to Copy"),
 								command = self.apply_to_copy)
 		self.button_copy.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
@@ -183,8 +146,6 @@ class MovePanel(PluginPanel):
 			self.position_check['state']=DISABLED
 			self.button['state']=DISABLED
 			self.button_copy['state']=DISABLED
-##			self.var_width.set(0)
-##			self.var_height.set(0)
 			
 		self.update_pref()
 
@@ -204,18 +165,17 @@ class MovePanel(PluginPanel):
 				var_y=self.var_height.get()
 		except:
 				return
-		x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
-
+		
+		x, y = self.coordinates(self.var_position.get())
+		
 		if self.var_position.get()=='Relative':
 			if self.var_width_base != self.var_width.get() or self.var_height_base != self.var_height.get():
 				self.var_basepoint.set('USER')
-			
 			x,y = var_x, var_y
 		else:
 			x,y = var_x-x, var_y-y
-
+		
 		self.document.MoveSelected(x, y)
-
 
 	def apply_to_copy(self):
 		if self.button["state"]==DISABLED:
@@ -223,8 +183,7 @@ class MovePanel(PluginPanel):
 		self.document.ApplyToDuplicate()
 		self.apply_move()
 
-
-	def coordinates(self, position, anchor ='C'):
+	def coordinates(self, position):
 		br=self.document.selection.coord_rect
 		hor_sel=br.right - br.left
 		ver_sel=br.top - br.bottom
@@ -233,41 +192,8 @@ class MovePanel(PluginPanel):
 			left, bottom = -hor_sel/2, -ver_sel/2
 		else:
 			left, bottom = br.left, br.bottom
-		# NW -- N -- NE
-		# |     |     |
-		# W  -- C --  E
-		# |     |     |
-		# SW -- S -- SE
-		if anchor == 'NW':
-			cnt_x=left
-			cnt_y=ver_sel+bottom
-		elif anchor == 'N':
-			cnt_x=hor_sel/2+left
-			cnt_y=ver_sel+bottom
-		elif anchor == 'NE':
-			cnt_x=hor_sel+left
-			cnt_y=ver_sel+bottom
-		elif anchor == 'W':
-			cnt_x=left
-			cnt_y=ver_sel/2+bottom
-		elif anchor == 'E':
-			cnt_x=hor_sel+left
-			cnt_y=ver_sel/2+bottom
-		elif anchor == 'SW':
-			cnt_x=left
-			cnt_y=bottom
-		elif anchor == 'S':
-			cnt_x=hor_sel/2+left
-			cnt_y=bottom
-		elif anchor == 'SE':
-			cnt_x=hor_sel+left
-			cnt_y=bottom
-		elif anchor == 'C':
-			cnt_x=hor_sel/2+left
-			cnt_y=ver_sel/2+bottom
-		else:
-			cnt_x=None
-			cnt_y=None
+		
+		cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,left,bottom)
 		
 		if position == 'Relative' and cnt_x!=None:
 			return cnt_x*2, cnt_y*2
@@ -290,10 +216,11 @@ class MovePanel(PluginPanel):
 				self.var_height.unit=config.preferences.default_unit
 				self.var_width.set(x)
 				self.var_height.set(y)
+				
 			else:
 				self.var_width.unit=config.preferences.default_unit
 				self.var_height.unit=config.preferences.default_unit
-				x, y = self.coordinates(self.var_position.get(), self.var_basepoint.get())
+				x, y = self.coordinates(self.var_position.get())
 				self.var_width.set(x)
 				self.var_height.set(y)
 				self.var_width_base=self.var_width.get()

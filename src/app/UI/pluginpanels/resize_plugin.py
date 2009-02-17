@@ -7,10 +7,11 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCheckbutton, TRadiobutton, TLabelframe
-from Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar, StringVar
+from Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar
 from Tkinter import RIGHT, BOTTOM, X, Y, W, E, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
-from app.UI.tkext import UpdatedButton, UpdatedRadiobutton
+from app.UI.tkext import UpdatedButton
 from app.UI.ttk_ext import TSpinbox
+from app.UI.widgets.basepoint import BasePointSelector
 
 from app.conf.const import SELECTION, CHANGED, EDITED
 
@@ -108,50 +109,16 @@ class ResizePanel(PluginPanel):
 		
 		self.proportional_check = TCheckbutton(top, text = _("Proportional"), variable = self.var_proportional, command = self.proportional)
 		self.proportional_check.pack(side = TOP, anchor=W, padx=5,pady=5)
-
-		
 		
 		#---------------------------------------------------------
 		# Basepoint check
-		# NW -- N -- NE
-		# |     |     |
-		# W  -- C --  E
-		# |     |     |
-		# SW -- S -- SE
 		label = TLabel(top, style='FlatLabel', text = _("Basepoint:"))
 		label.pack(side = TOP, fill = BOTH, padx=5)
 		basepoint_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		basepoint_frame.pack(side = TOP, fill=X, padx=5, pady=2)
 		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'NW', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'N', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'NE', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'W', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'C', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'E', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		
-		frame=TFrame(basepoint_frame, style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, padx=5)
-		
-		radio = UpdatedRadiobutton(frame, value = 'SW', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'S', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
-		radio = UpdatedRadiobutton(frame, value = 'SE', text = _(""), variable = self.var_basepoint, command = self.apply_basepoint)
-		radio.pack(side=LEFT, anchor=W)
+		self.Basepoint = BasePointSelector(basepoint_frame, anchor=self.var_basepoint)
+		self.Basepoint.pack(side = TOP, fill = BOTH, padx=5)
 		
 		
 		#---------------------------------------------------------
@@ -197,17 +164,14 @@ class ResizePanel(PluginPanel):
 			self.var_height.set(0)
 			
 		self.update_pref()
-		
-	def apply_basepoint(self):
-		pass
-		
+
 	def entry_width_FocusIn(self, *arg):
 		self.width_priority=1
 
 	def entry_height_FocusIn(self, *arg):
 		self.width_priority=0
 
-	def ScaleSelected(self, h, v, anchor='C'):
+	def ScaleSelected(self, h, v):
 		if self.document.selection:
 			self.document.begin_transaction()
 			try:
@@ -215,38 +179,8 @@ class ResizePanel(PluginPanel):
 					br=self.document.selection.coord_rect
 					hor_sel=br.right - br.left
 					ver_sel=br.top - br.bottom
-					# NW -- N -- NE
-					# |     |     |
-					# W  -- C --  E
-					# |     |     |
-					# SW -- S -- SE
-					if anchor == 'NW':
-						cnt_x=br.left
-						cnt_y=ver_sel+br.bottom
-					elif anchor == 'N':
-						cnt_x=hor_sel/2+br.left
-						cnt_y=ver_sel+br.bottom
-					elif anchor == 'NE':
-						cnt_x=hor_sel+br.left
-						cnt_y=ver_sel+br.bottom
-					elif anchor == 'W':
-						cnt_x=br.left
-						cnt_y=ver_sel/2+br.bottom
-					elif anchor == 'E':
-						cnt_x=hor_sel+br.left
-						cnt_y=ver_sel/2+br.bottom
-					elif anchor == 'SW':
-						cnt_x=br.left
-						cnt_y=br.bottom
-					elif anchor == 'S':
-						cnt_x=hor_sel/2+br.left
-						cnt_y=br.bottom	
-					elif anchor == 'SE':
-						cnt_x=hor_sel+br.left
-						cnt_y=br.bottom
-					else: # anchor == 'C' and other
-						cnt_x=hor_sel/2+br.left
-						cnt_y=ver_sel/2+br.bottom
+					
+					cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,br.left,br.bottom)
 					
 					text = _("Resize")
 					trafo = Trafo(h, 0, 0, v, cnt_x-cnt_x*h, cnt_y-cnt_y*v)
@@ -294,7 +228,7 @@ class ResizePanel(PluginPanel):
 			br=self.document.selection.coord_rect
 			hor_sel=br.right - br.left
 			ver_sel=br.top - br.bottom
-			self.ScaleSelected(width/hor_sel, height/ver_sel, self.var_basepoint.get())
+			self.ScaleSelected(width/hor_sel, height/ver_sel)
 		except:
 			return
 		self.update_var()
@@ -302,18 +236,8 @@ class ResizePanel(PluginPanel):
 	def apply_to_copy(self):
 		if self.button["state"]==DISABLED:
 			return
-		self.proportional()
-		try:
-			width=self.var_width.get()
-			height=self.var_height.get()
-			br=self.document.selection.coord_rect
-			hor_sel=br.right - br.left
-			ver_sel=br.top - br.bottom
-			self.document.ApplyToDuplicate()
-			self.ScaleSelected(width/hor_sel, height/ver_sel, self.var_basepoint.get())
-		except:
-			return
-		self.update_var()
+		self.document.ApplyToDuplicate()
+		self.apply_resize()
 		
 	def update_pref(self, *arg):
 		self.labelwunit['text']=config.preferences.default_unit
