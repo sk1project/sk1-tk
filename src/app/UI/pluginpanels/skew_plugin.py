@@ -24,7 +24,7 @@ from ppanel import PluginPanel
 from app.UI.lengthvar import LengthVar
 from math import pi, tan
 
-rad=pi/180
+degrees = pi / 180.0
 
 class SkewPanel(PluginPanel):
 	name='Skew'
@@ -140,11 +140,19 @@ class SkewPanel(PluginPanel):
 					cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,br.left,br.bottom)
 					
 					text = _("Skew")
-					dv=cnt_x*axisY
-					dh=cnt_y*axisX
-					#x       [1 0 tan(a) 1 0 0]
-					#y       [1 tan(a) 0 1 0 0]
-					trafo = Trafo(1, axisY, -axisX, 1, dh, -dv)
+					ax,ay=tan(axisX),tan(axisY)
+					sx=1.0
+					sy=1.0-(ax*ay)
+					tx=cnt_x*ax
+					ty=cnt_y*ax*ay-cnt_y*ay
+					# Move the selection in the coordinates x0 y0
+					trafo = Trafo(1, 0, 0, 1, -cnt_x, -cnt_y)
+					self.document.TransformSelected(trafo, text)
+					# Skew and Scaling
+					trafo = Trafo(sx, ay, -ax, sy, 0, 0)
+					self.document.TransformSelected(trafo, text)
+					# Move the selection in the coordinates basepoint 
+					trafo = Trafo(1, 0, 0, 1, cnt_x, cnt_y)
 					self.document.TransformSelected(trafo, text)
 				except:
 					self.document.abort_transaction()
@@ -155,9 +163,9 @@ class SkewPanel(PluginPanel):
 		if self.button["state"]==DISABLED:
 			return
 		try:
-			angleX=self.var_angleX.get()*rad
-			angleY=self.var_angleY.get()*rad
-			self.SkewSelected(tan(angleX), tan(angleY))
+			angleX=self.var_angleX.get()*degrees
+			angleY=self.var_angleY.get()*degrees
+			self.SkewSelected(angleX, angleY)
 		except:
 			return
 
