@@ -16,7 +16,7 @@ from app.Graphics.papersize import Papersize, PapersizesList
 from app.UI.lengthvar import LengthVar
 from app.Graphics.pagelayout import PageLayout
 
-USER_SPECIFIC = '<Custom Size>'
+USER_SPECIFIC = _('<Custom Size>')
 
 class PagePanel(CtxSubPanel):
 	
@@ -24,7 +24,6 @@ class PagePanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)		
-		self.my_changes=0
 		
 		root=self.mw.root
 		self.var_format_name = StringVar(root)
@@ -74,7 +73,6 @@ class PagePanel(CtxSubPanel):
 									command = self.set_landscape, style='ToolBarCheckButton')	
 		self.landscape.pack(side = LEFT)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
-		self.init_from_doc()
 
 		
 	def init_from_doc(self):
@@ -89,7 +87,7 @@ class PagePanel(CtxSubPanel):
 			else:
 				self.page_orientation=1
 			self.update_size(width, height)
-		
+
 		self.var_format_name.set(formatname)
 		self.update()
 	
@@ -120,8 +118,8 @@ class PagePanel(CtxSubPanel):
 	def set_size(self):
 		self.var_width.UpdateNumber()
 		self.var_height.UpdateNumber()
-		self.my_changes=1		
 		self.update()
+		self.apply_settings()
 				
 	def set_format(self):		
 		self.set_size()
@@ -129,8 +127,9 @@ class PagePanel(CtxSubPanel):
 	def update_pref(self, *arg):
 		self.var_width.unit=config.preferences.default_unit
 		self.var_height.unit=config.preferences.default_unit
-		self.update()
-		
+		width, height = self.doc.PageSize()
+		self.update_size(width, height)
+
 	def update(self):		
 		self.set_entry_sensitivity()
 		self.update_size_from_name(self.var_format_name.get())
@@ -140,9 +139,6 @@ class PagePanel(CtxSubPanel):
 		else:
 			self.portrait_val.set('1')
 			self.landscape_val.set('')
-		if self.my_changes:
-			self.apply_settings()
-			self.my_changes=0		
 		
 	def set_entry_sensitivity(self):
 		formatname = self.var_format_name.get()
