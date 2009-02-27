@@ -3,7 +3,7 @@
             Button.background
             Button.button -children {
                 Button.focus -children {
-                    Button.label
+                    Button.label -sticky ns
                 }
             }
         }

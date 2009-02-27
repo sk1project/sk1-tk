@@ -3,7 +3,7 @@
             Button.background
             Button.button -children {
                 Button.focus -children {
-                    Button.label
+                    Button.label -sticky ns
                 }
             }
         }
@@ -419,7 +419,7 @@
 		HGrip.background
 		HGrip.button -children {
 			HGrip.focus -children {
-				HGrip.label
+				HGrip.label -sticky ns
 			}
 		}
 	}
