@@ -46,6 +46,7 @@ class PluginContainer(ResizableTFrame):
 			self.visible=0
 			self.rborder.forget()
 			self.forget()
+			self.mw.canvas.ForceRedraw()
 
 	def loadByName(self,name):
 		plugin=None
