@@ -13,7 +13,7 @@
 # of mouse and keyboard events.
 #
 
-import string
+import string, time
 from types import TupleType
 from math import floor, ceil
 
@@ -515,6 +515,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def save_bitmap_buffer(self):
 		w=self.gc.widget
 		if app.root.winfo_viewable():
+			print 'SAVED!'
+#			time.sleep(.3)
 			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)			
 		else:
 			self.bitmap_buffer=None
@@ -525,6 +527,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
 		else:
 			self.RedrawMethod()
+			
+	def clear_buffer_bitmap(self, *args):
+		self.bitmap_buffer=None
 			
 	#
 	#	Event handler
@@ -552,7 +557,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		finally:
 			self.end_transaction()
 		if event.button == const.Button1:
-			self.save_bitmap_buffer()
+#			self.save_bitmap_buffer()
+			if not self.exposed_after_covering:
+				self.after_idle(self.save_bitmap_buffer)
 
 	def PointerMotionEvent(self, event):
 		# handle Motion events

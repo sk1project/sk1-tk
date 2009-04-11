@@ -150,7 +150,7 @@ class sK1MainWindow(Publisher):
 		
 		b = TLabel(p_frame, style='VLine3')
 		
-		self.pc=PluginContainer(p_frame,self.root)
+		self.pc=PluginContainer(p_frame,self.root, self)
 		self.pc.rborder=b
 		
 		b = TLabel(root, style='VLine2')
@@ -909,7 +909,7 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Bitmaps"), self.make_bitmaps_menu(), 0)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
 #		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
 

@@ -21,11 +21,12 @@ class PluginContainer(ResizableTFrame):
 	activated=[]
 	rborder=None
 	
-	def __init__(self, master, mw, cnf={}, **kw):
+	def __init__(self, master, root, mw, cnf={}, **kw):
 		self.mw=mw
+		self.root=root
 		self.master=master
-		ResizableTFrame.__init__(self, master, mw, size=200, orient=LEFT, min=100, max=300)
-		self.browserframe=ResizableTFrame(self.panel, mw, size=10, orient=BOTTOM, min=10, max=500)
+		ResizableTFrame.__init__(self, master, root, size=200, orient=LEFT, min=100, max=300)
+		self.browserframe=ResizableTFrame(self.panel, root, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
 		self.plugins=app.objprop_plugins+app.layout_plugins+app.transform_plugins
 		self.plugins+=app.effects_plugins+app.extentions_plugins
@@ -46,7 +47,7 @@ class PluginContainer(ResizableTFrame):
 			self.visible=0
 			self.rborder.forget()
 			self.forget()
-			self.mw.canvas.ForceRedraw()
+			self.mw.canvas.clear_buffer_bitmap()
 
 	def loadByName(self,name):
 		plugin=None
