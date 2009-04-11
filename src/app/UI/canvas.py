@@ -13,7 +13,7 @@
 # of mouse and keyboard events.
 #
 
-import string, time
+import string
 from types import TupleType
 from math import floor, ceil
 
@@ -515,8 +515,6 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def save_bitmap_buffer(self):
 		w=self.gc.widget
 		if app.root.winfo_viewable():
-			print 'SAVED!'
-#			time.sleep(.3)
 			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)			
 		else:
 			self.bitmap_buffer=None
