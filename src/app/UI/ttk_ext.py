@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, END, VERTICAL
+from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, NORMAL, DISABLED, END, VERTICAL
 from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
 from app import _
 
@@ -22,23 +22,24 @@ class TEntryExt(TEntry):
 
 #--------ContextMenu-----------------------------------------------------------
 	def popup_context_menu(self, event):
-		self.context_menu = UpdatedMenu(self, [], tearoff = 0, auto_rebuild = self.build_context_menu)
-		self.context_menu.Popup(event.x_root, event.y_root)
+		if self["state"]==NORMAL:
+			self.context_menu = UpdatedMenu(self, [], tearoff = 0, auto_rebuild = self.build_context_menu)
+			self.context_menu.Popup(event.x_root, event.y_root)
 
 	def build_context_menu(self):
 		entries=[]
-		if self["state"]=='normal':
-			if self.can_cut():		
-				entries += [(_("Cut"), self.cut,(),None,None,'menu_edit_cut')]
-			if self.can_copy():
-				entries +=[(_("Copy"), self.copy,(),None,None,'menu_edit_copy')]
-			if self.can_paste():
-				entries +=[(_("Paste"), self.paste,(),None,None,'menu_edit_paste')]
-			entries +=[(_("Clear All"), self.clear_all,(),None,None, 'menu_edit_clear'),
-					(None,'small_separator'),
-					(_("Select All"), self.select_all,(),None,None)
-					]
-		return map(MakeCommand, entries)	
+		if self.can_cut():
+			entries += [(_("Cut"), self.cut,(),None,None,'menu_edit_cut')]
+		if self.can_copy():
+			entries +=[(_("Copy"), self.copy,(),None,None,'menu_edit_copy')]
+		if self.can_paste():
+			entries +=[(_("Paste"), self.paste,(),None,None,'menu_edit_paste')]
+		entries +=[(_("Clear All"), self.clear_all,(),None,None, 'menu_edit_clear'),
+			(None,'small_separator'),
+				(_("Select All"), self.select_all,(),None,None)
+				]
+		return map(MakeCommand, entries)
+
 
 	def can_cut(self):
 		return self.select_present()
@@ -76,7 +77,7 @@ class TEntryExt(TEntry):
 	
 class TSpinbox(TFrame):
 	def __init__(self, master=None, min=0, max=100, step=1, textvariable=None, var=0, vartype=0, 
-				command=None, state='enabled', width=5, args=(), **kw):
+				command=None, state=NORMAL, width=5, args=(), **kw):
 		'''vartype=0 - integer   vartype=1 - float '''
 		self.min_value=min
 		self.max_value=max
@@ -97,10 +98,10 @@ class TSpinbox(TFrame):
 		self.button_frame=TFrame(self,style="FlatFrame")
 		self.button_frame.pack(side = LEFT,fill = Y)
 		self.up_button=TButton(self.button_frame, class_='Repeater', command=self.increase, 
-							image='pal_arrow_up', style='SpinUpButton')
+							image='pal_arrow_up', style='SpinUpButton', takefocus=0)
 		self.up_button.pack(side = TOP)
 		self.down_button=TButton(self.button_frame, class_='Repeater', command=self.decrease,
-							image='pal_arrow_down', style='SpinDownButton')
+							image='pal_arrow_down', style='SpinDownButton', takefocus=0)
 		self.down_button.pack(side = TOP)
 		if self.vartype==1: 
 			self.variable=float(self.variable)
@@ -109,6 +110,8 @@ class TSpinbox(TFrame):
 		self.text_var.set(str(self.variable))
 		self.entry.bind('<Button-4>', self.wheel_increase)
 		self.entry.bind('<Button-5>', self.wheel_decrease)
+		self.entry.bind('<Key-Up>', self.wheel_increase)
+		self.entry.bind('<Key-Down>', self.wheel_decrease)
 		self.entry.bind('<Key-Return>', self.command)
 		self.entry.bind('<Key-KP_Enter>', self.command)
 		#self.entry.bind ( '<KeyPress>', self.check_input)
@@ -132,7 +135,7 @@ class TSpinbox(TFrame):
 		self.decrease()
 		
 	def increase(self):
-		if self.state=='enabled':
+		if self.state==NORMAL:
 			try:
 				self.variable=float(self.text_var.get())
 			except:
@@ -148,7 +151,7 @@ class TSpinbox(TFrame):
 			self.text_var.set(str(self.variable))
 		
 	def decrease(self):
-		if self.state=='enabled':
+		if self.state==NORMAL:
 			try:
 				self.variable=float(self.text_var.get())
 			except:
@@ -193,7 +196,7 @@ class TSpinbox(TFrame):
 		TFrame.destroy(self)
 
 class TEntrybox(TFrame):
-	def __init__(self, master=None, text='', vartype=0, command=None, state='enabled', width=5, args=(), **kw):
+	def __init__(self, master=None, text='', vartype=0, command=None, state=NORMAL, width=5, args=(), **kw):
 		self.vartype=vartype
 		self.text_var=StringVar()
 		self.command=command
