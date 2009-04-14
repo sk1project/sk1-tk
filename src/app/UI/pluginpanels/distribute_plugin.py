@@ -17,12 +17,14 @@ from app import _, Point
 from app.UI.tkext import UpdatedRadiobutton
 
 import app
+from app import config
 from ppanel import PluginPanel
 import tooltips
 
 
 SELECT=_("Selection")
 PAGE=_("Page")
+EDGE=_("Edge + Jump")
 
 def make_button(*args, **kw):
 	kw['style'] ='ToolBarCheckButton'
@@ -94,7 +96,7 @@ class DistributePlugin(PluginPanel):
 
 	def make_cs_list(self):
 		cs=()
-		cs+=(SELECT,PAGE)
+		cs+=(SELECT,PAGE,EDGE)
 		return cs
 
 	def set_cs(self):
@@ -138,8 +140,10 @@ class DistributePlugin(PluginPanel):
 					brleft  += first_obj_dict[x]
 					brright -= last_obj_dict[x]
 					brwidth = (brright-brleft - total_width*width_obj_dict[x])
-					step = brwidth / (len(posh)-1)
-					
+					if reference == EDGE:
+						step = config.preferences.handle_jump
+					else:
+						step = brwidth / (len(posv)-1)
 					part=part_obj_dict[x]
 					next = 0
 					for left, width, obj in posh[0:]:
@@ -190,7 +194,10 @@ class DistributePlugin(PluginPanel):
 					brtop  += first_obj_dict[y]
 					brbottom -= last_obj_dict[y]
 					brwidth = (brbottom-brtop - total_height*height_obj_dict[y])
-					step = brwidth / (len(posv)-1)
+					if reference == EDGE:
+						step = -1*config.preferences.handle_jump
+					else:
+						step = brwidth / (len(posv)-1)
 					part=part_obj_dict[y]
 					next = 0
 					for top, height, obj in posv[0:]:
