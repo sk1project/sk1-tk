@@ -143,7 +143,7 @@ class DistributePlugin(PluginPanel):
 					if reference == EDGE:
 						step = config.preferences.handle_jump
 					else:
-						step = brwidth / (len(posv)-1)
+						step = brwidth / (len(posh)-1)
 					part=part_obj_dict[x]
 					next = 0
 					for left, width, obj in posh[0:]:
