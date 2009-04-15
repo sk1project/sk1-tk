@@ -497,10 +497,13 @@ class SimpleText(CommonText, RectangularPrimitive):
 	def Info(self):
 		text=self.text.replace('\n','')
 		text=text.replace('\r','')
+		text=text.replace('\t','')
 		text=text.strip()
+		if len(text)>25:
+			text=text[:25]+'...'
 		text=text.encode('utf-8')
 		return (_("Text `%(text)s' at %(position)[position]"),
-				{'text':text[:10], 'position':self.trafo.offset()} )
+				{'text':text, 'position':self.trafo.offset()} )
 
 	def FullTrafo(self):
 		# XXX perhaps the Trafo method should return
