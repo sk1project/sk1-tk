@@ -29,7 +29,7 @@ zramp_size = (15, 140)
 
 
 
-class UniColorChooser(TFrame):
+class ColorChooserWidget(TFrame):
 	
 	def __init__(self, parent, color=None, **kw):
 		self.refcolor=color
@@ -46,10 +46,6 @@ class UniColorChooser(TFrame):
 		frame.pack(side = LEFT)
 		viewz = ChooseRGBZ(frame, zramp_size[0], zramp_size[1], 2)
 		viewz.pack(side = LEFT)
-
-
-
-
 
 
 
