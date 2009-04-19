@@ -23,7 +23,6 @@ from ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 
-
 class ResizePanel(PluginPanel):
 	name='Resize'
 	title = _("Resize")
@@ -171,19 +170,41 @@ class ResizePanel(PluginPanel):
 	def entry_height_FocusIn(self, *arg):
 		self.width_priority=0
 
-	def ScaleSelected(self, h, v):
+	def ResizeSelected(self, h, v, cnt_x=None, cnt_y=None):
+		text = _("Resize")
 		if self.document.selection:
-			self.document.begin_transaction()
+			self.document.begin_transaction(text)
 			try:
 				try:
 					br=self.document.selection.coord_rect
 					hor_sel=br.right - br.left
 					ver_sel=br.top - br.bottom
-					
-					cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,br.left,br.bottom)
-					
-					text = _("Resize")
+					if cnt_x is None:
+						cnt_x=hor_sel/2+br.left
+					if cnt_y is None:
+						cnt_y=ver_sel/2+br.bottom
 					trafo = Trafo(h, 0, 0, v, cnt_x-cnt_x*h, cnt_y-cnt_y*v)
+					self.document.TransformSelected(trafo, text)
+				except:
+					self.document.abort_transaction()
+			finally:
+				self.document.end_transaction()
+
+	def ResizeAndCopy(self, h, v, cnt_x=None, cnt_y=None):
+		text = _("Resize&Copy")
+		if self.document.selection:
+			self.document.begin_transaction(text)
+			try:
+				try:
+					br=self.document.selection.coord_rect
+					hor_sel=br.right - br.left
+					ver_sel=br.top - br.bottom
+					if cnt_x is None:
+						cnt_x=hor_sel/2+br.left
+					if cnt_y is None:
+						cnt_y=ver_sel/2+br.bottom
+					trafo = Trafo(h, 0, 0, v, cnt_x-cnt_x*h, cnt_y-cnt_y*v)
+					self.document.ApplyToDuplicate()
 					self.document.TransformSelected(trafo, text)
 				except:
 					self.document.abort_transaction()
@@ -198,7 +219,7 @@ class ResizePanel(PluginPanel):
 				hor_sel=br.right - br.left
 				ver_sel=br.top - br.bottom
 				self.var_width.set(hor_sel * height/ver_sel)
-			except:
+			except ZeroDivisionError:
 				return
 
 	def entry_width_chang(self, *arg):
@@ -209,7 +230,7 @@ class ResizePanel(PluginPanel):
 				hor_sel=br.right - br.left
 				ver_sel=br.top - br.bottom
 				self.var_height.set(ver_sel * width/hor_sel)
-			except:
+			except ZeroDivisionError:
 				return
 
 	def proportional(self):
@@ -222,23 +243,33 @@ class ResizePanel(PluginPanel):
 		if self.button["state"]==DISABLED:
 			return
 		self.proportional()
+		width=self.var_width.get()
+		height=self.var_height.get()
+		br=self.document.selection.coord_rect
+		hor_sel=br.right - br.left
+		ver_sel=br.top - br.bottom
+		cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,br.left,br.bottom)
+		
 		try:
-			width=self.var_width.get()
-			height=self.var_height.get()
-			br=self.document.selection.coord_rect
-			hor_sel=br.right - br.left
-			ver_sel=br.top - br.bottom
-			self.ScaleSelected(width/hor_sel, height/ver_sel)
-		except:
-			return
+			h=width/hor_sel
+		except ZeroDivisionError:
+			h=0
+		
+		try:
+			v=height/ver_sel
+		except ZeroDivisionError:
+			v=0
+		
+		if arg and arg[0] == 'Duplicate':
+			self.ResizeAndCopy(h, v, cnt_x, cnt_y)
+		else:
+			self.ResizeSelected(h, v, cnt_x, cnt_y)
+		
 		self.update_var()
 
 	def apply_to_copy(self):
-		if self.button["state"]==DISABLED:
-			return
-		self.document.ApplyToDuplicate()
-		self.apply_resize()
-		
+		self.apply_resize('Duplicate')
+
 	def update_pref(self, *arg):
 		self.labelwunit['text']=config.preferences.default_unit
 		self.labelhunit['text']=config.preferences.default_unit

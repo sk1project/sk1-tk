@@ -15,9 +15,10 @@ from app.UI.widgets.basepoint import BasePointSelector
 
 from app.conf.const import SELECTION, CHANGED, EDITED
 
-from app import _, config, Rect, Trafo
+from app import _, config, Point
 from app.conf import const
 import app
+
 
 from ppanel import PluginPanel
 
@@ -175,13 +176,14 @@ class MovePanel(PluginPanel):
 		else:
 			x,y = var_x-x, var_y-y
 		
-		self.document.MoveSelected(x, y)
+		if arg and arg[0] == 'Duplicate':
+			self.document.MoveAndCopy(x, y, Point(0,0))
+		else:
+			self.document.MoveSelected(x, y)
 
 	def apply_to_copy(self):
-		if self.button["state"]==DISABLED:
-			return
-		self.document.ApplyToDuplicate()
-		self.apply_move()
+		self.apply_move('Duplicate')
+
 
 	def coordinates(self, position):
 		br=self.document.selection.coord_rect
