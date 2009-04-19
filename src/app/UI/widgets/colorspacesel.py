@@ -16,7 +16,7 @@ CMYK=_('CMYK color')
 SPOT=_('Spot color')
 REGISTRATION=_('Registration Black')
 
-class UniColorSelector(TFrame):
+class ColorSpaceSelector(TFrame):
 	
 	def __init__(self, parent, color=None, allow_emtpy=1, **kw):
 		self.refcolor=color
