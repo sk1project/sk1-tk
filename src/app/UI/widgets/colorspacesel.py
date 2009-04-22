@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2008-2009 by Igor E. Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -18,9 +18,11 @@ REGISTRATION=_('Registration Black')
 
 class ColorSpaceSelector(TFrame):
 	
-	def __init__(self, parent, color=None, allow_emtpy=1, **kw):
+	current_cs=''
+	
+	def __init__(self, parent, callback, color, allow_emtpy=1, **kw):
 		self.refcolor=color
-		self.color=color
+		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.cs_name = StringVar(self)
 		self.set_cs_name(self.refcolor)
@@ -41,21 +43,46 @@ class ColorSpaceSelector(TFrame):
 		return cs
 	
 	def set_cs(self):
-		pass
+		if self.check_changes():
+			#here should be CS update
+			pass
 	
 	def set_cs_name(self,color):
 		if color is None:
 			self.cs_name.set(EMPTY)
-			return
-		if color.model=='RGB':
-			self.cs_name.set(EMPTY)
-			return
-		if color.model=='CMYK':
+		elif color.model=='RGB':
+			self.cs_name.set(RGB)
+		elif color.model=='CMYK':
 			self.cs_name.set(CMYK)
-			return
-		if color.model=='SPOT':
+		elif color.model=='SPOT':
 			if color.name=='Registration color':
 				self.cs_name.set(REGISTRATION)
 			else:
 				self.cs_name.set(SPOT)
+		self.current_cs=self.cs_name.get()
+				
+				
+	def set_color(self,color):
+		self.refcolor=color
+		self.set_cs_name(self.refcolor)
+		
+	def get_colorspace_name(self,value):
+		if value==RGB:
+			return 'RGB'
+		elif value==CMYK:
+			return 'CMYK'
+		elif value==SPOT:
+			return 'SPORT'
+		elif value==REGISTRATION:
+			return 'Registration color'
+		else:
+			return None
+		
+	def check_changes(self):
+		if self.current_cs==self.cs_name.get():
+			return False
+		else:
+			return True
+				
+	
 		

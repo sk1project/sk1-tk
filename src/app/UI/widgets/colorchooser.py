@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2008-2009 by Igor E. Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -39,13 +39,24 @@ class ColorChooserWidget(TFrame):
 
 		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
 		frame.pack(side = LEFT)
-		viewxy = ChooseRGBXY(frame, xyramp_size[0], xyramp_size[1], 0, 1)
-		viewxy.pack(side = LEFT)
+		self.viewxy = ChooseRGBXY(frame, xyramp_size[0], xyramp_size[1], 0, 1)
+		self.viewxy.pack(side = LEFT)
 
 		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
 		frame.pack(side = LEFT)
-		viewz = ChooseRGBZ(frame, zramp_size[0], zramp_size[1], 2)
-		viewz.pack(side = LEFT)
+		self.viewz = ChooseRGBZ(frame, zramp_size[0], zramp_size[1], 2)
+		self.viewz.pack(side = LEFT)
+		
+	def set_color(self, color):
+		r=g=b=0
+		if color is None:
+			#here should be Epmty pattern viewing
+			pass
+		else:
+			r,g,b=color.getRGB()
+		self.viewxy.SetColor((r, g, b))
+		self.viewz.SetColor((r, g, b))
+		
 
 
 

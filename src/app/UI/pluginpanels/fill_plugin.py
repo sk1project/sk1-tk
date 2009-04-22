@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2008-2009 by Igor E. Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -15,25 +15,34 @@ from app.conf.const import SELECTION, DOCUMENT, EDITED
 
 from app import _, config, Rect
 from app.conf import const
-import app
+import app, copy
 from app.UI.tkext import UpdatedButton
 
 from ppanel import PluginPanel
 
 from math import floor, ceil
+from app.Graphics import color
+from app.Graphics.pattern import SolidPattern
+
+BLACK_COLOR=color.CreateCMYKColor(0,0,0,1)
 
 class FillPanel(PluginPanel):
-	name='Fill'
-	title = _("Fill")
+	name='SolidFill'
+	title = _("Solid Fill")
+	initial_color=None
+	current_color=None
 
 
 	def init(self, master):
 		PluginPanel.init(self, master)
+		
+		self.initial_color=BLACK_COLOR
+		self.current_color = copy.copy(self.initial_color)
 
 		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
 		top.pack(side = TOP, fill=BOTH)
 
-		self.selector=ColorSpaceSelector(top)
+		self.selector=ColorSpaceSelector(top, self.refresh_widgets, self.current_color)
 		self.selector.pack(side=TOP, expand = 1, fill=X)
 		
 		self.picker=ColorChooserWidget(top)
@@ -73,7 +82,14 @@ class FillPanel(PluginPanel):
 		self.issue(SELECTION)
 
 	def Update(self):
-		pass
+		self.initial_color = self.get_object_color()
+		self.current_color = copy.copy(self.initial_color)		
+		self.refresh_widgets(self.current_color)
+	
+	def refresh_widgets(self, color):
+		self.current_color=color
+		self.selector.set_color(self.current_color)
+		self.picker.set_color(self.current_color)
 
 
 	def apply_pattern(self):
@@ -82,6 +98,17 @@ class FillPanel(PluginPanel):
 
 	def copy_from(self):
 		pass
+	
+	def get_object_color(self):
+		properties = 0
+		if self.document.HasSelection():
+			properties = self.document.CurrentProperties()
+		else:
+			return BLACK_COLOR
+		if properties and properties.HasFill() and properties.fill_pattern.__class__ == SolidPattern:
+			return properties.fill_pattern.Color()	
+		else:
+			return None
 
 instance=FillPanel()
 app.objprop_plugins.append(instance)
