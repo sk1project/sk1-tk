@@ -44,10 +44,12 @@ class ColorManager:
 		self.image_pool.append(image)
 		
 	def remove_from_pool(self,color):
-		self.colors_pool.remove(color)
+		if color in self.colors_pool:
+			self.colors_pool.remove(color)
 		
 	def remove_from_image_pool(self,image):
-		self.image_pool.remove(image)
+		if image in self.image_pool:
+			self.image_pool.remove(image)
 		
 	def update(self):
 		for color in self.colors_pool:
