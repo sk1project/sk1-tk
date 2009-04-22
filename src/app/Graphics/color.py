@@ -136,6 +136,18 @@ class RGB_Color(SK1_Color):
 			c,m,y,k = rgb_to_cmyk(self.red, self.green, self.blue)
 		return c,m,y,k
 	
+	def getRGB(self):
+		if app.config.preferences.use_cms:
+			if app.config.preferences.simulate_printer:
+				c,m,y,k = app.colormanager.convertRGB(self.red, self.green, self.blue)
+				r,g,b = app.colormanager.processCMYK(c,m,y,k)                       
+				return r, g, b
+			else:
+				r,g,b = app.colormanager.processRGB(self.red, self.green, self.blue)
+				return r, g, b
+		else:
+			return self.red, self.green, self.blue
+	
 	def getScreenColor(self):
 		if app.config.preferences.use_cms:
 			if app.config.preferences.simulate_printer:
@@ -144,7 +156,7 @@ class RGB_Color(SK1_Color):
 				return RGBColor(r, g, b)
 			else:
 				r,g,b = app.colormanager.processRGB(self.red, self.green, self.blue)
-				return RGBColor(self.red, self.green, self.blue)
+				return RGBColor(r, g, b)
 		else:
 			return RGBColor(self.red, self.green, self.blue)
 	
@@ -175,6 +187,13 @@ class CMYK_Color(SK1_Color):
 		
 	def getCMYK(self):
 		return self.c, self.m, self.y, self.k
+	
+	def getRGB(self):
+		if app.config.preferences.use_cms:
+			r,g,b = app.colormanager.processCMYK(self.c,self.m,self.y,self.k)
+		else:
+			r,g,b = cmyk_to_rgb(self.c,self.m,self.y,self.k)				
+		return r,g,b
 	
 	def getScreenColor(self):
 		if app.config.preferences.use_cms:
@@ -216,6 +235,16 @@ class SPOT_Color(SK1_Color):
 		
 	def getCMYK(self):
 		return self.c, self.m, self.y, self.k
+	
+	def getRGB(self):
+		if app.config.preferences.use_cms:
+			if app.config.preferences.simulate_printer:
+				r,g,b = app.colormanager.processCMYK(c,m,y,k)                       
+				return r, g, b
+			else:
+				return self.r, self.g, self.b
+		else:
+			return self.r, self.g, self.b
 	
 	def getScreenColor(self):
 		if app.config.preferences.use_cms:
