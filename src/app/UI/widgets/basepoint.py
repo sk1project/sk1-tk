@@ -61,41 +61,42 @@ class BasePointSelector(TFrame):
 		
 ###############################################################################
 
-	def get_basepoint(self,hor_sel,ver_sel,left,bottom):
+	def get_basepoint(self,hor_sel,ver_sel,left,bottom, anchor=None):
 		# NW -- N -- NE
 		# |     |     |
 		# W  -- C --  E
 		# |     |     |
 		# SW -- S -- SE
-		anchor=self.anchor.get()
+		if anchor is None:
+			anchor=self.anchor.get()
 		
 		if anchor == 'NW':
 			cnt_x=left
 			cnt_y=ver_sel+bottom
 		elif anchor == 'N':
-			cnt_x=hor_sel/2+left
+			cnt_x=hor_sel/2.0+left
 			cnt_y=ver_sel+bottom
 		elif anchor == 'NE':
 			cnt_x=hor_sel+left
 			cnt_y=ver_sel+bottom
 		elif anchor == 'W':
 			cnt_x=left
-			cnt_y=ver_sel/2+bottom
+			cnt_y=ver_sel/2.0+bottom
 		elif anchor == 'E':
 			cnt_x=hor_sel+left
-			cnt_y=ver_sel/2+bottom
+			cnt_y=ver_sel/2.0+bottom
 		elif anchor == 'SW':
 			cnt_x=left
 			cnt_y=bottom
 		elif anchor == 'S':
-			cnt_x=hor_sel/2+left
+			cnt_x=hor_sel/2.0+left
 			cnt_y=bottom
 		elif anchor == 'SE':
 			cnt_x=hor_sel+left
 			cnt_y=bottom
 		elif anchor == 'C':
-			cnt_x=hor_sel/2+left
-			cnt_y=ver_sel/2+bottom
+			cnt_x=hor_sel/2.0+left
+			cnt_y=ver_sel/2.0+bottom
 		else:
 			cnt_x=None
 			cnt_y=None
