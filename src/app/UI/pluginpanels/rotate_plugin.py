@@ -85,6 +85,10 @@ class RotatePanel(PluginPanel):
 		label = TLabel(angle_frame, style='FlatLabel', text = _("deg"))
 		label.pack(side = LEFT, padx=5)
 		#---------------------------------------------------------
+		label = TLabel(top, style='FlatLabel', text = _("Center:"))
+		label.pack(side = TOP, fill = BOTH, padx=5)
+		
+		#---------------------------------------------------------
 		# Horisontal
 		size_frameH = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameH.pack(side = TOP, fill = BOTH)
@@ -115,7 +119,7 @@ class RotatePanel(PluginPanel):
 		#---------------------------------------------------------
 		# position chek
 		
-		self.position_check = TCheckbutton(top, text = _("Аbsolute Coordinates"), variable = self.var_position,
+		self.position_check = TCheckbutton(top, text = _("Аbsolute Center"), variable = self.var_position,
 												onvalue='Аbsolute', offvalue='Relative', command = self.position)
 		self.position_check.pack(side = TOP, anchor=W, padx=5,pady=5)
 		
@@ -128,7 +132,12 @@ class RotatePanel(PluginPanel):
 		basepoint_frame.pack(side = TOP, fill=X, padx=5, pady=2)
 		
 		self.Basepoint = BasePointSelector(basepoint_frame, anchor=self.var_basepoint, command = self.apply_basepoint)
-		self.Basepoint.pack(side = TOP, fill = BOTH, padx=5)
+		self.Basepoint.pack(side = LEFT, fill = BOTH, padx=5)
+		
+		label = TLabel(basepoint_frame, style='FlatLabel', image = 'coordinate_deg')
+		label.pack(side = LEFT, fill = BOTH, padx=10)
+		
+		self.position_check.pack(side = TOP, anchor=W, padx=5,pady=5)
 		
 		#---------------------------------------------------------
 		# Button frame 
