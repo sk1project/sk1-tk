@@ -106,8 +106,11 @@ class MovePanel(PluginPanel):
 		basepoint_frame.pack(side = TOP, fill=X, padx=5, pady=2)
 		
 		self.Basepoint = BasePointSelector(basepoint_frame, anchor=self.var_basepoint, command = self.apply_basepoint)
-		self.Basepoint.pack(side = TOP, fill = BOTH, padx=5)
+		self.Basepoint.pack(side = LEFT, fill = BOTH, padx=5)
 		
+		label = TLabel(basepoint_frame, style='FlatLabel', image = 'coordinate_sys')
+		label.pack(side = LEFT, fill = BOTH, padx=10)
+			
 		#---------------------------------------------------------
 		# Button frame 
 		
