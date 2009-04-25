@@ -73,7 +73,7 @@ class ScalePanel(PluginPanel):
 		
 		self.hflip=BooleanVar(root)
 		self.hflip.set(0)
-		button = TCheckbutton(size_frameH, image = "context_hflip", style='ToolBarCheckButton', variable = self.hflip, command = None)
+		button = TCheckbutton(size_frameH, image = "pstrip_hflip", style='ToolBarCheckButton', variable = self.hflip, command = None)
 		button.pack(side = LEFT)
 		
 		#---------------------------------------------------------
@@ -102,7 +102,7 @@ class ScalePanel(PluginPanel):
 		
 		self.vflip=BooleanVar(root)
 		self.vflip.set(0)
-		button = TCheckbutton(size_frameV, image = "context_vflip", style='ToolBarCheckButton', variable = self.vflip, command = None)
+		button = TCheckbutton(size_frameV, image = "pstrip_vflip", style='ToolBarCheckButton', variable = self.vflip, command = None)
 		button.pack(side = LEFT)
 		
 		#---------------------------------------------------------
