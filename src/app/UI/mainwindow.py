@@ -810,7 +810,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'LoadPlugin', args = ('Alignment'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
 	AddCmd('CreateGridDialog', _("Grid Setup..."), 'LoadPlugin', args = ('Grid'))#################################
 	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
-	AddCmd('CreateFillStyleDialog', _("Fill..."), 'CreateDialog', args = ('filldlg', 'FillPanel'), key_stroke = 'F11')
+	AddCmd('CreateFillStyleDialog', _("Fill..."), 'LoadPlugin', args = ('SolidFill'), key_stroke = 'F11')
 #	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
 #	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
