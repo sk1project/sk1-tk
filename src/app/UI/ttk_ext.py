@@ -196,9 +196,12 @@ class TSpinbox(TFrame):
 		TFrame.destroy(self)
 
 class TEntrybox(TFrame):
-	def __init__(self, master=None, text='', vartype=0, command=None, state=NORMAL, width=5, args=(), **kw):
+	def __init__(self, master=None, text='', vartype=0, command=None, textvariable=None, state=NORMAL, width=5, args=(), **kw):
 		self.vartype=vartype
-		self.text_var=StringVar()
+		if textvariable is None:
+			self.text_var=StringVar()
+		else:
+			self.text_var=textvariable
 		self.command=command
 		self.state=state
 		self.width=width
