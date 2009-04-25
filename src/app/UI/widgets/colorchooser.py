@@ -6,7 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCombobox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, DISABLED, NORMAL, StringVar, DoubleVar, IntVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
+from Tkinter import StringVar, DoubleVar, IntVar
 import PIL.Image
 
 from app.X11.X import GXxor, ZPixmap
@@ -31,12 +32,52 @@ zramp_size = (15, 140)
 
 class ColorChooserWidget(TFrame):
 	
+	current_chooser=None
+	
 	def __init__(self, parent, color=None, **kw):
 		self.refcolor=color
 		self.color=color
 		self.parent=parent
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
+		self.rgb_chooser=RGBChooser(self)
+		self.empty_chooser=EmptyPatternChooser(self)
+		self.current_chooser=self.empty_chooser
+		self.current_chooser.pack(side=TOP)
+		
+		
+	def set_color(self, color):
+		self.current_chooser.forget()
+		if color is None:
+			self.current_chooser=self.empty_chooser
+		elif color.model=='RGB':
+			self.current_chooser=self.rgb_chooser
+		elif color.model=='CMYK':
+			self.current_chooser=self.rgb_chooser
+		elif color.model=='SPOT':
+			if color.name=='Registration color':
+				self.current_chooser=self.rgb_chooser
+			else:
+				self.current_chooser=self.rgb_chooser
+		self.current_chooser.pack(side=TOP)
+		self.current_chooser.set_color(color)
+		
+class EmptyPatternChooser(TFrame):
 
+	def __init__(self, parent, color=None, **kw):
+		TFrame.__init__(self, parent, style='FlatFrame', **kw)
+		label=TLabel(self, image='empty_pattern_chooser', justify=CENTER)
+		label.pack(side=TOP, pady=3)
+		label2=TLabel(self, text=_('Empty pattern selected,\ni.e. object will not be filled'), justify=CENTER)
+		label2.pack(side=TOP, pady=10)
+		
+	def set_color(self, color):
+		pass
+		
+class RGBChooser(TFrame):
+	
+	def __init__(self, parent, color=None, **kw):
+		TFrame.__init__(self, parent, style='FlatFrame', **kw)
+		
 		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
 		frame.pack(side = LEFT)
 		self.viewxy = ChooseRGBXY(frame, xyramp_size[0], xyramp_size[1], 0, 1)
@@ -48,16 +89,9 @@ class ColorChooserWidget(TFrame):
 		self.viewz.pack(side = LEFT)
 		
 	def set_color(self, color):
-		r=g=b=0
-		if color is None:
-			#here should be Epmty pattern viewing
-			pass
-		else:
-			r,g,b=color.getRGB()
+		r,g,b=color.getRGB()
 		self.viewxy.SetColor((r, g, b))
 		self.viewz.SetColor((r, g, b))
-		
-
 
 
 class ImageView(PyWidget):

@@ -10,6 +10,7 @@ from Tkinter import IntVar
 from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.widgets.colorspacesel import ColorSpaceSelector
 from app.UI.widgets.colorchooser import ColorChooserWidget
+from app.UI.widgets.colordigitizer import ColorDigitizer
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 
@@ -46,7 +47,10 @@ class FillPanel(PluginPanel):
 		self.selector.pack(side=TOP, expand = 1, fill=X)
 		
 		self.picker=ColorChooserWidget(top)
-		self.picker.pack(side=TOP, expand = 1, fill=X)		
+		self.picker.pack(side=TOP, expand = 1, fill=X)	
+		
+		self.digitizer=ColorDigitizer(top)
+		self.digitizer.pack(side=TOP, expand = 1, fill=X)
 
 
 		button = UpdatedButton(top, text = _("Apply"),
@@ -90,6 +94,7 @@ class FillPanel(PluginPanel):
 		self.current_color=color
 		self.selector.set_color(self.current_color)
 		self.picker.set_color(self.current_color)
+		self.digitizer.set_color(self.current_color)
 
 
 	def apply_pattern(self):
