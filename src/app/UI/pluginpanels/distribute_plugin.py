@@ -150,6 +150,8 @@ class DistributePlugin(PluginPanel):
 		self.Update()
 
 	def is_selection(self, reference = SELECT):
+		if not self.var_auto_apply.get() and self.value_x==0 and self.value_y==0:
+			return 0
 		if reference == SELECT:
 			return (len(self.document.selection) > 2)
 		else:
@@ -267,8 +269,12 @@ class DistributePlugin(PluginPanel):
 			self.reset()
 			self.HDistributeSelection(x, reference = reference)
 		else:
-			self.value_x = x
-
+			if self.value_x==x:
+				self.var_x.set(0)
+				self.value_x = 0
+			else:
+				self.value_x = x
+			self.Update()
 
 	def apply_y(self):
 		y = self.var_y.get()
@@ -277,9 +283,16 @@ class DistributePlugin(PluginPanel):
 			self.reset()
 			self.VDistributeSelection(y, reference = reference)
 		else:
-			self.value_y = y
+			if self.value_y==y:
+				self.var_y.set(0)
+				self.value_y = 0
+			else:
+				self.value_y = y
+			self.Update()
 
 	def apply_distribute(self):
+		if self.var_auto_apply.get():
+			return
 		self.document.begin_transaction(TRANSACTION)
 		try:
 			try:
@@ -295,8 +308,11 @@ class DistributePlugin(PluginPanel):
 
 	def reset(self):
 		self.var_x.set(0)
+		self.value_x = 0
 		self.var_y.set(0)
+		self.value_y = 0
 ##		self.apply_button_show(not self.var_auto_apply.get())
+		self.Update()
 
 instance=DistributePlugin()
 app.effects_plugins.append(instance)
