@@ -7,8 +7,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Tkinter import IntVar, StringVar
-from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox
-from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
+from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox, TCheckbutton, TButton
+from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W, DISABLED, NORMAL
 
 from app.conf.const import SELECTION
 from app.conf import const
@@ -21,6 +21,8 @@ from app import config
 from ppanel import PluginPanel
 import tooltips
 
+
+TRANSACTION=_("Distribute Objects")
 
 SELECT=_("Selection")
 PAGE=_("Page")
@@ -37,32 +39,35 @@ class DistributePlugin(PluginPanel):
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
-		top = self.panel
-		
-		self.var_reference = StringVar(top)
+		root=self.mw.root
+		self.var_reference = StringVar(root)
 		self.var_reference.set(SELECT)
+		
+		#---------------------------------------------------------
+		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top.pack(side = TOP, fill=BOTH)
 		#---------------------------------------------------------
 		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
-		label.pack()
+		label.pack(side = TOP, fill = BOTH, padx=5)
 		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		rel_frame.pack(side = TOP, fill=X, padx=5, pady=2)
 		button_frame=TFrame(rel_frame, style='FlatFrame')
 		button_frame.pack(side = TOP, fill = BOTH, padx=5)
 		
 		self.reference = TCombobox(button_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
-									 textvariable=self.var_reference)
+									 textvariable=self.var_reference, postcommand = self.set_cs)
 		self.reference.pack(side = TOP)
-
-		#---------------------------------------------------------
-		label=TLabel(top, text=_(" Distribute type "), style="FlatLabel")
-		label.pack()
-		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
-		framec.pack(side = TOP, fill=X, padx=5, pady=5)
 		
-		framex = TFrame(framec, style='FlatFrame')
+		label=TLabel(top, text=_(" Horizontal "), style="FlatLabel")
+		label.pack(side = TOP, fill = BOTH, padx=5, pady=3)
+		
+		framex = TFrame(top, style='FlatFrame')
 		framex.pack(side = TOP, expand = 0)
 		
-		framey = TFrame(framec, style='FlatFrame')
+		label=TLabel(top, text=_(" Vertical "), style="FlatLabel")
+		label.pack(side = TOP, fill = BOTH, padx=5, pady=3)
+		
+		framey = TFrame(top, style='FlatFrame')
 		framey.pack(side = TOP, expand = 0)
 
 
@@ -80,8 +85,10 @@ class DistributePlugin(PluginPanel):
 
 		self.var_x = IntVar(top)
 		self.var_x.set(0)
+		self.value_x = 0
 		self.var_y = IntVar(top)
 		self.var_y.set(0)
+		self.value_y = 0
 		
 		for i in range(1, 5):
 			button = make_button(framex, image = x_pixmaps[i - 1], value = i, variable = self.var_x, command = self.apply_x)
@@ -91,8 +98,48 @@ class DistributePlugin(PluginPanel):
 			tooltips.AddDescription(button, y_tooltips[i - 1])
 			button.pack(side = LEFT, padx = 3)
 		
+		#---------------------------------------------------------
+		# Auto Apply Check
+		self.var_auto_apply = IntVar(top)
+		self.var_auto_apply.set(0)
+		
+		self.auto_apply_check = TCheckbutton(top, text = _("Auto Apply"), variable = self.var_auto_apply, command = self.reset)
+		self.auto_apply_check.pack(side = TOP, anchor=W, padx=5,pady=5)
+		
+		#---------------------------------------------------------
+		# Button frame 
+		
+		self.button_frame = TFrame(top, style='FlatFrame', borderwidth=5)
+		self.button_frame.pack(side = BOTTOM, fill = BOTH)
+		
+		self.update_buttons = []
+		self.button_apply = TButton(self.button_frame, text = _("Apply"),
+								command = self.apply_distribute)
+		
+		self.apply_button_show(1)
+
+		self.subscribe_receivers()
+		self.Update()
+
 
 ###############################################################################
+
+	def subscribe_receivers(self):
+		self.document.Subscribe(SELECTION, self.Update)
+
+	def Update(self, *arg):
+		reference = self.var_reference.get()
+		if self.is_selection(reference):
+			state=NORMAL
+		else:
+			state=DISABLED
+		self.button_apply['state']=state
+
+	def apply_button_show(self, state):
+		if not state:
+			self.button_apply.pack_forget()
+		else:
+			self.button_apply.pack(side = BOTTOM, expand = 1, fill = X, pady=3)
 
 	def make_cs_list(self):
 		cs=()
@@ -100,14 +147,17 @@ class DistributePlugin(PluginPanel):
 		return cs
 
 	def set_cs(self):
-		pass
+		self.Update()
 
-	def is_selection(self):
-		return (len(self.document.selection) > 1)
+	def is_selection(self, reference = SELECT):
+		if reference == SELECT:
+			return (len(self.document.selection) > 2)
+		else:
+			return (len(self.document.selection) > 1)
 
 	def HDistributeSelection(self, x, reference = SELECT):
-		if self.is_selection() and x:
-			self.document.begin_transaction(_("Distribute Objects"))
+		if self.is_selection(reference) and x:
+			self.document.begin_transaction(TRANSACTION)
 			try:
 				try:
 					add_undo = self.document.add_undo
@@ -159,8 +209,8 @@ class DistributePlugin(PluginPanel):
 
 
 	def VDistributeSelection(self, y, reference = SELECT):
-		if self.is_selection() and y:
-			self.document.begin_transaction(_("Distribute Objects"))
+		if self.is_selection(reference) and y:
+			self.document.begin_transaction(TRANSACTION)
 			try:
 				try:
 					add_undo = self.document.add_undo
@@ -213,18 +263,40 @@ class DistributePlugin(PluginPanel):
 	def apply_x(self):
 		x = self.var_x.get()
 		reference = self.var_reference.get()
-		self.reset()
-		self.HDistributeSelection(x, reference = reference)
+		if self.var_auto_apply.get():
+			self.reset()
+			self.HDistributeSelection(x, reference = reference)
+		else:
+			self.value_x = x
+
 
 	def apply_y(self):
 		y = self.var_y.get()
 		reference = self.var_reference.get()
-		self.reset()
-		self.VDistributeSelection(y, reference = reference)
+		if self.var_auto_apply.get():
+			self.reset()
+			self.VDistributeSelection(y, reference = reference)
+		else:
+			self.value_y = y
+
+	def apply_distribute(self):
+		self.document.begin_transaction(TRANSACTION)
+		try:
+			try:
+				reference = self.var_reference.get()
+				x = self.value_x
+				y = self.value_y
+				self.HDistributeSelection(x, reference = reference)
+				self.VDistributeSelection(y, reference = reference)
+			except:
+				self.document.abort_transaction()
+		finally:
+					self.document.end_transaction()
 
 	def reset(self):
 		self.var_x.set(0)
 		self.var_y.set(0)
+##		self.apply_button_show(not self.var_auto_apply.get())
 
 instance=DistributePlugin()
 app.effects_plugins.append(instance)
