@@ -167,20 +167,19 @@
 				-padding {3 3 3 3}  -sticky news
 
 # ---------------------------------------------------------------------------------------------------
-	
-        style layout TSmallbutton {
-            TSmallbutton.button  -expand true  -sticky news -children {
-	    	TSmallbutton.focus -children {
-                    TSmallbutton.label
-		}    
-            }
-        }
-
+		style layout TSmallbutton {
+			TSmallbutton.background
+			TSmallbutton.button -expand true -sticky news -children {
+				TSmallbutton.focus -children {
+					TSmallbutton.label -sticky ns
+				}
+			}
+		}
         style element create TSmallbutton.button image [list $K(clear) \
-				{pressed !disabled} $K(smallbutton_pressed) \
-				{active  !disabled}   $K(smallbutton_over) ] \
-				-border {1 1 1 1} \
-				-padding {1 1 1 1} -sticky ew
+				{pressed !disabled} $K(button_pressed) \
+				{active  !disabled}   $K(button) ] \
+				-border {2 2 2 2} \
+				-padding {2 2 2 2} -sticky news
 
 # ---------------------------------------------------------------------------------------------------
 	
