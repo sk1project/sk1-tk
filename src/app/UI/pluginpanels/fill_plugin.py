@@ -63,15 +63,19 @@ class FillPanel(PluginPanel):
 		button_frame = TFrame(top, style='FlatFrame', borderwidth=1)
 		button_frame.pack(side = BOTTOM, fill=X, pady=5)
 		
-		button = TButton(button_frame, image='small_colorpicker', command = self.copy_from)
+		button = TButton(button_frame, style='TSmallbutton', text=' ', image='small_colorpicker', command = self.copy_from)
 		button.pack(side = LEFT)
 		tooltips.AddDescription(button, _("Copy From..."))
+		
+		button = TButton(button_frame, style='TSmallbutton', text=' ', image='restore_color', command = self.restore_color)
+		button.pack(side = LEFT, padx=5)
+		tooltips.AddDescription(button, _("Restore color"))
 		
 		self.var_autoupdate = IntVar(top)
 		self.var_autoupdate.set(1)
 		
 		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate)
-		self.autoupdate_check.pack(side = LEFT, anchor=W, padx=10)
+		self.autoupdate_check.pack(side = RIGHT, anchor=W, padx=10)
 
 		self.init_from_doc()
 		self.subscribe_receivers()
@@ -112,16 +116,24 @@ class FillPanel(PluginPanel):
 			self.mw.canvas.FillSolid(self.current_color)
 		self.Update()
 
-
 	def copy_from(self):
-		pass
+		self.mw.canvas.PickObject(self.update_from_object)
+		
+	def update_from_object(self, obj):
+		if obj is not None:
+			self.refresh_widgets(self.init_from_properties(obj.Properties()))
+	
+	def restore_color(self):
+		self.refresh_widgets(copy.copy(self.initial_color))
 	
 	def get_object_color(self):
-		properties = 0
 		if self.document.HasSelection():
 			properties = self.document.CurrentProperties()
+			return self.init_from_properties(properties)
 		else:
 			return BLACK_COLOR
+		
+	def init_from_properties(self, properties):
 		if properties and properties.HasFill() and properties.fill_pattern.__class__ == SolidPattern:
 			return properties.fill_pattern.Color()	
 		elif properties and properties.HasFill() and properties.fill_pattern.__class__ == EmptyPattern_:

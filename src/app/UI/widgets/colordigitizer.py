@@ -271,7 +271,7 @@ class SPOTDigitizer(TFrame):
 		self.HTML_label['text']=text	
 		
 		if color.name=='All':
-			self.colorname_value.set(_('Registration Black (All)'))
+			self.colorname_value.set(color.toString())
 		else:
 			self.colorname_value.set(color.name)		
 
