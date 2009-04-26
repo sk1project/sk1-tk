@@ -5,16 +5,17 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel, TCheckbutton
+from Ttk import TFrame, TLabel, TCheckbutton, TButton
 from Tkinter import IntVar
 from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.widgets.colorspacesel import ColorSpaceSelector
 from app.UI.widgets.colorchooser import ColorChooserWidget
 from app.UI.widgets.colordigitizer import ColorDigitizer
+import tooltips
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 
-from app import _, config, Rect
+from app import _, config, Rect, mw
 from app.conf import const
 import app, copy
 from app.UI.tkext import UpdatedButton
@@ -49,7 +50,7 @@ class FillPanel(PluginPanel):
 		self.picker=ColorChooserWidget(top)
 		self.picker.pack(side=TOP, expand = 1, fill=X)	
 		
-		self.digitizer=ColorDigitizer(top)
+		self.digitizer=ColorDigitizer(top, self.refresh_widgets, self.current_color)
 		self.digitizer.pack(side=TOP, expand = 1, fill=X)
 
 
@@ -59,33 +60,40 @@ class FillPanel(PluginPanel):
 		button.pack(side = BOTTOM, expand = 1, fill = X)
 		self.Subscribe(SELECTION, button.Update)
 		
-		button = UpdatedButton(top, text = _("Copy From..."),
-								command = self.copy_from,
-								sensitivecb = self.is_selection)
-		button.pack(side = BOTTOM, expand = 1, fill = X, pady=5)
-		self.Subscribe(SELECTION, button.Update)
+		button_frame = TFrame(top, style='FlatFrame', borderwidth=1)
+		button_frame.pack(side = BOTTOM, fill=X, pady=5)
+		
+		button = TButton(button_frame, image='small_colorpicker', command = self.copy_from)
+		button.pack(side = LEFT)
+		tooltips.AddDescription(button, _("Copy From..."))
 		
 		self.var_autoupdate = IntVar(top)
 		self.var_autoupdate.set(1)
 		
-		self.autoupdate_check = TCheckbutton(top, text = _("Auto Update"), 
-												variable = self.var_autoupdate)
-		self.autoupdate_check.pack(side = BOTTOM, anchor=W, padx=5, pady=5)
-				
-		self.document.Subscribe(SELECTION, self.init_from_doc)	
-		self.document.Subscribe(EDITED, self.init_from_doc)
+		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate)
+		self.autoupdate_check.pack(side = LEFT, anchor=W, padx=10)
+
 		self.init_from_doc()
+		self.subscribe_receivers()
 
 ###############################################################################
 	def is_selection(self):
 		return (len(self.document.selection) > 0)
+	
+	def subscribe_receivers(self):
+		self.document.Subscribe(SELECTION, self.init_from_doc)	
+		self.document.Subscribe(EDITED, self.init_from_doc)
 
+	def unsubscribe_receivers(self):
+		self.document.Unsubscribe(SELECTION, self.init_from_doc)	
+		self.document.Unsubscribe(EDITED, self.init_from_doc)
 
 	def init_from_doc(self, *arg):
-		self.Update()
-		self.issue(SELECTION)
+		if self.var_autoupdate.get():
+			self.Update()
+			self.issue(SELECTION)
 
-	def Update(self):
+	def Update(self):		
 		self.initial_color = self.get_object_color()
 		self.current_color = copy.copy(self.initial_color)		
 		self.refresh_widgets(self.current_color)
@@ -98,7 +106,11 @@ class FillPanel(PluginPanel):
 
 
 	def apply_pattern(self):
-		pass
+		if self.current_color is None:
+			self.mw.no_pattern('fill')
+		else:
+			self.mw.canvas.FillSolid(self.current_color)
+		self.Update()
 
 
 	def copy_from(self):
@@ -112,6 +124,10 @@ class FillPanel(PluginPanel):
 			return BLACK_COLOR
 		if properties and properties.HasFill() and properties.fill_pattern.__class__ == SolidPattern:
 			return properties.fill_pattern.Color()	
+		elif properties and properties.HasFill() and properties.fill_pattern.__class__ == EmptyPattern_:
+			return None
+		elif not self.current_color is None:
+			return self.current_color
 		else:
 			return None
 

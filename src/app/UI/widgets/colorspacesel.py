@@ -8,6 +8,7 @@
 from Ttk import TFrame, TLabel, TCombobox
 from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, DISABLED, NORMAL, StringVar
 from app import _
+from app.Graphics.color import CreateRGBColor, CreateCMYKColor, CreateSPOTColor, Registration_Black
 
 
 EMPTY=_('Empty pattern')
@@ -21,11 +22,11 @@ class ColorSpaceSelector(TFrame):
 	current_cs=''
 	
 	def __init__(self, parent, callback, color, allow_emtpy=1, **kw):
-		self.refcolor=color
+		self.color=color
 		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.cs_name = StringVar(self)
-		self.set_cs_name(self.refcolor)
+		self.set_cs_name(self.color)
 		
 		label = TLabel(self, text=_("Colorspace: "))
 		label.pack(side = TOP, anchor=W)
@@ -44,8 +45,22 @@ class ColorSpaceSelector(TFrame):
 	
 	def set_cs(self):
 		if self.check_changes():
-			#here should be CS update
-			pass
+			if self.cs_name.get()==RGB:
+				if self.current_cs==EMPTY:
+					self.callback(CreateRGBColor(0,0,0))
+				else:
+					r,g,b=self.color.getRGB()
+					self.callback(CreateRGBColor(r,g,b))
+			elif self.cs_name.get()==CMYK:
+				if self.current_cs==EMPTY:
+					self.callback(CreateCMYKColor(0,0,0,1))
+				else:
+					c,m,y,k=self.color.getCMYK()
+					self.callback(CreateCMYKColor(c,m,y,k))
+			elif self.cs_name.get()==REGISTRATION:
+				self.callback(Registration_Black())
+			else:
+				self.callback(None)
 	
 	def set_cs_name(self,color):
 		if color is None:
@@ -55,7 +70,7 @@ class ColorSpaceSelector(TFrame):
 		elif color.model=='CMYK':
 			self.cs_name.set(CMYK)
 		elif color.model=='SPOT':
-			if color.name=='Registration color':
+			if color.name=='All':
 				self.cs_name.set(REGISTRATION)
 			else:
 				self.cs_name.set(SPOT)
@@ -63,8 +78,8 @@ class ColorSpaceSelector(TFrame):
 				
 				
 	def set_color(self,color):
-		self.refcolor=color
-		self.set_cs_name(self.refcolor)
+		self.color=color
+		self.set_cs_name(self.color)
 		
 	def get_colorspace_name(self,value):
 		if value==RGB:

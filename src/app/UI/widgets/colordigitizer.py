@@ -11,9 +11,12 @@ from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E,N, DISABLE
 from Tkinter import StringVar, DoubleVar, IntVar
 import PIL.Image
 
+from app.Graphics.color import CreateRGBColor, CreateCMYKColor
+
 from app.conf.const import CHANGED, ConstraintMask
 
 from app.Graphics import color
+from app import _
 
 import string
 
@@ -21,33 +24,39 @@ class ColorDigitizer(TFrame):
 	
 	current_digitizer=None
 	
-	def __init__(self, parent, color=None, **kw):
+	def __init__(self, parent, callback, color=None, **kw):
 		self.color=color
 		self.parent=parent
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		self.rgb_digitizer=RGBDigitizer(self)
-		self.cmyk_digitizer=CMYKDigitizer(self)
+		self.rgb_digitizer=RGBDigitizer(self, callback)
+		self.cmyk_digitizer=CMYKDigitizer(self, callback)
+		self.spot_digitizer=SPOTDigitizer(self)
 		self.empty_digitizer=EmptyDigitizer(self)
-		self.current_digitizer=self.rgb_digitizer
-		self.current_digitizer.pack(side=TOP)
+		self.current_digitizer=self.empty_digitizer
+		self.current_digitizer.pack(side=LEFT)
+		self.set_color(color)
 		
 		
 	def set_color(self, color):
-		self.color=color
-		self.current_digitizer.forget()
+		self.color=color	
 		if color is None:
-			self.current_digitizer=self.empty_digitizer
+			if not self.current_digitizer.__class__==EmptyDigitizer:
+				self.set_digitizer(self.empty_digitizer)
 		elif color.model=='RGB':
-			self.current_digitizer=self.rgb_digitizer
+			if not self.current_digitizer.__class__==RGBDigitizer:
+				self.set_digitizer(self.rgb_digitizer)
 		elif color.model=='CMYK':
-			self.current_digitizer=self.cmyk_digitizer
+			if not self.current_digitizer.__class__==CMYKDigitizer:
+				self.set_digitizer(self.cmyk_digitizer)
 		elif color.model=='SPOT':
-			if color.name=='Registration color':
-				self.current_digitizer=self.rgb_digitizer
-			else:
-				self.current_chooser=self.rgb_digitizer
-		self.current_digitizer.pack(side=TOP)
+			if not self.current_digitizer.__class__==SPOTDigitizer:
+				self.set_digitizer(self.spot_digitizer)		
 		self.current_digitizer.set_color(color)
+		
+	def set_digitizer(self,widget):
+		self.current_digitizer.forget()
+		self.current_digitizer=widget
+		self.current_digitizer.pack(side=LEFT)
 		
 
 class EmptyDigitizer(TFrame):
@@ -60,7 +69,8 @@ class EmptyDigitizer(TFrame):
 	
 class RGBDigitizer(TFrame):
 	
-	def __init__(self, parent, **kw):
+	def __init__(self, parent, callback, **kw):
+		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.R_value=DoubleVar(0)
 		self.G_value=DoubleVar(0)
@@ -116,27 +126,39 @@ class RGBDigitizer(TFrame):
 		
 	def set_color(self, color):
 		self.color=color
-		r,g,b = color.getRGB()
-		self.R_value.set(round(r*255, 2))
-		self.G_value.set(round(g*255, 2))
-		self.B_value.set(round(b*255, 2))
+		self.R_value.set(round(color.red*255, 2))
+		self.G_value.set(round(color.green*255, 2))
+		self.B_value.set(round(color.blue*255, 2))
 		c,m,y,k = color.getCMYK()
 		self.CMYK_label['text']='C: %d\nM: %d\nY: %d\nK: %d'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
-		int_color=(round(r*255),round(g*255),round(b*255))
+		int_color=(round(color.red*255),round(color.green*255),round(color.blue*255))
 		self.HTML_value.set('#%02X%02X%02X'%int_color)
 		
 		
 		
-	def rgb_component_changed(self):
-		pass
+	def rgb_component_changed(self, *arg):
+		r=self.R_value.get() / 255.0
+		g=self.G_value.get() / 255.0
+		b=self.B_value.get() / 255.0
+		self.callback(CreateRGBColor(r,g,b))
 	
-	def html_component_changed(self):
-		pass
+	def html_component_changed(self, *arg):
+		html=self.HTML_value.get()
+		try:     
+			r=int(string.atoi(html[1:3], 0x10))/ 255.0
+			g=int(string.atoi(html[3:5], 0x10))/ 255.0 
+			b=int(string.atoi(html[5:], 0x10))/ 255.0
+		except:
+			r=round(self.color.red*255, 2)
+			g=round(self.color.green*255, 2)
+			b=round(self.color.blue*255, 2)		
+		self.callback(CreateRGBColor(r,g,b))
 	
 	
 class CMYKDigitizer(TFrame):
 	
-	def __init__(self, parent, **kw):
+	def __init__(self, parent, callback, **kw):
+		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.C_value=DoubleVar(0)
 		self.M_value=DoubleVar(0)
@@ -199,7 +221,60 @@ class CMYKDigitizer(TFrame):
 		self.RGB_label['text']=text	
 		
 		
-	def cmyk_component_changed(self):
-		pass
+	def cmyk_component_changed(self, *arg):
+		c=self.C_value.get() / 100.0
+		m=self.M_value.get() / 100.0
+		y=self.Y_value.get() / 100.0
+		k=self.K_value.get() / 100.0
+		self.callback(CreateCMYKColor(c,m,y,k))
+	
+class SPOTDigitizer(TFrame):
+	
+	def __init__(self, parent, **kw):
+		TFrame.__init__(self, parent, style='FlatFrame', **kw)	
+			
+		spot_frame = TFrame(self, borderwidth = 2, style='FlatFrame')
+		spot_frame.pack(side = TOP)
+		
+		label=TLabel(spot_frame, text=_('Color name:'), justify=LEFT)
+		label.pack(side = TOP)
+		
+		self.colorname_value=StringVar('')
+		
+		self.colorname=TEntrybox(spot_frame, text='', width=25, textvariable=self.colorname_value)
+		self.colorname.set_state('readonly')
+		self.colorname.pack(side = BOTTOM, fill=X)
+		
+		cmyk_frame = TFrame(self, borderwidth = 2, style='FlatFrame')
+		cmyk_frame.pack(side = TOP)
+		
+		self.CMYK_label=TLabel(cmyk_frame, text='C:\nM:\nY:\nK:', justify=LEFT)
+		self.CMYK_label.pack(side = LEFT, padx=10)
+		
+		self.RGB_label=TLabel(cmyk_frame, text='R:\nG:\nB:', justify=LEFT)
+		self.RGB_label.pack(side = LEFT, padx=10)
+		
+		self.HTML_label=TLabel(self, text='HTML:', justify=LEFT)
+		self.HTML_label.pack(side = BOTTOM, pady=5)		
+		
+	def set_color(self, color):
+		self.color=color
+		c,m,y,k = color.getCMYK()
+		self.CMYK_label['text']='C: %d\nM: %d\nY: %d\nK: %d'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
+				
+		r,g,b = color.getRGB()
+		text='R: %d\nG: %d\nB: %d'%(round(r*255, 2),round(g*255, 2),round(b*255, 2))
+		self.RGB_label['text']=text	
+		
+		int_color=(round(r*255),round(g*255),round(b*255))
+		text='HTML: #%02X%02X%02X'%int_color
+		self.HTML_label['text']=text	
+		
+		if color.name=='All':
+			self.colorname_value.set(_('Registration Black (All)'))
+		else:
+			self.colorname_value.set(color.name)		
+
+
 
 		

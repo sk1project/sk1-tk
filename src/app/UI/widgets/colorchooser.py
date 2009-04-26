@@ -7,7 +7,7 @@
 
 from Ttk import TFrame, TLabel, TCombobox
 from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
-from Tkinter import StringVar, DoubleVar, IntVar
+from Tkinter import StringVar, DoubleVar, IntVar, Canvas
 import PIL.Image
 
 from app.X11.X import GXxor, ZPixmap
@@ -40,26 +40,31 @@ class ColorChooserWidget(TFrame):
 		self.parent=parent
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.rgb_chooser=RGBChooser(self)
+		self.spot_chooser=SPOTChooser(self)
 		self.empty_chooser=EmptyPatternChooser(self)
 		self.current_chooser=self.empty_chooser
 		self.current_chooser.pack(side=TOP)
 		
 		
-	def set_color(self, color):
-		self.current_chooser.forget()
+	def set_color(self, color):		
 		if color is None:
-			self.current_chooser=self.empty_chooser
+			if not self.current_chooser.__class__==EmptyPatternChooser:
+				self.set_chooser(self.empty_chooser)
 		elif color.model=='RGB':
-			self.current_chooser=self.rgb_chooser
+			if not self.current_chooser.__class__==RGBChooser:
+				self.set_chooser(self.rgb_chooser)
 		elif color.model=='CMYK':
-			self.current_chooser=self.rgb_chooser
+			if not self.current_chooser.__class__==RGBChooser:
+				self.set_chooser(self.rgb_chooser)
 		elif color.model=='SPOT':
-			if color.name=='Registration color':
-				self.current_chooser=self.rgb_chooser
-			else:
-				self.current_chooser=self.rgb_chooser
-		self.current_chooser.pack(side=TOP)
+			if not self.current_chooser.__class__==SPOTChooser:
+				self.set_chooser(self.spot_chooser)		
 		self.current_chooser.set_color(color)
+		
+	def set_chooser(self,widget):
+		self.current_chooser.forget()
+		self.current_chooser=widget
+		self.current_chooser.pack(side=TOP)
 		
 class EmptyPatternChooser(TFrame):
 
@@ -72,6 +77,23 @@ class EmptyPatternChooser(TFrame):
 		
 	def set_color(self, color):
 		pass
+	
+class SPOTChooser(TFrame):
+
+	def __init__(self, parent, color=None, **kw):
+		TFrame.__init__(self, parent, style='FlatFrame', **kw)
+		
+		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
+		frame.pack(side = LEFT)
+		
+		self.color_monitor=Canvas(frame, width=100, height=50, relief='flat')
+		self.color_monitor.pack(side=TOP)
+		
+	def set_color(self, color):
+		r,g,b = color.getRGB()
+		int_color=(round(r*255),round(g*255),round(b*255))
+		text='#%02X%02X%02X'%int_color		
+		self.color_monitor['bg']=text	
 		
 class RGBChooser(TFrame):
 	
