@@ -59,7 +59,7 @@ class SkewPanel(PluginPanel):
 		size_frameH = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameH.pack(side = TOP, fill = BOTH)
 		
-		label = TLabel(size_frameH, style='FlatLabel', text = _("H: "))
+		label = TLabel(size_frameH, style='FlatLabel', image='context_H')
 		label.pack(side = LEFT, padx=5)
 		self.entry_angleX = TSpinbox(size_frameH,  var=0, vartype=0, textvariable = self.var_angleX, 
 									min = -75, max = 75, step = jump, width = 10, command=self.apply_skew)
@@ -72,7 +72,7 @@ class SkewPanel(PluginPanel):
 		
 		size_frameV = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameV.pack(side = TOP, fill = BOTH)
-		label = TLabel(size_frameV, style='FlatLabel', text = _("V: "))
+		label = TLabel(size_frameV, style='FlatLabel', image='context_V')
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_angleY = TSpinbox(size_frameV, var=0, vartype=0, textvariable = self.var_angleY, 
@@ -111,14 +111,20 @@ class SkewPanel(PluginPanel):
 								command = self.apply_to_copy)
 		self.button_copy.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
 		
+		self.init_from_doc()
 		self.subscribe_receivers()
-		self.Update()
 
 
 ###############################################################################
 
 	def subscribe_receivers(self):
-		self.document.Subscribe(SELECTION, self.Update)	
+		self.document.Subscribe(SELECTION, self.Update)
+
+	def unsubscribe_receivers(self):
+		self.document.Unsubscribe(SELECTION, self.Update)
+
+	def init_from_doc(self):
+		self.Update()
 
 	def Update(self, *arg):
 		if self.is_selection():
@@ -176,9 +182,16 @@ class SkewPanel(PluginPanel):
 	def apply_to_copy(self):
 		if self.button["state"]==DISABLED:
 			return
-		self.document.ApplyToDuplicate()
-		self.apply_skew()
-		
+		self.document.begin_transaction(_("Skew&Copy"))
+		try:
+			try:
+				self.document.ApplyToDuplicate()
+				self.apply_skew()
+			except:
+				self.document.abort_transaction()
+		finally:
+			self.document.end_transaction()
+
 	def is_selection(self):
 		return (len(self.document.selection) > 0)
 
