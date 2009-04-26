@@ -79,9 +79,8 @@ class PluginPanel(TFrame,Publisher):
 			self.collapsed=1
 			self.textlabel['foreground']=app.uimanager.currentColorTheme.menudisabledforeground
 					
-	def doc_changed(self, doc):
-		self.document=self.mw.document
-		self.SetDocument(self.document)
+	def doc_changed(self, *arg):
+		self.SetDocument(self.mw.document)
 
 	def doc_has_selection(self):
 		return self.document.HasSelection()
