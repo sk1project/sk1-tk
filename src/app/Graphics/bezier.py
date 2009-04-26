@@ -19,8 +19,6 @@ from app import _, _sketch, CreatePath, config, RegisterCommands, \
 		CreateMultiUndo, NullUndo, Undo
 
 from app.UI.command import AddCmd
-import app.UI.skpixmaps
-pixmaps = app.UI.skpixmaps.PixmapTk
 
 from app._sketch import ContAngle, ContSmooth, ContSymmetrical, \
 		SelNone, SelNodes, SelSegmentFirst, SelSegmentLast, Bezier, Line
@@ -958,8 +956,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, SegmentsToLines, _("Curve->Line"), key_stroke = 'l',
-			bitmap = pixmaps.BezierCurveLine)
+	AddCmd(commands, SegmentsToLines, _("Curve->Line"), key_stroke = 'l')
 
 	def SegmentsToCurve(self):
 		if self.selection_type == SelCurvePoint:
@@ -974,8 +971,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, SegmentsToCurve, _("Line->Curve"), key_stroke = 'b',
-			bitmap = pixmaps.BezierLineCurve)
+	AddCmd(commands, SegmentsToCurve, _("Line->Curve"), key_stroke = 'b')
 
 	def DeleteNodes(self):
 		new_paths = []
@@ -997,8 +993,7 @@ class PolyBezierEditor(Editor):
 				pdebug('bezier', 'PolyBezier removed')
 			self.document.DeselectObject(self.object)
 			return self.parent.Remove(self.object)
-	AddCmd(commands, DeleteNodes, _("Delete Nodes"),
-			bitmap = pixmaps.BezierDeleteNode, key_stroke = ('-', 'Delete'))
+	AddCmd(commands, DeleteNodes, _("Delete Nodes"), key_stroke = ('-', 'Delete'))
 
 	def InsertNodes(self):
 		if self.selection_type == SelCurvePoint:
