@@ -53,7 +53,7 @@ class ScalePanel(PluginPanel):
 		size_frameH = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameH.pack(side = TOP, fill = BOTH)
 		
-		label = TLabel(size_frameH, style='FlatLabel', text = _("H: "))
+		label = TLabel(size_frameH, style='FlatLabel', image='context_H')
 		label.pack(side = LEFT, padx=5)
 		self.entry_width = TSpinbox(size_frameH,  var=100, vartype=1, textvariable = self.var_width, 
 									min = -30000, max = 30000, step = jump, width = 6, command=self.apply_scale)
@@ -81,7 +81,7 @@ class ScalePanel(PluginPanel):
 		
 		size_frameV = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameV.pack(side = TOP, fill = BOTH)
-		label = TLabel(size_frameV, style='FlatLabel', text = _("V: "))
+		label = TLabel(size_frameV, style='FlatLabel', image='context_V')
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_height = TSpinbox(size_frameV, var=100, vartype=1, textvariable = self.var_height, 
@@ -139,14 +139,20 @@ class ScalePanel(PluginPanel):
 								command = self.apply_to_copy)
 		self.button_copy.pack(in_ = button_frame, side = BOTTOM, expand = 1, fill = X)
 		
+		self.init_from_doc()
 		self.subscribe_receivers()
-		self.Update()
 
 
 ###############################################################################
 
 	def subscribe_receivers(self):
 		self.document.Subscribe(SELECTION, self.Update)	
+
+	def unsubscribe_receivers(self):
+		self.document.Unsubscribe(SELECTION, self.Update)	
+
+	def init_from_doc(self, *arg):
+			self.Update()
 
 	def Update(self, *arg):
 		if self.is_selection():

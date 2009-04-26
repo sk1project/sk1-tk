@@ -118,14 +118,20 @@ class DistributePlugin(PluginPanel):
 		
 		self.apply_button_show(1)
 
+		self.init_from_doc()
 		self.subscribe_receivers()
-		self.Update()
 
 
 ###############################################################################
 
 	def subscribe_receivers(self):
 		self.document.Subscribe(SELECTION, self.Update)
+
+	def unsubscribe_receivers(self):
+		self.document.Unsubscribe(SELECTION, self.Update)
+
+	def init_from_doc(self):
+		self.Update()
 
 	def Update(self, *arg):
 		reference = self.var_reference.get()
