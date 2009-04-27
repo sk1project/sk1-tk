@@ -257,7 +257,7 @@ class SPOT_Color(SK1_Color):
 			return RGBColor(self.r, self.g, self.b)
 	
 	def toString(self):
-		return self.name + ''
+		return self.name
 		
 	def toSave(self):
 		R= str(round(self.r, 3))+','
@@ -274,6 +274,9 @@ class Registration_Black(SPOT_Color):
 	
 	def __init__(self, r=0, g=0, b=0, c=1, m=1, y=1, k=1, alpha=0, name='All', palette='Unknown'):
 		SPOT_Color.__init__(self,r, g, b, c, m, y, k, alpha, name, palette)
+		
+	def toString(self):
+		return _('Registration Black (')+self.name + ')'
 		
 #
 #       some standard colors.
