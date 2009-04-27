@@ -23,7 +23,7 @@ from math import pi
 degrees = pi / 180.0
 
 
-from ppanel import PluginPanel
+from app.UI.pluginpanels.ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 

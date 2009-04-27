@@ -18,7 +18,7 @@ from app.UI.tkext import UpdatedRadiobutton
 
 import app
 from app import config
-from ppanel import PluginPanel
+from app.UI.pluginpanels.ppanel import PluginPanel
 import tooltips
 
 

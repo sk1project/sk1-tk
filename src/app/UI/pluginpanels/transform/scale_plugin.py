@@ -18,7 +18,7 @@ from app import _, config, Rect, Trafo
 from app.conf import const
 import app
 
-from ppanel import PluginPanel
+from app.UI.pluginpanels.ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 

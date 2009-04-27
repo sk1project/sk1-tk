@@ -20,7 +20,7 @@ from app.conf import const
 import app
 
 
-from ppanel import PluginPanel
+from app.UI.pluginpanels.ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 
