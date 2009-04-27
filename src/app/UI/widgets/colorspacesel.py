@@ -59,6 +59,8 @@ class ColorSpaceSelector(TFrame):
 					self.callback(CreateCMYKColor(c,m,y,k))
 			elif self.cs_name.get()==REGISTRATION:
 				self.callback(Registration_Black())
+			elif self.cs_name.get()==SPOT:
+				self.cs_name.set(self.current_cs)
 			else:
 				self.callback(None)
 	

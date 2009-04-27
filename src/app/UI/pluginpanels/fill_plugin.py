@@ -47,7 +47,7 @@ class FillPanel(PluginPanel):
 		self.selector=ColorSpaceSelector(top, self.refresh_widgets, self.current_color)
 		self.selector.pack(side=TOP, expand = 1, fill=X)
 		
-		self.picker=ColorChooserWidget(top)
+		self.picker=ColorChooserWidget(top, self.refresh_widgets, self.current_color)
 		self.picker.pack(side=TOP, expand = 1, fill=X)	
 		
 		self.digitizer=ColorDigitizer(top, self.refresh_widgets, self.current_color)
@@ -95,7 +95,7 @@ class FillPanel(PluginPanel):
 	def init_from_doc(self, *arg):
 		if self.var_autoupdate.get():
 			self.Update()
-			self.issue(SELECTION)
+		self.issue(SELECTION)
 
 	def Update(self):		
 		self.initial_color = self.get_object_color()

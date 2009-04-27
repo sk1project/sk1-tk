@@ -97,7 +97,7 @@ class RGBDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "R: ")
 		label.pack(side = LEFT)
-		self.R_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.R_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 1, width = 7, 
 							textvariable = self.R_value, command=self.rgb_component_changed)
 		self.R_spin.pack(side = RIGHT)
 
@@ -105,7 +105,7 @@ class RGBDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "G: ")
 		label.pack(side = LEFT)
-		self.G_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.G_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 1, width = 7, 
 							textvariable = self.G_value, command=self.rgb_component_changed)
 		self.G_spin.pack(side = RIGHT)
 
@@ -113,7 +113,7 @@ class RGBDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "B: ")
 		label.pack(side = LEFT)
-		self.B_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.B_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 1, width = 7, 
 							textvariable = self.B_value, command=self.rgb_component_changed)
 		self.B_spin.pack(side = RIGHT)
 		
@@ -126,9 +126,9 @@ class RGBDigitizer(TFrame):
 		
 	def set_color(self, color):
 		self.color=color
-		self.R_value.set(round(color.red*255, 2))
-		self.G_value.set(round(color.green*255, 2))
-		self.B_value.set(round(color.blue*255, 2))
+		self.R_value.set(round(color.red*255))
+		self.G_value.set(round(color.green*255))
+		self.B_value.set(round(color.blue*255))
 		c,m,y,k = color.getCMYK()
 		self.CMYK_label['text']='C: %d\nM: %d\nY: %d\nK: %d'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
 		int_color=(round(color.red*255),round(color.green*255),round(color.blue*255))
@@ -172,7 +172,7 @@ class CMYKDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "C: ")
 		label.pack(side = LEFT)
-		self.C_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.C_spin = TSpinbox(frame, min = 0, max = 100, step = 1, vartype = 0, width = 7, 
 							textvariable = self.C_value, command=self.cmyk_component_changed)
 		self.C_spin.pack(side = RIGHT)
 
@@ -180,7 +180,7 @@ class CMYKDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "M: ")
 		label.pack(side = LEFT)
-		self.M_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.M_spin = TSpinbox(frame, min = 0, max = 100, step = 1, vartype = 0, width = 7, 
 							textvariable = self.M_value, command=self.cmyk_component_changed)
 		self.M_spin.pack(side = RIGHT)
 
@@ -188,7 +188,7 @@ class CMYKDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "Y: ")
 		label.pack(side = LEFT)
-		self.Y_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.Y_spin = TSpinbox(frame, min = 0, max = 100, step = 1, vartype = 0, width = 7, 
 							textvariable = self.Y_value, command=self.cmyk_component_changed)
 		self.Y_spin.pack(side = RIGHT)		
 
@@ -196,7 +196,7 @@ class CMYKDigitizer(TFrame):
 		frame.pack(side = TOP)
 		label = TLabel(frame, text = "K: ")
 		label.pack(side = LEFT)
-		self.K_spin = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, width = 7, 
+		self.K_spin = TSpinbox(frame, min = 0, max = 100, step = 1, vartype = 0, width = 7, 
 							textvariable = self.K_value, command=self.cmyk_component_changed)
 		self.K_spin.pack(side = RIGHT)
 		
