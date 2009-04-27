@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2003-2008 by Igor E. Novikov
+# Copyright (C) 2009 by Maxim S. Barabash
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Tkinter import Frame, Radiobutton, IntVar, StringVar, Label
-from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe
-from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
+from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox, TCheckbutton, TButton
+from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W, DISABLED, NORMAL
 
 from app.conf.const import SELECTION
 from app.conf import const
@@ -17,6 +18,11 @@ from app.UI.tkext import UpdatedButton, UpdatedCheckbutton, UpdatedRadiobutton
 
 import app
 from app.UI.pluginpanels.ppanel import PluginPanel
+
+SELECT=_("Selection")
+LOWERMOST=_("Lowermost")
+PAGE=_("Page")
+
 
 def make_button(*args, **kw):
 	kw['style'] ='FineRadiobutton'
@@ -29,13 +35,26 @@ class AlignPlugin(PluginPanel):
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
-		top = self.panel
+		PluginPanel.init(self, master)
+		root=self.mw.root
+		self.var_reference = StringVar(root)
+		self.var_reference.set(SELECT)
 		
-		frame_bot = TFrame(top, borderwidth=3, style='FlatFrame')
-		frame_bot.pack(side = BOTTOM, expand = 0, fill = X)
-		apply_button = UpdatedButton(frame_bot, text = _("Apply"), command = self.apply, sensitivecb = self.can_apply, width=15)
-		apply_button.pack(side = BOTTOM)
-		self.Subscribe(SELECTION, apply_button.Update)
+		#---------------------------------------------------------
+		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top.pack(side = TOP, fill=BOTH)
+		#---------------------------------------------------------
+		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
+		label.pack(side = TOP, fill = BOTH, padx=5)
+		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
+		rel_frame.pack(side = TOP, fill=X, padx=5, pady=2)
+		button_frame=TFrame(rel_frame, style='FlatFrame')
+		button_frame.pack(side = TOP, fill = BOTH, padx=5)
+		
+		self.reference = TCombobox(button_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
+									 textvariable=self.var_reference, postcommand = self.set_cs)
+		self.reference.pack(side = TOP)
+		#---------------------------------------------------------
 
 		label=TLabel(top, text=_(" Alignment type "), style="FlatLabel")
 		label.pack()
@@ -59,63 +78,139 @@ class AlignPlugin(PluginPanel):
 		self.value_y = 0
 
 		for i in range(1, 4):
-			button = make_button(framex, image = x_pixmaps[i - 1], value = i, variable = self.var_x, command = self.set_x)
+			button = make_button(framex, image = x_pixmaps[i - 1], value = i, variable = self.var_x, command = self.apply_x)
 			button.pack(side = LEFT, padx = 3)
-			button = make_button(framey, image = y_pixmaps[i - 1], value = i, variable = self.var_y, command = self.set_y)
+			button = make_button(framey, image = y_pixmaps[i - 1], value = i, variable = self.var_y, command = self.apply_y)
 			button.pack(side = LEFT, padx = 3)
-		
-		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
-		label.pack()
-		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
-		rel_frame.pack(side = TOP, fill=X, padx=2, pady=2)
-		
-		button_frame=TFrame(rel_frame, style='FlatFrame')
-		button_frame.pack(side = TOP)
 
-		self.var_reference = StringVar(top)
-		self.var_reference.set('selection')
-		radio = UpdatedRadiobutton(button_frame, value = 'selection', text = _("Selection"), variable = self.var_reference, command = apply_button.Update)
-		radio.pack(side=TOP, anchor=W)
-		radio = UpdatedRadiobutton(button_frame, value = 'lowermost', text = _("Lowermost "), variable = self.var_reference, command = apply_button.Update)
-		radio.pack(side=TOP, anchor=W)
-		radio = UpdatedRadiobutton(button_frame, value = 'page', text = _("Page"), variable = self.var_reference, command = apply_button.Update)
-		radio.pack(side=TOP, anchor=W)
+
+		#---------------------------------------------------------
+		# Auto Apply Check
+		self.var_auto_apply = IntVar(top)
+		self.var_auto_apply.set(0)
+		
+		self.auto_apply_check = TCheckbutton(top, text = _("Auto Apply"), variable = self.var_auto_apply, command = self.reset)
+		self.auto_apply_check.pack(side = TOP, anchor=W, padx=5,pady=5)
+		
+		#---------------------------------------------------------
+		# Button frame 
+		
+		self.button_frame = TFrame(top, style='FlatFrame', borderwidth=5)
+		self.button_frame.pack(side = BOTTOM, fill = BOTH)
+		
+		self.update_buttons = []
+		self.button_apply = TButton(self.button_frame, text = _("Apply"),
+								command = self.apply)
+		
+		self.apply_button_show(1)
+
+		self.init_from_doc()
+		self.subscribe_receivers()
+
+
+###############################################################################
+
+	def subscribe_receivers(self):
+		self.document.Subscribe(SELECTION, self.Update)
+
+	def unsubscribe_receivers(self):
+		self.document.Unsubscribe(SELECTION, self.Update)
 
 	def init_from_doc(self):
+		self.Update()
 		self.issue(SELECTION)
 
-	def set_x(self):
-		value = self.var_x.get()
-		if value == self.value_x:
-			self.var_x.set(0)
-			self.value_x = 0
-		else:
-			self.value_x = value
-			
-	def set_y(self):
-		value = self.var_y.get()
-		if value == self.value_y:
-			self.var_y.set(0)
-			self.value_y = 0
-		else:
-			self.value_y = value
-
-	def apply(self):
-		x = self.var_x.get()
-		y = self.var_y.get()
+	def Update(self, *arg):
 		reference = self.var_reference.get()
+		if self.is_selection(reference):
+			state=NORMAL
+		else:
+			state=DISABLED
+		self.button_apply['state']=state
+
+	def apply_button_show(self, state):
+		if not state:
+			self.button_apply.pack_forget()
+		else:
+			self.button_apply.pack(side = BOTTOM, expand = 1, fill = X, pady=3)
+
+	def make_cs_list(self):
+		cs=()
+		cs+=(SELECT,LOWERMOST,PAGE)
+		return cs
+
+	def set_cs(self):
+		self.Update()
+
+	def is_selection(self, reference = SELECT):
+		if not self.var_auto_apply.get() and self.value_x==0 and self.value_y==0:
+			return 0
+		if reference == PAGE:
+			return (len(self.document.selection) > 0)
+		else:
+			return (len(self.document.selection) > 1)
+
+	def apply_x(self):
+		x = self.var_x.get()
+		if self.var_auto_apply.get():
+			self.reset()
+			self.apply(x=x)
+		else:
+			if self.value_x==x:
+				self.var_x.set(0)
+				self.value_x = 0
+			else:
+				self.value_x = x
+			self.Update()
+
+	def apply_y(self):
+		y = self.var_y.get()
+		if self.var_auto_apply.get():
+			self.reset()
+			self.apply(y=y)
+		else:
+			if self.value_y==y:
+				self.var_y.set(0)
+				self.value_y = 0
+			else:
+				self.value_y = y
+			self.Update()
+
+	def apply(self, x=None, y=None, reference = None):
+		reference = self.var_reference.get()
+		if not self.is_selection(reference):
+			return
+		
+		if x is None:
+			x = self.var_x.get()
+			
+		if y is None:
+			y = self.var_y.get()
+			
+		if reference is None:
+			reference = self.var_reference.get()
+		
+		reference = self.reference_command(reference)
+		
 		self.document.AlignSelection(x, y, reference = reference)
+
+	def reference_command(self, reference):
+		if reference == SELECT:
+			return 'selection'
+		if reference == LOWERMOST:
+			return 'lowermost'
+		if reference == PAGE:
+			return 'page'
 
 	def reset(self):
 		self.var_x.set(0)
+		self.value_x = 0
 		self.var_y.set(0)
+		self.value_y = 0
+##		self.apply_button_show(not self.var_auto_apply.get())
+		self.Update()
 
-	def can_apply(self):
-		if self.document.CountSelected() > 1:
-			return 1
-		reference = self.var_reference.get()
-		return reference == 'page' and self.doc_has_selection()
-	
+
 instance=AlignPlugin()
 app.effects_plugins.append(instance)
 
