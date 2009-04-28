@@ -80,7 +80,7 @@ class DividePanel(PluginPanel):
 		for object in objects:
 			self.document.Insert(object)
 		
-	def divide(object1, object2):
+	def divide(self, object1, object2):
 		buffer = []
 		new_paths, untouched_paths = base.intersect_objects([object1, object2])
 		if new_paths:
