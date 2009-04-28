@@ -29,7 +29,7 @@ class PluginContainer(ResizableTFrame):
 		self.browserframe=ResizableTFrame(self.panel, root, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
 		self.plugins=app.objprop_plugins+app.layout_plugins+app.transform_plugins
-		self.plugins+=app.effects_plugins+app.extentions_plugins
+		self.plugins+=app.effects_plugins+app.extentions_plugins+app.shaping_plugins
 		
 		self.pbrowser=PluginBrowser()		
 		
