@@ -50,7 +50,7 @@ import tkruler
 from poslabel import PositionLabel
 import palette
 import tooltips
-import math, pathutils
+import math
 
 import skpixmaps
 pixmaps = skpixmaps.PixmapTk
@@ -59,7 +59,6 @@ from app import skapp
 from dialogs.aboutdlg import aboutDialog
 from cc.ccenter import cCenter
 from pluginpanels.plugincontainer import PluginContainer
-
 
 EXPORT_MODE=2
 SAVE_AS_MODE=1

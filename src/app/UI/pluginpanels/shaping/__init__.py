@@ -1,2 +1,2 @@
 
-import union, intersect, divide, trim
+import union, intersect, divide, trim, outline
