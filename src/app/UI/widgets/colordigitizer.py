@@ -130,7 +130,7 @@ class RGBDigitizer(TFrame):
 		self.G_value.set(int(round(color.green*255)))
 		self.B_value.set(int(round(color.blue*255)))
 		c,m,y,k = color.getCMYK()
-		self.CMYK_label['text']='C: %d\nM: %d\nY: %d\nK: %d'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
+		self.CMYK_label['text']='C: %.2f\nM: %.2f\nY: %.2f\nK: %.2f'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
 		int_color=(round(color.red*255),round(color.green*255),round(color.blue*255))
 		self.HTML_value.set('#%02X%02X%02X'%int_color)
 		
