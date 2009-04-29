@@ -20,7 +20,7 @@ PRECISION = 8
 ###   USER INTERFACE   ###
 
 def error(context, message):
-	MessageDialog(context.main_window.root, _("Path Utils"), message)
+	MessageDialog(context.root, _("Warning"), message)
 
 def get_selection(context):
 	if len(context.document.selection) < 2:
