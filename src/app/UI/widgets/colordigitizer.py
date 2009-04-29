@@ -72,9 +72,9 @@ class RGBDigitizer(TFrame):
 	def __init__(self, parent, callback, **kw):
 		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		self.R_value=DoubleVar(0)
-		self.G_value=DoubleVar(0)
-		self.B_value=DoubleVar(0)
+		self.R_value=IntVar(0)
+		self.G_value=IntVar(0)
+		self.B_value=IntVar(0)
 		
 		self.HTML_value=StringVar('')
 		
@@ -126,9 +126,9 @@ class RGBDigitizer(TFrame):
 		
 	def set_color(self, color):
 		self.color=color
-		self.R_value.set(round(color.red*255))
-		self.G_value.set(round(color.green*255))
-		self.B_value.set(round(color.blue*255))
+		self.R_value.set(int(round(color.red*255)))
+		self.G_value.set(int(round(color.green*255)))
+		self.B_value.set(int(round(color.blue*255)))
 		c,m,y,k = color.getCMYK()
 		self.CMYK_label['text']='C: %d\nM: %d\nY: %d\nK: %d'%(round(c*100, 2),round(m*100, 2),round(y*100, 2),round(k*100, 2))
 		int_color=(round(color.red*255),round(color.green*255),round(color.blue*255))
