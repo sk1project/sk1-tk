@@ -242,6 +242,23 @@
 				
 # ---------------------------------------------------------------------------------------------------
 	
+		style layout ColorButton {
+			ColorButton.button -children {
+			ColorButton.focus -children {
+					ColorButton.label -sticky ns
+		}    
+			}
+		}
+
+		style element create ColorButton.button image [list $K(tools_active) \
+				{pressed !disabled} $K(tools_button_pressed) \
+				{active  !disabled}   $K(tools_active)]\
+				-border {2 2 2 2} \
+				-padding {2 2 2 2} \
+				-width 41 -height 28
+				
+# ---------------------------------------------------------------------------------------------------
+	
         style layout ToolBarCheckButton {
             ToolBarCheckButton.button -children {
 	    	ToolBarCheckButton.focus -children {
