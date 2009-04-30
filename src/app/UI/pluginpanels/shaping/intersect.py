@@ -33,7 +33,7 @@ class IntersectPanel(PluginPanel):
 		sign = TFrame(top, style='RoundedFrame', borderwidth=5)
 		sign.pack(side = TOP)
 
-		self.sign=TLabel(sign, image='messagebox_construct')
+		self.sign=TLabel(sign, image='shaping_intersection')
 		self.sign.pack(side=TOP)
 
 		button = UpdatedButton(top, text = _("Apply"),
