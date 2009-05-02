@@ -1,1 +1,1 @@
-import find_replace_plugin, colorspaceconverter_plugin
+import find_replace_plugin, csconverter_plugin
