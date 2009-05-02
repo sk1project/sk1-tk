@@ -247,15 +247,17 @@ class SetDefaultPropertiesDlg(SKModal):
 		label.pack(side = TOP, anchor = W)
 		frame = TFrame(top, style='FlatFrame',  borderwidth=10)
 		frame.pack(side = TOP)
-		self.var_graphics = IntVar(top)
+		self.var_graphics_style = IntVar(top)
+		self.var_graphics_style.set(0)
 		if self.category != 'font':
-			self.var_graphics.set(1)
-		button = TCheckbutton(frame, text = _("Graphics Objects"), state = (self.category == 'font' and DISABLED or NORMAL), variable = self.var_graphics)
+			self.var_graphics_style.set(1)
+		button = TCheckbutton(frame, text = _("Graphics Objects"), state = (self.category == 'font' and DISABLED or NORMAL), variable = self.var_graphics_style)
 		button.pack(side = TOP, anchor = W)
-		self.var_text = IntVar(top)
+		self.var_text_style = IntVar(top)
+		self.var_text_style.set(0)
 		if self.category == 'font':
-			self.var_text.set(1)
-		button = TCheckbutton(frame, text = _("Text Objects"), state = (self.category == 'line' and DISABLED or NORMAL), variable = self.var_text)
+			self.var_text_style.set(1)			
+		button = TCheckbutton(frame, text = _("Text Objects"), state = (self.category == 'line' and DISABLED or NORMAL), variable = self.var_text_style)
 		button.pack(side = TOP, anchor = W)
 
 		label=TLabel(top, style="HLine")
@@ -274,8 +276,9 @@ class SetDefaultPropertiesDlg(SKModal):
 		root.resizable (width=0, height=0)
 
 	def ok(self, *args):
-		which_properties = (self.var_graphics.get(), self.var_text.get())
-		self.close_dlg(which_properties)
+		graph=self.var_graphics_style.get()
+		text=self.var_text_style.get()
+		self.close_dlg((graph, text))
 
 
 def WhichDefaultStyles(master, category = 0):
