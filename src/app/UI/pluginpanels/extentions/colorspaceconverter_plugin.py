@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2009 by Maxim S. Barabash
+# Copyright (C) 2009 by Maxim S. Barabash, Igor E.Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -111,7 +111,8 @@ class ColorSpaceConverter(PluginPanel):
 				self.document.add_undo(self.OutlineStyle(object,cs_name))
 			
 			elif object.is_Image:
-				pass
+				if not cs_name==object.data.image_mode:
+					self.document.add_undo(object.Convert(cs_name))
 
 
 	def FillStyle(self, object, cs_name):
