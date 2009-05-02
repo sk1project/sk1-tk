@@ -76,8 +76,11 @@ class AboutDialog(ModalDialog):
 		text=TLabel(subpanel, style='FlatLabel', 
 				text=_("Illustration program for prepress"))
 		text.pack(side = TOP, anchor=W,pady=10)
+		
+		from time import gmtime, strftime
+		year=strftime("%Y", gmtime())
 				
-		text=TLabel(subpanel, style='FlatLabel', text=_("(c)2003-2008 sK1 Team"))
+		text=TLabel(subpanel, style='FlatLabel', text="(c)2003-%s sK1 Team"%(year))
 		text.pack(side = TOP, anchor=W,pady=10)
 				
 		text=TLabel(subpanel, style='FlatLabel', text='http://sk1project.org',
