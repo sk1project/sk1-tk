@@ -9,6 +9,7 @@ from fill_plugin import FillPanel
 import app
 from app import _, SolidPattern, EmptyPattern
 from app.UI import styledlg
+from app.Graphics.pattern import EmptyPattern_
 
 
 class OutlineColorPanel(FillPanel):

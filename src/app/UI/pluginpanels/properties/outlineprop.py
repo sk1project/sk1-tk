@@ -11,7 +11,7 @@ from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.ttk_ext import TSpinbox
 from app.UI.widgets.colorbutton import TColorButton
 
-from app.conf.const import SELECTION, DOCUMENT, EDITED
+from app.conf.const import SELECTION, DOCUMENT, EDITED, CHANGED
 
 from app import _, config, Rect, mw, StandardDashes, SolidPattern, EmptyPattern
 from app.conf import const
@@ -78,7 +78,6 @@ class OutlinePropertiesPanel(PluginPanel):
 		var_width_unit = StringVar(root)
 		
 		unit = config.preferences.default_unit
-		jump=config.preferences.default_unit_jump
 		
 		self.var_width = LengthVar(10, unit, self.var_width_number, var_width_unit)
 		
@@ -89,7 +88,7 @@ class OutlinePropertiesPanel(PluginPanel):
 		self.labelwunit.pack(side = RIGHT, padx=5)
 		
 		self.entry_width = TSpinbox(line_width_frame,  var=0, vartype=1, textvariable = self.var_width_number, 
-									min = 0, max = 50000, step = jump, width = 8, command=self.update_pattern)
+									min = 0, max = 50000, step = .1, width = 8, command=self.update_pattern)
 		self.entry_width.pack(side = RIGHT)
 		
 		label = TLabel(line_width_frame, style='FlatLabel', text=_('Line width:'))
@@ -186,7 +185,8 @@ class OutlinePropertiesPanel(PluginPanel):
 		self.var_autoupdate = IntVar(top)
 		self.var_autoupdate.set(1)
 		
-		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate)
+		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate, 
+											command=self.init_from_doc)
 		self.autoupdate_check.pack(side = RIGHT, anchor=W, padx=10)
 		#######################################################################
 		
@@ -203,10 +203,12 @@ class OutlinePropertiesPanel(PluginPanel):
 	def subscribe_receivers(self):
 		self.document.Subscribe(SELECTION, self.init_from_doc)	
 		self.document.Subscribe(EDITED, self.init_from_doc)
+		config.preferences.Subscribe(CHANGED, self.update_pref)
 
 	def unsubscribe_receivers(self):
 		self.document.Unsubscribe(SELECTION, self.init_from_doc)	
 		self.document.Unsubscribe(EDITED, self.init_from_doc)
+		config.preferences.Unsubscribe(CHANGED, self.update_pref)
 
 	def init_from_doc(self, *arg):
 		self.issue(SELECTION)
@@ -302,6 +304,11 @@ class OutlinePropertiesPanel(PluginPanel):
 				point+=item*DASH_WIDTH
 		self.generated_tk_image=ImageTk.PhotoImage(self.generated_image)
 		return self.generated_tk_image
+	
+	def update_pref(self, *arg):
+		self.labelwunit['text']=config.preferences.default_unit
+		self.var_width.UpdateUnit(config.preferences.default_unit)
+		self.init_from_doc()
 
 	
 instance=OutlinePropertiesPanel()

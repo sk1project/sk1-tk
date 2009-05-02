@@ -24,7 +24,7 @@ from app.UI.pluginpanels.ppanel import PluginPanel
 
 from math import floor, ceil
 from app.Graphics import color
-from app.Graphics.pattern import SolidPattern
+from app.Graphics.pattern import SolidPattern, EmptyPattern_
 
 BLACK_COLOR=color.CreateCMYKColor(0,0,0,1)
 
@@ -76,7 +76,8 @@ class FillPanel(PluginPanel):
 		self.var_autoupdate = IntVar(top)
 		self.var_autoupdate.set(1)
 		
-		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate)
+		self.autoupdate_check = TCheckbutton(button_frame, text = _("Auto Update"), variable = self.var_autoupdate, 
+											command=self.init_from_doc)
 		self.autoupdate_check.pack(side = RIGHT, anchor=W, padx=10)
 
 		self.init_from_doc()
