@@ -1276,6 +1276,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	def PickObject(self, callback, args = ()):
+		self.SelectionMode()
 		self.begin_transaction()
 		self.enter_mode(self.modes.pick_mode, callback, args)
 		self.end_transaction()

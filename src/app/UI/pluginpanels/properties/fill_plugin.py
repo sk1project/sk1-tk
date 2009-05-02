@@ -33,18 +33,20 @@ class FillPanel(PluginPanel):
 	title = _("Solid Fill")
 	initial_color=None
 	current_color=None
+	default_color=BLACK_COLOR
+	sign='tools_color_fill'
 
 
 	def init(self, master):
 		PluginPanel.init(self, master)
 		
-		self.initial_color=BLACK_COLOR
+		self.initial_color=self.default_color
 		self.current_color = copy.copy(self.initial_color)
 
 		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
 		top.pack(side = TOP, fill=BOTH)
 
-		self.selector=ColorSpaceSelector(top, self.refresh_widgets, self.current_color)
+		self.selector=ColorSpaceSelector(top, self.refresh_widgets, self.current_color, self.sign)
 		self.selector.pack(side=TOP, expand = 1, fill=X)
 		
 		self.picker=ColorChooserWidget(top, self.refresh_widgets, self.current_color)
@@ -131,7 +133,7 @@ class FillPanel(PluginPanel):
 			properties = self.document.CurrentProperties()
 			return self.init_from_properties(properties)
 		else:
-			return BLACK_COLOR
+			return self.default_color
 		
 	def init_from_properties(self, properties):
 		if properties and properties.HasFill() and properties.fill_pattern.__class__ == SolidPattern:

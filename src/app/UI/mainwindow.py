@@ -468,9 +468,9 @@ class sK1MainWindow(Publisher):
 		label = TLabel(tbar, image = "toolbar_sep")
 		label.pack(side = LEFT)
 		
-#		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
-#		tooltips.AddDescription(b, commands.Preferences.menu_name)
-#		b.pack(side = LEFT)
+		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+		tooltips.AddDescription(b, commands.Preferences.menu_name)
+		b.pack(side = LEFT)
 		
 		b = ToolbarButton(tbar, commands.PCshowHide, image="show_side_panel")
 		tooltips.AddDescription(b, commands.PCshowHide.menu_name)
@@ -769,7 +769,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
 	AddCmd('InsertFile', _("Import vector..."))
 #	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
-#	AddCmd('Preferences', _("Preferences..."), image = 'menu_file_configure')
+	AddCmd('Preferences', _("Preferences..."), image = 'menu_file_configure')
 	AddCmd('Exit', _("Exit"), image = 'menu_file_exit', key_stroke = ('Alt+F4'))
 	
 	
@@ -808,7 +808,7 @@ class sK1MainWindow(Publisher):
 #	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'LoadPlugin', args = ('Alignment'), key_stroke = ('Ctrl+A', 'Ctrl+a'))
 	AddCmd('CreateGridDialog', _("Grid Setup..."), 'LoadPlugin', args = ('Grid'))#################################
-	AddCmd('CreateLineStyleDialog', _("Outline..."), 'CreateDialog', args = ('dlg_line', 'LinePanel'), key_stroke = 'F12')
+	AddCmd('CreateLineStyleDialog', _("Outline..."), 'LoadPlugin', args = ('OutlineProperties'), key_stroke = 'F12')
 	AddCmd('CreateFillStyleDialog', _("Fill..."), 'LoadPlugin', args = ('SolidFill'), key_stroke = 'F11')
 #	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))

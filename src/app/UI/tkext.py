@@ -1268,6 +1268,75 @@ class MyOptionMenu2(WidgetWithCommand, Menubutton):
 		if name == 'menu':
 			return self.__menu.menu
 		return Widget.__getitem__(self, name)
+	
+class TOptionMenu(WidgetWithCommand, TMenubutton):
+
+	tk_widget_has_command = 0
+
+	def __init__(self, master, values, command = None, args = (),
+					entry_type = 'text', **rest):
+		WidgetWithCommand.__init__(self)
+		Widget.__init__(self, master, "ttk::menubutton", rest)
+		self.widgetName = 'tk_optionMenu'
+		if command:
+			self.set_command(command, args)
+
+		entries = []
+		value_dict = {}
+		cfg = {'command' : self.choose_opt}
+		for value in values:
+			if type(value) == TupleType:
+				text, value = value
+			else:
+				text = value
+			value_dict[value] = text
+			if not rest.has_key('initial'):
+				rest['initial'] = value
+
+			cfg[entry_type] = text
+			cfg['args'] = (value,)
+			entries.append(apply(MenuCommand, (), cfg))
+
+		self.__menu = UpdatedMenu(self, entries, auto_update = 0,
+									name="menu", tearoff=0)
+		menu = self.__menu.menu
+		self.menuname = menu._w
+		self["menu"] = menu
+		self.entry_type = entry_type
+		self.value_dict = value_dict
+		if rest.has_key('initial'):
+			self.SetValue(rest['initial'])
+
+	def destroy(self):
+		WidgetWithCommand.clean_up(self)
+		TMenubutton.destroy(self)
+		self.__menu = None
+
+	def choose_opt(self, value):
+		self.SetValue(value)
+		self._call_cmd(value)
+
+	def SetValue(self, value, text = None):
+		if value in self.value_dict:
+			text = self.value_dict[value]
+		else:
+			text=''
+#		try:
+#			text = self.value_dict[value]
+#		except KeyError:
+#			if text is None:
+#				return
+		self[self.entry_type] = text
+		self.value = value
+		self['image']=self.value
+
+	def GetValue(self):
+		return self.value
+
+	def __getitem__(self, name):
+		if name == 'menu':
+			return self.__menu.menu
+		return Widget.__getitem__(self, name)
 
 
 def MakeMethodCommand(method, *args):

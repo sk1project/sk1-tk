@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCombobox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, DISABLED, NORMAL, StringVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, S, DISABLED, NORMAL, StringVar
 from app import _
 from app.Graphics.color import CreateRGBColor, CreateCMYKColor, CreateSPOTColor, Registration_Black
 
@@ -21,20 +21,23 @@ class ColorSpaceSelector(TFrame):
 	
 	current_cs=''
 	
-	def __init__(self, parent, callback, color, allow_emtpy=1, **kw):
+	def __init__(self, parent, callback, color, sign, allow_emtpy=1, **kw):
 		self.color=color
 		self.callback=callback
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
 		self.cs_name = StringVar(self)
 		self.set_cs_name(self.color)
 		
-		label = TLabel(self, text=_("Colorspace: "))
-		label.pack(side = TOP, anchor=W)
-		
 		self.colorspaces = TCombobox(self, state='readonly', postcommand = self.set_cs, 
 									 values=self.make_cs_list(allow_emtpy), width=17, style='ComboNormal',
 									 textvariable=self.cs_name)
-		self.colorspaces.pack(side = TOP, fill=X)
+		self.colorspaces.pack(side = BOTTOM, fill=X)
+		
+		label = TLabel(self, text=_("Colorspace: "))
+		label.pack(side = LEFT, anchor='sw')
+		
+		label = TLabel(self, image=sign)
+		label.pack(side = RIGHT)
 		
 	def make_cs_list(self,allow_emtpy):
 		cs=()

@@ -1,2 +1,2 @@
 
-import fill_plugin
+import fill_plugin, outlineprop, outlinecolor
