@@ -1321,11 +1321,6 @@ class TOptionMenu(WidgetWithCommand, TMenubutton):
 			text = self.value_dict[value]
 		else:
 			text=''
-#		try:
-#			text = self.value_dict[value]
-#		except KeyError:
-#			if text is None:
-#				return
 		self[self.entry_type] = text
 		self.value = value
 		self['image']=self.value
