@@ -9,7 +9,7 @@ from Tkinter import Frame, Label, ALL, NW, W
 
 class TreeNode:
 
-	def __init__(self, canvas, parent, item, colortheme, vspace=26):
+	def __init__(self, canvas, parent, item, colortheme, vspace=20):
 		self.canvas = canvas
 		self.parent = parent
 		self.item = item
