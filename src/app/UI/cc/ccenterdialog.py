@@ -14,7 +14,7 @@ from app import dialogman
 from Ttk import TButton, TLabel, TFrame, TScrollbar
 from app.UI.ttk_ext import TSpinbox
 from Tkinter import Canvas
-from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE
+from Tkinter import TOP, LEFT, RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE
 
 from app.UI.widgets.scrolledcanvas import ScrolledCanvas
 from app.UI.widgets.treewidget import TreeItem, TreeNode
