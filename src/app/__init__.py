@@ -77,6 +77,7 @@ transform_plugins=[]
 effects_plugins=[]
 extentions_plugins=[]
 shaping_plugins=[]
+pref_plugins=[]
 
 
 from _sketch import Rect, PointsToRect, UnionRects, IntersectRects, EmptyRect, InfinityRect, RectType
