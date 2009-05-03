@@ -57,7 +57,7 @@ pixmaps = skpixmaps.PixmapTk
 
 from app import skapp
 from dialogs.aboutdlg import aboutDialog
-from cc.ccenter import cCenter
+from cc.ccenterdialog import ControlCenter
 from pluginpanels.plugincontainer import PluginContainer
 
 EXPORT_MODE=2
@@ -1392,7 +1392,7 @@ class sK1MainWindow(Publisher):
 		aboutDialog(self.root)
 		
 	def Preferences(self):
-		cCenter(self.root)
+		ControlCenter(self.root)
 		
 #		abouttext = _("sK1 (%(version)s) - A Python&Tcl/Tk -based vector graphics editor for printing industry.\n "
 #						"(c) 2003-2006 by Igor E. Novikov\n\n"

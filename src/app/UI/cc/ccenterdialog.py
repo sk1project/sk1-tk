@@ -21,7 +21,7 @@ from app.UI.widgets.treewidget import TreeItem, TreeNode
 
 
 
-class ControlCenter(ModalDialog):
+class ControlCenterDialog(ModalDialog):
 
 	class_name = 'ControlCenter'
 	current_plugin=None
@@ -205,5 +205,7 @@ class PluginsTreeItem(TreeItem):
 			self.container.loadByName(self.objects.name)
 	
 	
-	
+def ControlCenter(master):
+	dlg = ControlCenterDialog(master)
+	dlg.RunDialog()
 	
