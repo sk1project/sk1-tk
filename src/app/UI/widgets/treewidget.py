@@ -9,7 +9,7 @@ from Tkinter import Frame, Label, ALL, NW, W
 
 class TreeNode:
 
-	def __init__(self, canvas, parent, item, colortheme, vspace=20):
+	def __init__(self, canvas, parent, item, colortheme, vspace=26):
 		self.canvas = canvas
 		self.parent = parent
 		self.item = item
@@ -154,7 +154,7 @@ class TreeNode:
 				# _IsExpandable() was mistaken; that's allowed
 				return y+self.vspace
 			for item in sublist:
-				child = self.__class__(self.canvas, self, item, self.colortheme)
+				child = self.__class__(self.canvas, self, item, self.colortheme, self.vspace)
 				self.children.append(child)
 		cx = x+self.vspace
 		cy = y+self.vspace
