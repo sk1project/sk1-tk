@@ -471,10 +471,7 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
 		tooltips.AddDescription(b, commands.Preferences.menu_name)
 		b.pack(side = LEFT)
-		
-		b = ToolbarButton(tbar, commands.PCshowHide, image="show_side_panel")
-		tooltips.AddDescription(b, commands.PCshowHide.menu_name)
-		b.pack(side = LEFT)
+
 		
 	def build_tools(self):
 		tframe = self.tframe
@@ -540,7 +537,11 @@ class sK1MainWindow(Publisher):
 		#Spacer
 		b = TLabel(tframe, style='HLine')
 		b.pack(side = TOP, fill = X)
-
+		
+		b = ToolbarButton(tframe, self.commands.PCshowHide, image="show_side_panel")
+		tooltips.AddDescription(b, self.commands.PCshowHide.menu_name)
+		b.pack(side = TOP, fill = X)	
+		
 		b = TLabel(tframe, style='HLine')
 		b.pack(side = BOTTOM, fill = X)
 		
@@ -551,7 +552,8 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tframe, self.commands.MoveSelectionUp, image='tools_forward')
 		b.pack(side = BOTTOM, fill= X)
 		b = ToolbarButton(tframe, self.commands.MoveSelectedToTop, image='tools_raise')
-		b.pack(side =  BOTTOM, fill= X)				
+		b.pack(side =  BOTTOM, fill= X)			
+		
 
 	def build_status_bar(self):
 		status_bar = self.status_bar
@@ -908,7 +910,7 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Bitmaps"), self.make_bitmaps_menu(), 0)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
+#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
 #		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0 )
 
