@@ -358,7 +358,7 @@ class Preferences(connector.Publisher):
 	#---------UI fonts---------
 	small_font='Tahoma 8'
 	normal_font='Tahoma 9'
-	large_font='Tahoma 14'
+	large_font='Tahoma 10 bold'
 	fixed_font='CourierNew 9'
 	
 	#---------Color managment---------
