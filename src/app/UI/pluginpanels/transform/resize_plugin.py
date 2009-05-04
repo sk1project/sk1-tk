@@ -62,7 +62,7 @@ class ResizePanel(PluginPanel):
 		size_frameH = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameH.pack(side = TOP, fill = BOTH)
 		
-		label = TLabel(size_frameH, style='FlatLabel', image='context_H')
+		label = TLabel(size_frameH, style='FlatLabel', image='size_h')
 		label.pack(side = LEFT, padx=5)
 		self.entry_width = TSpinbox(size_frameH,  var=0, vartype=1, textvariable = self.var_width_number, 
 									min = 0, max = 50000, step = jump, width = 10, command=self.apply_resize)
@@ -84,7 +84,7 @@ class ResizePanel(PluginPanel):
 		
 		size_frameV = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameV.pack(side = TOP, fill = BOTH)
-		label = TLabel(size_frameV, style='FlatLabel', image='context_V')
+		label = TLabel(size_frameV, style='FlatLabel', image='size_v')
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_height = TSpinbox(size_frameV, var=0, vartype=1, textvariable = self.var_height_number, 

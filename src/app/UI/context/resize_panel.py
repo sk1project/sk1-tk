@@ -35,14 +35,17 @@ class ResizePanel(CtxSubPanel):
 		self.var_width.set(0)
 		self.var_height.set(0)
 		
-		label = TLabel(self.panel, image='context_H')
-		label.pack(side = LEFT)
+		label = TLabel(self.panel, image='size_h')
+		label.pack(side = LEFT,padx=3)
 		self.entry_width = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.var_width_number,
 						min = 0, max = 50000, step = jump, width = 6, command = self.applyResize)
 		self.entry_width.pack(side = LEFT)
 
-		label = TLabel(self.panel, image='context_V')
+		label = TLabel(self.panel, text=' ')
 		label.pack(side = LEFT)
+
+		label = TLabel(self.panel, image='size_v')
+		label.pack(side = LEFT,padx=3)
 		self.entry_height = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.var_height_number,
 						min = 0, max = 50000, step = jump, width = 6, command = self.applyResize)
 		self.entry_height.pack(side = LEFT)

@@ -59,7 +59,7 @@ class SkewPanel(PluginPanel):
 		size_frameH = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameH.pack(side = TOP, fill = BOTH)
 		
-		label = TLabel(size_frameH, style='FlatLabel', image='context_H')
+		label = TLabel(size_frameH, style='FlatLabel', image='skew_h')
 		label.pack(side = LEFT, padx=5)
 		self.entry_angleX = TSpinbox(size_frameH,  var=0, vartype=0, textvariable = self.var_angleX, 
 									min = -75, max = 75, step = jump, width = 10, command=self.apply_skew)
@@ -72,7 +72,7 @@ class SkewPanel(PluginPanel):
 		
 		size_frameV = TFrame(top, style='FlatFrame', borderwidth=3)
 		size_frameV.pack(side = TOP, fill = BOTH)
-		label = TLabel(size_frameV, style='FlatLabel', image='context_V')
+		label = TLabel(size_frameV, style='FlatLabel', image='skew_v')
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_angleY = TSpinbox(size_frameV, var=0, vartype=0, textvariable = self.var_angleY, 
