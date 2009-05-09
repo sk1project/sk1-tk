@@ -465,12 +465,12 @@ class sK1MainWindow(Publisher):
 		b.pack(side = LEFT)
 		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
 		
-		label = TLabel(tbar, image = "toolbar_sep")
-		label.pack(side = LEFT)
-		
-		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
-		tooltips.AddDescription(b, commands.Preferences.menu_name)
-		b.pack(side = LEFT)
+#		label = TLabel(tbar, image = "toolbar_sep")
+#		label.pack(side = LEFT)
+#		
+#		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+#		tooltips.AddDescription(b, commands.Preferences.menu_name)
+#		b.pack(side = LEFT)
 
 		
 	def build_tools(self):
