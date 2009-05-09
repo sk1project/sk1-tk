@@ -11,6 +11,7 @@ from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 from app import _, config
 import app
 from app.UI.cc.prefpanel import PrefPanel
+from app.conf.configurator import Preferences
 
 class GeneralOptionsPanel(PrefPanel):
 	
@@ -22,6 +23,18 @@ class GeneralOptionsPanel(PrefPanel):
 	def build(self):		
 		label=TLabel(self, text=self.__class__.name, font=config.preferences.large_font, justify=LEFT)
 		label.pack(side=TOP, fill=X)
+		
+	def init_vars(self):
+		pass
+	
+	def apply(self):
+		pass
+	
+	def restore(self):
+#		defaults = Preferences.__dict__
+#		items = self.__dict__.items()
+		pass
+	
 	
 		
 instance=GeneralOptionsPanel()
