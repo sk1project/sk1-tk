@@ -33,10 +33,6 @@ class OutlineColorPanel(FillPanel):
 	def init_from_properties(self, properties):
 		if properties and properties.HasLine() and properties.line_pattern.__class__ == SolidPattern:
 			return properties.line_pattern.Color()	
-		elif properties and properties.HasFill() and properties.line_pattern.__class__ == EmptyPattern_:
-			return None
-		elif not self.current_color is None and len(self.document.selection) > 1:
-			return self.current_color
 		else:
 			return None
 		
