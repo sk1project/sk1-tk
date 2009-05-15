@@ -131,7 +131,11 @@ class FillPanel(PluginPanel):
 	
 	def get_object_color(self):
 		if self.document.HasSelection():
-			properties = self.document.CurrentProperties()
+			if len(self.document.selection) > 1:
+				info,obj=self.document.selection.GetInfo()[0]
+				properties = obj.Properties()
+			else:
+				properties = self.document.CurrentProperties()
 			return self.init_from_properties(properties)
 		else:
 			return self.default_color
