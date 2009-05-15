@@ -214,7 +214,11 @@ class OutlinePropertiesPanel(PluginPanel):
 		self.issue(SELECTION)
 		if self.var_autoupdate.get():
 			if self.is_correct_selection():
-				self.init_from_style(self.document.CurrentProperties())
+				if len(self.document.selection) > 1:
+					info,obj=self.document.selection.GetInfo()[0]
+					self.update_from_object(obj)
+				else:
+					self.init_from_style(self.document.CurrentProperties())
 			else:
 				self.ref_style=None
 				self.set_default_style()
