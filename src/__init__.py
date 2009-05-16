@@ -7,7 +7,9 @@
 # For more info see COPYRIGHTS file in root directory.
 
 
-import sys, os
+import sys, os, warnings
+
+warnings.filterwarnings("ignore")
 
 _pkgdir = __path__[0]
 sys.path.insert(1, _pkgdir)
