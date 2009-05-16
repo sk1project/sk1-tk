@@ -66,7 +66,18 @@ class ResizePanel(CtxSubPanel):
 			ver_sel=br.top - br.bottom
 		except:
 			return
-		self.doc.ScaleSelected(x/hor_sel, y/ver_sel)
+		
+		try:
+			xx=x/hor_sel
+		except ZeroDivisionError:
+			xx=1
+		
+		try:
+			yy=y/ver_sel
+		except ZeroDivisionError:
+			yy=1
+		
+		self.doc.ScaleSelected(xx, yy)
 		self.update_size()
 		
 	def update(self, issue):
