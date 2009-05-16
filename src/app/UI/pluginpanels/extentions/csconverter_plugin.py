@@ -146,15 +146,10 @@ class ColorSpaceConverter(PluginPanel):
 	def setSolidPatternFill(self, object, color, cs_name):
 		if color.model == cs_name:
 			return
-		undo = (self.undoSolidPatternFill, object, color, cs_name)
 		color=self.convert_color(color, cs_name)
-		object.properties.fill_pattern=SolidPattern(color)
+		undo=(object.SetProperties(fill_pattern=SolidPattern(color)))
 		return undo
 
-	def undoSolidPatternFill(self, object, color, cs_name):
-		undo=(self.setSolidPatternFill, object, color, cs_name)
-		object.properties.fill_pattern=SolidPattern(color)
-		return undo
 
 
 	def OutlineStyle(self, object, cs_name):
@@ -174,15 +169,10 @@ class ColorSpaceConverter(PluginPanel):
 	def setSolidPatternOutline(self, object, color, cs_name):
 		if color.model == cs_name:
 			return
-		undo = (self.undoSolidPatternOutline, object, color, cs_name)
 		color=self.convert_color(color, cs_name)
-		object.properties.line_pattern=SolidPattern(color)
+		undo=(object.SetProperties(line_pattern=SolidPattern(color)))
 		return undo
 
-	def undoSolidPatternOutline(self, object, color, cs_name):
-		undo=(self.setSolidPatternOutline, object, color, cs_name)
-		object.properties.line_pattern=SolidPattern(color)
-		return undo
 
 
 
