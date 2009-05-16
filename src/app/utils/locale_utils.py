@@ -6,7 +6,6 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import os
-from popen2 import popen2
 from app import config
 
 UTF_CODEC='utf-8'
@@ -34,9 +33,7 @@ def cmd_iconv(from_codec='', to_codec='', string=''):
 	if from_codec=='' or to_codec=='' or string=='' :
 		return string
 	from_bash = os.popen('echo "'+string+'" |iconv -f '+from_codec+' -t '+to_codec)
-# 	to_bash.write(string)
 	result=from_bash.read()
-# 	to_bash.close()
 	from_bash.close()
 	return result
 	
