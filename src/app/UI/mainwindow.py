@@ -755,7 +755,7 @@ class sK1MainWindow(Publisher):
 		self.canvas.ForceRedraw()		
 		
 			
-################### Window comands #############################	
+################### Window commands #############################	
 	AddCmd('NewDocument', _("New"), image = 'menu_file_new', key_stroke = ('Ctrl+N', 'Ctrl+n', 'Ctrl+t'))
 	AddCmd('OpenNewDocument', _("New Drawing Window"), image ='no_image')
 	AddCmd('LoadFromFile', _("Open..."), image = 'menu_file_open',  key_stroke = ('Ctrl+O', 'Ctrl+o',))	
