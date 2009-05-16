@@ -465,7 +465,8 @@ class UpdatedMenu:
 
 	def RebuildMenu(self):
 		if self.entries is not None:
-			self.menu.delete(0, END)
+#			self.menu.delete(0, END)
+			self.menu.tk.call(self.menu._w, 'delete', 0, END)
 		if self.rebuild_func is not None:
 			try:
 				self.entries = self.rebuild_func()
@@ -476,7 +477,8 @@ class UpdatedMenu:
 
 	def SetEntries(self, entries):
 		if self.entries is not None:
-			self.menu.delete(0, END)
+#			self.menu.delete(0, END)
+			self.menu.tk.call(self.menu._w, 'delete', 0, END)
 			for entry in self.entries:
 				entry.clean_up()
 		self.entries = entries
@@ -567,7 +569,8 @@ class ComboMenu:
 
 	def RebuildMenu(self):
 		if self.entries is not None:
-			self.menu.delete(0, END)
+#			self.menu.delete(0, END)
+			self.menu.tk.call(self.menu._w, 'delete', 0, END)
 		if self.rebuild_func is not None:
 			try:
 				self.entries = self.rebuild_func()
@@ -578,7 +581,8 @@ class ComboMenu:
 
 	def SetEntries(self, entries):
 		if self.entries is not None:
-			self.menu.delete(0, END)
+#			self.menu.delete(0, END)
+			self.menu.tk.call(self.menu._w, 'delete', 0, END)
 			for entry in self.entries:
 				entry.clean_up()
 		self.entries = entries
