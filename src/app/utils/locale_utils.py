@@ -32,6 +32,7 @@ def get_locale():
 def cmd_iconv(from_codec='', to_codec='', string=''):
 	if from_codec=='' or to_codec=='' or string=='' :
 		return string
+	#FIXME: command line call should be replaced by regular Python string expressions
 	from_bash = os.popen('echo "'+string+'" |iconv -f '+from_codec+' -t '+to_codec)
 	result=from_bash.read()
 	from_bash.close()
