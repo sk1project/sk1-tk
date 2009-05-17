@@ -162,19 +162,35 @@
 
 # ---------------------------------------------------------------------------------------------------
 	
+	style layout ColorButton {
+		ColorButton.button -children {
+			ColorButton.focus -children {
+				ColorButton.label -sticky ns
+			}    
+		}
+	}
+
+	style element create ColorButton.button image [list $K(tools_normal) \
+			{pressed !disabled} $K(tools_button_pressed) \
+			{active  !disabled} $K(tools_active)]\
+			-border {4 4 4 4} \
+			-padding {4 4 4 4} 
+
+# ---------------------------------------------------------------------------------------------------
+	
         style layout TSmallbutton {
             TSmallbutton.button  -expand true  -sticky news -children {
 	    	TSmallbutton.focus -children {
-                    TSmallbutton.label
+                    TSmallbutton.label -sticky ns
 		}    
             }
         }
 
-        style element create TSmallbutton.button image [list $K(clear) \
+        style element create TSmallbutton.button image [list $K(clear15) \
 				{pressed !disabled} $K(smallbutton_pressed) \
 				{active  !disabled} $K(smallbutton_over) ] \
 				-border {1 1 1 1} \
-				-padding {1 1 1 1} -sticky ew
+				-padding {2 2 2 2}
 
 # ---------------------------------------------------------------------------------------------------
 	
