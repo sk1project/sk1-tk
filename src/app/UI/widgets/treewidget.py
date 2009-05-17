@@ -213,7 +213,7 @@ class TreeNode:
 
 			self.frame = Frame(self.canvas, border=1, relief='flat')
 			self.iconlabel = Label(self.frame, image=image, bd=0, padx=1, pady=1, anchor=W)
-			self.label = Label(self.frame, text=text, bd=0, padx=3, pady=1, anchor=W, font='Tahoma 9')
+			self.label = Label(self.frame, text=text, bd=0, padx=3, pady=1, anchor=W)
 			self.iconlabel.pack(side='left')
 			self.label.pack(side='left', fill='y')
 
