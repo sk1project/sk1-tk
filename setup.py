@@ -245,7 +245,7 @@ if __name__ == "__main__":
 sK1 is an open source vector graphics editor similar to CorelDRAW, Adobe Illustrator, or Freehand. 
 First of all sK1 is oriented for prepress industry, therefore works with CMYK colorspace and
 produces CMYK-based PDF and postscript output.
-sK1 Team (http://sk1project.org), copyright (C) 2007 by Igor E. Novikov.
+sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 			''',
 		classifiers=[
 			'Development Status :: 5 - Stable',
