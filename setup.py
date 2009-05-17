@@ -232,7 +232,7 @@ if __name__ == "__main__":
 
 			
 	setup (name = 'sK1',
-			version = '0.9.0',
+			version = '0.9.1pre',
 			description = 'Vector graphics editor for prepress',
 			author = 'Igor E. Novikov',
 			author_email = 'igor.e.novikov@gmail.com',
