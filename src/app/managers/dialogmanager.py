@@ -32,7 +32,7 @@ openfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1
 importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. '),
 				  ('*.sK1', '*.sk1', '*.SK1', '*.sk', '*.SK', '*.ai', '*.AI', '*.eps', '*.EPS', '*.ps', '*.PS',
 					'*.cmx', '*.CMX', '*.cdr', '*.CDR', '*.cdt', '*.CDT', '*.ccx', '*.CCX', '*.cgm', 
-					'*.CGM', '*.aff', '*.AFF', '*.svg', '*.SVG', '*.wmf', '*.WMF', '*.fig', '*.FIG')),
+					'*.CGM', '*.aff', '*.AFF', '*.svg', '*.SVG', '*.wmf', '*.WMF', '*.plt', '*.PLT', '*.fig', '*.FIG')),
 				 (_('sK1 vector graphics files - *.sk1'),('*.sK1', '*.sk1', '*.SK1')),
 				 (_('Sketch\Skencil files - *.sk'),('*.sk', '*.SK')),
 				 (_('Adobe Illustrator files (up to ver. 9.0) - *.ai'),('*.ai', '*.AI')),
@@ -45,7 +45,8 @@ importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.w
 				 (_('Computer Graphics Metafile files - *.cgm'),('*.cgm', '*.CGM')),
 				 (_('Acorn Draw files - *.aff'),('*.aff', '*.AFF')),
 				 (_('Scalable Vector Graphics files - *.svg'),('*.svg', '*.SVG')),
-				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),				 
+				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),
+				 (_('HPGL Plotter files - *.plt'),('*.plt', '*.PLT')),
 				 (_('XFig files - *.fig'),('*.fig', '*.FIG')),
 				 (_("All Files"),	 '*.*'))
 
@@ -59,6 +60,7 @@ exportfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.S
 				 (_('Computer Graphics Metafile files - *.cgm'),('*.cgm', '*.CGM')),
 				 (_('Scalable Vector Graphics files - *.svg'),('*.svg', '*.SVG')),
 				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),
+				 (_('HPGL Plotter files - *.plt'),('*.plt', '*.PLT')),
 				 (_("All Files"),	 '*.*'))
 
 imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc.'),

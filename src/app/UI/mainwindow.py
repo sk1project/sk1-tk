@@ -855,7 +855,7 @@ class sK1MainWindow(Publisher):
 	AddDocCmd('MoveSelectionUp', _("Move One Up"), key_stroke = ('Ctrl+PgUp', 'Ctrl+Prior', 'Ctrl+KP_Prior'))
 	AddDocCmd('MoveSelectionDown', _("Move One Down"), key_stroke = ('Ctrl+PgDown', 'Ctrl+Next', 'Ctrl+KP_Next'))
 
-	AddDocCmd('ApplyToDuplicate', _("Duplicate0"))
+	AddDocCmd('ApplyToDuplicate', _("Duplicate"), key_stroke = ('KP_Add'))
 	AddDocCmd('DuplicateSelected', _("Duplicate"), key_stroke = ('Ctrl+D', 'Ctrl+d'))
 	AddDocCmd('GroupSelected', _("Group selected objects"), sensitive_cb = 'CanGroup', key_stroke = ('Ctrl+G', 'Ctrl+g'))
 	AddDocCmd('UngroupSelected', _("Ungroup selection"), sensitive_cb = 'CanUngroup', key_stroke = ('Ctrl+U', 'Ctrl+u'))
