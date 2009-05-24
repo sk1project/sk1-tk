@@ -18,6 +18,7 @@ from app.UI.tkext import UpdatedButton, UpdatedCheckbutton, UpdatedRadiobutton
 
 import app
 from app.UI.pluginpanels.ppanel import PluginPanel
+import tooltips
 
 SELECT=_("Selection")
 LOWERMOST=_("Lowermost")
@@ -68,6 +69,14 @@ class AlignPlugin(PluginPanel):
 
 		x_pixmaps = ['aoleft', 'aocenterh', 'aoright']
 		y_pixmaps = ['aotop', 'aocenterv', 'aobottom']
+		x_tooltips = [_('Align left sides'),
+						_('Center on vertical axis'),
+						_('Align right sides')]
+
+		y_tooltips = [_('Align tops'),
+						_('Center on horizontal axis'),
+						_('Align bottoms')]
+						
 		self.var_x = IntVar(top)
 		self.var_x.set(0)
 		self.value_x = 0
@@ -77,8 +86,10 @@ class AlignPlugin(PluginPanel):
 
 		for i in range(1, 4):
 			button = make_button(framex, image = x_pixmaps[i - 1], value = i, variable = self.var_x, command = self.apply_x)
+			tooltips.AddDescription(button, x_tooltips[i - 1])
 			button.pack(side = LEFT, padx = 3)
 			button = make_button(framey, image = y_pixmaps[i - 1], value = i, variable = self.var_y, command = self.apply_y)
+			tooltips.AddDescription(button, y_tooltips[i - 1])
 			button.pack(side = LEFT, padx = 3)
 
 
