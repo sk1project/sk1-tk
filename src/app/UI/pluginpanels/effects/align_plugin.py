@@ -41,25 +41,23 @@ class AlignPlugin(PluginPanel):
 		self.var_reference.set(SELECT)
 		
 		#---------------------------------------------------------
-		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top = TFrame(self.panel, style='FlatFrame')
 		top.pack(side = TOP, fill=BOTH)
 		#---------------------------------------------------------
 		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
 		label.pack(side = TOP, fill = BOTH, padx=5)
-		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
+		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=3)
 		rel_frame.pack(side = TOP, fill=X, padx=5, pady=2)
-		button_frame=TFrame(rel_frame, style='FlatFrame')
-		button_frame.pack(side = TOP, fill = BOTH, padx=5)
 		
-		self.reference = TCombobox(button_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
+		self.reference = TCombobox(rel_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
 									 textvariable=self.var_reference, postcommand = self.set_cs)
 		self.reference.pack(side = TOP)
 		#---------------------------------------------------------
 
 		label=TLabel(top, text=_(" Alignment type "), style="FlatLabel")
-		label.pack()
-		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
-		framec.pack(side = TOP, fill=X, padx=2, pady=2)
+		label.pack(side = TOP, fill = BOTH, padx=5)
+		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=3)
+		framec.pack(side = TOP, fill=X, padx=5, pady=2)
 		
 		framex = TFrame(framec, style='FlatFrame')
 		framex.pack(side = TOP, expand = 0, padx = 5, pady = 5)

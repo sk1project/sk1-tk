@@ -29,7 +29,7 @@ PAGE=_("Page")
 EDGE=_("Edge + Jump")
 
 def make_button(*args, **kw):
-	kw['style'] ='ToolBarCheckButton'
+	kw['style'] ='FineRadiobutton'
 	return apply(TRadiobutton, args, kw)
 
 class DistributePlugin(PluginPanel):
@@ -44,7 +44,7 @@ class DistributePlugin(PluginPanel):
 		self.var_reference.set(SELECT)
 		
 		#---------------------------------------------------------
-		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top = TFrame(self.panel, style='FlatFrame')
 		top.pack(side = TOP, fill=BOTH)
 		#---------------------------------------------------------
 		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
@@ -57,18 +57,18 @@ class DistributePlugin(PluginPanel):
 		self.reference = TCombobox(button_frame, state='readonly', values=self.make_cs_list(), style='ComboNormal',width=14,
 									 textvariable=self.var_reference, postcommand = self.set_cs)
 		self.reference.pack(side = TOP)
+		#---------------------------------------------------------
+		label=TLabel(top, text=_(" Distribute type "), style="FlatLabel")
+		label.pack(side = TOP, fill = BOTH, padx=5)
+		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=3)
+		framec.pack(side = TOP, fill=X, padx=5, pady=2)
 		
-		label=TLabel(top, text=_(" Horizontal "), style="FlatLabel")
-		label.pack(side = TOP, fill = BOTH, padx=5, pady=3)
 		
-		framex = TFrame(top, style='FlatFrame')
-		framex.pack(side = TOP, expand = 0)
+		framex = TFrame(framec, style='FlatFrame')
+		framex.pack(side = TOP, expand = 0, padx = 5, pady = 5)
 		
-		label=TLabel(top, text=_(" Vertical "), style="FlatLabel")
-		label.pack(side = TOP, fill = BOTH, padx=5, pady=3)
-		
-		framey = TFrame(top, style='FlatFrame')
-		framey.pack(side = TOP, expand = 0)
+		framey = TFrame(framec, style='FlatFrame')
+		framey.pack(side = TOP, expand = 0, padx = 5, pady = 5)
 
 
 		x_pixmaps = ['doleft', 'docenterh', 'dospacingh', 'doright']

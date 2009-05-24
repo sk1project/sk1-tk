@@ -70,7 +70,7 @@ class RotatePanel(PluginPanel):
 		self.var_basepoint.set('C')
 		
 		#---------------------------------------------------------
-		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
+		top = TFrame(self.panel, style='FlatFrame')
 		top.pack(side = TOP, fill=BOTH)
 		#---------------------------------------------------------
 		
