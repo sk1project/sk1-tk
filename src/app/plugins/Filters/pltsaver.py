@@ -172,9 +172,11 @@ class PLTSaver:
 		for object in Objects:
 			if object.is_Compound:
 				self.SaveObjects(object.GetObjects())
-			elif object.is_Bezier or object.is_Rectangle or object.is_Ellipse or \
-					object.is_Text:
+			elif object.is_Bezier or object.is_Rectangle or object.is_Ellipse:
 				self.PolyBezier(object.Paths(), object.Properties())
+			elif object.is_SimpleText:
+				obj=object.AsBezier()
+				self.PolyBezier(obj.Paths(), obj.Properties())
 
 	def SaveLayers(self, Layers):
 		for layer in Layers:
