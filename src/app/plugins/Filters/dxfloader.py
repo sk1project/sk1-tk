@@ -94,7 +94,8 @@ class DXFLoader(GenericLoader):
 				"LINE": 'line',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
-				"VERTEX": 'vertex'
+				"VERTEX": 'vertex',
+				"CIRCLE": 'circle'
 					}
 
 	def __init__(self, file, filename, match):
@@ -225,7 +226,25 @@ class DXFLoader(GenericLoader):
 				self.close_path = 0
 			self.prop_stack.AddStyle(self.curstyle.Duplicate())
 			self.bezier(self.path,)
-			
+
+
+	def circle(self):
+		param={	'10': None, # X coordinat center
+				'20': None, # Y coordinat center
+				#'30': None, # Z coordinat center
+				'40': 0.0  # radius
+				}
+		param = self.read_param(param)
+		
+		x = param['10']
+		y = param['20']
+		r = param['40']
+		
+		t = self.trafo(Trafo(r,0,0,r,x,y))
+		
+		apply(self.ellipse, t.coeff())
+
+
 
 ###########################################################################
 
