@@ -91,6 +91,7 @@ class DXFLoader(GenericLoader):
 
 	functions={"$EXTMIN": 'read_EXTMIN',
 				"$EXTMAX": 'read_EXTMAX',
+				"LINE": 'line',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
 				"VERTEX": 'vertex'
@@ -124,6 +125,24 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.EXTMAX = (param['10'],param['20'])
 		print self.EXTMAX
+
+	def line(self):
+		param={	'10': None, # X coordinat
+				'20': None, # y coordinat
+				#'30': None, # Z coordinat
+				
+				'11': None, # X coordinat endpoint
+				'21': None, # y coordinat endpoint
+				#'31': None, # z coordinat endpoint
+				}
+		param = self.read_param(param)
+##		print 'LINE param',param
+		self.close_path = 0
+		self.path = CreatePath()
+		self.path.AppendLine(self.trafo(param['10'], param['20']))
+		self.path.AppendLine(self.trafo(param['11'], param['21']))
+		self.bezier(self.path,)
+##		print 'Create LINE'
 
 	def polyline(self):
 		param={	'70': 0, # bit codes for Polyline entity
@@ -373,6 +392,6 @@ class DXFLoader(GenericLoader):
 		self.interpret()
 		self.end_all()
 		self.object.load_Completed()
-		print time.clock() - start_time
+		print 'times',time.clock() - start_time
 		return self.object
 
