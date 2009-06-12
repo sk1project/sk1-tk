@@ -47,6 +47,7 @@ importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.w
 				 (_('Scalable Vector Graphics files - *.svg'),('*.svg', '*.SVG')),
 				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),
 				 (_('HPGL cutting plotter files - *.plt'),('*.plt', '*.PLT')),
+				 (_('AutoCAD DXF files - *.dxf'),('*.dxf', '*.DXF')),				 
 				 (_('XFig files - *.fig'),('*.fig', '*.FIG')),
 				 (_("All Files"),	 '*.*'))
 
