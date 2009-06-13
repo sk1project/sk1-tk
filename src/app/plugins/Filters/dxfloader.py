@@ -19,7 +19,7 @@
 ###Sketch Config
 #type = Import
 #class_name='DXFLoader'
-#rx_magic = r'^\x30|^\x20\x30|^\x09\x30|^\x20\x20\x30'
+#rx_magic = r'^\x30|^\x20\x30|^\x09\x30|^\x20\x20\x30|999'
 #tk_file_type=('DXF - acad file', ('.dxf', '.DXF'))
 #format_name='DXF'
 #unload = 1
@@ -41,9 +41,10 @@ from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
 import app
 
-from math import sqrt, degrees, atan, atan2
+from math import sqrt, atan, atan2
+from math import pi, cos, sin
 
-
+degrees = pi / 180.0
 
 from app import Document, Layer, CreatePath, ContSmooth, \
 		SolidPattern, EmptyPattern, LinearGradient, RadialGradient,\
@@ -95,7 +96,8 @@ class DXFLoader(GenericLoader):
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
 				"VERTEX": 'vertex',
-				"CIRCLE": 'circle'
+				"CIRCLE": 'circle',
+				"ARC": 'arc'
 					}
 
 	def __init__(self, file, filename, match):
@@ -244,6 +246,28 @@ class DXFLoader(GenericLoader):
 		
 		apply(self.ellipse, t.coeff())
 
+	def arc(self):
+		param={	'10': None, # X coordinat center
+				'20': None, # Y coordinat center
+				#'30': None, # Z coordinat center
+				'40': 0.0, # radius
+				'50': 0.0, # Start angle
+				'51': 0.0 # End angle
+				}
+		param = self.read_param(param)
+		
+		x = param['10']
+		y = param['20']
+		r = param['40']
+		start_angle = param['50'] * degrees
+		end_angle = param['51'] * degrees
+		
+		t = self.trafo(Trafo(r,0,0,r,x,y))
+		
+		r, w1, w2, r, x, y = t.coeff()
+		
+		apply(self.ellipse, (r, w1, w2, r, x, y, start_angle, end_angle, ArcArc))
+		
 
 
 ###########################################################################
