@@ -92,6 +92,7 @@ class DXFLoader(GenericLoader):
 
 	functions={"$EXTMIN": 'read_EXTMIN',
 				"$EXTMAX": 'read_EXTMAX',
+				"$INSUNITS": 'read_INSUNITS',
 				"LINE": 'line',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
@@ -108,10 +109,16 @@ class DXFLoader(GenericLoader):
 		self.last_record2 = None
 		self.EXTMIN = (-4.135358, -5.847957)
 		self.EXTMAX = (4.135358, 5.847957)
+		self.INSUNITS = 0
+		self.unit_to_pt = 72
 		self.close_path = 0
-		self.trafo = Trafo(72, 0, 0, 72, 0, 0)
+		self.update_trafo()
 		
 		self.curstyle = Style()
+
+	def update_trafo(self):
+		print self.INSUNITS, 'unit_to_pt', self.unit_to_pt
+		self.trafo = Trafo(self.unit_to_pt, 0, 0, self.unit_to_pt, 0, 0)
 
 	def read_EXTMIN(self):
 		param={	'10': 0.0, # X coordinat
@@ -128,6 +135,45 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.EXTMAX = (param['10'],param['20'])
 		print self.EXTMAX
+
+	def read_INSUNITS(self):
+		#	unit to pt
+		unit = {	0:  72, # Unitless 
+		1 : 72.0,# Inches
+		2 : 72.0 * 12,# Feet
+		3 : 72.0 * 63360,# Miles
+		4 : 72 / 2.54 / 10,# Millimeters
+		5 : 72 / 2.54,# Centimeters
+		6 : 100 * 72 / 2.54,# Meters
+		7 : 1000 * 100 * 72 / 2.54,# Kilometers
+		8 : 1/1000000 * 72,# Microinches
+		9 : 1/1000 * 72.0,# Mils
+		10 : 72.0 * 36,# Yards
+		11 : 0.00000000001 * 100 * 72 / 2.54,# Angstroms
+		12 : 0.0000000001 * 100 * 72 / 2.54,# Nanometers
+		13 : 0.0000001 * 100 * 72 / 2.54,# Microns
+		14 : 10 * 72 / 2.54,# Decimeters
+		15 : 10 * 100 * 72 / 2.54,# Decameters
+		16 : 100 * 100 * 72 / 2.54,# Hectometers
+		17 : 1000000 * 100 * 72 / 2.54,# Gigameters
+		18 : 1.49600 * 1000000000000 * 100 * 72 / 2.54,# Astronomical units
+		19 : 9.46050 * 10000000000000000 * 100 * 72 / 2.54,#  Light years
+		20 : 3.08570 * 100000000000000000 * 100 * 72 / 2.54 # Parsecs
+		}
+		
+		param={	'70': 0
+				}
+		
+		param = self.read_param(param)
+		self.INSUNITS = param['70']
+		
+		if self.INSUNITS in unit:
+					self.unit_to_pt = unit[self.INSUNITS]
+		else:
+			self.unit_to_pt = 72.0
+		
+		self.update_trafo()
+
 
 	def line(self):
 		param={	'10': None, # X coordinat
