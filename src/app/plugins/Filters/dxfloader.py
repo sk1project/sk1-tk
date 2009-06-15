@@ -99,7 +99,8 @@ class DXFLoader(GenericLoader):
 				"VERTEX": 'vertex',
 				"CIRCLE": 'circle',
 				"ARC": 'arc',
-				"SOLID": 'solid'
+				"SOLID": 'solid',
+				"LWPOLYLINE": 'lwpolyline'
 					}
 
 	def __init__(self, file, filename, match):
@@ -346,6 +347,51 @@ class DXFLoader(GenericLoader):
 		
 		self.bezier(self.path,)
 
+	def lwpolyline(self):
+		param={ '90': 0, # Number of vertices
+				'70': 0, # bit codes for Polyline entity
+				'40': None, # Starting width
+				'43': 0
+				}
+		param = self.read_param(param,[10])
+		
+		self.close_path = 0
+		self.path = CreatePath()
+		
+		if param['40'] is not None:
+			line_width = param['40']*72
+		else:
+			line_width = param['43']
+		
+		self.curstyle.line_width = line_width 
+		
+		# if Group 70 Flag bit value set 1 This is a closed Polyline
+		self.close_path = param['70'] & 1 == 1
+		
+		for i in xrange(param['90']):
+			vertex={ '10': None,
+					'20': None,
+					'42': 0.0
+					}
+			line1, line2 = self.read_record()
+			vertex[line1] = convert(line1, line2)
+			
+			line1, line2 = self.read_record()
+			vertex[line1] = convert(line1, line2)
+			
+			line1, line2 = self.read_record()
+			if line1 == '42':
+				vertex[line1] = convert(line1, line2)
+			else:
+				self.push_record(line1, line2)
+			
+			x = vertex['10']
+			y = vertex['20']
+			
+			self.path.AppendLine(self.trafo(x, y))
+			
+		self.seqend()
+		
 
 ###########################################################################
 
@@ -379,11 +425,13 @@ class DXFLoader(GenericLoader):
 			line1, line2 = self.pop_record()
 		return line1, line2
 
-	def read_param(self, param):
+	def read_param(self, param, stop=None):
 		# read data and fill in the dictionary
+		if stop is None:
+			stop = [0, 9]
 		line1, line2 = self.read_record()
 		while line1 or line2:
-			if int(line1) == 0 or int(line1) == 9:
+			if int(line1) in stop:
 				self.push_record(line1, line2)
 				return param
 			else:
