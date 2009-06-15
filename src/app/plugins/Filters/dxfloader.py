@@ -384,7 +384,8 @@ class DXFLoader(GenericLoader):
 				##print '**** END HEADER'
 				return True
 			else:
-				self.run(line2)
+				if line1 == '9':
+					self.run(line2)
 			line1,line2 = self.read_record()
 		##print 'false'
 		return False
@@ -398,7 +399,8 @@ class DXFLoader(GenericLoader):
 				##print '**** END HEADER'
 				return True
 			else:
-				self.run(line2)
+				if line1 == '0':
+					self.run(line2)
 			line1, line2 = self.read_record()
 		##print 'false'
 		return False
@@ -469,6 +471,8 @@ class DXFLoader(GenericLoader):
 						
 				except:
 					warn_tb(INTERNAL, 'DXFLoader: error')
+			else:
+				print 'Warning not interpreted', keyword
 
 
 	def Load(self):
