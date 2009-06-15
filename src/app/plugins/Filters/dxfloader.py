@@ -118,7 +118,9 @@ class DXFLoader(GenericLoader):
 
 	def update_trafo(self):
 		print self.INSUNITS, 'unit_to_pt', self.unit_to_pt
-		self.trafo = Trafo(self.unit_to_pt, 0, 0, self.unit_to_pt, 0, 0)
+		x = - self.EXTMIN[0] * self.unit_to_pt
+		y = - self.EXTMIN[1] * self.unit_to_pt
+		self.trafo = Trafo(self.unit_to_pt, 0, 0, self.unit_to_pt, x, y)
 
 	def read_EXTMIN(self):
 		param={	'10': 0.0, # X coordinat
@@ -127,6 +129,7 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.EXTMIN = (param['10'],param['20'])
 		print self.EXTMIN
+		self.update_trafo()
 
 	def read_EXTMAX(self):
 		param={	'10': 0.0, # X coordinat
@@ -135,6 +138,7 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.EXTMAX = (param['10'],param['20'])
 		print self.EXTMAX
+		self.update_trafo()
 
 	def read_INSUNITS(self):
 		#	unit to pt
