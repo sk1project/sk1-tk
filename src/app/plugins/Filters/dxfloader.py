@@ -98,7 +98,8 @@ class DXFLoader(GenericLoader):
 				"SEQEND": 'seqend',
 				"VERTEX": 'vertex',
 				"CIRCLE": 'circle',
-				"ARC": 'arc'
+				"ARC": 'arc',
+				"SOLID": 'solid'
 					}
 
 	def __init__(self, file, filename, match):
@@ -318,6 +319,32 @@ class DXFLoader(GenericLoader):
 		
 		apply(self.ellipse, (r, w1, w2, r, x, y, start_angle, end_angle, ArcArc))
 		
+
+	def solid(self):
+		param={	'10': None, 
+				'20': None, 
+				#'30': None, 
+				'11': None, 
+				'21': None, 
+				#'31': None,
+				'12': None, 
+				'22': None, 
+				#'32': None,
+				'13': None, 
+				'23': None,
+				#'33': None, 
+				}
+		param = self.read_param(param)
+		
+		self.path = CreatePath()
+		self.path.AppendLine(self.trafo(param['10'], param['20']))
+		self.path.AppendLine(self.trafo(param['11'], param['21']))
+		self.path.AppendLine(self.trafo(param['12'], param['22']))
+		self.path.AppendLine(self.trafo(param['13'], param['23']))
+		
+		self.path.ClosePath()
+		
+		self.bezier(self.path,)
 
 
 ###########################################################################
