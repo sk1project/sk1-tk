@@ -49,10 +49,13 @@ from math import pi, cos, sin
 degrees = pi / 180.0
 
 from app import Document, Layer, CreatePath, ContSmooth, \
-		SolidPattern, EmptyPattern, LinearGradient, RadialGradient,\
-		CreateRGBColor, CreateCMYKColor, MultiGradient, Trafo, Point, Polar, \
-		StandardColors, GetFont, PathText, SimpleText, const, UnionRects, Rotation 
+		SolidPattern, EmptyPattern, RadialGradient,\
+		CreateRGBColor, Point, Polar, \
+		StandardColors, GetFont, PathText, SimpleText, const, UnionRects, \
+		Scale, Trafo, Translation, Rotation
 		
+from app import Scale, Trafo, Translation, Rotation
+
 from app.conf.const import ArcArc, ArcChord, ArcPieSlice
 ##base_style = Style()
 ##base_style.fill_pattern = EmptyPattern
@@ -382,6 +385,7 @@ class DXFLoader(GenericLoader):
 				"VERTEX": 'vertex',
 				"CIRCLE": 'circle',
 				"ARC": 'arc',
+				"ELLIPSE": 'ellips',
 				"SOLID": 'solid',
 				"LWPOLYLINE": 'lwpolyline'
 					}
@@ -493,7 +497,6 @@ class DXFLoader(GenericLoader):
 		self.path = CreatePath()
 		self.curstyle.line_width=param['40']*72
 		if param['62'] is not None:
-			print 'colors'
 			self.curstyle.line_pattern = SolidPattern(colors[param['62']])
 		# if Group 70 Flag bit value set 1 This is a closed Polyline
 		self.close_path = param['70'] & 1 == 1
@@ -607,6 +610,39 @@ class DXFLoader(GenericLoader):
 		
 		apply(self.ellipse, (r, w1, w2, r, x, y, start_angle, end_angle, ArcArc))
 		
+
+	def ellips(self):
+		param={	'10': 0.0, # X coordinat center
+				'20': 0.0, # Y coordinat center
+				#'30': 0.0, # Z coordinat center
+				'11': 0.0, # Endpoint of major axis, relative to the center
+				'21': 0.0,
+				#'31': 0.0,
+				'40': 0.0, # Ratio of minor axis to major axis
+				'41': 0.0, # Start parameter (this value is 0.0 for a full ellipse)
+				'42': 0.0, # End parameter (this value is 2pi for a full ellipse)
+				}
+		param = self.read_param(param)
+		
+		cx = param['10']
+		cy = param['20']
+		
+		rx = sqrt(param['21']**2 + param['11']**2)
+		ry = rx * param['40']
+		
+		start_angle = param['41']
+		end_angle = param['42']
+		
+		angle=abs(atan2(param['21'], param['11']))
+		
+		center = self.trafo(cx, cy)
+		radius = self.trafo.DTransform(rx, ry)
+		trafo = Trafo(radius.x, 0, 0, radius.y)
+		trafo = Rotation(angle)(trafo)
+		trafo = Translation(center)(trafo)
+		rx, w1, w2, ry, cx, cy = trafo.coeff()
+		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
+
 
 	def solid(self):
 		param={	'10': None, 
