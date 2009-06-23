@@ -148,6 +148,7 @@ class TabsPanel(TFrame, Publisher):
 		
 	def closeAll(self, exit=0):		
 		for item in []+self.content:
+			self.setActive(item)
 			if self.closeTab(item, exit)==msgdialog.Cancel:
 				self.check_state()
 				return msgdialog.Cancel
