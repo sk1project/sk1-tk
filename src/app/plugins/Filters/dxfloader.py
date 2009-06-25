@@ -379,6 +379,7 @@ class DXFLoader(GenericLoader):
 	functions={"$EXTMIN": 'read_EXTMIN',
 				"$EXTMAX": 'read_EXTMAX',
 				"$INSUNITS": 'read_INSUNITS',
+				"TABLE": 'load_TABLE',
 				"LINE": 'line',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
@@ -394,6 +395,7 @@ class DXFLoader(GenericLoader):
 		GenericLoader.__init__(self, file, filename, match)
 		
 		self.file = file
+		self.style_dict = {}
 		self.last_record1 = None
 		self.last_record2 = None
 		self.EXTMIN = (-4.135358, -5.847957)
@@ -467,6 +469,56 @@ class DXFLoader(GenericLoader):
 			self.unit_to_pt = 72.0
 		
 		self.update_trafo()
+
+
+	def load_TABLE(self):
+		param={	'2': '', # Table name
+				'70': 0 # Maximum number of entries in table
+				}
+		param = self.read_param(param)
+		table_name = param['2']
+		table_number = param['70']
+		print '****', table_name, table_number
+		
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if line1 == '0' and line2 == 'ENDTAB':
+				break
+			if table_name == 'LTYPE':
+				self.load_LTYPE()
+			line1, line2 = self.read_record()
+
+	def load_LTYPE(self):
+		param={ '2': '', # Linetype name
+				'3': '', # Descriptive text for linetype
+				'73': 0, # The number of linetype elements
+				'40': 0, # Total pattern length
+				'49': [], # Dash, dot or space length (one entry per element)
+				}
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if line1 == '0':
+				self.push_record(line1, line2)
+				break
+			else:
+				if line1 in param:
+					value = convert(line1, line2)
+					if line1 == '49':
+						param[line1].append(abs(value))
+					else:
+						param[line1] = value
+			line1, line2 = self.read_record()
+		print param
+		name = param['2']
+##		if param['3']:
+##			name = param['3']
+##		else:
+##			name = param['2']
+		style = Style()
+		style.line_dashes = tuple(param['49'])
+		style = style.AsDynamicStyle()
+		style.SetName(name)
+		self.style_dict[name] = style
 
 
 	def line(self):
@@ -559,12 +611,12 @@ class DXFLoader(GenericLoader):
 
 	def seqend(self):
 		if self.path.len > 1:
-			print 'CREAT PATH'
+			#print 'CREAT PATH'
 			if self.close_path:
 				if self.path.Node(0)!=self.path.Node(-1):
-					print 'add last node!!!!!!!!!!!'
-					print self.path.Node(0)
-					print self.path.Node(-1)
+					#print 'add last node!!!!!!!!!!!'
+					#print self.path.Node(0)
+					#print self.path.Node(-1)
 					self.path.AppendLine(self.path.Node(0))
 				self.path.ClosePath()
 				self.close_path = 0
@@ -777,35 +829,7 @@ class DXFLoader(GenericLoader):
 #		##print '#false',code2
 		return False
 
-	def load_HEADER(self):
-		#load section HEADER
-		##print '**** HEADER'
-		line1,line2 = self.read_record()
-		while line1 or line2:
-			if line1 == '0' and line2 == 'ENDSEC':
-				##print '**** END HEADER'
-				return True
-			else:
-				if line1 == '9':
-					self.run(line2)
-			line1,line2 = self.read_record()
-		##print 'false'
-		return False
 
-	def load_ENTITIES(self):
-		#load section ENTITIES
-		##print '**** ENTITIES'
-		line1, line2 = self.read_record()
-		while line1 or line2:
-			if line1 == '0' and line2 == 'ENDSEC':
-				##print '**** END HEADER'
-				return True
-			else:
-				if line1 == '0':
-					self.run(line2)
-			line1, line2 = self.read_record()
-		##print 'false'
-		return False
 
 	def load_section(self):
 		return_code = False
@@ -814,22 +838,32 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		name=param['2']
 		print '**',name
-		if name == 'HEADER':
-			return_code = self.load_HEADER()
-##		elif name == 'CLASSES':
-##			pass
+##		if name == 'HEADER':
+##			return_code = self.load_subsection()
+####		elif name == 'CLASSES':
+####			pass
 ##		elif name == 'TABLES':
-##			pass
-##		elif name == 'BLOCKS':
-##			pass
-		elif name == 'ENTITIES':
-			return_code = self.load_ENTITIES()
-##		elif name == 'OBJECTS':
-##			pass
-##		elif name == 'THUMBNAILIMAGE':
-##			pass
-		else:
-			return_code = self.find_record('0','ENDSEC')
+##			return_code = self.load_subsection()
+####		elif name == 'BLOCKS':
+####			pass
+##		elif name == 'ENTITIES':
+##			return_code = self.load_subsection()
+####		elif name == 'OBJECTS':
+####			pass
+####		elif name == 'THUMBNAILIMAGE':
+####			pass
+##		else:
+##			return_code = self.find_record('0','ENDSEC')
+##		return return_code
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if line1 == '0' and line2 == 'ENDSEC':
+				return_code = True
+				break
+			else:
+				if line1 == '0' or line1 == '9':
+					self.run(line2)
+			line1, line2 = self.read_record()
 		return return_code
 
 
@@ -862,7 +896,7 @@ class DXFLoader(GenericLoader):
 			method, argc = funclist.get(keyword, unknown_operator)
 			if method is not None:
 				try:
-					##print keyword
+					##print '******', keyword
 					if len(args):
 						i = 0
 						while i<len(args):
@@ -877,6 +911,7 @@ class DXFLoader(GenericLoader):
 				print 'Warning not interpreted', keyword
 
 
+
 	def Load(self):
 		import time
 		start_time = time.clock()
@@ -886,6 +921,8 @@ class DXFLoader(GenericLoader):
 		self.layer(name = _("DXF_objects"))
 		self.interpret()
 		self.end_all()
+		for style in self.style_dict.values():
+			self.object.load_AddStyle(style)
 		self.object.load_Completed()
 		print 'times',time.clock() - start_time
 		return self.object
