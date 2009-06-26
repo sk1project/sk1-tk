@@ -79,6 +79,9 @@ class PLTLoader(GenericLoader):
 
 	def bezier(self):
 		if self.path.len > 1:
+			if self.path.Node(0) == self.path.Node(-1):
+				self.path.load_close(1)
+			self.prop_stack.AddStyle(self.curstyle.Duplicate())
 			GenericLoader.bezier(self, paths=(self.path,))
 		self.path=CreatePath()
 
