@@ -380,6 +380,7 @@ class DXFLoader(GenericLoader):
 				"$EXTMAX": 'read_EXTMAX',
 				"$INSUNITS": 'read_INSUNITS',
 				"TABLE": 'load_TABLE',
+				"BLOCK": 'load_BLOCK',
 				"LINE": 'line',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
@@ -520,6 +521,25 @@ class DXFLoader(GenericLoader):
 		style.SetName(name)
 		self.style_dict[name] = style
 
+
+	def load_BLOCK(self):
+		param={	'2': '', # Block name
+				'10': 0.0, # X Base point
+				'20': 0.0, # Y Base point
+				#'30': 0.0, # Z Base point 
+				}
+		param = self.read_param(param)
+		block_name = param['2']
+		print '****', block_name
+		
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if line1 == '0' and line2 == 'ENDBLK':
+				break
+			#FIXME
+			pass
+			
+			line1, line2 = self.read_record()
 
 	def line(self):
 		param={	'10': None, # X coordinat
