@@ -685,7 +685,7 @@ class DXFLoader(GenericLoader):
 		start_angle = param['41']
 		end_angle = param['42']
 		
-		angle=abs(atan2(param['21'], param['11']))
+		angle=atan2(param['21'], param['11'])
 		
 		center = self.trafo(cx, cy)
 		radius = self.trafo.DTransform(rx, ry)
