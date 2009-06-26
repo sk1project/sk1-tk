@@ -56,6 +56,7 @@ class ResizePanel(CtxSubPanel):
 	def ReSubscribe(self):
 		self.doc.Subscribe(SELECTION, self.Update)	
 		self.doc.Subscribe(EDITED, self.update)
+		self.Update()
 						
 	def applyResize(self, event):
 		try:
