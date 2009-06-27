@@ -397,6 +397,7 @@ class DXFLoader(GenericLoader):
 		
 		self.file = file
 		self.style_dict = {}
+		self.layer_dict = {}
 		self.last_record1 = None
 		self.last_record2 = None
 		self.EXTMIN = (-4.135358, -5.847957)
@@ -487,6 +488,8 @@ class DXFLoader(GenericLoader):
 				break
 			if table_name == 'LTYPE':
 				self.load_LTYPE()
+			elif table_name == 'LAYER':
+				self.load_LAYER()
 			line1, line2 = self.read_record()
 
 	def load_LTYPE(self):
@@ -520,6 +523,20 @@ class DXFLoader(GenericLoader):
 		style = style.AsDynamicStyle()
 		style.SetName(name)
 		self.style_dict[name] = style
+
+
+	def load_LAYER(self):
+		param={ '2': None, # Layer name
+				'6': None, #Linetype name
+				'62': 0, # Color number
+				'370': None, #Line weight
+				}
+		param = self.read_param(param, [0])
+		print param
+		layer_name = param['2']
+		if layer_name:
+			self.layer_dict[layer_name]=param
+			self.layer(name = layer_name)
 
 
 	def load_BLOCK(self):
