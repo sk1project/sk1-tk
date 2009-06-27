@@ -389,7 +389,8 @@ class DXFLoader(GenericLoader):
 				"ARC": 'arc',
 				"ELLIPSE": 'ellips',
 				"SOLID": 'solid',
-				"LWPOLYLINE": 'lwpolyline'
+				"LWPOLYLINE": 'lwpolyline',
+				"INSERT": 'insert',
 					}
 
 	def __init__(self, file, filename, match):
@@ -398,8 +399,8 @@ class DXFLoader(GenericLoader):
 		self.file = file
 		self.style_dict = {}
 		self.layer_dict = {}
-		self.last_record1 = None
-		self.last_record2 = None
+		self.block_dict = {}
+		self.stack = []
 		self.EXTMIN = (-4.135358, -5.847957)
 		self.EXTMAX = (4.135358, 5.847957)
 		self.INSUNITS = 0
@@ -544,6 +545,7 @@ class DXFLoader(GenericLoader):
 				'10': 0.0, # X Base point
 				'20': 0.0, # Y Base point
 				#'30': 0.0, # Z Base point 
+				'data': [], # block data
 				}
 		param = self.read_param(param)
 		block_name = param['2']
@@ -553,10 +555,15 @@ class DXFLoader(GenericLoader):
 		while line1 or line2:
 			if line1 == '0' and line2 == 'ENDBLK':
 				break
-			#FIXME
-			pass
+			
+			param['data'].append(line1)
+			param['data'].append(line2)
 			
 			line1, line2 = self.read_record()
+		
+		param['data'].reverse()
+		self.block_dict[block_name] = param
+#		print self.block_dict[block_name]
 
 	def line(self):
 		param={	'10': None, # X coordinat
@@ -804,6 +811,17 @@ class DXFLoader(GenericLoader):
 			
 		self.seqend()
 		
+	def insert(self):
+		param={ '2': None, # Block name
+				'10': 0.0, # X coordinat
+				'20': 0.0, # Y coordinat
+				'30': 0.0, # Z coordinat
+				}
+		param = self.read_param(param)
+		
+		block_name = param['2']
+		if block_name:
+			self.stack += self.block_dict[block_name]['data'] 
 
 ###########################################################################
 
@@ -816,25 +834,19 @@ class DXFLoader(GenericLoader):
 		return funclist
 
 	def push_record(self, line1, line2):
-		# save data in buffer
-		self.last_record1 = line1
-		self.last_record2 = line2
-
-	def pop_record(self):
-		# restore data of buffer
-		line1 = self.last_record1
-		line2 = self.last_record2
-		self.last_record1 = None
-		self.last_record2 = None
-		return line1, line2
+		# save data in stack
+		self.stack.append(line2)
+		self.stack.append(line1)
+		
 
 	def read_record(self):
-		# if the buffer is empty read two lines from a file
-		if self.last_record1 is None:
+		# if the stack is empty read two lines from a file
+		if self.stack:
+			line1 = self.stack.pop()
+			line2 = self.stack.pop()
+		else:
 			line1 = self.file.readline().strip()
 			line2 = self.file.readline().strip()
-		else:
-			line1, line2 = self.pop_record()
 		return line1, line2
 
 	def read_param(self, param, stop=None):
