@@ -500,19 +500,10 @@ class DXFLoader(GenericLoader):
 				'40': 0, # Total pattern length
 				'49': [], # Dash, dot or space length (one entry per element)
 				}
-		line1, line2 = self.read_record()
-		while line1 or line2:
-			if line1 == '0':
-				self.push_record(line1, line2)
-				break
-			else:
-				if line1 in param:
-					value = convert(line1, line2)
-					if line1 == '49':
-						param[line1].append(abs(value))
-					else:
-						param[line1] = value
-			line1, line2 = self.read_record()
+		param = self.read_param(param, [0])
+
+		for i in range(len(param['49'])):
+			param['49'][i] = abs(param['49'][i])
 		print param
 		name = param['2']
 ##		if param['3']:
@@ -770,9 +761,11 @@ class DXFLoader(GenericLoader):
 		param={ '90': 0, # Number of vertices
 				'70': 0, # bit codes for Polyline entity
 				'40': None, # Starting width
-				'43': 0
+				'43': 0,
+				'10': [],
+				'20': [],
 				}
-		param = self.read_param(param,[10])
+		param = self.read_param(param)
 		
 		self.close_path = 0
 		self.path = CreatePath()
@@ -788,25 +781,8 @@ class DXFLoader(GenericLoader):
 		self.close_path = param['70'] & 1 == 1
 		
 		for i in xrange(param['90']):
-			vertex={ '10': None,
-					'20': None,
-					'42': 0.0
-					}
-			line1, line2 = self.read_record()
-			vertex[line1] = convert(line1, line2)
-			
-			line1, line2 = self.read_record()
-			vertex[line1] = convert(line1, line2)
-			
-			line1, line2 = self.read_record()
-			if line1 == '42':
-				vertex[line1] = convert(line1, line2)
-			else:
-				self.push_record(line1, line2)
-			
-			x = vertex['10']
-			y = vertex['20']
-			
+			x = param['10'][i]
+			y = param['20'][i]
 			self.path.AppendLine(self.trafo(x, y))
 			
 		self.seqend()
@@ -860,9 +836,12 @@ class DXFLoader(GenericLoader):
 				return param
 			else:
 				if line1 in param:
-					param[line1] = convert(line1, line2)
+					value = convert(line1, line2)
+					if type(param[line1]) == list:
+						param[line1].append(value)
+					else:
+						param[line1] = value
 			line1,line2 = self.read_record()
-#		##print '##false'
 		return False
 
 	def find_record(self, code1, code2):
