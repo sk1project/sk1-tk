@@ -398,6 +398,7 @@ class DXFLoader(GenericLoader):
 		
 		self.file = file
 		self.style_dict = {}
+		self.ltype_dict = {}
 		self.layer_dict = {}
 		self.block_dict = {}
 		self.stack = []
@@ -491,6 +492,8 @@ class DXFLoader(GenericLoader):
 				self.load_LTYPE()
 			elif table_name == 'LAYER':
 				self.load_LAYER()
+			elif table_name == 'STYLE':
+				self.load_STYLE()
 			line1, line2 = self.read_record()
 
 	def load_LTYPE(self):
@@ -514,7 +517,7 @@ class DXFLoader(GenericLoader):
 		style.line_dashes = tuple(param['49'])
 		style = style.AsDynamicStyle()
 		style.SetName(name)
-		self.style_dict[name] = style
+		self.ltype_dict[name] = style
 
 
 	def load_LAYER(self):
@@ -529,6 +532,24 @@ class DXFLoader(GenericLoader):
 		if layer_name:
 			self.layer_dict[layer_name]=param
 			self.layer(name = layer_name)
+
+
+	def load_STYLE(self):
+		param={ '2': None, # Style name
+				'70': 0, # Flag
+				'40': 0.0, # Fixed text height; 0 if not fixed
+				'41': 0.0, # Width factor
+				'42': 0.0, # Last height used
+				'50': 0.0, # Oblique angle
+				'71': 0, # Text generation flags
+				'3': None, # Primary font file name
+				'4': None, # Bigfont file name
+				'1000': None,
+				}
+		param = self.read_param(param, [0])
+		print param
+		style_name = param['2']
+		self.style_dict[style_name] = param
 
 
 	def load_BLOCK(self):
@@ -949,7 +970,7 @@ class DXFLoader(GenericLoader):
 		self.layer(name = _("DXF_objects"))
 		self.interpret()
 		self.end_all()
-		for style in self.style_dict.values():
+		for style in self.ltype_dict.values():
 			self.object.load_AddStyle(style)
 		self.object.load_Completed()
 		print 'times',time.clock() - start_time
