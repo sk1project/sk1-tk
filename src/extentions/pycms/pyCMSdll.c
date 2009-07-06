@@ -245,7 +245,7 @@ getOpenProfile(PyObject *self, PyObject *args) {
   cmsHPROFILE hProfile;
 
   if (!PyArg_ParseTuple(args, "s", &sProfile)) {
-   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pyCMSdll.getOpenProfile()");
+   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pycms.getOpenProfile()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -266,7 +266,7 @@ buildTransform(PyObject *self, PyObject *args) {
   cmsHTRANSFORM transform;
 
   if (!PyArg_ParseTuple(args, "ssss|i", &sInputProfile, &sOutputProfile, &sInMode, &sOutMode, &iRenderingIntent)) {
-   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pyCMSdll.buildTransform()");
+   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pycms.buildTransform()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -293,7 +293,7 @@ buildTransformFromOpenProfiles (PyObject *self, PyObject *args) {
   cmsHTRANSFORM transform;
 
   if (!PyArg_ParseTuple(args, "OOss|i", &pInputProfile, &pOutputProfile, &sInMode, &sOutMode, &iRenderingIntent)) {
-   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pyCMSdll.buildTransformFromOpenProfiles()");
+   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pycms.buildTransformFromOpenProfiles()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -322,7 +322,7 @@ buildProofTransform(PyObject *self, PyObject *args) {
   cmsHPROFILE hInputProfile, hOutputProfile, hDisplayProfile;
 
   if (!PyArg_ParseTuple(args, "sssss|ii", &sInputProfile, &sOutputProfile, &sDisplayProfile, &sInMode, &sOutMode, &iRenderingIntent, &iDisplayIntent)) {
-   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pyCMSdll.buildProofTransform()");
+   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pycms.buildProofTransform()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -356,7 +356,7 @@ buildProofTransformFromOpenProfiles(PyObject *self, PyObject *args) {
   cmsHPROFILE hInputProfile, hOutputProfile, hDisplayProfile;
 
   if (!PyArg_ParseTuple(args, "OOOss|ii", &pInputProfile, &pOutputProfile, &pDisplayProfile, &sInMode, &sOutMode, &iRenderingIntent, &iDisplayIntent)) {
-   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pyCMSdll.buildProofTransform()");
+   return Py_BuildValue("s", "ERROR: Could not parse argument tuple passed to pycms.buildProofTransform()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -384,7 +384,7 @@ applyTransform(PyObject *self, PyObject *args) {
   int result;
 
   if (!PyArg_ParseTuple(args, "llO", &idIn, &idOut, &hTransformPointer)) {
-    return Py_BuildValue("s", "ERROR: Could not parse the data passed to pyCMSdll.applyTransform()");
+    return Py_BuildValue("s", "ERROR: Could not parse the data passed to pycms.applyTransform()");
   }
 
   im = (Imaging) idIn;
@@ -417,7 +417,7 @@ profileToProfile(PyObject *self, PyObject *args)
 
   // parse the PyObject arguments, assign to variables accordingly
   if (!PyArg_ParseTuple(args, "llss|i", &idIn, &idOut, &sInputProfile, &sOutputProfile, &iRenderingIntent)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.profileToProfile()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.profileToProfile()");
   }
 
   im = (Imaging) idIn;
@@ -477,7 +477,7 @@ createProfile(PyObject *self, PyObject *args)
   int result;
 
   if (!PyArg_ParseTuple(args, "s|i", &sColorSpace, &iColorTemp)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.createProfile()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.createProfile()");
   }
 
   cmsErrorAction(cmsERROR_HANDLER);
@@ -523,7 +523,7 @@ getProfileName(PyObject *self, PyObject *args)
 
   if (!PyArg_ParseTuple(args, "s", &sProfile)) {
     if (!PyArg_ParseTuple(args, "O", &hProfile)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.getProfileName()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.getProfileName()");
     }
   }
   else {
@@ -552,7 +552,7 @@ getProfileInfo(PyObject *self, PyObject *args)
 
   if (!PyArg_ParseTuple(args, "s", &sProfile)) {
     if (!PyArg_ParseTuple(args, "O", &hProfile)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.getProfileInfo()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.getProfileInfo()");
     }
   }
   else {
@@ -581,7 +581,7 @@ getDefaultIntent(PyObject *self, PyObject *args)
 
   if (!PyArg_ParseTuple(args, "s", &sProfile)) {
     if (!PyArg_ParseTuple(args, "O", &hProfile)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.getDefaultIntent()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.getDefaultIntent()");
     }
   }
   else {
@@ -612,7 +612,7 @@ isIntentSupported(PyObject *self, PyObject *args)
 
   if (!PyArg_ParseTuple(args, "sii", &sProfile, &iIntent, &iDirection)) {
     if (!PyArg_ParseTuple(args, "Oii", &hProfile, &iIntent, &iDirection)) {
-      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pyCMSdll.isIntentSupported()");
+      return Py_BuildValue("s", "ERROR: Could not parse the argument tuple passed to pycms.isIntentSupported()");
     }
   }
   else {
@@ -637,34 +637,34 @@ isIntentSupported(PyObject *self, PyObject *args)
 /////////////////////////////////////////////////////////////////////////////
 // Python interface setup
 /////////////////////////////////////////////////////////////////////////////
-static PyMethodDef pyCMSdll_methods[] = {
+static PyMethodDef pycms_methods[] = {
   // pyCMS info
-  {"versions", versions, 1, "pyCMSdll.versions() returs tuple of pyCMSversion, littleCMSversion, pythonVersion that it was compiled with (don't trust this 100%, they must be set manually in the source code for now)"},
-  {"about", about, 1, "pyCMSdll.about() returns info about pyCMSdll"},
-  {"copyright", copyright, 1, "pyCMSdll.copyright() returns info about pyCMSdll"},
+  {"versions", versions, 1, "pycms.versions() returs tuple of pyCMSversion, littleCMSversion, pythonVersion that it was compiled with (don't trust this 100%, they must be set manually in the source code for now)"},
+  {"about", about, 1, "pycms.about() returns info about pycms"},
+  {"copyright", copyright, 1, "pycms.copyright() returns info about pycms"},
 
   // profile and transform functions
-  {"profileToProfile", profileToProfile, 1, "pyCMSdll.profileToProfile (idIn, idOut, InputProfile, OutputProfile, [RenderingIntent]) returns 0 on success, -1 on failure.  If idOut is the same as idIn, idIn is modified in place, otherwise the results are applied to idOut"},
-  {"getOpenProfile", getOpenProfile, 1, "pyCMSdll.getOpenProfile (profileName) returns a handle to an open pyCMS profile that can be used to build a transform"},
-  {"buildTransform", buildTransform, 1, "pyCMSdll.buildTransform (InputProfile, OutputProfile, InMode, OutMode, [RenderingIntent]) returns a handle to a pre-computed ICC transform that can be used for processing multiple images, saving calculation time"},
-  {"buildProofTransform", buildProofTransform, 1, "pyCMSdll.buildProofTransform (InputProfile, OutputProfile, DisplayProfile, InMode, OutMode, [RenderingIntent], [DisplayRenderingIntent]) returns a handle to a pre-computed soft-proofing (simulating the output device capabilities on the display device) ICC transform that can be used for processing multiple images, saving calculation time"},
-  {"buildProofTransformFromOpenProfiles", buildProofTransformFromOpenProfiles, 1, "pyCMSdll.buildProofTransformFromOpenProfiles(InputProfile, OutputProfile, DisplayProfile, InMode, OutMode, [RenderingIntent], [DisplayRenderingIntent]) returns a handle to a pre-computed soft-proofing transform.  Profiles should be HANDLES, not pathnames."},
-  {"applyTransform", applyTransform, 1, "pyCMSdll.applyTransform (idIn, idOut, hTransform) applys a pre-calcuated transform (from pyCMSdll.buildTransform) to an image.  If idIn and idOut are the same, it modifies the image in place, otherwise the new image is built in idOut.  Returns 0 on success, -1 on failure"},
-  {"buildTransformFromOpenProfiles", buildTransformFromOpenProfiles, 1, "pyCMSdll.buildTransformFromOpenProfiles (InputProfile, OutputProfile, InMode, OutMode, RenderingIntent) returns a handle to a pre-computed ICC transform that can be used for processing multiple images, saving calculation time"},
+  {"profileToProfile", profileToProfile, 1, "pycms.profileToProfile (idIn, idOut, InputProfile, OutputProfile, [RenderingIntent]) returns 0 on success, -1 on failure.  If idOut is the same as idIn, idIn is modified in place, otherwise the results are applied to idOut"},
+  {"getOpenProfile", getOpenProfile, 1, "pycms.getOpenProfile (profileName) returns a handle to an open pyCMS profile that can be used to build a transform"},
+  {"buildTransform", buildTransform, 1, "pycms.buildTransform (InputProfile, OutputProfile, InMode, OutMode, [RenderingIntent]) returns a handle to a pre-computed ICC transform that can be used for processing multiple images, saving calculation time"},
+  {"buildProofTransform", buildProofTransform, 1, "pycms.buildProofTransform (InputProfile, OutputProfile, DisplayProfile, InMode, OutMode, [RenderingIntent], [DisplayRenderingIntent]) returns a handle to a pre-computed soft-proofing (simulating the output device capabilities on the display device) ICC transform that can be used for processing multiple images, saving calculation time"},
+  {"buildProofTransformFromOpenProfiles", buildProofTransformFromOpenProfiles, 1, "pycms.buildProofTransformFromOpenProfiles(InputProfile, OutputProfile, DisplayProfile, InMode, OutMode, [RenderingIntent], [DisplayRenderingIntent]) returns a handle to a pre-computed soft-proofing transform.  Profiles should be HANDLES, not pathnames."},
+  {"applyTransform", applyTransform, 1, "pycms.applyTransform (idIn, idOut, hTransform) applys a pre-calcuated transform (from pycms.buildTransform) to an image.  If idIn and idOut are the same, it modifies the image in place, otherwise the new image is built in idOut.  Returns 0 on success, -1 on failure"},
+  {"buildTransformFromOpenProfiles", buildTransformFromOpenProfiles, 1, "pycms.buildTransformFromOpenProfiles (InputProfile, OutputProfile, InMode, OutMode, RenderingIntent) returns a handle to a pre-computed ICC transform that can be used for processing multiple images, saving calculation time"},
 
   // on-the-fly profile creation functions
-  {"createProfile", createProfile, 1, "pyCMSdll.createProfile (colorSpace, [colorTemp]) returns a handle to an open profile created on the fly.  colorSpace can be 'LAB', 'XYZ', or 'xRGB'.  If using LAB, you can specify a white point color temperature, or let it default to D50 (5000K)"},
+  {"createProfile", createProfile, 1, "pycms.createProfile (colorSpace, [colorTemp]) returns a handle to an open profile created on the fly.  colorSpace can be 'LAB', 'XYZ', or 'xRGB'.  If using LAB, you can specify a white point color temperature, or let it default to D50 (5000K)"},
 
   // profile info functions
-  {"getProfileName", getProfileName, 1, "pyCMSdll.getProfileName (profile) returns the internal name of the profile"},
-  {"getProfileInfo", getProfileInfo, 1, "pyCMSdll.getProfileInfo (profile) returns additional information about the profile"},
-  {"getDefaultIntent", getDefaultIntent, 1, "pyCMSdll.getDefaultIntent (profile) returns the default rendering intent of the profile (as an integer)"},
-  {"isIntentSupported", isIntentSupported, 1, "pyCMSdll.isIntentSupported (profile, intent, direction) returns 1 if profile supports that intent, -1 if it doesnt.  Direction is what the profile is being used for: INPUT = 0, OUTPUT = 1, PROOF = 2"},
+  {"getProfileName", getProfileName, 1, "pycms.getProfileName (profile) returns the internal name of the profile"},
+  {"getProfileInfo", getProfileInfo, 1, "pycms.getProfileInfo (profile) returns additional information about the profile"},
+  {"getDefaultIntent", getDefaultIntent, 1, "pycms.getDefaultIntent (profile) returns the default rendering intent of the profile (as an integer)"},
+  {"isIntentSupported", isIntentSupported, 1, "pycms.isIntentSupported (profile, intent, direction) returns 1 if profile supports that intent, -1 if it doesnt.  Direction is what the profile is being used for: INPUT = 0, OUTPUT = 1, PROOF = 2"},
 
   {NULL, NULL}
 };
 
-void initpyCMSdll(void)
+void initpycms(void)
 {
-  Py_InitModule("pyCMSdll", pyCMSdll_methods);
+  Py_InitModule("pycms", pycms_methods);
 }
