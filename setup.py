@@ -189,10 +189,10 @@ if __name__ == "__main__":
 			extra_compile_args=["-Wall"])
 			
  	pycms_src=src_path+'extentions/pycms/'				
-	pycms_module = Extension('sk1.app.modules.pyCMSdll',
+	pycms_module = Extension('sk1.app.modules.pycms',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '1')],
-			sources = [pycms_src+'pyCMSdll.c'],
+			sources = [pycms_src+'pycms.c'],
 			libraries=['lcms'],
 			extra_compile_args=["-Wall"])
 			
