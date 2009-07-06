@@ -61,7 +61,8 @@ VERSION = "0.0.2 alpha"
 #######################################################################
 # imports
 #######################################################################
-import pyCMSdll
+import pycms
+pyCMSdll=pycms
 import os
 import Image
 
