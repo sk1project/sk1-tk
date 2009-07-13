@@ -378,7 +378,10 @@ class DXFLoader(GenericLoader):
 
 	functions={"$EXTMIN": 'read_EXTMIN',
 				"$EXTMAX": 'read_EXTMAX',
+				"$PEXTMIN": 'read_PEXTMIN',
+				"$PEXTMAX": 'read_PEXTMAX',
 				"$INSUNITS": 'read_INSUNITS',
+				"$CLAYER": 'read_CLAYER',
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
 				"LINE": 'line',
@@ -406,21 +409,33 @@ class DXFLoader(GenericLoader):
 		self.default_layer = '0'
 		self.default_block = None
 		self.default_line_width = 30
-		self.EXTMIN = (-4.135358, -5.847957)
-		self.EXTMAX = (4.135358, 5.847957)
+		self.EXTMIN = (1e+20, 1e+20)
+		self.EXTMAX = (-1e+20, -1e+20)
+		self.PEXTMIN = (1e+20, 1e+20)
+		self.PEXTMAX = (-1e+20, -1e+20)
 		self.INSUNITS = 0
-		self.unit_to_pt = 72
+		self.unit_to_pt = 2.83464566929
 		self.close_path = 0
-		self.update_trafo()
 		
 		self.curstyle = Style()
 
 
-	def update_trafo(self):
-		print self.INSUNITS, 'unit_to_pt', self.unit_to_pt
-		x = - self.EXTMIN[0] * self.unit_to_pt
-		y = - self.EXTMIN[1] * self.unit_to_pt
-		self.trafo = Trafo(self.unit_to_pt, 0, 0, self.unit_to_pt, x, y)
+	def update_trafo(self, scale = 1):
+		EXT_hight = (self.EXTMAX[0] - self.EXTMIN[0]) * scale
+		PEXT_hight = (self.PEXTMAX[0] - self.PEXTMIN[0]) * scale
+		
+		if EXT_hight > 0:
+			x = self.EXTMIN[0] * scale
+			y = self.EXTMIN[1] * scale
+		elif PEXT_hight > 0:
+			x = self.PEXTMIN[0] * scale
+			y = self.PEXTMIN[1] * scale
+		else:
+			x = 0
+			y = 0
+		
+		self.trafo = Trafo(scale, 0, 0, scale, -x, -y)
+
 
 	def get_pattern(self, color_index):
 		# 0 = Color BYBLOCK
@@ -491,15 +506,15 @@ class DXFLoader(GenericLoader):
 
 		return style
 
-
+	################
 	def read_EXTMIN(self):
 		param={	'10': 0.0, # X coordinat
 				'20': 0.0  # y coordinat
 				}
 		param = self.read_param(param)
 		self.EXTMIN = (param['10'],param['20'])
-		print self.EXTMIN
-		self.update_trafo()
+		print 'EXTMIN',self.EXTMIN
+		#self.update_trafo()
 
 	def read_EXTMAX(self):
 		param={	'10': 0.0, # X coordinat
@@ -507,8 +522,21 @@ class DXFLoader(GenericLoader):
 				}
 		param = self.read_param(param)
 		self.EXTMAX = (param['10'],param['20'])
-		print self.EXTMAX
-		self.update_trafo()
+		print 'EXTMAX',self.EXTMAX
+
+	def read_PEXTMIN(self):
+		param={	'10': 0.0, # X coordinat
+				'20': 0.0  # y coordinat
+				}
+		param = self.read_param(param)
+		self.PEXTMIN = (param['10'],param['20'])
+
+	def read_PEXTMAX(self):
+		param={	'10': 0.0, # X coordinat
+				'20': 0.0  # y coordinat
+				}
+		param = self.read_param(param)
+		self.PEXTMAX = (param['10'],param['20'])
 
 	def read_INSUNITS(self):
 		#	unit to pt
@@ -545,9 +573,15 @@ class DXFLoader(GenericLoader):
 					self.unit_to_pt = unit[self.INSUNITS]
 		else:
 			self.unit_to_pt = 72.0
-		
-		self.update_trafo()
+		print self.unit_to_pt
 
+	def read_CLAYER(self):
+		param={	'8': 0
+				}
+		param = self.read_param(param)
+		self.default_layer = param['8']
+		
+	################
 
 	def load_TABLE(self):
 		param={	'2': '', # Table name
@@ -654,6 +688,7 @@ class DXFLoader(GenericLoader):
 		self.block_dict[block_name] = param
 #		print self.block_dict[block_name]
 
+	################
 	def line(self):
 		param={	'10': None, # X coordinat
 				'20': None, # y coordinat
@@ -989,6 +1024,10 @@ class DXFLoader(GenericLoader):
 ##		else:
 ##			return_code = self.find_record('0','ENDSEC')
 ##		return return_code
+
+		if name == 'ENTITIES':
+			self.update_trafo(self.unit_to_pt)
+			
 		line1, line2 = self.read_record()
 		while line1 or line2:
 			if line1 == '0' and line2 == 'ENDSEC':
