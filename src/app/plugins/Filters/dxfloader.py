@@ -382,6 +382,7 @@ class DXFLoader(GenericLoader):
 				"$PEXTMAX": 'read_PEXTMAX',
 				"$INSUNITS": 'read_INSUNITS',
 				"$CLAYER": 'read_CLAYER',
+				"POP_TRAFO": 'pop_trafo',
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
 				"LINE": 'line',
@@ -406,6 +407,7 @@ class DXFLoader(GenericLoader):
 		self.layer_dict = {}
 		self.block_dict = {}
 		self.stack = []
+		self.stack_trafo = []
 		self.default_layer = '0'
 		self.default_block = None
 		self.default_line_width = 30
@@ -435,6 +437,15 @@ class DXFLoader(GenericLoader):
 			y = 0
 		
 		self.trafo = Trafo(scale, 0, 0, scale, -x, -y)
+
+	def push_trafo(self, trafo = None):
+		# save trafo in stack_trafo
+		if trafo is None:
+			trafo = self.trafo
+		self.stack_trafo.append(trafo)
+
+	def pop_trafo(self):
+		self.trafo = self.stack_trafo.pop()
 
 
 	def get_pattern(self, color_index):
@@ -932,13 +943,31 @@ class DXFLoader(GenericLoader):
 		param={ '2': None, # Block name
 				'10': 0.0, # X coordinat
 				'20': 0.0, # Y coordinat
-				'30': 0.0, # Z coordinat
+				#'30': 0.0, # Z coordinat
+				'41': 1.0, # X scale factor 
+				'42': 1.0, # Y scale factor 
+				#'43': 1.0, # Z scale factor 
+				'50': 0.0, # Rotation angle
 				}
 		param = self.read_param(param)
 		
 		block_name = param['2']
 		if block_name:
-			self.stack += self.block_dict[block_name]['data'] 
+			self.stack +=  ['POP_TRAFO', '0'] + self.block_dict[block_name]['data'] 
+			self.push_trafo()
+			
+			x = param['10']
+			y = param['20']
+			scale_x = param['41'] * self.unit_to_pt
+			scale_y = param['42'] * self.unit_to_pt
+			angle = param['50'] * pi / 180
+			
+			translate = self.trafo(x, y)
+			trafo = Trafo(scale_x, 0, 0, scale_y)
+			trafo = Rotation(angle)(trafo)
+			trafo = Translation(translate)(trafo)
+			self.trafo = trafo
+
 
 ###########################################################################
 
