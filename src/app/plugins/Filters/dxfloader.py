@@ -958,12 +958,16 @@ class DXFLoader(GenericLoader):
 			
 			x = param['10']
 			y = param['20']
+			block_x = self.block_dict[block_name]['10']
+			block_y = self.block_dict[block_name]['20']
+			
 			scale_x = param['41'] * self.unit_to_pt
 			scale_y = param['42'] * self.unit_to_pt
 			angle = param['50'] * pi / 180
 			
 			translate = self.trafo(x, y)
-			trafo = Trafo(scale_x, 0, 0, scale_y)
+			trafo = Trafo(1, 0, 0, 1, -block_x, -block_y)
+			trafo = Scale(scale_x,scale_y)(trafo)
 			trafo = Rotation(angle)(trafo)
 			trafo = Translation(translate)(trafo)
 			self.trafo = trafo
