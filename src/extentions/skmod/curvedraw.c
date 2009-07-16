@@ -718,7 +718,15 @@ cairo_new_path(gc_object->cairo);
     }
 // printf("FILLING... \n");
 // cairo_set_tolerance(gc_object->cairo, 1.0);
+if(gc_object->cairo_pattern!=NULL){
+	cairo_set_source(gc_object->cairo, gc_object->cairo_pattern);
+}
 cairo_fill(gc_object->cairo);
+
+if(gc_object->cairo_pattern!=NULL){
+	cairo_pattern_destroy(gc_object->cairo_pattern);
+	gc_object->cairo_pattern = NULL;
+}
 // cairo_set_fill_rule(gc_object->cairo, 1);
 // cairo_set_tolerance(gc_object->cairo, 0.1);
 

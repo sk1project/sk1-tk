@@ -573,25 +573,12 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 
 	has_axial_gradient = 1
 	def AxialGradient(self, gradient, p0, p1):
-
 		# p0 and p1 may be PointSpecs
-		image, trafo, pos = self.get_pattern_image()
-		if image is None:
-			return
-		x0, y0 = trafo(p0)
-		x1, y1 = trafo(p1)
-		#import time
-		#_t = time.clock()
-		print 'AXIAL\n================'
-		print 'x0',x0, 'y0',y0
-		print 'x1',x1, 'y1',y1
-		
 		if config.preferences.cairo_enabled == 1:
-			x0, y0 = trafo.DocToWin(p0)
-			x1, y1 = trafo.DocToWin(p1)
-			center = self.fill_rect.center()
-			print 'center', center			
-			self.gc.CairoPatternCreateLinear(x0, y0, x1, y1)
+			startx, starty	= self.DocToWin(p0)
+			endx,	endy	= self.DocToWin(p1)
+			center = self.fill_rect.center()	
+			self.gc.CairoPatternCreateLinear(startx, starty, endx,	endy)
 			for position, color in gradient.Colors():
 				if config.preferences.alpha_channel_enabled <> 1:
 					r,g,b = color.cRGB()
@@ -599,34 +586,48 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				else:
 					r,g,b,a = color.cRGBA()
 					self.gc.CairoPatternAddColorStopRGBA(position, r, g, b, a)			
-		else:	
+		else:
+			image, trafo, pos = self.get_pattern_image()
+			if image is None:
+				return
+			x0, y0 = trafo(p0)
+			x1, y1 = trafo(p1)
+	
 			RGBgradient = []
 			for position, color in gradient.Colors():
 				RGBgradient.append((position, tuple(color.RGB())))
 			_sketch.fill_axial_gradient(image.im, RGBgradient, x0,y0, x1,y1)
-			#_t = time.clock() - _t
 			self.draw_pattern_image(image, pos)	
 
-	has_radial_gradient = 0
+	has_radial_gradient = 1
 	def RadialGradient(self, gradient, p, r0, r1):
 		if config.preferences.cairo_enabled == 1:
-			return
-		# p may be PointSpec
-		image, trafo, pos = self.get_pattern_image()
-		if image is None:
-			return
-		x, y = trafo.DocToWin(p)
-		r0 = int(round(abs(trafo.DTransform(r0, 0))))
-		r1 = int(round(abs(trafo.DTransform(r1, 0))))
-		#import time
-		#_t = time.clock()
-		RGBgradient = []
-		for position, color in gradient.Colors():
-			RGBgradient.append((position, tuple(color.RGB())))
-		_sketch.fill_radial_gradient(image.im, RGBgradient, x, y, r0, r1)
-		#_t = time.clock() - _t
-		#print 'radial:', _t
-		self.draw_pattern_image(image, pos)
+			startx, starty	= self.DocToWin(p)
+			self.gc.CairoPatternCreateRadial(startx, starty, r1, startx, starty, r0)
+			for position, color in gradient.Colors():
+				if config.preferences.alpha_channel_enabled <> 1:
+					r,g,b = color.cRGB()
+					self.gc.CairoPatternAddColorStopRGB(1-position, r, g, b)
+				else:
+					r,g,b,a = color.cRGBA()
+					self.gc.CairoPatternAddColorStopRGBA(1-position, r, g, b, a)	
+		else:
+			# p may be PointSpec
+			image, trafo, pos = self.get_pattern_image()
+			if image is None:
+				return
+			x, y = trafo.DocToWin(p)
+			r0 = int(round(abs(trafo.DTransform(r0, 0))))
+			r1 = int(round(abs(trafo.DTransform(r1, 0))))
+			#import time
+			#_t = time.clock()
+			RGBgradient = []
+			for position, color in gradient.Colors():
+				RGBgradient.append((position, tuple(color.RGB())))
+			_sketch.fill_radial_gradient(image.im, RGBgradient, x, y, r0, r1)
+			#_t = time.clock() - _t
+			#print 'radial:', _t
+			self.draw_pattern_image(image, pos)
 
 
 	has_conical_gradient = 0
@@ -737,66 +738,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					  self.properties.fill_pattern.Color().cRGBA())
 		else:
 			self.properties.ExecuteFill(self, self.fill_rect)
-			return 1
-			if self.properties.fill_pattern.is_AxialGradient:
-				# Linear gradient processing for Cairo engine
-				print "SET_GRADIENT\n================"
-				rect=self.fill_rect
-				vx, vy = self.properties.fill_pattern.direction
-				print 'direction', vx, vy
-				angle = atan2(vy, vx) - pi / 2
-				print 'angle', angle
-				center = rect.center()
-				print 'center', center
-				print 'rect', rect
-				rx0, ry0, rx1, ry1 = self.fill_rect
-				print rx0, ry0, rx1, ry1
-				
-				rot = Rotation(angle, center)
-				left, bottom, right, top = rot(rect)
-				height = (top - bottom) * (1.0 - self.properties.fill_pattern.border)
-				trafo = rot(Translation(center))
-								
-				gradient = self.properties.fill_pattern.gradient
-				p0 = trafo(0, height / 2)
-				p1 = trafo(0, -height / 2)
-				print p0, p1
-				
-#				image, trafo, pos = self.get_pattern_image()
-#				if image is None:
-#					print 'IMAGE NONE'
-#					return
-				
-				x0, y0 = self.DocToWinPoint(trafo(p0))
-				x1, y1 = self.DocToWinPoint(trafo(p1))
-
-#				x0, y0 = p0
-#				x1, y1 = p1
-				print 'x0',x0, 'y0',y0
-				print 'x1',x1, 'y1',y1
-#				self.gc.DrawLine(x0, y0, x1, y1)
-#				self.gc.CairoPatternCreateLinear(x0, y0, x1, y1)
-				self.gc.CairoPatternCreateLinear(0.0, 0.0, 100.0, 300.0)
-#				self.gc.DrawLine(0, 0, 100, 300)
-				#stopcolors=[]
-				#for position, color in gradient.Colors():
-					#stopcolors.append((position, color))
-				#stopcolors.reverse()
-				for position, color in gradient.Colors():
-					if config.preferences.alpha_channel_enabled <> 1:
-						r,g,b = color.cRGB()
-						print r,g,b
-						print position
-						self.gc.CairoPatternAddColorStopRGB(position, r, g, b)
-					else:
-						r,g,b,a = color.cRGBA()
-						self.gc.CairoPatternAddColorStopRGBA(position, r, g, b, a)
-								
-			elif self.properties.fill_pattern.is_RadialGradient:
-				print 'RadialGradient'
-			elif self.properties.fill_pattern.is_ConicalGradient:
-				print 'ConicalGradient'
-
+			return 
 
 	def CairoSetOutline(self):
 		if config.preferences.alpha_channel_enabled == 1 and not self.IsOutlineActive():
@@ -857,8 +799,8 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 						self.properties.ExecuteFill(self, self.fill_rect)
 						apply(self.gc.FillRectangle, pts)
 				else:
-					if not self.CairoSetFill():
-						apply(self.gc.CairoFillRectangle, pts)
+					self.CairoSetFill()
+					apply(self.gc.CairoFillRectangle, pts)
 			if self.line:
 				if config.preferences.cairo_enabled == 0:
 					self.properties.ExecuteLine(self)
@@ -875,8 +817,12 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			if self.proc_fill:
 				if not clip:
 					self.PushClip()
-				self.ClipPolygon(pts)				
-				self.properties.ExecuteFill(self, self.fill_rect)
+				if config.preferences.cairo_enabled == 0:
+					self.ClipPolygon(pts)				
+					self.properties.ExecuteFill(self, self.fill_rect)
+				else:
+					self.CairoSetFill()
+					self.gc.CairoFillPolygon(pts)	
 				if not clip:
 					self.PopClip()
 				clip = 0
@@ -885,9 +831,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					self.properties.ExecuteFill(self, self.fill_rect)
 					self.gc.FillPolygon(pts, X.Convex, X.CoordModeOrigin)
 				else:
-					print 'POINT x1'
 					self.CairoSetFill()
-					print 'POINT x2'
 					self.gc.CairoFillPolygon(pts)				
 
 			if self.line:				

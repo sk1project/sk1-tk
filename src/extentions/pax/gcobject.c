@@ -1348,8 +1348,16 @@ else
 }
 cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
 cairo_close_path(self->cairo);
+
+if(self->cairo_pattern!=NULL){
+	cairo_set_source(self->cairo, self->cairo_pattern);
+}
 cairo_fill(self->cairo);
 
+if(self->cairo_pattern!=NULL){
+	cairo_pattern_destroy(self->cairo_pattern);
+	self->cairo_pattern = NULL;
+}
 cairo_restore (self->cairo);
 
 	Py_INCREF(Py_None);
@@ -1383,7 +1391,16 @@ i++;
 }
 cairo_line_to(self->cairo, pts_arg1[0], pts_arg1[1]);
 cairo_close_path(self->cairo);
+
+if(self->cairo_pattern!=NULL){
+	cairo_set_source(self->cairo, self->cairo_pattern);
+}
 cairo_fill(self->cairo);
+
+if(self->cairo_pattern!=NULL){
+	cairo_pattern_destroy(self->cairo_pattern);
+	self->cairo_pattern = NULL;
+}
 
 	PyMem_DEL(pts_arg1);
 	Py_INCREF(Py_None);
