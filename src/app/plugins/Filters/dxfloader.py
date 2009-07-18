@@ -1033,7 +1033,7 @@ class DXFLoader(GenericLoader):
 		style_text = self.curstyle.Duplicate()
 		style_text.line_pattern = EmptyPattern
 		style_text.fill_pattern = SolidPattern(CreateRGBColor(0, 0, 0))
-		style_name = param['7']
+		style_name = lower(param['7'])
 		style = self.style_dict[style_name]
 		font_name = style['1000']
 		if font_name == 'Arial':
