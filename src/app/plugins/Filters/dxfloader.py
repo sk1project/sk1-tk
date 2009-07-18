@@ -41,10 +41,11 @@ from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
 import app
 
-from string import strip, atoi
+from string import strip, atoi, lower
 
 from math import sqrt, atan, atan2
 from math import pi, cos, sin
+
 
 degrees = pi / 180.0
 
@@ -56,7 +57,10 @@ from app import Document, Layer, CreatePath, ContSmooth, \
 		
 from app import Scale, Trafo, Translation, Rotation
 
-from app.conf.const import ArcArc, ArcChord, ArcPieSlice
+from app.conf.const import ArcArc, ArcChord, ArcPieSlice, \
+		ALIGN_BASE, ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM, \
+		ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
+
 ##base_style = Style()
 ##base_style.fill_pattern = EmptyPattern
 ##base_style.fill_transform = 1
@@ -100,7 +104,7 @@ colors = {
 		4: csscolor('#00FFFF'),
 		5: csscolor('#0000FF'),
 		6: csscolor('#FF00FF'),
-		7: csscolor('#FFFFFF'),
+		7: csscolor('#000000'), #7: csscolor('#FFFFFF'),
 		8: csscolor('#414141'),
 		9: csscolor('#808080'),
 		10: csscolor('#FF0000'),
@@ -351,7 +355,7 @@ colors = {
 		255: csscolor('#FFFFFF')
 		}
 
-def convert(code, value):
+def convert(code, value, encoding):
 	"""Convert a string to the correct Python type based on its dxf code.
 		code types:
 		ints = 60-79, 170-179, 270-289, 370-389, 400-409, 1060-1070
@@ -370,9 +374,20 @@ def convert(code, value):
 		value = float(value)
 	elif code == 105 or 309 < code < 380 or 389 < code < 400:
 		value = int(value, 16) # should be left as string?
-	else: # it's already a string so do nothing
+	elif 1 < code < 10:
+		value = unicode_decoder(value, encoding).encode('utf-8')
+	else:
 		pass
+	
 	return value
+
+def unicode_decoder(text, encoding):
+	try:
+		result = text.decode('utf-8')
+	except UnicodeDecodeError:
+		# print 'UnicodeDecodeError. Use',  self.encoding
+		result = text.decode(encoding)
+	return result
 
 class DXFLoader(GenericLoader):
 
@@ -382,6 +397,7 @@ class DXFLoader(GenericLoader):
 				"$PEXTMAX": 'read_PEXTMAX',
 				"$INSUNITS": 'read_INSUNITS',
 				"$CLAYER": 'read_CLAYER',
+				"$DWGCODEPAGE": 'read_DWGCODEPAGE',
 				"POP_TRAFO": 'pop_trafo',
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
@@ -395,12 +411,14 @@ class DXFLoader(GenericLoader):
 				"SOLID": 'solid',
 				"LWPOLYLINE": 'lwpolyline',
 				"INSERT": 'insert',
+				"TEXT": 'text',
 					}
 
 	def __init__(self, file, filename, match):
 		GenericLoader.__init__(self, file, filename, match)
 		
 		self.file = file
+		self.encoding = 'latin1'
 		self.dynamic_style_dict = {}
 		self.style_dict = {}
 		self.ltype_dict = {}
@@ -409,6 +427,7 @@ class DXFLoader(GenericLoader):
 		self.stack = []
 		self.stack_trafo = []
 		self.default_layer = '0'
+		self.default_style = 'standard'
 		self.default_block = None
 		self.default_line_width = 30
 		self.EXTMIN = (1e+20, 1e+20)
@@ -423,19 +442,24 @@ class DXFLoader(GenericLoader):
 
 
 	def update_trafo(self, scale = 1):
-		EXT_hight = (self.EXTMAX[0] - self.EXTMIN[0]) * scale
-		PEXT_hight = (self.PEXTMAX[0] - self.PEXTMIN[0]) * scale
+		EXT_hight = self.EXTMAX[0] - self.EXTMIN[0]
+		EXT_width = self.EXTMAX[1] - self.EXTMIN[1]
+		PEXT_hight = self.PEXTMAX[0] - self.PEXTMIN[0]
+		PEXT_width = self.PEXTMAX[1] - self.PEXTMIN[1]
 		
 		if EXT_hight > 0:
+			scale = 840 / max(EXT_hight, EXT_width)
+			self.unit_to_pt = scale
 			x = self.EXTMIN[0] * scale
 			y = self.EXTMIN[1] * scale
 		elif PEXT_hight > 0:
+			scale = 840 / max(PEXT_hight, PEXT_width)
+			self.unit_to_pt = scale
 			x = self.PEXTMIN[0] * scale
 			y = self.PEXTMIN[1] * scale
 		else:
 			x = 0
 			y = 0
-		
 		self.trafo = Trafo(scale, 0, 0, scale, -x, -y)
 
 	def push_trafo(self, trafo = None):
@@ -447,20 +471,18 @@ class DXFLoader(GenericLoader):
 	def pop_trafo(self):
 		self.trafo = self.stack_trafo.pop()
 
-
 	def get_pattern(self, color_index):
 		# 0 = Color BYBLOCK
 		if color_index == 0:
-			#block_name = self.default_block
-			#color_index = self.block_dict[block_name]['62']
-			layer_name = self.default_layer
-			color_index = self.layer_dict[layer_name]['62']
+			block_name = self.default_block
+			color_index = self.block_dict[block_name]['62']
 		# 256 = Color BYLAYER
 		elif  color_index == 256 or color_index is None:
 			layer_name = self.default_layer
 			color_index = self.layer_dict[layer_name]['62']
 		## FIXMY 257 = Color BYENTITY
-			
+		
+		
 		pattern = SolidPattern(colors[color_index])
 		return pattern
 
@@ -525,7 +547,6 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.EXTMIN = (param['10'],param['20'])
 		print 'EXTMIN',self.EXTMIN
-		#self.update_trafo()
 
 	def read_EXTMAX(self):
 		param={	'10': 0.0, # X coordinat
@@ -584,13 +605,22 @@ class DXFLoader(GenericLoader):
 					self.unit_to_pt = unit[self.INSUNITS]
 		else:
 			self.unit_to_pt = 72.0
-		print self.unit_to_pt
+		print 'INSUNITS', self.unit_to_pt
 
 	def read_CLAYER(self):
-		param={	'8': 0
+		param={	'8': self.default_layer, # Layer name
 				}
 		param = self.read_param(param)
 		self.default_layer = param['8']
+
+	def read_DWGCODEPAGE(self):
+		param={	'3': self.encoding,
+				}
+		param = self.read_param(param)
+		encoding = lower(param['3']).replace('ansi_', '')
+		
+		self.encoding = encoding
+		
 		
 	################
 
@@ -638,8 +668,8 @@ class DXFLoader(GenericLoader):
 			style = Style()
 			style.line_dashes = tuple(dashes)
 			style = style.AsDynamicStyle()
-			style.SetName(name3)
-			self.dynamic_style_dict[name3] = style
+			style.SetName(name + name3)
+			self.dynamic_style_dict[name] = style
 
 
 	def load_LAYER(self):
@@ -670,7 +700,7 @@ class DXFLoader(GenericLoader):
 				}
 		param = self.read_param(param, [0])
 
-		style_name = param['2']
+		style_name = lower(param['2'])
 		self.style_dict[style_name] = param
 
 
@@ -679,6 +709,7 @@ class DXFLoader(GenericLoader):
 				'10': 0.0, # X Base point
 				'20': 0.0, # Y Base point
 				#'30': 0.0, # Z Base point 
+				'62': 0, # Color number
 				'data': [], # block data
 				}
 		param = self.read_param(param)
@@ -951,7 +982,7 @@ class DXFLoader(GenericLoader):
 				}
 		param = self.read_param(param)
 		
-		block_name = param['2']
+		block_name = self.default_block = param['2']
 		if block_name:
 			self.stack +=  ['POP_TRAFO', '0'] + self.block_dict[block_name]['data'] 
 			self.push_trafo()
@@ -972,7 +1003,56 @@ class DXFLoader(GenericLoader):
 			trafo = Translation(translate)(trafo)
 			self.trafo = trafo
 
+	def text(self):
+		param={ '10': 0.0, 
+				'20': 0.0, 
+				'40': None, # Text height
+				'1': '', # Default value
+				'50': 0, # Text rotation
+				'41': 1, # Relative X scale factor—width
+				'8': self.default_layer, # Layer name
+				'7': self.default_style, # Style name
+				'72': 0, #Horizontal text justification type
+				}
+		param = self.read_param(param)
+		
 
+		x = param['10']
+		y = param['20']
+		scale_x = param['41']
+		scale_y = 1
+		angle = param['50'] * pi / 180
+		font_size = param['40'] * self.trafo.m11
+		
+
+		halign = [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_LEFT, ALIGN_LEFT][param['72']]
+		text = unicode_decoder(param['1'], self.encoding)
+		#style = self.style_dict[param['7']]
+#		print style
+		
+		style_text = self.curstyle.Duplicate()
+		style_text.line_pattern = EmptyPattern
+		style_text.fill_pattern = SolidPattern(CreateRGBColor(0, 0, 0))
+		style_name = param['7']
+		style = self.style_dict[style_name]
+		font_name = style['1000']
+		if font_name == 'Arial':
+			font_name = 'ArialMT'
+		style_text.font = GetFont(font_name)
+#		print style_text.font
+		style_text.font_size = font_size
+		
+		#translate = self.trafo(x, y)
+		#trafo_text = Trafo(scale_x,0,0,1,0,0)
+		#trafo_text = Rotation(angle)(trafo_text)
+		#trafo_text = Translation(translate)(trafo_text)
+		
+		trafo_text = Translation(self.trafo(x, y))(Rotation(angle))(Scale(scale_x, scale_y))
+		self.prop_stack.AddStyle(style_text.Duplicate())
+		self.simple_text(strip(text), trafo_text, halign = halign)
+		
+		
+		
 ###########################################################################
 
 	def get_compiled(self):
@@ -1010,7 +1090,7 @@ class DXFLoader(GenericLoader):
 				return param
 			else:
 				if line1 in param:
-					value = convert(line1, line2)
+					value = convert(line1, line2, self.encoding)
 					if type(param[line1]) == list:
 						param[line1].append(value)
 					else:
@@ -1057,9 +1137,6 @@ class DXFLoader(GenericLoader):
 ##		else:
 ##			return_code = self.find_record('0','ENDSEC')
 ##		return return_code
-
-		if name == 'ENTITIES':
-			self.update_trafo(self.unit_to_pt)
 			
 		line1, line2 = self.read_record()
 		while line1 or line2:
@@ -1070,7 +1147,12 @@ class DXFLoader(GenericLoader):
 				if line1 == '0' or line1 == '9':
 					self.run(line2)
 			line1, line2 = self.read_record()
+		
+		if name == 'HEADER':
+			self.update_trafo(self.unit_to_pt)
+		
 		return return_code
+
 
 
 	def interpret(self):
