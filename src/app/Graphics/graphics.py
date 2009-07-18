@@ -1224,8 +1224,11 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			yy=trafo.m22*self.scale
 			yx=-1*trafo.m21*self.scale
 			xy=-1*trafo.m12*self.scale
+			self.gc.CairoSetAntialias(config.preferences.cairo_bitmap_antialias)
 			self.gc.CairoDrawImage(image.im, w, h,
-									xx,yx,xy,yy,x0,y0)
+									xx,yx,xy,yy,x0,y0,
+									config.preferences.bitmap_alpha_channel_enabled)
+			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 			return
 		self.create_ximage()
 		ximage = self.ximage

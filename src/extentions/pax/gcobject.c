@@ -1540,7 +1540,7 @@ static PyObject *
 PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 {
 	ImagingObject* src;
-	int width, height, stride, x,y,offset;	
+	int width, height, stride, x,y,offset, type;	
 	unsigned char *data;
 	Imaging imaging;
 	INT32 *imagebuf = NULL;
@@ -1549,8 +1549,8 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	cairo_matrix_t *matrix;
 	double xx,yx, xy, yy, x0, y0;
 	
-	if (!PyArg_ParseTuple (args, "Oiidddddd",&src,
-				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0))
+	if (!PyArg_ParseTuple (args, "Oiiddddddi",&src,
+				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0,&type))
 		return NULL;
 
 	stride=width*4;
@@ -1582,9 +1582,17 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 		}
 		offset+=width*4;
 	}
-
+	
+	if(type==1)
+	{
 	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
 								width, height, stride);
+	}
+	else
+	{
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24,
+								width, height, stride);
+	}
 
 	cairo_set_matrix(self->cairo, matrix);
 	cairo_set_source_surface(self->cairo, surface, 0, 0);

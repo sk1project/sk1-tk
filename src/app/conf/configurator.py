@@ -419,8 +419,10 @@ class Preferences(connector.Publisher):
 	#
 	cairo_enabled=1
 	alpha_channel_enabled=0
+	bitmap_alpha_channel_enabled=1
 	cairo_tolerance=.1
 	cairo_antialias=0
+	cairo_bitmap_antialias=0
 	
 	#
 	#	Bezier Objects
