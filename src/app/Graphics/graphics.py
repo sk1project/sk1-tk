@@ -574,13 +574,13 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 	has_axial_gradient = 1
 	def AxialGradient(self, gradient, p0, p1):
 		# p0 and p1 may be PointSpecs
-		if config.preferences.cairo_enabled == 1:
+		if config.preferences.cairo_enabled :
 			startx, starty	= self.DocToWin(p0)
 			endx,	endy	= self.DocToWin(p1)
 			center = self.fill_rect.center()	
 			self.gc.CairoPatternCreateLinear(startx, starty, endx,	endy)
 			for position, color in gradient.Colors():
-				if config.preferences.alpha_channel_enabled <> 1:
+				if not config.preferences.alpha_channel_enabled :
 					r,g,b = color.cRGB()
 					self.gc.CairoPatternAddColorStopRGB(position, r, g, b)
 				else:
@@ -601,11 +601,11 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 
 	has_radial_gradient = 1
 	def RadialGradient(self, gradient, p, r0, r1):
-		if config.preferences.cairo_enabled == 1:
+		if config.preferences.cairo_enabled :
 			startx, starty	= self.DocToWin(p)
 			self.gc.CairoPatternCreateRadial(startx, starty, r1, startx, starty, r0)
 			for position, color in gradient.Colors():
-				if config.preferences.alpha_channel_enabled <> 1:
+				if not config.preferences.alpha_channel_enabled :
 					r,g,b = color.cRGB()
 					self.gc.CairoPatternAddColorStopRGB(1-position, r, g, b)
 				else:
@@ -632,7 +632,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 
 	has_conical_gradient = 0
 	def ConicalGradient(self, gradient, p, angle):
-		if config.preferences.cairo_enabled == 1:
+		if config.preferences.cairo_enabled :
 			return
 		# p may be PointSpec
 		image, trafo, pos = self.get_pattern_image()
@@ -730,7 +730,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 	
 	def CairoSetFill(self):		
 		if not self.properties.fill_pattern.is_Gradient:
-			if config.preferences.alpha_channel_enabled <> 1:
+			if not config.preferences.alpha_channel_enabled :
 				apply(self.gc.CairoSetSourceRGB, 
 					  self.properties.fill_pattern.Color().cRGB())
 			else:
@@ -741,7 +741,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			return 
 
 	def CairoSetOutline(self):
-		if config.preferences.alpha_channel_enabled == 1 and not self.IsOutlineActive():
+		if config.preferences.alpha_channel_enabled and not self.IsOutlineActive():
 			apply(self.gc.CairoSetSourceRGBA, 
 				  self.properties.line_pattern.Color().cRGBA())
 		else:
@@ -1218,7 +1218,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.DrawRectangle(Point(0, 0), Point(w, h))
 			self.PopTrafo()
 			return
-		if config.preferences.cairo_enabled == 1:
+		if config.preferences.cairo_enabled :
 			x0=ulx;y0=uly
 			xx=trafo.m11*self.scale
 			yy=trafo.m22*self.scale
@@ -1375,19 +1375,33 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
 		
 
-	def DrawGuideLine(self, point, horizontal):
+	def DrawGuideLine(self, point, horizontal, mode):
 		temp_scale=self.scale
 		self.scale=1
-		if self.line:
-			self.properties.ExecuteLine(self)
-		self.gc.line_style = X.LineOnOffDash
-		self.gc.dashes = 5
-		x, y = self.DocToWin(point)
-		if horizontal:
-			self.gc.DrawLine(0, y, self.widget.width, y)
+		if mode and config.preferences.cairo_enabled :
+			x, y = self.DocToWin(point)
+			type,r,g,b=config.preferences.guide_color
+			self.gc.CairoSetSourceRGB(r,g,b)
+			self.gc.CairoSetOutlineAttr(1.0,0,0)
+			self.gc.CairoSetDash(config.preferences.guide_shape, 0)
+			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
+			if horizontal:
+				self.gc.CairoDrawLine(0, y, self.widget.width, y)
+			else:
+				self.gc.CairoDrawLine(x, 0, x, self.widget.height)
+			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
+			self.gc.CairoSetDash([], 0)
 		else:
-			self.gc.DrawLine(x, 0, x, self.widget.height)
-		self.gc.line_style = X.LineSolid
+			if self.line:
+				self.properties.ExecuteLine(self)
+			self.gc.line_style = X.LineOnOffDash
+			self.gc.dashes = 5
+			x, y = self.DocToWin(point)
+			if horizontal:
+				self.gc.DrawLine(0, y, self.widget.width, y)
+			else:
+				self.gc.DrawLine(x, 0, x, self.widget.height)
+			self.gc.line_style = X.LineSolid
 		self.scale=temp_scale
 
 	def DrawPageOutline(self, width, height):
@@ -1395,11 +1409,30 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		# height. The page's lower left corner is at (0,0) and its upper
 		# right corner at (width, height) in doc coords. The outline is
 		# drawn as a rectangle with a thin shadow.
+		if not config.preferences.draw_page_border:
+			return
+		if config.preferences.cairo_enabled:
+			left, bottom = self.DocToWin(0, 0)
+			right, top = self.DocToWin(width, height)
+			sw = config.preferences.page_border_size
+			w = right - left
+			h = bottom - top
+			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
+			self.gc.CairoSetOutlineAttr(1.0,0,0)
+			r,g,b=StandardColors.gray.cRGB()
+			self.gc.CairoSetSourceRGB(r,g,b)
+			self.gc.CairoFillRectangle(left + sw, bottom, w + 1, sw + 1)
+			self.gc.CairoFillRectangle(right, top + sw, sw + 1, h + 1)
+			r,g,b=StandardColors.black.cRGB()
+			self.gc.CairoSetSourceRGB(r,g,b)			
+			self.gc.CairoDrawRectangle(left, top, w, h)
+			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
+			return
 		self.gc.line_width = 0
 		self.gc.line_style = X.LineSolid
 		left, bottom = self.DocToWin(0, 0)
 		right, top = self.DocToWin(width, height)
-		sw = 5	# shadow width	XXX: should be configurable ?
+		sw = config.preferences.page_border_size
 		w = right - left
 		h = bottom - top
 		self.SetFillColor(StandardColors.gray)

@@ -1300,6 +1300,24 @@ free(dashes);
 }
 
 static PyObject *
+PaxGC_CairoDrawLine(PaxGCObject * self, PyObject *args)
+{
+    double x0,y0,x1,y1;
+
+    if (!PyArg_ParseTuple (args, "dddd", &x0,&y0,&x1,&y1))
+	return NULL;
+
+cairo_new_path(self->cairo);
+cairo_move_to(self->cairo, x0, y0);
+cairo_line_to(self->cairo, x1, y1);
+cairo_close_path(self->cairo);
+cairo_stroke(self->cairo);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject *
 PaxGC_CairoDrawArc(PaxGCObject * self, PyObject *args)
 {
     double x, y, width, height, radius;
@@ -1585,6 +1603,49 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;
 }
+// cairo_set_tolerance(gc_object->cairo, 1.0);
+
+static PyObject *
+PaxGC_CairoSetTolerance(PaxGCObject * self, PyObject *args)
+{
+    double tolerance;
+
+    if (!PyArg_ParseTuple (args, "d", &tolerance))
+	return NULL;
+
+    cairo_set_tolerance(self->cairo, tolerance);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject *
+PaxGC_CairoSetAntialias(PaxGCObject * self, PyObject *args)
+{
+    int aa;
+
+    if (!PyArg_ParseTuple (args, "i", &aa))
+	return NULL;
+
+	switch (aa)
+	{
+	case 1:
+	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_NONE);
+	    break;
+	case 2:
+	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_GRAY);
+	    break;
+	case 3:
+	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_SUBPIXEL);
+	    break;
+	default:
+	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_DEFAULT);
+	}
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
 
 static PyMethodDef PaxGC_methods[] = {
 	{"CairoInit", (PyCFunction)PaxGC_CairoInit, 1},
@@ -1594,6 +1655,7 @@ static PyMethodDef PaxGC_methods[] = {
 	{"CairoSetDash", (PyCFunction)PaxGC_CairoSetDash, 1},
 	{"CairoFillRectangle", (PyCFunction)PaxGC_CairoFillRectangle, 1},
 	{"CairoDrawRectangle", (PyCFunction)PaxGC_CairoDrawRectangle, 1},
+	{"CairoDrawLine", (PyCFunction)PaxGC_CairoDrawLine, 1},
 	{"CairoFillArc", (PyCFunction)PaxGC_CairoFillArc, 1},
 	{"CairoDrawArc", (PyCFunction)PaxGC_CairoDrawArc, 1},
 	{"CairoFillPolygon", (PyCFunction)PaxGC_CairoFillPolygon, 1},
@@ -1603,6 +1665,8 @@ static PyMethodDef PaxGC_methods[] = {
 	{"CairoPatternAddColorStopRGB", (PyCFunction)PaxGC_CairoPatternAddColorStopRGB, 1},
 	{"CairoPatternAddColorStopRGBA", (PyCFunction)PaxGC_CairoPatternAddColorStopRGBA, 1},
 	{"CairoDrawImage", (PyCFunction)PaxGC_CairoDrawImage, 1},
+	{"CairoSetTolerance", (PyCFunction)PaxGC_CairoSetTolerance, 1},
+	{"CairoSetAntialias", (PyCFunction)PaxGC_CairoSetAntialias, 1},
 
 	{"ChangeGC", (PyCFunction)PaxGC_ChangeGC, 1},
 	{"DrawArc", (PyCFunction)PaxGC_DrawArc, 1},

@@ -243,6 +243,8 @@ class Preferences(connector.Publisher):
 	
 	#The outline color of a new GuideLayer as a tuple of RGB values in the range 0..1.
 	guide_color = ('RGB', 0, 0.3, 1)
+	guide_shape = [5, 5]
+	
 	layer_color = ('RGB', 0.196, 0.314, 0.635)
 	
 	#When objects are duplicated, the new copies are translated by duplicate_offset, given in document coordiates
@@ -294,6 +296,8 @@ class Preferences(connector.Publisher):
 	sample_text = 'Text'	#	Font dialog sample text. Can be changed by simply editing it in the font dialog.
 	default_paper_format = 'A4'	#Default paper format for new documents and documents read from a files that don't specify a paper format. This should be one of the formats defined in papersize.py.
 	default_page_orientation = 0	#Default page orientation. Portrait = 0, Landscape = 1. Other values are silenty ignored.
+	draw_page_border = 1
+	page_border_size = 5
 	
 	#Screen resolution in pixel per point. Used by the canvas to convert document coordinates to screen coordinates for a zoom factor of 100%
 	#None means to compute it from information obtained from the X-Server (ScreenWidth and ScreenMMWidth). 1.0 means 72 pixels per inch.
@@ -415,6 +419,8 @@ class Preferences(connector.Publisher):
 	#
 	cairo_enabled=1
 	alpha_channel_enabled=0
+	cairo_tolerance=.1
+	cairo_antialias=0
 	
 	#
 	#	Bezier Objects

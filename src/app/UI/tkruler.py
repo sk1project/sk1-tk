@@ -202,11 +202,16 @@ class Ruler(Canvas):
 		width = int(self.winfo_width())      
 		self.create_line(0, height-1, width, height-1, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
+		offset=0
+		if config.preferences.cairo_enabled:
+			offset=1
+			
 		for h, pos in ticks:
+			pos = pos - offset
 			self.create_line(pos, height - h, pos, height, fill=config.preferences.ruler_tick_color)
-			pos = pos + 1
 		y = int(height/2) - 5  
 		for text, pos in texts:
+			pos = pos - offset
 			self.create_line(pos, height - 10, pos, height, fill=config.preferences.ruler_tick_color)
 			self.writer.write(text, config.preferences.ruler_text_color, pos+2, y)
 
@@ -215,11 +220,12 @@ class Ruler(Canvas):
 		width = int(self.winfo_width()) 
 		self.create_line(width-1, 0, width-1, height, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
+
 		for h, pos in ticks:
 			pos = height - pos
 			self.create_line(width - h, pos, width, pos, fill=config.preferences.ruler_tick_color)
-		for text, pos in texts:			
-			x = int(width/2) - 5
+		x = int(width/2) - 5
+		for text, pos in texts:				
 			pos = height - pos	
 			self.create_line(width - 10, pos, width, pos, fill=config.preferences.ruler_tick_color)
 			self.writer.writeVertically(text, config.preferences.ruler_text_color, x, pos-2)

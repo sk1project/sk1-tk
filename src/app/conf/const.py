@@ -18,6 +18,12 @@
 # for rect handles: filled == handle_id & 1
 
 
+CAIRO_ANTIALIAS_DEFAULT  = 0
+CAIRO_ANTIALIAS_NONE     = 1
+CAIRO_ANTIALIAS_GRAY     = 2
+CAIRO_ANTIALIAS_SUBPIXEL = 3
+
+
 Handle_OpenRect		= 0
 Handle_FilledRect	= 1
 Handle_SmallOpenRect	= 2
