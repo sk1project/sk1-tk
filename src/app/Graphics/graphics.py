@@ -1222,8 +1222,8 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			x0=ulx;y0=uly
 			xx=trafo.m11*self.scale
 			yy=trafo.m22*self.scale
-			yx=-1*trafo.m21
-			xy=-1*trafo.m12
+			yx=-1*trafo.m21*self.scale
+			xy=-1*trafo.m12*self.scale
 			self.gc.CairoDrawImage(image.im, w, h,
 									xx,yx,xy,yy,x0,y0)
 			return
