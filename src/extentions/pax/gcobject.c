@@ -1574,9 +1574,9 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 		for(x=0;x<width;x++)
 		{	
 			rgba= (unsigned char*)(imagebuf+x);
-			data[offset+x*4+2]=rgba[0];//R
-			data[offset+x*4+1]=rgba[1];//G
-			data[offset+x*4]=rgba[2];//B
+			data[offset+x*4+2]=rgba[0]*rgba[3]/256;//R
+			data[offset+x*4+1]=rgba[1]*rgba[3]/256;//G
+			data[offset+x*4]=rgba[2]*rgba[3]/256;//B
 			data[offset+x*4+3]=rgba[3];//A
 			//resulted order BGRA
 		}
