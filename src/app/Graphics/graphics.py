@@ -1419,6 +1419,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			h = bottom - top
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
 			self.gc.CairoSetOutlineAttr(1.0,0,0)
+			self.gc.CairoSetDash([], 0)
 			r,g,b=StandardColors.gray.cRGB()
 			self.gc.CairoSetSourceRGB(r,g,b)
 			self.gc.CairoFillRectangle(left + sw, bottom, w + 1, sw + 1)
