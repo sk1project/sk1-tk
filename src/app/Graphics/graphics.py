@@ -1205,13 +1205,27 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 								32, bpl)
 
 
-	def DrawImage(self, image, trafo, clip = 0):
+	def DrawImage(self, image, trafo, clip = 0):		
 		w, h = image.size
+		llx, lly = self.DocToWin(trafo.offset())
+		lrx, lry = self.DocToWin(trafo(w, 0))
+		ulx, uly = self.DocToWin(trafo(0, h))
+		urx, ury = self.DocToWin(trafo(w, h))
+		
 		if self.IsOutlineActive():
 			self.PushTrafo()
 			self.Concat(trafo)
 			self.DrawRectangle(Point(0, 0), Point(w, h))
 			self.PopTrafo()
+			return
+		if config.preferences.cairo_enabled == 1:
+			x0=ulx;y0=uly
+			xx=trafo.m11*self.scale
+			yy=trafo.m22*self.scale
+			yx=-1*trafo.m21
+			xy=-1*trafo.m12
+			self.gc.CairoDrawImage(image.im, w, h,
+									xx,yx,xy,yy,x0,y0)
 			return
 		self.create_ximage()
 		ximage = self.ximage
@@ -1220,10 +1234,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			# or ShmPutImage requests might be in the queue.
 			self.widget.Sync()
 			self.images_drawn = 0
-		llx, lly = self.DocToWin(trafo.offset())
-		lrx, lry = self.DocToWin(trafo(w, 0))
-		ulx, uly = self.DocToWin(trafo(0, h))
-		urx, ury = self.DocToWin(trafo(w, h))
+
 		if llx == ulx and lly == lry:
 			if llx < lrx:
 				sx = llx;	w = lrx - llx + 1
