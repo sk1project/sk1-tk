@@ -1,4 +1,4 @@
-#include "Python.h"
+#include <Python.h>
 #include <tk.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -12,11 +12,18 @@
 #include "imageobject.h"
 #include "clipmask.h"
 #include "paxutil.h"
+#include "Imaging.h"
 
 #ifndef offsetof
 #define offsetof(type, member) ( (int) & ((type*)0) -> member )
 #endif
 
+/* redefine the ImagingObject struct defined in _imagingmodule.c */
+/* there should be a better way to do this... */
+typedef struct {
+    PyObject_HEAD
+    Imaging image;
+} ImagingObject;
 
 #define OFF(member) offsetof(XGCValues, member)
 static struct GCattr {
@@ -52,6 +59,8 @@ static struct GCattr {
 	{NULL}
 };
 #undef OFF
+
+
 
 int
 PaxGC_MakeValues(PyObject *dict, unsigned long *pmask, XGCValues *pvalues)
@@ -1509,6 +1518,74 @@ PaxGC_CairoPatternAddColorStopRGBA(PaxGCObject * self, PyObject *args)
 	return Py_None;
 }
 
+static PyObject *
+PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
+{
+	ImagingObject* src;
+	int width, height, stride, x,y,offset;	
+	unsigned char *data;
+	Imaging imaging;
+	INT32 *imagebuf = NULL;
+	cairo_surface_t *surface;
+	unsigned char *rgba;
+	cairo_matrix_t *matrix;
+	double xx,yx, xy, yy, x0, y0;
+	
+	if (!PyArg_ParseTuple (args, "Oiidddddd",&src,
+				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0))
+		return NULL;
+
+	stride=width*4;
+	data=malloc(stride*height);	
+	if (!data) return;
+
+	matrix=malloc(sizeof(cairo_matrix_t));
+
+	matrix->xx = xx;
+	matrix->yx = yx;
+	matrix->xy = xy;
+	matrix->yy = yy;
+	matrix->x0 = x0;
+	matrix->y0 = y0;
+
+	imaging=src->image;
+	offset=0;
+	for(y=0;y<height;y++)
+	{			
+		imagebuf=imaging->image32[y];		
+		for(x=0;x<width;x++)
+		{	
+			rgba= (unsigned char*)(imagebuf+x);
+			data[offset+x*4+2]=rgba[0];//R
+			data[offset+x*4+1]=rgba[1];//G
+			data[offset+x*4]=rgba[2];//B
+			data[offset+x*4+3]=rgba[3];//A
+			//resulted order BGRA
+		}
+		offset+=width*4;
+	}
+
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
+								width, height, stride);
+
+	cairo_set_matrix(self->cairo, matrix);
+	cairo_set_source_surface(self->cairo, surface, 0, 0);
+	cairo_paint(self->cairo);
+	matrix->xx = 1;
+	matrix->yx = 0;
+	matrix->xy = 0;
+	matrix->yy = 1;
+	matrix->x0 = 0;
+	matrix->y0 = 0;
+	cairo_set_matrix(self->cairo, matrix);
+
+	free(data);
+	free(matrix);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
 static PyMethodDef PaxGC_methods[] = {
 	{"CairoInit", (PyCFunction)PaxGC_CairoInit, 1},
 	{"CairoSetSourceRGB", (PyCFunction)PaxGC_CairoSetSourceRGB, 1},
@@ -1525,6 +1602,7 @@ static PyMethodDef PaxGC_methods[] = {
 	{"CairoPatternCreateRadial", (PyCFunction)PaxGC_CairoPatternCreateRadial, 1},
 	{"CairoPatternAddColorStopRGB", (PyCFunction)PaxGC_CairoPatternAddColorStopRGB, 1},
 	{"CairoPatternAddColorStopRGBA", (PyCFunction)PaxGC_CairoPatternAddColorStopRGBA, 1},
+	{"CairoDrawImage", (PyCFunction)PaxGC_CairoDrawImage, 1},
 
 	{"ChangeGC", (PyCFunction)PaxGC_ChangeGC, 1},
 	{"DrawArc", (PyCFunction)PaxGC_DrawArc, 1},
