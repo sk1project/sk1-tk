@@ -19,7 +19,7 @@ from types import StringType
 from math import pi, tan
 import os, sys
 import re
-from string import strip, split, atoi, lower
+from string import strip, split, atoi, lower, atof
 import string
 import operator
 
@@ -394,6 +394,12 @@ class SVGHandler(handler.ContentHandler):
 				color = csscolor(val)
 				self._print('fill', color)
 				self.style.fill_pattern = SolidPattern(color)
+		elif key == 'fill-opacity':
+			value=atof(val)
+			if self.style.fill_pattern.__class__ == SolidPattern:
+				color=self.style.fill_pattern.Color()
+				color.alpha=value
+				color.update()
 		elif key == 'stroke':
 			if val == 'none':
 				self.style.line_pattern = EmptyPattern
@@ -401,6 +407,12 @@ class SVGHandler(handler.ContentHandler):
 				color = csscolor(val)
 				self._print('stroke', color)
 				self.style.line_pattern = SolidPattern(color)
+		elif key == 'stroke-opacity':
+			value=atof(val)
+			if self.style.line_pattern.__class__ == SolidPattern:
+				color=self.style.line_pattern.Color()
+				color.alpha=value
+				color.update()	
 		elif key == 'stroke-width':
 			width = self.user_length(val)
 			# Multiply the width with a value taken from the
