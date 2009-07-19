@@ -1212,6 +1212,28 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		ulx, uly = self.DocToWin(trafo(0, h))
 		urx, ury = self.DocToWin(trafo(w, h))
 		
+#		if self.IsOutlineActive() and config.preferences.cairo_enabled :
+#			x0=ulx;y0=uly
+#			xx=trafo.m11*self.scale
+#			yy=trafo.m22*self.scale
+#			yx=-1*trafo.m21*self.scale
+#			xy=-1*trafo.m12*self.scale
+#			self.gc.CairoSetAntialias(config.preferences.cairo_bitmap_antialias)
+#			self.gc.CairoDrawImage(image.im, w, h,
+#									xx,yx,xy,yy,x0,y0,3)
+#			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
+#			r,g,b=StandardColors.black.cRGB()
+#			self.gc.CairoSetSourceRGB(r,g,b)
+#			self.gc.CairoSetOutlineAttr(1.0,0,0)
+#			self.gc.CairoSetDash([], 0)
+#			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
+#			self.gc.CairoDrawLine(llx, lly, lrx, lry)
+#			self.gc.CairoDrawLine(lrx, lry, urx, ury)
+#			self.gc.CairoDrawLine(urx, ury, ulx, uly)
+#			self.gc.CairoDrawLine(ulx, uly, llx, lly)
+#			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
+#			return
+		
 		if self.IsOutlineActive():
 			self.PushTrafo()
 			self.Concat(trafo)
@@ -1325,7 +1347,13 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		else:
 			resolution = config.preferences.eps_preview_resolution
 			self.DrawImage(data.image, trafo(Scale(72.0 / resolution)))
-
+			
+	def StartDrawing(self):
+		self.gc.CairoStartDrawing()
+		
+	def FinalizeDrawing(self):
+		self.gc.CairoFinalizeDrawing()
+		
 	#
 	#
 
@@ -1412,8 +1440,6 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		# height. The page's lower left corner is at (0,0) and its upper
 		# right corner at (width, height) in doc coords. The outline is
 		# drawn as a rectangle with a thin shadow.
-		if not config.preferences.draw_page_border:
-			return
 		if config.preferences.cairo_enabled:
 			left, bottom = self.DocToWin(0, 0)
 			right, top = self.DocToWin(width, height)

@@ -296,7 +296,7 @@ class Preferences(connector.Publisher):
 	sample_text = 'Text'	#	Font dialog sample text. Can be changed by simply editing it in the font dialog.
 	default_paper_format = 'A4'	#Default paper format for new documents and documents read from a files that don't specify a paper format. This should be one of the formats defined in papersize.py.
 	default_page_orientation = 0	#Default page orientation. Portrait = 0, Landscape = 1. Other values are silenty ignored.
-	draw_page_border = 1
+	draw_page_border = 1 #TODO: Should be merged with show_page_outline!
 	page_border_size = 5
 	
 	#Screen resolution in pixel per point. Used by the canvas to convert document coordinates to screen coordinates for a zoom factor of 100%

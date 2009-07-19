@@ -219,16 +219,18 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		p2 = self.WinToDoc(x + w + 1, y + h + 1)
 		rect = Rect(p1, p2)
 
-		self.gc.SetFillColor(StandardColors.white)
-		self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
+#		self.gc.SetFillColor(StandardColors.white)
+#		self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
 
 		#	draw paper
+		self.gc.StartDrawing()
 		if self.show_page_outline:
 			w, h = self.document.PageSize()
 			self.gc.DrawPageOutline(w, h)
 
 
 		self.document.Draw(self.gc, rect)
+		self.gc.FinalizeDrawing()
 		if region:
 			self.gc.PopClip()
 

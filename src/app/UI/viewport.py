@@ -156,10 +156,10 @@ class Viewport:
 			clear_area = self.tkwin.ClearArea
 			union = region.UnionRectWithRegion
 			for rect in self.clear_rects:
-				apply(clear_area, rect + (0,))
+#				apply(clear_area, rect + (0,))
 				apply(union, rect)
 		else:
-			self.tkwin.ClearArea(0, 0, 0, 0, 0)
+#			self.tkwin.ClearArea(0, 0, 0, 0, 0)
 			region = None
 		self.clear_entire_window = 0
 		self.clear_rects = []

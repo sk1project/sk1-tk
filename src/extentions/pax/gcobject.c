@@ -1139,20 +1139,28 @@ PaxGC_CairoInit(PaxGCObject * self, PyObject *args)
 	int width, height;
 	int x_off=0, y_off=0;
 	cairo_surface_t *surface;
+	cairo_surface_t *winsurface;
 	if (!PyArg_ParseTuple(args, "ii",
 			&width,
 			&height))
 		return NULL;
 
 	Visual *visual = DefaultVisual(self->display, DefaultScreen(self->display));
-	surface = cairo_xlib_surface_create(self->display, self->drawable, visual, width, height);
-	cairo_surface_set_device_offset(surface, -x_off, -y_off);
-	self->cairo = cairo_create(surface);
-// 	cairo_surface_destroy(surface);
-	printf("Cairo initialized!\n");
+	winsurface = cairo_xlib_surface_create(self->display, self->drawable, visual, width, height);
+	cairo_surface_set_device_offset(winsurface, -x_off, -y_off);
+	self->cairowin = cairo_create(winsurface);
+
+	cairo_set_fill_rule(self->cairowin, 1);
+	cairo_move_to(self->cairowin, 0, 0);
+
+	self->cairo_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
+	cairo_surface_set_device_offset(self->cairo_surface, -x_off, -y_off);
+	self->cairo = cairo_create(self->cairo_surface);
+
 	cairo_set_fill_rule(self->cairo, 1);
 	cairo_move_to(self->cairo, 0, 0);
 
+	printf("Cairo surfaces are initialized!\n");
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1547,6 +1555,7 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	cairo_surface_t *surface;
 	unsigned char *rgba;
 	cairo_matrix_t *matrix;
+	unsigned char color;
 	double xx,yx, xy, yy, x0, y0;
 	
 	if (!PyArg_ParseTuple (args, "Oiiddddddi",&src,
@@ -1574,23 +1583,35 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 		for(x=0;x<width;x++)
 		{	
 			rgba= (unsigned char*)(imagebuf+x);
-			data[offset+x*4+2]=rgba[0]*rgba[3]/256;//R
-			data[offset+x*4+1]=rgba[1]*rgba[3]/256;//G
-			data[offset+x*4]=rgba[2]*rgba[3]/256;//B
-			data[offset+x*4+3]=rgba[3];//A
-			//resulted order BGRA
+			if(type==3)
+			{
+				color=(rgba[0]+rgba[1]+rgba[2])*rgba[3]/768;
+				data[offset+x*4+2]=color;//R
+				data[offset+x*4+1]=color;//G
+				data[offset+x*4]=color;//B
+				data[offset+x*4+3]=rgba[3];//A
+				//resulted order BGRA
+			}
+			else
+			{
+				data[offset+x*4+2]=rgba[0]*rgba[3]/256;//R
+				data[offset+x*4+1]=rgba[1]*rgba[3]/256;//G
+				data[offset+x*4]=rgba[2]*rgba[3]/256;//B
+				data[offset+x*4+3]=rgba[3];//A
+				//resulted order BGRA
+			}
 		}
 		offset+=width*4;
 	}
 	
-	if(type==1)
+	if(type==0)
 	{
-	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24,
 								width, height, stride);
 	}
 	else
 	{
-	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24,
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
 								width, height, stride);
 	}
 
@@ -1605,13 +1626,14 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	matrix->y0 = 0;
 	cairo_set_matrix(self->cairo, matrix);
 
+	cairo_surface_destroy(surface);
 	free(data);
 	free(matrix);
 
 	Py_INCREF(Py_None);
 	return Py_None;
 }
-// cairo_set_tolerance(gc_object->cairo, 1.0);
+
 
 static PyObject *
 PaxGC_CairoSetTolerance(PaxGCObject * self, PyObject *args)
@@ -1654,6 +1676,39 @@ PaxGC_CairoSetAntialias(PaxGCObject * self, PyObject *args)
 	return Py_None;
 }
 
+static PyObject *
+PaxGC_CairoStartDrawing(PaxGCObject * self)
+{
+	int width,height;
+	
+	width=cairo_image_surface_get_width(self->cairo_surface);
+	height=cairo_image_surface_get_height(self->cairo_surface);
+
+	cairo_set_source_rgb (self->cairo, 1, 1, 1);
+
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, 0, 0);
+	cairo_rel_line_to(self->cairo, width, 0);
+	cairo_rel_line_to(self->cairo, 0, height);
+	cairo_rel_line_to(self->cairo, -1*width, 0);
+	cairo_rel_line_to(self->cairo, 0, -1*height);
+	cairo_close_path(self->cairo);
+
+	cairo_fill(self->cairo);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject *
+PaxGC_CairoFinalizeDrawing(PaxGCObject * self)
+{	
+	cairo_set_source_surface(self->cairowin, self->cairo_surface, 0, 0);
+	cairo_paint(self->cairowin);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
 
 static PyMethodDef PaxGC_methods[] = {
 	{"CairoInit", (PyCFunction)PaxGC_CairoInit, 1},
@@ -1675,6 +1730,8 @@ static PyMethodDef PaxGC_methods[] = {
 	{"CairoDrawImage", (PyCFunction)PaxGC_CairoDrawImage, 1},
 	{"CairoSetTolerance", (PyCFunction)PaxGC_CairoSetTolerance, 1},
 	{"CairoSetAntialias", (PyCFunction)PaxGC_CairoSetAntialias, 1},
+	{"CairoStartDrawing", (PyCFunction)PaxGC_CairoStartDrawing, 1},
+	{"CairoFinalizeDrawing", (PyCFunction)PaxGC_CairoFinalizeDrawing, 1},
 
 	{"ChangeGC", (PyCFunction)PaxGC_ChangeGC, 1},
 	{"DrawArc", (PyCFunction)PaxGC_DrawArc, 1},

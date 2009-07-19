@@ -517,14 +517,17 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def save_bitmap_buffer(self):
 		w=self.gc.widget
 		if app.root.winfo_viewable():
-			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)			
+#			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)
+			self.bitmap_buffer=None			
 		else:
 			self.bitmap_buffer=None
 
 		
 	def put_buffer_bitmap(self):
 		if not self.bitmap_buffer==None:
-			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
+#			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
+			self.bitmap_buffer=None
+			self.RedrawMethod()	
 		else:
 			self.RedrawMethod()
 			

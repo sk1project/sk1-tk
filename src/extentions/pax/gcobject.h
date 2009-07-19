@@ -13,6 +13,8 @@ typedef struct PaxGCObject_
     GC		gc;
     int		shared;
     cairo_t *       cairo;
+    cairo_t *       cairowin;
+    cairo_surface_t *  cairo_surface;
     cairo_pattern_t *  cairo_pattern;
     PyObject *	drawable_object;
 } PaxGCObject;
