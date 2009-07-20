@@ -1548,7 +1548,7 @@ static PyObject *
 PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 {
 	ImagingObject* src;
-	int width, height, stride, x,y,offset, type;	
+	int width, height, stride, x,y,offset, type, filter;	
 	unsigned char *data;
 	Imaging imaging;
 	INT32 *imagebuf = NULL;
@@ -1558,8 +1558,8 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	unsigned char color;
 	double xx,yx, xy, yy, x0, y0;
 	
-	if (!PyArg_ParseTuple (args, "Oiiddddddi",&src,
-				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0,&type))
+	if (!PyArg_ParseTuple (args, "Oiiddddddii",&src,
+				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0,&type,&filter))
 		return NULL;
 
 	stride=width*4;
@@ -1617,7 +1617,28 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 
 	cairo_set_matrix(self->cairo, matrix);
 	cairo_set_source_surface(self->cairo, surface, 0, 0);
+
+	switch (filter)
+	{
+	case 1:
+	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_GOOD);
+	    break;
+	case 2:
+	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BEST);
+	    break;
+	case 3:
+	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_NEAREST);
+	    break;
+	case 4:
+	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BILINEAR);
+	    break;
+	default:
+	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_FAST);
+	}
+
+
 	cairo_paint(self->cairo);
+
 	matrix->xx = 1;
 	matrix->yx = 0;
 	matrix->xy = 0;
@@ -1704,6 +1725,7 @@ static PyObject *
 PaxGC_CairoFinalizeDrawing(PaxGCObject * self)
 {	
 	cairo_set_source_surface(self->cairowin, self->cairo_surface, 0, 0);
+	cairo_pattern_set_filter (cairo_get_source (self->cairowin), CAIRO_FILTER_FAST);
 	cairo_paint(self->cairowin);
 
 	Py_INCREF(Py_None);

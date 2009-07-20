@@ -10,12 +10,6 @@
 #	Constants...
 #
 
-#
-#	Types of handles
-#
-
-# physical
-# for rect handles: filled == handle_id & 1
 
 
 CAIRO_ANTIALIAS_DEFAULT  = 0
@@ -23,6 +17,34 @@ CAIRO_ANTIALIAS_NONE     = 1
 CAIRO_ANTIALIAS_GRAY     = 2
 CAIRO_ANTIALIAS_SUBPIXEL = 3
 
+CAIRO_FILTER_FAST        = 0
+CAIRO_FILTER_GOOD        = 1
+CAIRO_FILTER_BEST        = 2
+CAIRO_FILTER_NEAREST     = 3
+CAIRO_FILTER_BILINEAR    = 4
+
+CAIRO_OPERATOR_CLEAR     = 0
+CAIRO_OPERATOR_SOURCE    = 1
+CAIRO_OPERATOR_OVER      = 2
+CAIRO_OPERATOR_IN        = 3
+CAIRO_OPERATOR_OUT       = 4
+CAIRO_OPERATOR_ATOP      = 5
+CAIRO_OPERATOR_DEST      = 6
+CAIRO_OPERATOR_DEST_OVER = 7
+CAIRO_OPERATOR_DEST_IN   = 8
+CAIRO_OPERATOR_DEST_OUT  = 9
+CAIRO_OPERATOR_DEST_ATOP = 10
+CAIRO_OPERATOR_XOR       = 11
+CAIRO_OPERATOR_ADD       = 12
+CAIRO_OPERATOR_SATURATE  = 13
+
+
+#
+#	Types of handles
+#
+
+# physical
+# for rect handles: filled == handle_id & 1
 
 Handle_OpenRect		= 0
 Handle_FilledRect	= 1
