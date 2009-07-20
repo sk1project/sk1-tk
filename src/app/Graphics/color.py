@@ -25,6 +25,9 @@ colormanager=app.colormanager
 def CreateRGBColor(r, g, b):
 	return RGB_Color(round(r, 3), round(g, 3), round(b, 3))
 
+def CreateRGBAColor(r, g, b, a):
+	return RGB_Color(round(r, 3), round(g, 3), round(b, 3), round(a, 3))
+
 def XRGBColor(s):
 	# only understands the old x specification with two hex digits per
 	# component. e.g. `#00FF00'
@@ -38,22 +41,25 @@ def XRGBColor(s):
 def CreateCMYKColor(c, m, y, k):
 	return CMYK_Color(c, m, y, k)
 
+def CreateCMYKAColor(c, m, y, k, a):
+	return CMYK_Color(c, m, y, k, a)
+
 def CreateSPOTColor(r,g,b,c,m,y,k,name,palette):
-	return SPOT_Color(r,g,b,c,m,y,k, alpha=0, name=name, palette=palette)
+	return SPOT_Color(r,g,b,c,m,y,k, alpha=1, name=name, palette=palette)
 
 def CreateSPOT_RGBColor(r,g,b,name,palette):
 	if app.config.preferences.use_cms:
 		c,m,y,k = app.colormanager.convertRGB(r, g, b)
 	else:
 		c,m,y,k = rgb_to_cmyk(r, g, b)
-	return SPOT_Color(r,g,b,c,m,y,k, alpha=0, name=name, palette=palette)
+	return SPOT_Color(r,g,b,c,m,y,k, alpha=1, name=name, palette=palette)
 
 def CreateSPOT_CMYKColor(c,m,y,k,name,palette):
 	if app.config.preferences.use_cms:
 		r,g,b = app.colormanager.processCMYK(c,m,y,k)
 	else:
 		r,g,b = cmyk_to_rgb(c,m,y,k)
-	return SPOT_Color(r,g,b,c,m,y,k, alpha=0, name=name, palette=palette)
+	return SPOT_Color(r,g,b,c,m,y,k, alpha=1, name=name, palette=palette)
 
 def cmyk_to_rgb(c, m, y, k):
 	r = round(1.0 - min(1.0, c + k), 3)
@@ -82,10 +88,13 @@ def ParseSketchColor(v1, v2, v3):
 	
 def ParseSKColor(model, v1, v2, v3, v4=0, v5=0):
 	if model=='CMYK':
-		r,g,b = cmyk_to_rgb(v1, v2, v3, v4)
 		return CMYK_Color(v1, v2, v3, v4)
+	if model=='CMYKA':
+		return CMYK_Color(v1, v2, v3, v4, v5)
 	if model=='RGB':
 		return RGB_Color(round(v1, 3), round(v2, 3), round(v3, 3))
+	if model=='RGBA':
+		return RGB_Color(round(v1, 3), round(v2, 3), round(v3, 3), round(v4, 3))
 	
 class SK1_Color:	
 	rgb=None
@@ -119,7 +128,7 @@ class SK1_Color:
 		
 class RGB_Color(SK1_Color):
 	
-	def __init__(self, r, g, b, alpha=0, name='Not defined'):
+	def __init__(self, r, g, b, alpha=1, name='Not defined'):
 		SK1_Color.__init__(self)		
 		self.model = 'RGB'
 		self.red=r
@@ -174,7 +183,7 @@ class RGB_Color(SK1_Color):
 
 class CMYK_Color(SK1_Color):
 	
-	def __init__(self, c, m, y, k, alpha=0, name='Not defined'):
+	def __init__(self, c, m, y, k, alpha=1, name='Not defined'):
 		SK1_Color.__init__(self)		
 		self.model = 'CMYK'
 		self.c=c
@@ -218,7 +227,7 @@ class CMYK_Color(SK1_Color):
 	
 class SPOT_Color(SK1_Color):
 	
-	def __init__(self, r, g, b, c, m, y, k, alpha=0, name='Not defined', palette='Unknown'):
+	def __init__(self, r, g, b, c, m, y, k, alpha=1, name='Not defined', palette='Unknown'):
 		SK1_Color.__init__(self)		
 		self.model = 'SPOT'
 		self.r=r
@@ -272,7 +281,7 @@ class SPOT_Color(SK1_Color):
 	
 class Registration_Black(SPOT_Color):
 	
-	def __init__(self, r=0, g=0, b=0, c=1, m=1, y=1, k=1, alpha=0, name='All', palette='Unknown'):
+	def __init__(self, r=0, g=0, b=0, c=1, m=1, y=1, k=1, alpha=1, name='All', palette='Unknown'):
 		SPOT_Color.__init__(self,r, g, b, c, m, y, k, alpha, name, palette)
 		
 	def toString(self):

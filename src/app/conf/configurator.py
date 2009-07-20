@@ -418,7 +418,7 @@ class Preferences(connector.Publisher):
 	#	Cairo data
 	#
 	cairo_enabled=1
-	alpha_channel_enabled=0
+	alpha_channel_enabled=1
 	bitmap_alpha_channel_enabled=1
 	cairo_tolerance=.1
 	cairo_antialias=0
