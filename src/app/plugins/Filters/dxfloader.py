@@ -421,8 +421,18 @@ class DXFLoader(GenericLoader):
 		self.encoding = 'latin1'
 		self.dynamic_style_dict = {}
 		self.style_dict = {}
-		self.ltype_dict = {}
-		self.layer_dict = {}
+		self.ltype_dict = {'CONTINUOUS': { '2': 'CONTINUOUS', # Linetype name
+											'3': 'Solid line', # Descriptive text for linetype
+											'49': [], # Dash, dot or space length 
+													  #(one entry per element)
+										  }
+						  }
+		self.layer_dict = {'0': { '2': '0', # Layer name
+								  '6': None, #Linetype name
+								  '62': 0, # Color number
+								  '370': None, #Line weight
+								  }
+							}
 		self.block_dict = {}
 		self.stack = []
 		self.stack_trafo = []
@@ -438,7 +448,16 @@ class DXFLoader(GenericLoader):
 		self.unit_to_pt = 2.83464566929
 		self.close_path = 0
 		
+		self.general_param = {
+				'8': self.default_layer, # Layer name
+				'6': 'BYLAYER', # Linetype name 
+				'62': 256, # Color number 
+				'48': 1.0, # Linetype scale 
+				#'60': 0, # Object visibility. If 1 Invisible
+				}
+		
 		self.curstyle = Style()
+		self.update_trafo()
 
 
 	def update_trafo(self, scale = 1):
@@ -475,9 +494,10 @@ class DXFLoader(GenericLoader):
 		# 0 = Color BYBLOCK
 		if color_index == 0:
 			block_name = self.default_block
-			color_index = self.block_dict[block_name]['62']
+			layer_name = self.block_dict[block_name]['8']
+			color_index = self.layer_dict[layer_name]['62']
 		# 256 = Color BYLAYER
-		elif  color_index == 256 or color_index is None:
+		if  color_index == 256 or color_index is None:
 			layer_name = self.default_layer
 			color_index = self.layer_dict[layer_name]['62']
 		## FIXMY 257 = Color BYENTITY
@@ -496,16 +516,16 @@ class DXFLoader(GenericLoader):
 			width = self.default_line_width
 		
 		width = width * 72.0 / 2.54 /1000 # th 100 mm to pt
+		if width <= 0.0: # XXX
+			width = 0.1
 		return width 
 
-	def get_line_type(self, linetype = None, scale = None, width = 1.0):
+	def get_line_type(self, linetype = None, scale = 1.0, width = 1.0):
 		if linetype is None: 
 			layer_name = self.default_layer
 			linetype_name = self.layer_dict[layer_name]['6']
 			linetype = self.ltype_dict[linetype_name]['49']
-		if scale is None:
-			scale = 1.0
-			
+		
 		dashes = []
 		for i in xrange(len(linetype)):
 			dashes.append(abs(linetype[i]) * scale * self.unit_to_pt / width )
@@ -514,21 +534,14 @@ class DXFLoader(GenericLoader):
 
 
 	def get_line_style(self, **kw):
-		if '8' in kw:
-			layer_name = kw['8']
-			self.default_layer = layer_name
+		if kw['8'] in self.layer_dict:
+			self.default_layer = layer_name = kw['8']
 		else:
 			layer_name = self.default_layer
+
+		scale = kw['48']
+		color_index = kw['62']
 		
-		if '48' in kw:
-			scale = kw['48']
-		else:
-			scale = 1.0
-		
-		if '62' in kw:
-			color_index = kw['62']
-		else:
-			color_index = 256
 		
 		style = Style()
 		style.line_width = self.get_line_width()
@@ -648,28 +661,27 @@ class DXFLoader(GenericLoader):
 	def load_LTYPE(self):
 		param={ '2': '', # Linetype name
 				'3': '', # Descriptive text for linetype
-				'73': 0, # The number of linetype elements
-				'40': 0, # Total pattern length
+				#'73': 0, # The number of linetype elements
+				#'40': 0, # Total pattern length
 				'49': [], # Dash, dot or space length (one entry per element)
 				}
 		param = self.read_param(param, [0])
-
+		
 		name = param['2']
 		if name:
 			self.ltype_dict[name] = param
-		
-		dashes = []
-		for i in xrange(len(param['49'])):
-			dashes.append(abs(param['49'][i]) * self.unit_to_pt)
-		
-		name3 = param['3']
-		print name3, dashes
-		if name3 and dashes:
-			style = Style()
-			style.line_dashes = tuple(dashes)
-			style = style.AsDynamicStyle()
-			style.SetName(name + name3)
-			self.dynamic_style_dict[name] = style
+			dashes = []
+			for i in xrange(len(param['49'])):
+				dashes.append(abs(param['49'][i]) * self.unit_to_pt)
+			
+			name3 = param['3']
+			print name3, dashes
+			if name3 and dashes:
+				style = Style()
+				style.line_dashes = tuple(dashes)
+				style = style.AsDynamicStyle()
+				style.SetName(name + name3)
+				self.dynamic_style_dict[name] = style
 
 
 	def load_LAYER(self):
@@ -709,7 +721,7 @@ class DXFLoader(GenericLoader):
 				'10': 0.0, # X Base point
 				'20': 0.0, # Y Base point
 				#'30': 0.0, # Z Base point 
-				'62': 0, # Color number
+				'8': self.default_layer, # Layer name
 				'data': [], # block data
 				}
 		param = self.read_param(param)
@@ -719,8 +731,8 @@ class DXFLoader(GenericLoader):
 		line1, line2 = self.read_record()
 		while line1 or line2:
 			if line1 == '0' and line2 == 'ENDBLK':
+				param = self.read_param(param)
 				break
-			
 			param['data'].append(line1)
 			param['data'].append(line2)
 			
@@ -739,15 +751,9 @@ class DXFLoader(GenericLoader):
 				'11': None, # X coordinat endpoint
 				'21': None, # y coordinat endpoint
 				#'31': None, # z coordinat endpoint
-				
-				'8': self.default_layer, # Layer name
-				'6': 'BYLAYER', # Linetype name 
-				'62': 256, # Color number 
-				'48': 1.0, # Linetype scale 
-				#'60': 0, # Object visibility. If 1 Invisible
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
-##		print 'LINE param',param
 		self.close_path = 0
 		self.path = CreatePath()
 		self.path.AppendLine(self.trafo(param['10'], param['20']))
@@ -755,7 +761,6 @@ class DXFLoader(GenericLoader):
 		style = self.get_line_style(**param)
 		self.prop_stack.AddStyle(style.Duplicate())
 		self.bezier(self.path,)
-##		print 'Create LINE'
 
 	def polyline(self):
 		param={	'70': 0, # bit codes for Polyline entity
@@ -848,6 +853,7 @@ class DXFLoader(GenericLoader):
 				#'30': None, # Z coordinat center
 				'40': 0.0  # radius
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		
 		x = param['10']
@@ -855,6 +861,9 @@ class DXFLoader(GenericLoader):
 		r = param['40']
 		
 		t = self.trafo(Trafo(r,0,0,r,x,y))
+		
+		style = self.get_line_style(**param)
+		self.prop_stack.AddStyle(style.Duplicate())
 		
 		apply(self.ellipse, t.coeff())
 
@@ -866,6 +875,7 @@ class DXFLoader(GenericLoader):
 				'50': 0.0, # Start angle
 				'51': 0.0 # End angle
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		
 		x = param['10']
@@ -877,6 +887,9 @@ class DXFLoader(GenericLoader):
 		t = self.trafo(Trafo(r,0,0,r,x,y))
 		
 		r, w1, w2, r, x, y = t.coeff()
+		
+		style = self.get_line_style(**param)
+		self.prop_stack.AddStyle(style.Duplicate())
 		
 		apply(self.ellipse, (r, w1, w2, r, x, y, start_angle, end_angle, ArcArc))
 		
@@ -892,6 +905,7 @@ class DXFLoader(GenericLoader):
 				'41': 0.0, # Start parameter (this value is 0.0 for a full ellipse)
 				'42': 0.0, # End parameter (this value is 2pi for a full ellipse)
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		
 		cx = param['10']
@@ -911,6 +925,10 @@ class DXFLoader(GenericLoader):
 		trafo = Rotation(angle)(trafo)
 		trafo = Translation(center)(trafo)
 		rx, w1, w2, ry, cx, cy = trafo.coeff()
+		
+		style = self.get_line_style(**param)
+		self.prop_stack.AddStyle(style.Duplicate())
+		
 		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
 
 
