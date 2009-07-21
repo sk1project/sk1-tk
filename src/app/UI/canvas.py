@@ -1625,6 +1625,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.begin_transaction()
 		try:
 			config.preferences.use_cms = not config.preferences.use_cms
+			config.preferences.use_cms_for_bitmap = not config.preferences.use_cms_for_bitmap
 			app.colormanager.update()
 			self.ForceRedraw()
 			self.main_window.palette.RedrawMethod()

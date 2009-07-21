@@ -1246,10 +1246,15 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			yy=trafo.m22*self.scale
 			yx=-1*trafo.m21*self.scale
 			xy=-1*trafo.m12*self.scale
-			self.gc.CairoDrawImage(image.im, w, h,
-									xx,yx,xy,yy,x0,y0,
-									config.preferences.bitmap_alpha_channel_enabled,
-									config.preferences.cairo_bitmap_filter)
+			if image.mode=="RGBA":
+				self.gc.CairoDrawImage(image.im, w, h,
+										xx,yx,xy,yy,x0,y0,
+										config.preferences.bitmap_alpha_channel_enabled,
+										config.preferences.cairo_bitmap_filter)
+			else:
+				self.gc.CairoDrawImage(image.im, w, h,
+										xx,yx,xy,yy,x0,y0,0,
+										config.preferences.cairo_bitmap_filter)	
 			return
 		self.create_ximage()
 		ximage = self.ximage
@@ -1412,12 +1417,13 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			x, y = self.DocToWin(point)
 			type,r,g,b=config.preferences.guide_color
 			self.gc.CairoSetSourceRGB(r,g,b)
-			self.gc.CairoSetOutlineAttr(1.0,0,0)
-			self.gc.CairoSetDash(config.preferences.guide_shape, 0)
+			self.gc.CairoSetOutlineAttr(1.0,const.CapButt, const.JoinMiter)
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
-			if horizontal:
+			if horizontal:				
+				self.gc.CairoSetDash(config.preferences.horizontal_guide_shape, 0)
 				self.gc.CairoDrawLine(0, y, self.widget.width, y)
 			else:
+				self.gc.CairoSetDash(config.preferences.vertical_guide_shape, 0)
 				self.gc.CairoDrawLine(x, 0, x, self.widget.height)
 			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 			self.gc.CairoSetDash([], 0)

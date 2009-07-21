@@ -62,8 +62,9 @@ class ImageData(ExternalData):
 			self.image_mode=UNSUPPORTED
 													
 		if image.mode not in ('RGB', 'RGBA'):
+			image.load()
 			if image.mode=='CMYK':
-				if app.config.preferences.use_cms:
+				if app.config.preferences.use_cms_for_bitmap:
 					self.image=colormanager.ImageCMYKtoRGB(image)
 				else:
 					self.image = image.convert('RGB')
@@ -89,7 +90,7 @@ class ImageData(ExternalData):
 		raise AttributeError, attr
 	
 	def update(self):
-		if app.config.preferences.use_cms:
+		if app.config.preferences.use_cms_for_bitmap:
 			if self.image_mode==CMYK_IMAGE:
 				self.image=colormanager.ImageCMYKtoRGB(self.orig_image)
 			else:
@@ -114,7 +115,7 @@ class ImageData(ExternalData):
 
 	def Convert(self, mode):
 		if mode != self.orig_image.mode:
-			if app.config.preferences.use_cms:
+			if app.config.preferences.use_cms_for_bitmap:
 				if mode=='RGB'and self.orig_image.mode=='CMYK':
 					return ImageData(colormanager.ImageCMYKtoRGB(self.orig_image))
 				if mode=='CMYK'and self.orig_image.mode=='RGB':

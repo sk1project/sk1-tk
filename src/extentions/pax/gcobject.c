@@ -1551,7 +1551,7 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	int width, height, stride, x,y,offset, type, filter;	
 	unsigned char *data;
 	Imaging imaging;
-	INT32 *imagebuf = NULL;
+	char *imagebuf = NULL;
 	cairo_surface_t *surface;
 	unsigned char *rgba;
 	cairo_matrix_t *matrix;
@@ -1578,40 +1578,52 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	imaging=src->image;
 	offset=0;
 	for(y=0;y<height;y++)
-	{			
-		imagebuf=imaging->image32[y];		
+	{
+		imagebuf=imaging->image[y];
 		for(x=0;x<width;x++)
-		{	
-			rgba= (unsigned char*)(imagebuf+x);
-			if(type==3)
+		{
+			rgba= (unsigned char*)(imagebuf+x*4);
+
+			switch (type)
 			{
+			case 1:
+				data[offset+x*4+2]=rgba[0]*rgba[3]/256;//R
+// 				printf("%2X%2X%2X%2X|",rgba[0],rgba[1],rgba[2],rgba[3]);
+				data[offset+x*4+1]=rgba[1]*rgba[3]/256;//G
+				data[offset+x*4]=rgba[2]*rgba[3]/256;//B
+				data[offset+x*4+3]=rgba[3];//A
+				//resulted order BGRA
+				break;
+			case 3:
 				color=(rgba[0]+rgba[1]+rgba[2])*rgba[3]/768;
 				data[offset+x*4+2]=color;//R
 				data[offset+x*4+1]=color;//G
 				data[offset+x*4]=color;//B
 				data[offset+x*4+3]=rgba[3];//A
 				//resulted order BGRA
-			}
-			else
-			{
-				data[offset+x*4+2]=rgba[0]*rgba[3]/256;//R
-				data[offset+x*4+1]=rgba[1]*rgba[3]/256;//G
-				data[offset+x*4]=rgba[2]*rgba[3]/256;//B
-				data[offset+x*4+3]=rgba[3];//A
+				break;
+			default:
+				data[offset+x*4+2]=rgba[0];//R
+// 				printf("%2X%2X%2X%2X|",rgba[0],rgba[1],rgba[2],rgba[3]);
+				data[offset+x*4+1]=rgba[1];//G
+				data[offset+x*4]=rgba[2];//B
+				data[offset+x*4+3]=255;//A
 				//resulted order BGRA
 			}
 		}
 		offset+=width*4;
+// 		printf("%s\n"," ");
 	}
-	
-	if(type==0)
+// 	printf("%s\n","=============================== ");
+
+	if(type==1)
 	{
-	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24,
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
 								width, height, stride);
 	}
 	else
 	{
-	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_ARGB32,
+	surface=cairo_image_surface_create_for_data (data, CAIRO_FORMAT_RGB24,
 								width, height, stride);
 	}
 

@@ -243,7 +243,8 @@ class Preferences(connector.Publisher):
 	
 	#The outline color of a new GuideLayer as a tuple of RGB values in the range 0..1.
 	guide_color = ('RGB', 0, 0.3, 1)
-	guide_shape = [5, 5]
+	horizontal_guide_shape = [5, 7]
+	vertical_guide_shape = [5, 8]
 	
 	layer_color = ('RGB', 0.196, 0.314, 0.635)
 	
@@ -378,6 +379,7 @@ class Preferences(connector.Publisher):
 	monitor_intent=0
 	
 	use_cms=1
+	use_cms_for_bitmap=1
 	simulate_printer=0
 	
 	#----------Document font managment-------------	
