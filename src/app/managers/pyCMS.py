@@ -556,7 +556,11 @@ def applyTransform (im, transform, inPlace = FALSE):
             raise PyCMSError, "Cannot transform image in place, input mode and output mode are different (%s vs. %s)" %(transform.inMode, transform.outMode)
         imOut = im
     else:
-        imOut = Image.new(transform.outputMode, im.size)
+    	if transform.outputMode=='CMYK':
+    		color=(100,0,0,0)
+    	else:
+    		color=(0,0,0)
+        imOut = Image.new(transform.outputMode, im.size, color)
 
     im.load() #make sure it's loaded, or it may not have an .im attribute!
     
