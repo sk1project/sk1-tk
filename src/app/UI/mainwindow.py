@@ -1358,13 +1358,13 @@ class sK1MainWindow(Publisher):
 			self.palette.ScrollXUnits(1)
 
 	def ScrollUpCanvas(self, delta):
-			self.canvas.ScrollYUnits(-1)
+			self.canvas.ScrollYUnits(-5)
 	def ScrollDownCanvas(self, delta):
-			self.canvas.ScrollYUnits(1)
+			self.canvas.ScrollYUnits(5)
 	def ScrollLeftCanvas(self, delta):
-			self.canvas.ScrollXUnits(-1)
+			self.canvas.ScrollXUnits(-5)
 	def ScrollRightCanvas(self, delta):
-			self.canvas.ScrollXUnits(1)
+			self.canvas.ScrollXUnits(5)
 	def CanvasZoomingOut(self, delta):
 			self.canvas.ZoomFactor(0.75)
 	def CanvasZoomingIn(self, delta):

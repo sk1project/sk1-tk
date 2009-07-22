@@ -1140,10 +1140,11 @@ PaxGC_CairoInit(PaxGCObject * self, PyObject *args)
 	int x_off=0, y_off=0;
 	cairo_surface_t *surface;
 	cairo_surface_t *winsurface;
+
 	if (!PyArg_ParseTuple(args, "ii",
 			&width,
 			&height))
-		return NULL;
+	return NULL;
 
 	Visual *visual = DefaultVisual(self->display, DefaultScreen(self->display));
 	winsurface = cairo_xlib_surface_create(self->display, self->drawable, visual, width, height);
@@ -1168,13 +1169,13 @@ PaxGC_CairoInit(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoSetSourceRGB(PaxGCObject * self, PyObject *args)
 {
-    double red, green, blue;
-
-    if (!PyArg_ParseTuple (args, "ddd",
+	double red, green, blue;
+	
+	if (!PyArg_ParseTuple (args, "ddd",
 			   &red, &green, &blue))
 	return NULL;
 
-    cairo_set_source_rgb (self->cairo, red, green, blue);
+	cairo_set_source_rgb (self->cairo, red, green, blue);
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1182,14 +1183,15 @@ PaxGC_CairoSetSourceRGB(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoSetSourceRGBA(PaxGCObject * self, PyObject *args)
 {
-    double red, green, blue;
-    double alpha = 1.0;
-
-    if (!PyArg_ParseTuple (args, "ddd|d",
+	double red, green, blue;
+	double alpha = 1.0;
+	
+	if (!PyArg_ParseTuple (args, "ddd|d",
 			   &red, &green, &blue, &alpha))
 	return NULL;
 
-    cairo_set_source_rgba (self->cairo, red, green, blue, alpha);
+	cairo_set_source_rgba (self->cairo, red, green, blue, alpha);
+
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1197,16 +1199,17 @@ PaxGC_CairoSetSourceRGBA(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoSetOutlineAttr(PaxGCObject * self, PyObject *args)
 {
-    double width;
-    int cap, join;
-
-    if (!PyArg_ParseTuple (args, "dii",
+	double width;
+	int cap, join;
+	
+	if (!PyArg_ParseTuple (args, "dii",
 			   &width, &cap, &join))
 	return NULL;
 
-cairo_set_line_width (self->cairo, width);
-cairo_set_line_cap (self->cairo, cap);
-cairo_set_line_join (self->cairo, join);
+	cairo_set_line_width (self->cairo, width);
+	cairo_set_line_cap (self->cairo, cap);
+	cairo_set_line_join (self->cairo, join);
+
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1218,30 +1221,32 @@ PaxGC_CairoFillRectangle(PaxGCObject * self, PyObject *args)
 	double arg2;
 	double arg3;
 	double arg4;
+
 	if (!PyArg_ParseTuple(args, "dddd",
 			&arg1,
 			&arg2,
 			&arg3,
 			&arg4))
-		return NULL;
+	return NULL;
 
-cairo_new_path(self->cairo);
-cairo_move_to(self->cairo, arg1, arg2);
-cairo_rel_line_to(self->cairo, arg3, 0);
-cairo_rel_line_to(self->cairo, 0, arg4);
-cairo_rel_line_to(self->cairo, -1*arg3, 0);
-cairo_rel_line_to(self->cairo, 0, -1*arg4);
-cairo_close_path(self->cairo);
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, arg1, arg2);
+	cairo_rel_line_to(self->cairo, arg3, 0);
+	cairo_rel_line_to(self->cairo, 0, arg4);
+	cairo_rel_line_to(self->cairo, -1*arg3, 0);
+	cairo_rel_line_to(self->cairo, 0, -1*arg4);
+	cairo_close_path(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_set_source(self->cairo, self->cairo_pattern);
+	}
+	cairo_fill(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_pattern_destroy(self->cairo_pattern);
+		self->cairo_pattern = NULL;
+	}
 
-if(self->cairo_pattern!=NULL){
-	cairo_set_source(self->cairo, self->cairo_pattern);
-}
-cairo_fill(self->cairo);
-
-if(self->cairo_pattern!=NULL){
-	cairo_pattern_destroy(self->cairo_pattern);
-	self->cairo_pattern = NULL;
-}
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1253,21 +1258,23 @@ PaxGC_CairoDrawRectangle(PaxGCObject * self, PyObject *args)
 	double arg2;
 	double arg3;
 	double arg4;
+
 	if (!PyArg_ParseTuple(args, "dddd",
 			&arg1,
 			&arg2,
 			&arg3,
 			&arg4))
-		return NULL;
+	return NULL;
 
-cairo_new_path(self->cairo);
-cairo_move_to(self->cairo, arg1, arg2);
-cairo_rel_line_to(self->cairo, arg3, 0);
-cairo_rel_line_to(self->cairo, 0, arg4);
-cairo_rel_line_to(self->cairo, -1*arg3, 0);
-cairo_rel_line_to(self->cairo, 0, -1*arg4);
-cairo_close_path(self->cairo);
-cairo_stroke(self->cairo);
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, arg1, arg2);
+	cairo_rel_line_to(self->cairo, arg3, 0);
+	cairo_rel_line_to(self->cairo, 0, arg4);
+	cairo_rel_line_to(self->cairo, -1*arg3, 0);
+	cairo_rel_line_to(self->cairo, 0, -1*arg4);
+	cairo_close_path(self->cairo);
+	cairo_stroke(self->cairo);
+
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1275,34 +1282,36 @@ cairo_stroke(self->cairo);
 static PyObject *
 PaxGC_CairoSetDash(PaxGCObject * self, PyObject *args)
 {
-    double *dashes, offset = 0;
-    int ndash, i;
-    PyObject *py_dashes;
-
-    if (!PyArg_ParseTuple (args, "O|d", &py_dashes, &offset))
+	double *dashes, offset = 0;
+	int ndash, i;
+	PyObject *py_dashes;
+	
+	if (!PyArg_ParseTuple (args, "O|d", &py_dashes, &offset))
 	return NULL;
-
-    py_dashes = PySequence_Fast (py_dashes,
-				 "first argument must be a sequence");
-    if (!py_dashes)
+	
+	py_dashes = PySequence_Fast (py_dashes,
+					"first argument must be a sequence");
+	if (!py_dashes)
 	return NULL;
+	
+	ndash = PySequence_Fast_GET_SIZE(py_dashes);
+	dashes = malloc (ndash * sizeof(double));
 
-    ndash = PySequence_Fast_GET_SIZE(py_dashes);
-    dashes = malloc (ndash * sizeof(double));
-    for (i = 0; i < ndash; i++) {
-	PyObject *item = PySequence_Fast_GET_ITEM(py_dashes, i);
-
-	dashes[i] = PyFloat_AsDouble(item);
-	if (PyErr_Occurred()) {
-	    free (dashes);
-	    Py_DECREF(py_dashes);
-	    return NULL;
+	for (i = 0; i < ndash; i++) {
+		PyObject *item = PySequence_Fast_GET_ITEM(py_dashes, i);
+		
+		dashes[i] = PyFloat_AsDouble(item);
+		if (PyErr_Occurred()) {
+			free (dashes);
+			Py_DECREF(py_dashes);
+			return NULL;
+		}
 	}
-    }
-    Py_DECREF(py_dashes);
+	Py_DECREF(py_dashes);
 
-cairo_set_dash(self->cairo, dashes, ndash, offset);
-free(dashes);
+	cairo_set_dash(self->cairo, dashes, ndash, offset);
+	free(dashes);
+
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1310,16 +1319,16 @@ free(dashes);
 static PyObject *
 PaxGC_CairoDrawLine(PaxGCObject * self, PyObject *args)
 {
-    double x0,y0,x1,y1;
+	double x0,y0,x1,y1;
 
-    if (!PyArg_ParseTuple (args, "dddd", &x0,&y0,&x1,&y1))
+	if (!PyArg_ParseTuple (args, "dddd", &x0,&y0,&x1,&y1))
 	return NULL;
 
-cairo_new_path(self->cairo);
-cairo_move_to(self->cairo, x0, y0);
-cairo_line_to(self->cairo, x1, y1);
-cairo_close_path(self->cairo);
-cairo_stroke(self->cairo);
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, x0, y0);
+	cairo_line_to(self->cairo, x1, y1);
+	cairo_close_path(self->cairo);
+	cairo_stroke(self->cairo);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1328,31 +1337,33 @@ cairo_stroke(self->cairo);
 static PyObject *
 PaxGC_CairoDrawArc(PaxGCObject * self, PyObject *args)
 {
-    double x, y, width, height, radius;
+	double x, y, width, height, radius;
 
-    if (!PyArg_ParseTuple (args, "dddd",
+	if (!PyArg_ParseTuple (args, "dddd",
 			   &x, &y, &width, &height))
 	return NULL;
 
-cairo_save (self->cairo);
+	cairo_save (self->cairo);
+	
+	cairo_new_path(self->cairo);
+	cairo_translate (self->cairo, x, y);
 
-cairo_new_path(self->cairo);
-cairo_translate (self->cairo, x, y);
-if(width>height)
-{
-	cairo_scale (self->cairo, width/height, 1.0);
-	radius=height/2;
-}
-else
-{
-	cairo_scale (self->cairo, 1.0, height/width);
-	radius=width/2;
-}
-cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
-cairo_close_path(self->cairo);
+	if(width>height)
+	{
+		cairo_scale (self->cairo, width/height, 1.0);
+		radius=height/2;
+	}
+	else
+	{
+		cairo_scale (self->cairo, 1.0, height/width);
+		radius=width/2;
+	}
 
-cairo_restore (self->cairo);
-cairo_stroke(self->cairo);
+	cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
+	cairo_close_path(self->cairo);
+	
+	cairo_restore (self->cairo);
+	cairo_stroke(self->cairo);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1361,39 +1372,39 @@ cairo_stroke(self->cairo);
 static PyObject *
 PaxGC_CairoFillArc(PaxGCObject * self, PyObject *args)
 {
-    double x, y, width, height, radius;
+	double x, y, width, height, radius;
 
-    if (!PyArg_ParseTuple (args, "dddd",
+	if (!PyArg_ParseTuple (args, "dddd",
 			   &x, &y, &width, &height))
 	return NULL;
 
-cairo_save (self->cairo);
-
-cairo_new_path(self->cairo);
-cairo_translate (self->cairo, x, y);
-if(width>height)
-{
-	cairo_scale (self->cairo, width/height, 1.0);
-	radius=height/2;
-}
-else
-{
-	cairo_scale (self->cairo, 1.0, height/width);
-	radius=width/2;
-}
-cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
-cairo_close_path(self->cairo);
-
-if(self->cairo_pattern!=NULL){
-	cairo_set_source(self->cairo, self->cairo_pattern);
-}
-cairo_fill(self->cairo);
-
-if(self->cairo_pattern!=NULL){
-	cairo_pattern_destroy(self->cairo_pattern);
-	self->cairo_pattern = NULL;
-}
-cairo_restore (self->cairo);
+	cairo_save (self->cairo);
+	
+	cairo_new_path(self->cairo);
+	cairo_translate (self->cairo, x, y);
+	if(width>height)
+	{
+		cairo_scale (self->cairo, width/height, 1.0);
+		radius=height/2;
+	}
+	else
+	{
+		cairo_scale (self->cairo, 1.0, height/width);
+		radius=width/2;
+	}
+	cairo_arc (self->cairo, 0., 0., radius, 0., 2 * 3.14159265359); //2 * M_PI);
+	cairo_close_path(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_set_source(self->cairo, self->cairo_pattern);
+	}
+	cairo_fill(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_pattern_destroy(self->cairo_pattern);
+		self->cairo_pattern = NULL;
+	}
+	cairo_restore (self->cairo);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1416,26 +1427,26 @@ PaxGC_CairoFillPolygon(PaxGCObject * self, PyObject *args)
 		return NULL;
 	}
 
-cairo_new_path(self->cairo);
-cairo_move_to(self->cairo, pts_arg1[0], pts_arg1[1]);
-
-for (i = 2; i < 2*npts_arg1; i++)
-{
-cairo_line_to(self->cairo, pts_arg1[i], pts_arg1[i+1]);
-i++;
-}
-cairo_line_to(self->cairo, pts_arg1[0], pts_arg1[1]);
-cairo_close_path(self->cairo);
-
-if(self->cairo_pattern!=NULL){
-	cairo_set_source(self->cairo, self->cairo_pattern);
-}
-cairo_fill(self->cairo);
-
-if(self->cairo_pattern!=NULL){
-	cairo_pattern_destroy(self->cairo_pattern);
-	self->cairo_pattern = NULL;
-}
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, pts_arg1[0], pts_arg1[1]);
+	
+	for (i = 2; i < 2*npts_arg1; i++)
+	{
+		cairo_line_to(self->cairo, pts_arg1[i], pts_arg1[i+1]);
+		i++;
+	}
+	cairo_line_to(self->cairo, pts_arg1[0], pts_arg1[1]);
+	cairo_close_path(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_set_source(self->cairo, self->cairo_pattern);
+	}
+	cairo_fill(self->cairo);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_pattern_destroy(self->cairo_pattern);
+		self->cairo_pattern = NULL;
+	}
 
 	PyMem_DEL(pts_arg1);
 	Py_INCREF(Py_None);
@@ -1450,26 +1461,26 @@ PaxGC_CairoDrawPolygon(PaxGCObject * self, PyObject *args)
 	int npts_arg1;
 	int i;
 
-	if (!PyArg_ParseTuple(args, "O",
-			&arg1))
+	if (!PyArg_ParseTuple(args, "O", &arg1))
 		return NULL;
+
 	if (!checkdoublelist(2, arg1, (double**)&pts_arg1, &npts_arg1)) {
 		if (!PyErr_Occurred())
 			PyErr_SetString(PyExc_TypeError, "arg1 should be CairoPoint[]");
 		return NULL;
 	}
 
-cairo_new_path(self->cairo);
-cairo_move_to(self->cairo, pts_arg1[0], pts_arg1[1]);
-
-for (i = 2; i < 2*npts_arg1; i++)
-{
-cairo_line_to(self->cairo, pts_arg1[i], pts_arg1[i+1]);
-i++;
-}
-cairo_line_to(self->cairo, pts_arg1[0], pts_arg1[1]);
-cairo_close_path(self->cairo);
-cairo_stroke(self->cairo);
+	cairo_new_path(self->cairo);
+	cairo_move_to(self->cairo, pts_arg1[0], pts_arg1[1]);
+	
+	for (i = 2; i < 2*npts_arg1; i++)
+	{
+		cairo_line_to(self->cairo, pts_arg1[i], pts_arg1[i+1]);
+		i++;
+	}
+	cairo_line_to(self->cairo, pts_arg1[0], pts_arg1[1]);
+	cairo_close_path(self->cairo);
+	cairo_stroke(self->cairo);
 
 	PyMem_DEL(pts_arg1);
 	Py_INCREF(Py_None);
@@ -1479,17 +1490,16 @@ cairo_stroke(self->cairo);
 static PyObject *
 PaxGC_CairoPatternCreateLinear(PaxGCObject * self, PyObject *args)
 {
-    double x0, y0, x1, y1;
-
-    if (!PyArg_ParseTuple (args, "dddd",
-			   &x0, &y0, &x1, &y1))
+	double x0, y0, x1, y1;
+	
+	if (!PyArg_ParseTuple (args, "dddd", &x0, &y0, &x1, &y1))
 	return NULL;
-
-    if(self->cairo_pattern!=NULL){
-	cairo_pattern_destroy(self->cairo_pattern);
-    }
-
-    self->cairo_pattern = cairo_pattern_create_linear(x0, y0, x1, y1);
+	
+	if(self->cairo_pattern!=NULL){
+		cairo_pattern_destroy(self->cairo_pattern);
+	}
+	
+	self->cairo_pattern = cairo_pattern_create_linear(x0, y0, x1, y1);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1498,17 +1508,16 @@ PaxGC_CairoPatternCreateLinear(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoPatternCreateRadial(PaxGCObject * self, PyObject *args)
 {
-    double x0, y0, r0, x1, y1, r1;
+	double x0, y0, r0, x1, y1, r1;
 
-    if (!PyArg_ParseTuple (args, "dddddd",
-			   &x0, &y0, &r0, &x1, &y1, &r1))
+	if (!PyArg_ParseTuple (args, "dddddd", &x0, &y0, &r0, &x1, &y1, &r1))
 	return NULL;
 
-    if(self->cairo_pattern!=NULL){
-	cairo_pattern_destroy(self->cairo_pattern);
-    }
+	if(self->cairo_pattern!=NULL){
+		cairo_pattern_destroy(self->cairo_pattern);
+	}
 
-    self->cairo_pattern = cairo_pattern_create_radial(x0, y0, r0, x1, y1, r1);
+	self->cairo_pattern = cairo_pattern_create_radial(x0, y0, r0, x1, y1, r1);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1517,13 +1526,12 @@ PaxGC_CairoPatternCreateRadial(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoPatternAddColorStopRGB(PaxGCObject * self, PyObject *args)
 {
-    double offset, red, green, blue;
-
-    if (!PyArg_ParseTuple (args, "dddd",
-			   &offset, &red, &green, &blue))
+	double offset, red, green, blue;
+	
+	if (!PyArg_ParseTuple (args, "dddd", &offset, &red, &green, &blue))
 	return NULL;
-
-    cairo_pattern_add_color_stop_rgb(self->cairo_pattern, offset, red, green, blue);
+	
+	cairo_pattern_add_color_stop_rgb(self->cairo_pattern, offset, red, green, blue);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1532,13 +1540,12 @@ PaxGC_CairoPatternAddColorStopRGB(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoPatternAddColorStopRGBA(PaxGCObject * self, PyObject *args)
 {
-    double offset, red, green, blue, alpha;
-
-    if (!PyArg_ParseTuple (args, "ddddd",
-			   &offset, &red, &green, &blue, &alpha))
+	double offset, red, green, blue, alpha;
+	
+	if (!PyArg_ParseTuple (args, "ddddd", &offset, &red, &green, &blue, &alpha))
 	return NULL;
-
-    cairo_pattern_add_color_stop_rgba(self->cairo_pattern, offset, red, green, blue, alpha);
+	
+	cairo_pattern_add_color_stop_rgba(self->cairo_pattern, offset, red, green, blue, alpha);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1633,19 +1640,19 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	switch (filter)
 	{
 	case 1:
-	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_GOOD);
-	    break;
+		cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_GOOD);
+		break;
 	case 2:
-	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BEST);
-	    break;
+		cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BEST);
+		break;
 	case 3:
-	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_NEAREST);
-	    break;
+		cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_NEAREST);
+		break;
 	case 4:
-	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BILINEAR);
-	    break;
+		cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_BILINEAR);
+		break;
 	default:
-	    cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_FAST);
+		cairo_pattern_set_filter (cairo_get_source (self->cairo), CAIRO_FILTER_FAST);
 	}
 
 
@@ -1671,12 +1678,12 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 static PyObject *
 PaxGC_CairoSetTolerance(PaxGCObject * self, PyObject *args)
 {
-    double tolerance;
-
-    if (!PyArg_ParseTuple (args, "d", &tolerance))
+	double tolerance;
+	
+	if (!PyArg_ParseTuple (args, "d", &tolerance))
 	return NULL;
-
-    cairo_set_tolerance(self->cairo, tolerance);
+	
+	cairo_set_tolerance(self->cairo, tolerance);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1685,24 +1692,24 @@ PaxGC_CairoSetTolerance(PaxGCObject * self, PyObject *args)
 static PyObject *
 PaxGC_CairoSetAntialias(PaxGCObject * self, PyObject *args)
 {
-    int aa;
-
-    if (!PyArg_ParseTuple (args, "i", &aa))
+	int aa;
+	
+	if (!PyArg_ParseTuple (args, "i", &aa))
 	return NULL;
 
 	switch (aa)
 	{
 	case 1:
-	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_NONE);
-	    break;
+		cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_NONE);
+		break;
 	case 2:
-	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_GRAY);
-	    break;
+		cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_GRAY);
+		break;
 	case 3:
-	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_SUBPIXEL);
-	    break;
+		cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_SUBPIXEL);
+		break;
 	default:
-	    cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_DEFAULT);
+		cairo_set_antialias(self->cairo, CAIRO_ANTIALIAS_DEFAULT);
 	}
 
 	Py_INCREF(Py_None);

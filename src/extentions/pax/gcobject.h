@@ -7,16 +7,16 @@
 
 typedef struct PaxGCObject_
 {
-    PyObject_HEAD
-    Display *	display;
-    Drawable	drawable;
-    GC		gc;
-    int		shared;
-    cairo_t *       cairo;
-    cairo_t *       cairowin;
-    cairo_surface_t *  cairo_surface;
-    cairo_pattern_t *  cairo_pattern;
-    PyObject *	drawable_object;
+	PyObject_HEAD
+	Display *	display;
+	Drawable	drawable;
+	GC		gc;
+	int		shared;
+	cairo_t *       cairo;
+	cairo_t *       cairowin;
+	cairo_surface_t *  cairo_surface;
+	cairo_pattern_t *  cairo_pattern;
+	PyObject *	drawable_object;
 } PaxGCObject;
 
 #define PAXGC_OWNED 0
