@@ -1353,10 +1353,12 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.DrawImage(data.image, trafo(Scale(72.0 / resolution)))
 			
 	def StartDrawing(self):
-		self.gc.CairoStartDrawing()
+		if config.preferences.cairo_enabled :
+			self.gc.CairoStartDrawing()
 		
 	def FinalizeDrawing(self):
-		self.gc.CairoFinalizeDrawing()
+		if config.preferences.cairo_enabled :
+			self.gc.CairoFinalizeDrawing()
 		
 	#
 	#

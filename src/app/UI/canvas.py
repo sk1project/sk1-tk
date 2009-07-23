@@ -524,17 +524,18 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 		
 	def put_buffer_bitmap(self):
-		if not self.bitmap_buffer==None:
-#			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
-			obj=self.document.SelectedObjects()
-			self.document.SelectNone()
-			self.gc.FinalizeDrawing()
-			self.document.SelectObject(obj)
-			
-				
+		if config.preferences.cairo_enabled :
+			if not self.bitmap_buffer==None:		
+	#			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
+				obj=self.document.SelectedObjects()
+				self.document.SelectNone()
+				self.gc.FinalizeDrawing()
+				self.document.SelectObject(obj)					
+			else:
+				self.RedrawMethod()				
 		else:
 			self.RedrawMethod()
-			
+				
 	def clear_buffer_bitmap(self, *args):
 		self.bitmap_buffer=None
 			

@@ -13,9 +13,11 @@ from app import Rect, EmptyRect, IntersectRects, Document, GraphicsDevice,\
 
 from app.conf.const import STATE, VIEW, DOCUMENT, LAYOUT, REDRAW
 from app.conf.const import LAYER, LAYER_STATE, LAYER_ORDER, LAYER_COLOR
+from app import config
 
 from tkext import PyWidget
 from viewport import Viewport
+
 
 
 class SketchView(PyWidget, Viewport, QueueingPublisher):
@@ -218,9 +220,10 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		p1 = self.WinToDoc(x - 1, y - 1)
 		p2 = self.WinToDoc(x + w + 1, y + h + 1)
 		rect = Rect(p1, p2)
-
-#		self.gc.SetFillColor(StandardColors.white)
-#		self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
+		
+		if not config.preferences.cairo_enabled :
+			self.gc.SetFillColor(StandardColors.white)
+			self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
 
 		#	draw paper
 		print 'start draw'
@@ -292,12 +295,14 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		w = self.tkwin
 		width = w.width
 		height = w.height
-		self.clear_window()
-#		if abs(offx) < width and abs(offy) < height:
-#			w.CopyArea(w, self.gc.gc, offx, offy, width, height, 0, 0)
-#			self.move_window_count = self.move_window_count + 1
-#		else:
-#			self.clear_window()
+		if config.preferences.cairo_enabled :
+			self.clear_window()
+		else:
+			if abs(offx) < width and abs(offy) < height:
+				w.CopyArea(w, self.gc.gc, offx, offy, width, height, 0, 0)
+				self.move_window_count = self.move_window_count + 1
+			else:
+				self.clear_window()
 
 	def SetScale(self, scale, do_center = 1):
 		# Set current scale
