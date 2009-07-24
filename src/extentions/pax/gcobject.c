@@ -1266,6 +1266,10 @@ PaxGC_CairoDrawRectangle(PaxGCObject * self, PyObject *args)
 			&arg4))
 	return NULL;
 
+	if(arg1==arg3 && arg4==arg2)
+	{
+		arg3+=1;arg4+=1;	
+	}
 	cairo_new_path(self->cairo);
 	cairo_move_to(self->cairo, arg1, arg2);
 	cairo_rel_line_to(self->cairo, arg3, 0);
@@ -1343,6 +1347,12 @@ PaxGC_CairoDrawArc(PaxGCObject * self, PyObject *args)
 			   &x, &y, &width, &height))
 	return NULL;
 
+	if(width==0)
+		width=1.0;	
+
+	if(height==0)
+		height=1.0;	
+
 	cairo_save (self->cairo);
 	
 	cairo_new_path(self->cairo);
@@ -1377,6 +1387,12 @@ PaxGC_CairoFillArc(PaxGCObject * self, PyObject *args)
 	if (!PyArg_ParseTuple (args, "dddd",
 			   &x, &y, &width, &height))
 	return NULL;
+
+	if(width==0)
+		width=1.0;	
+
+	if(height==0)
+		height=1.0;
 
 	cairo_save (self->cairo);
 	
@@ -1568,6 +1584,12 @@ PaxGC_CairoDrawImage(PaxGCObject *self, PyObject *args)
 	if (!PyArg_ParseTuple (args, "Oiiddddddii",&src,
 				&width, &height,&xx,&yx,&xy,&yy,&x0,&y0,&type,&filter))
 		return NULL;
+
+	if(width==0)
+		width=1.0;	
+
+	if(height==0)
+		height=1.0;	
 
 	stride=width*4;
 	data=malloc(stride*height);	
