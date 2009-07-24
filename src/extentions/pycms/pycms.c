@@ -165,18 +165,12 @@ pyCMSdoTransform (Imaging im, Imaging imOut, cmsHTRANSFORM hTransform) {
 
   Py_BEGIN_ALLOW_THREADS
 
-  if(im->block !=NULL) {
-	cmsDoTransform(hTransform, im->block,
-				imOut->block,
-				im->xsize*im->ysize);
-  }else{
 	for (i=0; i < im->ysize; i++)
 	{
 	cmsDoTransform(hTransform, im->image[i],
 				imOut->image[i],
 				im->xsize);
 	}
-  }
   Py_END_ALLOW_THREADS
 
   return 0;
