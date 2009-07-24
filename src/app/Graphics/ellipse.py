@@ -69,6 +69,8 @@ class Ellipse(RectangularPrimitive):
 
 	def __init__(self, trafo = None, start_angle = 0.0, end_angle = 0.0,
 					arc_type = ArcPieSlice, properties = None, duplicate = None):
+		if trafo is not None and trafo.m11==trafo.m21==trafo.m12==trafo.m22==0:
+			trafo=Trafo(1,0,0,-1,trafo.v1,trafo.v2)
 		if duplicate is not None:
 			self.start_angle = duplicate.start_angle
 			self.end_angle = duplicate.end_angle
