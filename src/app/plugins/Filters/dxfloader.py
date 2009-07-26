@@ -502,8 +502,11 @@ class DXFLoader(GenericLoader):
 			color_index = self.layer_dict[layer_name]['62']
 		## FIXMY 257 = Color BYENTITY
 		
+		if color_index < 0:
+			pattern = EmptyPattern
+		else:
+			pattern = SolidPattern(colors[color_index])
 		
-		pattern = SolidPattern(colors[color_index])
 		return pattern
 
 	def get_line_width(self, layer_name = None):
@@ -520,15 +523,21 @@ class DXFLoader(GenericLoader):
 			width = 0.1
 		return width 
 
-	def get_line_type(self, linetype = None, scale = 1.0, width = 1.0):
-		if linetype is None: 
+	def get_line_type(self, linetype_name = None, scale = 1.0, width = 1.0, layer_name = None):
+		if linetype_name == 'BYBLOCK':
+			block_name = self.default_block
+			layer_name = block_dict[block_name]['8']
+
+		if layer_name is None:
 			layer_name = self.default_layer
+
+		if linetype_name is None or linetype_name == 'BYLAYER' or linetype_name == 'BYBLOCK': 
 			linetype_name = self.layer_dict[layer_name]['6']
-			linetype = self.ltype_dict[linetype_name]['49']
 		
-		dashes = []
-		for i in xrange(len(linetype)):
-			dashes.append(abs(linetype[i]) * scale * self.unit_to_pt / width )
+		linetype = self.ltype_dict[linetype_name]['49']
+		
+		lscale = scale * self.unit_to_pt / width 
+		dashes = map(lambda i : abs(linetype[i]) * lscale, xrange(len(linetype)))
 		
 		return tuple(dashes)
 
@@ -539,6 +548,7 @@ class DXFLoader(GenericLoader):
 		else:
 			layer_name = self.default_layer
 
+		linetype_name = kw['6']
 		scale = kw['48']
 		color_index = kw['62']
 		
@@ -547,7 +557,7 @@ class DXFLoader(GenericLoader):
 		style.line_width = self.get_line_width()
 		style.line_join = const.JoinRound
 		style.line_cap = const.CapRound
-		style.line_dashes = self.get_line_type(scale = scale, width = style.line_width)
+		style.line_dashes = self.get_line_type(linetype_name = linetype_name, scale = scale, width = style.line_width)
 		style.line_pattern = self.get_pattern(color_index)
 
 		return style
@@ -765,14 +775,13 @@ class DXFLoader(GenericLoader):
 	def polyline(self):
 		param={	'70': 0, # bit codes for Polyline entity
 				'40': 0.01, 
-				'62': None #color
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		self.close_path = 0
 		self.path = CreatePath()
 		self.curstyle.line_width=param['40']*72
-		if param['62'] is not None:
-			self.curstyle.line_pattern = SolidPattern(colors[param['62']])
+		self.curstyle.line_pattern = self.get_pattern(param['62'])
 		# if Group 70 Flag bit value set 1 This is a closed Polyline
 		self.close_path = param['70'] & 1 == 1
 
@@ -965,18 +974,23 @@ class DXFLoader(GenericLoader):
 				'43': 0,
 				'10': [],
 				'20': [],
+				'370': None, #Line weight
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		
 		self.close_path = 0
 		self.path = CreatePath()
 		
 		if param['40'] is not None:
-			line_width = param['40']*72
+			line_width = param['40'] * self.unit_to_pt
 		else:
-			line_width = param['43']
+			line_width = param['43'] * self.unit_to_pt
+			
+		if param['370'] is not None:
+			line_width = param['370'] * self.unit_to_pt * 72.0 / 2.54 /1000
 		
-		self.curstyle.line_width = line_width 
+		self.curstyle = self.get_line_style(**param)
 		
 		# if Group 70 Flag bit value set 1 This is a closed Polyline
 		self.close_path = param['70'] & 1 == 1
