@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000 by Bernhard Herzog
 #
@@ -339,7 +340,8 @@ class SKLoader(GenericLoader):
 			trafo = Translation(trafo)
 		else:
 			trafo = apply(Trafo, trafo)
-		self.append_object(image.Image(self.id_dict[id], trafo = trafo))
+		if self.id_dict[id] is not None:
+			self.append_object(image.Image(self.id_dict[id], trafo = trafo))
 
 	functions.append('bm')
 	def bm(self, id, filename = None):
@@ -347,8 +349,11 @@ class SKLoader(GenericLoader):
 			from streamfilter import Base64Decode, SubFileDecode
 			decoder = Base64Decode(SubFileDecode(self.file, '-'))
 			data = image.load_image(decoder)
-		else:
+		elif os.path.isfile(os.path.join(self.directory, filename)):
 			data = image.load_image(os.path.join(self.directory, filename))
+		else:
+			self.add_message(_("File not found: %s") % os.path.join(self.directory, filename))
+			data = None
 		self.id_dict[id] = data
 
 	functions.append('eps')
