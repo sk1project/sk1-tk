@@ -35,14 +35,26 @@
 import sys, os, string
 
 from types import StringType, TupleType
-from app import _, CreatePath, Style
+from app import _, CreatePath, Style, SolidPattern, StandardColors
 
 from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
 import app
 
 plu=1016.0/72.0
+def_width_pen = 0.283
 
+colors = {
+		'0': StandardColors.white,
+		'1': StandardColors.black,
+		'2': StandardColors.blue,
+		'3': StandardColors.red,
+		'4': StandardColors.green,
+		'5': StandardColors.magenta,
+		'6': StandardColors.yellow,
+		'7': StandardColors.cyan,
+		'8': StandardColors.darkgray,
+		}
 
 class PLTLoader(GenericLoader):
 
@@ -50,8 +62,9 @@ class PLTLoader(GenericLoader):
 					"PU": 'pen_up',
 					"PA": 'plot_absolute',
 					"PR": 'plot_relative',
-					"IN": 'initialize'
-					#"SP": 'select_pen',
+					"IN": 'initialize',
+					"SP": 'select_pen',
+					"PW": 'pen_sizes'
 					#"LT": 'linetype',
 					#"PT": 'pen_metric', 
 					#"PL": 'pen_plu', 
@@ -127,6 +140,28 @@ class PLTLoader(GenericLoader):
 		self.draw=0
 		self.absolute=1
 		self.path=CreatePath()
+		self.curpen = None
+		self.penwidth = {}
+		self.select_pen('1')
+
+	def select_pen(self, pen):
+		if not pen in colors:
+			color_index = '1'
+		if not pen in self.penwidth:
+			width = def_width_pen
+		else:
+			width = self.penwidth[pen]
+		if not self.curpen == pen:
+			if self.draw == 1:
+				self.pen_up()
+				self.pen_down()
+			patern = SolidPattern(colors[pen])
+			self.curstyle.line_pattern = patern
+			self.curstyle.line_width = width
+			self.curpen = pen
+
+	def pen_sizes(self, width, pen):
+		self.penwidth[pen] = float(width) * 72 / 25.4
 
 
 	def get_compiled(self):
@@ -199,6 +234,7 @@ class PLTLoader(GenericLoader):
 		if keyword is not None:
 			method, argc=funclist.get(keyword, unknown_operator)
 			if method is not None:
+				#print method.__name__, args
 				try:
 					if len(args):
 						i=0
