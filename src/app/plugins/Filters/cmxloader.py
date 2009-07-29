@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1999, 2000 by Bernhard Herzog
 #
@@ -1838,6 +1839,7 @@ class CMXLoader(GenericLoader):
 			cmx = CMXFile(self, self.file)
 			cmx.Load()
 			self.document()
+			self.layer(name=_("Layer 1"))
 			prefix = ''
 			num_pages = cmx.NumPages()
 			for num in range(num_pages):
