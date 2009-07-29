@@ -1,4 +1,0 @@
-#define progress_bar_mask_width 8
-#define progress_bar_mask_height 10
-static unsigned char progress_bar_mask_bits[] = {
-   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
