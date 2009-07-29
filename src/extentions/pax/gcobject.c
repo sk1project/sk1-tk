@@ -1229,6 +1229,11 @@ PaxGC_CairoFillRectangle(PaxGCObject * self, PyObject *args)
 			&arg4))
 	return NULL;
 
+	if(arg1==arg3 && arg4==arg2)
+	{
+		arg3+=.05;arg4+=.05;	
+	}
+
 	cairo_new_path(self->cairo);
 	cairo_move_to(self->cairo, arg1, arg2);
 	cairo_rel_line_to(self->cairo, arg3, 0);
@@ -1268,7 +1273,7 @@ PaxGC_CairoDrawRectangle(PaxGCObject * self, PyObject *args)
 
 	if(arg1==arg3 && arg4==arg2)
 	{
-		arg3+=1;arg4+=1;	
+		arg3+=.05;arg4+=.05;	
 	}
 	cairo_new_path(self->cairo);
 	cairo_move_to(self->cairo, arg1, arg2);
@@ -1348,10 +1353,10 @@ PaxGC_CairoDrawArc(PaxGCObject * self, PyObject *args)
 	return NULL;
 
 	if(width==0)
-		width=1.0;	
+		width=.05;	
 
 	if(height==0)
-		height=1.0;	
+		height=.05;	
 
 	cairo_save (self->cairo);
 	
@@ -1389,10 +1394,10 @@ PaxGC_CairoFillArc(PaxGCObject * self, PyObject *args)
 	return NULL;
 
 	if(width==0)
-		width=1.0;	
+		width=.05;	
 
 	if(height==0)
-		height=1.0;
+		height=.05;
 
 	cairo_save (self->cairo);
 	
@@ -1839,6 +1844,12 @@ static PyMethodDef PaxGC_methods[] = {
 	{"ShmPutImage", (PyCFunction)PaxGC_ShmPutImage, 1},
 	{0, 0} /* Sentinel */
 };
+
+// ////////////////////////////////
+// 	#include <X11/Xcursor/Xcursor.h>
+// 	XDefineCursor(display, drawable, XcursorFilenameLoadCursor(display, "/home/igor/my_hand"));
+// 
+// ////////////////////////////////
 
 // ======================================================
 
