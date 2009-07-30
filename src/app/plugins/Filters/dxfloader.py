@@ -41,7 +41,7 @@ from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
 import app
 
-from string import strip, atoi, lower
+from string import strip, atoi, upper
 
 from math import sqrt, atan, atan2
 from math import pi, cos, sin
@@ -428,7 +428,7 @@ class DXFLoader(GenericLoader):
 										  }
 						  }
 		self.layer_dict = {'0': { '2': '0', # Layer name
-								  '6': None, #Linetype name
+								  '6': 'CONTINUOUS', #Linetype name
 								  '62': 0, # Color number
 								  '370': None, #Line weight
 								  }
@@ -494,7 +494,10 @@ class DXFLoader(GenericLoader):
 		# 0 = Color BYBLOCK
 		if color_index == 0:
 			block_name = self.default_block
-			layer_name = self.block_dict[block_name]['8']
+			if block_name is None:
+				layer_name = '0'
+			else:
+				layer_name = self.block_dict[block_name]['8']
 			color_index = self.layer_dict[layer_name]['62']
 		# 256 = Color BYLAYER
 		if  color_index == 256 or color_index is None:
@@ -534,7 +537,7 @@ class DXFLoader(GenericLoader):
 		if linetype_name is None or linetype_name == 'BYLAYER' or linetype_name == 'BYBLOCK': 
 			linetype_name = self.layer_dict[layer_name]['6']
 		
-		linetype = self.ltype_dict[linetype_name]['49']
+		linetype = self.ltype_dict[upper(linetype_name)]['49']
 		
 		lscale = scale * self.unit_to_pt / width 
 		dashes = map(lambda i : abs(linetype[i]) * lscale, xrange(len(linetype)))
@@ -640,7 +643,7 @@ class DXFLoader(GenericLoader):
 		param={	'3': self.encoding,
 				}
 		param = self.read_param(param)
-		encoding = lower(param['3']).replace('ansi_', '')
+		encoding = upper(param['3']).replace('ANSI_', '').replace('DOS','')
 		
 		self.encoding = encoding
 		
@@ -677,7 +680,7 @@ class DXFLoader(GenericLoader):
 				}
 		param = self.read_param(param, [0])
 		
-		name = param['2']
+		name = upper(param['2'])
 		if name:
 			self.ltype_dict[name] = param
 			dashes = []
@@ -722,7 +725,7 @@ class DXFLoader(GenericLoader):
 				}
 		param = self.read_param(param, [0])
 
-		style_name = lower(param['2'])
+		style_name = upper(param['2'])
 		self.style_dict[style_name] = param
 
 
@@ -1057,7 +1060,8 @@ class DXFLoader(GenericLoader):
 		font_size = param['40'] * self.trafo.m11
 		
 
-		halign = [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_LEFT, ALIGN_LEFT][param['72']]
+		halign = [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, \
+					ALIGN_LEFT, ALIGN_LEFT, ALIGN_LEFT][param['72']]
 		text = unicode_decoder(param['1'], self.encoding)
 		#style = self.style_dict[param['7']]
 #		print style
@@ -1065,7 +1069,7 @@ class DXFLoader(GenericLoader):
 		style_text = self.curstyle.Duplicate()
 		style_text.line_pattern = EmptyPattern
 		style_text.fill_pattern = SolidPattern(CreateRGBColor(0, 0, 0))
-		style_name = lower(param['7'])
+		style_name = upper(param['7'])
 		style = self.style_dict[style_name]
 		font_name = style['1000']
 		if font_name == 'Arial':
