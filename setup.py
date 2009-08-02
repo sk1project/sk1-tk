@@ -148,10 +148,17 @@ if __name__ == "__main__":
 					filter_src+'subfilefilter.c', filter_src+'base64filter.c', filter_src+'nullfilter.c', 
 					filter_src+'stringfilter.c', filter_src+'binfile.c', filter_src+'hexfilter.c'])
 	
-	tcl_include_path = "/usr/include/tcl8.5"
-	if os.path.isdir(tcl_include_path): tcl_include_dirs = [tcl_include_path]
-	else: tcl_include_dirs = []
-	
+	#Fix for Debian based distros
+	tcl_include_dirs = []
+	tcl_ver=''
+	if os.path.isdir('/usr/include/tcl8.5'):
+		tcl_include_dirs = ['/usr/include/tcl8.5']
+		tcl_ver ='8.5'
+		
+	if os.path.isdir('/usr/include/tcl8.6'):
+		tcl_include_dirs = ['/usr/include/tcl8.6']
+		tcl_ver ='8.6'
+
  
  	type1mod_src=src_path+'extentions/type1mod/'				
 	type1mod_module = Extension('sk1.app.modules._type1module',
@@ -177,7 +184,7 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],
 			sources = [paxtkinter_src+'paxtkinter.c'],
 			include_dirs = tcl_include_dirs,
-			libraries=['X11', 'tk8.5', 'tcl8.5'])
+			libraries=['X11', 'tk'+tcl_ver, 'tcl'+tcl_ver])
 			
  	ft2_src=src_path+'extentions/freetype2/'				
 	ft2_module = Extension('sk1.app.modules.ft2',
@@ -208,7 +215,7 @@ if __name__ == "__main__":
 					pax_src+'paxutil.c', pax_src+'pixmapobject.c', pax_src+'regionobject.c', 
 					pax_src+'tkwinobject.c'],
 			include_dirs=pax_include_dirs,
-			libraries=['X11', 'Xext', 'tk8.5', 'tcl8.5', 'cairo'])
+			libraries=['X11', 'Xext', 'tk'+tcl_ver, 'tcl'+tcl_ver, 'cairo'])
 			
  	skmod_src=src_path+'extentions/skmod/'	
 	skmod_module = Extension('sk1.app.modules._sketchmodule',
@@ -220,7 +227,7 @@ if __name__ == "__main__":
 					skmod_src+'skfm.c', skmod_src+'skimage.c', skmod_src+'skpoint.c', 
 					skmod_src+'skrect.c', skmod_src+'sktrafo.c'],
 			include_dirs=['/usr/include/cairo'],
-			libraries=['m', 'X11', 'Xext', 'tk8.5', 'tcl8.5', 'cairo'])
+			libraries=['m', 'X11', 'Xext', 'tk'+tcl_ver, 'tcl'+tcl_ver, 'cairo'])
 			
  	tkpng_src=src_path+'extentions/tkpng/'
 	tkpng_module = Extension('sk1.app.modules.libtkpng',
@@ -228,7 +235,7 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],
 			sources = [tkpng_src+'tkImgPNG.c', tkpng_src+'tkImgPNGInit.c'],
 			include_dirs = tcl_include_dirs,
-			libraries=['tk8.5', 'tcl8.5', 'z'])
+			libraries=['tk'+tcl_ver, 'tcl'+tcl_ver, 'z'])
 
 			
 	setup (name = 'sK1',
