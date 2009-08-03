@@ -19,5 +19,4 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 #
 
-
-python -c "import sk1" "$1"
+python -c "from sk1 import sk1_run;sk1_run()" "$1"
