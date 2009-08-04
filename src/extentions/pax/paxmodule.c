@@ -177,13 +177,15 @@ static int tk_pyobject_parse(ClientData clientData,
     PyObject * obj;
     if (!object_registry)
     {
-	interp->result = "object_registry not initialized";
+	Tcl_SetResult(interp, "object_registry not initialized", TCL_VOLATILE);
+// 	interp->result = "object_registry not initialized";
 	return TCL_ERROR;
     }
     obj = PyDict_GetItemString(object_registry, value);
     if (!obj)
     {
-	interp->result = "object not in registry";
+	Tcl_SetResult(interp, "object not in registry", TCL_VOLATILE);
+// 	interp->result = "object not in registry";
 	return TCL_ERROR;
     }
 
@@ -329,8 +331,8 @@ paxwidget_cmd(ClientData data, Tcl_Interp * interp, int argc, char** argv)
 	Tk_DestroyWindow(paxwidget->tkwin);
 	return TCL_ERROR;
     }
-
-    interp->result = Tk_PathName(paxwidget->tkwin);
+    Tcl_SetResult(interp, Tk_PathName(paxwidget->tkwin), TCL_VOLATILE);
+//     interp->result = Tk_PathName(paxwidget->tkwin);
     return TCL_OK;
 }
 
@@ -427,8 +429,10 @@ paxwidget_widget_cmd(ClientData data, Tcl_Interp * interp,
     length = strlen(argv[1]);
     if (c == 'b' && strncmp(argv[1], "bgpixel", length) == 0)
     {
-	sprintf(interp->result, "%ld",
+	sprintf(Tcl_GetStringResult(interp), "%ld",
 		Tk_3DBorderColor(paxwidget->background)->pixel);
+// 	sprintf(interp->result, "%ld",
+// 		Tk_3DBorderColor(paxwidget->background)->pixel);
     }
     else if ((c == 'c') && (strncmp(argv[1], "cget", length) == 0)
 	     && (length >= 2))
@@ -657,7 +661,8 @@ name_to_window(PyObject * self, PyObject * args)
     tkwin = Tk_NameToWindow(interp, name, (ClientData)Tk_MainWindow(interp));
     if (!tkwin)
     {
-	PyErr_SetString(PyExc_ValueError, interp->result);
+	PyErr_SetString(PyExc_ValueError, Tcl_GetStringResult(interp));
+// 	PyErr_SetString(PyExc_ValueError, interp->result);
 	return NULL;
     }
 
@@ -740,7 +745,8 @@ call_py_method(ClientData data, Tcl_Interp * interp, int argc, char** argv)
 
     if (argc < 3)
     {
-	interp->result = "object id and method name must be given";
+	Tcl_SetResult(interp, "object id and method name must be given", TCL_VOLATILE);
+// 	interp->result = "object id and method name must be given";
 	return TCL_ERROR;
     }
 
@@ -781,7 +787,8 @@ call_py_method(ClientData data, Tcl_Interp * interp, int argc, char** argv)
 	if (!string)
 	{
 	    Py_XDECREF(args);
-	    interp->result = "Cannot build argument tuple";
+	    Tcl_SetResult(interp, "Cannot build argument tuple", TCL_VOLATILE);
+// 	    interp->result = "Cannot build argument tuple";
 	    return TCL_ERROR;
 	}
     }
@@ -794,7 +801,8 @@ call_py_method(ClientData data, Tcl_Interp * interp, int argc, char** argv)
     if (!result)
     {
 	/*PyErr_Clear();*/
-	interp->result = "Exception in python method";
+	Tcl_SetResult(interp, "Exception in python method", TCL_VOLATILE);
+// 	interp->result = "Exception in python method";
 	return TCL_ERROR;
     }
     Py_DECREF(result);
