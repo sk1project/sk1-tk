@@ -19,7 +19,7 @@
 ###Sketch Config
 #type=Import
 #class_name='PLTLoader'
-#rx_magic='^IN|^PA|^PU|^PD|^PR|^PS'
+#rx_magic='^IN|^PA|^PU|^PD|^PR|^PS|^\\x20?\\x1B\\x2E|^\\x20?\\x03\\x3b'
 #tk_file_type=('PLT - HPGL Plotter file', ('.plt', '.hgl'))
 #format_name='PLT'
 #unload=1
@@ -42,7 +42,7 @@ from app.io.load import GenericLoader, SketchLoadError
 import app
 
 plu=1016.0/72.0
-def_width_pen = 0.283
+def_width_pen = 0.85 # 0.3 mm
 
 colors = {
 		'0': StandardColors.white,
@@ -142,11 +142,11 @@ class PLTLoader(GenericLoader):
 		self.path=CreatePath()
 		self.curpen = None
 		self.penwidth = {}
-		self.select_pen('1')
+		self.select_pen()
 
-	def select_pen(self, pen):
+	def select_pen(self, pen = '1'):
 		if not pen in colors:
-			color_index = '1'
+			pen = '1'
 		if not pen in self.penwidth:
 			width = def_width_pen
 		else:
@@ -160,7 +160,9 @@ class PLTLoader(GenericLoader):
 			self.curstyle.line_width = width
 			self.curpen = pen
 
-	def pen_sizes(self, width, pen):
+	def pen_sizes(self, width, pen = None):
+		if pen is None:
+			pen = self.curpen
 		self.penwidth[pen] = float(width) * 72 / 25.4
 
 
