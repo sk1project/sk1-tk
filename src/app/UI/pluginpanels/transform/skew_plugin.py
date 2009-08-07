@@ -157,12 +157,10 @@ class SkewPanel(PluginPanel):
 					ty=cnt_y*ax*ay-cnt_y*ay
 					# Move the selection in the coordinates x0 y0
 					trafo = Trafo(1, 0, 0, 1, -cnt_x, -cnt_y)
-					self.document.TransformSelected(trafo, text)
 					# Skew and Scaling
-					trafo = Trafo(sx, ay, -ax, sy, 0, 0)
-					self.document.TransformSelected(trafo, text)
+					trafo = Trafo(sx, ay, -ax, sy, 0, 0)(trafo)
 					# Move the selection in the coordinates basepoint 
-					trafo = Trafo(1, 0, 0, 1, cnt_x, cnt_y)
+					trafo = Trafo(1, 0, 0, 1, cnt_x, cnt_y)(trafo)
 					self.document.TransformSelected(trafo, text)
 				except:
 					self.document.abort_transaction()
