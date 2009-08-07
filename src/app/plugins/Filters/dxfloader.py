@@ -1057,10 +1057,11 @@ class DXFLoader(GenericLoader):
 				'1': '', # Default value
 				'50': 0, # Text rotation
 				'41': 1, # Relative X scale factor—width
-				'8': self.default_layer, # Layer name
+#				'8': self.default_layer, # Layer name
 				'7': self.default_style, # Style name
 				'72': 0, #Horizontal text justification type
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
 		
 
@@ -1080,20 +1081,15 @@ class DXFLoader(GenericLoader):
 		
 		style_text = self.curstyle.Duplicate()
 		style_text.line_pattern = EmptyPattern
-		style_text.fill_pattern = SolidPattern(CreateRGBColor(0, 0, 0))
+		style_text.fill_pattern = self.get_pattern(param['62'])
 		style_name = upper(param['7'])
 		style = self.style_dict[style_name]
 		font_name = style['1000']
-		if font_name == 'Arial':
+		if font_name == 'Arial': # XXX
 			font_name = 'ArialMT'
 		style_text.font = GetFont(font_name)
 #		print style_text.font
 		style_text.font_size = font_size
-		
-		#translate = self.trafo(x, y)
-		#trafo_text = Trafo(scale_x,0,0,1,0,0)
-		#trafo_text = Rotation(angle)(trafo_text)
-		#trafo_text = Translation(translate)(trafo_text)
 		
 		trafo_text = Translation(self.trafo(x, y))(Rotation(angle))(Scale(scale_x, scale_y))
 		self.prop_stack.AddStyle(style_text.Duplicate())
