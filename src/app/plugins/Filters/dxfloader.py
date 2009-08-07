@@ -529,7 +529,7 @@ class DXFLoader(GenericLoader):
 	def get_line_type(self, linetype_name = None, scale = 1.0, width = 1.0, layer_name = None):
 		if linetype_name == 'BYBLOCK':
 			block_name = self.default_block
-			layer_name = block_dict[block_name]['8']
+			layer_name = self.block_dict[block_name]['8']
 
 		if layer_name is None:
 			layer_name = self.default_layer
@@ -1014,6 +1014,7 @@ class DXFLoader(GenericLoader):
 				'42': 1.0, # Y scale factor 
 				#'43': 1.0, # Z scale factor 
 				'50': 0.0, # Rotation angle
+				'66': 0, # Attributes-follow flag
 				}
 		param = self.read_param(param)
 		
@@ -1037,6 +1038,17 @@ class DXFLoader(GenericLoader):
 			trafo = Rotation(angle)(trafo)
 			trafo = Translation(translate)(trafo)
 			self.trafo = trafo
+			
+		if param['66'] != 0:
+			line1, line2 = self.read_record()
+			while line1 or line2:
+				if line1 == '0' and line2 == 'SEQEND':
+					break
+				else:
+					if line1 == '0':
+						self.run(line2)
+				line1, line2 = self.read_record()
+
 
 	def text(self):
 		param={ '10': 0.0, 
