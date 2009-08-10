@@ -412,6 +412,7 @@ class DXFLoader(GenericLoader):
 				"LWPOLYLINE": 'lwpolyline',
 				"INSERT": 'insert',
 				"TEXT": 'text',
+				"3DFACE": 'i3dface',
 					}
 
 	def __init__(self, file, filename, match):
@@ -643,7 +644,7 @@ class DXFLoader(GenericLoader):
 		param={	'3': self.encoding,
 				}
 		param = self.read_param(param)
-		encoding = upper(param['3']).replace('ANSI_', '').replace('DOS','')
+		encoding = 'cp'+ upper(param['3']).replace('ANSI_', '').replace('DOS','')
 		
 		self.encoding = encoding
 		
@@ -783,10 +784,12 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		self.close_path = 0
 		self.path = CreatePath()
-		self.curstyle.line_width=param['40']*72
+		self.curstyle.line_width=param['40'] * 72 # XXX self.unit_to_pt
 		self.curstyle.line_pattern = self.get_pattern(param['62'])
 		# if Group 70 Flag bit value set 1 This is a closed Polyline
 		self.close_path = param['70'] & 1 == 1
+		if param['70'] > 1:
+			print 'FIXMY. POLYLINE. Curves and smooth surface type', param['70']
 
 
 	def vertex(self):
@@ -958,7 +961,12 @@ class DXFLoader(GenericLoader):
 				'23': None,
 				#'33': None, 
 				}
+		param.update(self.general_param)
 		param = self.read_param(param)
+		
+		style = self.curstyle.Duplicate()
+		style.line_pattern = EmptyPattern
+		style.fill_pattern = self.get_pattern(param['62'])
 		
 		self.path = CreatePath()
 		self.path.AppendLine(self.trafo(param['10'], param['20']))
@@ -968,6 +976,7 @@ class DXFLoader(GenericLoader):
 		
 		self.path.ClosePath()
 		
+		self.prop_stack.AddStyle(style.Duplicate())
 		self.bezier(self.path,)
 
 	def lwpolyline(self):
@@ -1095,7 +1104,39 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style_text.Duplicate())
 		self.simple_text(strip(text), trafo_text, halign = halign)
 		
+	def i3dface(self):
+		param={	'10': None, 
+				'20': None, 
+				#'30': None, 
+				'11': None, 
+				'21': None, 
+				#'31': None,
+				'12': None, 
+				'22': None, 
+				#'32': None,
+				'13': None, 
+				'23': None,
+				#'33': None, 
+				'70': 0, # Invisible edge flags
+				
+				}
+		param.update(self.general_param)
+		param = self.read_param(param)
 		
+		self.path = CreatePath()
+		if param['70'] != 0:
+			print 'FIXMY. 3dface Invisible edge flags', param['70']
+		self.path.AppendLine(self.trafo(param['10'], param['20']))
+		self.path.AppendLine(self.trafo(param['11'], param['21']))
+		self.path.AppendLine(self.trafo(param['12'], param['22']))
+		self.path.AppendLine(self.trafo(param['13'], param['23']))
+		
+		self.path.ClosePath()
+		
+		style = self.get_line_style(**param)
+		self.prop_stack.AddStyle(style.Duplicate())
+		
+		self.bezier(self.path,)
 		
 ###########################################################################
 
