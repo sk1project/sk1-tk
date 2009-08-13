@@ -412,7 +412,10 @@ class DXFLoader(GenericLoader):
 				"LWPOLYLINE": 'lwpolyline',
 				"INSERT": 'insert',
 				"TEXT": 'text',
+				#"MTEXT": 'text',
 				"3DFACE": 'i3dface',
+				"SPLINE": 'spline',
+				
 					}
 
 	def __init__(self, file, filename, match):
@@ -1137,7 +1140,63 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style.Duplicate())
 		
 		self.bezier(self.path,)
+
+	def spline(self):
+		param={	'70': 0, # Spline flag 
+				'71': 0, # Degree of the spline curve
+				'72': 0, # Number of knots
+				'73': 0, # Number of control points
+				'74': 0, # Number of fit points
+				'40': [], # Knot value 
+				'10': [], # Control points X
+				'20': [], # Control points Y
+				#'30': [], # Control points Z
+				}
+		param.update(self.general_param)
+		param = self.read_param(param)
+		print param
+		print 'SPLINE', param['70']
+		print 'Контрольных точек', param['73'], (1, len(param['10'])-2, 2)
 		
+		closed = param['70']  & 1
+		if param['70'] & 4 == 4:
+			print 'if param[ 70 ] & 4 == 4:'
+		if param['70'] & 8 == 8:
+			f13 = 1.0 / 3.0; f23 = 2.0 / 3.0
+			path = CreatePath()
+			pts = map(lambda x, y: self.trafo(x, y), param['10'],param['20'])
+			curve = path.AppendBezier
+			straight = path.AppendLine
+			last = pts[0]
+			cur = pts[1]
+			start = node = pts[0]
+
+			print pts
+				
+
+			if closed:
+				straight(node)
+			else:
+				straight(last)
+				straight(node)
+			last = cur
+			for cur in pts[2:]:
+				c1 = f13 * node + f23 * last
+				node = (last + cur) / 2
+				c2 = f13 * node + f23 * last
+				curve(c1, c2, node)
+				last = cur
+			if closed:
+				curve(f13 * node + f23 * last, f13 * start + f23 * last, start)
+				print '@@@@@@@@@@@'
+			else:
+				straight(last)
+
+			style = self.get_line_style(**param)
+			self.prop_stack.AddStyle(style.Duplicate())
+			self.bezier(path,)
+
+
 ###########################################################################
 
 	def get_compiled(self):
