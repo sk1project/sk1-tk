@@ -39,10 +39,13 @@ from app import _, CreatePath, Style, SolidPattern, StandardColors
 
 from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
+from app.conf.const import ArcArc, JoinRound, CapRound
+from math import sqrt, atan2, cos, sin, pi
 import app
 
 plu=1016.0/72.0
 def_width_pen = 0.85 # 0.3 mm
+degrees = pi / 180.0
 
 colors = {
 		'0': StandardColors.white,
@@ -58,17 +61,19 @@ colors = {
 
 class PLTLoader(GenericLoader):
 
-	functions={"PD": 'pen_down',
+	functions={		"IN": 'initialize',
+					"SP": 'select_pen',
+					"PD": 'pen_down',
 					"PU": 'pen_up',
 					"PA": 'plot_absolute',
 					"PR": 'plot_relative',
-					"IN": 'initialize',
-					"SP": 'select_pen',
-					"PW": 'pen_sizes'
-					#"LT": 'linetype',
+					"PW": 'pen_sizes',
 					#"PT": 'pen_metric', 
-					#"PL": 'pen_plu', 
-					#"SP": 'set_pen'
+					#"PL": 'pen_plu',
+					"LT": 'linetype',
+					"AA": 'arc_absolute',
+					#"AR": 'arc_relative',
+					"CI": 'circle_plot',
 					}
 
 	def __init__(self, file, filename, match):
@@ -76,18 +81,24 @@ class PLTLoader(GenericLoader):
 		self.file=file
 		self.initialize()
 
-	def get_position(self,x,y):
-		if x=='' is not None:
-			x=self.cur_x
+	def get_position(self, x, y, absolute = None):
+		if absolute is None:
+			absolute = self.absolute
+		
+		if x == '' is not None:
+			x = self.cur_x
 		else:
-			x=float(x)/plu
-		if y=='' is not None:
-			y=self.cur_y
+			x = float(x) / plu
+			if absolute == 0:
+				x += self.cur_x
+			
+		if y == '' is not None:
+			y = self.cur_y
 		else:
-			y=float(y)/plu
-		if self.absolute==0:
-			x=x+self.cur_x
-			y=y+self.cur_y
+			y = float(y) / plu
+			if absolute == 0:
+				y += self.cur_y
+		
 		return x,y
 
 	def bezier(self):
@@ -97,6 +108,37 @@ class PLTLoader(GenericLoader):
 			self.prop_stack.AddStyle(self.curstyle.Duplicate())
 			GenericLoader.bezier(self, paths=(self.path,))
 		self.path=CreatePath()
+
+
+	def arc_absolute(self, x, y, qc, qd = 5):
+		x1, y1 = self.cur_x, self.cur_y
+		x, y = self.get_position(x, y, 1)
+		qc = float(qc)
+		r = sqrt((x - x1)**2 + (y - y1)**2)
+		
+		if qc < 0:
+			end_angle = atan2(y1 - y, x1 - x) 
+			angle = start_angle = end_angle + qc * degrees
+		else:
+			start_angle = atan2(y1 - y, x1 - x)
+			angle = end_angle = start_angle + qc * degrees
+			
+		self.cur_x = (x + r * cos(angle)) * plu
+		self.cur_y = (y + r * sin(angle)) * plu
+		if self.draw==1:
+			self.pen_up()
+			self.pen_down(self.cur_x, self.cur_y)
+			self.prop_stack.AddStyle(self.curstyle.Duplicate())
+			apply(self.ellipse, (r, 0, 0, r, x, y, start_angle, end_angle, ArcArc))
+
+
+	def circle_plot(self, r, qd = 5):
+		x, y = self.cur_x, self.cur_y
+		r = float(r) / plu
+		#self.bezier()
+		self.prop_stack.AddStyle(self.curstyle.Duplicate())
+		apply(self.ellipse, (r, 0, 0, r, x, y))
+
 
 	def move(self, x,y):
 		if self.draw==1:
@@ -135,6 +177,8 @@ class PLTLoader(GenericLoader):
 
 	def initialize(self):
 		self.curstyle=Style()
+		self.curstyle.line_join = JoinRound
+		self.curstyle.line_cap = CapRound
 		self.cur_x=0.0
 		self.cur_y=0.0
 		self.draw=0
@@ -160,10 +204,32 @@ class PLTLoader(GenericLoader):
 			self.curstyle.line_width = width
 			self.curpen = pen
 
+	def linetype(self, n = '0', p = '10', q = ''):
+		n = abs(int(n))
+		#p = float(p)
+		p = 20
+		dash = [[],
+				[0, p],
+				[p*0.5, p*0.5],
+				[p*0.7, p*0.3],
+				[p*0.8, p*0.1, p*0.1, 0],
+				[p*0.7, p*0.1, p*0.1, p*0.1],
+				[p*0.5, p*0.1, p*0.1, p*0.1, p*0.2, 0],
+				[p*0.7, p*0.1, 0, p*0.1, 0, p*0.1],
+				[p*0.5, p*0.1, 0, p*0.1, p*0.1, p*0.1, p*0.1, 0],
+				[p,p],
+				[p,p],
+				[p,p],
+				]
+		self.curstyle.line_dashes = dash[n]
+		
+
 	def pen_sizes(self, width, pen = None):
 		if pen is None:
 			pen = self.curpen
 		self.penwidth[pen] = float(width) * 72 / 25.4
+		self.curpen = None
+		self.select_pen(pen)
 
 
 	def get_compiled(self):
