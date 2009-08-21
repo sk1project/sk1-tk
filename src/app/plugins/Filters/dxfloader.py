@@ -441,7 +441,7 @@ class DXFLoader(GenericLoader):
 		self.stack = []
 		self.stack_trafo = []
 		self.default_layer = '0'
-		self.default_style = 'standard'
+		self.default_style = 'STANDARD'
 		self.default_block = None
 		self.default_line_width = 30
 		self.EXTMIN = (1e+20, 1e+20)
@@ -531,9 +531,9 @@ class DXFLoader(GenericLoader):
 		return width 
 
 	def get_line_type(self, linetype_name = None, scale = 1.0, width = 1.0, layer_name = None):
-		if linetype_name == 'BYBLOCK':
-			block_name = self.default_block
-			layer_name = self.block_dict[block_name]['8']
+		#if linetype_name == 'BYBLOCK':
+			#block_name = self.default_block
+			#layer_name = self.block_dict[block_name]['8']
 
 		if layer_name is None:
 			layer_name = self.default_layer
@@ -555,7 +555,7 @@ class DXFLoader(GenericLoader):
 		else:
 			layer_name = self.default_layer
 
-		linetype_name = kw['6']
+		linetype_name = upper(kw['6'])
 		scale = kw['48']
 		color_index = kw['62']
 		
@@ -896,20 +896,19 @@ class DXFLoader(GenericLoader):
 		param.update(self.general_param)
 		param = self.read_param(param)
 		
-		x = param['10']
-		y = param['20']
-		r = param['40']
+		cx = param['10']
+		cy = param['20']
+		rx = ry = param['40']
 		start_angle = param['50'] * degrees
 		end_angle = param['51'] * degrees
 		
-		t = self.trafo(Trafo(r,0,0,r,x,y))
-		
-		r, w1, w2, r, x, y = t.coeff()
+		trafo = self.trafo(Trafo(rx, 0, 0, ry, cx, cy))
+		rx, w1, w2, ry, cx, cy = trafo.coeff()
 		
 		style = self.get_line_style(**param)
 		self.prop_stack.AddStyle(style.Duplicate())
 		
-		apply(self.ellipse, (r, w1, w2, r, x, y, start_angle, end_angle, ArcArc))
+		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
 		
 
 	def ellips(self):
@@ -1031,6 +1030,7 @@ class DXFLoader(GenericLoader):
 		param = self.read_param(param)
 		
 		block_name = self.default_block = param['2']
+		
 		if block_name:
 			self.stack +=  ['POP_TRAFO', '0'] + self.block_dict[block_name]['data'] 
 			self.push_trafo()
@@ -1040,9 +1040,9 @@ class DXFLoader(GenericLoader):
 			block_x = self.block_dict[block_name]['10']
 			block_y = self.block_dict[block_name]['20']
 			
-			scale_x = param['41'] * self.unit_to_pt
-			scale_y = param['42'] * self.unit_to_pt
-			angle = param['50'] * pi / 180
+			scale_x = param['41'] * self.trafo.m11
+			scale_y = param['42'] * self.trafo.m22
+			angle = param['50'] * degrees
 			
 			translate = self.trafo(x, y)
 			trafo = Trafo(1, 0, 0, 1, -block_x, -block_y)
@@ -1154,26 +1154,47 @@ class DXFLoader(GenericLoader):
 				}
 		param.update(self.general_param)
 		param = self.read_param(param)
-		print param
-		print 'SPLINE', param['70']
-		print 'Контрольных точек', param['73'], (1, len(param['10'])-2, 2)
+		#print param
+		#print 'Контрольных точек', param['73'], (1, len(param['10'])-2, 2)
 		
 		closed = param['70']  & 1
+		
+		path = CreatePath()
+		f13 = 1.0 / 3.0
+		f23 = 2.0 / 3.0
+		curve = path.AppendBezier
+		straight = path.AppendLine
+
+		pts = map(lambda x, y: self.trafo(x, y), param['10'],param['20'])
+		print 'SPLINE', param['70'], len(pts)
+		#print pts
+		#print param['40']
+		for i in range(0, len(pts)-1):
+			self.ellipse(.2, 0, 0, .2, pts[i][0],pts[i][1])
+
+		#if param['70'] == 0:
+			#map(straight, pts)
+		
+		if param['70'] <= 1:
+			
+			straight(pts[0])
+			for i in range(1, len(pts) / 4):
+				node = pts[i * 4]
+				c1 = pts[i * 4 - 3]
+				c2 = pts[i * 4 - 2]
+				print c1, c2, node
+
+				curve(c1, c2, node)
+				#straight(node)
+			if closed:
+				curve(pts[-3], pts[-2], pts[0])
+			else:
+				curve(pts[-4], pts[-4], pts[-1])
+
 		if param['70'] & 4 == 4:
-			print 'if param[ 70 ] & 4 == 4:'
-		if param['70'] & 8 == 8:
-			f13 = 1.0 / 3.0; f23 = 2.0 / 3.0
-			path = CreatePath()
-			pts = map(lambda x, y: self.trafo(x, y), param['10'],param['20'])
-			curve = path.AppendBezier
-			straight = path.AppendLine
 			last = pts[0]
 			cur = pts[1]
-			start = node = pts[0]
-
-			print pts
-				
-
+			start = node = (last + cur) / 2
 			if closed:
 				straight(node)
 			else:
@@ -1188,13 +1209,14 @@ class DXFLoader(GenericLoader):
 				last = cur
 			if closed:
 				curve(f13 * node + f23 * last, f13 * start + f23 * last, start)
-				print '@@@@@@@@@@@'
 			else:
 				straight(last)
 
-			style = self.get_line_style(**param)
-			self.prop_stack.AddStyle(style.Duplicate())
-			self.bezier(path,)
+		style = self.get_line_style(**param)
+		self.prop_stack.AddStyle(style.Duplicate())
+		self.bezier(path,)
+			
+
 
 
 ###########################################################################
@@ -1281,9 +1303,26 @@ class DXFLoader(GenericLoader):
 ##		else:
 ##			return_code = self.find_record('0','ENDSEC')
 ##		return return_code
+
+		if name == 'OBJECTS':
+			print 'SECTION OBJECTS PASS'
+			return self.find_record('0','ENDSEC')
+			
 			
 		line1, line2 = self.read_record()
+		
+		file = self.file
+		fileinfo=os.stat(self.filename)
+		totalsize=fileinfo[6]
+		
+		parsed=0
+		parsed_interval=totalsize/99+1
 		while line1 or line2:
+			interval_count=file.tell()/parsed_interval
+			if interval_count > parsed:
+				parsed+=10 # 10% progress
+				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
+				
 			if line1 == '0' and line2 == 'ENDSEC':
 				return_code = True
 				break
@@ -1294,6 +1333,7 @@ class DXFLoader(GenericLoader):
 		
 		if name == 'HEADER':
 			self.update_trafo(self.unit_to_pt)
+		
 		
 		return return_code
 
