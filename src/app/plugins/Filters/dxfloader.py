@@ -1154,8 +1154,6 @@ class DXFLoader(GenericLoader):
 				}
 		param.update(self.general_param)
 		param = self.read_param(param)
-		#print param
-		#print 'Контрольных точек', param['73'], (1, len(param['10'])-2, 2)
 		
 		closed = param['70']  & 1
 		
@@ -1167,13 +1165,10 @@ class DXFLoader(GenericLoader):
 
 		pts = map(lambda x, y: self.trafo(x, y), param['10'],param['20'])
 		print 'SPLINE', param['70'], len(pts)
-		#print pts
-		#print param['40']
-		for i in range(0, len(pts)-1):
-			self.ellipse(.2, 0, 0, .2, pts[i][0],pts[i][1])
 
-		#if param['70'] == 0:
-			#map(straight, pts)
+		#for i in range(0, len(pts)-1):
+			#self.ellipse(.2, 0, 0, .2, pts[i][0],pts[i][1])
+
 		
 		if param['70'] <= 1:
 			
