@@ -1212,6 +1212,35 @@ class DXFLoader(GenericLoader):
 			else:
 				straight(last)
 
+		if param['70'] & 8 == 8:
+			node = pts[0]
+			c1 = pts[1]
+			c2 = pts[2]
+			# first node
+			straight(node)
+			
+			if len(pts) > 4:
+				c2 = (pts[2] + pts[1]) / 2
+				c3 = pts[3] * f13 + pts[2] * f23
+				node = (c3 + c2) / 2
+				curve(c1, c2, node)
+				c1 = c3
+				for i in range(3, len(pts) - 3):
+					c2 = pts[i - 1] * f13 + pts[i] * f23
+					c3 = pts[i] * f23 + pts[i + 1] * f13
+					node = (c3 + c2) / 2
+					curve(c1, c2, node)
+					c1 = c3
+
+				c2 = pts[-4] * f13 + pts[-3] * f23
+				c3 = (pts[-3]  + pts[-2]) / 2 
+				node = (c3 + c2) / 2
+				curve(c1, c2, node)
+				c1 = c3
+			
+			# last node
+			curve(c1, pts[-2], pts[-1])
+			
 		style = self.get_line_style(**param)
 		self.prop_stack.AddStyle(style.Duplicate())
 		self.bezier(path,)
