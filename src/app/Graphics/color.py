@@ -150,7 +150,7 @@ class SK1_Color:
 		r2,g2,b2 = color.getRGB()
 		return RGB_Color(r1*frac1+r2*frac2, 
 						g1*frac1+g2*frac2, 
-						g1*frac1+g2*frac2, 
+						b1*frac1+b2*frac2, 
 						self.alpha*frac1+color.alpha*frac2)		
 		
 class RGB_Color(SK1_Color):
