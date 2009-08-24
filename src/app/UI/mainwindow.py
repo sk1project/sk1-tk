@@ -465,12 +465,12 @@ class sK1MainWindow(Publisher):
 		b.pack(side = LEFT)
 		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
 		
-#		label = TLabel(tbar, image = "toolbar_sep")
-#		label.pack(side = LEFT)
-#		
-#		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
-#		tooltips.AddDescription(b, commands.Preferences.menu_name)
-#		b.pack(side = LEFT)
+		label = TLabel(tbar, image = "toolbar_sep")
+		label.pack(side = LEFT)
+		
+		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+		tooltips.AddDescription(b, commands.Preferences.menu_name)
+		b.pack(side = LEFT)
 
 		
 	def build_tools(self):
@@ -814,7 +814,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateFillStyleDialog', _("Fill..."), 'LoadPlugin', args = ('SolidFill'), key_stroke = 'F11')
 #	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args = ('styledlg', 'StylePanel'))
-#	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
+	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args = ('dlg_blend', 'BlendPanel'), key_stroke = ('Ctrl+B', 'Ctrl+b'))
 #	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 #	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
@@ -1081,10 +1081,10 @@ class sK1MainWindow(Publisher):
 					self.commands.FlipHorizontal,
 					self.commands.FlipVertical,
 					None,
-					self.commands.RemoveTransformation#,
-#					None,
-#					self.commands.CreateBlendDialog,
-#					self.commands.CancelBlend,
+					self.commands.RemoveTransformation,
+					None,
+					self.commands.CreateBlendDialog,
+					self.commands.CancelBlend,
 #					None,
 #					self.commands.CreateMaskGroup,
 #					self.commands.CreatePathText

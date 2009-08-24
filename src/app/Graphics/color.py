@@ -126,6 +126,23 @@ class SK1_Color:
 		self.rgb=(rgb.red, rgb.green, rgb.blue)
 		self.rgba=(rgb.red, rgb.green, rgb.blue, self.alpha)
 		
+	def Blend(self, color, frac1, frac2):
+		if app.config.preferences.color_blending_rule:
+			c1,m1,y1,k1=self.getCMYK()
+			c2,m2,y2,k2=color.getCMYK()			
+			return CMYK_Color(c1*frac1+c2*frac2,
+							 m1*frac1+m2*frac2, 
+							 y1*frac1+y2*frac2, 
+							 k1*frac1+k2*frac2, 
+							 self.alpha*frac1+color.alpha*frac2)
+		else:
+			r1,g1,b1 = self.getRGB()
+			r2,g2,b2 = color.getRGB()
+			return RGB_Color(r1*frac1+r2*frac2, 
+							g1*frac1+g2*frac2, 
+							g1*frac1+g2*frac2, 
+							self.alpha*frac1+color.alpha*frac2)
+		
 class RGB_Color(SK1_Color):
 	
 	def __init__(self, r, g, b, alpha=1, name='Not defined'):

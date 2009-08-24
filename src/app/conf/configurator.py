@@ -382,6 +382,9 @@ class Preferences(connector.Publisher):
 	use_cms_for_bitmap=1
 	simulate_printer=0
 	
+	# 0 - use RGB, 1 - use CMYK
+	color_blending_rule=1
+	
 	#----------Document font managment-------------	
 	default_font = 'BitstreamVeraSans-Roman'	# The PS name of the font used for new text-objects
 	system_font_dir='/usr/share/fonts'
