@@ -127,21 +127,31 @@ class SK1_Color:
 		self.rgba=(rgb.red, rgb.green, rgb.blue, self.alpha)
 		
 	def Blend(self, color, frac1, frac2):
-		if app.config.preferences.color_blending_rule:
-			c1,m1,y1,k1=self.getCMYK()
-			c2,m2,y2,k2=color.getCMYK()			
-			return CMYK_Color(c1*frac1+c2*frac2,
-							 m1*frac1+m2*frac2, 
-							 y1*frac1+y2*frac2, 
-							 k1*frac1+k2*frac2, 
-							 self.alpha*frac1+color.alpha*frac2)
+		if self.model==color.model==CMYK:
+			return self.blend_cmyka(color, frac1, frac2)
+		if self.model==color.model==RGB:
+			return self.blend_rgba(color, frac1, frac2)		
+		if app.config.preferences.color_blending_rule:		
+			return self.blend_cmyka(color, frac1, frac2)
 		else:
-			r1,g1,b1 = self.getRGB()
-			r2,g2,b2 = color.getRGB()
-			return RGB_Color(r1*frac1+r2*frac2, 
-							g1*frac1+g2*frac2, 
-							g1*frac1+g2*frac2, 
-							self.alpha*frac1+color.alpha*frac2)
+			return self.blend_rgba(color, frac1, frac2)
+			
+	def blend_cmyka(self, color, frac1, frac2):
+		c1,m1,y1,k1=self.getCMYK()
+		c2,m2,y2,k2=color.getCMYK()			
+		return CMYK_Color(c1*frac1+c2*frac2,
+						 m1*frac1+m2*frac2, 
+						 y1*frac1+y2*frac2, 
+						 k1*frac1+k2*frac2, 
+						 self.alpha*frac1+color.alpha*frac2)
+		
+	def blend_rgba(self, color, frac1, frac2):
+		r1,g1,b1 = self.getRGB()
+		r2,g2,b2 = color.getRGB()
+		return RGB_Color(r1*frac1+r2*frac2, 
+						g1*frac1+g2*frac2, 
+						g1*frac1+g2*frac2, 
+						self.alpha*frac1+color.alpha*frac2)		
 		
 class RGB_Color(SK1_Color):
 	
