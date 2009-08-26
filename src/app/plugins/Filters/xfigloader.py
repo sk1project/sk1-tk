@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1998, 1999, 2000 by Bernhard Herzog
 #
@@ -311,18 +312,34 @@ class XFigLoader(SimplifiedLoader):
 		if backward_arrow:readline() # XXX: implement this
 		if sub_type == 5: readline() # imported picture
 
-		path = CreatePath()
 		ncoords = npoints * 2
 		pts = self.read_tokens(ncoords)
 		if not pts:
 			raise SketchLoadError('Missing points for polyline')
 		if len(pts) > ncoords:
 			del pts[ncoords:]
-		map(path.AppendLine, coords_to_points(pts, self.trafo))
-		if sub_type in (2, 3, 4):
-			path.load_close(1)
-		self.bezier(paths = path)
-		self.set_depth(depth)
+		
+		trafo = self.trafo
+		
+		if sub_type in (1, 3, 5):
+			path = CreatePath()
+			map(path.AppendLine, coords_to_points(pts, trafo))
+			if sub_type == 3:
+				path.load_close(1)
+			self.bezier(paths = path)
+			self.set_depth(depth)
+			
+		elif sub_type in (2, 4):
+			wx, wy = trafo(pts[2], pts[3]) - trafo(pts[0], pts[1])
+			hx, hy = trafo(pts[4], pts[5]) - trafo(pts[2], pts[3])
+			x, y =  trafo(pts[0], pts[1])
+			if sub_type == 4 and radius > 0:
+				radius1 = (radius * 72.0/80.0) / max(abs(wx),abs(wy))
+				radius2 = (radius * 72.0/80.0) / max(abs(hx),abs(hy))
+			else:
+				radius1 = radius2 = 0
+			self.rectangle(wx, wy, hx, hy, x, y, radius1 = radius1, radius2 = radius2)
+			self.set_depth(depth)
 
 	def read_spline(self, line):
 		readline = self.readline; tokenize = skread.tokenize_line
