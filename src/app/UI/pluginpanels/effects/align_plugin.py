@@ -36,7 +36,6 @@ class AlignPlugin(PluginPanel):
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
-		PluginPanel.init(self, master)
 		root=self.mw.root
 		self.var_reference = StringVar(root)
 		self.var_reference.set(SELECT)
