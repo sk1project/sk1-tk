@@ -127,7 +127,7 @@ class PLTLoader(GenericLoader):
 		self.cur_y = (y + r * sin(angle)) * plu
 		if self.draw==1:
 			self.pen_up()
-			self.pen_down(self.cur_x, self.cur_y)
+			self.pen_down()
 			self.prop_stack.AddStyle(self.curstyle.Duplicate())
 			apply(self.ellipse, (r, 0, 0, r, x, y, start_angle, end_angle, ArcArc))
 
@@ -154,16 +154,11 @@ class PLTLoader(GenericLoader):
 		if x !='' is not None:
 			x,y=self.get_position(x,y)
 			self.move(x,y)
-		else:
-			self.move(self.cur_x, self.cur_y)
 
 	def pen_up(self,x='',y=''):
-		if self.draw==1:
-			self.bezier()
 		self.draw=0
-		if x !='' is not None:
-			x,y=self.get_position(x,y)
-			self.move(x,y)
+		x,y=self.get_position(x,y)
+		self.move(x,y)
 
 	def plot_absolute(self,x='',y=''):
 		self.absolute=1
