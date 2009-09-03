@@ -154,6 +154,8 @@ class PLTLoader(GenericLoader):
 		if x !='' is not None:
 			x,y=self.get_position(x,y)
 			self.move(x,y)
+		else:
+			self.move(self.cur_x, self.cur_y)
 
 	def pen_up(self,x='',y=''):
 		if self.draw==1:
