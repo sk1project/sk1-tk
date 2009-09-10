@@ -402,6 +402,7 @@ class DXFLoader(GenericLoader):
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
 				"LINE": 'line',
+				"LWPOLYLINE": 'lwpolyline',
 				"POLYLINE": 'polyline',
 				"SEQEND": 'seqend',
 				"VERTEX": 'vertex',
@@ -409,7 +410,6 @@ class DXFLoader(GenericLoader):
 				"ARC": 'arc',
 				"ELLIPSE": 'ellips',
 				"SOLID": 'solid',
-				"LWPOLYLINE": 'lwpolyline',
 				"INSERT": 'insert',
 				"TEXT": 'text',
 				#"MTEXT": 'text',
@@ -450,7 +450,6 @@ class DXFLoader(GenericLoader):
 		self.PEXTMAX = (-1e+20, -1e+20)
 		self.INSUNITS = 0
 		self.unit_to_pt = 2.83464566929
-		self.close_path = 0
 		
 		self.general_param = {
 				'8': self.default_layer, # Layer name
@@ -516,6 +515,7 @@ class DXFLoader(GenericLoader):
 		
 		return pattern
 
+
 	def get_line_width(self, layer_name = None):
 		if layer_name is None:
 			layer_name = self.default_layer
@@ -529,6 +529,7 @@ class DXFLoader(GenericLoader):
 		if width <= 0.0: # XXX
 			width = 0.1
 		return width 
+
 
 	def get_line_type(self, linetype_name = None, scale = 1.0, width = 1.0, layer_name = None):
 		#if linetype_name == 'BYBLOCK':
@@ -771,7 +772,6 @@ class DXFLoader(GenericLoader):
 				}
 		param.update(self.general_param)
 		param = self.read_param(param)
-		self.close_path = 0
 		self.path = CreatePath()
 		self.path.AppendLine(self.trafo(param['10'], param['20']))
 		self.path.AppendLine(self.trafo(param['11'], param['21']))
@@ -779,90 +779,103 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style.Duplicate())
 		self.bezier(self.path,)
 
+
+	def lwpolyline(self):
+		param={ '90': 0, # Number of vertices
+				'70': 0, # bit codes for Polyline entity
+				'40': None, # Starting width
+				'43': 0,
+				'370': None, #Line weight
+				}
+		param.update(self.general_param)
+		param = self.read_param(param,[10,20,42])
+		
+		if param['40'] is not None:
+			line_width = param['40'] * self.unit_to_pt
+		else:
+			line_width = param['43'] * self.unit_to_pt
+			
+		if param['370'] is not None:
+			line_width = param['370'] * self.unit_to_pt * 72.0 / 2.54 /1000
+		
+		self.curstyle = self.get_line_style(**param)
+		
+		# if Group 70 Flag bit value set 1 This is a closed Polyline
+		path_flag = param['70']
+		vertex_path = []
+		for i in xrange(param['90']):
+			vertex={ '10': None, # X coordinat
+					'20': None, # Y coordinat
+					'42': 0.0  # Bulge 
+					}
+			# 10
+			line1, line2 = self.read_record()
+			vertex[line1] = convert(line1, line2, self.encoding)
+			# 20
+			line1, line2 = self.read_record()
+			vertex[line1] = convert(line1, line2, self.encoding)
+			# 42
+			line1, line2 = self.read_record()
+			if line1 == '42':
+				vertex[line1] = convert(line1, line2, self.encoding)
+			else:
+				self.push_record(line1, line2)
+			
+			vertex_path.append((vertex['10'], vertex['20'], vertex['42']))
+			
+		self.seqend(vertex_path, path_flag)
+
+
 	def polyline(self):
 		param={	'70': 0, # bit codes for Polyline entity
-				'40': 0.01, 
+				'40': 0.01, #XXX FIXMY
 				}
 		param.update(self.general_param)
 		param = self.read_param(param)
-		self.close_path = 0
-		self.path = CreatePath()
+		self.vertex_path = []
 		self.curstyle.line_width=param['40'] * 72 # XXX self.unit_to_pt
 		self.curstyle.line_pattern = self.get_pattern(param['62'])
+		
 		# if Group 70 Flag bit value set 1 This is a closed Polyline
-		self.close_path = param['70'] & 1 == 1
-		if param['70'] > 1:
-			print 'FIXMY. POLYLINE. Curves and smooth surface type', param['70']
+		self.path_flag = param['70']
 
 
 	def vertex(self):
 		param={#'62': 7, # color
 				#'6': 'CONTINUOUS', # style
 				'10': None, # X coordinat
-				'20': None, # y coordinat
+				'20': None, # Y coordinat
 				'42': 0.0  # Bulge 
 				}
 		param = self.read_param(param)
-		if param['10'] == None:
-			print '%%%%%%%%%%'
-			return
-		if param['42']==0:
-			# print 'AppendLine',param
-			self.path.AppendLine(self.trafo(param['10'], param['20']))
-		else:
-			
-##			if self.path.len==0:
-##				print 'first vertex'
-##				self.path.AppendLine(self.trafo(param['10'], param['20']))
-##				return
-##				
-##			print 'AppendBezier', param
-##			x, y = param['10']*72, param['20']*72
-##			
-##			p1=self.path.Node(-1)
-##			p2=Point(param['10']*72, param['20']*72)
-##			bulge=param['42']
-##			
-##			x1 =p1[0]
-##			y1 =p1[1]
-##			x2 =p2[0]
-##			y2 =p2[1]
-##			print x1, x2, y1, y2
-##			chorda=sqrt((x2-x1)**2+(y2-y1)**2)
-##			s = bulge * chorda / 2
-##			if s == 0:
-##				return
-##			radius = abs(((chorda / 2)**2 + s**2) / (2 * s))
-##			angle = abs((4*atan(bulge)))
-##			delta = (180 - angle)/2
-##			angle2=abs(atan2(y2-y1, x2-x1))
-##			begin_angle=angle+angle2
-##			end_angle=-1*(angle+angle2)
-##			print '#########', angle2
-##			if bulge > 0:
-##				delta = -delta
-##			radial = chorda * radius
-####			rmat = Rotation(delta, 3)
-##
-##			print chorda, s, radius, angle
-##			print
-##			self.ellipse(radius, 0, 0, radius, x, y, begin_angle, end_angle,ArcArc)
-			self.path.AppendLine(self.trafo(param['10'], param['20']))
-##		print param
+		self.vertex_path.append((param['10'], param['20'], param['42']))
 
-	def seqend(self):
-		if self.path.len > 1:
-			#print 'CREAT PATH'
-			if self.close_path:
-				if self.path.Node(0)!=self.path.Node(-1):
-					#print 'add last node!!!!!!!!!!!'
-					#print self.path.Node(0)
-					#print self.path.Node(-1)
-					self.path.AppendLine(self.path.Node(0))
-				self.path.ClosePath()
-				self.close_path = 0
-			self.prop_stack.AddStyle(self.curstyle.Duplicate())
-			self.bezier(self.path,)
+
+	def seqend(self, line = None, path_flag = None):
+		if line is None:
+			line = self.vertex_path
+		
+		if  path_flag is None:
+			path_flag = self.path_flag
+		
+		if path_flag > 1:
+			print 'FIXMY. Curves and smooth surface type', path_flag
+		
+		close_path = path_flag & 1 == 1
+		
+		path = CreatePath()
+		if len(line):
+			for i in line:
+				x, y, bulge = i
+				#print x, y, bulge
+				path.AppendLine(self.trafo(x, y))
+		
+		if close_path:
+			if path.Node(0) != path.Node(-1):
+				path.AppendLine(path.Node(0))
+				path.ClosePath()
+		self.prop_stack.AddStyle(self.curstyle.Duplicate())
+		self.bezier(path,)
 
 
 	def circle(self):
@@ -884,6 +897,7 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style.Duplicate())
 		
 		apply(self.ellipse, t.coeff())
+
 
 	def arc(self):
 		param={	'10': None, # X coordinat center
@@ -981,41 +995,7 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style.Duplicate())
 		self.bezier(self.path,)
 
-	def lwpolyline(self):
-		param={ '90': 0, # Number of vertices
-				'70': 0, # bit codes for Polyline entity
-				'40': None, # Starting width
-				'43': 0,
-				'10': [],
-				'20': [],
-				'370': None, #Line weight
-				}
-		param.update(self.general_param)
-		param = self.read_param(param)
-		
-		self.close_path = 0
-		self.path = CreatePath()
-		
-		if param['40'] is not None:
-			line_width = param['40'] * self.unit_to_pt
-		else:
-			line_width = param['43'] * self.unit_to_pt
-			
-		if param['370'] is not None:
-			line_width = param['370'] * self.unit_to_pt * 72.0 / 2.54 /1000
-		
-		self.curstyle = self.get_line_style(**param)
-		
-		# if Group 70 Flag bit value set 1 This is a closed Polyline
-		self.close_path = param['70'] & 1 == 1
-		
-		for i in xrange(param['90']):
-			x = param['10'][i]
-			y = param['20'][i]
-			self.path.AppendLine(self.trafo(x, y))
-			
-		self.seqend()
-		
+
 	def insert(self):
 		param={ '2': None, # Block name
 				'10': 0.0, # X coordinat
