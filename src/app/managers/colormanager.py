@@ -6,19 +6,9 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 import os, app
 
-try:
-	from lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
-		 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
-		 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
-except:
-	try:
-		from lcms.lcms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
-			 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
-			 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC		
-	except:
-		import sys
-		print "Cannot find Python binding for LittleCMS!"
-		sys.exit(1)
+from sk1libs.pycms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
+	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
+	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
 		
 import pyCMS
 			
