@@ -309,9 +309,16 @@ class SVGHandler(handler.ContentHandler):
 				if function == 'matrix':
 					trafo = trafo(apply(Trafo, tuple(args)))
 				elif function == 'scale':
-					trafo = trafo(Scale(args[0]))
+					if len(args) == 1:
+						sx = sy = args[0]
+					else:
+						sx, sy = args
+					trafo = trafo(Scale(sx, sy))
 				elif function == 'translate':
-					dx, dy = args
+					if len(args) == 1:
+						dx, dy = args[0], 0
+					else:
+						dx, dy = args
 					trafo = trafo(Translation(dx, dy))
 				elif function == 'rotate':
 					trafo = trafo(Rotation(args[0] * degrees))
