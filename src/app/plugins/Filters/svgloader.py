@@ -321,7 +321,11 @@ class SVGHandler(handler.ContentHandler):
 						dx, dy = args
 					trafo = trafo(Translation(dx, dy))
 				elif function == 'rotate':
-					trafo = trafo(Rotation(args[0] * degrees))
+					if len(args) == 1:
+						trafo = trafo(Rotation(args[0] * degrees))
+					else:
+						angle, cx, cy = args
+						trafo = trafo(Rotation(angle * degrees, Point(cx * .8, cy * .8)))
 				elif function == 'skewX':
 					trafo = trafo(Trafo(1, 0, tan(args[0] * degrees), 1, 0, 0))
 				elif function == 'skewY':
