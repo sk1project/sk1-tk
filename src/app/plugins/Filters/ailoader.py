@@ -20,7 +20,7 @@
 ###Sketch Config
 #type = Import
 #class_name = 'AILoader'
-#rx_magic = r'^%!PS-Adobe-[23]\.0'
+#rx_magic = '^\\xC5\\xD0\\xD3\\xC6|^%!PS-Adobe-[23]\.0'
 #tk_file_type = ("Adobe Illustrator (up to 7 ver.)", '.ai')
 format_name = 'Adobe Illustrator'
 #unload = 1
@@ -124,6 +124,19 @@ from app.io.load import GenericLoader, EmptyCompositeError
 from app.pstokenize import PSTokenizer, DSC_COMMENT, OPERATOR, END, \
 		MAX_DATA_TOKEN
 
+from struct import unpack
+
+struct_eps_header = ('<'
+			'I'	# Must be hex C5D0D3C6
+			'I'	# Byte position in file for start of PostScript language code section.
+			'I'	# Byte length of PostScript language section.
+			'I'	# Byte position in file for start of Metafile screen representation.
+			'I'	# Byte length of Metafile section.
+			'I'	# Byte position of TIFF representation.
+			'I'	# Byte length of TIFF section.
+			'I'	# Checksum of header (XOR of bytes 0-27). 
+				# If Checksum is FFFF then ignore it.
+			)
 
 def cmyk_custom_color(c, m, y, k, t):
 	# t = tint
@@ -1086,6 +1099,16 @@ class AILoader(GenericLoader):
 				return
 
 	def Load(self):
+		# Begin read EPS Binary File Header
+		header = self.match.string[0:32]
+		if header[0] == chr(0xC5):
+			if len(header) < 32:
+				header += self.file.read(32 - len(header))
+			filetype, startPS, sizePS, startWMF, sizeWMF, \
+			startFIFF, sizeTIFF, Checksum = unpack(struct_eps_header, header)
+			self.file.seek(startPS)
+		# End read EPS Binary File Header
+	
 		funclist = self.get_compiled()
 		# binding frequently used functions to local variables speeds up
 		# the process considerably...
