@@ -1105,7 +1105,7 @@ class AILoader(GenericLoader):
 			if len(header) < 32:
 				header += self.file.read(32 - len(header))
 			filetype, startPS, sizePS, startWMF, sizeWMF, \
-			startFIFF, sizeTIFF, Checksum = unpack(struct_eps_header, header)
+			startTIFF, sizeTIFF, Checksum = unpack(struct_eps_header, header)
 			self.file.seek(startPS)
 		# End read EPS Binary File Header
 	
