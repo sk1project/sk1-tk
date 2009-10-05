@@ -355,7 +355,32 @@ colors = {
 		255: csscolor('#FFFFFF')
 		}
 
-def convert(code, value, encoding):
+
+#	unit to pt
+unit = {0:  72, # Unitless 
+		1 : 72.0,# Inches
+		2 : 72.0 * 12,# Feet
+		3 : 72.0 * 63360,# Miles
+		4 : 72 / 2.54 / 10,# Millimeters
+		5 : 72 / 2.54,# Centimeters
+		6 : 100 * 72 / 2.54,# Meters
+		7 : 1000 * 100 * 72 / 2.54,# Kilometers
+		8 : 1/1000000 * 72,# Microinches
+		9 : 1/1000 * 72.0,# Mils
+		10 : 72.0 * 36,# Yards
+		11 : 0.00000000001 * 100 * 72 / 2.54,# Angstroms
+		12 : 0.0000000001 * 100 * 72 / 2.54,# Nanometers
+		13 : 0.0000001 * 100 * 72 / 2.54,# Microns
+		14 : 10 * 72 / 2.54,# Decimeters
+		15 : 10 * 100 * 72 / 2.54,# Decameters
+		16 : 100 * 100 * 72 / 2.54,# Hectometers
+		17 : 1000000 * 100 * 72 / 2.54,# Gigameters
+		18 : 1.49600 * 1000000000000 * 100 * 72 / 2.54,# Astronomical units
+		19 : 9.46050 * 10000000000000000 * 100 * 72 / 2.54,#  Light years
+		20 : 3.08570 * 100000000000000000 * 100 * 72 / 2.54 # Parsecs
+		}
+		
+def convert(code, value, encoding = 'latin1'):
 	"""Convert a string to the correct Python type based on its dxf code.
 		code types:
 		ints = 60-79, 170-179, 270-289, 370-389, 400-409, 1060-1070
@@ -385,20 +410,13 @@ def unicode_decoder(text, encoding):
 	try:
 		result = text.decode('utf-8')
 	except UnicodeDecodeError:
-		# print 'UnicodeDecodeError. Use',  self.encoding
+		# print 'UnicodeDecodeError. Use',  self.DWGCODEPAGE
 		result = text.decode(encoding)
 	return result
 
 class DXFLoader(GenericLoader):
 
-	functions={"$EXTMIN": 'read_EXTMIN',
-				"$EXTMAX": 'read_EXTMAX',
-				"$PEXTMIN": 'read_PEXTMIN',
-				"$PEXTMAX": 'read_PEXTMAX',
-				"$INSUNITS": 'read_INSUNITS',
-				"$CLAYER": 'read_CLAYER',
-				"$DWGCODEPAGE": 'read_DWGCODEPAGE',
-				"POP_TRAFO": 'pop_trafo',
+	functions={	"POP_TRAFO": 'pop_trafo',
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
 				"LINE": 'line',
@@ -422,7 +440,9 @@ class DXFLoader(GenericLoader):
 		GenericLoader.__init__(self, file, filename, match)
 		
 		self.file = file
-		self.encoding = 'latin1'
+		
+		self.DWGCODEPAGE = 'latin1'
+		self.unit_to_pt = 2.83464566929
 		self.dynamic_style_dict = {}
 		self.style_dict = {}
 		self.ltype_dict = {'CONTINUOUS': { '2': 'CONTINUOUS', # Linetype name
@@ -448,8 +468,6 @@ class DXFLoader(GenericLoader):
 		self.EXTMAX = (-1e+20, -1e+20)
 		self.PEXTMIN = (1e+20, 1e+20)
 		self.PEXTMAX = (-1e+20, -1e+20)
-		self.INSUNITS = 0
-		self.unit_to_pt = 2.83464566929
 		
 		self.general_param = {
 				'8': self.default_layer, # Layer name
@@ -571,88 +589,43 @@ class DXFLoader(GenericLoader):
 		return style
 
 	################
-	def read_EXTMIN(self):
-		param={	'10': 0.0, # X coordinat
-				'20': 0.0  # y coordinat
-				}
-		param = self.read_param(param)
-		self.EXTMIN = (param['10'],param['20'])
-		print 'EXTMIN',self.EXTMIN
-
-	def read_EXTMAX(self):
-		param={	'10': 0.0, # X coordinat
-				'20': 0.0  # y coordinat
-				}
-		param = self.read_param(param)
-		self.EXTMAX = (param['10'],param['20'])
-		print 'EXTMAX',self.EXTMAX
-
-	def read_PEXTMIN(self):
-		param={	'10': 0.0, # X coordinat
-				'20': 0.0  # y coordinat
-				}
-		param = self.read_param(param)
-		self.PEXTMIN = (param['10'],param['20'])
-
-	def read_PEXTMAX(self):
-		param={	'10': 0.0, # X coordinat
-				'20': 0.0  # y coordinat
-				}
-		param = self.read_param(param)
-		self.PEXTMAX = (param['10'],param['20'])
-
-	def read_INSUNITS(self):
-		#	unit to pt
-		unit = {	0:  72, # Unitless 
-		1 : 72.0,# Inches
-		2 : 72.0 * 12,# Feet
-		3 : 72.0 * 63360,# Miles
-		4 : 72 / 2.54 / 10,# Millimeters
-		5 : 72 / 2.54,# Centimeters
-		6 : 100 * 72 / 2.54,# Meters
-		7 : 1000 * 100 * 72 / 2.54,# Kilometers
-		8 : 1/1000000 * 72,# Microinches
-		9 : 1/1000 * 72.0,# Mils
-		10 : 72.0 * 36,# Yards
-		11 : 0.00000000001 * 100 * 72 / 2.54,# Angstroms
-		12 : 0.0000000001 * 100 * 72 / 2.54,# Nanometers
-		13 : 0.0000001 * 100 * 72 / 2.54,# Microns
-		14 : 10 * 72 / 2.54,# Decimeters
-		15 : 10 * 100 * 72 / 2.54,# Decameters
-		16 : 100 * 100 * 72 / 2.54,# Hectometers
-		17 : 1000000 * 100 * 72 / 2.54,# Gigameters
-		18 : 1.49600 * 1000000000000 * 100 * 72 / 2.54,# Astronomical units
-		19 : 9.46050 * 10000000000000000 * 100 * 72 / 2.54,#  Light years
-		20 : 3.08570 * 100000000000000000 * 100 * 72 / 2.54 # Parsecs
-		}
+	def process_header(self, header):
 		
-		param={	'70': 0
-				}
+		if '$DWGCODEPAGE' in header:
+			self.DWGCODEPAGE = 'cp'+ upper(header['$DWGCODEPAGE']['3']).replace('ANSI_', '').replace('DOS','')
 		
-		param = self.read_param(param)
-		self.INSUNITS = param['70']
-		
-		if self.INSUNITS in unit:
-					self.unit_to_pt = unit[self.INSUNITS]
-		else:
-			self.unit_to_pt = 72.0
-		print 'INSUNITS', self.unit_to_pt
+		if '$INSUNITS' in header:
+			INSUNITS = convert('70', header['$INSUNITS']['70'])
+			if INSUNITS in unit:
+				self.unit_to_pt = unit[INSUNITS]
+				
+		if '$EXTMIN' in header:
+				param10 = convert('10', header['$EXTMIN']['10'])
+				param20 = convert('20', header['$EXTMIN']['20'])
+				self.EXTMIN = (param10, param20)
+				
+		if '$EXTMAX' in header:
+				param10 = convert('10', header['$EXTMAX']['10'])
+				param20 = convert('20', header['$EXTMAX']['20'])
+				self.EXTMAX = (param10, param20)
+				
+		if '$PEXTMIN' in header:
+				param10 = convert('10', header['$PEXTMIN']['10'])
+				param20 = convert('20', header['$PEXTMIN']['20'])
+				self.PEXTMIN = (param10, param20)
 
-	def read_CLAYER(self):
-		param={	'8': self.default_layer, # Layer name
-				}
-		param = self.read_param(param)
-		self.default_layer = param['8']
+		if '$PEXTMAX' in header:
+				param10 = convert('10', header['$PEXTMAX']['10'])
+				param20 = convert('20', header['$PEXTMAX']['20'])
+				self.PEXTMAX = (param10, param20)
+		
+		if '$CLAYER' in header:
+				self.default_layer = convert('8', header['$CLAYER']['8'], self.DWGCODEPAGE)
 
-	def read_DWGCODEPAGE(self):
-		param={	'3': self.encoding,
-				}
-		param = self.read_param(param)
-		encoding = 'cp'+ upper(param['3']).replace('ANSI_', '').replace('DOS','')
-		
-		self.encoding = encoding
-		
-		
+							
+		self.update_trafo()
+
+	
 	################
 
 	def load_TABLE(self):
@@ -693,7 +666,7 @@ class DXFLoader(GenericLoader):
 				dashes.append(abs(param['49'][i]) * self.unit_to_pt)
 			
 			name3 = param['3']
-			print name3, dashes
+			#print name3, dashes
 			if name3 and dashes:
 				style = Style()
 				style.line_dashes = tuple(dashes)
@@ -810,14 +783,14 @@ class DXFLoader(GenericLoader):
 					}
 			# 10
 			line1, line2 = self.read_record()
-			vertex[line1] = convert(line1, line2, self.encoding)
+			vertex[line1] = convert(line1, line2, self.DWGCODEPAGE)
 			# 20
 			line1, line2 = self.read_record()
-			vertex[line1] = convert(line1, line2, self.encoding)
+			vertex[line1] = convert(line1, line2, self.DWGCODEPAGE)
 			# 42
 			line1, line2 = self.read_record()
 			if line1 == '42':
-				vertex[line1] = convert(line1, line2, self.encoding)
+				vertex[line1] = convert(line1, line2, self.DWGCODEPAGE)
 			else:
 				self.push_record(line1, line2)
 			
@@ -1067,7 +1040,7 @@ class DXFLoader(GenericLoader):
 
 		halign = [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, \
 					ALIGN_LEFT, ALIGN_LEFT, ALIGN_LEFT][param['72']]
-		text = unicode_decoder(param['1'], self.encoding)
+		text = unicode_decoder(param['1'], self.DWGCODEPAGE)
 		#style = self.style_dict[param['7']]
 #		print style
 		
@@ -1260,7 +1233,7 @@ class DXFLoader(GenericLoader):
 				return param
 			else:
 				if line1 in param:
-					value = convert(line1, line2, self.encoding)
+					value = convert(line1, line2, self.DWGCODEPAGE)
 					if type(param[line1]) == list:
 						param[line1].append(value)
 					else:
@@ -1308,37 +1281,45 @@ class DXFLoader(GenericLoader):
 ##			return_code = self.find_record('0','ENDSEC')
 ##		return return_code
 
-		if name == 'OBJECTS':
-			print 'SECTION OBJECTS PASS'
-			return self.find_record('0','ENDSEC')
-			
-			
-		line1, line2 = self.read_record()
-		
-		file = self.file
-		fileinfo=os.stat(self.filename)
-		totalsize=fileinfo[6]
-		
-		parsed=0
-		parsed_interval=totalsize/99+1
-		while line1 or line2:
-			interval_count=file.tell()/parsed_interval
-			if interval_count > parsed:
-				parsed+=10 # 10% progress
-				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
-				
-			if line1 == '0' and line2 == 'ENDSEC':
-				return_code = True
-				break
-			else:
-				if line1 == '0' or line1 == '9':
-					self.run(line2)
-			line1, line2 = self.read_record()
-		
 		if name == 'HEADER':
-			self.update_trafo(self.unit_to_pt)
-		
-		
+			header_dict = {}
+			variable = None
+			params = {}
+			line1, line2 = self.read_record()
+			while line1 or line2:
+				if variable and (line1 == '9' or line1 == '0'):
+					header_dict[variable] = params
+				else:
+					params[line1] = line2
+
+				if line1 == '0' and line2 == 'ENDSEC':
+					return_code = True
+					break
+				elif line1 == '9':
+					params = {}
+					variable = line2
+				line1, line2 = self.read_record()
+			self.process_header(header_dict)
+			
+		else:
+			file = self.file
+			parsed = self.parsed
+			parsed_interval = self.parsed_interval
+			line1, line2 = self.read_record()
+			while line1 or line2:
+				interval_count = file.tell() / parsed_interval
+				if interval_count > parsed:
+					parsed += 10 # 10% progress
+					app.updateInfo(inf2 = '%u' % parsed + '% of file is parsed...', inf3 = parsed)
+					
+				if line1 == '0' and line2 == 'ENDSEC':
+					return_code = True
+					break
+				elif line1 == '0':
+					self.run(line2)
+				line1, line2 = self.read_record()
+			self.parsed = parsed
+
 		return return_code
 
 
@@ -1351,7 +1332,9 @@ class DXFLoader(GenericLoader):
 		readline = file.readline
 		fileinfo = os.stat(self.filename)
 		totalsize = fileinfo[6]
-		
+		self.parsed = 0
+		self.parsed_interval = totalsize / 99 + 1
+			
 		section = self.find_record('0','SECTION')
 		if section:
 			while section:
@@ -1384,7 +1367,7 @@ class DXFLoader(GenericLoader):
 				except:
 					warn_tb(INTERNAL, 'DXFLoader: error')
 			else:
-				print 'Warning not interpreted', keyword
+				self.add_message(_('Not interpreted %s' % keyword))
 
 
 
