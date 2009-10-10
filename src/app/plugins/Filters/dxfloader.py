@@ -434,6 +434,7 @@ class DXFLoader(GenericLoader):
 				#"MTEXT": 'load_text',
 				"3DFACE": 'load_3dface',
 				"SPLINE": 'load_spline',
+				"VIEWPORT": 'load_bypass',
 				
 					}
 
@@ -1251,7 +1252,8 @@ class DXFLoader(GenericLoader):
 		self.bezier(path,)
 			
 
-
+	def load_bypass(self):
+		pass
 
 ###########################################################################
 
