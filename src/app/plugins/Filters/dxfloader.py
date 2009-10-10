@@ -419,20 +419,20 @@ class DXFLoader(GenericLoader):
 	functions={	"POP_TRAFO": 'pop_trafo',
 				"TABLE": 'load_TABLE',
 				"BLOCK": 'load_BLOCK',
-				"LINE": 'line',
-				"LWPOLYLINE": 'lwpolyline',
-				"POLYLINE": 'polyline',
-				"SEQEND": 'seqend',
-				"VERTEX": 'vertex',
-				"CIRCLE": 'circle',
-				"ARC": 'arc',
-				"ELLIPSE": 'ellips',
-				"SOLID": 'solid',
-				"INSERT": 'insert',
-				"TEXT": 'text',
-				#"MTEXT": 'text',
-				"3DFACE": 'i3dface',
-				"SPLINE": 'spline',
+				"LINE": 'load_line',
+				"LWPOLYLINE": 'load_lwpolyline',
+				"POLYLINE": 'load_polyline',
+				"SEQEND": 'load_seqend',
+				"VERTEX": 'load_vertex',
+				"CIRCLE": 'load_circle',
+				"ARC": 'load_arc',
+				"ELLIPSE": 'load_ellips',
+				"SOLID": 'load_solid',
+				"INSERT": 'load_insert',
+				"TEXT": 'load_text',
+				#"MTEXT": 'load_text',
+				"3DFACE": 'load_3dface',
+				"SPLINE": 'load_spline',
 				
 					}
 
@@ -589,6 +589,30 @@ class DXFLoader(GenericLoader):
 		return style
 
 	################
+	# HEADER Section
+	#
+	def load_HEADER(self):
+		return_code = False
+		header_dict = {}
+		variable = None
+		params = {}
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if variable and (line1 == '9' or line1 == '0'):
+				header_dict[variable] = params
+			else:
+				params[line1] = line2
+			
+			if line1 == '0' and line2 == 'ENDSEC':
+				return_code = True
+				break
+			elif line1 == '9':
+				params = {}
+				variable = line2
+			line1, line2 = self.read_record()
+		return return_code, header_dict
+
+
 	def process_header(self, header):
 		
 		if '$DWGCODEPAGE' in header:
@@ -619,14 +643,15 @@ class DXFLoader(GenericLoader):
 				param20 = convert('20', header['$PEXTMAX']['20'])
 				self.PEXTMAX = (param10, param20)
 		
+		self.update_trafo()
+		
 		if '$CLAYER' in header:
 				self.default_layer = convert('8', header['$CLAYER']['8'], self.DWGCODEPAGE)
 
-							
-		self.update_trafo()
-
 	
 	################
+	# TABLES Section
+	#
 
 	def load_TABLE(self):
 		param={	'2': '', # Table name
@@ -648,6 +673,7 @@ class DXFLoader(GenericLoader):
 			elif table_name == 'STYLE':
 				self.load_STYLE()
 			line1, line2 = self.read_record()
+
 
 	def load_LTYPE(self):
 		param={ '2': '', # Linetype name
@@ -707,6 +733,10 @@ class DXFLoader(GenericLoader):
 		self.style_dict[style_name] = param
 
 
+	################
+	# BLOCKS Section
+	#
+	
 	def load_BLOCK(self):
 		param={	'2': '', # Block name
 				'10': 0.0, # X Base point
@@ -733,8 +763,12 @@ class DXFLoader(GenericLoader):
 		self.block_dict[block_name] = param
 #		print self.block_dict[block_name]
 
+
 	################
-	def line(self):
+	#  ENTITIES Section
+	#
+	
+	def load_line(self):
 		param={	'10': None, # X coordinat
 				'20': None, # y coordinat
 				#'30': None, # Z coordinat
@@ -753,7 +787,7 @@ class DXFLoader(GenericLoader):
 		self.bezier(self.path,)
 
 
-	def lwpolyline(self):
+	def load_lwpolyline(self):
 		param={ '90': 0, # Number of vertices
 				'70': 0, # bit codes for Polyline entity
 				'40': None, # Starting width
@@ -796,10 +830,10 @@ class DXFLoader(GenericLoader):
 			
 			vertex_path.append((vertex['10'], vertex['20'], vertex['42']))
 			
-		self.seqend(vertex_path, path_flag)
+		self.load_seqend(vertex_path, path_flag)
 
 
-	def polyline(self):
+	def load_polyline(self):
 		param={	'70': 0, # bit codes for Polyline entity
 				'40': 0.01, #XXX FIXMY
 				}
@@ -813,7 +847,7 @@ class DXFLoader(GenericLoader):
 		self.path_flag = param['70']
 
 
-	def vertex(self):
+	def load_vertex(self):
 		param={#'62': 7, # color
 				#'6': 'CONTINUOUS', # style
 				'10': None, # X coordinat
@@ -824,7 +858,7 @@ class DXFLoader(GenericLoader):
 		self.vertex_path.append((param['10'], param['20'], param['42']))
 
 
-	def seqend(self, line = None, path_flag = None):
+	def load_seqend(self, line = None, path_flag = None):
 		if line is None:
 			line = self.vertex_path
 		
@@ -851,7 +885,7 @@ class DXFLoader(GenericLoader):
 		self.bezier(path,)
 
 
-	def circle(self):
+	def load_circle(self):
 		param={	'10': None, # X coordinat center
 				'20': None, # Y coordinat center
 				#'30': None, # Z coordinat center
@@ -872,7 +906,7 @@ class DXFLoader(GenericLoader):
 		apply(self.ellipse, t.coeff())
 
 
-	def arc(self):
+	def load_arc(self):
 		param={	'10': None, # X coordinat center
 				'20': None, # Y coordinat center
 				#'30': None, # Z coordinat center
@@ -898,7 +932,7 @@ class DXFLoader(GenericLoader):
 		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
 		
 
-	def ellips(self):
+	def load_ellips(self):
 		param={	'10': 0.0, # X coordinat center
 				'20': 0.0, # Y coordinat center
 				#'30': 0.0, # Z coordinat center
@@ -936,7 +970,7 @@ class DXFLoader(GenericLoader):
 		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
 
 
-	def solid(self):
+	def load_solid(self):
 		param={	'10': None, 
 				'20': None, 
 				#'30': None, 
@@ -969,7 +1003,7 @@ class DXFLoader(GenericLoader):
 		self.bezier(self.path,)
 
 
-	def insert(self):
+	def load_insert(self):
 		param={ '2': None, # Block name
 				'10': 0.0, # X coordinat
 				'20': 0.0, # Y coordinat
@@ -1015,7 +1049,7 @@ class DXFLoader(GenericLoader):
 				line1, line2 = self.read_record()
 
 
-	def text(self):
+	def load_text(self):
 		param={ '10': 0.0, 
 				'20': 0.0, 
 				'40': None, # Text height
@@ -1060,7 +1094,7 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style_text.Duplicate())
 		self.simple_text(strip(text), trafo_text, halign = halign)
 		
-	def i3dface(self):
+	def load_3dface(self):
 		param={	'10': None, 
 				'20': None, 
 				#'30': None, 
@@ -1094,7 +1128,7 @@ class DXFLoader(GenericLoader):
 		
 		self.bezier(self.path,)
 
-	def spline(self):
+	def load_spline(self):
 		param={	'70': 0, # Spline flag 
 				'71': 0, # Degree of the spline curve
 				'72': 0, # Number of knots
@@ -1251,77 +1285,51 @@ class DXFLoader(GenericLoader):
 			if line1 == code1 and line2 == code2:
 				return True
 			line1, line2 = self.read_record()
-#		##print '#false',code2
 		return False
 
 
-
 	def load_section(self):
+		return_code = False
+		file = self.file
+		parsed = self.parsed
+		parsed_interval = self.parsed_interval
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			interval_count = file.tell() / parsed_interval
+			if interval_count > parsed:
+				parsed += 10 # 10% progress
+				app.updateInfo(inf2 = '%u' % parsed + _('% of file is parsed...'), inf3 = parsed)
+				
+			if line1 == '0' and line2 == 'ENDSEC':
+				return_code = True
+				break
+			elif line1 == '0':
+				self.run(line2)
+			line1, line2 = self.read_record()
+		self.parsed = parsed
+		return return_code
+	
+
+	def load_sections(self):
 		return_code = False
 		param={	'2': '', # name section
 				}
 		param = self.read_param(param)
 		name=param['2']
 		print '**',name
-##		if name == 'HEADER':
-##			return_code = self.load_subsection()
-####		elif name == 'CLASSES':
-####			pass
-##		elif name == 'TABLES':
-##			return_code = self.load_subsection()
-####		elif name == 'BLOCKS':
-####			pass
-##		elif name == 'ENTITIES':
-##			return_code = self.load_subsection()
-####		elif name == 'OBJECTS':
-####			pass
-####		elif name == 'THUMBNAILIMAGE':
-####			pass
-##		else:
-##			return_code = self.find_record('0','ENDSEC')
-##		return return_code
-
 		if name == 'HEADER':
-			header_dict = {}
-			variable = None
-			params = {}
-			line1, line2 = self.read_record()
-			while line1 or line2:
-				if variable and (line1 == '9' or line1 == '0'):
-					header_dict[variable] = params
-				else:
-					params[line1] = line2
-
-				if line1 == '0' and line2 == 'ENDSEC':
-					return_code = True
-					break
-				elif line1 == '9':
-					params = {}
-					variable = line2
-				line1, line2 = self.read_record()
+			return_code, header_dict = self.load_HEADER()
 			self.process_header(header_dict)
-			
+		elif name == 'CLASSES':
+			return_code = self.find_record('0','ENDSEC')
+		elif name == 'OBJECTS':
+			return_code = self.find_record('0','ENDSEC')
+		elif name == 'THUMBNAILIMAGE':
+			return_code = self.find_record('0','ENDSEC')
 		else:
-			file = self.file
-			parsed = self.parsed
-			parsed_interval = self.parsed_interval
-			line1, line2 = self.read_record()
-			while line1 or line2:
-				interval_count = file.tell() / parsed_interval
-				if interval_count > parsed:
-					parsed += 10 # 10% progress
-					app.updateInfo(inf2 = '%u' % parsed + '% of file is parsed...', inf3 = parsed)
-					
-				if line1 == '0' and line2 == 'ENDSEC':
-					return_code = True
-					break
-				elif line1 == '0':
-					self.run(line2)
-				line1, line2 = self.read_record()
-			self.parsed = parsed
-
+			return_code = self.load_section()
+		
 		return return_code
-
 
 
 	def interpret(self):
@@ -1334,21 +1342,21 @@ class DXFLoader(GenericLoader):
 		totalsize = fileinfo[6]
 		self.parsed = 0
 		self.parsed_interval = totalsize / 99 + 1
-			
-		section = self.find_record('0','SECTION')
-		if section:
-			while section:
-				if not self.load_section():
+		
+		line1, line2 = self.read_record()
+		while line1 or line2:
+			if line1 == '0':
+				if line2 == 'EOF':
+					break
+				elif not self.load_sections():
 					warn_tb(INTERNAL, _('DXFLoader: error. Non find end of sections'))
-					return
-				else:
-					section = self.find_record('0', 'SECTION')
-		else:
-			warn_tb(INTERNAL, _('DXFLoader: error. Non find any sections'))
+			line1, line2 = self.read_record()
+
 
 	def run(self,keyword, *args):
 		if keyword is None:
 			return
+		return_code = False
 		unknown_operator = (None, None)
 		funclist = self.funclist
 		if keyword is not None:
@@ -1359,15 +1367,16 @@ class DXFLoader(GenericLoader):
 					if len(args):
 						i = 0
 						while i<len(args):
-							apply(method, args[i:argc+i])
+							return_code = apply(method, args[i:argc+i])
 							i+=argc
 					else:
-						method()
+						return_code = method()
 						
 				except:
 					warn_tb(INTERNAL, 'DXFLoader: error')
 			else:
-				self.add_message(_('Not interpreted %s' % keyword))
+				self.add_message(_('Not interpreted %s') % keyword)
+		return return_code
 
 
 
