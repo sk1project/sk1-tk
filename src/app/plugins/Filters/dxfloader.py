@@ -427,6 +427,7 @@ class DXFLoader(GenericLoader):
 				"CIRCLE": 'load_circle',
 				"ARC": 'load_arc',
 				"ELLIPSE": 'load_ellips',
+				"POINT": 'load_point',
 				"SOLID": 'load_solid',
 				"INSERT": 'load_insert',
 				"TEXT": 'load_text',
@@ -968,6 +969,28 @@ class DXFLoader(GenericLoader):
 		self.prop_stack.AddStyle(style.Duplicate())
 		
 		apply(self.ellipse, (rx, w1, w2, ry, cx, cy, start_angle, end_angle, ArcArc))
+
+
+	def load_point(self):
+		param={	'10': None, # X coordinat center
+				'20': None, # Y coordinat center
+				#'30': None, # Z coordinat center
+				}
+		param.update(self.general_param)
+		param = self.read_param(param)
+		
+		x = param['10']
+		y = param['20']
+		r = 0.3
+		
+		t = self.trafo(Trafo(r,0,0,r,x,y))
+		
+		style = self.curstyle.Duplicate()
+		style.line_pattern = EmptyPattern
+		style.fill_pattern = self.get_pattern(param['62'])
+		
+		self.prop_stack.AddStyle(style.Duplicate())
+		apply(self.ellipse, t.coeff())
 
 
 	def load_solid(self):
