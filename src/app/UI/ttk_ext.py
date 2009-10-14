@@ -12,6 +12,7 @@ from app import _
 
 from Ttk import TFrame, TButton, TEntry, TMenubutton, TScrollbar
 import string
+import re
 
 
 class TEntryExt(TEntry):
@@ -74,6 +75,8 @@ class TEntryExt(TEntry):
 		self.tk.call('::ttk::entry::Paste',self._w)
 		
 #--------ContextMenu-----------------------------------------------------------
+
+expression = re.compile(r'.[^0-9E \.\-+*/\)\(]')
 	
 class TSpinbox(TFrame):
 	def __init__(self, master=None, min=0, max=100, step=1, textvariable=None, var=0, vartype=0, 
@@ -112,12 +115,25 @@ class TSpinbox(TFrame):
 		self.entry.bind('<Button-5>', self.wheel_decrease)
 		self.entry.bind('<Key-Up>', self.wheel_increase)
 		self.entry.bind('<Key-Down>', self.wheel_decrease)
-		self.entry.bind('<Key-Return>', self.command)
-		self.entry.bind('<Key-KP_Enter>', self.command)
+		self.entry.bind('<Key-Return>', self.apply_command)
+		self.entry.bind('<Key-KP_Enter>', self.apply_command)
 		#self.entry.bind ( '<KeyPress>', self.check_input)
 		
 	def check_input(self, event):
 		event=None
+	
+	def apply_command(self, *args):
+		if self.state==NORMAL:
+			text = self.entry.get()
+			text = text.replace(',', '.')
+			if text and not expression.search(text):
+				try:
+					variable = eval(text)
+				except:
+					pass
+				else:
+					self.set_value(variable)
+					self.command(*args)
 		
 	def set_state(self, state):
 		self.state=state
@@ -142,13 +158,8 @@ class TSpinbox(TFrame):
 				self.text_var.set('0')
 				self.variable=float(self.text_var.get())
 			self.variable=self.variable+self.step
-			if self.variable>self.max_value:
-				self.variable=self.variable-self.step
-			if self.vartype==1: 
-				self.variable=float(self.variable)
-			else:
-				self.variable=int(self.variable)
-			self.text_var.set(str(self.variable))
+			
+			self.set_value(self.variable)
 		
 	def decrease(self):
 		if self.state==NORMAL:
@@ -158,19 +169,20 @@ class TSpinbox(TFrame):
 				self.text_var.set('0')
 				self.variable=float(self.text_var.get())
 			self.variable=self.variable-self.step
-			if self.variable<self.min_value:
-				self.variable=self.variable+self.step
-			if self.vartype==1: 
-				self.variable=float(self.variable)
-			else:
-				self.variable=int(self.variable)
-			self.text_var.set(str(self.variable))
+			
+			self.set_value(self.variable)
 		
 	def set_value(self, value=0):
-		if self.vartype==1: 
-			self.variable=float(value)
+		try:
+			value = float(value)
+		except:
+			value = 0
+		value = min(self.max_value, value)
+		value = max(self.min_value, value)
+		if self.vartype == 1: 
+			self.variable = float(value)
 		else:
-			self.variable=int(value)
+			self.variable = int(round(value))
 		self.text_var.set(str(self.variable))
 	
 	def get_value(self):
@@ -182,7 +194,7 @@ class TSpinbox(TFrame):
 		if self.vartype==1: 
 			self.variable=float(self.variable)
 		else:
-			self.variable=int(self.variable)
+			self.variable = int(round(self.variable))
 		return self.variable
 			
 		
