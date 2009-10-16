@@ -126,6 +126,7 @@ class TSpinbox(TFrame):
 		if self.state==NORMAL:
 			text = self.entry.get()
 			text = text.replace(',', '.')
+			text = text.replace('/', '*1./')
 			if text and not expression.search(text):
 				try:
 					variable = eval(text)
