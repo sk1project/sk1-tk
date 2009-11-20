@@ -1,0 +1,287 @@
+# -*- coding: utf-8 -*-
+
+# Copyright (C) 2009 by Barabash Maxim
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307	USA
+
+###Sketch Config
+#type=Import
+#class_name='DSTLoader'
+#rx_magic='^LA:'
+#tk_file_type=('DST - (Tajima) Design format file', ('.dst'))
+#format_name='DST'
+#unload=1
+#standard_messages=1
+###End
+
+#
+#	   Import Filter for DST (Tajima) Design format
+#
+
+# Spec file
+# http://www.achatina.de/sewing/main/TECHNICL.HTM
+# http://www.wotsit.org/download.asp?f=tajima&sc=312047744
+
+
+import os
+import app
+
+from types import StringType
+from string import atoi
+from app import _, CreatePath, Style, const, SolidPattern, StandardColors, CreateRGBColor
+
+from app.events.warn import INTERNAL, pdebug, warn_tb
+from app.io.load import GenericLoader, SketchLoadError
+
+from struct import unpack
+
+
+def byte2bin(num):
+		result = ""
+		for i in xrange(0, 8):
+			result = str(num >> i & 1) + result
+			return result
+
+def byte(num, i):
+		return num >> i & 1
+
+def csscolor(str):
+	str = str.strip()
+	if str[0] == '#' and len(str) == 7:
+		r = atoi(str[1:3], 16) / 255.0
+		g = atoi(str[3:5], 16) / 255.0
+		b = atoi(str[5:7], 16) / 255.0
+		color = CreateRGBColor(r, g, b)
+	else:
+		color = StandardColors.black
+	return color
+
+colors = {
+		0:csscolor('#000000'),	1:csscolor('#0E1F7C'),	2:csscolor('#0A55A3'),
+		3:csscolor('#308777'),	4:csscolor('#4B6BAF'),	5:csscolor('#ED171F'),
+		6:csscolor('#D15C00'),	7:csscolor('#913697'),	8:csscolor('#E49ACB'),
+		9:csscolor('#915FAC'),	10:csscolor('#9DD67D'),	11:csscolor('#E8A900'),
+		12:csscolor('#FEBA35'),	13:csscolor('#FFFF00'),	14:csscolor('#70BC1F'),
+		15:csscolor('#C09400'),	16:csscolor('#A8A8A8'),	17:csscolor('#7B6F00'),
+		18:csscolor('#FFFFB3'),	19:csscolor('#4F5556'),	20:csscolor('#000000'),
+		21:csscolor('#0B3D91'),	22:csscolor('#770176'),	23:csscolor('#293133'),
+		24:csscolor('#2A1301'),	25:csscolor('#F64A8A'),	26:csscolor('#B27624'),
+		27:csscolor('#FCBBC4'),	28:csscolor('#FE370F'),	29:csscolor('#F0F0F0'),
+		30:csscolor('#6A1C8A'),	31:csscolor('#A8DDC4'),	32:csscolor('#2584BB'),
+		33:csscolor('#FEB343'),	34:csscolor('#FFF08D'),	35:csscolor('#D0A660'),
+		36:csscolor('#D15400'),	37:csscolor('#66BA49'),	38:csscolor('#134A46'),
+		39:csscolor('#878787'),	40:csscolor('#D8CAC6'),	41:csscolor('#435607'),
+		42:csscolor('#FEE3C5'),	43:csscolor('#F993BC'),	44:csscolor('#003822'),
+		45:csscolor('#B2AFD4'),	46:csscolor('#686AB0'),	47:csscolor('#EFE3B9'),
+		48:csscolor('#F73866'),	49:csscolor('#B54C64'),	50:csscolor('#132B1A'),
+		51:csscolor('#C70155'),	52:csscolor('#FE9E32'),	53:csscolor('#A8DEEB'),
+		54:csscolor('#00671A'),	55:csscolor('#4E2990'),	56:csscolor('#2F7E20'),
+		57:csscolor('#FDD9DE'),	58:csscolor('#FFD911'),	59:csscolor('#905BA6'),
+		60:csscolor('#F0F970'),	61:csscolor('#E3F35B'),	62:csscolor('#FFC864'),
+		63:csscolor('#FFC896'),	64:csscolor('#FFC8C8'),	65:csscolor('#000000'),
+		}
+
+
+#####################################################################
+# DST (Tajima) Design format
+#####################################################################
+
+class Palette:
+	def __init__(self, file=None):
+		self.index = 1
+		self.items = {}
+		self.load_palette(file)
+	
+	def	load_palette(self, file = None):
+		filename = None
+		if type(file) == StringType:
+			if os.path.exists(file + '.edr'):
+				filename = file + '.edr'
+			elif os.path.exists(file + '.EDR'):
+				filename = file + '.EDR'
+			else:
+				self.items = {}
+				self.items.update(colors)
+				return
+		if filename is not None:
+			file = open(filename, 'rb')
+		index = 1
+		while index < 256:
+			print index
+			data = file.read(4)
+			if len(data) < 4:
+				break
+			r, g, b, nn = unpack('BBBB', data)
+			self.items[index] = CreateRGBColor(r/ 255.0, g/ 255.0, b/ 255.0)
+			index += 1
+		file.close()
+	
+	def next_color(self, index=None):
+		if index is None:
+			self.index += 1
+		else:
+			self.index = index
+		if self.index in self.items:
+			color = self.items[self.index]
+		else:
+			color = StandardColors.black
+		return SolidPattern(color)
+
+
+#####################################################################
+#
+#####################################################################
+class DSTLoader(GenericLoader):
+	def __init__(self, file, filename, match):
+		GenericLoader.__init__(self, file, filename, match)
+		self.file=file
+		self.basename, self.ext = os.path.splitext(filename)
+	
+	def initialize(self):
+		self.draw = 0
+		self.scale = .283464566929
+		self.cur_x = 0.0
+		self.cur_y = 0.0
+		self.palette = Palette(self.basename)
+		self.path = CreatePath()
+		self.cur_style = Style()
+		self.cur_style.line_width = 0.6
+		self.cur_style.line_join = const.JoinRound
+		self.cur_style.line_cap = const.CapRound
+		self.cur_style.line_pattern = self.palette.next_color(1)
+	
+	def get_position(self, x = None, y = None):
+		if x is  None:
+			x = self.cur_x
+		else:
+			x = float(x) * self.scale + self.cur_x
+		if y is None:
+			y = self.cur_y
+		else:
+			y = float(y) * self.scale + self.cur_y
+		return x, y
+	
+	def bezier(self):
+		if self.path.len > 1:
+			self.prop_stack.AddStyle(self.cur_style.Duplicate())
+			GenericLoader.bezier(self, paths = (self.path,))
+		self.path = CreatePath()
+	
+	def jump(self, x, y):
+		x, y = self.get_position(x, y)
+		self.cur_x = x
+		self.cur_y = y
+	
+	def needle_move(self, x, y):
+		if self.draw == 1:
+			self.path.AppendLine(x, y)
+		else:
+			self.bezier()
+			self.path.AppendLine(x, y)
+		self.cur_x = x
+		self.cur_y = y
+	
+	def needle_down(self, x = None, y = None):
+		self.draw = 1
+		x, y = self.get_position(x, y)
+		self.needle_move(x, y)
+	
+	def needle_up(self, x = None, y = None):
+		if self.draw == 1:
+			self.bezier()
+		self.draw = 0
+		x, y = self.get_position(x, y)
+		self.needle_move(x, y)
+	
+	def decode_x(self, d1, d2, d3):
+		x =   1 * byte(d1,7)  -1 * byte(d1,6)  +9 * byte(d1,5)  -9 * byte(d1,4)
+		x +=  3 * byte(d2,7)  -3 * byte(d2,6) +27 * byte(d2,5) -27 * byte(d2,4)
+		x += 81 * byte(d3,5) -81 * byte(d3,4)
+		return x
+	
+	def decode_y(self, d1, d2, d3):
+		y =   1 * byte(d1,0)  -1 * byte(d1,1)  +9 * byte(d1,2)  -9 * byte(d1,3)
+		y +=  3 * byte(d2,0)  -3 * byte(d2,1) +27 * byte(d2,2) -27 * byte(d2,3) 
+		y += 81 * byte(d3,2) -81 * byte(d3,3)
+		return y
+	
+	def decode_flag(self, d3):
+		if d3 == 243:
+			return 'END'
+		if d3 & 195 == 3:
+			return 'NORMAL'
+		elif d3 & 195 == 131:
+			return 'JUMP'
+		elif d3 & 195 == 195:
+			return 'CHANGECOLOR'
+		else:
+			return 'UNKNOWN'
+	
+	def readheader(self, file):
+		file.seek(0)
+		header = file.read(512).split('\r')
+		dict = {}
+		for i in header:
+			if i[2] == ':':
+				dict[i[0:2]] = i[3:].replace(' ', '')
+		x = int(dict['-X'])
+		y = int(dict['-Y'])
+		self.jump(x , y )
+	
+	def Load(self):
+		file = self.file
+		fileinfo=os.stat(self.filename)
+		totalsize=fileinfo[6]
+		self.initialize()
+		self.readheader(file)
+		self.document()
+		self.layer(name=_("DST_objects"))
+		parsed=0
+		parsed_interval=totalsize/99+1
+		flag = 'UNKNOWN'
+		while 1:
+			
+			interval_count=file.tell()/parsed_interval
+			if interval_count > parsed:
+				parsed+=10 # 10% progress
+				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
+			
+			data = file.read(3)
+			if len(data) < 3 or flag == 'END':
+				self.needle_up()
+				## END INTERPRETATION
+				app.updateInfo(inf2=_('Parsing is finished'),inf3=100)
+				break
+				
+			d1, d2, d3 = unpack('BBB', data)
+			x = self.decode_x(d1, d2, d3)
+			y = self.decode_y(d1, d2, d3)
+			#XXX swap coordinate 
+			x, y = y, x
+			
+			flag = self.decode_flag(d3)
+			if flag == 'NORMAL':
+				self.needle_down(x, y)
+			elif flag == 'CHANGECOLOR':
+				self.needle_up(x, y)
+				self.cur_style.line_pattern = self.palette.next_color()
+			elif flag == 'JUMP':
+				#self.bezier() # cut the rope
+				self.jump(x, y)
+
+		self.end_all()
+		self.object.load_Completed()
+		return self.object
+
