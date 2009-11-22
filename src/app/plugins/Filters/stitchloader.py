@@ -18,9 +18,9 @@
 
 ###Sketch Config
 #type=Import
-#class_name='DSTLoader'
-#rx_magic='^LA:'
-#tk_file_type=('DST - (Tajima) Design format file', ('.dst'))
+#class_name='StitchLoader'
+#rx_magic='^LA:|^#PES'
+#tk_file_type=('Embroidery file format - DST, PES', ('*.dst', '*.pes'))
 #format_name='DST'
 #unload=1
 #standard_messages=1
@@ -28,11 +28,13 @@
 
 #
 #	   Import Filter for DST (Tajima) Design format
+#      Import Filter for PES (Brother) Embroidery file format
 #
 
 # Spec file
 # http://www.achatina.de/sewing/main/TECHNICL.HTM
 # http://www.wotsit.org/download.asp?f=tajima&sc=312047744
+# http://www.wotsit.org/download.asp?f=pes&sc=312131292
 
 
 import os
@@ -119,7 +121,6 @@ class Palette:
 			file = open(filename, 'rb')
 		index = 1
 		while index < 256:
-			print index
 			data = file.read(4)
 			if len(data) < 4:
 				break
@@ -285,3 +286,136 @@ class DSTLoader(GenericLoader):
 		self.object.load_Completed()
 		return self.object
 
+#####################################################################
+#
+#####################################################################
+class PESLoader(DSTLoader):
+	def __init__(self, file, filename, match):
+		DSTLoader.__init__(self, file, filename, match)
+	
+	def readInt32(self, file):
+		try:
+			data = unpack('<I', file.read(4))[0]
+		except:
+			data = None
+		return data
+	
+	def readInt8(self, file):
+		try:
+			data = int(unpack('B', file.read(1))[0])
+		except:
+			data = None
+		return data
+	
+	def readheader(self, file):
+		file.seek(8)
+		self.pecstart = self.readInt32(file)
+		#No. of colors in file
+		file.seek(self.pecstart + 48)
+		numColors = self.readInt8(file) + 1
+		self.colorindex = []
+		for i in xrange(0, numColors):
+			self.colorindex.append(self.readInt8(file))
+		
+	def Load(self):
+		file = self.file
+		fileinfo=os.stat(self.filename)
+		totalsize=fileinfo[6]
+		self.readheader(file)
+		self.initialize()
+		self.document()
+		self.layer(name=_("PES_objects"))
+		
+		#Beginning of stitch data
+		file.seek(self.pecstart + 532)
+		parsed = 0
+		parsed_interval=totalsize/99+1
+		colorindex = 0
+		while 1:
+			
+			interval_count=file.tell()/parsed_interval
+			if interval_count > parsed:
+				parsed+=10 # 10% progress
+				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
+			
+			val1 = self.readInt8(file)
+			val2 = self.readInt8(file)
+			
+			if val1 is None or val2 is None:
+				break
+			elif val1 == 255 and val2 == 0:
+				#end of stitches
+				flag = 'END'
+				app.updateInfo(inf2=_('Parsing is finished'),inf3=100)
+			elif val1 == 254 and val2 == 176:
+				# color switch, start a new block
+				flag = 'CHANGECOLOR'
+				nn = self.readInt8(file)
+			else:
+				if val1 & 128 == 128: # $80
+					#this is a jump stitch
+					flag = 'JUMP'
+					x = ((val1 & 15) * 256) + val2
+					if x & 2048 == 2048: # $0800
+						x= x - 4096;
+					#read next byte for Y value
+					val2 = self.readInt8(file)
+				else:
+					#normal stitch
+					flag = 'NORMAL'
+					x = val1;
+					if x > 63:
+						x = x - 128
+				
+				if val2 & 128 == 128: # $80
+					#this is a jump stitch
+					flag = 'JUMP'
+					val3 = self.readInt8(file)
+					y = ((val2 & 15) * 256) + val3
+					if y & 2048 == 2048: # $0800
+						y = y - 4096
+				else:
+					#normal stitch
+					flag = 'NORMAL'
+					y = val2;
+					if y > 63:
+						y = y - 128
+				#XXX flip vertical coordinate 
+				x, y = x, -y
+				
+			if flag == 'NORMAL':
+				self.needle_down(x, y)
+			elif flag == 'CHANGECOLOR':
+				self.needle_up()
+				colorindex += 1
+				self.cur_style.line_pattern = self.palette.next_color(self.colorindex[colorindex])
+			elif flag == 'JUMP':
+				#self.bezier() # cut the rope
+				self.jump(x, y)
+			elif flag == 'END':
+				self.needle_up()
+				break
+		
+		self.end_all()
+		self.object.load_Completed()
+		return self.object
+
+#####################################################################
+#
+#####################################################################
+class StitchLoader(GenericLoader):
+	def __init__(self, file, filename, match):
+		GenericLoader.__init__(self, file, filename, match)
+		self.basename, self.ext = os.path.splitext(filename)
+	
+	def Load(self):
+		doc = None
+		if self.ext.upper() == '.DST':
+			loader = DSTLoader(self.file, self.filename, self.match)
+			doc = loader.Load()
+		elif self.ext.upper() == '.PES':
+			loader = PESLoader(self.file, self.filename, self.match)
+			doc = loader.Load()
+		else:
+			raise SketchLoadError(_("unrecognised file type"))
+		return doc
