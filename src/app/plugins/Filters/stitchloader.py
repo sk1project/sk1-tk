@@ -104,6 +104,7 @@ class Palette:
 	def __init__(self, file=None):
 		self.index = 1
 		self.items = {}
+		self.order = []
 		self.load_palette(file)
 	
 	def	load_palette(self, file = None):
@@ -116,6 +117,7 @@ class Palette:
 			else:
 				self.items = {}
 				self.items.update(colors)
+				self.from_file = False
 				return
 		if filename is not None:
 			file = open(filename, 'rb')
@@ -127,15 +129,21 @@ class Palette:
 			r, g, b, nn = unpack('BBBB', data)
 			self.items[index] = CreateRGBColor(r/ 255.0, g/ 255.0, b/ 255.0)
 			index += 1
+		self.from_file = True
 		file.close()
 	
 	def next_color(self, index=None):
 		if index is None:
-			self.index += 1
-		else:
-			self.index = index
-		if self.index in self.items:
-			color = self.items[self.index]
+			index = self.index + 1
+		self.index = index
+
+		if not self.from_file and self.order:
+			print self.index, self.order
+			
+			index = self.order[self.index - 1]
+
+		if index in self.items:
+			color = self.items[index]
 		else:
 			color = StandardColors.black
 		return SolidPattern(color)
@@ -313,16 +321,18 @@ class PESLoader(DSTLoader):
 		#No. of colors in file
 		file.seek(self.pecstart + 48)
 		numColors = self.readInt8(file) + 1
-		self.colorindex = []
+		self.palette.order = []
 		for i in xrange(0, numColors):
-			self.colorindex.append(self.readInt8(file))
+			self.palette.order.append(self.readInt8(file))
+
 		
 	def Load(self):
 		file = self.file
 		fileinfo=os.stat(self.filename)
 		totalsize=fileinfo[6]
-		self.readheader(file)
 		self.initialize()
+		self.readheader(file)
+		self.cur_style.line_pattern = self.palette.next_color(1)
 		self.document()
 		self.layer(name=_("PES_objects"))
 		
@@ -330,7 +340,6 @@ class PESLoader(DSTLoader):
 		file.seek(self.pecstart + 532)
 		parsed = 0
 		parsed_interval=totalsize/99+1
-		colorindex = 0
 		while 1:
 			
 			interval_count=file.tell()/parsed_interval
@@ -387,15 +396,15 @@ class PESLoader(DSTLoader):
 				self.needle_down(x, y)
 			elif flag == 'CHANGECOLOR':
 				self.needle_up()
-				colorindex += 1
-				self.cur_style.line_pattern = self.palette.next_color(self.colorindex[colorindex])
+				#self.bezier()
+				self.cur_style.line_pattern = self.palette.next_color()
 			elif flag == 'JUMP':
 				#self.bezier() # cut the rope
-				self.jump(x, y)
+				#self.jump(x, y)
+				self.needle_down(x, y)
 			elif flag == 'END':
 				self.needle_up()
 				break
-		
 		self.end_all()
 		self.object.load_Completed()
 		return self.object
