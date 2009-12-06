@@ -19,8 +19,8 @@
 ###Sketch Config
 #type=Import
 #class_name='StitchLoader'
-#rx_magic='^LA:|^#PES|^\x80\x04|^\xE3\x42|^\x14\xFF|^\x80\x02'
-#tk_file_type=('Embroidery file format - DST, PES, EXP', ('*.dst', '*.pes', '*.exp'))
+#rx_magic='^LA:|^#PES|^\x80\x04|^\xE3\x42|^\x14\xFF|^\x80\x02|^\x32[\x02,\x03].\x00'
+#tk_file_type=('Embroidery file format - DST, PES, EXP, PCS', ('*.dst', '*.pes', '*.exp', '*.pcs'))
 #format_name='DST'
 #unload=1
 #standard_messages=1
@@ -30,6 +30,7 @@
 #      Import Filter for DST (Tajima) Design format
 #      Import Filter for PES (Brother) Embroidery file format
 #      Import Filter for EXP (Melco) Embroidery file format
+#      Import Filter for PCS (Pfaff home) Design format
 #
 
 # Spec file
@@ -114,7 +115,7 @@ class Palette:
 		self.order = []
 		self.load_palette(file)
 	
-	def	load_palette(self, file = None):
+	def	load_palette(self, file = None, count = 255):
 		filename = None
 		if type(file) == StringType:
 			if os.path.exists(file + '.edr'):
@@ -129,7 +130,7 @@ class Palette:
 		if filename is not None:
 			file = open(filename, 'rb')
 		index = 1
-		while index < 256:
+		while index <= count:
 			data = file.read(4)
 			if len(data) < 4:
 				break
@@ -137,7 +138,8 @@ class Palette:
 			self.items[index] = CreateRGBColor(r/ 255.0, g/ 255.0, b/ 255.0)
 			index += 1
 		self.from_file = True
-		file.close()
+		if filename is not None:
+			file.close()
 	
 	def next_color(self, index=None):
 		if index is None:
@@ -484,6 +486,58 @@ class EXPLoader(DSTLoader):
 #####################################################################
 #
 #####################################################################
+class PCSLoader(DSTLoader):
+	def __init__(self, file, filename, match):
+		DSTLoader.__init__(self, file, filename, match)
+	
+	def readheader(self, file):
+		file.seek(0)
+		pcs = unpack('<H', file.read(2))[0]
+		#No. of colors in file
+		numColors = unpack('<H', file.read(2))[0]
+		self.palette.load_palette(file, numColors)
+		#Nr. of stitches in file, LSB
+		self.LSB = unpack('<H', file.read(2))[0]
+
+	def Load(self):
+		file = self.file
+		fileinfo=os.stat(self.filename)
+		totalsize=fileinfo[6]
+		self.initialize()
+		self.readheader(file)
+		self.scale = .472440944882
+		self.document()
+		self.layer(name=_("PCS_objects"))
+		
+		parsed = 0
+		parsed_interval=totalsize/99+1
+		for i in xrange(self.LSB):
+			interval_count=file.tell()/parsed_interval
+			if interval_count > parsed:
+				parsed+=10 # 10% progress
+				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
+				
+			data = file.read(9)
+			
+			if len(data) < 9:
+				break
+			val1, val2, val4, val5, val6, val7, val9 = unpack('<BHBBHBB', data)
+			if val9 == 0x03:
+				self.needle_up()
+				self.cur_style.line_pattern = self.palette.next_color(val1+1)
+			else:
+				x = val2
+				y = val6
+				self.cur_x = self.cur_y = 0
+				self.needle_down(x, y)
+
+		self.needle_up()
+		self.end_all()
+		self.object.load_Completed()
+		return self.object
+#####################################################################
+#
+#####################################################################
 class StitchLoader(GenericLoader):
 	def __init__(self, file, filename, match):
 		GenericLoader.__init__(self, file, filename, match)
@@ -499,6 +553,9 @@ class StitchLoader(GenericLoader):
 			doc = loader.Load()
 		elif self.ext.upper() == '.EXP':
 			loader = EXPLoader(self.file, self.filename, self.match)
+			doc = loader.Load()
+		elif self.ext.upper() == '.PCS':
+			loader = PCSLoader(self.file, self.filename, self.match)
 			doc = loader.Load()
 		else:
 			raise SketchLoadError(_("unrecognised file type"))
