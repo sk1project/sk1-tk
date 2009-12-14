@@ -56,8 +56,8 @@ def as_latin1(s):
 
 # Conversion factors to convert standard CSS/SVG units to userspace
 # units.
-factors = {'pt': 1.0, 'px': 1.0, 'in': 72.0,
-			'cm': 72.0 / 2.54, 'mm': 7.20 / 2.54}
+factors = {'pt': 1.25, 'px': 1.0, 'pc': 15, 'in': 90.0, 
+			'cm': 90.0 / 2.54, 'mm': 9.00 / 2.54, 'em': 150.0}
 
 degrees = pi / 180.0
 
@@ -250,6 +250,7 @@ class SVGHandler(handler.ContentHandler):
 
 	dispatch_start = {'svg': 'initsvg',
 						'g': 'begin_group',
+						'line': 'line',
 						'circle': 'circle',
 						'ellipse': 'ellipse',
 						'rect': 'rect',
@@ -303,33 +304,37 @@ class SVGHandler(handler.ContentHandler):
 			match = rx_trafo.match(trafo_string)
 			if match:
 				function = match.group(1)
-				args = string.translate(match.group(2), commatospace)
-				args = map(float, split(args))
+				args = argsf = string.translate(match.group(2), commatospace)
+				args = map(str, split(args))
 				trafo_string = trafo_string[match.end(0):]
 				if function == 'matrix':
+					args = map(float, split(argsf))
 					trafo = trafo(apply(Trafo, tuple(args)))
 				elif function == 'scale':
 					if len(args) == 1:
 						sx = sy = args[0]
 					else:
 						sx, sy = args
+					sx, sy = self.user_point(sx, sy)
 					trafo = trafo(Scale(sx, sy))
 				elif function == 'translate':
 					if len(args) == 1:
-						dx, dy = args[0], 0
+						dx, dy = args[0], '0'
 					else:
 						dx, dy = args
+					dx, dy = self.user_point(dx, dy)
 					trafo = trafo(Translation(dx, dy))
 				elif function == 'rotate':
 					if len(args) == 1:
-						trafo = trafo(Rotation(args[0] * degrees))
+						trafo = trafo(Rotation(float(args[0]) * degrees))
 					else:
 						angle, cx, cy = args
-						trafo = trafo(Rotation(angle * degrees, Point(cx * .8, cy * .8)))
+						cx, cy = self.user_point(cx, cy)
+						trafo = trafo(Rotation(float(angle) * degrees, Point(cx, cy)))
 				elif function == 'skewX':
-					trafo = trafo(Trafo(1, 0, tan(args[0] * degrees), 1, 0, 0))
+					trafo = trafo(Trafo(1, 0, tan(float(args[0]) * degrees), 1, 0, 0))
 				elif function == 'skewY':
-					trafo = trafo(Trafo(1, tan(args[0] * degrees), 0, 1, 0, 0))
+					trafo = trafo(Trafo(1, tan(float(args[0]) * degrees), 0, 1, 0, 0))
 			else:
 				trafo_string = ''
 		#print trafo
@@ -372,7 +377,7 @@ class SVGHandler(handler.ContentHandler):
 		width = self.user_length(attrs.get('width', '100%'))
 		height = self.user_length(attrs.get('height', '100%'))
 		self._print('initsvg', width, height)
-		self.trafo = Trafo(1, 0, 0, -1, 0, height)
+		self.trafo = Trafo(0.8, 0, 0, -0.8, 0, height*0.8)
 		self.basetrafo = self.trafo
 		# evaluate viewBox
 		# FIXME: Handle preserveAspectRatio as well
@@ -383,6 +388,15 @@ class SVGHandler(handler.ContentHandler):
 			t = t(Translation(-vx, -vy))
 			self.trafo = self.trafo(t)
 		self._print("basetrafo", self.basetrafo)
+
+	def parse_attrs(self, attrs):
+		for name in attrs.getNames():
+			val = attrs.getValue(name)
+			if name == 'style':
+				self.parse_style(val)
+			else:
+				self.try_add_style(name, val)
+		
 
 	def parse_style(self, style):
 		parts = filter(None, map(strip, split(style, ';')))
@@ -491,7 +505,7 @@ class SVGHandler(handler.ContentHandler):
 			str = str[:-1]
 			factor = 1.0
 		else:
-			factor = .8
+			factor = 1.0
 		return float(str) * factor
 
 	def user_point(self, x, y):
@@ -515,7 +529,7 @@ class SVGHandler(handler.ContentHandler):
 			factor = 1.0
 		else:
 			xunit = ''
-			factor = .8
+			factor = 1.0
 		x = float(x) * factor
 		
 		yunit = y[-2:]
@@ -528,7 +542,7 @@ class SVGHandler(handler.ContentHandler):
 			factor = 1.0
 		else:
 			yunit = ''
-			factor = .8
+			factor = 1.0
 		y = float(y) * factor
 
 		return Point(x, y)
@@ -547,6 +561,28 @@ class SVGHandler(handler.ContentHandler):
 			p = self.trafo(x, y)
 		return p
 
+	def line(self, attrs):
+		if self.in_defs:
+			id = attrs.get('id', '')
+			if id:
+				self.named_objects[id] = ('object', 'line', attrs)
+			return
+		x1 = y1 = x2 = y2 = '0'
+		if attrs.has_key('x1'):
+			x1 = attrs['x1']
+		if attrs.has_key('y1'):
+			y1 = attrs['y1']
+		if attrs.has_key('x2'):
+			x2 = attrs['x2']
+		if attrs.has_key('y2'):
+			y2 = attrs['y2']
+		path = CreatePath()
+		path.AppendLine(self.point(x1, y1))
+		path.AppendLine(self.point(x2, y2))
+		
+		self.parse_attrs(attrs)
+		self.set_loader_style()
+		self.loader.bezier(paths = (path,))
 
 	def circle(self, attrs):
 		if self.in_defs:
@@ -554,21 +590,16 @@ class SVGHandler(handler.ContentHandler):
 			if id:
 				self.named_objects[id] = ('object', 'circle', attrs)
 			return
+		x = y = '0'
 		if attrs.has_key('cx'):
 			x = attrs['cx']
-		else:
-			x = '0'
 		if attrs.has_key('cy'):
 			y = attrs['cy']
-		else:
-			y = '0'
-		x, y = self.point(x, y)
-		r = self.point(attrs['r'], '0', relative = 1).x
-		t = Trafo(r, 0, 0, r, x, y)
+		x, y = self.user_point(x, y)
+		r = self.user_point(attrs['r'], '0').x
+		t = self.trafo(Trafo(r, 0, 0, r, x, y))
 		self._print('circle', t)
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
 		apply(self.loader.ellipse, t.coeff())
 			
@@ -579,21 +610,16 @@ class SVGHandler(handler.ContentHandler):
 			if id:
 				self.named_objects[id] = ('object', 'ellipse', attrs)
 			return
+		x = y = '0'
 		if attrs.has_key('cx'):
 			x = attrs['cx']
-		else:
-			x = '0'
 		if attrs.has_key('cy'):
 			y = attrs['cy']
-		else:
-			y = '0'
-		x, y = self.point(x, y)
-		rx, ry = self.point(attrs['rx'], attrs['ry'], relative = 1)
-		t = Trafo(rx, 0, 0, ry, x, y)
+		x, y = self.user_point(x, y)
+		rx, ry = self.user_point(attrs['rx'], attrs['ry'])
+		t = self.trafo(Trafo(rx, 0, 0, ry, x, y))
 		self._print('ellipse', t)
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
 		apply(self.loader.ellipse, t.coeff())
 
@@ -604,24 +630,37 @@ class SVGHandler(handler.ContentHandler):
 			if id:
 				self.named_objects[id] = ('object', 'rect', attrs)
 			return
+		x = y = '0'
 		if attrs.has_key('x'):
 			x = attrs['x']
-		else:
-			x = '0'
 		if attrs.has_key('y'):
 			y = attrs['y']
-		else:
-			y = '0'
 		x, y = self.point(x, y)
 		wx, wy = self.point(attrs['width'], "0", relative = 1)
 		hx, hy = self.point("0", attrs['height'], relative = 1)
 		t = Trafo(wx, wy, hx, hy, x, y)
+		rx = ry = '0'
+		if attrs.has_key('rx') and attrs.has_key('ry'):
+			rx, ry = attrs['rx'], attrs['ry']
+		elif attrs.has_key('rx'):
+			rx = ry = attrs['rx']
+		elif attrs.has_key('ry'):
+			rx = ry = attrs['ry']
+		rx, ry = self.user_point(rx, ry)
+		width, height = self.user_point(attrs['width'], attrs['height'])
+		if width:
+			rx = min(rx / width, 0.5)
+		else:
+			rx = 0
+		if height:
+			ry = min(ry / height, 0.5)
+		else:
+			ry = 0 
+		#wx, wy, hx, hy, x, y = t.coeff()
 		self._print('rect', t)
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
-		apply(self.loader.rectangle, t.coeff())
+		apply(self.loader.rectangle, (wx, wy, hx, hy, x, y, rx, ry))
 
 	def polyline(self, attrs):
 		if self.in_defs:
@@ -636,9 +675,7 @@ class SVGHandler(handler.ContentHandler):
 		point = self.point
 		for i in range(0, len(points), 2):
 			path.AppendLine(point(points[i], points[i + 1]))
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
 		self.loader.bezier(paths = (path,))
 
@@ -657,9 +694,7 @@ class SVGHandler(handler.ContentHandler):
 			path.AppendLine(point(points[i], points[i + 1]))
 		path.AppendLine(path.Node(0))
 		path.ClosePath()
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
 		self.loader.bezier(paths = (path,))
 
@@ -855,9 +890,7 @@ class SVGHandler(handler.ContentHandler):
 		self.paths = []
 		self.path = None
 		self.parse_path(attrs['d'])
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style()
 		
 	def end_path(self):
@@ -875,14 +908,11 @@ class SVGHandler(handler.ContentHandler):
 		href = attrs['xlink:href']
 		if os.path.isfile(os.path.join(self.loader.directory, href)):			
 			image = load_image(os.path.join(self.loader.directory, href)).image
+			x = y = '0'
 			if attrs.has_key('x'):
 				x = attrs['x']
-			else:
-				x = '0'
 			if attrs.has_key('y'):
 				y = attrs['y']
-			else:
-				y = '0'
 			x, y = self.user_point(x, y)
 			
 			width = self.user_length(attrs['width'])
@@ -891,9 +921,7 @@ class SVGHandler(handler.ContentHandler):
 			height = self.user_length(attrs['height']) 
 			scaley = -height / image.size[1]
 	
-			style = attrs.get('style', '')
-			if style:
-				self.parse_style(style)
+			self.parse_attrs(attrs)
 			self.set_loader_style()
 			t = self.trafo(Trafo(scalex, 0, 0, scaley, x, y + height))
 			self._print('image', t)
@@ -912,20 +940,15 @@ class SVGHandler(handler.ContentHandler):
 		for key,value in attrs.items():
 			self.try_add_style(key,value)
 			
+		x = y = '0'
 		if attrs.has_key('x'):
 			x = attrs['x']
-		else:
-			x = '0'
 		if attrs.has_key('y'):
 			y = attrs['y']
-		else:
-			y = '0'
 		x, y = self.user_point(x, y)
 		self.text_trafo = self.trafo(Trafo(1, 0, 0, -1, x, y))
 		self._print('text', self.text_trafo)
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.set_loader_style(allow_font = 1)
 		self.current_text=''
 
@@ -937,9 +960,7 @@ class SVGHandler(handler.ContentHandler):
 		pass
 
 	def begin_group(self, attrs):
-		style = attrs.get('style', '')
-		if style:
-			self.parse_style(style)
+		self.parse_attrs(attrs)
 		self.loader.begin_group()
 		
 	def end_group(self):
@@ -956,11 +977,22 @@ class SVGHandler(handler.ContentHandler):
 			name = attrs.get('href', '<none>')
 		if name:
 			data = self.named_objects.get(name[1:])
-			if data[0] == 'object':
-				if attrs.has_key('style'):
-					self.parse_style(attrs['style'])
-				self.startElement(data[1], data[2])
-				self.endElement(data[1])
+			if data is not None:
+				if data[0] == 'object':
+					self.push_state()
+					x = y = '0'
+					if attrs.has_key('x'):
+						x = attrs['x']
+					if attrs.has_key('y'):
+						y = attrs['y']
+					x, y = self.user_point(x, y)
+					self.parse_attrs(attrs)
+					self.trafo = self.trafo(Translation(x,y))
+					self.startElement(data[1], data[2])
+					self.endElement(data[1])
+					self.pop_state()
+			else:
+				print '!!! PASS IN USE ELEMENT', name
 			
 
 	def begin_defs(self, attrs):
@@ -1000,6 +1032,7 @@ class SVGLoader(GenericLoader):
 			xml_reader.setErrorHandler(error_handler)
 			xml_reader.setEntityResolver(entity_resolver)
 			xml_reader.setDTDHandler(dtd_handler)
+			xml_reader.setFeature(handler.feature_external_ges, False)
 			xml_reader.parse(input_source)
 			input.close
 
