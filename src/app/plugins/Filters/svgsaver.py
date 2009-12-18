@@ -23,8 +23,16 @@ from app.conf import const
 from app._sketch import RGBColor
 
 def csscolor(color):
-	return "#%02x%02x%02x" \
-			% (255 * color.red, 255 * color.green, 255 * color.blue)
+	r, g, b = color.RGB()
+	result = "#%02x%02x%02x" % (r * 255, g * 255, b * 255)
+	
+	# Uncalibrated device color
+	# http://www.w3.org/TR/SVGColor12/#device
+	if color.model == 'CMYK':
+		c, m, y, k = color.getCMYK()
+		result += " device-cmyk(%1.3f,%1.3f,%1.3f,%1.3f)" % (c, m, y, k)
+		
+	return result
 
 svg_joins = ('miter', 'round', 'bevel')
 svg_caps = (None, 'butt', 'round', 'square')
@@ -95,7 +103,7 @@ class SVGSaver:
 		style = []
 		if not omit_stroke and properties.line_pattern is not EmptyPattern:
 			if properties.line_pattern.is_Solid:
-				color = properties.line_pattern.Color().RGB()
+				color = properties.line_pattern.Color()
 				style.append("stroke:" + csscolor(color))
 			if properties.line_dashes != ():
 				dash=[]
@@ -123,7 +131,7 @@ class SVGSaver:
 		if properties.fill_pattern is not EmptyPattern:
 			pattern = properties.fill_pattern
 			if pattern.is_Solid:
-				style.append("fill:" + csscolor(pattern.Color().RGB()))
+				style.append("fill:" + csscolor(pattern.Color()))
 			elif pattern.is_Gradient and bounding_rect:
 				if pattern.is_AxialGradient or pattern.is_RadialGradient:
 					gradient_id = self.write_gradient((pattern, bounding_rect),
@@ -187,7 +195,7 @@ class SVGSaver:
 				stops[i] = 1.0 - pos, color
 		for pos, color in stops:
 			write('<stop offset="%g" style="stop-color:%s"/>\n'
-					% (pos, csscolor(color.RGB())))
+					% (pos, csscolor(color)))
 		write('</%s>\n' % tag)
 		write('</defs>')
 		return gradient_id
