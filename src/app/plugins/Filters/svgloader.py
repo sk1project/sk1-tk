@@ -63,24 +63,29 @@ degrees = pi / 180.0
 
 
 def csscolor(str):
-	str = strip(str)
-	if str[0] == '#':
-		if len(str) == 7:
+	#set default color black
+	color = StandardColors.black
+	
+	parts = filter(None, map(strip, split(str, ' ')))
+	for part in parts:
+		str = strip(str)
+	
+		if part[0] == '#' and len(part) == 7:
 			r = atoi(str[1:3], 16) / 255.0
 			g = atoi(str[3:5], 16) / 255.0
 			b = atoi(str[5:7], 16) / 255.0
-		elif len(str) == 4:
+			color = CreateRGBColor(r, g, b)
+		elif part[0] == '#' and len(part) == 4:
 			# According to the CSS rules a single HEX digit is to be
 			# treated as a repetition of the digit, so that for a digit
 			# d the value is (16 * d + d) / 255.0 which is equal to d / 15.0
-			r = atoi(str[1], 16) / 15.0
-			g = atoi(str[2], 16) / 15.0
-			b = atoi(str[3], 16) / 15.0
-		color = CreateRGBColor(r, g, b)
-	elif namedcolors.has_key(str):
-		color = namedcolors[str]
-	else:
-		color = StandardColors.black
+			r = atoi(part[1], 16) / 15.0
+			g = atoi(part[2], 16) / 15.0
+			b = atoi(part[3], 16) / 15.0
+			color = CreateRGBColor(r, g, b)
+		elif namedcolors.has_key(part):
+			color = namedcolors[part]
+
 	return color
 
 
@@ -288,7 +293,7 @@ class SVGHandler(handler.ContentHandler):
 		self.indent = '    '
 
 	def _print(self, *args):
-		return
+		#return
 		if args:
 			print self.depth * self.indent + args[0],
 		for s in args[1:]:
