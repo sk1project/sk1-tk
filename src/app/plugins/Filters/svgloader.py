@@ -66,15 +66,22 @@ def csscolor(str):
 	#set default color black
 	color = StandardColors.black
 	
-	parts = filter(None, map(strip, split(str, ' ')))
-	for part in parts:
-		str = strip(str)
+	parts = str
+	parts = parts.replace(',', ' ')
+	parts = parts.replace('(', ' ')
+	parts = parts.replace(')', ' ')
+	parts = parts.split()
 	
+	i = 0
+	while i < len(parts):
+		part = parts[i]
 		if part[0] == '#' and len(part) == 7:
-			r = atoi(str[1:3], 16) / 255.0
-			g = atoi(str[3:5], 16) / 255.0
-			b = atoi(str[5:7], 16) / 255.0
+			r = atoi(part[1:3], 16) / 255.0
+			g = atoi(part[3:5], 16) / 255.0
+			b = atoi(part[5:7], 16) / 255.0
 			color = CreateRGBColor(r, g, b)
+			i += 1
+		
 		elif part[0] == '#' and len(part) == 4:
 			# According to the CSS rules a single HEX digit is to be
 			# treated as a repetition of the digit, so that for a digit
@@ -83,9 +90,54 @@ def csscolor(str):
 			g = atoi(part[2], 16) / 15.0
 			b = atoi(part[3], 16) / 15.0
 			color = CreateRGBColor(r, g, b)
+			i += 1
+		
 		elif namedcolors.has_key(part):
 			color = namedcolors[part]
-
+			i += 1
+		
+		elif part == 'rgb':
+			if parts[i+1][-1] == '%':
+				r = atof(parts[i+1][:-1]) / 100.0
+			else:
+				r = atof(parts[i+1]) / 255.0
+			
+			if parts[i+2][-1] == '%':
+				g = atof(parts[i+2][:-1]) / 100.0
+			else:
+				g = atof(parts[i+2]) / 255.0
+			
+			if parts[i+3][-1] == '%':
+				b = atof(parts[i+3][:-1]) / 100.0
+			else:
+				b = atof(parts[i+3]) / 255.0
+			color = CreateRGBColor(r, g, b)
+			i += 4
+		
+		elif part == 'icc-color':
+			#icc = parts[i+1]
+			c = atof(parts[i+2])
+			m = atof(parts[i+3])
+			y = atof(parts[i+4])
+			k = atof(parts[i+5])
+			color = CreateCMYKColor(c, m, y, k)
+			i += 6
+		
+		elif part == 'device-gray':
+			gray = 1.0 - atof(parts[i+1])
+			color = CreateCMYKColor(0, 0, 0, gray)
+			i += 2
+		
+		elif part == 'device-cmyk':
+			c = atof(parts[i+1])
+			m = atof(parts[i+2])
+			y = atof(parts[i+3])
+			k = atof(parts[i+4])
+			color = CreateCMYKColor(c, m, y, k)
+			i += 5
+		
+		else:
+			i += 1
 	return color
 
 
@@ -293,7 +345,7 @@ class SVGHandler(handler.ContentHandler):
 		self.indent = '    '
 
 	def _print(self, *args):
-		#return
+		return
 		if args:
 			print self.depth * self.indent + args[0],
 		for s in args[1:]:
