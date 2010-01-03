@@ -307,6 +307,7 @@ class SVGHandler(handler.ContentHandler):
 
 	dispatch_start = {'svg': 'initsvg',
 						'g': 'begin_group',
+						'symbol': 'begin_symbol',
 						'line': 'line',
 						'circle': 'circle',
 						'ellipse': 'ellipse',
@@ -321,6 +322,7 @@ class SVGHandler(handler.ContentHandler):
 						'defs':   'begin_defs',
 						}
 	dispatch_end = {'g': 'end_group',
+					'symbol': 'end_symbol',
 					'path': 'end_path',
 					'defs': 'end_defs',
 					'text': 'end_text'
@@ -333,19 +335,21 @@ class SVGHandler(handler.ContentHandler):
 		self.style = loader.style.Copy()
 		self.style.line_pattern = EmptyPattern
 		self.style.fill_pattern = SolidPattern(StandardColors.black)
-		self.current_text = ""
-		#self.style.font = GetFont("Times-Roman")
+		self.current_text = None
+		self.style.font = GetFont("Times-Roman")
 		self.style.font_size = 12
 		self.halign = text.ALIGN_LEFT
-		self.named_objects = {}
+		self.elements_id = {}
+		self.elements = []
 		self.in_defs = 0
+		self.in_use = 0
 		self.paths = None
 		self.path = None
 		self.depth = 0
 		self.indent = '    '
 
 	def _print(self, *args):
-		return
+		#return
 		if args:
 			print self.depth * self.indent + args[0],
 		for s in args[1:]:
@@ -402,24 +406,65 @@ class SVGHandler(handler.ContentHandler):
 		for key, value in attrs.items():
 			self._print('  -', key, `value`)
 		self.depth = self.depth + 1
-		self.push_state()
-		if attrs.has_key('transform'):
-			self.parse_transform(attrs['transform'])
-		self._print("applied transormation", self.trafo)
-		method = self.dispatch_start.get(name)
-		if method is not None:
-			getattr(self, method)(attrs)
+		
+		if name == 'text':
+			self.current_text = ''
+		
+		if not self.in_use:
+			id = attrs.get('id', '')
+			if id:
+				self.elements_id['#' + id] = len(self.elements)
+			self.elements.append([name, attrs, self.current_text])
 		
 	def endElement(self, name):
 		self.depth = self.depth - 1
 		self._print(')', name)
-		method = self.dispatch_end.get(name)
-		if method is not None:
-			getattr(self, method)()
-		self.pop_state()
+		
+		if not self.in_use:
+			self.elements.append([name, None, self.current_text])
+		
+		if name == 'text':
+			self.current_text = None
+
+
+	def endDocument(self):
+		#for id in self.elements_id:
+			#print id, self.elements_id[id]
+		for element in self.elements:
+			self.parseElements(element)
+	
+	
+	def parseElements(self, element):
+		name, attrs, self.current_text = element
+		if attrs is not None:
+			#startElement
+			self._print('(', name)
+			for key, value in attrs.items():
+				self._print('  -', key, `value`)
+			
+			self.depth += 1
+			self.push_state()
+			
+			if attrs.has_key('transform'):
+				self.parse_transform(attrs['transform'])
+				self._print("applied transormation", self.trafo)
+			
+			method = self.dispatch_start.get(name)
+			if method is not None:
+				getattr(self, method)(attrs)
+		else:
+			#endElement
+			self.depth -= 1
+			self._print(')', name)
+			method = self.dispatch_end.get(name)
+			if method is not None:
+				getattr(self, method)()
+			self.pop_state()
+
 
 	def characters(self, data):
-		self.current_text = self.current_text + as_latin1(data)
+		if self.current_text is not None:
+			self.current_text = self.current_text + as_latin1(data)
 
 	def error(self, exception):
 		print 'error', exception
@@ -431,6 +476,7 @@ class SVGHandler(handler.ContentHandler):
 		print 'warning', exception
 
 	def initsvg(self, attrs):
+		# FIXME: to add attributes x and y
 		width = self.user_length(attrs.get('width', '100%'))
 		height = self.user_length(attrs.get('height', '100%'))
 		self._print('initsvg', width, height)
@@ -620,9 +666,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def line(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'line', attrs)
 			return
 		x1 = y1 = x2 = y2 = '0'
 		if attrs.has_key('x1'):
@@ -643,9 +686,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def circle(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'circle', attrs)
 			return
 		x = y = '0'
 		if attrs.has_key('cx'):
@@ -663,9 +703,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def ellipse(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'ellipse', attrs)
 			return
 		x = y = '0'
 		if attrs.has_key('cx'):
@@ -681,11 +718,7 @@ class SVGHandler(handler.ContentHandler):
 		apply(self.loader.ellipse, t.coeff())
 
 	def rect(self, attrs):
-		#print 'rect', attrs.map
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'rect', attrs)
 			return
 		x = y = '0'
 		if attrs.has_key('x'):
@@ -721,9 +754,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def polyline(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'polyline', attrs)
 			return
 		points = as_latin1(attrs['points'])
 		points = string.translate(points, commatospace)
@@ -738,9 +768,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def polygon(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'polygon', attrs)
 			return
 		points = as_latin1(attrs['points'])
 		points = string.translate(points, commatospace)
@@ -940,9 +967,6 @@ class SVGHandler(handler.ContentHandler):
 
 	def begin_path(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'path', attrs)
 			return
 		self.paths = []
 		self.path = None
@@ -958,9 +982,6 @@ class SVGHandler(handler.ContentHandler):
 		
 	def image(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'image', attrs)
 			return
 		href = attrs['xlink:href']
 		if os.path.isfile(os.path.join(self.loader.directory, href)):			
@@ -986,11 +1007,7 @@ class SVGHandler(handler.ContentHandler):
 
 	def begin_text(self, attrs):
 		if self.in_defs:
-			id = attrs.get('id', '')
-			if id:
-				self.named_objects[id] = ('object', 'text', attrs)
 			return
-
 		# parse the presentation attributes if any.
 		# FIXME: this has to be implemented for the other elements that
 		# can have presentation attributes as well.
@@ -1007,9 +1024,10 @@ class SVGHandler(handler.ContentHandler):
 		self._print('text', self.text_trafo)
 		self.parse_attrs(attrs)
 		self.set_loader_style(allow_font = 1)
-		self.current_text=''
 
 	def end_text(self):
+		if self.in_defs:
+			return
 		self.loader.simple_text(strip(self.current_text), self.text_trafo,
 								halign = self.halign)
 
@@ -1017,46 +1035,65 @@ class SVGHandler(handler.ContentHandler):
 		pass
 
 	def begin_group(self, attrs):
+		if self.in_defs:
+			return
 		self.parse_attrs(attrs)
 		self.loader.begin_group()
 		
 	def end_group(self):
+		if self.in_defs:
+			return
 		try:
 			self.loader.end_group()
 		except EmptyCompositeError:
 			pass
 
 	def use(self, attrs):
+		if self.in_use:
+			return
+		self.in_use = 1
 		#print 'use', attrs.map
 		if attrs.has_key('xlink:href'):
 			name = attrs['xlink:href']
 		else:
 			name = attrs.get('href', '<none>')
 		if name:
-			data = self.named_objects.get(name[1:])
+			data = self.elements_id[name]
 			if data is not None:
-				if data[0] == 'object':
-					self.push_state()
-					x = y = '0'
-					if attrs.has_key('x'):
-						x = attrs['x']
-					if attrs.has_key('y'):
-						y = attrs['y']
-					x, y = self.user_point(x, y)
-					self.parse_attrs(attrs)
-					self.trafo = self.trafo(Translation(x,y))
-					self.startElement(data[1], data[2])
-					self.endElement(data[1])
-					self.pop_state()
+				self.push_state()
+				# FIXME: to add attributes width and height
+				x = y = '0'
+				if attrs.has_key('x'):
+					x = attrs['x']
+				if attrs.has_key('y'):
+					y = attrs['y']
+				x, y = self.user_point(x, y)
+				self.parse_attrs(attrs)
+				self.trafo = self.trafo(Translation(x,y))
+				cur_depth = self.depth
+				while True:
+					self.parseElements(self.elements[data])
+					data += 1
+					if cur_depth >= self.depth:
+						break
+				self.pop_state()
 			else:
 				print '!!! PASS IN USE ELEMENT', name
-			
+		
+		self.in_use = 0
 
 	def begin_defs(self, attrs):
 		self.in_defs = 1
 
 	def end_defs(self):
 		self.in_defs = 0
+
+	def begin_symbol(self, attrs):
+		# FIXME: to add attributes viewBox and preserveAspectRatio 
+		pass
+
+	def end_symbol(self):
+		pass
 
 class SVGLoader(GenericLoader):
 
