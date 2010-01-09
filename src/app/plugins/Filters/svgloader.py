@@ -42,17 +42,6 @@ from xml.sax import handler
 import xml.sax
 from xml.sax.xmlreader import InputSource
 
-# beginning with Python 2.0, the XML modules return Unicode strings,
-# while for older versions they're 'normal' 8-bit strings. Provide some
-# functions to make this code work with both string types.
-
-def as_latin1(s):
-	# convert the string s to iso-latin-1 if it's a unicode string
-	encode = getattr(s, "encode", None)
-	if encode is not None:
-		s = encode("iso-8859-1", "replace")
-	return s
-
 
 # Conversion factors to convert standard CSS/SVG units to userspace
 # units.
@@ -359,7 +348,6 @@ class SVGHandler(handler.ContentHandler):
 	def parse_transform(self, trafo_string):
 		trafo = self.trafo
 		#print trafo
-		trafo_string = as_latin1(trafo_string)
 		while trafo_string:
 			#print trafo_string
 			match = rx_trafo.match(trafo_string)
@@ -464,7 +452,7 @@ class SVGHandler(handler.ContentHandler):
 
 	def characters(self, data):
 		if self.current_text is not None:
-			self.current_text = self.current_text + as_latin1(data)
+			self.current_text = self.current_text + data
 
 	def error(self, exception):
 		print 'error', exception
@@ -755,7 +743,7 @@ class SVGHandler(handler.ContentHandler):
 	def polyline(self, attrs):
 		if self.in_defs:
 			return
-		points = as_latin1(attrs['points'])
+		points = attrs['points']
 		points = string.translate(points, commatospace)
 		points = split(points)
 		path = CreatePath()
@@ -769,7 +757,7 @@ class SVGHandler(handler.ContentHandler):
 	def polygon(self, attrs):
 		if self.in_defs:
 			return
-		points = as_latin1(attrs['points'])
+		points = attrs['points']
 		points = string.translate(points, commatospace)
 		points = split(points)
 		path = CreatePath()
@@ -786,7 +774,7 @@ class SVGHandler(handler.ContentHandler):
 		paths = self.paths
 		path = self.path
 		trafo = self.trafo
-		str = strip(string.translate(as_latin1(str), commatospace))
+		str = strip(string.translate(str, commatospace))
 		last_quad = None
 		last_cmd = cmd = None
 		f13 = 1.0 / 3.0; f23 = 2.0 / 3.0
