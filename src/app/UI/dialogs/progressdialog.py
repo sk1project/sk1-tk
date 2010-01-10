@@ -49,12 +49,14 @@ class ProgressDialog(ModalDialog):
 		self.top.update()		
 		result=callback(arg)
 		##### --> return from callback
+		self.CloseDialog()
+		return result
+	
+	def CloseDialog(self):
 		self.close_dlg()
 		self.top.destroy()
 		info3.set(0)
 		app.info_win = None
-		return result
-
 
 class DialogUpdateThread(threading.Thread):
 

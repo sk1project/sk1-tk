@@ -73,7 +73,8 @@ class DocumentManager:
 			self.mw.canvas.ForceRedraw()			
 			if self.tabspanel:
 				self.tabspanel.addNewTab(self.activedoc)
-		except SketchError, value:
+		except Exception, value:
+			dlg.CloseDialog()
 			msgDialog(self.mw.root, title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
 			self.mw.remove_mru_file(filename)
 		else:

@@ -333,22 +333,26 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 		if match:
 			loader = info(file, filename, match)
 			try:
-				if do_profile:
-					import profile
-					warn(INTERNAL, 'profiling...')
-					prof = profile.Profile()
-					prof.runctx('loader.Load()', globals(), locals())
-					prof.dump_stats(os.path.join(info.dir, info.module_name + '.prof'))
-					warn(INTERNAL, 'profiling... (done)')
-					doc = loader.object
-				else:
-					#t = time.clock()
-					doc = loader.Load()
-					#print 'load in', time.clock() - t, 'sec.'
-				messages = loader.Messages()
-				if messages:
-					doc.meta.load_messages = messages
-				return doc
+				try:
+					if do_profile:
+						import profile
+						warn(INTERNAL, 'profiling...')
+						prof = profile.Profile()
+						prof.runctx('loader.Load()', globals(), locals())
+						prof.dump_stats(os.path.join(info.dir, info.module_name + '.prof'))
+						warn(INTERNAL, 'profiling... (done)')
+						doc = loader.object
+					else:
+						#t = time.clock()
+						doc = loader.Load()
+						#print 'load in', time.clock() - t, 'sec.'
+					messages = loader.Messages()
+					if messages:
+						doc.meta.load_messages = messages
+					return doc
+				except Exception, value:
+					raise SketchLoadError(_("Parsing error: ")+ str(value))
+								
 			finally:
 				info.UnloadPlugin()
 	else:
