@@ -195,14 +195,6 @@ if __name__ == "__main__":
 			libraries=['freetype'],
 			extra_compile_args=["-Wall"])
 			
- 	pycms_src=src_path+'extentions/pycms/'				
-	pycms_module = Extension('sk1.app.modules.pycms',
-			define_macros = [('MAJOR_VERSION', '0'),
-						('MINOR_VERSION', '1')],
-			sources = [pycms_src+'pycms.c'],
-			libraries=['lcms'],
-			extra_compile_args=["-Wall"])
-			
  	pax_src=src_path+'extentions/pax/'
  	pax_include_dirs=['/usr/include/cairo']
  	pax_include_dirs.extend(tcl_include_dirs)
@@ -315,7 +307,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module, paxtkinter_module,
-						pax_module, tkpng_module, ft2_module, pycms_module])
+						pax_module, tkpng_module, ft2_module])
 			
 			
 			
