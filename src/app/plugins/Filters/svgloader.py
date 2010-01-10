@@ -349,12 +349,12 @@ class SVGHandler(handler.ContentHandler):
 		self.indent = '    '
 
 	def _print(self, *args):
-		#return
-		if args:
-			print self.depth * self.indent + args[0],
-		for s in args[1:]:
-			print s,
-		print
+		return
+#		if args:
+#			print self.depth * self.indent + args[0],
+#		for s in args[1:]:
+#			print s,
+#		print
 
 	def parse_transform(self, trafo_string):
 		trafo = self.trafo
