@@ -226,9 +226,11 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 			self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
 
 		#	draw paper
-		print 'start draw'
-		import time
-		_t = time.clock()
+		
+		#Drawing tracking
+#		print 'start draw'
+#		import time
+#		_t = time.clock()
 		
 		self.gc.StartDrawing()
 		if self.show_page_outline:
@@ -238,14 +240,14 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 
 		self.document.Draw(self.gc, rect)
 		
-		_tm = time.clock() - _t
-		print 'doc draw:', _tm
-		_t = time.clock()
+#		_tm = time.clock() - _t
+#		print 'doc draw:', _tm
+#		_t = time.clock()
 		
 		self.gc.FinalizeDrawing()
 		
-		_t = time.clock() - _t
-		print 'finalize:', _t
+#		_t = time.clock() - _t
+#		print 'finalize:', _t
 		
 		if region:
 			self.gc.PopClip()
