@@ -7,10 +7,8 @@
 import os, app
 
 from sk1libs.pycms import cmsOpenProfileFromFile,cmsCreateTransform,cmsDoTransform, \
-	 cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
+	 cmsDoBitmapTransform, cmsDeleteTransform,cmsCloseProfile,TYPE_RGB_8,TYPE_CMYK_8, \
 	 INTENT_PERCEPTUAL,cmsFLAGS_NOTPRECALC,COLORB, INTENT_RELATIVE_COLORIMETRIC
-		
-import pyCMS
 			
 class ColorManager:
 	rgb_monitor=None
@@ -166,14 +164,10 @@ class ColorManager:
 		cmsCloseProfile(self.hMONITOR)	
 		
 	def ImageRGBtoCMYK(self, image):
-		rgb_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_rgb_profile)
-		cmyk_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_cmyk_profile)
-		return pyCMS.profileToProfile(image, rgb_profile, cmyk_profile, outputMode = "CMYK")
+		return cmsDoBitmapTransform(self.rgb_cmyk, image, image.mode, TYPE_CMYK_8)
 		
 	def ImageCMYKtoRGB(self, image):
-		rgb_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_rgb_profile)
-		cmyk_profile=os.path.join(app.config.sk_icc,app.config.preferences.default_cmyk_profile)
-		return pyCMS.profileToProfile(image, cmyk_profile, rgb_profile, outputMode = "RGB")		
+		return cmsDoBitmapTransform(self.cmyk_rgb, image, TYPE_CMYK_8, TYPE_RGB_8)		
 		
 		
 		
