@@ -204,7 +204,7 @@ class Ruler(Canvas):
 		ticks, texts = self.get_positions()
 		offset=0
 		if config.preferences.cairo_enabled:
-			offset=1
+			offset=0
 			
 		for h, pos in ticks:
 			pos = pos - offset
