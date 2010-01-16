@@ -305,7 +305,7 @@ rx_trafo = re.compile(r'\s*([a-zA-Z]+)\(([^)]*)\)')
 
 class SVGHandler(handler.ContentHandler):
 
-	dispatch_start = {'svg': 'initsvg',
+	dispatch_start = {'svg': 'begin_svg',
 						'g': 'begin_group',
 						'symbol': 'begin_symbol',
 						'line': 'line',
@@ -321,7 +321,8 @@ class SVGHandler(handler.ContentHandler):
 						'use':   'use',
 						'defs':   'begin_defs',
 						}
-	dispatch_end = {'g': 'end_group',
+	dispatch_end = {'svg': 'end_svg',
+					'g': 'end_group',
 					'symbol': 'end_symbol',
 					'path': 'end_path',
 					'defs': 'end_defs',
@@ -347,6 +348,8 @@ class SVGHandler(handler.ContentHandler):
 		self.path = None
 		self.depth = 0
 		self.indent = '    '
+		self.trafo = Trafo(0.8, 0, 0, -0.8, 0, 0)
+		self.viewPort = (0, 0, 210*factors['mm'], 297*factors['mm'])
 
 	def _print(self, *args):
 		return
@@ -475,22 +478,41 @@ class SVGHandler(handler.ContentHandler):
 	def warning(self, exception):
 		print 'warning', exception
 
-	def initsvg(self, attrs):
-		# FIXME: to add attributes x and y
-		width = self.user_length(attrs.get('width', '100%'))
-		height = self.user_length(attrs.get('height', '100%'))
-		self._print('initsvg', width, height)
-		self.trafo = Trafo(0.8, 0, 0, -0.8, 0, height*0.8)
+	def begin_svg(self, attrs):
 		self.basetrafo = self.trafo
-		# evaluate viewBox
-		# FIXME: Handle preserveAspectRatio as well
+		self.baseviewPort = self.viewPort
+		self._print("basetrafo", self.basetrafo)
 		viewbox = attrs.get("viewBox", "")
 		if viewbox:
+			self._print('viewBox', viewbox)
 			vx, vy, vwidth, vheight = map(float, split(viewbox))
-			t = Scale(width / vwidth, height / vheight)
+			self.viewPort = (vx, vy, vwidth, vheight)
+		
+		# FIXME: to add attributes x and y
+		width, height = self.user_point(attrs.get('width', '100%'), \
+									    attrs.get('height', '100%'))
+		self._print('begin_svg', width, height)
+		
+		self.trafo = self.trafo(Translation(0, -height))
+
+		# evaluate viewBox
+		# FIXME: Handle preserveAspectRatio as well
+		if viewbox:
+			twidth = width / vwidth
+			theight = height / vheight
+			t = Scale(twidth, theight)
 			t = t(Translation(-vx, -vy))
 			self.trafo = self.trafo(t)
-		self._print("basetrafo", self.basetrafo)
+			
+		self.viewPort = (0, 0, width/(self.trafo.m11 / self.basetrafo.m11),\
+						 height/(self.trafo.m22 / self.basetrafo.m22))
+
+
+
+	def end_svg(self):
+		self.viewPort = self.baseviewPort
+		self.trafo = self.basetrafo
+		self._print("trafo", self.trafo)
 
 	def parse_attrs(self, attrs):
 		for name in attrs.getNames():
@@ -626,10 +648,9 @@ class SVGHandler(handler.ContentHandler):
 		if factor is not None:
 			x = x[:-2]
 		elif x[-1] == '%':
-			# XXX this is wrong
 			x = x[:-1]
 			xunit = '%'
-			factor = 1.0
+			factor = self.viewPort[2] / 100.0
 		else:
 			xunit = ''
 			factor = 1.0
@@ -642,7 +663,7 @@ class SVGHandler(handler.ContentHandler):
 		elif y[-1] == '%':
 			y = y[:-1]
 			yunit = '%'
-			factor = 1.0
+			factor = self.viewPort[3] / 100.0
 		else:
 			yunit = ''
 			factor = 1.0
