@@ -688,15 +688,8 @@ class SVGHandler(handler.ContentHandler):
 	def line(self, attrs):
 		if self.in_defs:
 			return
-		x1 = y1 = x2 = y2 = '0'
-		if attrs.has_key('x1'):
-			x1 = attrs['x1']
-		if attrs.has_key('y1'):
-			y1 = attrs['y1']
-		if attrs.has_key('x2'):
-			x2 = attrs['x2']
-		if attrs.has_key('y2'):
-			y2 = attrs['y2']
+		x1, y1 = attrs.get('x1', '0'), attrs.get('y1', '0')
+		x2, y2 = attrs.get('x2', '0'), attrs.get('y2', '0')
 		path = CreatePath()
 		path.AppendLine(self.point(x1, y1))
 		path.AppendLine(self.point(x2, y2))
@@ -708,12 +701,7 @@ class SVGHandler(handler.ContentHandler):
 	def circle(self, attrs):
 		if self.in_defs:
 			return
-		x = y = '0'
-		if attrs.has_key('cx'):
-			x = attrs['cx']
-		if attrs.has_key('cy'):
-			y = attrs['cy']
-		x, y = self.user_point(x, y)
+		x, y = self.user_point(attrs.get('cx', '0'), attrs.get('cy', '0'))
 		r = self.user_point(attrs['r'], '0').x
 		t = self.trafo(Trafo(r, 0, 0, r, x, y))
 		self._print('circle', t)
@@ -725,12 +713,7 @@ class SVGHandler(handler.ContentHandler):
 	def ellipse(self, attrs):
 		if self.in_defs:
 			return
-		x = y = '0'
-		if attrs.has_key('cx'):
-			x = attrs['cx']
-		if attrs.has_key('cy'):
-			y = attrs['cy']
-		x, y = self.user_point(x, y)
+		x, y = self.user_point(attrs.get('cx', '0'), attrs.get('cy', '0'))
 		rx, ry = self.user_point(attrs['rx'], attrs['ry'])
 		t = self.trafo(Trafo(rx, 0, 0, ry, x, y))
 		self._print('ellipse', t)
@@ -741,12 +724,7 @@ class SVGHandler(handler.ContentHandler):
 	def rect(self, attrs):
 		if self.in_defs:
 			return
-		x = y = '0'
-		if attrs.has_key('x'):
-			x = attrs['x']
-		if attrs.has_key('y'):
-			y = attrs['y']
-		x, y = self.point(x, y)
+		x, y = self.point(attrs.get('x', '0'), attrs.get('y', '0'))
 		wx, wy = self.point(attrs['width'], "0", relative = 1)
 		hx, hy = self.point("0", attrs['height'], relative = 1)
 		t = Trafo(wx, wy, hx, hy, x, y)
@@ -1007,12 +985,7 @@ class SVGHandler(handler.ContentHandler):
 		href = attrs['xlink:href']
 		if os.path.isfile(os.path.join(self.loader.directory, href)):			
 			image = load_image(os.path.join(self.loader.directory, href)).image
-			x = y = '0'
-			if attrs.has_key('x'):
-				x = attrs['x']
-			if attrs.has_key('y'):
-				y = attrs['y']
-			x, y = self.user_point(x, y)
+			x, y = self.user_point(attrs.get('x', '0'), attrs.get('y', '0'))
 			
 			width = self.user_length(attrs['width'])
 			scalex =  width / image.size[0]
@@ -1035,12 +1008,7 @@ class SVGHandler(handler.ContentHandler):
 		for key,value in attrs.items():
 			self.try_add_style(key,value)
 			
-		x = y = '0'
-		if attrs.has_key('x'):
-			x = attrs['x']
-		if attrs.has_key('y'):
-			y = attrs['y']
-		x, y = self.user_point(x, y)
+		x, y = self.user_point(attrs.get('x', '0'), attrs.get('y', '0'))
 		self.text_trafo = self.trafo(Trafo(1, 0, 0, -1, x, y))
 		self._print('text', self.text_trafo)
 		self.parse_attrs(attrs)
@@ -1083,12 +1051,7 @@ class SVGHandler(handler.ContentHandler):
 			if data is not None:
 				self.push_state()
 				# FIXME: to add attributes width and height
-				x = y = '0'
-				if attrs.has_key('x'):
-					x = attrs['x']
-				if attrs.has_key('y'):
-					y = attrs['y']
-				x, y = self.user_point(x, y)
+				x, y = self.user_point(attrs.get('x', '0'), attrs.get('y', '0'))
 				self.parse_attrs(attrs)
 				self.trafo = self.trafo(Translation(x,y))
 				cur_depth = self.depth
