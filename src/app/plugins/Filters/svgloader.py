@@ -300,7 +300,7 @@ cap = {'butt': const.CapButt,
 
 commatospace = string.maketrans(',', ' ')
 
-rx_command = re.compile(r'[a-df-zA-DF-Z]((\s*[-0-9.e]+)*)\s*')
+rx_command = re.compile(r'[a-df-zA-DF-Z]((\s*[-+0-9.e]+)*)\s*')
 rx_trafo = re.compile(r'\s*([a-zA-Z]+)\(([^)]*)\)')
 
 class SVGHandler(handler.ContentHandler):
