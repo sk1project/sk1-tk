@@ -331,7 +331,7 @@ class SVGHandler(handler.ContentHandler):
 	
 	def __init__(self, loader):
 		self.loader = loader
-		self.trafo = self.basetrafo = Trafo()
+		self.trafo = self.basetrafo = None
 		self.state_stack = ()
 		self.style = loader.style.Copy()
 		self.style.line_pattern = EmptyPattern
@@ -348,7 +348,6 @@ class SVGHandler(handler.ContentHandler):
 		self.path = None
 		self.depth = 0
 		self.indent = '    '
-		self.trafo = Trafo(0.8, 0, 0, -0.8, 0, 0)
 		self.viewPort = (0, 0, 210*factors['mm'], 297*factors['mm'])
 
 	def _print(self, *args):
@@ -479,41 +478,48 @@ class SVGHandler(handler.ContentHandler):
 		print 'warning', exception
 
 	def begin_svg(self, attrs):
-		self.basetrafo = self.trafo
-		self.baseviewPort = self.viewPort
+		self.svgView(attrs)
+		self.parse_attrs(attrs)
+
+	def end_svg(self):
+		self._print("trafo", self.trafo)
+	
+	def svgView(self, attrs):
 		self._print("basetrafo", self.basetrafo)
 		viewbox = attrs.get("viewBox", "")
 		if viewbox:
+			# In early viewPort = viewBox
 			self._print('viewBox', viewbox)
-			vx, vy, vwidth, vheight = map(float, split(viewbox))
-			self.viewPort = (vx, vy, vwidth, vheight)
+			viewbox = viewbox.replace(',',' ')
+			self.viewPort = map(float, split(viewbox))
 		
-		# FIXME: to add attributes x and y
+		x, y = self.user_point(attrs.get('x', '0'), attrs.get('y', '0'))
 		width, height = self.user_point(attrs.get('width', '100%'), \
 									    attrs.get('height', '100%'))
-		self._print('begin_svg', width, height)
+		self._print('svgView', x, y, width, height)
 		
-		self.trafo = self.trafo(Translation(0, -height))
-
+		if self.trafo is None:
+			# adjustment of the coordinate system and taking into account 
+			# the difference between 90dpi in svg against 72dpi in sk1
+			self.trafo = self.basetrafo = Trafo(0.8, 0, 0, -0.8, 0, height*0.8)
+			# initial values of x and y are ignored
+			x = y = 0
+			
+		# adjust to the values x, y in self.trafo 
+		self.trafo = self.trafo(Translation(x, y))
 		# evaluate viewBox
 		# FIXME: Handle preserveAspectRatio as well
 		if viewbox:
-			twidth = width / vwidth
-			theight = height / vheight
-			t = Scale(twidth, theight)
-			t = t(Translation(-vx, -vy))
+			t = Scale(width/self.viewPort[2], height/self.viewPort[3])
+			t = t(Translation(-self.viewPort[0], -self.viewPort[1]))
 			self.trafo = self.trafo(t)
-			
-		self.viewPort = (0, 0, width/(self.trafo.m11 / self.basetrafo.m11),\
-						 height/(self.trafo.m22 / self.basetrafo.m22))
+		# set viewPort taking into account the transformation
+		self.viewPort = (x, y, width/(self.trafo.m11/self.basetrafo.m11),\
+						height/(self.trafo.m22/self.basetrafo.m22))
 
-
-
-	def end_svg(self):
-		self.viewPort = self.baseviewPort
-		self.trafo = self.basetrafo
 		self._print("trafo", self.trafo)
-
+		self._print("viewPort", self.viewPort)
+		
 	def parse_attrs(self, attrs):
 		for name in attrs.getNames():
 			val = attrs.getValue(name)
@@ -535,7 +541,7 @@ class SVGHandler(handler.ContentHandler):
 			else:
 				# FIXME: we should probably print a message or something
 				pass
-			
+	
 	def try_add_style(self,key,val):
 		if key == 'fill':
 			if val == 'none':
