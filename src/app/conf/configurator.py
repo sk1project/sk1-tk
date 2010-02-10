@@ -350,7 +350,7 @@ class Preferences(connector.Publisher):
 #	style = 'Clearlooks'
 #	style = 'eXPect'
 	
-	color_theme = 'System'
+	color_theme = 'built-in'
 #	color_theme = 'UbuntuLooks'
 #	color_theme = 'eXPect'
 #	color_theme = 'ClassicPlastik'

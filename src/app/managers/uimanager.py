@@ -16,24 +16,24 @@ from Tkinter import StringVar
 
 	
 class ColorTheme:
-	bg ='#959ba2'
+	bg ='#d4d0c8'
 	foreground ='#000000'
-	highlightbackground ='#ededed'
-	highlightcolor ='#000000'
-	disabledforeground =None
-	selectbackground ='#4e87da'
-	selectforeground ='#000000'
+	highlightbackground ='#f3f2ef'
+	highlightcolor ='#b0ada5'
+	disabledforeground ='#b0ada6'
+	selectbackground ='#002468'
+	selectforeground ='#ffffff'
 	
-	menubackground=None
-	menuforeground=None
-	menuselectbackground=None
-	menuselectforeground=None
-	menudisabledforeground=None
-	menubordercolor=None
+	menubackground='#dedad2'
+	menuforeground='#000000'
+	menuselectbackground='#002468'
+	menuselectforeground='#ffffff'
+	menudisabledforeground='#b0ada6'
+	menubordercolor='#7e7b77'
 	
-	editfieldbackground=None
-	editfieldforeground=None
-	treelinescolor=None
+	editfieldbackground='#ffffff'
+	editfieldforeground='#000000'
+	treelinescolor='#000000'
 	
 	evencolor=None
 	
@@ -41,6 +41,8 @@ class ColorTheme:
 	
 	def __init__(self, colorTheme=None):
 		self.name=colorTheme
+		if colorTheme=='built-in':
+			return
 		if colorTheme and os.path.isfile(os.path.join(app.config.user_color_themes, self.name+'.xml')):
 			self.load(os.path.join(app.config.user_color_themes, self.name+'.xml'))	
 		else:
