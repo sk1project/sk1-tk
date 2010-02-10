@@ -35,9 +35,9 @@ class ColorTheme:
 	editfieldforeground='#000000'
 	treelinescolor='#000000'
 	
-	evencolor=None
+	evencolor='#f0f0f0'
 	
-	name=None
+	name='built-in'
 	
 	def __init__(self, colorTheme=None):
 		self.name=colorTheme
