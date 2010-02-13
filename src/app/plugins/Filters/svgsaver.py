@@ -222,7 +222,7 @@ class SVGSaver:
 					else:
 						data.append('M %g %g' % tuple(p))
 			if path.closed:
-				data[-1] = 'z'
+					data.append('z')
 		write('d="%s"/>\n' % join(data, ''))
 
 
