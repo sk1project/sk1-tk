@@ -222,7 +222,7 @@ class SVGSaver:
 					else:
 						data.append('M %g %g' % tuple(p))
 			if path.closed:
-				data.append('z')
+				data[-1] = 'z'
 		write('d="%s"/>\n' % join(data, ''))
 
 
@@ -273,10 +273,10 @@ class SVGSaver:
 		# FIXME: for a proper solution for arrow heads, we could walk
 		# over the object tree, collect all arrow heads actually used
 		# and write them out here.
-		self.file.write( arrow_head_def )
+		#self.file.write( arrow_head_def )
 
 		for layer in self.document.Layers():
-			if not layer.is_SpecialLayer and layer.Printable():
+			if not layer.is_SpecialLayer and layer.Printable() and len(layer.GetObjects()) > 0:
 				self.BeginGroup()
 				self.save_objects(layer.GetObjects())
 				self.EndGroup()
