@@ -184,7 +184,7 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],
 			sources = [paxtkinter_src+'paxtkinter.c'],
 			include_dirs = tcl_include_dirs,
-			libraries=['X11', 'tk'+tcl_ver, 'tcl'+tcl_ver])
+			libraries=['tk'+tcl_ver, 'tcl'+tcl_ver])
 			
  	ft2_src=src_path+'extentions/freetype2/'				
 	ft2_module = Extension('sk1.app.modules.ft2',
@@ -219,7 +219,7 @@ if __name__ == "__main__":
 					skmod_src+'skfm.c', skmod_src+'skimage.c', skmod_src+'skpoint.c', 
 					skmod_src+'skrect.c', skmod_src+'sktrafo.c'],
 			include_dirs=['/usr/include/cairo'],
-			libraries=['m', 'X11', 'Xext', 'tk'+tcl_ver, 'tcl'+tcl_ver, 'cairo'])
+			libraries=['m', 'X11', 'cairo'])
 			
  	tkpng_src=src_path+'extentions/tkpng/'
 	tkpng_module = Extension('sk1.app.modules.libtkpng',
