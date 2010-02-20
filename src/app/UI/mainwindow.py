@@ -795,8 +795,8 @@ class sK1MainWindow(Publisher):
 	AddCmd('CopySelected', _("Copy"), 'CutCopySelected',args= ('CopyForClipboard',), subscribe_to = SELECTION, image = 'menu_edit_copy',
 			key_stroke = ('Ctrl+C', 'Ctrl+c'), sensitive_cb = ('document', 'HasSelection'))
 			
-	AddCmd('CopyPaste', _("Copy&Paste"), 'CopyPasteSelected', args= ('CopyForClipboard',), subscribe_to = SELECTION, key_stroke = 'F6',
-			sensitive_cb = ('document', 'HasSelection'))
+#	AddCmd('CopyPaste', _("Copy&Paste"), 'CopyPasteSelected', args= ('CopyForClipboard',), subscribe_to = SELECTION, key_stroke = 'F6',
+#			sensitive_cb = ('document', 'HasSelection'))
 	
 	AddCmd('CutSelected', _("Cut"), 'CutCopySelected', args= ('CutForClipboard',), subscribe_to = SELECTION, image = 'menu_edit_cut', 
 			key_stroke = ('Ctrl+X', 'Ctrl+x'), sensitive_cb = ('document', 'HasSelection'))
