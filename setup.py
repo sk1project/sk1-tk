@@ -158,6 +158,17 @@ if __name__ == "__main__":
 	if os.path.isdir('/usr/include/tcl8.6'):
 		tcl_include_dirs = ['/usr/include/tcl8.6']
 		tcl_ver ='8.6'
+	
+	#Fix for OpenSuse
+	if not tcl_ver:
+		if os.path.isfile('/usr/lib/libtcl8.5.so'):
+			tcl_ver ='8.5'
+		if os.path.isfile('/usr/lib/libtcl8.6.so'):
+			tcl_ver ='8.6'
+			
+	if not tcl_ver:
+		print 'System tcl/tk =>8.5 libraries have not found!'
+		sys.exit(1)
 
  
  	type1mod_src=src_path+'extentions/type1mod/'				
