@@ -460,8 +460,31 @@
 			{active !disabled}  $K(pw_but_active) \
 			disabled $K(pw_but_normal)] \
 			-border {2 2 2 2} -padding {2 2 2 2} -sticky news
-			
-			
+
+# ------Menu Button-------	
+        style layout RootMenuButton {
+            RootMenuButton.background
+            RootMenuButton.button -children {
+                    RootMenuButton.label -sticky ns
+		}
+        }
+        style element create RootMenuButton.button image [list $K(menu_button_normal) \
+				{pressed !disabled} $K(menu_button_pressed) \
+				{active !disabled}  $K(menu_button_active) \
+				disabled $K(menu_button_normal)] \
+				-border {3 9 3 9} -padding {6 3 6 3} -sticky news
+
+        style layout RootMenuButtonPressed {
+            RootMenuButtonPressed.background
+            RootMenuButtonPressed.button -children {
+                    RootMenuButtonPressed.label -sticky ns
+		}
+        }
+        style element create RootMenuButtonPressed.button image [list $K(menu_button_pressed) \
+				{pressed !disabled} $K(menu_button_pressed) \
+				{active !disabled}  $K(menu_button_pressed) \
+				disabled $K(menu_button_normal)] \
+				-border {3 9 3 9} -padding {6 3 6 3} -sticky news
 			
 			
 			

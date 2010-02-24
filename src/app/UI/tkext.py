@@ -611,18 +611,19 @@ class MenuCascade(MenuEntry):
 
 
 def AppendMenu(mbar, text, menu_list, underline):
-#       button = TMenubutton(mbar, text = text, underline=underline, style='TRootMenubutton')
 	theme=app.uimanager.currentColorTheme
-	button = Menubutton(mbar, text = text, underline=underline)
-	button['background'] = theme.bg
-	button['foreground'] = theme.foreground
-	button['activebackground'] = theme.menuselectbackground
-	button['activeforeground'] = theme.selectforeground
-	button['relief'] = 'flat'
-	button['highlightbackground'] = theme.menuselectbackground
-	button['highlightcolor'] = theme.menuselectforeground
-	button['highlightthickness'] = 0
-	button['bd'] = 0
+	button = TMenubutton(mbar, text = text, underline=underline, style='RootMenuButton')
+#	button.pack(side = LEFT)
+#	button = Menubutton(mbar, text = text, underline=underline)
+#	button['background'] = theme.bg
+#	button['foreground'] = theme.foreground
+#	button['activebackground'] = theme.menuselectbackground
+#	button['activeforeground'] = theme.selectforeground
+#	button['relief'] = 'flat'
+#	button['highlightbackground'] = theme.menuselectbackground
+#	button['highlightcolor'] = theme.menuselectforeground
+#	button['highlightthickness'] = 0
+#	button['bd'] = 0
 	button.pack(side = LEFT)
 
 	menu = UpdatedMenu(button, menu_list)
