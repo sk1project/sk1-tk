@@ -624,7 +624,7 @@ def AppendMenu(mbar, text, menu_list, underline):
 #	button['highlightcolor'] = theme.menuselectforeground
 #	button['highlightthickness'] = 0
 #	button['bd'] = 0
-	button.pack(side = LEFT)
+	button.pack(side = LEFT, padx=2, pady=1)
 
 	menu = UpdatedMenu(button, menu_list)
 	button.menu = menu
