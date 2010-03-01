@@ -35,9 +35,9 @@ DASH_SIZE=(96,16)
 DASH_WIDTH=3
 
 
-class OutlinePropertiesPanel(PluginPanel):
-	name='OutlineProperties'
-	title = _("Outline Properties")
+class GradientFillPanel(PluginPanel):
+	name='GradientFill'
+	title = _("Gradient Fill")
 	dashlist=[]
 	dash=()
 	ref_style=None
@@ -316,7 +316,7 @@ class OutlinePropertiesPanel(PluginPanel):
 		self.init_from_doc()
 
 	
-instance=OutlinePropertiesPanel()
+instance=GradientFillPanel()
 app.objprop_plugins.append(instance)
 
 

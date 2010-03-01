@@ -1,1 +1,1 @@
-import align_plugin, distribute_plugin
+import align_plugin, distribute_plugin, blend_plugin
