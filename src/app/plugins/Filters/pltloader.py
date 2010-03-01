@@ -40,7 +40,7 @@ from app import _, CreatePath, Style, SolidPattern, StandardColors
 from app.events.warn import INTERNAL, pdebug, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
 from app.conf.const import ArcArc, JoinRound, CapRound
-from math import sqrt, atan2, cos, sin, pi
+from math import sqrt, atan2, cos, sin, pi, hypot
 import app
 
 plu=1016.0/72.0
@@ -72,7 +72,7 @@ class PLTLoader(GenericLoader):
 					#"PL": 'pen_plu',
 					"LT": 'linetype',
 					"AA": 'arc_absolute',
-					#"AR": 'arc_relative',
+					"AR": 'arc_relative',
 					"CI": 'circle_plot',
 					}
 
@@ -111,20 +111,29 @@ class PLTLoader(GenericLoader):
 
 
 	def arc_absolute(self, x, y, qc, qd = 5):
-		x1, y1 = self.cur_x, self.cur_y
 		x, y = self.get_position(x, y, 1)
-		qc = float(qc)
-		r = sqrt((x - x1)**2 + (y - y1)**2)
+		self.arc(x, y, qc, qd)
+
+	def arc_relative(self, x, y, qc, qd = 5):
+		x, y = self.get_position(x, y, 0)
+		self.arc(x, y, qc, qd)
+	
+	def arc(self, x, y, qc, qd = 5):
+		qc = float(qc) * degrees
+		x2 = self.cur_x - x
+		y2 = self.cur_y - y
+		
+		r = hypot(x2, y2)
 		
 		if qc < 0:
-			end_angle = atan2(y1 - y, x1 - x) 
-			angle = start_angle = end_angle + qc * degrees
+			end_angle = atan2(y2, x2) 
+			angle = start_angle = end_angle + qc
 		else:
-			start_angle = atan2(y1 - y, x1 - x)
-			angle = end_angle = start_angle + qc * degrees
+			start_angle = atan2(y2, x2)
+			angle = end_angle = start_angle + qc
 			
-		self.cur_x = (x + r * cos(angle)) * plu
-		self.cur_y = (y + r * sin(angle)) * plu
+		self.cur_x = (x + r * cos(angle))
+		self.cur_y = (y + r * sin(angle))
 		if self.draw==1:
 			self.pen_up()
 			self.pen_down()
@@ -270,7 +279,7 @@ class PLTLoader(GenericLoader):
 			interval_count=file.tell()/parsed_interval
 			if interval_count > parsed:
 				parsed+=10 # 10% progress
-				app.updateInfo(inf2='%u'%parsed+'% of file is parsed...',inf3=parsed)
+				app.updateInfo(inf2 = '%u' % parsed + _('% of file is parsed...'), inf3 = parsed)
 			
 			token=lexer.get_token()
 			if not token:
