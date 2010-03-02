@@ -5,10 +5,10 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import Tkinter, app, os, string, math, string
+import app, os, string, math, string
 from app.utils import os_utils
 from app import _
-from Tkinter import StringVar
+from sk1sdk.libtk.Tkinter import StringVar
 from app.UI.dialogs.msgdialog import msgDialog
 
 

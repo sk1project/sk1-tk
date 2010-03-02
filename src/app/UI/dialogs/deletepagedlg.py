@@ -12,8 +12,8 @@ from msgdialog import msgDialog
 
 from Ttk import TButton, TLabel, TFrame
 from app.UI.ttk_ext import TSpinbox
-from Tkinter import StringVar
-from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W
+from sk1sdk.libtk.Tkinter import StringVar
+from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W
 
 
 class DeletePageDialog(ModalDialog):

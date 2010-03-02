@@ -26,8 +26,8 @@
 ###End
 
 from math import atan2, pi
-import PIL
-from app import _,Bezier, EmptyPattern, Rotation, Translation, _sketch
+from sk1libs.imaging import Image
+from app import _, Bezier, EmptyPattern, Rotation, Translation, _sketch
 from app.Graphics.curveop import arrow_trafos
 import reportlab.pdfgen.canvas
 import app
@@ -203,7 +203,7 @@ class PDFGenSaver:
 		rot = Rotation(angle, center)
 		left, bottom, right, top = rot(rect)
 		trafo = rot(Translation(center))
-		image = PIL.Image.new('RGB', (1, 200))
+		image = Image.new('RGB', (1, 200))
 		border = int(round(100 * pattern.Border()))
 		_sketch.fill_axial_gradient(image.im, pattern.Gradient().Colors(), 
 									0, border, 0, 200 - border)

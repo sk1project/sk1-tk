@@ -14,9 +14,9 @@
 
 
 from styletext import StyleText, Style
-import Tkinter
-from Tkconstants import *
-from tkFileDialog import asksaveasfilename, asksaveasfilename, \
+from sk1sdk.libtk import Tkinter
+from sk1sdk.libtk.Tkconstants import *
+from sk1sdk.libtk.tkFileDialog import asksaveasfilename, asksaveasfilename, \
 		askopenfilename
 from app.Graphics import font
 from app import _

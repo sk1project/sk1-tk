@@ -8,9 +8,8 @@
 
 
 import sketchdlg
-from Tkinter import Frame, Label, IntVar
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E,\
-		DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import Frame, Label, IntVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
 from tkext import UpdatedButton, MyEntry
 
 from miniscroll import MiniScroller
@@ -18,8 +17,7 @@ from miniscroll import MiniScroller
 from sketchdlg import PropertyPanel
 from app.conf.const import SELECTION
 
-from app.Graphics.blendgroup import BlendGroup, BlendInterpolation, \
-		SelectStart, SelectEnd
+from app.Graphics.blendgroup import BlendGroup, BlendInterpolation, SelectStart, SelectEnd
 
 from app import _, config, const
 import skpixmaps

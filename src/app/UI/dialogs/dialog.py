@@ -9,7 +9,7 @@
 
 from app.events.warn import pdebug
 
-from Tkinter import Toplevel
+from sk1sdk.libtk.Tkinter import Toplevel
 
 
 class ModalDialog:
@@ -82,7 +82,7 @@ class ModalDialog:
 			self.old_focus = self.top.focus_get()
 		except KeyError:
 			# focus_get fails when the focus widget is a torn-off menu,
-			# since there#s no corresponding Tkinter object.
+			# since there's no corresponding Tkinter object.
 			self.old_focus = None
 		grab_widget = None
 		if grab:

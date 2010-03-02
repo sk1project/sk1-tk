@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel
-from Tkinter import LEFT, RIGHT
+from sk1sdk.libtk.Tkinter import LEFT, RIGHT
 from app import Publisher
 from app.conf.const import DOCUMENT, SELECTION, MODE
 from guides_panel import GuidesPanel

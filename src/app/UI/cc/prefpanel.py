@@ -7,7 +7,7 @@
 
 
 from Ttk import TFrame, TLabel, TButton
-from Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
+from sk1sdk.libtk.Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 from app import _, config
 import app
 

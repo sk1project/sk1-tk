@@ -15,8 +15,8 @@ from math import atan2, sin, cos, pi
 
 from app.X11 import X
 Xconst = X
-from Tkinter import Frame, Label, IntVar, DoubleVar, Radiobutton, StringVar
-from Tkinter import RIGHT, BOTTOM, X, Y, LEFT, TOP, W, E, N
+from sk1sdk.libtk.Tkinter import Frame, Label, IntVar, DoubleVar, Radiobutton, StringVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, LEFT, TOP, W, E, N
 from tkext import UpdatedButton, UpdatedCheckbutton, ColorButton, MyEntry
 from tkext import PyWidget
 

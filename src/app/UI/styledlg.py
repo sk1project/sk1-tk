@@ -18,8 +18,8 @@ from app.conf.const import STYLE, SELECTION, COMMAND
 from app.events.warn import pdebug
 from app.Graphics.properties import property_names, property_titles, \
 		property_types, FillProperty, LineProperty, FontProperty
-from Tkinter import Button, Scrollbar, Frame, Checkbutton, Label, StringVar, IntVar
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, DISABLED, NORMAL, END
+from sk1sdk.libtk.Tkinter import Button, Scrollbar, Frame, Checkbutton, Label, StringVar, IntVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, DISABLED, NORMAL, END
 from tkext import UpdatedButton, UpdatedListbox, MyEntry, MessageDialog
 
 from Ttk import TFrame, TLabel, TCheckbutton, TButton, TScrollbar, TLabelframe

@@ -23,9 +23,9 @@
 
 (''"Multiline Text")
 
-import Tkinter
-from Tkconstants import *
-from Tkinter import StringVar, Entry, Label, Button, Frame, Text, END, \
+from sk1sdk.libtk import Tkinter
+from sk1sdk.libtk.Tkconstants import *
+from sk1sdk.libtk.Tkinter import StringVar, Entry, Label, Button, Frame, Text, END, \
 	BOTH, LEFT, TOP, X, W, GROOVE, Frame, Label, StringVar, Radiobutton
 
 import os

@@ -6,8 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TButton, TCombobox
-from Tkinter import IntVar, StringVar
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import IntVar, StringVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 import tooltips
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED

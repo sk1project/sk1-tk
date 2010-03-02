@@ -16,7 +16,7 @@ from app.conf import const
 from app.conf.const import CHANGED
 from tkgraphics import NumWriter
 
-from Tkinter import Canvas
+from sk1sdk.libtk.Tkinter import Canvas
 from app.Lib import units
 
 HORIZONTAL = 0

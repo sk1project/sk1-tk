@@ -47,7 +47,7 @@ from app.events.warn import warn, USER
 from app.conf.const import SELECTION
 from app import _
 
-from Tkinter import Label, IntVar, DoubleVar, StringVar, RIGHT, E
+from sk1sdk.libtk.Tkinter import Label, IntVar, DoubleVar, StringVar, RIGHT, E
 from tkext import MyEntry
 from miniscroll import MiniScroller
 

@@ -361,7 +361,7 @@ class Pool(Id):
 
 
 if __name__=='__main__':
-	from Tkinter import *
+	from sk1sdk.libtk.Tkinter import *
 	tk = Tk()
 	text = Text(tk)
 	text.pack()

@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from app.conf.const import SELECTION
-from Tkinter import LEFT
+from sk1sdk.libtk.Tkinter import LEFT
 from app.UI.tkext import TCommandButton
 from subpanel import CtxSubPanel
 from app import  _

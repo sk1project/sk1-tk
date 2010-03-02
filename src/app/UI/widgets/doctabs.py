@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TButton
-from Tkinter import LEFT, RIGHT, TOP, X, Y, BOTH, BOTTOM
+from sk1sdk.libtk.Tkinter import LEFT, RIGHT, TOP, X, Y, BOTH, BOTTOM
 from app.UI.tkext import MenuCommand, UpdatedMenu, MakeCommand
 from app.conf.const import UNDO, DOCUMENT
 from app import _, Publisher

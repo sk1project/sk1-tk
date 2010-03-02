@@ -10,12 +10,12 @@ For more info see COPYRIGHTS file in sK1 root directory.
 __version__ = "$Revision: 0.1.0.0 $"
 
 import sys
-import _tkinter 
+from sk1sdk.libtk import _tkinter 
 tkinter = _tkinter 
 TclError = _tkinter.TclError
 from types import *
-from Tkconstants import *
-import Tkinter
+from sk1sdk.libtk.Tkconstants import *
+from sk1sdk.libtk import Tkinter
 
 
 wantobjects = 1

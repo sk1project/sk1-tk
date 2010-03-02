@@ -33,13 +33,11 @@ Limitations:
 
 import os
 
-from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, \
-		PostScriptDevice
+from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, PostScriptDevice
 from app.utils import os_utils
 from app.UI.sketchdlg import SKModal
 
-from Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, \
-		BOTTOM, LEFT, BOTH
+from sk1sdk.libtk.Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH
 
 
 black = StandardColors.black

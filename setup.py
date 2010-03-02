@@ -189,14 +189,6 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],			
 			sources = [pstokenize_src+'pstokenize.c', pstokenize_src+'pschartab.c'])
 			
- 	paxtkinter_src=src_path+'extentions/paxtkinter/'				
-	paxtkinter_module = Extension('sk1.app.modules.paxtkinter',
-			define_macros = [('MAJOR_VERSION', '0'),
-						('MINOR_VERSION', '9')],
-			sources = [paxtkinter_src+'paxtkinter.c'],
-			include_dirs = tcl_include_dirs,
-			libraries=['tk'+tcl_ver, 'tcl'+tcl_ver])
-			
  	ft2_src=src_path+'extentions/freetype2/'				
 	ft2_module = Extension('sk1.app.modules.ft2',
 			define_macros = [('MAJOR_VERSION', '0'),
@@ -317,7 +309,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 			scripts=['src/sk1'],
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
-						pstokenize_module, skmod_module, paxtkinter_module,
+						pstokenize_module, skmod_module,
 						pax_module, tkpng_module, ft2_module])
 			
 			

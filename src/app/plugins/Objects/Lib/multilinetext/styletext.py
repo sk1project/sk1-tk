@@ -371,7 +371,7 @@ class StyleText(ScrolledText):
 
 
 if __name__=='__main__':
-	from Tkinter import *
+	from sk1sdk.libtk.Tkinter import *
 	tk = Tk()
 	text = StyleText(tk, background='white')
 	text.pack(fill=BOTH, expand=1)

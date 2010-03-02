@@ -7,8 +7,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCheckbutton, TRadiobutton, TLabelframe
-from Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar
-from Tkinter import RIGHT, BOTTOM, X, Y, W, E, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, W, E, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
 from app.UI.tkext import UpdatedButton
 from app.UI.ttk_ext import TSpinbox
 from app.UI.widgets.basepoint import BasePointSelector

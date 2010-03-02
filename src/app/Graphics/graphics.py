@@ -29,7 +29,7 @@ from types import TupleType
 import operator, string
 from math import atan2, hypot, pi, sin, cos
 
-import PIL.Image
+from sk1libs.imaging import Image
 
 from app.X11 import X
 from pax import PaxRegionType, IntersectMasks, CreateRegion
@@ -551,7 +551,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			t = max(t, cy);	b = min(b, cy + ch)
 		if l >= r or t >= b:
 			return None, None, None
-		image = PIL.Image.new('RGB', (r - l, b - t), (255, 255, 255))
+		image = Image.new('RGB', (r - l, b - t), (255, 255, 255))
 		trafo = Translation(-l, -t)(self.doc_to_win)
 		return image, trafo, (l, t)
 

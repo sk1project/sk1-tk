@@ -106,7 +106,7 @@ from math import pi, hypot
 from types import IntType, StringType, ListType
 import string
 
-from PIL import Image
+from sk1libs.imaging import Image
 
 import streamfilter
 

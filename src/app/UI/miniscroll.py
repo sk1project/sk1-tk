@@ -10,7 +10,7 @@ from types import TupleType
 
 import pax
 
-from Tkinter import IntVar, X, Y, LEFT, RIGHT, E
+from sk1sdk.libtk.Tkinter import IntVar, X, Y, LEFT, RIGHT, E
 from tkext import PyWidget, MyEntry
 
 from app.conf.const import COMMAND

@@ -18,7 +18,8 @@
 
 
 
-import sys, types, struct, zlib, math, PIL, StringIO
+import sys, types, struct, zlib, math, StringIO
+from sk1libs.imaging import Image
 
 from struct import unpack, calcsize
 
@@ -370,11 +371,11 @@ class InfoCollector:
 		
 		if palflag == 3:#CMYK image
 			self.bmpbuf=chunk.data[bmpstart+40:]
-			self.extracted_image = PIL.Image.fromstring('CMYK', (width, height), self.bmpbuf, 'raw', 'CMYK', 0, -1)
+			self.extracted_image = Image.fromstring('CMYK', (width, height), self.bmpbuf, 'raw', 'CMYK', 0, -1)
 		elif palflag == 5:#Grayscale image
 			self.bmpbuf=chunk.data[bmpstart+40:]
 			bytes=math.ceil(width/2.0)*2
-			self.extracted_image = PIL.Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', bytes, -1)
+			self.extracted_image = Image.fromstring('L', (width, height), self.bmpbuf, 'raw', 'L', bytes, -1)
 		elif palflag == 6: #Mono image
 			bmpstart2 = numcol*4 + 66
 			bmpstart2 = struct.pack('<L',bmpstart2)		
@@ -383,13 +384,13 @@ class InfoCollector:
 			self.bmpbuf += '\x00\x00'+chunk.data[82:90]+'\x00\x00\x00\x00'
 			self.bmpbuf += '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 			self.bmpbuf += chunk.data[bmpstart+40:]			
-			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
+			self.extracted_image = Image.open(StringIO.StringIO(self.bmpbuf ))
 			self.extracted_image.load()
 			
 #		elif palflag == 1: #RGB
 #			print 'width, height', (width, height)
 #			self.bmpbuf=chunk.data[bmpstart+40:]
-#			self.extracted_image = PIL.Image.fromstring('RGB', (width, height), self.bmpbuf, 'raw', 'BGR', 0, -1)
+#			self.extracted_image = Image.fromstring('RGB', (width, height), self.bmpbuf, 'raw', 'BGR', 0, -1)
 		
 		else:
 			self.bmpbuf = 'BM'+chunk.data[42:50]+bmpstart2[0:4]+'\x28\x00\x00\x00'
@@ -400,7 +401,7 @@ class InfoCollector:
 				for i in range (numcol):
 					self.bmpbuf = self.bmpbuf+chunk.data[122+i*3:125+i*3]+'\x00'
 			self.bmpbuf += chunk.data[bmpstart+40:]
-			self.extracted_image = PIL.Image.open(StringIO.StringIO(self.bmpbuf ))
+			self.extracted_image = Image.open(StringIO.StringIO(self.bmpbuf ))
 			self.extracted_image.load()
 			
 	def loda_coords(self,chunk,type,offset,version,trafo):

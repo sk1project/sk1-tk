@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Tkinter import Frame, Label, ALL, NW, W
+from sk1sdk.libtk.Tkinter import Frame, Label, ALL, NW, W
 
 class TreeNode:
 

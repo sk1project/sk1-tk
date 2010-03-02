@@ -21,7 +21,7 @@
 from app import _, PolyBezier, CreatePath, Polar
 from app.UI.sketchdlg import SKModal
 
-from Tkinter import *
+from sk1sdk.libtk.Tkinter import *
 
 import math, unit
 

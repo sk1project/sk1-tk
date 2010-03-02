@@ -7,9 +7,9 @@
 
 from Ttk import TFrame, TLabel, TCombobox
 from app.UI.ttk_ext import TSpinbox, TEntrybox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E,N, DISABLED, NORMAL
-from Tkinter import StringVar, DoubleVar, IntVar
-import PIL.Image
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E,N, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import StringVar, DoubleVar, IntVar
+from sk1libs.imaging import Image
 
 from app.Graphics.color import CreateRGBColor, CreateCMYKColor
 

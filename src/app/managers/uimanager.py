@@ -5,14 +5,15 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import Tkinter, app, os, string, math
+import app, os, string, math
 from xml.sax import handler
 import xml.sax
 from xml.sax.xmlreader import InputSource
 from app.conf.configurator import XMLPrefReader, ErrorHandler, EntityResolver, DTDHandler
 from app.utils import os_utils
 from app.conf import const
-from Tkinter import StringVar
+from sk1sdk.libtk import Tkinter
+from sk1sdk.libtk.Tkinter import StringVar
 
 	
 class ColorTheme:

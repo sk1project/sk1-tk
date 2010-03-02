@@ -792,15 +792,17 @@ class CMXFile:
 
 	def load_bitmap(self, data_start, data_length):
 		# load a standard windows bitmap file from data_start
-		import PIL.Image, StringIO
+		from sk1libs.imaging import Image
+		import StringIO
 		self.file.seek(data_start)
 		data = self.file.read(data_length)
-		image = PIL.Image.open(StringIO.StringIO(data))
+		image = Image.open(StringIO.StringIO(data))
 		image.load()
 		return image
 
 	def load_rimage(self, data_start, data_length):
-		import PIL.Image, StringIO
+		from sk1libs.imaging import Image
+		import StringIO
 		self.file.seek(data_start + 5) # skip the initial tag
 
 		# read the file header
@@ -842,14 +844,14 @@ class CMXFile:
 			# read data
 			self.file.seek(start_pos + data_offset)
 			data = self.file.read(height * bytes_per_line)
-			image = PIL.Image.fromstring('P', (width, height), data, 'raw',
+			image = Image.fromstring('P', (width, height), data, 'raw',
 											'P', bytes_per_line, -1)
 			image.putpalette(palette, 'BGR')
 		elif planes == 1 and bits_per_plane == 24:
 			# XXX should the test be image_type == 1?
 			self.file.seek(start_pos + data_offset)
 			data = self.file.read(height * bytes_per_line)
-			image = PIL.Image.fromstring('RGB', (width, height), data, 'raw',
+			image = Image.fromstring('RGB', (width, height), data, 'raw',
 											'BGR', bytes_per_line, -1)
 		else:
 			image = None

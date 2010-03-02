@@ -6,9 +6,9 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCombobox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
-from Tkinter import StringVar, DoubleVar, IntVar, Canvas
-import PIL.Image
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import StringVar, DoubleVar, IntVar, Canvas
+from sk1libs.imaging import Image
 
 from app.X11.X import GXxor, ZPixmap
 
@@ -184,7 +184,7 @@ class ImageView(PyWidget):
 class ChooseComponent(ImageView):
 
 	def __init__(self, master, width, height, color = (0, 0, 0), **kw):
-		image = PIL.Image.new('RGB', (width, height))
+		image = Image.new('RGB', (width, height))
 		apply(ImageView.__init__, (self, master, image), kw)
 		self.set_color(color)
 		self.drawn = 0

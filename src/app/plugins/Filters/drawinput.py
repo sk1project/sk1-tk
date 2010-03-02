@@ -71,7 +71,7 @@ from app.Graphics import pagelayout
 
 from app import SolidPattern, EmptyPattern
 
-from PIL import Image
+from sk1libs.imaging import Image
 
 from Lib import drawfile
 

@@ -7,7 +7,7 @@
 
 from Ttk import TFrame, TLabel
 from app.conf.const import DOCUMENT
-from Tkinter import LEFT, RIGHT
+from sk1sdk.libtk.Tkinter import LEFT, RIGHT
 
 class CtxSubPanel:
 	

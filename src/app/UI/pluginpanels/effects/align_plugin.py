@@ -6,9 +6,9 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Tkinter import Frame, Radiobutton, IntVar, StringVar, Label
+from sk1sdk.libtk.Tkinter import Frame, Radiobutton, IntVar, StringVar, Label
 from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox, TCheckbutton, TButton
-from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W, DISABLED, NORMAL
 
 from app.conf.const import SELECTION
 from app.conf import const

@@ -25,7 +25,7 @@ from app import _, PolyBezier, CreatePath, Polar, Point, \
 		ContAngle, ContSmooth, ContSymmetrical
 from app.UI.sketchdlg import SKModal
 
-from Tkinter import *
+from sk1sdk.libtk.Tkinter import *
 
 import unit
 

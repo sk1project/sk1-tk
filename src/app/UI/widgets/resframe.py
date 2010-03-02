@@ -10,7 +10,7 @@
 #
 
 from Ttk import TFrame, TButton
-from Tkinter import Canvas, LEFT, RIGHT, TOP, BOTTOM, X, Y, BOTH
+from sk1sdk.libtk.Tkinter import Canvas, LEFT, RIGHT, TOP, BOTTOM, X, Y, BOTH
 from app.conf import const
 import string
 

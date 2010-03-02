@@ -12,13 +12,13 @@ from app.conf.const import LAYOUT, DOCUMENT
 from app.Graphics.papersize import Papersize, PapersizesList
 from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
 
-from Tkinter import Frame, Label, StringVar, IntVar, DoubleVar
+from sk1sdk.libtk.Tkinter import Frame, Label, StringVar, IntVar, DoubleVar
 from app.UI.tkext import UpdatedButton, MyEntry, MyOptionMenu, UpdatedRadiobutton
 
 from Ttk import TLabel, TFrame, TLabelframe
 from app.UI.ttk_ext import TSpinbox, TComboSmall
 
-from Tkinter import RIGHT, BOTTOM, X, BOTH, LEFT, TOP, W, E, NW, SW, DISABLED, NORMAL
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, BOTH, LEFT, TOP, W, E, NW, SW, DISABLED, NORMAL
 from ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar, create_unit_menu

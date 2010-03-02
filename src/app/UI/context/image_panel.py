@@ -8,7 +8,7 @@
 
 from app.UI.tkext import ToolbarButton
 from app.conf.const import CHANGED
-from Tkinter import LEFT, DoubleVar, StringVar, RIGHT
+from sk1sdk.libtk.Tkinter import LEFT, DoubleVar, StringVar, RIGHT
 from subpanel import CtxSubPanel
 from app import  _, config, PolyBezier, CreatePath, Point
 import tooltips

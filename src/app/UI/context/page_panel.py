@@ -8,7 +8,7 @@
 from Ttk import TCombobox, TLabel,TCheckbutton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED
-from Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
+from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil

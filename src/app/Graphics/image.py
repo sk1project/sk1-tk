@@ -24,7 +24,8 @@
 import os, app
 from types import StringType
 
-import PIL.Image, PIL.ImageChops
+from sk1libs.imaging import ImageChops
+from sk1libs import imaging
 
 from app import _, RegisterCommands, colormanager
 from app.UI.command import AddCmd
@@ -127,12 +128,12 @@ class ImageData(ExternalData):
 			return self
 
 	def Invert(self):
-		return ImageData(PIL.ImageChops.invert(self.orig_image))
+		return ImageData(ImageChops.invert(self.orig_image))
 
 
 
 def load_image(filename, cache = 0):
-	image = PIL.Image.open(filename)
+	image = imaging.Image.open(filename)
 	if type(filename) != StringType:
 		filename = ''
 	return ImageData(image, filename = filename, cache = cache)

@@ -6,7 +6,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import PIL.Image
+from sk1libs.imaging import Image
 import pax
 
 from app.X11 import X
@@ -16,8 +16,8 @@ from app.conf.const import DROP_COLOR
 from app.events.warn import pdebug
 from app.Graphics import color
 
-from Tkinter import Frame, Button
-from Tkinter import BOTTOM, LEFT, RIGHT, BOTH
+from sk1sdk.libtk.Tkinter import Frame, Button
+from sk1sdk.libtk.Tkinter import BOTTOM, LEFT, RIGHT, BOTH
 from tkext import PyWidget, MenuCommand, UpdatedMenu
 import tkext
 
@@ -36,7 +36,7 @@ class GradientView(PyWidget, Publisher):
 	accept_drop = (DROP_COLOR,)
 
 	def __init__(self, master, width, height, gradient, **kw):
-		image = PIL.Image.new('RGB', (width, height))
+		image = Image.new('RGB', (width, height))
 		self.orig_x = handle_height / 2
 		if not kw.has_key('width'):
 			kw["width"] = width + handle_height

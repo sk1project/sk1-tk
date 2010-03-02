@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TFrame, TLabel, TCombobox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, S, DISABLED, NORMAL, StringVar
+from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, S, DISABLED, NORMAL, StringVar
 from app import _
 from app.Graphics.color import CreateRGBColor, CreateCMYKColor, CreateSPOTColor, Registration_Black
 

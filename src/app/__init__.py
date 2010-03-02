@@ -108,36 +108,6 @@ def updateInfo(inf1=None,inf2=None,inf3=None):
 	if not info_win is None:
 		info_win.update()
 		
-def _import_PIL():
-	# Import PIL and work around some bugs...
-	# First, try to import PIL as a package
-	try:
-		import PIL
-		import PIL.Image
-		# Work around a bug in PIL 1.0 when used as a package
-		if PIL.__path__[0] not in sys.path:
-			sys.path.append(PIL.__path__[0])
-	except ImportError:
-		# Must be an older PIL.
-		try:
-			import Image, ImageChops
-		except:
-			warn.warn(warn.USER, "Can't import the Python Imaging Library")
-			sys.exit(1)
-		from app.plugins import plugins
-		plugins.create_packages('PIL')
-		import PIL
-		PIL.__path__.append(os.path.split(Image.__file__)[0])
-		PIL.Image = Image
-		PIL.ImageChops = ImageChops
-		sys.modules['PIL.Image'] = Image
-		sys.modules['PIL.ImageChops'] = ImageChops
-
-_import_PIL()
-
-
-
-#
 
 command_classes = []
 
@@ -193,10 +163,6 @@ def init_lib():
 	Issue(None, const.INITIALIZE)
 
 def init_ui():
-	# workaround for a threaded _tkinter in Python 1.5.2
-	if sys.version[:5] >= '1.5.2':
-		import paxtkinter
-		sys.modules['_tkinter'] = paxtkinter
 
 	init_lib()
 

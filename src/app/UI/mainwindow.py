@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2003-2006 by Igor E. Novikov
+# Copyright (C) 2003-2010 by Igor E. Novikov
 # Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003 by Bernhard Herzog
 #
 # This library is covered by GNU Library General Public License.
@@ -27,12 +27,12 @@ from app.managers.docmanager import DocumentManager
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 
-from Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
-from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
+from sk1sdk.libtk.Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
+from sk1sdk.libtk.Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 from Ttk import  TFrame, TScrollbar, TLabel, TButton
 from widgets.doctabs import TabsPanel
 from widgets.pager import Pager
-import Tkinter
+from sk1sdk.libtk import Tkinter
 from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, ToolbarButton, \
 				CommandCheckbutton, MakeCommand, MultiButton, \
 			UpdatedRadiobutton, UpdatedCheckbutton, ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
@@ -711,7 +711,7 @@ class sK1MainWindow(Publisher):
 			self.commands = None
 			self.application.Exit()
 			
-################### Pages managment #########################
+################### Pages management #########################
 	def InsertPage(self):
 		from dialogs.insertpagedlg import insertpgDialog
 		insertpgDialog(self.root)

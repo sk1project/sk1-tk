@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from Ttk import TButton
-from Tkinter import LEFT
+from sk1sdk.libtk.Tkinter import LEFT
 from subpanel import CtxSubPanel
 from app import  _
 import tooltips

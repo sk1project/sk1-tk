@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-import PIL.Image
+from sk1libs.imaging import Image
 from app.X11.X import GXxor, ZPixmap
 
 from colorsys import hsv_to_rgb, rgb_to_hsv
@@ -19,11 +19,11 @@ from app import CreateRGBColor, StandardColors, Trafo, SketchError, \
 		Publisher, _
 from app.Graphics import color
 
-from Tkinter import Frame,  Label,  DoubleVar, IntVar
+from sk1sdk.libtk.Tkinter import Frame,  Label,  DoubleVar, IntVar
 
 from Ttk import TFrame, TButton, TLabel
 
-from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
+from sk1sdk.libtk.Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
 from tkext import PyWidget
 from ttk_ext import TSpinbox, TEntrybox
 from sketchdlg import SKModal
@@ -137,7 +137,7 @@ class ImageView(PyWidget):
 class ChooseComponent(ImageView, Publisher):
 
 	def __init__(self, master, width, height, color = (0, 0, 0), **kw):
-		image = PIL.Image.new('RGB', (width, height))
+		image = Image.new('RGB', (width, height))
 		apply(ImageView.__init__, (self, master, image), kw)
 		self.set_color(color)
 		self.drawn = 0
