@@ -10,7 +10,7 @@ import app
 from dialog import ModalDialog
 from msgdialog import msgDialog
 
-from Ttk import TButton, TLabel, TFrame
+from sk1sdk.libttk import TButton, TLabel, TFrame
 from app.UI.ttk_ext import TSpinbox
 from app.UI.tkext import UpdatedRadiobutton
 from sk1sdk.libtk.Tkinter import StringVar

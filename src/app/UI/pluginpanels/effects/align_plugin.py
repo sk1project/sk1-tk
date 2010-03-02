@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libtk.Tkinter import Frame, Radiobutton, IntVar, StringVar, Label
-from Ttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox, TCheckbutton, TButton
+from sk1sdk.libttk import TLabel, TFrame, TRadiobutton, TLabelframe, TCombobox, TCheckbutton, TButton
 from sk1sdk.libtk.Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W, DISABLED, NORMAL
 
 from app.conf.const import SELECTION

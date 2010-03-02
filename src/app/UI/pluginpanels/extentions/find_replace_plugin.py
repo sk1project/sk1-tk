@@ -14,7 +14,7 @@ from app import _
 import app
 from app.Graphics import document, text
 
-from Ttk import TLabelframe, TFrame, TLabel, TCheckbutton, TButton
+from sk1sdk.libttk import TLabelframe, TFrame, TLabel, TCheckbutton, TButton
 from app.UI.ttk_ext import TEntryExt
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, W, Y, LEFT, StringVar, BooleanVar, DISABLED, NORMAL
 

@@ -15,7 +15,7 @@ from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
 from sk1sdk.libtk.Tkinter import Frame, Label, StringVar, IntVar, DoubleVar
 from app.UI.tkext import UpdatedButton, MyEntry, MyOptionMenu, UpdatedRadiobutton
 
-from Ttk import TLabel, TFrame, TLabelframe
+from sk1sdk.libttk import TLabel, TFrame, TLabelframe
 from app.UI.ttk_ext import TSpinbox, TComboSmall
 
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, BOTH, LEFT, TOP, W, E, NW, SW, DISABLED, NORMAL

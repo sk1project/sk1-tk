@@ -19,8 +19,7 @@ from app.Graphics.color import rgb_to_tk
 
 from sk1sdk.libtk.Tkinter import Widget, Menu, Menubutton
 
-from Ttk import TMenubutton
-import Ttk
+from sk1sdk.libttk import TButton, TLabel, TMenubutton, TRadiobutton
 from sk1sdk.libtk.Tkinter import LEFT, DISABLED, NORMAL, END, RAISED, SUNKEN
 from sk1sdk.libtk import Tkinter
 
@@ -671,30 +670,30 @@ def MakeCommand(label, func = None, args = (), sensitive = None, update = None, 
 		else:
 			return MenuSeparator()
 
-class UpdatedLabel(Ttk.TLabel, AutoUpdate):
+class UpdatedLabel(TLabel, AutoUpdate):
 
 	def __init__(self, master, **kw):
 		AutoUpdate.__init__(self, kw = kw)
-		apply(Ttk.TLabel.__init__, (self, master), kw)
+		apply(TLabel.__init__, (self, master), kw)
 
 	def destroy(self):
 		AutoUpdate.clean_up(self)
-		Ttk.TLabel.destroy(self)
+		TLabel.destroy(self)
 
 
-class UpdatedButton(Ttk.TButton, AutoUpdate, WidgetWithCommand):
+class UpdatedButton(TButton, AutoUpdate, WidgetWithCommand):
 
 	def __init__(self, master, command = None, args = (), **kw):
 		AutoUpdate.__init__(self, kw = kw)
 		WidgetWithCommand.__init__(self)
-		apply(Ttk.TButton.__init__, (self, master), kw)
+		apply(TButton.__init__, (self, master), kw)
 		if command:
 			self.set_command(command, args)
 
 	def destroy(self):
 		AutoUpdate.clean_up(self)
 		WidgetWithCommand.clean_up(self)
-		Ttk.TButton.destroy(self)
+		TButton.destroy(self)
 		
 class UpdatedButtonOld(Tkinter.Button, AutoUpdate, WidgetWithCommand):
 
@@ -781,7 +780,7 @@ class CommandButton(Tkinter.Button):
 		Tkinter.Button.destroy(self)
 		pax.unregister_object(self)
 	
-class ToolbarButton(Ttk.TButton):
+class ToolbarButton(TButton):
 
 	def __init__(self, master, command = None, image="none", args = (), **kw):
 		self.pict = image
@@ -791,7 +790,7 @@ class ToolbarButton(Ttk.TButton):
 		self.args = args
 		kw['command'] = self.command.Invoke #MakeMethodCommand(self.command.Invoke)
 		command.Subscribe(CHANGED, self._update)
-		apply(Ttk.TButton.__init__, (self, master), kw)
+		apply(TButton.__init__, (self, master), kw)
 		tooltips.AddDescription(self, command.menu_name)
 		self["style"]="Toolbutton"
 		self._update()
@@ -814,10 +813,10 @@ class ToolbarButton(Ttk.TButton):
 		self.command.Unsubscribe(CHANGED, self._update)
 		pax.unregister_object(self.command)
 		self.command = self.args = None
-		Ttk.TButton.destroy(self)
+		TButton.destroy(self)
 		pax.unregister_object(self)
 		
-class TCommandButton(Ttk.TButton):
+class TCommandButton(TButton):
 
 	def __init__(self, master, command = None, style='Toolbutton', image='', args = (), **kw):
 		self.image = image
@@ -829,7 +828,7 @@ class TCommandButton(Ttk.TButton):
 			kw['image']=self.image
 		kw['command'] = self.command.Invoke 
 		command.Subscribe(CHANGED, self._update)
-		apply(Ttk.TButton.__init__, (self, master), kw)
+		apply(TButton.__init__, (self, master), kw)
 		tooltips.AddDescription(self, command.menu_name)
 		self["style"]=style
 		self._update()
@@ -847,7 +846,7 @@ class TCommandButton(Ttk.TButton):
 		self.command.Unsubscribe(CHANGED, self._update)
 		pax.unregister_object(self.command)
 		self.command = self.args = None
-		Ttk.TButton.destroy(self)
+		TButton.destroy(self)
 		pax.unregister_object(self)
 		
 class ToolbarCheckbutton(ToolbarButton):
@@ -864,7 +863,7 @@ class ToolbarCheckbutton(ToolbarButton):
 			self.configure(style = 'Toolbutton')
 		ToolbarButton._update(self)     
 		
-class ToolsButton(Ttk.TButton):
+class ToolsButton(TButton):
 
 	def __init__(self, master, command = None, image="no_image", args = (), **kw):
 		self.pict = image
@@ -874,7 +873,7 @@ class ToolsButton(Ttk.TButton):
 		self.args = args
 		kw['command'] = self.command.Invoke #MakeMethodCommand(self.command.Invoke)
 		command.Subscribe(CHANGED, self._update)
-		apply(Ttk.TButton.__init__, (self, master), kw)
+		apply(TButton.__init__, (self, master), kw)
 		tooltips.AddDescription(self, command.menu_name)
 		self["style"]="ToolsButton"
 		self._update()
@@ -888,7 +887,7 @@ class ToolsButton(Ttk.TButton):
 		self.command.Unsubscribe(CHANGED, self._update)
 		pax.unregister_object(self.command)
 		self.command = self.args = None
-		Ttk.TButton.destroy(self)
+		TButton.destroy(self)
 		pax.unregister_object(self)
 
 class ToolsCheckbutton(ToolsButton):
@@ -934,33 +933,33 @@ class UpdatedCheckbutton(Tkinter.Checkbutton, AutoUpdate, WidgetWithCommand):
 		WidgetWithCommand.clean_up(self)
 		Tkinter.Checkbutton.destroy(self)
 		
-class UpdatedTButton(Ttk.TButton, AutoUpdate, WidgetWithCommand):
+class UpdatedTButton(TButton, AutoUpdate, WidgetWithCommand):
 
 	def __init__(self, master, command = None, args = (), borderwidth=0,**kw):
 		AutoUpdate.__init__(self, kw = kw)
 		WidgetWithCommand.__init__(self)
-		apply(Ttk.TButton.__init__, (self, master), kw)
+		apply(TButton.__init__, (self, master), kw)
 		if command:
 			self.set_command(command, args)
 
 	def destroy(self):
 		AutoUpdate.clean_up(self)
 		WidgetWithCommand.clean_up(self)
-		Ttk.TButton.destroy(self)
+		TButton.destroy(self)
 
-class UpdatedRadiobutton(Ttk.TRadiobutton, AutoUpdate, WidgetWithCommand):
+class UpdatedRadiobutton(TRadiobutton, AutoUpdate, WidgetWithCommand):
 
 	def __init__(self, master, command = None, args = (), **kw):
 		AutoUpdate.__init__(self, kw = kw)
 		WidgetWithCommand.__init__(self)
-		apply(Ttk.TRadiobutton.__init__, (self, master), kw)
+		apply(TRadiobutton.__init__, (self, master), kw)
 		if command:
 			self.set_command(command, args)
 
 	def destroy(self):
 		AutoUpdate.clean_up(self)
 		WidgetWithCommand.clean_up(self)
-		Ttk.TRadiobutton.destroy(self)
+		TRadiobutton.destroy(self)
 
 
 class UpdatedListbox(Tkinter.Listbox, AutoUpdate, WidgetWithCommand):

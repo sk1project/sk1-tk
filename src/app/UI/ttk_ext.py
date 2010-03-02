@@ -10,7 +10,7 @@ from sk1sdk.libtk.Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, NORMA
 from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
 from app import _
 
-from Ttk import TFrame, TButton, TEntry, TMenubutton, TScrollbar
+from sk1sdk.libttk import TFrame, TButton, TEntry, TMenubutton, TScrollbar
 import string
 import re
 

@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel
+from sk1sdk.libttk import TFrame, TLabel
 from sk1sdk.libtk.Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 from app import Publisher
 from app.conf.const import DOCUMENT, SELECTION, MODE

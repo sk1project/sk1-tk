@@ -21,7 +21,7 @@ from app.Graphics import color
 
 from sk1sdk.libtk.Tkinter import Frame,  Label,  DoubleVar, IntVar
 
-from Ttk import TFrame, TButton, TLabel
+from sk1sdk.libttk import TFrame, TButton, TLabel
 
 from sk1sdk.libtk.Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
 from tkext import PyWidget

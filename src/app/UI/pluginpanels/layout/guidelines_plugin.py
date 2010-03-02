@@ -12,7 +12,7 @@ from string import atoi
 from sk1sdk.libtk.Tkinter import Frame, Label, DoubleVar, StringVar
 from app.UI.tkext import UpdatedButton, UpdatedListbox
 
-from Ttk import TScrollbar, TFrame, TLabel
+from sk1sdk.libttk import TScrollbar, TFrame, TLabel
 from app.UI.ttk_ext import TSpinbox, TComboSmall
 
 from sk1sdk.libtk.Tkinter import BOTTOM, BOTH, LEFT, RIGHT, TOP, X, Y, E, W

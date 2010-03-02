@@ -11,7 +11,7 @@ from app.UI.dialogs.dialog import ModalDialog
 from app.UI.widgets.resframe import ResizableTFrame
 from app import dialogman
 
-from Ttk import TButton, TLabel, TFrame, TScrollbar
+from sk1sdk.libttk import TButton, TLabel, TFrame, TScrollbar
 from app.UI.ttk_ext import TSpinbox
 from sk1sdk.libtk.Tkinter import Canvas
 from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE

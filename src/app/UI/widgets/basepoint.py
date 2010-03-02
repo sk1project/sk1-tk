@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel, TRadiobutton, TLabelframe
+from sk1sdk.libttk import TFrame, TLabel, TRadiobutton, TLabelframe
 from sk1sdk.libtk.Tkinter import BOTH, LEFT, TOP, W
 from app.UI.tkext import UpdatedRadiobutton
 from app import _

@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel, TCheckbutton, TLabelframe
+from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TLabelframe
 from sk1sdk.libtk.Tkinter import Spinbox, DoubleVar, StringVar, BooleanVar, IntVar
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, W, E, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
 from app.UI.tkext import UpdatedButton

@@ -7,7 +7,7 @@
 #
 # The color sample size is 31x20 px
 
-from Ttk import TButton
+from sk1sdk.libttk import TButton
 import Image
 from sk1sdk import tkimage
 

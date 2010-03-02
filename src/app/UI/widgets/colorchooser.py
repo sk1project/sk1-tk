@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TFrame, TLabel, TCombobox
+from sk1sdk.libttk import TFrame, TLabel, TCombobox
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
 from sk1sdk.libtk.Tkinter import StringVar, DoubleVar, IntVar, Canvas
 from sk1libs.imaging import Image

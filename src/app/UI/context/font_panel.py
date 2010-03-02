@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from Ttk import TCombobox, TButton, TLabel
+from sk1sdk.libttk import TCombobox, TButton, TLabel
 from app.UI.ttk_ext import TSpinbox
 from app.UI.tkext import UpdatedRadiobutton
 from app.conf.const import SELECTION, CHANGED, EDITED

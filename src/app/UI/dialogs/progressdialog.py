@@ -10,7 +10,7 @@ import app
 from dialog import ModalDialog
 from msgdialog import msgDialog
 
-from Ttk import TLabel, TFrame, TProgressbar
+from sk1sdk.libttk import TLabel, TFrame, TProgressbar
 from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W
 from app import info1, info2, info3, info_win
 import threading, time

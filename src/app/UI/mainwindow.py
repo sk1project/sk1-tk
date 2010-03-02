@@ -29,7 +29,7 @@ from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO
 
 from sk1sdk.libtk.Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
 from sk1sdk.libtk.Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
-from Ttk import  TFrame, TScrollbar, TLabel, TButton
+from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, TButton
 from widgets.doctabs import TabsPanel
 from widgets.pager import Pager
 from sk1sdk.libtk import Tkinter

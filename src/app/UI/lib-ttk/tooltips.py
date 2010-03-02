@@ -12,7 +12,7 @@
 
 from types import InstanceType
 from sk1sdk.libtk.Tkinter import Toplevel
-from Ttk import TLabel
+from sk1sdk.libttk import TLabel
 
 
 class Tooltips:

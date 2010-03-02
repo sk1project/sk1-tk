@@ -22,7 +22,7 @@ from sk1sdk.libtk.Tkinter import Button, Scrollbar, Frame, Checkbutton, Label, S
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, DISABLED, NORMAL, END
 from tkext import UpdatedButton, UpdatedListbox, MyEntry, MessageDialog
 
-from Ttk import TFrame, TLabel, TCheckbutton, TButton, TScrollbar, TLabelframe
+from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton, TScrollbar, TLabelframe
 from ttk_ext import TEntrybox
 
 import skpixmaps

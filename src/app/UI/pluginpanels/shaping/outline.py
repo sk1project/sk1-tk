@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from Ttk import TFrame, TLabel, TCheckbutton, TButton
+from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton
 from sk1sdk.libtk.Tkinter import IntVar
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 

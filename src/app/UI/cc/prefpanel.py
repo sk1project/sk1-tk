@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from Ttk import TFrame, TLabel, TButton
+from sk1sdk.libttk import TFrame, TLabel, TButton
 from sk1sdk.libtk.Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END
 from app import _, config
 import app
