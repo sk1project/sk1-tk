@@ -738,7 +738,7 @@ class MultiButton(UpdatedButton):
 			apply(UpdatedButton._call_cmd, (self,) + args)
 				
 
-import tooltips
+from sk1sdk.libttk import tooltips
 
 class CommandButton(Tkinter.Button):
 

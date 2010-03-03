@@ -9,7 +9,7 @@ from sk1sdk.libttk import TButton
 from sk1sdk.libtk.Tkinter import LEFT
 from subpanel import CtxSubPanel
 from app import  _
-import tooltips
+from sk1sdk.libttk import tooltips
 
 class FlipPanel(CtxSubPanel):
 	

@@ -22,7 +22,7 @@ from app.UI.pluginpanels.ppanel import PluginPanel
 from app.UI.lengthvar import LengthVar
 from app.UI import styledlg
 
-import tooltips
+from sk1sdk.libttk import tooltips
 
 import Image, ImageDraw
 from sk1sdk import tkimage

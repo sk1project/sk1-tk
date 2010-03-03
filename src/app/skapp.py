@@ -20,7 +20,7 @@ from sk1sdk.libtk.Tkinter import Tk, TclError, PhotoImage, Wm, StringVar, Double
 from app.UI import tkext
 from types import ListType
 
-import tooltips
+from sk1sdk.libttk import tooltips
 
 from app.UI import skpixmaps
 pixmaps = skpixmaps.PixmapTk

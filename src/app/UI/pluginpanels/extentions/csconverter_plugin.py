@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TFrame, TLabel, TButton, TCombobox
 from sk1sdk.libtk.Tkinter import IntVar, StringVar
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
-import tooltips
+from sk1sdk.libttk import tooltips
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 

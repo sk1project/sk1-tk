@@ -18,7 +18,7 @@ from app.UI.tkext import UpdatedButton, UpdatedCheckbutton, UpdatedRadiobutton
 
 import app
 from app.UI.pluginpanels.ppanel import PluginPanel
-import tooltips
+from sk1sdk.libttk import tooltips
 
 SELECT=_("Selection")
 LOWERMOST=_("Lowermost")

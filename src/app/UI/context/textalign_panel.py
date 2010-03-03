@@ -11,7 +11,7 @@ from sk1sdk.libtk.Tkinter import LEFT, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from app.UI.tkext import UpdatedRadiobutton
-import tooltips
+from sk1sdk.libttk import tooltips
 from app.Graphics import text
 
 class TextAlignPanel(CtxSubPanel):

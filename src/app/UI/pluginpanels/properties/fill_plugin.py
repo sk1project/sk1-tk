@@ -11,7 +11,7 @@ from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DIS
 from app.UI.widgets.colorspacesel import ColorSpaceSelector
 from app.UI.widgets.colorchooser import ColorChooserWidget
 from app.UI.widgets.colordigitizer import ColorDigitizer
-import tooltips
+from sk1sdk.libttk import tooltips
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 

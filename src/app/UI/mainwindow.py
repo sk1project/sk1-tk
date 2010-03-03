@@ -49,7 +49,7 @@ from canvas import SketchCanvas
 import tkruler
 from poslabel import PositionLabel
 import palette
-import tooltips
+from sk1sdk.libttk import tooltips
 import math
 
 import skpixmaps

@@ -10,7 +10,7 @@ from app.conf.const import CHANGED
 from sk1sdk.libtk.Tkinter import LEFT, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
-import tooltips
+from sk1sdk.libttk import tooltips
 from app.Lib.units import unit_names
 
 class UnitPanel(CtxSubPanel):

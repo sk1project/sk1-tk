@@ -14,7 +14,7 @@ from app import  _, config
 from math import floor, ceil
 from app.UI.lengthvar import LengthVar
 from app.Graphics import text
-import tooltips
+from sk1sdk.libttk import tooltips
 
 class TextPropPanel(CtxSubPanel):
 	
