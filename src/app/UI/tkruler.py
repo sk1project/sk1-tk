@@ -14,7 +14,7 @@ import operator
 from app import config, GuideLine, Point
 from app.conf import const
 from app.conf.const import CHANGED
-from tkgraphics import NumWriter
+from sk1sdk.libtk.tkgraphics import NumWriter
 
 from sk1sdk.libtk.Tkinter import Canvas
 from app.Lib import units
