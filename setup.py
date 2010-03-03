@@ -287,7 +287,6 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 				'sk1.app.UI.pluginpanels.shaping',   
 				'sk1.app.UI.context',
 				'sk1.app.UI.dialogs',
-				'sk1.app.UI.lib-ttk',
 				'sk1.app.UI.cc',
 				'sk1.app.UI.cc.panels',
 				'sk1.app.utils', 
