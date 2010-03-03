@@ -13,8 +13,6 @@ def sk1_run():
 	
 	_pkgdir = __path__[0]
 	sys.path.insert(1, _pkgdir)
-	_ttkdir = os.path.join(_pkgdir, 'app/UI/lib-ttk')
-	sys.path.insert(1, _ttkdir)
 	
 	import app
 	app.config.sk_command = sys.argv[0]
