@@ -36,7 +36,7 @@ from app.events.warn import INTERNAL, USER, warn_tb
 
 from app.io.load import GenericLoader, EmptyCompositeError
 
-from app.Graphics import text, properties
+from app.Graphics import text, properties, pagelayout
 
 from xml.sax import handler
 import xml.sax
@@ -497,6 +497,10 @@ class SVGHandler(handler.ContentHandler):
 		width, height = self.user_point(attrs.get('width', '100%'), \
 									    attrs.get('height', '100%'))
 		self._print('svgView', x, y, width, height)
+		
+		if self.loader.page_layout is None:
+				self.loader.page_layout = pagelayout.PageLayout(
+						width = width * 0.8, height = height * 0.8)
 		
 		if self.trafo is None:
 			# adjustment of the coordinate system and taking into account 
@@ -1095,7 +1099,8 @@ class SVGLoader(GenericLoader):
 			self.directory = os.path.split(filename)[0]
 		else:
 			self.directory = ''
-		
+		self.page_layout = None
+
 	def __del__(self):
 		pass
 
@@ -1121,6 +1126,10 @@ class SVGLoader(GenericLoader):
 			input.close
 
 			self.end_all()
+			
+			if self.page_layout:
+				self.object.load_SetLayout(self.page_layout)
+			
 			self.object.load_Completed()
 			return self.object
 		except:
