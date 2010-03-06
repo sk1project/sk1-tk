@@ -263,7 +263,6 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 				'sk1.app.Lib', 
 				'sk1.app.managers', 
 				'sk1.app.modules', 
-				'sk1.app.plugins', 
 				'sk1.app.Scripting', 
 				'sk1.app.scripts', 
 				'sk1.app.tcl', 
@@ -286,12 +285,10 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 			
 			package_dir = {'sk1': 'src',
 			'sk1.app': 'src/app',
-			'sk1.app.plugins': 'src/app/plugins',
 			'sk1.app.modules': 'src/app/modules',
 			},
 			
 			package_data={'sk1.app': ['VERSION', 'tkdefaults', 'tcl/*.tcl'],			
-			'sk1.app.plugins': ['Filters/*.py','Objects/*.py','Objects/Lib/multilinetext/*.py'],
 			'sk1': share_dirs,
 			'sk1.app.modules': ['pkgIndex.tcl', 'descr.txt']
 			},
