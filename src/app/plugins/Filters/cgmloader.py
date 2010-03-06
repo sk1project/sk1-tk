@@ -148,7 +148,7 @@ CGM_ID = {
 
 cp = copy.deepcopy
 
-fntlst = map(lambda l: l[0], app.Graphics.font.fontlist)
+fntlst = map(lambda l: l[0], sk1libs.ft2engine.fontlist)
 #print fntlst
 
 fntalias = {

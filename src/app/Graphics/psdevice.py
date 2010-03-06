@@ -39,7 +39,7 @@ from app.Lib import type1
 from graphics import CommonDevice
 import color
 import pagelayout
-import font
+from sk1libs import ft2engine as font
 
 
 class _DummyLineStyle:

@@ -96,8 +96,7 @@ from blend import Blend, MismatchError, BlendTrafo
 from properties import PropertyStack, FactoryTextStyle, DefaultTextProperties
 import color, pattern, app
 
-import graphics, font
-font_module = font
+import graphics
 
 from app.Lib import encoding; iso_latin_1 = encoding.iso_latin_1
 

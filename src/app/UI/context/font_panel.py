@@ -14,7 +14,8 @@ from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
 from app.UI.lengthvar import LengthVar
-from app.Graphics import text, font, properties
+from app.Graphics import text, properties
+from sk1libs import ft2engine
 from sk1sdk.libttk import tooltips
 from string import atof
 
@@ -102,11 +103,11 @@ class FontPanel(CtxSubPanel):
 			self.var_font_size.set(object.FontSize())
 		else:
 			try:
-				default = font.GetFont(config.preferences.default_font)
+				default = ft2engine.GetFont(config.preferences.default_font)
 			except:
 				name = self.family_to_fonts.keys()[0]#[0]
 				fonts = self.family_to_fonts[name]
-				default = font.GetFont(fonts[1])
+				default = ft2engine.GetFont(fonts[1])
 			self.var_font_name.set(default.family)
 			self.var_style_name.set(default.font_attrs)
 			self.style_name['values']=self.make_styles()
@@ -115,7 +116,7 @@ class FontPanel(CtxSubPanel):
 		
 	def make_families(self):
 		result=()
-		self.family_to_fonts = font.make_family_to_fonts()
+		self.family_to_fonts = ft2engine.make_family_to_fonts()
 		self.families = self.family_to_fonts.keys()
 		self.families.sort()
 		for item in self.families:
@@ -127,9 +128,9 @@ class FontPanel(CtxSubPanel):
 		attrs = ()
 		self.styles=[]
 		for name in fonts:
-			self.styles.append(font.fontmap[name][1])		
+			self.styles.append(ft2engine.fontmap[name][1])		
 		for name in fonts:
-			attrs+=(font.fontmap[name][1],)
+			attrs+=(ft2engine.fontmap[name][1],)
 		return attrs
 	
 	def make_sizes(self):
@@ -152,13 +153,13 @@ class FontPanel(CtxSubPanel):
 	def apply_changes(self):
 		name = self.current_font_ps()
 		self.mw.document.CallObjectMethod(text.CommonText, _("Set Font Properties"),
-										 'SetFont', font.GetFont(name), atof(self.var_font_size.get()))
+										 'SetFont', ft2engine.GetFont(name), atof(self.var_font_size.get()))
 		self.mw.canvas.ForceRedraw()
 		
 	def current_font_ps(self):
 		fonts = self.family_to_fonts[self.var_font_name.get()]
 		for name in fonts:
-			if font.fontmap[name][1] == self.var_style_name.get():
+			if ft2engine.fontmap[name][1] == self.var_style_name.get():
 				return name
 		return ''
 	

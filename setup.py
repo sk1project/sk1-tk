@@ -189,15 +189,6 @@ if __name__ == "__main__":
 						('MINOR_VERSION', '9')],			
 			sources = [pstokenize_src+'pstokenize.c', pstokenize_src+'pschartab.c'])
 			
- 	ft2_src=src_path+'extentions/freetype2/'				
-	ft2_module = Extension('sk1.app.modules.ft2',
-			define_macros = [('MAJOR_VERSION', '0'),
-						('MINOR_VERSION', '9')],
-			sources = [ft2_src+'ft2module.c'],
-			include_dirs=['/usr/include/freetype2'],
-			libraries=['freetype'],
-			extra_compile_args=["-Wall"])
-			
  	pax_src=src_path+'extentions/pax/'
  	pax_include_dirs=['/usr/include/cairo']
  	pax_include_dirs.extend(tcl_include_dirs)
@@ -309,7 +300,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module,
-						pax_module, tkpng_module, ft2_module])
+						pax_module, tkpng_module])
 			
 			
 			
