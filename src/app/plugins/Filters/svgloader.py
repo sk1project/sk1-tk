@@ -968,7 +968,9 @@ class SVGHandler(handler.ContentHandler):
 							last_quad = q
 
 				elif cmd in 'zZ':
-					path.AppendLine(path.Node(0))
+					if round(path.Node(0).x, 3) != round(path.Node(-1).x, 3) or \
+					            round(path.Node(0).y, 3) != round(path.Node(-1).y, 3):
+						path.AppendLine(path.Node(0))
 					path.ClosePath()
 			else:
 				break
