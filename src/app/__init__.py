@@ -158,7 +158,7 @@ from Graphics.text import SimpleText, SimpleTextCreator, PathText
 
 
 def init_lib():
-	from app.plugins import plugins
+	from sk1libs import filters
 # 	config.load_user_preferences()
 	Issue(None, const.INITIALIZE)
 

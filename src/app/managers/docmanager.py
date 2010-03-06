@@ -8,7 +8,7 @@
 from app import _, Document, config, dialogman, SketchError
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 from app.utils import os_utils, locale_utils
-from app.plugins import plugins
+from sk1libs import filters
 from app.io import load
 import app, os, sys, string
 from app.UI.dialogs.msgdialog import msgDialog
@@ -123,13 +123,13 @@ class DocumentManager:
 			if not filename:
 				return
 			extension = os.path.splitext(filename)[1]
-			fileformat = plugins.guess_export_plugin(extension)
+			fileformat = filters.guess_export_plugin(extension)
 			if not fileformat:
-				fileformat = plugins.NativeFormat
+				fileformat = filters.NativeFormat
 			compressed_file = '' # guess compression from filename
 			compressed = ''
 		else:
-			fileformat = plugins.NativeFormat
+			fileformat = filters.NativeFormat
 		if use_dialog==SAVE_AS_MODE:
 			config.preferences.dir_for_save=os.path.dirname(filename)	
 		if use_dialog==EXPORT_MODE:
@@ -179,7 +179,7 @@ class DocumentManager:
 		document=arg[0]
 		from tempfile import NamedTemporaryFile
 		pdffile=NamedTemporaryFile()
-		fileformat = plugins.guess_export_plugin('.pdf')
+		fileformat = filters.guess_export_plugin('.pdf')
 		self.SaveToFile(document, pdffile.name, fileformat, '', '')
 		
 		os.popen('kprinter --caption sK1 "'+ pdffile.name + '"', 'w')
@@ -193,7 +193,7 @@ class DocumentManager:
 		document=arg[0]
 		pdffile=arg[1]
 				
-		fileformat = plugins.guess_export_plugin('.pdf')
+		fileformat = filters.guess_export_plugin('.pdf')
 		self.SaveToFile(document, pdffile, fileformat, '', '')
 		
 		self.mw.root.update()
@@ -307,9 +307,9 @@ class DocumentManager:
 
 				document.meta.backup_created = 1
 			if fileformat is None:
-				fileformat = plugins.NativeFormat
+				fileformat = filters.NativeFormat
 			try:
-				saver = plugins.find_export_plugin(fileformat)
+				saver = filters.find_export_plugin(fileformat)
 				if compressed:
 					# XXX there should be a plugin interface for this kind
 					# of post-processing
@@ -334,18 +334,18 @@ class DocumentManager:
 			self.mw.remove_mru_file(filename)
 			return
 
-		if fileformat == plugins.NativeFormat:
+		if fileformat == filters.NativeFormat:
 			dir, name = os.path.split(filename)
 			# XXX should meta.directory be set for non-native formats as well
 			document.meta.directory = dir
 			document.meta.filename = name
 			document.meta.fullpathname = filename
-			document.meta.file_type = plugins.NativeFormat
+			document.meta.file_type = filters.NativeFormat
 			document.meta.native_format = 1
 		if not compressed_file:
 			document.meta.compressed_file = ''
 			document.meta.compressed = ''
-		if fileformat == plugins.NativeFormat:
+		if fileformat == filters.NativeFormat:
 			if compressed_file:
 				self.mw.add_mru_file(compressed_file)
 			else:

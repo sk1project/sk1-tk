@@ -33,7 +33,7 @@ import os, string
 import time
 
 from app import config
-from app.plugins import plugins
+from sk1libs import filters
 from app.utils import locale_utils
 from app.events.warn import warn, INTERNAL, pdebug
 from app.conf.const import ArcPieSlice
@@ -328,7 +328,7 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 	if line[:4] == 'RIFF' and len(line) < 12:
 		line = line + file.read(12 - len(line))
 	#print line
-	for info in plugins.import_plugins:
+	for info in filters.import_plugins:
 		match = info.rx_magic.match(line)
 		if match:
 			loader = info(file, filename, match)

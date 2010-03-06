@@ -12,7 +12,7 @@ from types import TupleType, ListType
 from app.utils import os_utils
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, sKVersion
-from app.plugins import plugins
+from sk1libs import filters
 from app.io import load
 from app.conf import const
 from app.utils import locale_utils
@@ -1314,7 +1314,7 @@ class sK1MainWindow(Publisher):
 					cmds.CreateSimpleText,
 					self.commands.CreateImage,
 					None]
-		items = plugins.object_plugins.items()
+		items = filters.object_plugins.items()
 		items.sort()
 		place = self.place_plugin_object
 		dialog = self.CreatePluginDialog
