@@ -23,239 +23,19 @@ import os, re, operator, sys
 from string import split, strip, atoi, atof, lower, translate, maketrans
 
 
-import streamfilter, ft2
+import ft2
 
-from app.Graphics.plugobj import TrafoPlugin
-from app.Graphics.bezier import PolyBezier
-from app.Graphics.pattern import SolidPattern
+from app import _, config, Point, Scale, Subscribe, CreatePath, SKCache, ContAngle, ContSmooth
 
-from app import _, config, Point, TrafoType, Scale, SketchError, \
-		SketchInternalError, Subscribe, CreatePath, CreateFontMetric, SKCache
-
-from app import Scale, CreatePath, Point, ContAngle, ContSmooth, \
-     EmptyLineStyle, StandardColors
-		
 from app.conf import const
-from app.Lib import encoding
-import properties
 
-from app.events.warn import warn, INTERNAL, USER, pdebug
 from app.utils.os_utils import find_in_path, find_files_in_path, get_files_tree, gethome
-
-minus_tilde = maketrans('-', '~')
-
-def xlfd_matrix(trafo):
-	mat = '[%f %f %f %f]' % trafo.matrix()
-	return translate(mat, minus_tilde)
-
-
-def _str(val):
-	return strip(val)
-
-def _bb(val):
-	return tuple(map(int, map(round, map(atof, split(strip(val))))))
-
-def _number(val):
-	return int(round(atof(val)))
-
-converters = {
-	'EncodingScheme':       _str,
-	'Ascender':             _number,
-	'Descender':    _number,
-	'ItalicAngle':  atof,
-	'FontBBox':             _bb,
-	'StartCharMetrics':     None,
-	'EndFontMetrics':       None
-}
-
-StandardEncoding = 'AdobeStandardEncoding'
-
-def read_char_metrics(afm):
-	# read the individual char metrics. Assumes that each line contains
-	# the keys C, W, N and B. Of these keys, only C (or CH, but that's
-	# not implemented here) is really required by the AFM specification.
-	charmetrics = {encoding.notdef: (0, 0,0,0,0)}
-	font_encoding = [encoding.notdef] * 256
-	while 1:
-		line = afm.readline()
-		if line == 'EndCharMetrics\n':
-			break
-		items = filter(None, map(strip, split(line, ';')))
-		if not items:
-			continue
-		code = name = width = bbox = None
-		for item in items:
-			[key, value] = split(item, None, 1)
-			if key == 'C':
-				code = atoi(value)
-			elif key == 'WX':
-				width = int(round(atof(value)))
-			elif key == 'N':
-				name = value
-			elif key == 'B':
-				bbox = tuple(map(int,map(round,map(atof,split(value)))))
-		charmetrics[name] = (width,) + bbox
-		font_encoding[code] = name
-	return charmetrics, font_encoding
-
-def read_afm_file(filename):
-	afm = streamfilter.LineDecode(open(filename, 'r'))
-
-	attribs = {'ItalicAngle': 0.0}
-	charmetrics = None
-	font_encoding = [encoding.notdef] * 256
-
-	while 1:
-		line = afm.readline()
-		if not line:
-			break
-		try:
-			[key, value] = split(line, None, 1)
-		except ValueError:
-			# this normally means that a line contained only a keyword
-			# but no value or that the line was empty
-			continue
-		try:
-			action = converters[key]
-		except KeyError:
-			continue
-		if action:
-			attribs[key] = action(value)
-		elif key == 'StartCharMetrics':
-			charmetrics, font_encoding = read_char_metrics(afm)
-			break
-		else:
-			# EndFontMetrics
-			break
-
-	if not charmetrics:
-		raise ValueError, \
-				'AFM files without individual char metrics not yet supported.'
-
-	if attribs.get('EncodingScheme', StandardEncoding) == StandardEncoding:
-		enc = encoding.iso_latin_1
-	else:
-		enc = font_encoding
-
-	try:
-		rescharmetrics = map(operator.getitem, [charmetrics] * len(enc), enc)
-	except KeyError:
-		# Some iso-latin-1 glyphs are not defined in the font. Try the
-		# slower way and report missing glyphs.
-		length = len(enc)
-		rescharmetrics = [(0, 0,0,0,0)] * length
-		for idx in range(length):
-			name = enc[idx]
-			try:
-				rescharmetrics[idx] = charmetrics[name]
-			except KeyError:
-				# missing character...
-				warn(INTERNAL, '%s: missing character %s', filename, name)
-
-	# some fonts don't define ascender and descender (psyr.afm for
-	# instance). use the values from the font bounding box instead. This
-	# is not really a good idea, but how do we solve this?
-	#
-	# If psyr.afm is the only afm-file where these values are missing
-	# (?) we could use the values from the file s050000l.afm shipped
-	# with ghostscript (or replace psyr.afm with that file).
-	#
-	# This is a more general problem since many of the values Sketch
-	# reads from afm files are only optional (including ascender and
-	# descender).
-	if not attribs.has_key('Ascender'):
-		attribs['Ascender'] = attribs['FontBBox'][3]
-	if not attribs.has_key('Descender'):
-		attribs['Descender'] = attribs['FontBBox'][1]
-
-	return (CreateFontMetric(attribs['Ascender'], attribs['Descender'],
-								attribs['FontBBox'], attribs['ItalicAngle'],
-								rescharmetrics),
-			enc)
-
-
-_warned_about_afm = {}
-def read_metric(ps_name):
-	for afm in ps_to_filename[ps_name]:
-		afm = afm + '.afm'
-		filename = find_in_path(config.font_path, afm)
-		if filename:
-			if __debug__:
-				import time
-				start = time.clock()
-			metric = read_afm_file(filename)
-			if __debug__:
-				pdebug('timing', 'time to read afm %s: %g', afm,
-						time.clock() - start)
-			return metric
-	else:
-		if not _warned_about_afm.get(afm):
-			warn(USER,
-					_("I cannot find the metrics for the font %(ps_name)s.\n"
-					"The file %(afm)s is not in the font_path.\n"
-					"I'll use the metrics for %(fallback)s instead."),
-					ps_name = ps_name, afm = afm,
-					fallback = config.preferences.fallback_font)
-			_warned_about_afm[afm] = 1
-		if ps_name != config.preferences.fallback_font:
-			return read_metric(config.preferences.fallback_font)
-		else:
-			raise SketchError("Can't load metrics for fallback font %s",
-								config.preferences.fallback_font)
-
-
-def font_file_name(ps_name):
-	names = []
-	for basename in ps_to_filename[ps_name]:
-		names.append(basename + '.pfb')
-		names.append(basename + '.pfa')
-	filename = find_files_in_path(config.font_path, names)
-	return filename
-
-	
-def read_outlines(ps_name):
-	filename = font_file_name(ps_name)
-	if filename:
-		if __debug__:
-			pdebug('font', 'read_outlines: %s', filename)
-
-		import app.Lib.type1
-		return app.Lib.type1.read_outlines(filename)
-	else:
-		raise SketchInternalError('Cannot find file for font %s' % ps_name)
-
-def convert_outline(outline):
-	paths = []
-	trafo = Scale(0.001)
-	for closed, sub in outline:
-		if closed:
-			sub.append(sub[0])
-		path = CreatePath()
-		paths.append(path)
-		for item in sub:
-			if len(item) == 2:
-				apply(path.AppendLine, item)
-			else:
-				apply(path.AppendBezier, item)
-		if closed:
-			path.load_close()
-	for path in paths:
-		path.Transform(trafo)
-	return tuple(paths)
-
-
 
 
 fontlist = []
 fontmap = {}
 ps_to_filename = {}
-
-def _add_ps_filename(ps_name, filename):
-	filename = (filename,)
-	if ps_to_filename.has_key(ps_name):
-		filename = ps_to_filename[ps_name] + filename
-	ps_to_filename[ps_name] = filename
-
+font_cache = SKCache()
 
 def make_family_to_fonts():
 	families = {}
@@ -267,13 +47,6 @@ def make_family_to_fonts():
 		else:
 			families[family] = (fontname,)
 	return families
-
-
-
-xlfd_template = "%s--%s-*-*-*-*-*-%s"
-
-font_cache = SKCache()
-
 
 #===============NEW FONT ENGINE IMPLEMENTATION===========================
 # font types: PS1 - Postscript Type1; TTF - TrueType; OTF - OpenType
