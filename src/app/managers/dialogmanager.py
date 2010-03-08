@@ -6,7 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import app, os, string, math, string
-from app.utils import os_utils
+from sk1libs.utils.system import getenv 
+from sk1libs.utils.fs import gethome
 from app import _
 from sk1sdk.libtk.Tkinter import StringVar
 from app.UI.dialogs.msgdialog import msgDialog
@@ -119,7 +120,7 @@ class DialogManager:
 		self.app_icon=os.path.join(self.app_icon, 'icon_sk1_16.png')
 	
 	def check_enviroment(self):
-		ds=os_utils.getenv('DESKTOP_SESSION')
+		ds=getenv('DESKTOP_SESSION')
 		if ds:
 			if string.find(string.upper(ds), 'KDE')>0:
 				self.desktop=KDE_DESKTOP
@@ -286,7 +287,7 @@ class DialogManager:
 
 def check_initialdir(initialdir):
 	if not os.path.exists(initialdir):
-		return os_utils.gethome()
+		return gethome()
 	else:
 		return initialdir
 	

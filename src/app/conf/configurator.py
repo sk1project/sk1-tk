@@ -10,8 +10,7 @@ from xml.sax import handler
 
 from app.events import connector
 from const import CHANGED
-from app.utils.os_utils import gethome, create_directory
-from app.utils import output 
+from sk1libs.utils.fs import gethome
 from app import Point, PointType
 
 class Configurator:
@@ -101,19 +100,15 @@ class Configurator:
 				mru_list = mru_list + ['', '', '', '']
 			self.preferences.mru_files = mru_list[:4]
 		
-	def check_sk_dir(self):		
-		#print 'sK1 directories test...         ',
+	def check_sk_dir(self):
 		result = True		
 		dirs = (self.sk_share_dir, self.sk_palettes, self.sk_themes, self.sk_icc, self.sk_fonts,
 				self.sk_plugins, self.sk_ps, self.sk_color_themes, self.sk_icons)
 		for dir in dirs:
 			if not os.path.isdir(dir): result = False			
 		if not result:
-			#print '[',output.red('CRASH'),']'
-			print output.yellow('sK1 installation is corrupted. Please check sK1 directories or reinstall sK1!')
+			print 'sK1 installation is corrupted. Please check sK1 directories or reinstall sK1!'
 			sys.exit(1)
-		#else:
-			#print '[',output.green('OK'),']'
 			
 	def check_user_config(self):
 		#print 'sK1 user config test...         ',
@@ -123,7 +118,6 @@ class Configurator:
 			try:
 				os.mkdir(self.user_config_dir, 0777)
 			except (IOError, os.error), value:
-				#print '[',output.red('CRASH'),']'
 				sys.stderr('cannot write preferences into %s.' % user_config_dir)
 				sys.exit(1)
 		if not os.path.isdir(self.user_palettes):
@@ -151,11 +145,7 @@ class Configurator:
 		if not os.path.isdir(self.user_icons):
 			result = False
 			os.system("ln -s "+self.sk_icons+" "+self.user_icons)
-			
-		#if not result:
-			#print '[',output.yellow('FIXED'),']'
-		#else:
-			#print '[',output.green('OK'),']'
+
 		
 		
 class Preferences(connector.Publisher):

@@ -9,7 +9,7 @@
 import os, sys, string
 from types import TupleType, ListType
 
-from app.utils import os_utils
+from sk1libs.utils import fs
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, sKVersion
 from sk1libs import filters
@@ -1221,7 +1221,7 @@ class sK1MainWindow(Publisher):
 		if not filename:
 			directory = config.user_palettes
 			if not directory:
-				directory = os_utils.gethome()
+				directory = fs.gethome()
 				
 			filename, sysfilename=dialogman.getGenericOpenFilename(_("Load Palette"),
 																   app.managers.dialogmanager.palette_types,

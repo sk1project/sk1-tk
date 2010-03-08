@@ -7,8 +7,9 @@
 
 from app import _, Document, config, dialogman, SketchError
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
-from app.utils import os_utils, locale_utils
-from sk1libs import filters
+from app.utils import locale_utils
+from sk1libs import filters, utils
+from sk1libs.utils import fs, system
 from app.io import load
 import app, os, sys, string
 from app.UI.dialogs.msgdialog import msgDialog
@@ -53,9 +54,9 @@ class DocumentManager:
 			if not directory:
 				directory = config.preferences.dir_for_open
 			if directory=='~':
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 			filename, sysfilename=dialogman.getOpenFilename(initialdir = directory, initialfile = filename)							
 			if filename=='':
 				return
@@ -109,9 +110,9 @@ class DocumentManager:
 					directory=config.preferences.dir_for_vector_export
 							
 			if directory=='~':
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 				
 			if use_dialog==SAVE_MODE:
 				filename, sysfilename=dialogman.getSaveFilename(initialdir = directory, initialfile = filename)			
@@ -204,9 +205,9 @@ class DocumentManager:
 		if not filename:
 			directory = config.preferences.dir_for_vector_import
 			if directory=='~':
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 			if not os.path.isdir(directory):
-				directory=os_utils.gethome()
+				directory=fs.gethome()
 			filename, sysfilename=dialogman.getImportFilename(initialdir = directory, initialfile = filename)				
 			if not filename:
 				return
@@ -289,10 +290,10 @@ class DocumentManager:
 			if not document.meta.backup_created:
 				try:
 					if compressed_file:
-						os_utils.make_backup(compressed_file)
+						fs.make_backup(compressed_file)
 					else:
-						os_utils.make_backup(sysname)
-				except os_utils.BackupError, value:
+						fs.make_backup(sysname)
+				except fs.BackupError, value:
 					backupfile = locale_utils.utf_to_locale(value.filename)
 					strerror = value.strerror
 					msg = (_("\nCannot create backup file %(filename)s:\n"
@@ -314,9 +315,9 @@ class DocumentManager:
 					# XXX there should be a plugin interface for this kind
 					# of post-processing
 					if compressed == "gzip":
-						cmd = 'gzip -c -9 > ' + os_utils.sh_quote(compressed_file)
+						cmd = 'gzip -c -9 > ' + utils.sh_quote(compressed_file)
 					elif compressed == "bzip2":
-						cmd = 'bzip2 > ' + os_utils.sh_quote(compressed_file)
+						cmd = 'bzip2 > ' + utils.sh_quote(compressed_file)
 					file = os.popen(cmd, 'w')
 					saver(document, filename, file = file)
 				else:
@@ -364,7 +365,7 @@ class DocumentManager:
 		return msgdialog.No
 	
 	def set_window_title(self):
-		self.mw.root.client(os_utils.gethostname())
+		self.mw.root.client(system.gethostname())
 		if self.mw.document:
 			appname = config.name
 			meta = self.mw.document.meta

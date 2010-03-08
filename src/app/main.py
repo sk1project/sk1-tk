@@ -27,7 +27,7 @@
 import sys, getopt, string
 
 import app
-from app.utils import os_utils
+from sk1libs.utils import Empty
 
 usage = ''"""\
 Usage:	sk1 [OPTION] [INPUT FILE]
@@ -100,7 +100,7 @@ def process_args(args):
 	# the option -i is a hack to allow sketch to be used as a `python
 	# interpreter' in the python shell in python-mode.el
 
-	options = os_utils.Empty(args = args, display = None, geometry = None, run_script = None)
+	options = Empty(args = args, display = None, geometry = None, run_script = None)
 
 	for optchar, value in opts:
 		if optchar == '-d' or optchar == '--display':

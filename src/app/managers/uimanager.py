@@ -10,7 +10,7 @@ from xml.sax import handler
 import xml.sax
 from xml.sax.xmlreader import InputSource
 from app.conf.configurator import XMLPrefReader, ErrorHandler, EntityResolver, DTDHandler
-from app.utils import os_utils
+from sk1libs.utils import fs
 from app.conf import const
 from sk1sdk.libtk import Tkinter
 from sk1sdk.libtk.Tkinter import StringVar
@@ -223,12 +223,12 @@ class UIManager:
 	
 	def getColorThemes(self):
 		result=[]
-		for item in os_utils.get_files(app.config.user_color_themes, 'xml'):
+		for item in fs.get_files(app.config.user_color_themes, 'xml'):
 			result.append(item[:-4])	
 		return result
 	
 	def getStyles(self):
-		return os_utils.get_dirs(app.config.sk_themes)
+		return fs.get_dirs(app.config.sk_themes)
 		
 	def setApplicationIcon(self, icon='icon_sk1_16', iconname='sK1'):
 		self.root.iconname(iconname)
@@ -247,7 +247,7 @@ class UIManager:
 		self.sk1_txtlarge.set(app.config.preferences.large_font)
 		
 	def getIconSets(self):
-		return os_utils.get_dirs(app.config.user_icons)
+		return fs.get_dirs(app.config.user_icons)
 
 	def loadIcons(self, iconset='CrystalSVG'):
 		icons=[]
@@ -261,7 +261,7 @@ class UIManager:
 		self.load_icons(path)
 
 	def load_icons(self, path):
-		icons=os_utils.get_files_tree(path)	
+		icons=fs.get_files_tree(path)	
 		for icon in icons:
 			item=os.path.basename(icon)[:-4]
 			self.root.tk.call('image', 'create', 'photo', item, '-format', 'png', '-file', icon)
@@ -269,7 +269,7 @@ class UIManager:
 	def loadWidgetsElements(self):
 		elements=[]
 		path=os.path.join(app.config.sk_themes, app.config.preferences.style, 'widgets')
-		elements=os_utils.get_files_withpath(path,'png')
+		elements=fs.get_files_withpath(path,'png')
 		for element in elements:
 			item=os.path.basename(element)[:-4]
 			self.root.tk.call('image', 'create', 'photo', item, '-format', 'png', '-file', element)		

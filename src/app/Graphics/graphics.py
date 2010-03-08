@@ -36,7 +36,7 @@ from pax import PaxRegionType, IntersectMasks, CreateRegion
 
 from app.events.warn import pdebug, warn, INTERNAL, USER
 from app import _, SketchError, config
-from app.utils.os_utils import Empty
+from sk1libs.utils import Empty
 
 from app.conf import const
 from app.conf.const import ArcPieSlice, ArcChord
