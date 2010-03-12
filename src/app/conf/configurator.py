@@ -24,7 +24,6 @@ class Configurator:
 		self.sk_share_dir = os.path.join(self.sk_dir,'share')
 		self.sk_palettes = os.path.join(self.sk_share_dir,'palettes')
 		self.sk_themes = os.path.join(self.sk_share_dir,'ttk-themes')
-		self.sk_icc = os.path.join(self.sk_share_dir,'icc')
 		self.sk_fonts = os.path.join(self.sk_share_dir,'fonts')
 		self.sk_plugins = os.path.join(self.sk_share_dir,'plugins')
 		self.sk_ps = os.path.join(self.sk_share_dir,'ps_templates')
@@ -102,7 +101,7 @@ class Configurator:
 		
 	def check_sk_dir(self):
 		result = True		
-		dirs = (self.sk_share_dir, self.sk_palettes, self.sk_themes, self.sk_icc, self.sk_fonts,
+		dirs = (self.sk_share_dir, self.sk_palettes, self.sk_themes, self.sk_fonts,
 				self.sk_plugins, self.sk_ps, self.sk_color_themes, self.sk_icons)
 		for dir in dirs:
 			if not os.path.isdir(dir): result = False			
@@ -126,10 +125,7 @@ class Configurator:
 		if not os.path.isdir(self.user_themes):
 			result = False
 			self.restore_theme = 1
-			os.system("ln -s "+self.sk_themes+" "+self.user_themes)			
-		if not os.path.isdir(self.user_icc):
-			result = False
-			os.system("ln -s "+self.sk_icc+" "+self.user_icc)
+			os.system("ln -s "+self.sk_themes+" "+self.user_themes)	
 		if not os.path.isdir(self.user_fonts):
 			result = False
 			os.system("ln -s "+self.sk_fonts+" "+self.user_fonts)
@@ -356,11 +352,7 @@ class Preferences(connector.Publisher):
 	large_font='Tahoma 10 bold'
 	fixed_font='CourierNew 9'
 	
-	#---------Color managment---------
-	default_rgb_profile='sRGB.icm'
-	default_cmyk_profile='GenericCMYK.icm'
-	default_monitor_profile='sRGB.icm'
-	
+	#---------Color managment---------	
 	user_rgb_profile=0
 	user_cmyk_profile=0
 	user_monitor_profile=0
