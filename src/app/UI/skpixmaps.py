@@ -15,53 +15,6 @@ import os
 from app import config
 from app.events.warn import warn, USER
 
-_builtin = [ 'Transp', 'DPage1', 'DGrid', 'DGuidelines', 'Portrait', 'Landscape',
-			'Corner',
-			'JoinMiter', 'JoinRound', 'JoinBevel',
-			'CapButt', 'CapRound', 'CapProjecting',
-			'Duplicate', 'About',
-			'Warning', 'DocInfo', 'Blend',
-			'DocInfo',
-			'sK1_icon', 'sK1_icon_mask', 'smallicon'
-			]
-#_align = ['AlignTop', 'AlignBottom', 'AlignCenterY', 'Align',
-			#'AlignLeft', 'AlignRight', 'AlignCenterX']
-#_align_dir='align'
-
-_fill = ['fill_gradient', 'fill_hatch', 'fill_solid', 'fill_tile','fill_none',
-			'gradient_linear', 'gradient_conical', 'gradient_radial']
-_fill_dir='fill'
-
-_layers = ['printable', 'non_printable', 'editable', 'non_editable', 'eye', 'non_eye',
-				'fill', 'non_fill','LayerNew']
-_layers_dir='layers'
-
-_fastkeys = ['UngrAll', 'ToCurve', 'AddGuidesFrame', 'PFrame', 'RAG','FlipVertical', 'FlipHorizontal',
-					'RotLeft','RotRight','Rot180', 'CCombine', 'Break', 'Group', 'Ungroup','DPage', 'DText',
-					'Sizes', 'DNodes', 'Move', 'Rotate', 'Size']
-_fastkeys_dir='fastkeys'
-
-#_palette = ['ArrLeft', 'ArrRight', 'ArrArrLeft', 'ArrArrRight', 'NoPattern']
-#_palette_dir='palette'
-
-_nodes = ['BezierAngle', 'BezierSmooth', 'BezierSymm',
-			'BezierDeleteNode', 'BezierInsertNode',
-			'BezierCurveLine', 'BezierLineCurve',
-			'BezierOpenNodes', 'BezierCloseNodes']
-_nodes_dir='nodes'
-
-#_toolbar = ['Triple','Mono','OpenNewDocument','NewDocument', 'Open', 'Save', 'SaveAs', 'Printer', 'QPrinter','Spacer', 'Spacer1',
-			#'Undo', 'Redo', 'Delete', 'Copy', 'Paste', 'Cut', 'ImportVector', 'ImportImage',
-			#'ExportV', 'ExportR','FitToPage', 'FitToNative', 'FitToSelected', 'ZoomIn', 'ZoomOut','BarEnd']
-#_toolbar_dir='toolbar'
-
-#_tools = ['SelectionMode', 'EditMode', 'Zoom', 'CreateRect', 'CreateEllipse', 'CreateCurve',
-			#'CreatePoly', 'Text', 'FillButton', 'OutlineButton', 'MoveToTop', 'MoveToBottom',
-			#'MoveOneUp', 'MoveOneDown', 'Tools']
-#_tools_dir='tools'
-
-#_statusbar = ['OnGrid', 'OnGuide', 'OnObject', 'Refresh','No_colors']
-#_statusbar_dir='statusbar'
 
 #_cursors = ['CurEdit', 'CurStd', 'CurStd1', 'CurZoom', 'CurUpDown', 'CurDown', 'CurUp']
 _cursors = ['CurEdit', 'CurZoom']
@@ -70,8 +23,6 @@ _cursors_dir='cursors'
 _canvas = ['TurnTL', 'TurnTR', 'TurnBL', 'TurnBR', 'Center',
 				'ShearLR', 'ShearUD']
 _canvas_dir='/canvas'
-
-#_alias = [('Icon', 'sK1_icon'), ('Icon_mask', 'sK1_icon_mask')]
 
 
 class SketchPixmaps:
@@ -128,16 +79,6 @@ def make_file_names(filenames, subdir = ''):
 					fullname, default)
 			setattr(PixmapTk, name, default)
 
-make_file_names(_builtin)
-#make_file_names(_tools, _tools_dir)
-#make_file_names(_toolbar, _toolbar_dir)
-#make_file_names(_palette, _palette_dir)
-#make_file_names(_statusbar, _statusbar_dir)
-make_file_names(_layers, _layers_dir)
-#make_file_names(_align, _align_dir)
-make_file_names(_fastkeys, _fastkeys_dir)
-make_file_names(_nodes, _nodes_dir)
-make_file_names(_fill, _fill_dir)
 
 def make_cursor_names(names, subdir = ''):
 	from app.conf import const
@@ -155,11 +96,6 @@ def make_cursor_names(names, subdir = ''):
 
 #make_cursor_names(_cursors, _cursors_dir)
 
-#def make_alias(aliases):
-	#for alias, name in aliases:
-		#setattr(PixmapTk, alias, getattr(PixmapTk, name))
-
-#make_alias(_alias)
 
 pixmaps = SketchPixmaps()
 
