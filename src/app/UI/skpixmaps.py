@@ -16,13 +16,9 @@ from app import config
 from app.events.warn import warn, USER
 
 
-#_cursors = ['CurEdit', 'CurStd', 'CurStd1', 'CurZoom', 'CurUpDown', 'CurDown', 'CurUp']
-_cursors = ['CurEdit', 'CurZoom']
-_cursors_dir='cursors'
-
 _canvas = ['TurnTL', 'TurnTR', 'TurnBL', 'TurnBR', 'Center',
 				'ShearLR', 'ShearUD']
-_canvas_dir='/canvas'
+_canvas_dir=''
 
 
 class SketchPixmaps:
@@ -78,23 +74,6 @@ def make_file_names(filenames, subdir = ''):
 			warn(USER, "Warning: no file %s substituting '%s'",
 					fullname, default)
 			setattr(PixmapTk, name, default)
-
-
-def make_cursor_names(names, subdir = ''):
-	from app.conf import const
-	default = 'X_cursor'	# a standard X cursor
-	for name in names:
-		fullname = os.path.join(config.pixmap_dir, subdir, name + '.xbm')
-		fullname_mask = os.path.join(config.pixmap_dir, subdir, name + '_mask.xbm')
-		if os.path.exists(fullname) and os.path.exists(fullname_mask):
-			setattr(const, name, ('@' + fullname, fullname_mask,
-									'black', 'white'))
-		else:
-			warn(USER, "Warning: no file %s (or *_mask) substituting '%s'",
-					fullname, default)
-			setattr(const, name, default)
-
-#make_cursor_names(_cursors, _cursors_dir)
 
 
 pixmaps = SketchPixmaps()
