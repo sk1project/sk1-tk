@@ -17,6 +17,7 @@ from unit_panel import UnitPanel
 from jump_panel import JumpPanel
 from page_panel import PagePanel
 from image_panel import ImagePanel
+from rectangle_panel import RectanglePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from text_prop_panel import TextPropPanel 
 from textalign_panel import TextAlignPanel 
@@ -42,7 +43,7 @@ forSimpleText=['TextPropPanel','FontPanel','TextAlignPanel','ToCurvePanel']
 forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 forNodes=['ResizePanel','UnitPanel', 'CombinePanel','NodeEditPanel']
 forImage=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'ImagePanel']
-
+forRectangle=['ResizePanel', 'FlipPanel', 'RotatePanel', 'RectanglePanel', 'ToCurvePanel']
 
 class ContexPanel(Publisher):
 	
@@ -91,7 +92,7 @@ class ContexPanel(Publisher):
 	def check(self):
 		doc=self.mainwindow.document
 		mode=doc.Mode()
-		content=forPage
+#		content=forPage
 		selinf=doc.selection.GetInfo()		
 		if len(selinf)==0:
 			self.changeContent(forPage)
@@ -102,6 +103,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forGroup)
 				elif obj_type==SIMPLE_TEXT:
 					self.changeContent(forSimpleText)
+				elif obj_type==RECTANGLE:
+					self.changeContent(forRectangle)
 				elif obj_type==IMAGE:
 					self.changeContent(forImage)
 				else:
@@ -111,6 +114,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forGroup)
 				elif obj_type==SIMPLE_TEXT:
 					self.changeContent(forSimpleText)
+				elif obj_type==RECTANGLE:
+					self.changeContent(forRectangle)
 				elif obj_type==BEZIER:
 					self.changeContent(forNodes)
 				elif obj_type==IMAGE:
@@ -130,7 +135,7 @@ class ContexPanel(Publisher):
 			return BEZIER
 		if obj.is_Ellipse:
 			return ELLIPSE
-		if obj.is_Group:
+		if obj.is_Rectangle:
 			return RECTANGLE
 		if obj.is_SimpleText:
 			return SIMPLE_TEXT
@@ -140,4 +145,5 @@ class ContexPanel(Publisher):
 
 PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
-		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel, ImagePanel]
+		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel, ImagePanel,
+		RectanglePanel]
