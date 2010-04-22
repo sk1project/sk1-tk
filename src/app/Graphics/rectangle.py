@@ -63,7 +63,6 @@ class Rectangle(RectangularPrimitive):
 		return self.radius1, self.radius2
 
 	def SetTrafoAndRadii(self, trafo, radius1, radius2):	
-		print 'TRAFO >>>>>>>>',trafo	
 		undo = self.SetTrafoAndRadii, self.trafo, self.radius1, self.radius2
 		self.trafo = trafo
 		if radius1 <= 0 or radius2 <= 0:
