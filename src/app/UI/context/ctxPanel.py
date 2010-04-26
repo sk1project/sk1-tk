@@ -18,6 +18,7 @@ from jump_panel import JumpPanel
 from page_panel import PagePanel
 from image_panel import ImagePanel
 from rectangle_panel import RectanglePanel
+from ellipse_panel import EllipsePanel
 from group_panel import GroupPanel, CombinePanel, ToCurvePanel
 from text_prop_panel import TextPropPanel 
 from textalign_panel import TextAlignPanel 
@@ -44,6 +45,7 @@ forGroup=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'GroupPanel', 'C
 forNodes=['ResizePanel','UnitPanel', 'CombinePanel','NodeEditPanel']
 forImage=['ResizePanel','UnitPanel','FlipPanel', 'RotatePanel', 'ImagePanel']
 forRectangle=['ResizePanel', 'FlipPanel', 'RotatePanel', 'RectanglePanel', 'ToCurvePanel']
+forEllipse=['ResizePanel', 'FlipPanel', 'RotatePanel', 'EllipsePanel', 'ToCurvePanel']
 
 class ContexPanel(Publisher):
 	
@@ -104,7 +106,9 @@ class ContexPanel(Publisher):
 				elif obj_type==SIMPLE_TEXT:
 					self.changeContent(forSimpleText)
 				elif obj_type==RECTANGLE:
-					self.changeContent(forRectangle)
+					self.changeContent(forObject)
+				elif obj_type==ELLIPSE:
+					self.changeContent(forObject)
 				elif obj_type==IMAGE:
 					self.changeContent(forImage)
 				else:
@@ -116,6 +120,8 @@ class ContexPanel(Publisher):
 					self.changeContent(forSimpleText)
 				elif obj_type==RECTANGLE:
 					self.changeContent(forRectangle)
+				elif obj_type==ELLIPSE:
+					self.changeContent(forEllipse)
 				elif obj_type==BEZIER:
 					self.changeContent(forNodes)
 				elif obj_type==IMAGE:
@@ -146,4 +152,4 @@ class ContexPanel(Publisher):
 PanelList=[PagePanel, ResizePanel, GuidesPanel, RotatePanel, JumpPanel, 
 		TextPropPanel, TextAlignPanel, FlipPanel, UnitPanel, GroupPanel, 
 		FontPanel,CombinePanel, ToCurvePanel, NodeEditPanel, ImagePanel,
-		RectanglePanel]
+		RectanglePanel,EllipsePanel]
