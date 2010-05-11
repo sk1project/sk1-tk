@@ -224,7 +224,6 @@ CapProjecting	= X.CapProjecting
 # cursors
 
 CurStd		= 'top_left_arrow'
-CurStd1		= 'top_left_arrow'
 CurHandle	= 'crosshair'
 CurTurn		= 'exchange'
 CurPick		= 'hand2'
