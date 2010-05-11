@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2007 by Igor E. Novikov
+# Copyright (C) 2010 by Igor E. Novikov
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in root directory.
@@ -16,4 +16,5 @@ def sk1_run():
 	
 	import app
 	app.config.sk_command = sys.argv[0]
+#	print "MAIN"
 	app.main.main()
