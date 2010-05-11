@@ -29,6 +29,7 @@ class ModalDialog:
 
 		kw['class'] = self.class_name
 		top = apply(Toplevel, (master,), kw)
+		top.withdraw()
 		top.title(self.title)
 		top.transient(master)
 		top.group(master)
@@ -37,10 +38,10 @@ class ModalDialog:
 
 		self.top = top
 		self.build_dlg()
+		top.update()
 		mcx = master.winfo_rootx() + master.winfo_width()/ 2
 		mcy = master.winfo_rooty() + master.winfo_height() / 2
-		top.withdraw()
-		top.update()
+#		top.withdraw()
 		if self.width==0 and self.height==0:
 			width = top.winfo_reqwidth()
 			height = top.winfo_reqheight()
@@ -50,6 +51,7 @@ class ModalDialog:
 		posx = max(min(top.winfo_screenwidth() - width, mcx - width / 2), 0)
 		posy = max(min(top.winfo_screenheight() - height, mcy - height / 2), 0)
 		top.geometry('%dx%d%+d%+d' % (width, height, posx, posy))
+		top.update()
 		top.deiconify()
 
 		self.result = None
