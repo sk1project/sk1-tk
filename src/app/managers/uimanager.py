@@ -14,6 +14,7 @@ from sk1libs.utils import fs
 from app.conf import const
 from sk1sdk.libtk import Tkinter
 from sk1sdk.libtk.Tkinter import StringVar
+from sk1sdk import tkpng
 
 	
 class ColorTheme:
@@ -151,9 +152,7 @@ class UIManager:
 		setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir,'CurZoom.xbm'),'black'))
 		
 	def uploadExtentions(self):
-		self.root.tk.call('lappend', 'auto_path', os.path.join(app.config.sk_dir,'app'))
 		self.root.tk.call('lappend', 'auto_path', app.config.sk_themes)
-		self.root.tk.call('package', 'require', 'tkpng')
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')
 		self.root.tk.call('source', os.path.join(tcl,'combobox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'button.tcl'))
@@ -264,7 +263,7 @@ class UIManager:
 		icons=fs.get_files_tree(path)	
 		for icon in icons:
 			item=os.path.basename(icon)[:-4]
-			self.root.tk.call('image', 'create', 'photo', item, '-format', 'png', '-file', icon)
+			tkpng.load_icon(self.root, icon, item)
 			
 	def loadWidgetsElements(self):
 		elements=[]
