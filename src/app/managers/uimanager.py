@@ -249,7 +249,6 @@ class UIManager:
 		return fs.get_dirs(app.config.user_icons)
 
 	def loadIcons(self, iconset='CrystalSVG'):
-		icons=[]
 		if iconset=='CrystalSVG':
 			path=os.path.join(app.config.sk_icons, iconset)
 		else:
@@ -257,9 +256,7 @@ class UIManager:
 		if not os.path.isdir(path):
 			path=os.path.join(app.config.sk_icons, 'CrystalSVG')
 			#path=os.path.join(app.config.user_icons, self.getIconSets()[0])
-		self.load_icons(path)
-
-	def load_icons(self, path):
+			
 		icons=fs.get_files_tree(path)	
 		for icon in icons:
 			item=os.path.basename(icon)[:-4]

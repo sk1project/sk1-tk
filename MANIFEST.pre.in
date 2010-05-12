@@ -2,7 +2,6 @@ include MANIFEST.pre.in README setup.cfg
 include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
 include src/sk1
 include src/app/modules/descr.txt
-include src/app/modules/pkgIndex.tcl
 include src/app/VERSION
 
 recursive-include src/app/tcl *.tcl
