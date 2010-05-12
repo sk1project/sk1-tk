@@ -215,15 +215,6 @@ if __name__ == "__main__":
 			include_dirs=['/usr/include/cairo'],
 			libraries=['m', 'X11', 'cairo'])
 			
-# 	tkpng_src=src_path+'extentions/tkpng/'
-#	tkpng_module = Extension('sk1.app.modules.libtkpng',
-#			define_macros = [('MAJOR_VERSION', '0'),
-#						('MINOR_VERSION', '9')],
-#			sources = [tkpng_src+'tkImgPNG.c', tkpng_src+'tkImgPNGInit.c'],
-#			include_dirs = tcl_include_dirs,
-#			libraries=['tk'+tcl_ver, 'tcl'+tcl_ver, 'z'])
-
-			
 	setup (name = 'sK1',
 			version = '0.9.1pre',
 			description = 'Vector graphics editor for prepress',
