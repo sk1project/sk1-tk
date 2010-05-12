@@ -33,7 +33,7 @@
 #
 
 from distutils.core import setup, Extension
-import os, sys
+import os, sys, shutil
 ########################
 #
 # Main build procedure
@@ -116,20 +116,8 @@ def get_files_tree(path='.', ext='*'):
 
 
 
-def make_manifest():
-	proc = os.popen('cat MANIFEST.pre.in>MANIFEST.in')
-	proc.close()
-
-def file_scan(cat):
-	proc = os.popen("find "+cat+" -type f|grep -v \.svn|grep -v \.xvpics|grep -v \.py$|grep -v \.c$|sed 's/^/include /g'>>MANIFEST.in")
-	proc.close()
-
 if __name__ == "__main__":
 	print 'Source tree scan...'
-	make_manifest()
-	file_scan('src/share')
-	file_scan('src/extentions')
-	print 'MANIFEST.in is created'
 	dirs=get_dirs_tree('src/share')
 	share_dirs=[]
 	for item in dirs:

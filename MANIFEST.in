@@ -5,3 +5,5 @@ include src/app/modules/descr.txt
 include src/app/VERSION
 
 recursive-include src/app/tcl *.tcl
+recursive-include src/extentions *.*
+recursive-include src/share *.*
