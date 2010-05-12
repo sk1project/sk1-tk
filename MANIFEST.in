@@ -1,4 +1,4 @@
-include MANIFEST.pre.in README setup.cfg
+include MANIFEST.in README setup.cfg
 include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
 include src/sk1
 include src/app/modules/descr.txt
