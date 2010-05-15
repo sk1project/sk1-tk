@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preferences>
+	<name>'ClassicPlastik'</name>
 	<bg>'#959ba2'</bg>
 	<foreground>'#000000'</foreground>
 	<highlightbackground>'#ededed'</highlightbackground>
