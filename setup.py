@@ -273,6 +273,11 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 			},
 
 			scripts=['src/sk1'],
+			
+			data_files=[
+					('/usr/share/applications',['src/sk1.desktop',]),
+					('/usr/share/pixmaps',['src/sk1.png','src/sk1.xpm',]),
+					],
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module, pax_module])

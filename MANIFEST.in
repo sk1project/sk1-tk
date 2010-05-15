@@ -3,6 +3,7 @@ include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
 include src/sk1
 include src/app/modules/descr.txt
 include src/app/VERSION
+include src/sk1.desktop src/sk1.png src/sk1.xpm
 
 recursive-include src/app/tcl *.tcl
 recursive-include src/extentions *.*
