@@ -68,7 +68,7 @@ exportfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.S
 
 imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc.'),
 				 ('*.png', '*.PNG', '*.gif', '*.GIF', '*.jpg', '*.JPG', '*.jpeg', '*.JPEG', '*.tif', '*.TIF',
-				  '*.tiff', '*.TIFF', '*.gif', '*.GIF', '*.bmp', '*.BMP', '*.pcx', '*.PCX', '*.pbm', '*.PBM',
+				  '*.tiff', '*.TIFF', '*.bmp', '*.BMP', '*.pcx', '*.PCX', '*.pbm', '*.PBM',
 				  '*.pgm', '*.PGM', '*.ppm', '*.PPM', '*.eps', '*.EPS')),
 				(_('Portable Network Graphics files - *.png'),('*.png', '*.PNG')),
 				(_('Encapsulated PostScript files - *.eps'),('*.eps', '*.EPS')),
@@ -83,7 +83,7 @@ imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.
 				(_('Portable Pixmap files - *.ppm'),('*.ppm', '*.PPM')),
 				(_("All Files"),	 '*.*'))
 
-palette_types = ((_("sK1 xml palette"), ('*.skp', '*.SKP')),
+palette_types = ((_("sK1 color swatch palette"), ('*.skp', '*.SKP')),
 				(_("All Files"),	 '*'))
 
 pdf_types = ((_("Portable Document Format (PDF 1.5) - *.pdf"), ('*.pdf', '*.PDF')),
