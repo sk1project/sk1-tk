@@ -15,6 +15,7 @@ class TreeNode:
 		self.item = item
 		self.state = 'collapsed'
 		self.selected = False
+		self.edited = False
 		self.children = []
 		self.colortheme =colortheme
 		self.x = self.y = None
@@ -276,6 +277,9 @@ class TreeNode:
 			self.select(event)
 
 	def edit(self, event=None):
+		if self.edited:
+			return
+		self.edited = True
 		self.entry = Entry(self.label, bd=0, highlightthickness=1, width=0)
 		self.entry.insert(0, self.label['text'])
 		self.entry.selection_range(0, END)
@@ -288,6 +292,7 @@ class TreeNode:
 		try:
 			entry = self.entry
 			del self.entry
+			self.edited = False
 		except AttributeError:
 			return
 		text = entry.get()
@@ -303,6 +308,7 @@ class TreeNode:
 		try:
 			entry = self.entry
 			del self.entry
+			self.edited = False
 		except AttributeError:
 			return
 		entry.destroy()
