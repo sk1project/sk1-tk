@@ -6,145 +6,28 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import app, os, string, math
-from xml.sax import handler
-import xml.sax
-from xml.sax.xmlreader import InputSource
-from app.conf.configurator import XMLPrefReader, ErrorHandler, EntityResolver, DTDHandler
-from sk1libs.utils import fs
 from app.conf import const
 from sk1sdk.libtk import Tkinter
-from sk1sdk.libtk.Tkinter import StringVar
-from sk1sdk import tkpng
+from sk1sdk import tkstyle
 
-	
-class ColorTheme:
-	bg ='#d4d0c8'
-	foreground ='#000000'
-	highlightbackground ='#f3f2ef'
-	highlightcolor ='#b0ada5'
-	disabledforeground ='#b0ada6'
-	selectbackground ='#002468'
-	selectforeground ='#ffffff'
-	
-	menubackground='#dedad2'
-	menuforeground='#000000'
-	menuselectbackground='#002468'
-	menuselectforeground='#ffffff'
-	menudisabledforeground='#b0ada6'
-	menubordercolor='#7e7b77'
-	
-	editfieldbackground='#ffffff'
-	editfieldforeground='#000000'
-	treelinescolor='#000000'
-	
-	evencolor='#f0f0f0'
-	
-	name='built-in'
-	
-	def __init__(self, colorTheme=None):
-		self.name=colorTheme
-		if colorTheme=='built-in':
-			return
-		if colorTheme and os.path.isfile(os.path.join(app.config.user_color_themes, self.name+'.xml')):
-			self.load(os.path.join(app.config.user_color_themes, self.name+'.xml'))	
-		else:
-			self.name='System'
-					
-	def load(self, filename=None):
-		if filename:
-			content_handler = XMLPrefReader(pref=self)
-			error_handler = ErrorHandler()
-			entity_resolver = EntityResolver()
-			dtd_handler = DTDHandler()
-			try:
-				input = open(filename, "r")
-				input_source = InputSource()
-				input_source.setByteStream(input)
-				xml_reader = xml.sax.make_parser()
-				xml_reader.setContentHandler(content_handler)
-				xml_reader.setErrorHandler(error_handler)
-				xml_reader.setEntityResolver(entity_resolver)
-				xml_reader.setDTDHandler(dtd_handler)
-				xml_reader.parse(input_source)
-				input.close
-			except:
-				import traceback
-				traceback.print_exc()
-				raise
-				self.name=None
-		if self.menubackground is None:
-			self.menubackground=self.bg
-		if self.menuforeground is None:
-			self.menuforeground=self.foreground
-		if self.menuselectbackground is None:
-			self.menuselectbackground=self.selectbackground
-		if self.menuselectforeground is None:
-			self.menuselectforeground=self.selectforeground
-		if self.menudisabledforeground is None:
-			self.menudisabledforeground=self.disabledforeground
-		if self.menubordercolor is None:
-			self.menubordercolor=self.disabledforeground
-		if self.editfieldbackground is None:
-			self.editfieldbackground='#ffffff'
-		if self.editfieldforeground is None:
-			self.editfieldforeground=self.foreground
-		if self.evencolor is None:
-			self.evencolor=self.highlightbackground		
-		if self.treelinescolor is None:
-			self.treelinescolor=self.editfieldforeground	
-							
-	def correctColor(self):
-		self.disabledforeground=self.recalc(self.foreground, self.bg, 0.7)
-		if self.menudisabledforeground is None:
-			self.menudisabledforeground=self.disabledforeground
-		if self.menubordercolor is None:
-			self.menubordercolor=self.disabledforeground
-				
-	def recalc(self, dark, light, factor):
-		r=int(string.atoi(dark[1:3], 0x10)+string.atoi(light[1:3], 0x10))*factor
-		g=int(string.atoi(dark[3:5], 0x10)+string.atoi(light[3:5], 0x10))*factor
-		b=int(string.atoi(dark[5:], 0x10)+string.atoi(light[5:], 0x10))*factor
-		return '#%02X%02X%02X'%(r,g,b)
 	
 class UIManager:
 	currentColorTheme=None
-	systemColorTheme=None
-	currentIconSet=None
 	root=None
 	
-	small_font=''
-	normal_font=''
-	large_font=''	
+	style=None	
 
 	def __init__(self, root=None):
 		if not root:
 			self.root = Tkinter._default_root
 		else:
 			self.root=root
-		self.initGlobalVariables()
-		self.createTestWidgets()
-		self.systemColorTheme=ColorTheme()
-		self.getSystemColors()
-		self.setColorTheme(app.config.preferences.color_theme)
-		self.setFonts()
+		
+		self.style=tkstyle.get_system_style(root)
+		self.currentColorTheme=self.style.colors		
+		tkstyle.set_style(root, self.style)
 		self.uploadExtentions()
-		self.loadIcons()
-		self.loadIcons(app.config.preferences.icons)
-		self.resetTile()
 		self.defineCursors()
-		
-	def initGlobalVariables(self):
-		self.sk1_bg = StringVar(self.root, name='sk1_bg')
-		self.sk1_fg = StringVar(self.root, name='sk1_fg')
-		self.sk1_highlightbg = StringVar(self.root, name='sk1_highlightbg')
-		self.sk1_highlightcolor = StringVar(self.root, name='sk1_highlightcolor')
-		self.sk1_disabledfg = StringVar(self.root, name='sk1_disabledfg')
-		self.sk1_selectbg = StringVar(self.root, name='sk1_selectbg')
-		self.sk1_selectfg= StringVar(self.root, name='sk1_selectfg')
-		
-		self.sk1_txtsmall= StringVar(self.root, name='sk1_txtsmall')
-		self.sk1_txtnormal= StringVar(self.root, name='sk1_txtnormal')
-		self.sk1_txtlarge= StringVar(self.root, name='sk1_txtlarge')
 		
 	def defineCursors(self):
 		cur_dir=os.path.join(app.config.sk_share_dir,'cursors')
@@ -152,7 +35,6 @@ class UIManager:
 		setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir,'CurZoom.xbm'),'black'))
 		
 	def uploadExtentions(self):
-		self.root.tk.call('lappend', 'auto_path', app.config.sk_themes)
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')
 		self.root.tk.call('source', os.path.join(tcl,'combobox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'button.tcl'))
@@ -160,74 +42,6 @@ class UIManager:
 		self.root.tk.call('source', os.path.join(tcl,'tkfbox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'repeater.tcl'))
 		self.root.tk.call('source', os.path.join(tcl,'launch_dialog.tcl'))
-	
-	def createTestWidgets(self):
-		self.testEntry = Tkinter.Entry(self.root, name='testEntry')
-		self.testSmallLabel = Tkinter.Label(self.root, name='testSmallLabel', text='small')
-		self.testNormalLabel = Tkinter.Label(self.root, name='testNormalLabel', text='normal')
-		self.testLargeLabel = Tkinter.Label(self.root, name='testLargeLabel', text='large')
-		
-	def getSystemColors(self):
-		self.systemColorTheme.bg=self.testEntry.cget('bg')
-		self.systemColorTheme.foreground=self.testEntry.cget('foreground')
-		self.systemColorTheme.highlightbackground=self.testEntry.cget('highlightbackground')
-		self.systemColorTheme.highlightcolor=self.testEntry.cget('highlightcolor')
-		self.systemColorTheme.disabledforeground=self.testEntry.cget('disabledforeground')
-		self.systemColorTheme.selectbackground=self.testEntry.cget('selectbackground')
-		self.systemColorTheme.selectforeground=self.testEntry.cget('selectforeground')
-		
-		self.systemColorTheme.menubackground = self.systemColorTheme.bg
-		self.systemColorTheme.menuforeground = self.systemColorTheme.foreground
-		self.systemColorTheme.menuselectbackground = self.systemColorTheme.selectbackground
-		self.systemColorTheme.menuselectforeground = self.systemColorTheme.selectforeground
-
-		self.systemColorTheme.editfieldbackground='#ffffff'
-		self.systemColorTheme.editfieldforeground=self.systemColorTheme.foreground
-		self.systemColorTheme.evencolor='#F0F0F0'	
-		self.systemColorTheme.treelinescolor=self.systemColorTheme.editfieldforeground
-		
-		self.systemColorTheme.correctColor()
-		
-	def refreshColors(self):
-		self.sk1_bg.set(self.currentColorTheme.bg)
-		self.sk1_fg.set(self.currentColorTheme.foreground)
-		self.sk1_highlightbg.set(self.currentColorTheme.highlightbackground)
-		self.sk1_highlightcolor.set(self.currentColorTheme.highlightcolor)
-		self.sk1_disabledfg.set(self.currentColorTheme.disabledforeground)
-		self.sk1_selectbg.set(self.currentColorTheme.selectbackground)
-		self.sk1_selectfg.set(self.currentColorTheme.selectforeground)
-			
-		if not self.currentColorTheme.name=='System':
-			self.root.tk.call('tk_setPalette', self.currentColorTheme.bg)
-					
-		self.root.tk.call('option', 'add', '*background', self.currentColorTheme.bg, 'interactive')
-		self.root.tk.call('option', 'add', '*foreground', self.currentColorTheme.foreground, 'interactive')
-		self.root.tk.call('option', 'add', '*selectForeground', self.currentColorTheme.selectforeground, 'interactive')
-		self.root.tk.call('option', 'add', '*selectBackground', self.currentColorTheme.selectbackground, 'interactive')
-		self.root.tk.call('option', 'add', '*highlightBackground', self.currentColorTheme.highlightbackground, 'interactive')
-		self.root.tk.call('option', 'add', '*highlightColor', self.currentColorTheme.highlightcolor, 'interactive')
-		
-		self.root.tk.call('option', 'add', '*highlightThickness', '0', 'interactive')
-		self.root.tk.call('option', 'add', '*borderWidth', '0', 'interactive')		
-		
-	
-	def setColorTheme(self, theme_name='System'):
-		if theme_name=='System':
-			self.currentColorTheme=self.systemColorTheme
-		else:
-			self.currentColorTheme=ColorTheme(app.config.preferences.color_theme)
-			if self.currentColorTheme.name=='System':
-				self.currentColorTheme=self.systemColorTheme			
-		self.refreshColors()
-	
-	def getColorThemes(self):
-		result=[]
-		for item in fs.get_files(app.config.user_color_themes, 'xml'):
-			result.append(item[:-4])	
-		return result
-	
-	def getStyles(self):
-		return fs.get_dirs(app.config.sk_themes)
 		
 	def setApplicationIcon(self, icon='icon_sk1_16', iconname='sK1'):
 		self.root.iconname(iconname)
@@ -236,39 +50,6 @@ class UIManager:
 	def maximizeApp(self):
 		self.root.tk.call('wm', 'attributes', self.root, '-zoomed', 1)	
 	
-	def resetTile(self):
-		self.root.tk.call('ttk::setTheme', app.config.preferences.style)
-		
-	def setFonts(self):
-		self.root.tk.call('option', 'add', '*font', app.config.preferences.normal_font )
-		self.sk1_txtsmall.set(app.config.preferences.small_font)
-		self.sk1_txtnormal.set(app.config.preferences.normal_font)
-		self.sk1_txtlarge.set(app.config.preferences.large_font)
-		
-	def getIconSets(self):
-		return fs.get_dirs(app.config.user_icons)
-
-	def loadIcons(self, iconset='CrystalSVG'):
-		if iconset=='CrystalSVG':
-			path=os.path.join(app.config.sk_icons, iconset)
-		else:
-			path=os.path.join(app.config.user_icons, iconset)
-		if not os.path.isdir(path):
-			path=os.path.join(app.config.sk_icons, 'CrystalSVG')
-			#path=os.path.join(app.config.user_icons, self.getIconSets()[0])
-			
-		icons=fs.get_files_tree(path)	
-		for icon in icons:
-			item=os.path.basename(icon)[:-4]
-			tkpng.load_icon(self.root, icon, item)
-			
-	def loadWidgetsElements(self):
-		elements=[]
-		path=os.path.join(app.config.sk_themes, app.config.preferences.style, 'widgets')
-		elements=fs.get_files_withpath(path,'png')
-		for element in elements:
-			item=os.path.basename(element)[:-4]
-			self.root.tk.call('image', 'create', 'photo', item, '-format', 'png', '-file', element)		
 		
 		
 		
