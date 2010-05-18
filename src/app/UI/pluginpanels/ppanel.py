@@ -44,9 +44,10 @@ class PluginPanel(TFrame,Publisher):
 		self.top.pack(side=TOP, fill=X)
 		self.panel.pack(side=TOP, fill=BOTH, expand=1)
 		
-		font=app.config.preferences.normal_font+' bold'
 		self.iconlabel=TLabel(self.top, style='PWLabel', image=self.icon)
-		self.textlabel=TLabel(self.top, style='PWLabel', text=self.title, anchor=W, font=font)
+		self.textlabel=TLabel(self.top, style='PWLabel', text=self.title, anchor=W)
+		if not 'bold' in self.textlabel['font'].split():
+			self.textlabel['font']+=' bold'
 		self.closebut=TButton(self.top, style='PWButton', image='close_pw', command=self.close_panel)
 		self.collapsebut=TButton(self.top, style='PWButton', image='minimize_pw', command=self.collapse_panel)
 		self.iconlabel.pack(side=LEFT, padx=2)
