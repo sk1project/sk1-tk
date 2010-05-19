@@ -14,7 +14,7 @@ def get_sketch_modules():
 	# return the sketch specific modules that are already imported.
 	# Sketch specific means that the module comes from a file below the
 	# sketch directory or that it has a name starting with "Sketch.".
-	sketch_dir = app.config.sketch_dir
+	sketch_dir = app.config.sk_dir
 	if sketch_dir[-1] != '/':
 		sketch_dir = sketch_dir + '/'
 	sketch_dir = os.path.normpath(os.path.abspath(sketch_dir))

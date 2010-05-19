@@ -16,8 +16,7 @@ from app import config
 from app.events.warn import warn, USER
 
 
-_canvas = ['TurnTL', 'TurnTR', 'TurnBL', 'TurnBR', 'Center',
-				'ShearLR', 'ShearUD']
+_canvas = ['TurnTL', 'TurnTR', 'TurnBL', 'TurnBR', 'Center', 'ShearLR', 'ShearUD']
 _canvas_dir=''
 
 
