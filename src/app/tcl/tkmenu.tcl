@@ -82,20 +82,12 @@
 # and menubuttons.
 #-------------------------------------------------------------------------
 
-bind TMenubutton <FocusIn> {
-	%W configure -state active
-}
-
-bind TMenubutton <FocusOut> {
-	%W configure -state normal
-}
-
+bind Menubutton <FocusIn> {}
 bind Menubutton <Enter> {
     tk::MbEnter %W
 }
-bind TMenubutton <Leave> {
+bind Menubutton <Leave> {
     tk::MbLeave %W
-    %W configure -state normal
 }
 bind Menubutton <1> {
     if {$tk::Priv(inMenubutton) ne ""} {
@@ -272,9 +264,8 @@ proc ::tk::MbPost {w {x {}} {y {}}} {
     set Priv(relief) [$w cget -relief]
     #$w configure -cursor arrow
     #$w configure -relief raised
-    #$w configure -bg [$w cget -activebackground]
-    #$w configure -fg [$w cget -activeforeground]
-    $w configure -style "RootMenuButtonPressed"
+    $w configure -bg [$w cget -activebackground]
+    $w configure -fg [$w cget -activeforeground]
 
     set Priv(postedMb) $w
     set Priv(focus) [focus]
