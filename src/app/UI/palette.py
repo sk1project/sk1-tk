@@ -273,7 +273,7 @@ class UniversalPalette:
 		if file and os.path.isfile(file):
 			self.file=file
 		else:
-			self.file=os.path.join(config.user_palettes, config.preferences.unipalette)
+			self.file=os.path.join(config.sk_palettes, config.preferences.unipalette)
 		self.loadPalette(self.file)
 		
 	def loadPalette(self, file=None):
