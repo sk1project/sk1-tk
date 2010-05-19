@@ -46,7 +46,6 @@ class Configurator:
 			prefs.load(self.user_preferences_file)
 			if prefs.sk1_version==sKVersion:
 				self.preferences=prefs
-				print 'correct config!'
 			else:
 				self.preferences = Preferences()
 				self.preferences.sk1_version = sKVersion

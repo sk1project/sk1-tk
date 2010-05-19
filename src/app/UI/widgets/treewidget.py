@@ -162,7 +162,6 @@ class TreeNode:
 		cylast = 0
 		for child in self.children:
 			cylast = cy
-			print x+self.halfvspace, cy+self.halfvspace, cx, cy+self.halfvspace
 			self.canvas.create_line(x+self.halfvspace, cy+self.halfvspace, cx, cy+self.halfvspace, 
 								fill=self.colortheme.treelinescolor, stipple="gray50")
 			cy = child.draw(cx, cy)
