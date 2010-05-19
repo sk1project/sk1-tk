@@ -11,7 +11,7 @@ from xml.sax import handler
 from app.events import connector
 from const import CHANGED
 from sk1libs.utils.fs import gethome
-from app import Point, PointType
+from app import Point, PointType, sKVersion
 
 class Configurator:
 	"""Configuration class configs sK1 and loads preferences at start up."""
@@ -23,57 +23,45 @@ class Configurator:
 		self.sk_dir = base_dir
 		self.sk_share_dir = os.path.join(self.sk_dir,'share')
 		self.sk_palettes = os.path.join(self.sk_share_dir,'palettes')
-		self.sk_themes = os.path.join(self.sk_share_dir,'ttk-themes')
-		self.sk_fonts = os.path.join(self.sk_share_dir,'fonts')
-		self.sk_plugins = os.path.join(self.sk_share_dir,'plugins')
 		self.sk_ps = os.path.join(self.sk_share_dir,'ps_templates')
-		self.sk_color_themes = os.path.join(self.sk_share_dir,'color_themes')
-		self.sk_icons = os.path.join(self.sk_share_dir,'icons')
 		
 		self.user_home_dir = gethome()
 		self.user_config_dir = os.path.join(self.user_home_dir,'.sK1')
 		self.user_palettes = os.path.join(self.user_config_dir,'palettes')
 		self.user_themes = os.path.join(self.user_config_dir,'themes')
-		self.restore_theme = 0
 		self.user_icc = os.path.join(self.user_config_dir,'icc')
 		self.user_fonts = os.path.join(self.user_config_dir,'fonts')
 		self.user_plugins = os.path.join(self.user_config_dir,'plugins')
-		self.user_ps = os.path.join(self.user_config_dir,'ps_templates')
 		self.user_color_themes = os.path.join(self.user_config_dir,'color_themes')
 		self.user_icons = os.path.join(self.user_config_dir,'icons')
 		
 		self.plugin_path = []  # Directories where sK1 searches for plugins. The expanded plugin_dir is appended to this
-		self.filters_dir = os.path.join(self.sk_dir,'app/plugins/Filters/')  # Subdirectory for i/o filters
-		self.plugins_dir = os.path.join(self.sk_dir,'app/plugins/Objects/')  # Subdirectory for plugins
-		self.plugin_path.append(self.plugins_dir)
-		self.plugin_path.append(self.filters_dir)
-		self.plugin_path.append(self.user_plugins)
 
 		self.user_preferences_file = os.path.join(self.user_config_dir, 'preferences.xml')
 		
-		#print 'Self testing\n=========================================='
-		self.check_sk_dir()
+		#============USER CONFIG==================='
 		self.check_user_config()
-		self.preferences = Preferences()
-		self.preferences.load(self.user_preferences_file)
-		#print '=========================================='
-		if self.restore_theme:
-			self.preferences.active_theme = 'Plastik'
-
+		if os.path.isfile(self.user_preferences_file):
+			prefs=Preferences()
+			prefs.load(self.user_preferences_file)
+			if prefs.sk1_version==sKVersion:
+				self.preferences=prefs
+				print 'correct config!'
+			else:
+				self.preferences = Preferences()
+				self.preferences.sk1_version = sKVersion
+		else:
+			self.preferences = Preferences()
+			self.preferences.sk1_version = sKVersion
+			
 		#===============DEPRECATED VARIABLES===============
-		self.font_path = [os.path.join(self.user_fonts,'type1'), self.user_config_dir]  # Directories where pfa/pfb files are located. The expanded fontmetric_dir is appended to this.
-		self.sketch_dir = base_dir  # The directory where sketch and its modules are found. Set automagically from __init__.py of the Sketch package
 		self.std_res_dir = os.path.join(self.sk_dir,'share/resources')  
 		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
-		self.fontmetric_dir = self.user_fonts  # Subdirectory for the font metrics. On startup it is expanded to an absolute pathname.
-		self.postscript_prolog = os.path.join(self.user_config_dir, 'ps_templates/sk1-proc.ps')  # PostScript Prolog.
+		self.postscript_prolog = os.path.join(self.sk_ps, 'sk1-proc.ps')  # PostScript Prolog.
 		#============================================
 		
 	def save_user_preferences(self):
 		self.preferences.save(self.user_preferences_file)
-		
-	#def add_program_default(self,key, value):
-		#setattr(configurato.ProgramDefaults, key, value)
 	
 	def get_preference(self,key, default):
 		if hasattr(self.preferences, key):
@@ -98,49 +86,26 @@ class Configurator:
 			if len(mru_list) < 4:
 				mru_list = mru_list + ['', '', '', '']
 			self.preferences.mru_files = mru_list[:4]
-		
-	def check_sk_dir(self):
-		result = True		
-		dirs = (self.sk_share_dir, self.sk_palettes, self.sk_themes, self.sk_fonts,
-				self.sk_plugins, self.sk_ps, self.sk_color_themes, self.sk_icons)
-		for dir in dirs:
-			if not os.path.isdir(dir): result = False			
-		if not result:
-			print 'sK1 installation is corrupted. Please check sK1 directories or reinstall sK1!'
-			sys.exit(1)
 			
 	def check_user_config(self):
-		#print 'sK1 user config test...         ',
-		result = True
 		if not os.path.isdir(self.user_config_dir):
-			result = False
 			try:
 				os.mkdir(self.user_config_dir, 0777)
 			except (IOError, os.error), value:
-				sys.stderr('cannot write preferences into %s.' % user_config_dir)
+				sys.stderr('Cannot write preferences into %s.' % user_config_dir)
 				sys.exit(1)
 		if not os.path.isdir(self.user_palettes):
-			result = False
-			os.system("ln -s "+self.sk_palettes+" "+self.user_palettes)
+			os.mkdir(self.user_palettes, 0777)
 		if not os.path.isdir(self.user_themes):
-			result = False
-			self.restore_theme = 1
-			os.system("ln -s "+self.sk_themes+" "+self.user_themes)	
+			os.mkdir(self.user_themes, 0777)	
 		if not os.path.isdir(self.user_fonts):
-			result = False
-			os.system("ln -s "+self.sk_fonts+" "+self.user_fonts)
+			os.mkdir(self.user_fonts, 077)
 		if not os.path.isdir(self.user_plugins):
-			result = False
-			os.system("ln -s "+self.sk_plugins+" "+self.user_plugins)
-		if not os.path.isdir(self.user_ps):
-			result = False
-			os.system("ln -s "+self.sk_ps+" "+self.user_ps)
+			os.mkdir(self.user_plugins, 077)
 		if not os.path.isdir(self.user_color_themes):
-			result = False
-			os.system("ln -s "+self.sk_color_themes+" "+self.user_color_themes)
+			os.mkdir(self.user_color_themes, 077)
 		if not os.path.isdir(self.user_icons):
-			result = False
-			os.system("ln -s "+self.sk_icons+" "+self.user_icons)
+			os.mkdir(self.user_icons, 077)
 
 		
 		
@@ -181,7 +146,6 @@ class Preferences(connector.Publisher):
 		try:
 			file = open(filename, 'w')
 		except (IOError, os.error), value:
-			import sys
 			sys.stderr('cannot write preferences into %s: %s'% (`filename`, value[1]))
 			return
 	
@@ -209,7 +173,7 @@ class Preferences(connector.Publisher):
 		file.close		
 	
 	#============== sK1 PREFERENCES ===================
-
+	sk1_version = ''
 	undo_limit = None	#how many undo steps sketch remembers. None means unlimited.
 	system_encoding = 'utf-8'	# default encoding for sK1 (GUI uses utf-8 only)
 	
