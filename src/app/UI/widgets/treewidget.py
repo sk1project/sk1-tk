@@ -20,7 +20,7 @@ class TreeNode:
 		self.colortheme =colortheme
 		self.x = self.y = None
 		self.vspace=vspace
-		self.halfvspace=round(self.vspace/2)
+		self.halfvspace=int(round(self.vspace/2))
 		self.evenodd=0
 		if not self.parent:
 			self.canvas.bind('<Configure>',self.reconfig)
@@ -162,6 +162,7 @@ class TreeNode:
 		cylast = 0
 		for child in self.children:
 			cylast = cy
+			print x+self.halfvspace, cy+self.halfvspace, cx, cy+self.halfvspace
 			self.canvas.create_line(x+self.halfvspace, cy+self.halfvspace, cx, cy+self.halfvspace, 
 								fill=self.colortheme.treelinescolor, stipple="gray50")
 			cy = child.draw(cx, cy)
