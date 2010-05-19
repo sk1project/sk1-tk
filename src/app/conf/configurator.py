@@ -63,7 +63,7 @@ class Configurator:
 		#===============DEPRECATED VARIABLES===============
 		self.font_path = [os.path.join(self.user_fonts,'type1'), self.user_config_dir]  # Directories where pfa/pfb files are located. The expanded fontmetric_dir is appended to this.
 		self.sketch_dir = base_dir  # The directory where sketch and its modules are found. Set automagically from __init__.py of the Sketch package
-		self.std_res_dir = os.path.join(self.sk_dir,'share/palettes')  
+		self.std_res_dir = os.path.join(self.sk_dir,'share/resources')  
 		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
 		self.fontmetric_dir = self.user_fonts  # Subdirectory for the font metrics. On startup it is expanded to an absolute pathname.
 		self.postscript_prolog = os.path.join(self.user_config_dir, 'ps_templates/sk1-proc.ps')  # PostScript Prolog.
