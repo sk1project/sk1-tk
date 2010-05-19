@@ -88,24 +88,29 @@ class Configurator:
 			self.preferences.mru_files = mru_list[:4]
 			
 	def check_user_config(self):
-		if not os.path.isdir(self.user_config_dir):
+		if not os.path.isdir(self.user_config_dir):			
 			try:
 				os.mkdir(self.user_config_dir, 0777)
 			except (IOError, os.error), value:
 				sys.stderr('Cannot write preferences into %s.' % user_config_dir)
 				sys.exit(1)
-		if not os.path.isdir(self.user_palettes):
-			os.mkdir(self.user_palettes, 0777)
-		if not os.path.isdir(self.user_themes):
-			os.mkdir(self.user_themes, 0777)	
-		if not os.path.isdir(self.user_fonts):
-			os.mkdir(self.user_fonts, 077)
-		if not os.path.isdir(self.user_plugins):
-			os.mkdir(self.user_plugins, 077)
-		if not os.path.isdir(self.user_color_themes):
-			os.mkdir(self.user_color_themes, 077)
-		if not os.path.isdir(self.user_icons):
-			os.mkdir(self.user_icons, 077)
+		dirs=[
+			self.user_palettes,
+			self.user_themes,
+			self.user_fonts,
+			self.user_plugins,
+			self.user_color_themes,
+			self.user_icons,
+			]
+		
+		for item in dirs:
+			self.check_config_subdir(item)
+			
+	def check_config_subdir(self,path):
+		if os.path.islink(path) or os.path.isfile(path):
+			os.rename(path, '%s~'%path )
+		if not os.path.isdir(path):	
+			os.mkdir(path, 0777)
 
 		
 		
