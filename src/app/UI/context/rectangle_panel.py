@@ -46,8 +46,8 @@ class RectanglePanel(CtxSubPanel):
 	def Update(self, *arg):
 		obj=self.mw.document.CurrentObject()
 		if obj and obj.is_Rectangle:
-			self.entry_radius1.set_value(obj.radius1 * 200.)
-			self.entry_radius2.set_value(obj.radius2 * 200.)
+			self.entry_radius1.set_value(round(obj.radius1 * 200., 2))
+			self.entry_radius2.set_value(round(obj.radius2 * 200., 2))
 		
 	def applyRadius1(self, *arg):
 		trafo = self.mw.document.CurrentObject().trafo
