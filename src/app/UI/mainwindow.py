@@ -625,7 +625,7 @@ class sK1MainWindow(Publisher):
 					outline_frame["style"]='ColorWatchDisabled'
 					fill_frame['background']=app.uimanager.currentColorTheme.bg
 					outline_frame['background']=app.uimanager.currentColorTheme.bg
-					return _("")
+					return ""
 					
 				properties = self.document.CurrentProperties()
 				filltxt=''
