@@ -113,7 +113,6 @@ def get_files_tree(path='.', ext='*'):
 	dirs=[path,]	
 	dirs+=get_dirs_tree(path)
 	for dir in dirs:
-		print dir
 		list = get_files_withpath(dir,ext)
 		list.sort()
 		tree+=list
@@ -121,11 +120,11 @@ def get_files_tree(path='.', ext='*'):
 
 def build_po_resource():
 	files=get_files_tree('src','py')
-	res=open('locale.in','w')
+	res=open('messages/locale.in','w')
 	for file in files:
 		res.write(file+'\n')
-		
-#	os.system('xgettext -f locale.in -L Python -p messages')
+	res.close()	
+	os.system('xgettext -f messages/locale.in -L Python -p messages 2>messages/warnings.log')
 	sys.exit(0)
 
 
