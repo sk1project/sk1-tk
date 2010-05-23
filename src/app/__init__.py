@@ -25,28 +25,15 @@ dir = os.path.join(_parentdir, 'app/modules')
 if os.path.isdir(dir):
 	sys.path.insert(1, dir)
 
-message_dir = os.path.join(sys.path[0], 'Resources/Messages')
-try:
-	from intl import gettext, dgettext, bindtextdomain
-	import intl, locale
-	try:
-		locale.setlocale(locale.LC_ALL, "")
-	except:
-		# if we can't set the locale we might not be able to get
-		# properly translated messages
-		print "Can't set locale." \
-				" Please check your LANG and LC_* environment variables"
-	intl.textdomain("sketch")
-	bindtextdomain("sketch", message_dir)
-except ImportError:
-	def gettext(text):
-		return text
-	def dgettext(domain, text):
-		return text
-	def bindtextdomain(*args):
-		pass
-_ = gettext
 
+#-----------LOCALIZATION-------------------
+import gettext
+message_dir = os.path.join(_parentdir,'share', 'locales')
+if os.path.lexists(message_dir):	
+	gettext.bindtextdomain('sk1', message_dir)
+	gettext.textdomain('sk1')
+_ = gettext.gettext
+#-------------------------------------------
 
 import main
 from conf import const
