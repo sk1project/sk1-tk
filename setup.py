@@ -129,12 +129,21 @@ def build_po_resource():
 	res.close()	
 	os.system('xgettext -f messages/locale.in -L Python -p messages 2>messages/warnings.log')
 	sys.exit(0)
+	
+def generate_locales():
+	files=get_files('locales','po')
+	if len(files):
+		for file in files:
+			print file
+		
 
 
 if __name__ == "__main__":
 	
 	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
 		build_po_resource()
+		
+	generate_locales()
 
 	from distutils.core import setup, Extension
 	print 'Source tree scan...'

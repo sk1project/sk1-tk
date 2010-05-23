@@ -8,3 +8,5 @@ include src/sk1.desktop src/sk1.png src/sk1.xpm
 recursive-include src/app/tcl *.tcl
 recursive-include src/extentions *.*
 recursive-include src/share *.*
+
+recursive-include locales *.*
