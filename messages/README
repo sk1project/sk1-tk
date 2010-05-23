@@ -1,0 +1,3 @@
+The folder is used for localization resources. To generate .po file, just run:
+
+python setup.py build_locale
