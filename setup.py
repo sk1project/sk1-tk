@@ -134,16 +134,21 @@ def generate_locales():
 	files=get_files('locales','po')
 	if len(files):
 		for file in files:
-			print file
-		
+			lang=file.split('.')[0]	
+			po_file=os.path.join('locales',file)		
+			mo_file=os.path.join('src','share','locales',lang,'LC_MESSAGES','sk1.mo')
+			if not os.path.lexists(os.path.join('src','share','locales',lang,'LC_MESSAGES')):
+				os.makedirs(os.path.join('src','share','locales',lang,'LC_MESSAGES'))
+			os.system('msgfmt -o '+mo_file+' '+po_file)		
 
 
 if __name__ == "__main__":
 	
 	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
 		build_po_resource()
-		
-	generate_locales()
+	
+	if len(sys.argv)>1 and not sys.argv[1]=='sdist':	
+		generate_locales()
 
 	from distutils.core import setup, Extension
 	print 'Source tree scan...'
