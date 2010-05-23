@@ -26,8 +26,11 @@
 #  to create source distribution:   python setup.py sdist
 # --------------------------------------------------------------------------
 #  to create binary RPM distribution:  python setup.py bdist_rpm
-#
+# --------------------------------------------------------------------------
 #  to create deb package just use alien command (i.e. rpm2deb)
+# --------------------------------------------------------------------------
+#  to create localization .po file: python setup.py build_locale (Linux only)
+# --------------------------------------------------------------------------
 #
 #  help on available distribution formats: python setup.py bdist --help-formats
 #
