@@ -19,6 +19,8 @@ from app import _, config, Point
 from app.conf import const
 import app
 
+ABSOLUTE = 'Absolute'
+RELATIVE = 'Relative'
 
 from app.UI.pluginpanels.ppanel import PluginPanel
 
@@ -54,7 +56,7 @@ class MovePanel(PluginPanel):
 		self.var_height_base.set(0)
 		
 		self.var_position = StringVar(root)
-		self.var_position.set('Аbsolute')
+		self.var_position.set(ABSOLUTE)
 		
 		self.var_basepoint = StringVar(root)
 		self.var_basepoint.set('C')
@@ -93,8 +95,8 @@ class MovePanel(PluginPanel):
 		#---------------------------------------------------------
 		# position chek
 		
-		self.position_check = TCheckbutton(top, text = _("Аbsolute Coordinates"), variable = self.var_position,
-												onvalue='Аbsolute', offvalue='Relative', command = self.position)
+		self.position_check = TCheckbutton(top, text = _("Absolute Coordinates"), variable = self.var_position,
+												onvalue=ABSOLUTE, offvalue=RELATIVE, command = self.position)
 		self.position_check.pack(side = TOP, anchor=W, padx=5,pady=5)
 		
 		#---------------------------------------------------------
@@ -165,7 +167,7 @@ class MovePanel(PluginPanel):
 		self.Update()
 
 	def position(self):
-		if self.var_position.get()=='Аbsolute' and self.var_basepoint.get()=='USER':
+		if self.var_position.get()==ABSOLUTE and self.var_basepoint.get()=='USER':
 			self.var_basepoint.set('C')
 		self.update_var()
 
@@ -180,7 +182,7 @@ class MovePanel(PluginPanel):
 		
 		x, y = self.coordinates(self.var_position.get())
 		
-		if self.var_position.get()=='Relative':
+		if self.var_position.get()==RELATIVE:
 			if self.var_width_base != self.var_width.get() or self.var_height_base != self.var_height.get():
 				self.var_basepoint.set('USER')
 			x,y = var_x, var_y
@@ -201,14 +203,14 @@ class MovePanel(PluginPanel):
 		hor_sel=br.right - br.left
 		ver_sel=br.top - br.bottom
 		
-		if position == 'Relative':
+		if position == RELATIVE:
 			left, bottom = -hor_sel/2, -ver_sel/2
 		else:
 			left, bottom = br.left, br.bottom
 		
 		cnt_x,cnt_y=self.Basepoint.get_basepoint(hor_sel,ver_sel,left,bottom)
 		
-		if position == 'Relative' and cnt_x!=None:
+		if position == RELATIVE and cnt_x!=None:
 			return cnt_x*2, cnt_y*2
 		else:
 			return cnt_x, cnt_y

@@ -27,6 +27,10 @@ from app.UI.pluginpanels.ppanel import PluginPanel
 
 from app.UI.lengthvar import LengthVar
 
+ABSOLUTE = 'Absolute'
+RELATIVE = 'Relative'
+
+
 class RotatePanel(PluginPanel):
 	name='Rotate'
 	title = _("Rotate")
@@ -64,7 +68,7 @@ class RotatePanel(PluginPanel):
 		self.var_height_base.set(0)
 		
 		self.var_position = StringVar(root)
-		self.var_position.set('Аbsolute')
+		self.var_position.set(ABSOLUTE)
 		
 		self.var_basepoint = StringVar(root)
 		self.var_basepoint.set('C')
@@ -119,8 +123,8 @@ class RotatePanel(PluginPanel):
 		#---------------------------------------------------------
 		# position chek
 		
-		self.position_check = TCheckbutton(top, text = _("Аbsolute Center"), variable = self.var_position,
-												onvalue='Аbsolute', offvalue='Relative', command = self.position)
+		self.position_check = TCheckbutton(top, text = _("Absolute Center"), variable = self.var_position,
+												onvalue=ABSOLUTE, offvalue=RELATIVE, command = self.position)
 		self.position_check.pack(side = TOP, anchor=W, padx=5,pady=5)
 		
 		#---------------------------------------------------------
@@ -253,16 +257,16 @@ class RotatePanel(PluginPanel):
 			var_a+=360
 		
 		if 	self.var_basepoint.get() != 'USER':
-			self.cnt_x_absolute, self.cnt_y_absolute=self.coordinates('Аbsolute')
+			self.cnt_x_absolute, self.cnt_y_absolute=self.coordinates(ABSOLUTE)
 			self.var_basepoint.set('USER')
 		
 		if self.var_width_base != var_x or self.var_height_base != var_y:
 			
-			if self.var_position.get()=='Аbsolute':
+			if self.var_position.get()==ABSOLUTE:
 				self.cnt_x_absolute=var_x
 				self.cnt_y_absolute=var_y
 			else:
-				x,y=self.coordinates('Аbsolute', 'C')
+				x,y=self.coordinates(ABSOLUTE, 'C')
 				self.cnt_x_absolute=var_x+x
 				self.cnt_y_absolute=var_y+y
 			
@@ -283,7 +287,7 @@ class RotatePanel(PluginPanel):
 		hor_sel=br.right - br.left
 		ver_sel=br.top - br.bottom
 		
-		if position == 'Relative':
+		if position == RELATIVE:
 			left, bottom = -hor_sel/2.0, -ver_sel/2.0
 		else:
 			left, bottom = br.left, br.bottom
@@ -296,7 +300,7 @@ class RotatePanel(PluginPanel):
 			return
 		base = ['C', 'NW', 'N', 'NE', 'W', 'E', 'SW', 'S', 'SE']
 		for b in xrange (len(base)):
-			cnt_x,cnt_y=self.coordinates('Аbsolute', base[b])
+			cnt_x,cnt_y=self.coordinates(ABSOLUTE, base[b])
 			if round(cnt_x,2) == round(self.cnt_x_absolute,2) and \
 								round(cnt_y,2) == round(self.cnt_y_absolute,2):
 				self.var_basepoint.set(base[b])
@@ -318,11 +322,11 @@ class RotatePanel(PluginPanel):
 			
 			if self.var_basepoint.get() == 'USER':
 				
-				if self.var_position.get()=='Аbsolute':
+				if self.var_position.get()==ABSOLUTE:
 					self.var_width.set(self.cnt_x_absolute)
 					self.var_height.set(self.cnt_y_absolute)
 				else:
-					x, y=self.coordinates('Аbsolute', 'C')
+					x, y=self.coordinates(ABSOLUTE, 'C')
 					self.var_width.set(self.cnt_x_absolute-x)
 					self.var_height.set(self.cnt_y_absolute-y)
 				
