@@ -32,7 +32,6 @@
 #  help on available distribution formats: python setup.py bdist --help-formats
 #
 
-from distutils.core import setup, Extension
 import os, sys, shutil
 ########################
 #
@@ -93,15 +92,20 @@ def get_files_withpath(path='.', ext='*'):
 	import glob
 	list = glob.glob(os.path.join(path, "*."+ext))
 	list.sort()
-	return list
+	result=[]
+	for file in list:
+		if os.path.isfile(file):
+			result.append(file)
+	return result
 
 #Return recursive directories list for provided path
 def get_dirs_tree(path='.'):
 	tree=get_dirs_withpath(path)
+	res=[]+tree
 	for node in tree:
 		subtree=get_dirs_tree(node)
-		tree+=subtree
-	return tree		
+		res+=subtree
+	return res	
 	
 #Return recursive files list for provided path
 def get_files_tree(path='.', ext='*'):
@@ -109,14 +113,28 @@ def get_files_tree(path='.', ext='*'):
 	dirs=[path,]	
 	dirs+=get_dirs_tree(path)
 	for dir in dirs:
+		print dir
 		list = get_files_withpath(dir,ext)
 		list.sort()
 		tree+=list
 	return tree
 
+def build_po_resource():
+	files=get_files_tree('src','py')
+	res=open('locale.in','w')
+	for file in files:
+		res.write(file+'\n')
+		
+#	os.system('xgettext -f locale.in -L Python -p messages')
+	sys.exit(0)
 
 
 if __name__ == "__main__":
+	
+	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
+		build_po_resource()
+
+	from distutils.core import setup, Extension
 	print 'Source tree scan...'
 	dirs=get_dirs_tree('src/share')
 	share_dirs=[]
