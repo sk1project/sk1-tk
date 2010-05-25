@@ -36,11 +36,8 @@
 #
 
 import os, sys, shutil
-########################
-#
-# Main build procedure
-#
-########################
+
+COPY=False
 
 #Return directory list for provided path
 def get_dirs(path='.'):
@@ -142,10 +139,20 @@ def generate_locales():
 			os.system('msgfmt -o '+mo_file+' '+po_file)		
 
 
+############################################################
+#
+# Main build procedure
+#
+############################################################
+
 if __name__ == "__main__":
 	
 	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
 		build_po_resource()
+		
+	if len(sys.argv)>1 and sys.argv[1]=='build&copy':
+		COPY=True
+		sys.argv[1]='build'
 	
 	if len(sys.argv)>1 and not sys.argv[1]=='sdist':	
 		generate_locales()
@@ -315,10 +322,35 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module, pax_module])
+	
+##############################################
+# This section for developing purpose only
+# Command 'python setup.py build&copy' allows
+# automating build and native extension copying
+# into package directory
+##############################################	
 			
-			
-			
-			
+if COPY:
+	import shutil, string, platform
+	version=(string.split(sys.version)[0])[0:3]
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/paxmodule.so','src/app/modules/')
+	print '\n paxmodule.so has been copied to src/ directory'
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/pstokenize.so','src/app/modules/')
+	print '\n pstokenize.so has been copied to src/ directory'
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/_sketchmodule.so','src/app/modules/')
+	print '\n _sketchmodule.so has been copied to src/ directory'
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/skreadmodule.so','src/app/modules/')
+	print '\n skreadmodule.so has been copied to src/ directory'
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/streamfilter.so','src/app/modules/')
+	print '\n streamfilter.so has been copied to src/ directory'
+	
+	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/_type1module.so','src/app/modules/')
+	print '\n _type1module.so has been copied to src/ directory'
 			
 			
 			
