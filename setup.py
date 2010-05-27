@@ -118,13 +118,14 @@ def get_files_tree(path='.', ext='*'):
 		tree+=list
 	return tree
 
-def build_po_resource():
+def build_pot_resource():
 	files=get_files_tree('src','py')
 	res=open('messages/locale.in','w')
 	for file in files:
 		res.write(file+'\n')
 	res.close()	
-	os.system('xgettext -f messages/locale.in -L Python -p messages 2>messages/warnings.log')
+	os.system('xgettext -f messages/locale.in -L Python -p po 2>messages/warnings.log')
+	os.system('mv po/po.po po/sk1.pot')
 	sys.exit(0)
 	
 def generate_locales():
@@ -148,7 +149,7 @@ def generate_locales():
 if __name__ == "__main__":
 	
 	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
-		build_po_resource()
+		build_pot_resource()
 		
 	if len(sys.argv)>1 and sys.argv[1]=='build&copy':
 		COPY=True
