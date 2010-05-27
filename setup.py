@@ -118,6 +118,7 @@ def get_files_tree(path='.', ext='*'):
 		tree+=list
 	return tree
 
+#Collects messages for localization resources
 def build_pot_resource():
 	files=get_files_tree('src','py')
 	res=open('messages/locale.in','w')
@@ -125,15 +126,16 @@ def build_pot_resource():
 		res.write(file+'\n')
 	res.close()	
 	os.system('xgettext -f messages/locale.in -L Python -p po 2>messages/warnings.log')
-	os.system('mv po/po.po po/sk1.pot')
+	os.system('rm -f po/sk1.pot;mv po/messages.po po/sk1.pot')
 	sys.exit(0)
 	
+#Generates *.mo files
 def generate_locales():
-	files=get_files('locales','po')
+	files=get_files('po','po')
 	if len(files):
 		for file in files:
 			lang=file.split('.')[0]	
-			po_file=os.path.join('locales',file)		
+			po_file=os.path.join('po',file)		
 			mo_file=os.path.join('src','share','locales',lang,'LC_MESSAGES','sk1.mo')
 			if not os.path.lexists(os.path.join('src','share','locales',lang,'LC_MESSAGES')):
 				os.makedirs(os.path.join('src','share','locales',lang,'LC_MESSAGES'))
@@ -309,7 +311,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
 			'sk1.app.modules': 'src/app/modules',
 			},
 			
-			package_data={'sk1.app': ['VERSION', 'tkdefaults', 'tcl/*.tcl'],			
+			package_data={'sk1.app': ['VERSION', 'tcl/*.tcl'],			
 			'sk1': share_dirs,
 			'sk1.app.modules': ['descr.txt',]
 			},
