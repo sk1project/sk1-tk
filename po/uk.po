@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.9.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-23 15:05+0300\n"
-"PO-Revision-Date: 2010-05-27 02:23+0300\n"
+"PO-Revision-Date: 2010-05-27 23:55+0300\n"
 "Last-Translator: Maxim S. Barabash <maxim.s.barabash@gmail.com>\n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -360,7 +360,7 @@ msgstr "Перетворити на криву"
 
 #: src/app/Graphics/document.py:2260
 msgid "Convert Image"
-msgstr "Перетворення зодраження"
+msgstr "Перетворення зображення"
 
 #: src/app/Graphics/document.py:2287
 #: src/app/UI/mainwindow.py:898
@@ -442,7 +442,7 @@ msgstr "Зміну розташування сторінки"
 
 #: src/app/Graphics/document.py:2805
 msgid "Set Grid Geometry"
-msgstr "Зміну геометрії cітки"
+msgstr "Зміну геометрії сітки"
 
 #: src/app/Graphics/document.py:2827
 msgid "Add Guide Line"
@@ -470,7 +470,7 @@ msgstr "Сегмент"
 
 #: src/app/Graphics/ellipse.py:265
 msgid "Circle radius %(radius)[length], center %(center)[position]"
-msgstr "Коло з радіусом %(radius)[length], center %(center)[position]"
+msgstr "Коло радіусом %(radius)[length], з центром у %(center)[position]"
 
 #: src/app/Graphics/ellipse.py:268
 msgid "Ellipse axes %(axes)[size], center %(center)[position]"
@@ -584,7 +584,7 @@ msgstr "Шаблон"
 
 #: src/app/Graphics/properties.py:399
 msgid "Fill Transform Pattern"
-msgstr "Залити трансформованим шаблоном"
+msgstr "Заповнення трансформ. шаблоном"
 
 #: src/app/Graphics/properties.py:400
 msgid "Transform pattern"
@@ -656,15 +656,15 @@ msgstr "Розмір"
 
 #: src/app/Graphics/properties.py:416
 msgid "Linegap"
-msgstr ""
+msgstr "Відстань між строками"
 
 #: src/app/Graphics/properties.py:417
 msgid "Wordgap"
-msgstr ""
+msgstr "Відстань між словами"
 
 #: src/app/Graphics/properties.py:418
 msgid "Chargap"
-msgstr ""
+msgstr "Відстань між символами"
 
 #: src/app/Graphics/properties.py:419
 msgid "Text Alignment"
@@ -954,7 +954,7 @@ msgstr "Прилипання:"
 
 #: src/app/UI/canvas.py:1719
 msgid "No Snap"
-msgstr "Без прилыпання"
+msgstr "Без прилипання"
 
 #: src/app/UI/canvas.py:1750
 msgid "Crosshairs"
@@ -1084,7 +1084,7 @@ msgstr "Застосувати"
 
 #: src/app/UI/dlg_blend.py:53
 msgid "  Steps: "
-msgstr " Кроки:"
+msgstr "  Кроки: "
 
 #: src/app/UI/dlg_blend.py:66
 msgid "Select Start"
@@ -1174,7 +1174,7 @@ msgstr "Заповнення:"
 
 #: src/app/UI/mainwindow.py:640
 msgid "Fill: None"
-msgstr "Заповнення: немає "
+msgstr "Заповнення: немає"
 
 #: src/app/UI/mainwindow.py:645
 msgid "Outline: "
@@ -1311,7 +1311,7 @@ msgstr "Вирівнювання ..."
 
 #: src/app/UI/mainwindow.py:812
 msgid "Grid Setup..."
-msgstr "Налаштування сітки..."
+msgstr "Налаштовування сітки..."
 
 #: src/app/UI/mainwindow.py:813
 msgid "Outline..."
@@ -1368,7 +1368,7 @@ msgstr "Назва стилю ..."
 #: src/app/UI/mainwindow.py:839
 #: src/app/UI/ttk_ext.py:40
 msgid "Select All"
-msgstr "Позначити"
+msgstr "Позначити все"
 
 #: src/app/UI/mainwindow.py:840
 msgid "Select Next"
@@ -1669,7 +1669,7 @@ msgstr "Не зберігати"
 
 #: src/app/UI/ttk_ext.py:38
 msgid "Clear All"
-msgstr "Очистити"
+msgstr "Очистити все"
 
 #: src/app/events/undo.py:199
 #, python-format
@@ -1725,7 +1725,7 @@ msgstr "Файли векторної графіки редактора sK1 - *.
 
 #: src/app/managers/dialogmanager.py:33
 msgid "All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. "
-msgstr "Всі формати що підтримують - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf і т.д. "
+msgstr "Всі формати що підтримуються - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf і т.д. "
 
 #: src/app/managers/dialogmanager.py:38
 msgid "sK1 vector graphics files - *.sk1"
@@ -1742,7 +1742,7 @@ msgstr "Файли Adobe Illustrator (аж до вер. 9.0) - *.ai"
 #: src/app/managers/dialogmanager.py:41
 #: src/app/managers/dialogmanager.py:74
 msgid "Encapsulated PostScript files - *.eps"
-msgstr "Файлы Encapsulated PostScript - *.eps"
+msgstr "Файли Encapsulated PostScript - *.eps"
 
 #: src/app/managers/dialogmanager.py:42
 msgid "PostScript files - *.ps"
@@ -1767,7 +1767,7 @@ msgstr "Файли CorelDRAW Compressed Exchange (Формат CDRX) - *.ccx"
 #: src/app/managers/dialogmanager.py:47
 #: src/app/managers/dialogmanager.py:63
 msgid "Computer Graphics Metafile files - *.cgm"
-msgstr "Файлы Computer Graphics Metafile - *.cgm"
+msgstr "Файли Computer Graphics Metafile - *.cgm"
 
 #: src/app/managers/dialogmanager.py:48
 msgid "Acorn Draw files - *.aff"
@@ -1776,7 +1776,7 @@ msgstr "Файли Acorn Draw - *.aff"
 #: src/app/managers/dialogmanager.py:49
 #: src/app/managers/dialogmanager.py:64
 msgid "Scalable Vector Graphics files - *.svg"
-msgstr "Файлы Scalable Vector Graphics - *.svg"
+msgstr "Файли Scalable Vector Graphics - *.svg"
 
 #: src/app/managers/dialogmanager.py:50
 #: src/app/managers/dialogmanager.py:65
@@ -1807,7 +1807,7 @@ msgstr "Файли Adobe Illustrator (вер. 5.0) - *.ai"
 #: src/app/managers/dialogmanager.py:61
 #: src/app/managers/dialogmanager.py:89
 msgid "Portable Document Format (PDF 1.5) - *.pdf"
-msgstr "Формат переносимих документів (PDF 1.5) - *.pdf"
+msgstr "Portable Document Format (PDF 1.5) - *.pdf"
 
 #: src/app/managers/dialogmanager.py:62
 msgid "PostScript - *.ps"
@@ -1815,15 +1815,15 @@ msgstr "PostScript - *.ps"
 
 #: src/app/managers/dialogmanager.py:69
 msgid "All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc."
-msgstr "Всі підтримувані формати - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx і т.д."
+msgstr "Всі формати що підтримуються - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx і т.д."
 
 #: src/app/managers/dialogmanager.py:73
 msgid "Portable Network Graphics files - *.png"
-msgstr "Файлы Portable Network Graphics - *.png"
+msgstr "Файли Portable Network Graphics - *.png"
 
 #: src/app/managers/dialogmanager.py:75
 msgid "JPEG files - *.jpg *jpeg"
-msgstr "Файлы JPEG - *.jpg *jpeg"
+msgstr "Файли JPEG - *.jpg *jpeg"
 
 #: src/app/managers/dialogmanager.py:76
 msgid "TIFF files - *.tif *.tiff"
@@ -1990,7 +1990,7 @@ msgstr ""
 
 #: src/app/managers/docmanager.py:238
 msgid "Importing result: it seems the document is empty!"
-msgstr "За результатами Імпорту: виявилося, що документ є пустим!"
+msgstr "За результатами Імпорту: виявилося, що документ пустий!"
 
 #: src/app/managers/docmanager.py:242
 #: src/app/managers/docmanager.py:246
@@ -2040,7 +2040,7 @@ msgid ""
 "%(message)s"
 msgstr ""
 "\n"
-"Не можливо зберігти %(filename)s:\n"
+"Не можливо зберегти %(filename)s:\n"
 "\n"
 "%(message)s"
 
@@ -2558,7 +2558,7 @@ msgstr "Видалити сторінку"
 
 #: src/app/UI/dialogs/deletepagedlg.py:41
 msgid "Delete page No.: "
-msgstr "Видалити строрінку з №:"
+msgstr "Видалити сторінку №: "
 
 #: src/app/UI/dialogs/deletepagedlg.py:67
 #: src/app/UI/dialogs/gotopagedlg.py:67
@@ -2575,7 +2575,7 @@ msgstr "Невірний номер сторінки!"
 
 #: src/app/UI/dialogs/gotopagedlg.py:41
 msgid "Go to page No.: "
-msgstr "Перейти до сторінки з №:"
+msgstr "Перейти до сторінки №: "
 
 #: src/app/UI/dialogs/insertpagedlg.py:25
 msgid "Insert pages"
@@ -2634,8 +2634,8 @@ msgid ""
 "Empty pattern selected,\n"
 "i.e. object will not be filled"
 msgstr ""
-"Порожній шаблон обраний,\n"
-"тобто об'єкт не буде заповнений "
+"Обрано порожній шаблон.\n"
+"Об'єкт не буде заповнений."
 
 #: src/app/UI/widgets/colordigitizer.py:239
 msgid "Color name:"
@@ -2771,11 +2771,15 @@ msgstr "Рівномірно розподілити краї що з ліва"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:77
 msgid "Distribute centers equidistantly horizontally"
-msgstr "Розподілити центри об'єктів на однаковій відстані по горизонталі"
+msgstr ""
+"Розподілити центри об'єктів \n"
+"на однаковій відстані по горизонталі"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:78
 msgid "Make horizontal gaps between objects equal"
-msgstr "Зробити однаковими інтервали між об'єктами по горизонталі"
+msgstr ""
+"Вирівняти інтервали між \n"
+"об'єктами по горизонталі"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:79
 msgid "Distribute right sides equidistantly"
@@ -2787,11 +2791,15 @@ msgstr "Рівномірно розподілити краї що з верху"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:82
 msgid "Distribute centers equidistantly vertically"
-msgstr "Розподілити центри об'єктів на однаковій відстані по вертикалі"
+msgstr ""
+"Розподілити центри об'єктів \n"
+"на однаковій відстані по вертикалі"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:83
 msgid "Make vertical gaps between objects equal"
-msgstr "Вирівняти інтервали між об'єктами по вертикалі"
+msgstr ""
+"Вирівняти інтервали між \n"
+"об'єктами по вертикалі"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:84
 msgid "Distribute bottoms sides equidistantly"
@@ -2807,11 +2815,11 @@ msgstr "Знайти та змінити текст"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:49
 msgid "Find: "
-msgstr "Знайти:"
+msgstr "Знайти: "
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:61
 msgid "Replace to: "
-msgstr "Змінити на:"
+msgstr "Змінити на: "
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
 msgid " Parameters "
@@ -2902,7 +2910,7 @@ msgstr "Відновити колір"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:40
 msgid "Gradient Fill"
-msgstr "Заповнення з лінійним градієнтом"
+msgstr "Лінійний градієнт"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:66
 #: src/app/UI/pluginpanels/properties/outlineprop.py:66
