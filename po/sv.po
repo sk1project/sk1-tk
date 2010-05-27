@@ -1,13 +1,15 @@
-# Russian translation for Sketch
-# Copyright (C) 2001,2002 Andrey Kiselev <a_kissel@eudoramail.com>
+# Swedish messages for skencil.
+# Copyright (C) 2002, 2003 Free Software Foundation, Inc.
+# Christian Rose <menthos@menthos.com>, 2002, 2003.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Sketch 0.6.8\n"
+"Project-Id-Version: skencil 0.6.16pre3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-27 22:25+0200\n"
-"PO-Revision-Date: 2010-05-27 23:21+0100\n"
+"PO-Revision-Date: 2010-05-27 22:57+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,7 +17,7 @@ msgstr ""
 #: src/app/Graphics/arrow.py:81
 #, python-format
 msgid "%s is not an arrow definition file"
-msgstr "%s не является файлом, определяющим стрелку"
+msgstr "%s är inte en pildefinitionsfil"
 
 #: src/app/Graphics/arrow.py:94
 #, python-format
@@ -23,101 +25,101 @@ msgid ""
 "Error trying to read arrows from %s\n"
 "Using builtin defaults"
 msgstr ""
-"Ошибка при чтении стрелок из %s\n"
-"Будут использованы встроенные определения"
+"Fel vid försök att läsa pilar från %s\n"
+"Använder inbyggda standardpilar"
 
 #: src/app/Graphics/bezier.py:186
 #, python-format
 msgid "PolyBezier (%(nodes)d nodes in %(paths)d paths)"
-msgstr "Полином Безье (%(nodes)d узлов в %(paths)d участках)"
+msgstr "PolyBezier (%(nodes)d noder i %(paths)d slingor)"
 
 #: src/app/Graphics/bezier.py:262
 msgid "Create Curve"
-msgstr "Создать кривую"
+msgstr "Skapa kurva"
 
 #: src/app/Graphics/bezier.py:334
 msgid "Create Poly-Line"
-msgstr "Создать ломаную"
+msgstr "Skapa polylinje"
 
 #: src/app/Graphics/bezier.py:460
 msgid "Select All Nodes"
-msgstr "Выделить все узлы"
+msgstr "Markera alla noder"
 
 #: src/app/Graphics/bezier.py:777
 #, python-format
 msgid "%d nodes in PolyBezier"
-msgstr "%d узлов в полиноме Безье"
+msgstr "%d noder i PolyBezier"
 
 #: src/app/Graphics/bezier.py:786
 msgid "PolyBezier"
-msgstr "Полином Безье"
+msgstr "PolyBezier"
 
 #: src/app/Graphics/bezier.py:788
 msgid "First node of PolyBezier"
-msgstr "Первый узел полинома Безье"
+msgstr "Första noden i PolyBezier"
 
 #: src/app/Graphics/bezier.py:790
 msgid "Last node of PolyBezier"
-msgstr "Последний узел полинома Безье"
+msgstr "Sista noden i PolyBezier"
 
 #: src/app/Graphics/bezier.py:792
 msgid "1 node of PolyBezier"
-msgstr "1 узел полинома Безье"
+msgstr "1 nod i PolyBezier"
 
 #: src/app/Graphics/bezier.py:795
 #, python-format
 msgid "Point on curve at position %.2f"
-msgstr "Точка на кривой в позиции %.2f"
+msgstr "Punkt på kurvan vid position %.2f"
 
 #: src/app/Graphics/bezier.py:798
 msgid "No Node of PolyBezier"
-msgstr "Нет узла на полиноме Безье"
+msgstr "Ingen node i PolyBezier"
 
 #: src/app/Graphics/bezier.py:849
 msgid "Cut Curve"
-msgstr "Вырезать кривую"
+msgstr "Klipp ut kurva"
 
 #: src/app/Graphics/bezier.py:932
 msgid "Close Nodes"
-msgstr "Замкнуть узлы"
+msgstr "Stäng noder"
 
 #: src/app/Graphics/bezier.py:942
 msgid "Angle"
-msgstr "Угол"
+msgstr "Vinkel"
 
 #: src/app/Graphics/bezier.py:943
 msgid "Smooth"
-msgstr "Сглаживание"
+msgstr "Mjuk"
 
 #: src/app/Graphics/bezier.py:944
 msgid "Symmetrical"
-msgstr "Симметрично"
+msgstr "Symmetrisk"
 
 #: src/app/Graphics/bezier.py:959
 msgid "Curve->Line"
-msgstr "Кривая->Прямая"
+msgstr "Kurva->Linje"
 
 #: src/app/Graphics/bezier.py:974
 msgid "Line->Curve"
-msgstr "Прямая->Кривая"
+msgstr "Linje->Kurva"
 
 #: src/app/Graphics/bezier.py:996
 msgid "Delete Nodes"
-msgstr "Удалить узлы"
+msgstr "Ta bort noder"
 
 #: src/app/Graphics/bezier.py:1013
 msgid "Insert Nodes"
-msgstr "Вставить узлы"
+msgstr "Infoga noder"
 
 #: src/app/Graphics/blendgroup.py:115
 #, python-format
 msgid "Interpolation with %d steps"
-msgstr "Интерполяция в %d шагов"
+msgstr "Interpolation med %d steg"
 
 #: src/app/Graphics/blendgroup.py:336
 #, python-format
 msgid "BlendGroup with %d control objects"
-msgstr "Группа смешивания с %d управляющими объектами"
+msgstr "BlendGroup med %d kontrollobjekt"
 
 #: src/app/Graphics/color.py:315
 msgid "Registration Black ("
@@ -125,17 +127,17 @@ msgstr ""
 
 #: src/app/Graphics/color.py:386
 msgid "I can't alloc all needed colors. I'll use a private colormap"
-msgstr "Невозможно разместить все необходимые цвета. Использована ограниченная палитра"
+msgstr "Jag kan inte allokera alla färger som behövs. Jag kommer att använda en privat färgkarta"
 
 #: src/app/Graphics/compound.py:252
 #, python-format
 msgid "Compound with %d objects"
-msgstr "Скомпоновать с %d объектами"
+msgstr "Sammansättning med %d objekt"
 
 #: src/app/Graphics/dashes.py:35
 #, python-format
 msgid "%s is not dashes file"
-msgstr "%s не является файлом определения пунктира"
+msgstr "%s är ingen streckfil"
 
 #: src/app/Graphics/dashes.py:38
 #, python-format
@@ -143,31 +145,29 @@ msgid ""
 "Error trying to read dashes from %s\n"
 "Using builtin defaults"
 msgstr ""
-"Ошибка при чтении пунктира из %s\n"
-"Будут использованы встроенные определения"
+"Fel vid försök att läsa streck från %s\n"
+"Använder inbyggda standardstreck"
 
 #: src/app/Graphics/document.py:83
 msgid "Guide Lines"
-msgstr "Направляющие"
+msgstr "Guidelinjer"
 
-# ../Sketch/Graphics/document.py:86 :229 ../Plugins/Filters/xfigloader.py:480
 #: src/app/Graphics/document.py:85
 #: src/app/Graphics/document.py:143
 #, fuzzy
 msgid "MasterLayer 1"
-msgstr "Слой 1"
+msgstr "Lager 1"
 
-# ../Sketch/Graphics/document.py:86 :229 ../Plugins/Filters/xfigloader.py:480
 #: src/app/Graphics/document.py:91
 #: src/app/Graphics/document.py:184
 #: src/app/Graphics/document.py:339
 msgid "Layer 1"
-msgstr "Слой 1"
+msgstr "Lager 1"
 
 #: src/app/Graphics/document.py:119
 #, python-format
 msgid "Layer %d"
-msgstr "Слой %d"
+msgstr "Lager %d"
 
 #: src/app/Graphics/document.py:314
 #, python-format
@@ -182,70 +182,70 @@ msgstr ""
 #: src/app/Graphics/document.py:642
 #: src/app/Scripting/wrapper.py:115
 msgid "Create Object"
-msgstr "Создать объект"
+msgstr "Skapa objekt"
 
 #: src/app/Graphics/document.py:1425
 msgid "Add Style"
-msgstr "Добавить стиль"
+msgstr "Lägg till stil"
 
 #: src/app/Graphics/document.py:1436
 msgid "Set Properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/Graphics/document.py:1466
 #: src/app/UI/mainwindow.py:850
 msgid "Delete"
-msgstr "Удалить"
+msgstr "Ta bort"
 
 #: src/app/Graphics/document.py:1502
 msgid "Move To Top"
-msgstr "Переместить наверх"
+msgstr "Flytta till överkanten"
 
 #: src/app/Graphics/document.py:1505
 msgid "Move To Bottom"
-msgstr "Переместить вниз"
+msgstr "Flytta till nederkanten"
 
 #: src/app/Graphics/document.py:1508
 msgid "Lower"
-msgstr "Опустить"
+msgstr "Sänk"
 
 #: src/app/Graphics/document.py:1511
 msgid "Raise"
-msgstr "Поднять"
+msgstr "Höj"
 
 #: src/app/Graphics/document.py:1515
 #, python-format
 msgid "Move Selection to `%s'"
-msgstr "Переместить выделение в %s"
+msgstr "Flytta markeringen till \"%s\""
 
 #: src/app/Graphics/document.py:1572
 #: src/app/UI/mainwindow.py:801
 #: src/app/UI/ttk_ext.py:33
 msgid "Cut"
-msgstr "Вырезать"
+msgstr "Klipp ut"
 
 #: src/app/Graphics/document.py:1592
 #: src/app/Graphics/document.py:1597
 #: src/app/UI/mainwindow.py:858
 #: src/app/UI/mainwindow.py:859
 msgid "Duplicate"
-msgstr "Дублировать"
+msgstr "Duplicera"
 
 #: src/app/Graphics/document.py:1630
 msgid "Create Group"
-msgstr "Создать группу"
+msgstr "Skapa grupp"
 
 #: src/app/Graphics/document.py:1651
 #: src/app/UI/context/group_panel.py:23
 msgid "Ungroup"
-msgstr "Разгруппировать"
+msgstr "Avgruppera"
 
 #: src/app/Graphics/document.py:1681
 #: src/app/UI/mainwindow.py:881
 #: src/app/UI/context/group_panel.py:25
 #, fuzzy
 msgid "Ungroup All"
-msgstr "Разгруппировать"
+msgstr "Avgruppera"
 
 #: src/app/Graphics/document.py:1701
 msgid "Modify&Copy"
@@ -254,54 +254,54 @@ msgstr ""
 #: src/app/Graphics/document.py:1709
 #: src/app/UI/mainwindow.py:874
 msgid "Create Mask Group"
-msgstr "Создать маскирующую группу"
+msgstr "Skapa maskgrupp"
 
 #: src/app/Graphics/document.py:1741
 msgid "Transform"
-msgstr "Преобразовать"
+msgstr "Omvandla"
 
 #: src/app/Graphics/document.py:1744
 msgid "Translate"
-msgstr "Перевести"
+msgstr "Översätt"
 
 #: src/app/Graphics/document.py:1748
 #: src/app/UI/mainwindow.py:873
 msgid "Remove Transformation"
-msgstr "Снять преобразование"
+msgstr "Ta bort transformering"
 
 #: src/app/Graphics/document.py:1760
 msgid "Align Objects"
-msgstr "Выровнять объекты"
+msgstr "Justera objekt"
 
 #: src/app/Graphics/document.py:1798
 #: src/app/UI/mainwindow.py:866
 msgid "Abut Horizontal"
-msgstr "Выстроить по горизонтали"
+msgstr "Gränsa horisontellt"
 
 #: src/app/Graphics/document.py:1823
 #: src/app/UI/mainwindow.py:867
 msgid "Abut Vertical"
-msgstr "Выстроить по вертикали"
+msgstr "Gränsa vertikalt"
 
 #: src/app/Graphics/document.py:1856
 #: src/app/UI/mainwindow.py:869
 msgid "Flip Horizontal"
-msgstr "Перевернуть вдоль верт. оси"
+msgstr "Vänd horisontellt"
 
 #: src/app/Graphics/document.py:1863
 #: src/app/UI/mainwindow.py:870
 msgid "Flip Vertical"
-msgstr "Перевернуть вдоль гор. оси"
+msgstr "Vänd vertikalt"
 
 #: src/app/Graphics/document.py:1868
 msgid "Flip Both"
-msgstr "Перевернуть"
+msgstr "Vänd båda"
 
 #: src/app/Graphics/document.py:1882
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:206
 #, fuzzy
 msgid "Rotation"
-msgstr "Общие настройки"
+msgstr "Rotationer"
 
 #: src/app/Graphics/document.py:1901
 #: src/app/UI/pluginpanels/transform/move_plugin.py:31
@@ -311,62 +311,63 @@ msgstr ""
 #: src/app/Graphics/document.py:1915
 #, fuzzy
 msgid "Move&Copy"
-msgstr "Копировать"
+msgstr "Kopiera"
 
+# src/menus.c:280
 #: src/app/Graphics/document.py:1949
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:178
 #, fuzzy
 msgid "Scale"
-msgstr "Сохранить"
+msgstr "Spara"
 
 #: src/app/Graphics/document.py:2023
 #: src/app/UI/pluginpanels/effects/blend_plugin.py:24
 msgid "Blend"
-msgstr "Смешать"
+msgstr "Färgtoning"
 
 #: src/app/Graphics/document.py:2032
 msgid "I can't blend the selected objects"
-msgstr "Невозможно смешать выбранные объекты"
+msgstr "Jag kan inte färgtona de markerade objekten"
 
 #: src/app/Graphics/document.py:2056
 #: src/app/UI/mainwindow.py:872
 msgid "Cancel Blend"
-msgstr "Прервать смешивание"
+msgstr "Avbryt färgtoning"
 
 #: src/app/Graphics/document.py:2084
 #: src/app/UI/mainwindow.py:875
 msgid "Create Path Text"
-msgstr "Создать текст вдоль кривой"
+msgstr "Skapa slingtext"
 
 #: src/app/Graphics/document.py:2111
 #: src/app/UI/mainwindow.py:876
 msgid "Create Clone"
-msgstr "Создать клон"
+msgstr "Skapa klon"
 
 #: src/app/Graphics/document.py:2142
 #: src/app/UI/mainwindow.py:863
 msgid "Combine Beziers"
-msgstr "Объединить кривые Безье"
+msgstr "Kombinera bezierkurvor"
 
 #: src/app/Graphics/document.py:2163
 #: src/app/UI/mainwindow.py:864
 msgid "Split Beziers"
-msgstr "Разделить кривые Безье"
+msgstr "Dela bezierkurvor"
 
 #: src/app/Graphics/document.py:2194
 #: src/app/UI/mainwindow.py:862
 msgid "Convert To Curve"
-msgstr "Превратить в кривую"
+msgstr "Konvertera till kurvor"
 
 #: src/app/Graphics/document.py:2260
 #, fuzzy
 msgid "Convert Image"
-msgstr "Обратить изображение"
+msgstr "Invertera bild"
 
 #: src/app/Graphics/document.py:2287
 #: src/app/UI/mainwindow.py:898
 msgid "Invert Image"
-msgstr "Обратить изображение"
+msgstr "Invertera bild"
 
 #: src/app/Graphics/document.py:2300
 #: src/app/UI/dialogs/gotopagedlg.py:25
@@ -376,126 +377,126 @@ msgstr ""
 #: src/app/Graphics/document.py:2322
 #, fuzzy
 msgid "Insert Pages"
-msgstr "Вставить узлы"
+msgstr "Infoga noder"
 
 #: src/app/Graphics/document.py:2324
 #, fuzzy
 msgid "Insert Page"
-msgstr "Обратить изображение"
+msgstr "Invertera bild"
 
 #: src/app/Graphics/document.py:2355
 #, fuzzy
 msgid "Delete Page"
-msgstr "Удалить слой"
+msgstr "Ta bort lager"
 
 #: src/app/Graphics/document.py:2442
 msgid "Select Layer"
-msgstr "Выбрать слой"
+msgstr "Välj lager"
 
 #: src/app/Graphics/document.py:2454
 msgid "Change Layer State"
-msgstr "Изменить состояние слоя"
+msgstr "Ändra lagertillstånd"
 
 #: src/app/Graphics/document.py:2472
 msgid "Set Layer Outline Color"
-msgstr "Установить цвет контура слоя"
+msgstr "Ställ in lagerramfärg"
 
 #: src/app/Graphics/document.py:2484
 msgid "Rename Layer"
-msgstr "Переименовать слой"
+msgstr "Byt namn på lager"
 
 #: src/app/Graphics/document.py:2496
 msgid "Append Layer"
-msgstr "Добавить слой"
+msgstr "Tillfoga lager"
 
 #: src/app/Graphics/document.py:2510
 #: src/app/Graphics/layer.py:42
 msgid "New Layer"
-msgstr "Новый слой"
+msgstr "Nytt lager"
 
 #: src/app/Graphics/document.py:2566
 msgid "Move Layer Up"
-msgstr "Переместить слой вверх"
+msgstr "Flytta lager uppåt"
 
 #: src/app/Graphics/document.py:2577
 msgid "Move Layer Down"
-msgstr "Переместить слой вниз"
+msgstr "Flytta lager nedåt"
 
 #: src/app/Graphics/document.py:2618
 msgid "Delete Layer"
-msgstr "Удалить слой"
+msgstr "Ta bort lager"
 
 #: src/app/Graphics/document.py:2681
 #: src/app/UI/mainwindow.py:889
 msgid "Update Style"
-msgstr "Обновить стиль"
+msgstr "Uppdatera stil"
 
 #: src/app/Graphics/document.py:2720
 #, python-format
 msgid "Create Style %s"
-msgstr "Создать стиль %s"
+msgstr "Skapa stil %s"
 
 #: src/app/Graphics/document.py:2736
 #, python-format
 msgid "Remove Style %s"
-msgstr "Удалить стиль %s"
+msgstr "Ta bort stil %s"
 
 #: src/app/Graphics/document.py:2790
 msgid "Change Page Layout"
-msgstr "Изменить макет страницы"
+msgstr "Ändra sidlayout"
 
 #: src/app/Graphics/document.py:2805
 msgid "Set Grid Geometry"
-msgstr "Установить геометрию сетки"
+msgstr "Ställ in rutnätsgeometri"
 
 #: src/app/Graphics/document.py:2827
 msgid "Add Guide Line"
-msgstr "Добавить направляющую"
+msgstr "Lägg till guidelinje"
 
 #: src/app/Graphics/document.py:2844
 msgid "Delete Guide Line"
-msgstr "Удалить направляющую"
+msgstr "Ta bort guidelinje"
 
 #: src/app/Graphics/document.py:2858
 msgid "Move Guide Line"
-msgstr "Переместить направляющую"
+msgstr "Flytta guidelinje"
 
 #: src/app/Graphics/ellipse.py:113
 msgid "Arc"
-msgstr "Дуга"
+msgstr "Båge"
 
 #: src/app/Graphics/ellipse.py:114
 msgid "Chord"
-msgstr "Хорда"
+msgstr "Korda"
 
 #: src/app/Graphics/ellipse.py:115
 msgid "Pie Slice"
-msgstr "Сегмент"
+msgstr "Tårtbit"
 
 #: src/app/Graphics/ellipse.py:265
 msgid "Circle radius %(radius)[length], center %(center)[position]"
-msgstr "Радиус окружности %(radius)[length], центр %(center)[position]"
+msgstr "Cirkelradie %(radius)[length], centrum %(center)[position]"
 
 #: src/app/Graphics/ellipse.py:268
 msgid "Ellipse axes %(axes)[size], center %(center)[position]"
-msgstr "Оси эллипса %(axes)[size], центр %(center)[position]"
+msgstr "Ellipsaxlar %(axes)[size], centrum %(center)[position]"
 
 #: src/app/Graphics/ellipse.py:286
 msgid "Create Ellipse"
-msgstr "Создать эллипс"
+msgstr "Skapa ellips"
 
 #: src/app/Graphics/ellipse.py:325
 msgid "Circle %(radius)[length], center %(center)[position]"
-msgstr "Окружность %(radius)[length], центр %(center)[position]"
+msgstr "Cirkel %(radius)[length], centrum %(center)[position]"
 
 #: src/app/Graphics/ellipse.py:328
 msgid "Ellipse %(size)[size], center %(center)[position]"
-msgstr "Эллипс %(size)[size], центр %(center)[position]"
+msgstr "Ellips %(size)[size], centrum %(center)[position]"
 
 #: src/app/Graphics/eps.py:148
 #, python-format
 msgid "EpsFile `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
-msgstr "Файл EPS `%(filename)s' %(width)d x %(height)d в (%(x)d, %(y)d)"
+msgstr "EpsFil \"%(filename)s\" %(width)d × %(height)d vid (%(x)d, %(y)d)"
 
 #: src/app/Graphics/graphics.py:1012
 #, python-format
@@ -503,26 +504,27 @@ msgid ""
 "Cannot load %(font)s:\n"
 "%(text)s"
 msgstr ""
-"Невозможно загрузить %(font)s:\n"
+"Kan inte läsa in %(font)s:\n"
 "%(text)s"
 
+# src/utils.c:119
 #: src/app/Graphics/graphics.py:1187
 #, python-format
 msgid "Can't create shared memory image: %s"
-msgstr "Невозможно создать изображение в разделяемой памяти: %s"
+msgstr "Kan inte skapa delad minnesbild: %s"
 
 #: src/app/Graphics/group.py:29
 #, python-format
 msgid "Group with %d objects"
-msgstr "Сгруппировать %d объектов"
+msgstr "Grupp med %d objekt"
 
 #: src/app/Graphics/guide.py:90
 msgid "Horizontal Guide Line at %(coord)[length]"
-msgstr "Горизонтальная направляющая в точке %(coord)[length]"
+msgstr "Horisontell guidelinje vid %(coord)[length]"
 
 #: src/app/Graphics/guide.py:93
 msgid "Vertical Guide Line at %(coord)[length]"
-msgstr "Вертикальная направляющая в точке %(coord)[length]"
+msgstr "Vertikal guidelinje vid %(coord)[length]"
 
 #: src/app/Graphics/image.py:35
 msgid "RGB"
@@ -535,7 +537,7 @@ msgstr ""
 #: src/app/Graphics/image.py:37
 #, fuzzy
 msgid "Grayscale"
-msgstr "Изображение в градациях серого"
+msgstr "Gör bild till gråskala"
 
 #: src/app/Graphics/image.py:38
 msgid "CMYK"
@@ -552,119 +554,117 @@ msgstr ""
 #: src/app/Graphics/image.py:165
 #, fuzzy, python-format
 msgid "Embedded %(mode)s image %(width)d x %(height)d at (%(x)d, %(y)d)"
-msgstr "Встроенное изображение %(width)d x %(height)d в точке (%(x)d, %(y)d)"
+msgstr "Inbäddad bild %(width)d × %(height)d vid (%(x)d, %(y)d)"
 
 #: src/app/Graphics/layer.py:242
 msgid "Guides"
-msgstr "Направляющие"
+msgstr "Hjälplinjer"
 
 #: src/app/Graphics/layer.py:338
 #: src/app/UI/canvas.py:1712
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:24
 msgid "Grid"
-msgstr "Сетка"
+msgstr "Rutnät"
 
 #: src/app/Graphics/maskgroup.py:74
 #, python-format
 msgid "MaskGroup with %d objects"
-msgstr "Маскирущая группа из %d объектов"
+msgstr "Maskgrupp med %d objekt"
 
 #: src/app/Graphics/maskgroup.py:162
 msgid "Select Mask"
-msgstr "Выбрать маску"
+msgstr "Välj mask"
 
 #: src/app/Graphics/plugobj.py:169
-#, python-format
+#, fuzzy, python-format
 msgid "Unknown Plugin Object `%s'"
-msgstr "Неизвестный подключаемый модуль `%s'"
+msgstr "Okänt insticksmodulobjekt \"s\""
 
 #: src/app/Graphics/properties.py:397
 msgid "Fill Pattern"
-msgstr "Залить узором"
+msgstr "Fyllnadsmönster"
 
-# ../Sketch/Graphics/properties.py:399 :403
 #: src/app/Graphics/properties.py:397
 #: src/app/Graphics/properties.py:401
 msgid "Pattern"
-msgstr "Узор"
+msgstr "Mönster"
 
 #: src/app/Graphics/properties.py:399
 msgid "Fill Transform Pattern"
-msgstr "Залить трансформированным узором"
+msgstr "Fyllnadstransformeringsmönster"
 
 #: src/app/Graphics/properties.py:400
 msgid "Transform pattern"
-msgstr "Трансформировать узор"
+msgstr "Transformeringsmönster"
 
 #: src/app/Graphics/properties.py:401
 msgid "Line Pattern"
-msgstr "Линейный узор"
+msgstr "Linjemönster"
 
 #: src/app/Graphics/properties.py:403
 msgid "Line Width"
-msgstr "Толщина линии"
+msgstr "Linjebredd"
 
 #: src/app/Graphics/properties.py:403
 msgid "Width"
-msgstr "Толщина"
+msgstr "Bredd"
 
 #: src/app/Graphics/properties.py:405
 msgid "Line Cap"
-msgstr "Окончание линии"
+msgstr "Linjetak"
 
 #: src/app/Graphics/properties.py:405
 msgid "Cap"
-msgstr "Окончание"
+msgstr "Tak"
 
 #: src/app/Graphics/properties.py:407
 msgid "Line Join"
-msgstr "Соединение линии"
+msgstr "Linjeanslutning"
 
 #: src/app/Graphics/properties.py:407
 msgid "Join"
-msgstr "Соединение"
+msgstr "Anslut"
 
 #: src/app/Graphics/properties.py:409
 msgid "Line Dashes"
-msgstr "Штрихи линии"
+msgstr "Linjestreck"
 
 #: src/app/Graphics/properties.py:409
 msgid "Dashes"
-msgstr "Штрихи"
+msgstr "Streck"
 
 #: src/app/Graphics/properties.py:410
 msgid "Line Arrow 1"
-msgstr "Стрелка 1 линии"
+msgstr "Linjepil 1"
 
 #: src/app/Graphics/properties.py:410
 msgid "Arrow 1"
-msgstr "Стрелка 1"
+msgstr "Pil 1"
 
 #: src/app/Graphics/properties.py:412
 msgid "Line Arrow 2"
-msgstr "Стрелка 2 линии"
+msgstr "Linjepil 2"
 
 #: src/app/Graphics/properties.py:412
 msgid "Arrow 2"
-msgstr "Стрелка 2"
+msgstr "Pil 2"
 
-# ../Sketch/Graphics/properties.py:416 :416
 #: src/app/Graphics/properties.py:414
 msgid "Font"
-msgstr "Шрифт"
+msgstr "Typsnitt"
 
 #: src/app/Graphics/properties.py:415
 msgid "Font Size"
-msgstr "Размер шрифта"
+msgstr "Typsnittstorlek"
 
 #: src/app/Graphics/properties.py:415
 msgid "Size"
-msgstr "Размер"
+msgstr "Storlek"
 
 #: src/app/Graphics/properties.py:416
 #, fuzzy
 msgid "Linegap"
-msgstr "Окончание линии"
+msgstr "Linjetak"
 
 #: src/app/Graphics/properties.py:417
 msgid "Wordgap"
@@ -673,7 +673,7 @@ msgstr ""
 #: src/app/Graphics/properties.py:418
 #, fuzzy
 msgid "Chargap"
-msgstr "Окончание"
+msgstr "Tak"
 
 #: src/app/Graphics/properties.py:419
 msgid "Text Alignment"
@@ -683,7 +683,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:35
 #, fuzzy
 msgid "Alignment"
-msgstr "Выровнять влево"
+msgstr "Vänsterjustera"
 
 #: src/app/Graphics/properties.py:420
 msgid "Text Vertical Alignment"
@@ -692,222 +692,220 @@ msgstr ""
 #: src/app/Graphics/properties.py:420
 #, fuzzy
 msgid "VAlignment"
-msgstr "Выровнять влево"
+msgstr "Vänsterjustera"
 
 #: src/app/Graphics/psdevice.py:193
 #, python-format
 msgid "Can't embed font '%s': %s"
-msgstr "Невозможно включить шрифт '%s': %s"
+msgstr "Kan inte bädda in typsnittet \"%s\": %s"
 
 #: src/app/Graphics/psdevice.py:200
 #, python-format
 msgid "Can't find file for font '%s' for embedding"
-msgstr "Невозможно найти файл для шрифта '%s' для включения"
+msgstr "Kan inte hitta filen för typsnittet \"%s\" för inbäddning"
 
 #: src/app/Graphics/rectangle.py:184
 msgid "Rectangle %(size)[size]"
-msgstr "Прямоугольник %(size)[size] "
+msgstr "Rektangel %(size)[size]"
 
 #: src/app/Graphics/rectangle.py:203
 msgid "Create Rectangle"
-msgstr "Создать прямоугольник"
+msgstr "Skapa rektangel"
 
-# ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/Graphics/selection.py:477
 #: src/app/Graphics/selection.py:1147
 msgid "No Selection"
-msgstr "Нет выделения"
+msgstr "Ingen markering"
 
 #: src/app/Graphics/selection.py:494
 #, python-format
 msgid "%s on `%%(layer)s'"
-msgstr "%s в `%%(layer)s'"
+msgstr "%s på \"%%(layer)s\""
 
 #: src/app/Graphics/selection.py:497
 #, python-format
 msgid "%(object)s on `%(layer)s'"
-msgstr "%(object)s в `%(layer)s'"
+msgstr "%(object)s på \"%(layer)s\""
 
 #: src/app/Graphics/selection.py:504
 #, python-format
 msgid "%(number)d objects on `%(layer)s'"
-msgstr "%(number)d объектов в `%(layer)s'"
+msgstr "%(number)d objekt på \"%(layer)s\""
 
 #: src/app/Graphics/selection.py:508
 #, python-format
 msgid "%d objects on several layers"
-msgstr "%d объектов в нескольких слоях"
+msgstr "%d objekt på flera lager"
 
 #: src/app/Graphics/selection.py:602
 msgid "Move Objects"
-msgstr "Переместить объекты"
+msgstr "Flytta objekt"
 
 #: src/app/Graphics/selection.py:618
 msgid "Resize Objects"
-msgstr "Изменить размеры объектов"
+msgstr "Ändra storlek på objekt"
 
 #: src/app/Graphics/selection.py:645
 msgid "Scale %(factorx)[factor], %(factory)[factor]"
-msgstr "Масштабировать %(factorx)[factor], %(factory)[factor]"
+msgstr "Skala %(factorx)[factor], %(factory)[factor]"
 
 #: src/app/Graphics/selection.py:650
 msgid "Move %(x)[length], %(y)[length]"
-msgstr "Переместить %(x)[length], %(y)[length]"
+msgstr "Flytta %(x)[length], %(y)[length]"
 
 #: src/app/Graphics/selection.py:849
 msgid "Shear Objects"
-msgstr "Обрезать объекты"
+msgstr "Luta objekt"
 
 #: src/app/Graphics/selection.py:851
 msgid "Rotate Objects"
-msgstr "Вращать объекты"
+msgstr "Rotera objekt"
 
 #: src/app/Graphics/selection.py:856
 msgid "Rotation Center at %(position)[position]"
-msgstr "Центр вращения в %(position)[position]"
+msgstr "Rotationscentrum vid %(position)[position]"
 
 #: src/app/Graphics/selection.py:861
 msgid "Rotate by %(angle)[angle]"
-msgstr "Вращать на %(angle)[angle]"
+msgstr "Rotera med %(angle)[angle]"
 
 #: src/app/Graphics/selection.py:864
 msgid "Horizontal Shear by %(ratio)[factor]"
-msgstr "Обрезать по горизонтали на %(ratio)[factor]"
+msgstr "Horisontell lutning med %(ratio)[factor]"
 
 #: src/app/Graphics/selection.py:867
 msgid "Vertical Shear by %(ratio)[factor]"
-msgstr "Обрезать по вертикали на %(ratio)[factor]"
+msgstr "Vertikal lutning med %(ratio)[factor]"
 
 #: src/app/Graphics/selection.py:870
 msgid "Identity Transform"
-msgstr "Идентичное преобразование"
+msgstr "Identitetstransform"
 
 #: src/app/Graphics/selection.py:1039
 #: src/app/UI/context/ellipse_panel.py:44
 #: src/app/UI/context/rectangle_panel.py:66
 msgid "Edit Object"
-msgstr "Редактировать объекты"
+msgstr "Redigera objekt"
 
 #: src/app/Graphics/text.py:423
 msgid "Align Left"
-msgstr "Выровнять влево"
+msgstr "Vänsterjustera"
 
 #: src/app/Graphics/text.py:425
 msgid "Align Right"
-msgstr "Выровнять вправо"
+msgstr "Högerjustera"
 
 #: src/app/Graphics/text.py:427
 msgid "Align H. Center"
-msgstr "Выровнять по центру (гор.)"
+msgstr "Centrera horisontellt"
 
 #: src/app/Graphics/text.py:429
 msgid "Align Top"
-msgstr "Выровнять вверх"
+msgstr "Justera mot överkant"
 
 #: src/app/Graphics/text.py:431
 msgid "Align V. Center"
-msgstr "Выровнять по центру (верт.)"
+msgstr "Centrera vertikalt"
 
 #: src/app/Graphics/text.py:433
 msgid "Align Baseline"
-msgstr "Выровнять по базовой линии"
+msgstr "Justera mot baslinje"
 
 #: src/app/Graphics/text.py:435
 msgid "Align Bottom"
-msgstr "Выровнять вниз"
+msgstr "Justera mot nederkant"
 
 #: src/app/Graphics/text.py:502
 msgid "Text `%(text)s' at %(position)[position]"
-msgstr "Текст `%(text)s' в %(position)[position]"
+msgstr "Text \"%(text)s\" vid %(position)[position]"
 
 #: src/app/Graphics/text.py:573
 msgid "Create Text"
-msgstr "Создать текст"
+msgstr "Skapa text"
 
 #: src/app/Graphics/text.py:858
 #, python-format
 msgid "Text on Path: `%(text)s'"
-msgstr "Текст вдоль кривой:`%(text)s'"
+msgstr "Text på slinga: \"%(text)s\""
 
 #: src/app/Graphics/text.py:1019
 #, python-format
 msgid "Path Text: `%(text)s'"
-msgstr "Текст вдоль кривой:`%(text)s'"
+msgstr "Slingtext: \"%(text)s\""
 
 #: src/app/Graphics/text.py:1029
 msgid "Select Text"
-msgstr "Выделить текст"
+msgstr "Markera text"
 
 #: src/app/Graphics/text.py:1033
 msgid "Select Path"
-msgstr "Выделить кривую"
+msgstr "Markera slinga"
 
 #: src/app/Graphics/text.py:1040
 msgid "Rotate Letters"
-msgstr "Вращать буквы"
+msgstr "Rotera bokstäver"
 
 #: src/app/Graphics/text.py:1042
 msgid "Skew Letters"
-msgstr "Сдвинуть буквы"
+msgstr "Luta bokstäver"
 
 #: src/app/UI/canvas.py:192
 msgid "Select"
-msgstr "Выделить"
+msgstr "Markera"
 
 #: src/app/UI/canvas.py:198
 #: src/app/UI/mainwindow.py:905
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Redigera"
 
 #: src/app/UI/canvas.py:204
 msgid "Create"
-msgstr "Создать"
+msgstr "Skapa"
 
-# ../Sketch/UI/canvas.py:191 :1213
 #: src/app/UI/canvas.py:209
 #: src/app/UI/canvas.py:1318
 msgid "Zoom Area"
-msgstr "Область для увеличения"
+msgstr "Zooma yta"
 
 #: src/app/UI/canvas.py:213
 msgid "Pick Object"
-msgstr "Указать объект"
+msgstr "Välj objekt"
 
 #: src/app/UI/canvas.py:218
 msgid "Place Object"
-msgstr "Расположить объект"
+msgstr "Placera objekt"
 
 #: src/app/UI/canvas.py:826
 msgid "Draw Rectangle"
-msgstr "Нарисовать прямоугольник"
+msgstr "Rita rektangel"
 
 #: src/app/UI/canvas.py:830
 msgid "Draw Ellipse"
-msgstr "Нарисовать эллипс"
+msgstr "Rita ellips"
 
 #: src/app/UI/canvas.py:834
 msgid "Draw Curve"
-msgstr "Нарисовать кривую"
+msgstr "Rita kurva"
 
 #: src/app/UI/canvas.py:838
 msgid "Draw Poly-Line"
-msgstr "Нарисовать ломаную"
+msgstr "Rita polylinje"
 
 #: src/app/UI/canvas.py:842
 msgid "Draw Text"
-msgstr "Нарисовать текст"
+msgstr "Rita text"
 
 #: src/app/UI/canvas.py:1006
 msgid "Selection Mode"
-msgstr "Режим выделения"
+msgstr "Markeringsläge"
 
 #: src/app/UI/canvas.py:1090
 msgid "Edit Mode"
-msgstr "Режим редактирования"
+msgstr "Redigeringsläge"
 
 #: src/app/UI/canvas.py:1386
 msgid "Toggle Mode"
-msgstr "Переключить режим"
+msgstr "Växla läge"
 
 #: src/app/UI/canvas.py:1435
 msgid ""
@@ -933,43 +931,44 @@ msgstr ""
 
 #: src/app/UI/canvas.py:1640
 msgid "Snap to Grid"
-msgstr "Выровнять по сетке"
+msgstr "Fäst vid rutnät"
 
 #: src/app/UI/canvas.py:1654
 msgid "Snap to Objects"
-msgstr "Выровнять по объектам"
+msgstr "Fäst vid objekt"
 
 #: src/app/UI/canvas.py:1669
 msgid "Snap to Guides"
-msgstr "Выровнять по направляющим"
+msgstr "Fäst vid hjälplinjer"
 
 #: src/app/UI/canvas.py:1682
 msgid "Snap Bounding Rect"
-msgstr "Выровнять ограничивающий прямоугольник"
+msgstr "Fäst vid gränsrektangel"
 
+# Öh?
 #: src/app/UI/canvas.py:1695
 msgid "Snap Move Relative"
-msgstr "Выровнять относительное перемещение"
+msgstr "Flytta stegvis relativt"
 
 #: src/app/UI/canvas.py:1714
 msgid "Objects"
-msgstr "Объекты"
+msgstr "Objekt"
 
 #: src/app/UI/canvas.py:1716
 msgid "Guide"
-msgstr "Направляющая"
+msgstr "Hjälplinje"
 
 #: src/app/UI/canvas.py:1718
 msgid "Snap: "
-msgstr "Выровнено: "
+msgstr "Fäst: "
 
 #: src/app/UI/canvas.py:1719
 msgid "No Snap"
-msgstr "Не выровнено"
+msgstr "Inget fästande"
 
 #: src/app/UI/canvas.py:1750
 msgid "Crosshairs"
-msgstr "Перекрестия"
+msgstr "Korshår"
 
 #: src/app/UI/canvas.py:1905
 msgid "Refresh Window"
@@ -977,56 +976,55 @@ msgstr ""
 
 #: src/app/UI/canvas.py:1935
 msgid "Zoom In"
-msgstr "Увеличить"
+msgstr "Zooma in"
 
 #: src/app/UI/canvas.py:1937
 msgid "Zoom Out"
-msgstr "Уменьшить"
+msgstr "Zooma ut"
 
 #: src/app/UI/canvas.py:1956
 msgid "Fit to Window"
-msgstr "Вписать в окно"
+msgstr "Anpassa till fönstret"
 
 #: src/app/UI/canvas.py:1957
 msgid "Fit Selected to Window"
-msgstr "Вписать выделение в окно"
+msgstr "Anpassa markerat till fönstret"
 
 #: src/app/UI/canvas.py:1968
 msgid "Fit Page to Window"
-msgstr "Вписать страницу в окно"
+msgstr "Anpassa sidan till fönstret"
 
 #: src/app/UI/canvas.py:1981
 msgid "Restore Previous View"
-msgstr "Восстановить предыдущий вид"
+msgstr "Återställ föregående vy"
 
 #: src/app/UI/canvas.py:1990
 #, fuzzy
 msgid "Contour View"
-msgstr "Продолжить"
+msgstr "Fortsätt"
 
 #: src/app/UI/canvas.py:1994
 #, fuzzy
 msgid "Draw Page Border"
-msgstr "Нарисовать контур страницы"
+msgstr "Rita sidkontur"
 
 #: src/app/UI/canvas.py:2034
 msgid "Set Fill Color..."
-msgstr "Выбрать цвет заливки..."
+msgstr "Ställ in fyllningsfärg..."
 
 #: src/app/UI/canvas.py:2050
 msgid "Set Fill Color"
-msgstr "Выбрать цвет заливки"
+msgstr "Ställ in fyllningsfärg"
 
 #: src/app/UI/canvas.py:2067
 msgid "Set Line Color"
-msgstr "Выбрать цвет линии"
+msgstr "Ställ in radfärg"
 
 #: src/app/UI/colordlg.py:319
 #, fuzzy
 msgid "Select RGB Color"
-msgstr "выбрать цвет"
+msgstr "Välj färg"
 
-# ../Sketch/UI/optiondlg.py:154 ../Sketch/UI/styledlg.py:162 :236
 #: src/app/UI/colordlg.py:338
 #: src/app/UI/gradientedit.py:300
 #: src/app/UI/styledlg.py:195
@@ -1044,9 +1042,8 @@ msgstr "выбрать цвет"
 #: src/app/UI/dialogs/insertpagedlg.py:77
 #: src/app/UI/dialogs/msgdialog.py:25
 msgid "Cancel"
-msgstr "Отменить"
+msgstr "Avbryt"
 
-# ../Sketch/UI/styledlg.py:160 :234
 #: src/app/UI/colordlg.py:342
 #: src/app/UI/gradientedit.py:298
 #: src/app/UI/sketchdlg.py:376
@@ -1072,7 +1069,6 @@ msgstr "OK"
 msgid "BLEND"
 msgstr ""
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
 #: src/app/UI/dlg_blend.py:44
 #: src/app/UI/sketchdlg.py:196
 #: src/app/UI/sketchdlg.py:246
@@ -1097,52 +1093,51 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:134
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:106
 msgid "Apply"
-msgstr "Применить"
+msgstr "Verkställ"
 
 #: src/app/UI/dlg_blend.py:53
 #, fuzzy
 msgid "  Steps: "
-msgstr "Шаги"
+msgstr "Steg"
 
 #: src/app/UI/dlg_blend.py:66
 msgid "Select Start"
-msgstr "Выделить начало"
+msgstr "Välj start"
 
 #: src/app/UI/dlg_blend.py:73
 msgid "Select End"
-msgstr "Выделить конец"
+msgstr "Välj slut"
 
 #: src/app/UI/dlg_blend.py:116
-#, fuzzy, python-format
+#, python-format
 msgid "Set %d Blend Steps"
-msgstr "Установить % шагов смешивания"
+msgstr "Ställ in %d färgtoningssteg"
 
 #: src/app/UI/filldlg.py:273
 msgid "Color"
-msgstr "Цвет"
+msgstr "Färg"
 
 #: src/app/UI/filldlg.py:328
 msgid "Border"
-msgstr "Граница"
+msgstr "Kant"
 
 #: src/app/UI/filldlg.py:338
 #: src/app/UI/gradientedit.py:285
 msgid "Edit Gradient"
-msgstr "Редактировать градиент"
+msgstr "Redigera färgskala"
 
 #: src/app/UI/filldlg.py:491
 msgid "Load Image..."
-msgstr "Загрузить изображение..."
+msgstr "Läs in bild..."
 
 #: src/app/UI/filldlg.py:494
 msgid "Pick Image..."
-msgstr "Указать узображение..."
+msgstr "Välj bild..."
 
-# ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
 #: src/app/UI/filldlg.py:519
 #: src/app/UI/mainwindow.py:1490
 msgid "Load Image"
-msgstr "Загрузить изображение"
+msgstr "Läs in bild"
 
 #: src/app/UI/filldlg.py:520
 #: src/app/UI/mainwindow.py:1491
@@ -1151,65 +1146,65 @@ msgid ""
 "Cannot load %(filename)s:\n"
 "%(message)s"
 msgstr ""
-"Невозможно загрузить %(filename)s:\n"
+"Kan inte läsa in %(filename)s:\n"
 "%(message)s"
 
 #: src/app/UI/filldlg.py:549
 msgid "Fill Style"
-msgstr "Стиль заливки"
+msgstr "Fyllningsstil"
 
 #: src/app/UI/filldlg.py:572
 msgid "Transform Pattern"
-msgstr "Преобразовать узор"
+msgstr "Transformera mönster"
 
 #: src/app/UI/filldlg.py:698
 msgid "Set Fill"
-msgstr "Выбрать заливку"
+msgstr "Ställ in fyllning"
 
 #: src/app/UI/gradientedit.py:180
 msgid "Set Handle Color"
-msgstr "Выбрать рабочий цвет"
+msgstr "Ställ in handtagsfärg"
 
 #: src/app/UI/gradientedit.py:182
 msgid "Delete Handle"
-msgstr "Удалить рабочий"
+msgstr "Ta bort handtag"
 
 #: src/app/UI/gradientedit.py:184
 msgid "Insert Handle"
-msgstr "Вставить рабочий"
+msgstr "Infoga handtag"
 
 #: src/app/UI/gradientedit.py:296
 msgid "Reverse"
-msgstr ""
+msgstr "Omvänd"
 
 #: src/app/UI/mainwindow.py:136
 #, python-format
 msgid "Error running script `%s'"
-msgstr "Ошибка при запуске сценария `%s'"
+msgstr "Fel vid körande av skriptet \"%s\""
 
 #: src/app/UI/mainwindow.py:637
 #, fuzzy
 msgid "Fill: "
-msgstr "Стиль заливки"
+msgstr "Fyllningsstil"
 
 #: src/app/UI/mainwindow.py:640
 #, fuzzy
 msgid "Fill: None"
-msgstr "Стиль заливки"
+msgstr "Fyllningsstil"
 
 #: src/app/UI/mainwindow.py:645
 #, fuzzy
 msgid "Outline: "
-msgstr "Контур"
+msgstr "Kontur"
 
 #: src/app/UI/mainwindow.py:648
 #, fuzzy
 msgid "Outline: None"
-msgstr "Контур"
+msgstr "Kontur"
 
 #: src/app/UI/mainwindow.py:759
 msgid "New"
-msgstr "Создать"
+msgstr "Nytt"
 
 #: src/app/UI/mainwindow.py:760
 msgid "New Drawing Window"
@@ -1217,39 +1212,41 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:761
 msgid "Open..."
-msgstr "Открыть..."
+msgstr "Öppna..."
 
+# src/menus.c:280
 #: src/app/UI/mainwindow.py:766
 #: src/app/UI/tkext.py:1091
 #: src/app/UI/dialogs/msgdialog.py:23
 msgid "Save"
-msgstr "Сохранить"
+msgstr "Spara"
 
 #: src/app/UI/mainwindow.py:767
 msgid "Save As..."
-msgstr "Сохранить как..."
+msgstr "Spara som..."
 
+# src/menus.c:280
 #: src/app/UI/mainwindow.py:768
 #, fuzzy
 msgid "Save All"
-msgstr "Сохранить"
+msgstr "Spara"
 
+# ../Script/export_raster.py:220 :233 :239
 #: src/app/UI/mainwindow.py:769
+#, fuzzy
 msgid "Export As..."
-msgstr ""
+msgstr "Exportera raster"
 
-# ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
 #: src/app/UI/mainwindow.py:770
 #: src/app/UI/sketchdlg.py:249
 #: src/app/UI/dialogs/aboutdlg.py:58
 msgid "Close"
-msgstr "Закрыть"
+msgstr "Stäng"
 
-# ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
 #: src/app/UI/mainwindow.py:771
 #, fuzzy
 msgid "Close All"
-msgstr "Закрыть"
+msgstr "Stäng"
 
 #: src/app/UI/mainwindow.py:772
 #: src/app/UI/mainwindow.py:833
@@ -1260,10 +1257,10 @@ msgstr ""
 msgid "Preferences..."
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:559 :561
+# src/menus.c:315 src/menus.c:316
 #: src/app/UI/mainwindow.py:775
 msgid "Exit"
-msgstr "Выход"
+msgstr "Avsluta"
 
 #: src/app/UI/mainwindow.py:778
 msgid "Report bug..."
@@ -1280,7 +1277,7 @@ msgstr ""
 #: src/app/UI/mainwindow.py:781
 #, fuzzy
 msgid "About sK1..."
-msgstr "О программе..."
+msgstr "Om..."
 
 #: src/app/UI/mainwindow.py:782
 msgid "Plugins strip"
@@ -1289,12 +1286,12 @@ msgstr ""
 #: src/app/UI/mainwindow.py:785
 #, fuzzy
 msgid "Insert Page..."
-msgstr "Обратить изображение"
+msgstr "Invertera bild"
 
 #: src/app/UI/mainwindow.py:786
 #, fuzzy
 msgid "Delete Page..."
-msgstr "Удалить слой"
+msgstr "Ta bort lager"
 
 #: src/app/UI/mainwindow.py:787
 msgid "Next Page"
@@ -1307,78 +1304,78 @@ msgstr ""
 #: src/app/UI/mainwindow.py:789
 #, fuzzy
 msgid "Go to Page..."
-msgstr "Загрузить изображение..."
+msgstr "Läs in bild..."
 
 #: src/app/UI/mainwindow.py:791
 msgid "Add Horizontal Guide Line"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Lägg till horisontell hjälplinje"
 
 #: src/app/UI/mainwindow.py:792
 msgid "Add Vertical Guide Line"
-msgstr "Добавить вертикальную направляющую"
+msgstr "Lägg till vertikal hjälplinje"
 
 #: src/app/UI/mainwindow.py:794
 #, fuzzy
 msgid "Zoom 1:1"
-msgstr "Увеличить"
+msgstr "Zooma in"
 
 #: src/app/UI/mainwindow.py:795
 #: src/app/UI/ttk_ext.py:35
 msgid "Copy"
-msgstr "Копировать"
+msgstr "Kopiera"
 
 #: src/app/UI/mainwindow.py:804
 #: src/app/UI/mainwindow.py:1537
 #: src/app/UI/mainwindow.py:1547
 #: src/app/UI/ttk_ext.py:37
 msgid "Paste"
-msgstr "Вставить"
+msgstr "Klistra in"
 
 #: src/app/UI/mainwindow.py:807
 #, fuzzy
 msgid "Export Bitmap..."
-msgstr "Portable Bitmap"
+msgstr "Portabel bitmapp"
 
 #: src/app/UI/mainwindow.py:811
 #, fuzzy
 msgid "Align to ..."
-msgstr "Выравнивание..."
+msgstr "Justera..."
 
 #: src/app/UI/mainwindow.py:812
 #, fuzzy
 msgid "Grid Setup..."
-msgstr "Сетка..."
+msgstr "Rutnät..."
 
 #: src/app/UI/mainwindow.py:813
 #, fuzzy
 msgid "Outline..."
-msgstr "Контур"
+msgstr "Kontur"
 
 #: src/app/UI/mainwindow.py:814
 msgid "Fill..."
-msgstr "Заливка..."
+msgstr "Fyll..."
 
 #: src/app/UI/mainwindow.py:816
 msgid "Styles..."
-msgstr "Стили..."
+msgstr "Stilar..."
 
 #: src/app/UI/mainwindow.py:817
 msgid "Blend..."
-msgstr "Смешивание..."
+msgstr "Färgtona..."
 
 #: src/app/UI/mainwindow.py:821
 #, fuzzy
 msgid "Guides Setup..."
-msgstr "Направляющие..."
+msgstr "Hjälplinjer..."
 
 #: src/app/UI/mainwindow.py:822
 msgid "Print..."
-msgstr "Печать..."
+msgstr "Skriv ut..."
 
 #: src/app/UI/mainwindow.py:823
 #, fuzzy
 msgid "Print to PDF..."
-msgstr "Печать..."
+msgstr "Skriv ut..."
 
 #: src/app/UI/mainwindow.py:825
 #, fuzzy
@@ -1388,16 +1385,16 @@ msgstr "..."
 #: src/app/UI/mainwindow.py:826
 #, fuzzy
 msgid "Rotate..."
-msgstr "Повернуть против часовой"
+msgstr "Rotera motsols."
 
 #: src/app/UI/mainwindow.py:827
 #, fuzzy
 msgid "Resize..."
-msgstr "Линия..."
+msgstr "Linje..."
 
 #: src/app/UI/mainwindow.py:832
 msgid "Load Palette..."
-msgstr "Загрузить палитру..."
+msgstr "Läs in palett..."
 
 #: src/app/UI/mainwindow.py:834
 msgid "Import bitmap..."
@@ -1405,156 +1402,155 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:836
 msgid "Name Style..."
-msgstr "Именованный стиль..."
+msgstr "Namnstil..."
 
 #: src/app/UI/mainwindow.py:839
 #: src/app/UI/ttk_ext.py:40
 msgid "Select All"
-msgstr "Выделить все"
+msgstr "Markera allt"
 
 #: src/app/UI/mainwindow.py:840
 msgid "Select Next"
-msgstr "Выделить следующий"
+msgstr "Markera nästa"
 
 #: src/app/UI/mainwindow.py:841
 msgid "Select Previous"
-msgstr "Выделить предыдущий"
+msgstr "Markera föregående"
 
 #: src/app/UI/mainwindow.py:842
 msgid "Select First Child"
-msgstr "Выделить первого потомка"
+msgstr "Markera första barn"
 
 #: src/app/UI/mainwindow.py:843
 msgid "Select Parent"
-msgstr "Выделить родителя"
+msgstr "Markera förälder"
 
 #: src/app/UI/mainwindow.py:845
 #, fuzzy
 msgid "Move Up"
-msgstr "Поднять на одного вверх "
+msgstr "Flytta ett uppåt"
 
 #: src/app/UI/mainwindow.py:846
 #, fuzzy
 msgid "Move Down"
-msgstr "Опустить на одного вниз"
+msgstr "Flytta ett nedåt"
 
 #: src/app/UI/mainwindow.py:847
 #, fuzzy
 msgid "Move Right"
-msgstr "Высота"
+msgstr "Höjd"
 
 #: src/app/UI/mainwindow.py:848
 #, fuzzy
 msgid "Move Left"
-msgstr "Переместить объекты"
+msgstr "Flytta objekt"
 
 #: src/app/UI/mainwindow.py:852
 msgid "Move to Top"
-msgstr "Поднять вверх"
+msgstr "Flytta överst"
 
 #: src/app/UI/mainwindow.py:853
 msgid "Move to Bottom"
-msgstr "Опустить вниз"
+msgstr "Flytta nederst"
 
 #: src/app/UI/mainwindow.py:855
 msgid "Move One Up"
-msgstr "Поднять на одного вверх "
+msgstr "Flytta ett uppåt"
 
 #: src/app/UI/mainwindow.py:856
 msgid "Move One Down"
-msgstr "Опустить на одного вниз"
+msgstr "Flytta ett nedåt"
 
 #: src/app/UI/mainwindow.py:860
 #, fuzzy
 msgid "Group selected objects"
-msgstr "Сгруппировать %d объектов"
+msgstr "Grupp med %d objekt"
 
-# ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/UI/mainwindow.py:861
 #, fuzzy
 msgid "Ungroup selection"
-msgstr "Нет выделения"
+msgstr "Ingen markering"
 
 #: src/app/UI/mainwindow.py:878
 #, fuzzy
 msgid "Rotate Left 90"
-msgstr "Вращать буквы"
+msgstr "Rotera bokstäver"
 
 #: src/app/UI/mainwindow.py:879
 #, fuzzy
 msgid "Rotate 180"
-msgstr "Повернуть против часовой"
+msgstr "Rotera motsols."
 
 #: src/app/UI/mainwindow.py:880
 msgid "Rotate Right 90"
 msgstr ""
 
+# src/menus.c:302
 #: src/app/UI/mainwindow.py:883
 #: src/app/events/undo.py:200
 msgid "Undo"
-msgstr "Откат"
+msgstr "Ångra"
 
+# src/menus.c:306
 #: src/app/UI/mainwindow.py:884
 #: src/app/events/undo.py:209
 msgid "Redo"
-msgstr "Повтор"
+msgstr "Gör om"
 
 #: src/app/UI/mainwindow.py:885
 msgid "Discard Undo History"
-msgstr "Сбросить историю откатов"
+msgstr "Förkasta ångringshistorik"
 
-# ../Sketch/UI/mainwindow.py:1136 :1267
 #: src/app/UI/mainwindow.py:887
 #: src/app/UI/mainwindow.py:1513
 msgid "No Fill"
-msgstr "Нет заливки"
+msgstr "Ingen fyllning"
 
-# ../Sketch/UI/mainwindow.py:1139 :1268
 #: src/app/UI/mainwindow.py:888
 #: src/app/UI/mainwindow.py:1516
 msgid "No Line"
-msgstr "Нет линии"
+msgstr "Ingen linje"
 
 #: src/app/UI/mainwindow.py:893
 #: src/app/UI/context/image_panel.py:35
 #, fuzzy
 msgid "Convert to CMYK"
-msgstr "Превратить в кривую"
+msgstr "Konvertera till kurvor"
 
 #: src/app/UI/mainwindow.py:894
 #: src/app/UI/context/image_panel.py:39
 #, fuzzy
 msgid "Convert to RGB"
-msgstr "Превратить в кривую"
+msgstr "Konvertera till kurvor"
 
 #: src/app/UI/mainwindow.py:895
 #: src/app/UI/context/image_panel.py:43
 #, fuzzy
 msgid "Convert to Grayscale"
-msgstr "Превратить в кривую"
+msgstr "Konvertera till kurvor"
 
 #: src/app/UI/mainwindow.py:896
 #: src/app/UI/context/image_panel.py:47
 #, fuzzy
 msgid "Convert to B&W"
-msgstr "Превратить в кривую"
+msgstr "Konvertera till kurvor"
 
 #: src/app/UI/mainwindow.py:899
 msgid "Embed Image"
-msgstr "Встроенное изображение"
+msgstr "Bädda in bild"
 
 #: src/app/UI/mainwindow.py:904
 msgid "File"
-msgstr "Файл"
+msgstr "Arkiv"
 
 #: src/app/UI/mainwindow.py:906
 msgid "View"
-msgstr "Вид"
+msgstr "Visa"
 
 #: src/app/UI/mainwindow.py:907
 #: src/app/UI/pluginpanels/pbrowser.py:45
 msgid "Layout"
-msgstr "Макет"
+msgstr "Layout"
 
 #: src/app/UI/mainwindow.py:908
 #: src/app/scripts/spread.py:45
@@ -1566,12 +1562,12 @@ msgstr "Макет"
 #: src/app/scripts/spread.py:184
 #: src/app/scripts/spread.py:210
 msgid "Arrange"
-msgstr "Расположение"
+msgstr "Arrangera"
 
 #: src/app/UI/mainwindow.py:909
 #: src/app/UI/pluginpanels/pbrowser.py:48
 msgid "Effects"
-msgstr "Эффекты"
+msgstr "Effekter"
 
 #: src/app/UI/mainwindow.py:910
 msgid "Bitmaps"
@@ -1579,7 +1575,7 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:912
 msgid "Style"
-msgstr "Стиль"
+msgstr "Stil"
 
 #: src/app/UI/mainwindow.py:915
 #: src/app/UI/cc/ccenterdialog.py:80
@@ -1588,42 +1584,40 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:918
 msgid "Special"
-msgstr "Специальный"
+msgstr "Special"
 
 #: src/app/UI/mainwindow.py:1007
 msgid "Zoom"
-msgstr "Увеличение"
+msgstr "Zooma"
 
 #: src/app/UI/mainwindow.py:1226
 #: src/app/UI/mainwindow.py:1234
 msgid "Load Palette"
-msgstr "Загрузить палитру"
+msgstr "Läs in palett"
 
 #: src/app/UI/mainwindow.py:1235
 #, fuzzy, python-format
 msgid ""
 "\n"
 "Cannot load palette %(filename)s!\n"
-msgstr "Невозможно загрузить палитру из файла %(filename)s"
+msgstr "Kan inte läsa in paletten %(filename)s"
 
 #: src/app/UI/mainwindow.py:1351
 msgid "modified"
-msgstr "изменено"
+msgstr "modifierad"
 
 #: src/app/UI/mainwindow.py:1352
 msgid "unmodified"
-msgstr "не изменено"
+msgstr "omodifierad"
 
 #: src/app/UI/mainwindow.py:1458
 msgid "to load image - sK1"
 msgstr ""
 
 #: src/app/UI/palette.py:131
-#, fuzzy
 msgid "Sketch Palette"
-msgstr "Палитра Sketch"
+msgstr "Sketchpalett"
 
-# ../Sketch/UI/palette.py:146 ../Sketch/UI/skapp.py:61 :76
 #: src/app/UI/palette.py:132
 #: src/app/managers/dialogmanager.py:31
 #: src/app/managers/dialogmanager.py:54
@@ -1632,58 +1626,55 @@ msgstr "Палитра Sketch"
 #: src/app/managers/dialogmanager.py:87
 #: src/app/managers/dialogmanager.py:90
 msgid "All Files"
-msgstr "Все файлы"
+msgstr "Alla filer"
 
 #: src/app/UI/plugindlg.py:214
 #, python-format
 msgid "Set %s"
-msgstr "Установить %s"
+msgstr "Ställ in %s"
 
 #: src/app/UI/plugindlg.py:230
 msgid "Set Parameters"
-msgstr "Установить параметры"
+msgstr "Ställ in parametrar"
 
 #: src/app/UI/sketchdlg.py:238
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:79
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:189
 #: src/app/UI/pluginpanels/properties/outlineprop.py:189
 msgid "Auto Update"
-msgstr "Автообновление"
+msgstr "Uppdatera automatiskt"
 
 #: src/app/UI/sketchdlg.py:243
 msgid "Update From..."
-msgstr "Обновить из..."
+msgstr "Uppdatera från..."
 
 #: src/app/UI/styledlg.py:35
 msgid "Styles"
-msgstr "Стили"
+msgstr "Stilar"
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
 #: src/app/UI/styledlg.py:51
 #, fuzzy
 msgid "Apply style"
-msgstr "Применить"
+msgstr "Verkställ"
 
 #: src/app/UI/styledlg.py:58
 #, fuzzy
 msgid "Delete style"
-msgstr "Удалить слой"
+msgstr "Ta bort lager"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/UI/styledlg.py:136
 #: src/app/UI/styledlg.py:210
 msgid "Create Style"
-msgstr "Создать стиль"
+msgstr "Skapa stil"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/UI/styledlg.py:205
 #, fuzzy
 msgid "Create Style Info"
-msgstr "Создать стиль"
+msgstr "Skapa stil"
 
 #: src/app/UI/styledlg.py:206
 msgid "Please enter a style name."
-msgstr "Введите имя стиля, пожалуйста"
+msgstr "Ange ett stilnamn."
 
 #: src/app/UI/styledlg.py:211
 #, python-format
@@ -1691,78 +1682,77 @@ msgid ""
 "The name `%(name)s' is already used.\n"
 "Please choose another one."
 msgstr ""
-"Имя `%(name)s' уже используется.\n"
-"Выберите другое, пожалуйста."
+"Namnet \"%(name)s\" används redan.\n"
+"Välj ett annat."
 
 #: src/app/UI/styledlg.py:234
 msgid "Set Default Properties"
-msgstr "Установить свойства по умолчанию"
+msgstr "Ställ in standardegenskaper"
 
 #: src/app/UI/styledlg.py:246
 #, fuzzy
 msgid ""
 "Please select the object categories whose\n"
 " default properties you want to change"
-msgstr "Выберите категории объектов, чьи свойства по умолчанию Вы хотите сменить"
+msgstr "Välj de objektkategorier vars standardegenskaper du vill ändra"
 
 #: src/app/UI/styledlg.py:254
 msgid "Graphics Objects"
-msgstr "Графические объекты"
+msgstr "Grafikobjekt"
 
 #: src/app/UI/styledlg.py:260
 msgid "Text Objects"
-msgstr "Текстовые объекты"
+msgstr "Textobjekt"
 
 #: src/app/UI/tkext.py:1089
 #: src/app/UI/dialogs/msgdialog.py:21
 msgid "Yes"
-msgstr "Да"
+msgstr "Ja"
 
 #: src/app/UI/tkext.py:1090
 #: src/app/UI/dialogs/msgdialog.py:22
 msgid "No"
-msgstr "Нет"
+msgstr "Nej"
 
 #: src/app/UI/tkext.py:1092
 #: src/app/UI/dialogs/msgdialog.py:24
 #, fuzzy
 msgid "Don't Save"
-msgstr "Размер шрифта"
+msgstr "Typsnittstorlek"
 
 #: src/app/UI/ttk_ext.py:38
 #, fuzzy
 msgid "Clear All"
-msgstr "Выделить все"
+msgstr "Markera allt"
 
 #: src/app/events/undo.py:199
 #, python-format
 msgid "Undo %s"
-msgstr "Откат %s"
+msgstr "Ångra %s"
 
 #: src/app/events/undo.py:208
 #, python-format
 msgid "Redo %s"
-msgstr "Повтор %s"
+msgstr "Gör om %s"
 
-# ../Sketch/Base/warn.py:63 :80
 #: src/app/events/warn.py:62
 #: src/app/events/warn.py:81
 #: src/app/UI/pluginpanels/shaping/base.py:23
 msgid "Warning"
-msgstr "Предупреждение"
+msgstr "Varning"
 
 #: src/app/events/warn.py:80
 msgid "Print Traceback"
-msgstr "Печать Traceback"
+msgstr "Skriv ut spår"
 
 #: src/app/events/warn.py:88
 msgid "Traceback"
-msgstr "Traceback"
+msgstr "Spår"
 
 #: src/app/io/load.py:290
 #, python-format
 msgid "%(message)s (%(count)d times)"
-msgstr "%(message)s (%(count)d раз)"
+msgstr "%(message)s (%(count)d gånger)"
 
 #: src/app/io/load.py:354
 msgid "Parsing error: "
@@ -1770,7 +1760,7 @@ msgstr ""
 
 #: src/app/io/load.py:359
 msgid "unrecognised file type"
-msgstr "неизвестный тип файла"
+msgstr "okänd filtyp"
 
 #: src/app/io/load.py:370
 #, python-format
@@ -1778,7 +1768,7 @@ msgid ""
 "Cannot open %(filename)s:\n"
 "%(message)s"
 msgstr ""
-"Невозможно открыть %(filename)s:\n"
+"Kan inte öppna %(filename)s:\n"
 "%(message)s"
 
 #: src/app/managers/dialogmanager.py:30
@@ -1885,7 +1875,7 @@ msgstr ""
 #: src/app/managers/dialogmanager.py:73
 #, fuzzy
 msgid "Portable Network Graphics files - *.png"
-msgstr "Portable Graymap"
+msgstr "Portable Network Graphics (PNG)"
 
 #: src/app/managers/dialogmanager.py:75
 msgid "JPEG files - *.jpg *jpeg"
@@ -1914,17 +1904,17 @@ msgstr ""
 #: src/app/managers/dialogmanager.py:81
 #, fuzzy
 msgid "Portable Bitmap files - *.pbm"
-msgstr "Portable Bitmap"
+msgstr "Portabel bitmapp"
 
 #: src/app/managers/dialogmanager.py:82
 #, fuzzy
 msgid "Portable Graymap files - *.pgm"
-msgstr "Portable Graymap"
+msgstr "Portabel gråmapp"
 
 #: src/app/managers/dialogmanager.py:83
 #, fuzzy
 msgid "Portable Pixmap files - *.ppm"
-msgstr "Portable Pixmap"
+msgstr "Portabel pixmapp"
 
 #: src/app/managers/dialogmanager.py:86
 msgid "sK1 color swatch palette"
@@ -1946,11 +1936,12 @@ msgstr ""
 msgid "sK1 has checked presence of following browsers:\n"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:201 :208
+# data/ui/nautilus-gtranslator-view-ui.xml.h:1 src/dialogs.c:732
+# src/menus.c:276
 #: src/app/managers/dialogmanager.py:227
 #, fuzzy
 msgid "Open file"
-msgstr "Открыть"
+msgstr "Öppna"
 
 #: src/app/managers/dialogmanager.py:234
 msgid "Import drawing"
@@ -1959,20 +1950,19 @@ msgstr ""
 #: src/app/managers/dialogmanager.py:241
 #, fuzzy
 msgid "Import bitmap"
-msgstr "Portable Bitmap"
+msgstr "Portabel bitmapp"
 
 #: src/app/managers/dialogmanager.py:251
 #: src/app/managers/dialogmanager.py:260
 #: src/app/managers/dialogmanager.py:265
 #, fuzzy
 msgid "Save file As..."
-msgstr "Сохранить как..."
+msgstr "Spara som..."
 
-# ../Sketch/UI/mainwindow.py:266 :292
 #: src/app/managers/dialogmanager.py:256
 #, fuzzy
 msgid "Save file"
-msgstr "Сохранить в файл"
+msgstr "Spara till fil"
 
 #: src/app/managers/dialogmanager.py:273
 msgid "Export drawing"
@@ -1982,29 +1972,29 @@ msgstr ""
 msgid "Export drawing as a bitmap"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:201 :208
+# data/ui/nautilus-gtranslator-view-ui.xml.h:1 src/dialogs.c:732
+# src/menus.c:276
 #: src/app/managers/docmanager.py:79
 #: src/app/managers/docmanager.py:84
 msgid "Open"
-msgstr "Открыть"
+msgstr "Öppna"
 
-# ../Sketch/UI/mainwindow.py:202 :398
 #: src/app/managers/docmanager.py:79
 #, fuzzy
 msgid ""
 "\n"
 "An error occurred:\n"
 "\n"
-msgstr "Произошла ошибка:\n"
+msgstr "Ett fel inträffade:\n"
 
-# ../Sketch/UI/mainwindow.py:209 :405
+# ../Sketch/UI/mainwindow.py:209 :409
 #: src/app/managers/docmanager.py:84
 #, fuzzy
 msgid ""
 "\n"
 "Warnings from the import filter:\n"
 "\n"
-msgstr "Предупреждения фильтра импорта:\n"
+msgstr "Varningar från importfiltret:\n"
 
 #: src/app/managers/docmanager.py:88
 #: src/app/managers/docmanager.py:92
@@ -2028,18 +2018,17 @@ msgstr ""
 msgid "Finish document processing"
 msgstr ""
 
-# ../Sketch/UI/printdlg.py:37 :96
 #: src/app/managers/docmanager.py:161
 #, fuzzy
 msgid "Printing"
-msgstr "Печать"
+msgstr "Skriv ut"
 
 #: src/app/managers/docmanager.py:162
 #, fuzzy
 msgid ""
 "The document doesn't have \n"
 " any printable layers!\n"
-msgstr "Документ не содержит слоев для печати"
+msgstr "Dokumentet har inte några utskrivbara lager."
 
 #: src/app/managers/docmanager.py:168
 msgid "Print into PDF file"
@@ -2051,19 +2040,18 @@ msgstr ""
 msgid "Import vector"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:202 :398
 #: src/app/managers/docmanager.py:225
 #, fuzzy
 msgid "An error occurred: "
-msgstr "Произошла ошибка:\n"
+msgstr "Ett fel inträffade:\n"
 
-# ../Sketch/UI/mainwindow.py:209 :405
+# ../Sketch/UI/mainwindow.py:209 :409
 #: src/app/managers/docmanager.py:230
 #, fuzzy
 msgid ""
 "Warnings from the import filter:\n"
 "\n"
-msgstr "Предупреждения фильтра импорта:\n"
+msgstr "Varningar från importfiltret:\n"
 
 #: src/app/managers/docmanager.py:238
 msgid "Importing result: it seems the document is empty!"
@@ -2092,22 +2080,20 @@ msgid ""
 "Choose `continue' to try saving anyway,\n"
 "or `cancel' to cancel saving."
 msgstr ""
-"Невозможно создать резервный файл %(filename)s:\n"
+"Kan inte skapa säkerhetskopia %(filename)s:\n"
 "%(message)s\n"
-"Выберите `продолжить' для того, чтобы попытаться сохранить,\n"
-"или `отменить' для отказа."
+"Välj \"fortsätt\" för att spara ändå,\n"
+"eller \"avbryt\" för att avbryta."
 
-# ../Sketch/UI/mainwindow.py:266 :292
 #: src/app/managers/docmanager.py:305
 #: src/app/managers/docmanager.py:330
 msgid "Save To File"
-msgstr "Сохранить в файл"
+msgstr "Spara till fil"
 
 #: src/app/managers/docmanager.py:305
 msgid "Continue"
-msgstr "Продолжить"
+msgstr "Fortsätt"
 
-# ../Sketch/UI/mainwindow.py:293 :353 ../Sketch/UI/printdlg.py:167
 #: src/app/managers/docmanager.py:331
 #, fuzzy, python-format
 msgid ""
@@ -2116,13 +2102,13 @@ msgid ""
 "\n"
 "%(message)s"
 msgstr ""
-"Невозможно сохранить файл %(filename)s:\n"
+"Kan inte spara %(filename)s:\n"
 "%(message)s"
 
 #: src/app/managers/docmanager.py:357
 #, fuzzy
 msgid "sK1 - Save Document..."
-msgstr "Сохранить документ"
+msgstr "Spara dokument"
 
 #: src/app/managers/docmanager.py:359
 #, fuzzy, python-format
@@ -2132,141 +2118,125 @@ msgid ""
 "\n"
 "Do you want to save it?\n"
 msgstr ""
-"%s был изменен.\n"
-"Желаете его сохранить?"
+"%s har ändrats.\n"
+"Vill du spara den?"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/scripts/create_spiral.py:34
-#, fuzzy
 msgid "Create Spiral"
-msgstr "Создать стиль"
+msgstr "Skapa spiral"
 
 #: src/app/scripts/create_spiral.py:39
-#, fuzzy
 msgid "Rotations"
-msgstr "Общие настройки"
+msgstr "Rotationer"
 
 #: src/app/scripts/create_spiral.py:46
 #: src/app/scripts/create_star.py:106
 msgid "Radius"
-msgstr "Радиус"
+msgstr "Radie"
 
 #: src/app/scripts/create_spiral.py:91
-#, fuzzy
 msgid "Spiral"
-msgstr "Специальный"
+msgstr "Spiral"
 
 #: src/app/scripts/create_spiral.py:92
 #: src/app/scripts/create_star_outline.py:86
-#, fuzzy
 msgid "Create Objects"
-msgstr "Создать объект"
+msgstr "Skapa objekt"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/scripts/create_star.py:68
 #: src/app/scripts/create_star.py:161
 #: src/app/scripts/create_star_outline.py:30
-#, fuzzy
 msgid "Create Star"
-msgstr "Создать стиль"
+msgstr "Skapa stjärna"
 
 #: src/app/scripts/create_star.py:92
 #: src/app/scripts/create_star_outline.py:35
-#, fuzzy
 msgid "Corners"
-msgstr "Граница"
+msgstr "Hörn"
 
 #: src/app/scripts/create_star.py:99
 msgid "Steps"
-msgstr "Шаги"
+msgstr "Steg"
 
 #: src/app/scripts/create_star_outline.py:42
-#, fuzzy
 msgid "Outer Radius"
-msgstr "Радиус"
+msgstr "Ytterradie"
 
 #: src/app/scripts/create_star_outline.py:49
-#, fuzzy
 msgid "Inner Radius"
-msgstr "Радиус"
+msgstr "Innerradie"
 
 #: src/app/scripts/create_star_outline.py:85
-#, fuzzy
 msgid "Star Outline"
-msgstr "Установить контур"
+msgstr "Stjärnkontur"
 
 #: src/app/scripts/export_raster.py:51
-#, fuzzy
 msgid "Choose Raster Parameters"
-msgstr "Установить параметры"
+msgstr "Välj rasterparametrar"
 
 #: src/app/scripts/export_raster.py:56
 msgid "ppi"
-msgstr ""
+msgstr "ppi"
 
 #: src/app/scripts/export_raster.py:63
 msgid "w. Transparency"
-msgstr ""
+msgstr "med transparens"
 
 #: src/app/scripts/export_raster.py:70
-#, fuzzy
 msgid "use BB information"
-msgstr "Снять преобразование"
+msgstr "använd BB-information"
 
 #: src/app/scripts/export_raster.py:198
 msgid "Portable Pixmap"
-msgstr "Portable Pixmap"
+msgstr "Portabel pixmapp"
 
 #: src/app/scripts/export_raster.py:199
 msgid "Portable Graymap"
-msgstr "Portable Graymap"
+msgstr "Portabel gråmapp"
 
 #: src/app/scripts/export_raster.py:200
 msgid "Jpeg"
-msgstr ""
+msgstr "Jpeg"
 
 #: src/app/scripts/export_raster.py:201
-#, fuzzy
 msgid "Portable Network Graphics"
-msgstr "Portable Graymap"
+msgstr "Portable Network Graphics (PNG)"
 
 # ../Script/export_raster.py:220 :233 :239
 #: src/app/scripts/export_raster.py:224
 #: src/app/scripts/export_raster.py:237
 #: src/app/scripts/export_raster.py:243
 msgid "Export Raster"
-msgstr ""
+msgstr "Exportera raster"
 
 #: src/app/scripts/export_raster.py:236
-#, fuzzy, python-format
+#, python-format
 msgid "unknown extension %s"
-msgstr "Неизвестная функция %s"
+msgstr "okänt tillägg %s"
 
 #: src/app/scripts/export_raster.py:250
 msgid "Export Raster Alpha (100ppi)"
-msgstr ""
+msgstr "Exportera rasteralfa (100 ppi)"
 
-# ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
 #: src/app/scripts/reload_image.py:76
-#, fuzzy
 msgid "Reload Image"
-msgstr "Загрузить изображение"
+msgstr "Läs om bild"
 
 #: src/app/scripts/simple_separation.py:50
 msgid ""
 "The drawing contains unsupported fill or line patterns. Only solid\n"
 "colors are supported.\n"
-msgstr ""
+msgstr "Teckningen innhåller fyllnings- eller radmönster som inte stöds. Endast fyllda färger stöds.\n"
 
 #: src/app/scripts/simple_separation.py:55
 msgid "The drawing contains raster images, which are not supported for separation\n"
-msgstr ""
+msgstr "Teckningen innehåller rasterbilder vars separering inte stöds\n"
 
 #: src/app/scripts/simple_separation.py:59
 msgid ""
 "The drawing contains embedded EPS files which are not supported for\n"
 "separation\n"
-msgstr ""
+msgstr "Teckningen innehåller filer av typen inbyggd EPS vars separering inte stöds\n"
 
 #: src/app/scripts/simple_separation.py:137
 #, python-format
@@ -2277,51 +2247,53 @@ msgid ""
 "the form basename-XXXXXX.ps where XXXXXX is the\n"
 "hexadecimal color value.\n"
 msgstr ""
+"Teckningen har %d unika färger.\n"
+"Välj ett basnamn för separeringsfilerna.\n"
+"Det kommer att finnas en fil för varje färg med\n"
+"namn på formen basename-XXXXXX.ps där XXXXXX är\n"
+"det hexadecimala färgvärdet.\n"
 
 #: src/app/scripts/simple_separation.py:164
-#, fuzzy
 msgid "Basename:"
-msgstr "Переименовать"
+msgstr "Basnamn:"
 
 # ../Script/simple_separation.py:216 :268
 #: src/app/scripts/simple_separation.py:214
 #: src/app/scripts/simple_separation.py:266
 msgid "Simple Separation"
-msgstr ""
+msgstr "Enkel separering"
 
 #: src/app/scripts/spread.py:44
 msgid "Spread Horizontal (cascade left)"
-msgstr ""
+msgstr "Sprid horisontellt (kaskad till vänster)"
 
 #: src/app/scripts/spread.py:66
 msgid "Spread Horizontal (cascade right)"
-msgstr ""
+msgstr "Sprid horisontellt (kaskad till höger)"
 
 #: src/app/scripts/spread.py:89
-#, fuzzy
 msgid "Spread Horizontal (center)"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Sprid horisontellt (centrera)"
 
 #: src/app/scripts/spread.py:114
-#, fuzzy
 msgid "Spread Horizontal (bbox)"
-msgstr "Перевернуть вдоль верт. оси"
+msgstr "Sprid horisontellt (bbox)"
 
 #: src/app/scripts/spread.py:137
 msgid "Spread Vertical (cascade bottom)"
-msgstr ""
+msgstr "Sprid vertikalt (kaskad i nederkant)"
 
 #: src/app/scripts/spread.py:160
 msgid "Spread Vertical (cascade top)"
-msgstr ""
+msgstr "Sprid vertikalt (kaskad i överkant)"
 
 #: src/app/scripts/spread.py:183
 msgid "Spread Vertical (center)"
-msgstr ""
+msgstr "Sprid vertikalt (centrera)"
 
 #: src/app/scripts/spread.py:209
 msgid "Spread Vertical (bbox)"
-msgstr ""
+msgstr "Sprid vertikalt (bbox)"
 
 #: src/app/UI/cc/ccenterdialog.py:31
 msgid "sK1 Preferences"
@@ -2342,7 +2314,7 @@ msgstr ""
 #: src/app/UI/context/ellipse_panel.py:63
 #, fuzzy
 msgid " Start: "
-msgstr "Выделить начало"
+msgstr "Välj start"
 
 #: src/app/UI/context/ellipse_panel.py:68
 msgid ""
@@ -2363,7 +2335,7 @@ msgstr ""
 #: src/app/UI/context/ellipse_panel.py:78
 #, fuzzy
 msgid "Reset angles"
-msgstr "Удалить рабочий"
+msgstr "Ta bort handtag"
 
 #: src/app/UI/context/ellipse_panel.py:82
 msgid "Swap angles"
@@ -2372,38 +2344,37 @@ msgstr ""
 #: src/app/UI/context/ellipse_panel.py:89
 #, fuzzy
 msgid "to Arc"
-msgstr "Дуга"
+msgstr "Båge"
 
 #: src/app/UI/context/ellipse_panel.py:93
 #, fuzzy
 msgid "to Chord"
-msgstr "Хорда"
+msgstr "Korda"
 
-# ../Sketch/UI/mainwindow.py:1139 :1268
 #: src/app/UI/context/ellipse_panel.py:97
 #, fuzzy
 msgid "to Pie"
-msgstr "Нет линии"
+msgstr "Ingen linje"
 
 #: src/app/UI/context/font_panel.py:41
 #, fuzzy
 msgid "Font name"
-msgstr "Размер шрифта"
+msgstr "Typsnittstorlek"
 
 #: src/app/UI/context/font_panel.py:52
 #, fuzzy
 msgid "Font style"
-msgstr "Стиль шрифтов"
+msgstr "Typsnittsstil:"
 
 #: src/app/UI/context/font_panel.py:63
 #, fuzzy
 msgid "Font size"
-msgstr "Размер шрифта"
+msgstr "Typsnittstorlek"
 
 #: src/app/UI/context/font_panel.py:77
 #, fuzzy
 msgid "Bold"
-msgstr "Смешать"
+msgstr "Färgtoning"
 
 #: src/app/UI/context/font_panel.py:82
 msgid "Italic"
@@ -2412,16 +2383,16 @@ msgstr ""
 #: src/app/UI/context/font_panel.py:155
 #, fuzzy
 msgid "Set Font Properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/context/group_panel.py:21
 msgid "Group"
-msgstr "Группировать"
+msgstr "Gruppera"
 
 #: src/app/UI/context/group_panel.py:34
 #, fuzzy
 msgid "Combine"
-msgstr "Продолжить"
+msgstr "Fortsätt"
 
 #: src/app/UI/context/group_panel.py:36
 msgid "Split"
@@ -2442,7 +2413,7 @@ msgstr ""
 #: src/app/UI/context/guides_panel.py:58
 #, fuzzy
 msgid "Remove all guides"
-msgstr "Удалить стиль %s"
+msgstr "Ta bort stil %s"
 
 #: src/app/UI/context/jump_panel.py:31
 msgid " Jump:"
@@ -2451,17 +2422,17 @@ msgstr ""
 #: src/app/UI/context/nodeedit_panel.py:34
 #, fuzzy
 msgid "Insert node"
-msgstr "Вставить узлы"
+msgstr "Infoga noder"
 
 #: src/app/UI/context/nodeedit_panel.py:37
 #, fuzzy
 msgid "Remove nodes"
-msgstr "Удалить стиль %s"
+msgstr "Ta bort stil %s"
 
 #: src/app/UI/context/nodeedit_panel.py:45
 #, fuzzy
 msgid "Join selected nodes"
-msgstr "Удалить узлы"
+msgstr "Ta bort noder"
 
 #: src/app/UI/context/nodeedit_panel.py:48
 msgid "Break path at selected nodes"
@@ -2490,7 +2461,7 @@ msgstr ""
 #: src/app/UI/context/nodeedit_panel.py:81
 #, fuzzy
 msgid "Select all nodes in path"
-msgstr "Выделить все узлы"
+msgstr "Markera alla noder"
 
 #: src/app/UI/context/page_panel.py:19
 msgid "<Custom Size>"
@@ -2499,7 +2470,7 @@ msgstr ""
 #: src/app/UI/context/page_panel.py:33
 #, fuzzy
 msgid "Page: "
-msgstr "Размер страницы:"
+msgstr "Sidstorlek:"
 
 #: src/app/UI/context/page_panel.py:50
 msgid "  H: "
@@ -2528,7 +2499,7 @@ msgstr ""
 #: src/app/UI/context/rotation_panel.py:25
 #, fuzzy
 msgid " Rotate: "
-msgstr "Повернуть против часовой"
+msgstr "Rotera motsols."
 
 #: src/app/UI/context/text_prop_panel.py:33
 msgid "Distance between words"
@@ -2545,7 +2516,7 @@ msgstr ""
 #: src/app/UI/context/text_prop_panel.py:68
 #, fuzzy
 msgid "Set Text properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/context/textalign_panel.py:29
 msgid "Left alignment"
@@ -2562,7 +2533,7 @@ msgstr ""
 #: src/app/UI/context/textalign_panel.py:57
 #, fuzzy
 msgid "Set Text Alignment"
-msgstr "Установить контур"
+msgstr "Ställ in kontur"
 
 #: src/app/UI/context/unit_panel.py:27
 msgid " Units: "
@@ -2641,12 +2612,12 @@ msgstr ""
 #: src/app/UI/dialogs/deletepagedlg.py:25
 #, fuzzy
 msgid "Delete page"
-msgstr "Удалить слой"
+msgstr "Ta bort lager"
 
 #: src/app/UI/dialogs/deletepagedlg.py:41
 #, fuzzy
 msgid "Delete page No.: "
-msgstr "Удалить узлы"
+msgstr "Ta bort noder"
 
 #: src/app/UI/dialogs/deletepagedlg.py:67
 #: src/app/UI/dialogs/gotopagedlg.py:67
@@ -2668,12 +2639,12 @@ msgstr ""
 #: src/app/UI/dialogs/insertpagedlg.py:25
 #, fuzzy
 msgid "Insert pages"
-msgstr "Вставить узлы"
+msgstr "Infoga noder"
 
 #: src/app/UI/dialogs/insertpagedlg.py:42
 #, fuzzy
 msgid "Insert: "
-msgstr "Вставить узлы"
+msgstr "Infoga noder"
 
 #: src/app/UI/dialogs/insertpagedlg.py:47
 msgid " page(s)"
@@ -2682,7 +2653,7 @@ msgstr ""
 #: src/app/UI/dialogs/insertpagedlg.py:61
 #, fuzzy
 msgid "Before "
-msgstr "Граница"
+msgstr "Kant"
 
 #: src/app/UI/dialogs/insertpagedlg.py:63
 msgid "After "
@@ -2707,12 +2678,12 @@ msgstr ""
 #: src/app/UI/pluginpanels/pbrowser.py:44
 #, fuzzy
 msgid "Object properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/pluginpanels/pbrowser.py:46
 #, fuzzy
 msgid "Transformation"
-msgstr "Снять преобразование"
+msgstr "Ta bort transformering"
 
 #: src/app/UI/pluginpanels/pbrowser.py:47
 msgid "Shaping"
@@ -2721,7 +2692,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/pbrowser.py:49
 #, fuzzy
 msgid "Extentions"
-msgstr "Общие настройки"
+msgstr "Rotationer"
 
 #: src/app/UI/widgets/colorchooser.py:87
 msgid ""
@@ -2732,13 +2703,13 @@ msgstr ""
 #: src/app/UI/widgets/colordigitizer.py:239
 #, fuzzy
 msgid "Color name:"
-msgstr "Цвет"
+msgstr "Färg"
 
-# ../Sketch/Graphics/properties.py:399 :403
+# ../Script/export_raster.py:220 :233 :239
 #: src/app/UI/widgets/colorspacesel.py:14
 #, fuzzy
 msgid "Empty pattern"
-msgstr "Узор"
+msgstr "Exportera raster"
 
 #: src/app/UI/widgets/colorspacesel.py:15
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:24
@@ -2749,12 +2720,12 @@ msgstr ""
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:25
 #, fuzzy
 msgid "CMYK color"
-msgstr "Цвет"
+msgstr "Färg"
 
 #: src/app/UI/widgets/colorspacesel.py:17
 #, fuzzy
 msgid "Spot color"
-msgstr "выбрать цвет"
+msgstr "Välj färg"
 
 #: src/app/UI/widgets/colorspacesel.py:18
 msgid "Registration Black"
@@ -2767,62 +2738,60 @@ msgstr ""
 
 #: src/app/UI/widgets/doctabs.py:206
 msgid "New Document"
-msgstr "Новый документ"
+msgstr "Nytt dokument"
 
 #: src/app/UI/widgets/doctabs.py:208
 #, fuzzy
 msgid "Refresh Document"
-msgstr "Новый документ"
+msgstr "Nytt dokument"
 
 #: src/app/UI/widgets/doctabs.py:210
 msgid "Save Document"
-msgstr "Сохранить документ"
+msgstr "Spara dokument"
 
-# ../Sketch/UI/mainwindow.py:397 :404 :412
 #: src/app/UI/widgets/doctabs.py:212
 #, fuzzy
 msgid "Close Other Documents"
-msgstr "Вставить документ"
+msgstr "Infoga dokument"
 
 #: src/app/UI/widgets/doctabs.py:215
 #, fuzzy
 msgid "Close Document"
-msgstr "Новый документ"
+msgstr "Nytt dokument"
 
 #: src/app/UI/cc/panels/general.py:19
 #, fuzzy
 msgid "General Options"
-msgstr "Общие настройки"
+msgstr "Globala alternativ"
 
 #: src/app/UI/cc/panels/general.py:21
 #, fuzzy
 msgid "root"
-msgstr "Сглаживание"
+msgstr "Mjuk"
 
-# ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/UI/pluginpanels/effects/align_plugin.py:23
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:27
 #, fuzzy
 msgid "Selection"
-msgstr "Нет выделения"
+msgstr "Ingen markering"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:24
 #, fuzzy
 msgid "Lowermost"
-msgstr "Опустить"
+msgstr "Sänk"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:25
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:28
 #: src/app/UI/pluginpanels/layout/page_plugin.py:33
 #, fuzzy
 msgid "Page"
-msgstr "Вставить"
+msgstr "Klistra in"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:47
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:50
 #, fuzzy
 msgid " Relative to "
-msgstr "Относительно страницы"
+msgstr "Relativ till sida"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:57
 msgid " Alignment type "
@@ -2831,7 +2800,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:71
 #, fuzzy
 msgid "Align left sides"
-msgstr "Выровнять влево"
+msgstr "Vänsterjustera"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:72
 msgid "Center on vertical axis"
@@ -2840,12 +2809,12 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:73
 #, fuzzy
 msgid "Align right sides"
-msgstr "Выровнять вправо"
+msgstr "Högerjustera"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:75
 #, fuzzy
 msgid "Align tops"
-msgstr "Выровнять вверх"
+msgstr "Justera mot överkant"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:76
 msgid "Center on horizontal axis"
@@ -2854,19 +2823,18 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:77
 #, fuzzy
 msgid "Align bottoms"
-msgstr "Выровнять вниз"
+msgstr "Justera mot nederkant"
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
 #: src/app/UI/pluginpanels/effects/align_plugin.py:100
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:106
 #, fuzzy
 msgid "Auto Apply"
-msgstr "Применить"
+msgstr "Verkställ"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:25
 #, fuzzy
 msgid "Distribute Objects"
-msgstr "Изменить размеры объектов"
+msgstr "Ändra storlek på objekt"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:29
 msgid "Edge + Jump"
@@ -2931,7 +2899,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
 #, fuzzy
 msgid " Parameters "
-msgstr "Установить параметры"
+msgstr "Ställ in parametrar"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:78
 msgid "Case sensitive"
@@ -2963,32 +2931,32 @@ msgstr ""
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
 #, fuzzy
 msgid "Guidelines"
-msgstr "Направляющие"
+msgstr "Guidelinjer"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:87
 #, fuzzy
 msgid "Add Horizontal Guide"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Lägg till horisontell hjälplinje"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:93
 #, fuzzy
 msgid "Add Vertical Guide"
-msgstr "Добавить вертикальную направляющую"
+msgstr "Lägg till vertikal hjälplinje"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:99
 #, fuzzy
 msgid "Delete Guide"
-msgstr "Удалить направляющую"
+msgstr "Ta bort guidelinje"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:129
 #, python-format
 msgid "% 6.*f %s    horizontal"
-msgstr "% 6.*f %s    по горизонтали"
+msgstr "% 6.*f %s    horisontellt"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:131
 #, python-format
 msgid "% 6.*f %s    vertical"
-msgstr "% 6.*f %s    по вертикали"
+msgstr "% 6.*f %s    vertikalt"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:156
 #, fuzzy
@@ -3002,24 +2970,23 @@ msgstr "X:"
 
 #: src/app/UI/pluginpanels/layout/page_plugin.py:111
 msgid "Portrait"
-msgstr "Портрет"
+msgstr "Stående"
 
 #: src/app/UI/pluginpanels/layout/page_plugin.py:117
 msgid "Landscape"
-msgstr "Альбом"
+msgstr "Liggande"
 
-# ../Sketch/UI/mainwindow.py:1136 :1267
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:33
 #, fuzzy
 msgid "Solid Fill"
-msgstr "Нет заливки"
+msgstr "Ingen fyllning"
 
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:70
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:180
 #: src/app/UI/pluginpanels/properties/outlineprop.py:180
 #, fuzzy
 msgid "Copy From..."
-msgstr "Обновить из..."
+msgstr "Uppdatera från..."
 
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:74
 msgid "Restore color"
@@ -3028,64 +2995,64 @@ msgstr ""
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:40
 #, fuzzy
 msgid "Gradient Fill"
-msgstr "Выбрать заливку"
+msgstr "Ställ in fyllning"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:66
 #: src/app/UI/pluginpanels/properties/outlineprop.py:66
 #, fuzzy
 msgid "Color:"
-msgstr "Цвет"
+msgstr "Färg"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:95
 #: src/app/UI/pluginpanels/properties/outlineprop.py:95
 #, fuzzy
 msgid "Line width:"
-msgstr "Толщина линии"
+msgstr "Linjebredd"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:108
 #: src/app/UI/pluginpanels/properties/outlineprop.py:108
 #, fuzzy
 msgid "Style:"
-msgstr "Стиль"
+msgstr "Stil"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:117
 #: src/app/UI/pluginpanels/properties/outlineprop.py:117
 #, fuzzy
 msgid " Corners: "
-msgstr "Граница"
+msgstr "Hörn"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:146
 #: src/app/UI/pluginpanels/properties/outlineprop.py:146
 #, fuzzy
 msgid " Line caps: "
-msgstr "Окончание линии"
+msgstr "Linjetak"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:184
 #: src/app/UI/pluginpanels/properties/outlineprop.py:184
 #, fuzzy
 msgid "Restore properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:245
 #: src/app/UI/pluginpanels/properties/outlineprop.py:245
 #, fuzzy
 msgid "Set Outline Properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/pluginpanels/properties/outlinecolor.py:18
 #, fuzzy
 msgid "Outline Color"
-msgstr "Выбрать цвет линии"
+msgstr "Ställ in radfärg"
 
 #: src/app/UI/pluginpanels/properties/outlinecolor.py:31
 #, fuzzy
 msgid "Set Outline Color"
-msgstr "Установить цвет контура слоя"
+msgstr "Ställ in lagerramfärg"
 
 #: src/app/UI/pluginpanels/properties/outlineprop.py:40
 #, fuzzy
 msgid "Outline Properties"
-msgstr "Установить свойства"
+msgstr "Ställ in egenskaper"
 
 #: src/app/UI/pluginpanels/shaping/base.py:27
 msgid "Two or more objects must be selected"
@@ -3117,16 +3084,17 @@ msgstr ""
 #: src/app/UI/pluginpanels/shaping/outline.py:27
 #, fuzzy
 msgid "Outline to Curve"
-msgstr "Вырезать кривую"
+msgstr "Klipp ut kurva"
 
 #: src/app/UI/pluginpanels/shaping/trim.py:25
 msgid "Trim"
 msgstr ""
 
+# src/menus.c:302
 #: src/app/UI/pluginpanels/shaping/union.py:25
 #, fuzzy
 msgid "Union"
-msgstr "Откат"
+msgstr "Ångra"
 
 #: src/app/UI/pluginpanels/transform/move_plugin.py:98
 msgid "Absolute Coordinates"
@@ -3139,7 +3107,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:87
 #, fuzzy
 msgid "Basepoint:"
-msgstr "Переименовать"
+msgstr "Basnamn:"
 
 #: src/app/UI/pluginpanels/transform/move_plugin.py:127
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:136
@@ -3153,7 +3121,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:184
 #, fuzzy
 msgid "Resize"
-msgstr "Размер страницы:"
+msgstr "Sidstorlek:"
 
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:109
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:111
@@ -3167,12 +3135,12 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:36
 #, fuzzy
 msgid "Rotate"
-msgstr "Повернуть против часовой"
+msgstr "Rotera motsols."
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:83
 #, fuzzy
 msgid " Angle: "
-msgstr "Угол"
+msgstr "Vinkel"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:89
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:68
@@ -3183,17 +3151,17 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:92
 #, fuzzy
 msgid "Center:"
-msgstr "Создать"
+msgstr "Skapa"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:126
 #, fuzzy
 msgid "Absolute Center"
-msgstr "Выровнять по центру (гор.)"
+msgstr "Centrera horisontellt"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:222
 #, fuzzy
 msgid "Rotation&Copy"
-msgstr "Общие настройки"
+msgstr "Rotationer"
 
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:27
 msgid "Scale and Mirror"
@@ -3211,7 +3179,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:183
 #, fuzzy
 msgid "Skew&Copy"
-msgstr "Копировать"
+msgstr "Kopiera"
 
 #~ msgid ""
 #~ "Usage:\tskencil [options] [filename]\n"
@@ -3231,146 +3199,142 @@ msgstr "Копировать"
 #~ "  -geometry WxH+X+Y\n"
 #~ "\n"
 #~ msgstr ""
-#~ "Использование:\tskencil [параметры] [имя_файла]\n"
+#~ "Användning:\tskencil [flaggor] [filnamn]\n"
 #~ "\n"
-#~ "skencil принимает следующие параметры:\n"
+#~ "skencil godtar dessa flaggor:\n"
 #~ "\n"
-#~ "  -h --help\t\tВыводит данную справку\n"
-#~ "  -d --display=DISPLAY\tUse DISPLAY a X Display\n"
-#~ "  -g --geometry=WxH+X+Y\tФорма и размеры главного окна, заданные "
-#~ "стандартным для X способом\n"
-#~ "  --run-script=script   Исполнить файл script после старта\n"
-#~ "  --version\t\tВывод номера версии\n"
+#~ "  -h --help\t\tVisa detta hjälpmeddelande\n"
+#~ "  -d --display=DISPLAY\tAnvänd DISPLAY som X-display\n"
+#~ "  -g --geometry=BxH+X+Y\tGeometrin för huvudfönstret på standardform för "
+#~ "X\n"
+#~ "  --run-script=skript   Kör filskriptet efter uppstart\n"
+#~ "  --version\t\tSkriv ut versionsnumret på standard ut\n"
 #~ "\n"
-#~ "для совместимости с другим программным обеспечением для X skencil также\n"
-#~ "поддерживает задание формы и размеров в стандартном для X формате:\n"
+#~ "för kompatibilitet med annan X-programvara godtar skencil även\n"
+#~ "geometrispecifikationer i standardformatet för X:\n"
 #~ "\n"
-#~ "  -geometry WxH+X+Y\n"
+#~ "  -geometry BxH+X+Y\n"
 #~ "\n"
 #~ msgid "Cannot load plugin module %s"
-#~ msgstr "Невозможно загрузить подключаемый модуль %s"
+#~ msgstr "Kan inte läsa in insticksmodulen %s"
 #~ msgid "Cannot load filter %(name)s"
-#~ msgstr "Невозможно загрузить фильтр %(name)s"
+#~ msgstr "Kan inte läsa in filter %(name)s"
 #~ msgid "Cannot load plugin %(name)s.%(attr)s"
-#~ msgstr "Невозможно загрузить подключаемый модуль %(name)s.%(attr)s"
+#~ msgstr "Kan inte läsa in insticksmodulen %(name)s.%(attr)s"
 #~ msgid ""
 #~ "Cannot list directory %(filename)s\n"
 #~ "%(message)s"
 #~ msgstr ""
-#~ "Невозможно прочитать каталог %(filename)s\n"
+#~ "Kan inte lista katalogen %(filename)s\n"
 #~ "%(message)s"
 #~ msgid "No plugin-type information in %(filename)s"
-#~ msgstr "Отсутствует информация о подключаемом модуле в файле %(filename)s"
+#~ msgstr "Ingen information om insticksmodultyp i %(filename)s"
 #~ msgid "can't read configuration information from %(filename)s"
-#~ msgstr ""
-#~ "невозможно прочитать конфигурационную информацию из файла %(filename)s"
+#~ msgstr "kan inte läsa konfigurationsinformation från %(filename)s"
 #~ msgid ""
 #~ "I cannot find the metrics for the font %(ps_name)s.\n"
 #~ "The file %(afm)s is not in the font_path.\n"
 #~ "I'll use the metrics for %(fallback)s instead."
 #~ msgstr ""
-#~ "Невозможно найти метрики для шрифта %(ps_name)s.\n"
-#~ "Файл %(afm)s не находится в font_path.\n"
-#~ "Взамен будут использованы метрики для %(fallback)s."
+#~ "Jag kan inte hitta metriken för typsnittet %(ps_name)s.\n"
+#~ "Filen %(afm)s finns inte i typsnittssökvägen.\n"
+#~ "Jag kommer att använda metriken för %(fallback)s istället."
 #~ msgid ""
 #~ "Cannot list directory %s:%s\n"
 #~ "ignoring it in font_path"
 #~ msgstr ""
-#~ "Невозможно узнать содержимое каталога %s:%s.\n"
-#~ "Этот каталог будет проигнорирован в font_path."
+#~ "Kan inte lista katalogen %s:%s\n"
+#~ "ignorerar den i typsnittssökväg"
 #~ msgid "Cannot load sfd file %(filename)s:%(message)s;ignoring it"
-#~ msgstr "Невозможно прочитать файл sfd %(filename)s:%(message)s, пропущен."
+#~ msgstr "Kan inte läsa in sfd-filen %(filename)s:%(message)s;ignorerar den"
 #~ msgid "I can't find font %(fontname)s. I'll use %(fallback)s instead"
 #~ msgstr ""
-#~ "Невозможно найти шрифт %(fontname)s. Взамен будет использован %(fallback)"
-#~ "s."
+#~ "Jag kan inte hitta typsnittet %(fontname)s. Jag kommer att använda %"
+#~ "(fallback)s istället"
 #~ msgid "Linked Image `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
 #~ msgstr ""
-#~ "Связанное изображение `%(filename)s' %(width)d x %(height)d в точке (%(x)"
-#~ "d, %(y)d)"
+#~ "Länkad bild \"%(filename)s\" %(width)d × %(height)d vid (%(x)d, %(y)d)"
 #~ msgid "Align"
-#~ msgstr "Выровнять"
+#~ msgstr "Justera"
 #~ msgid "Relative To Selection"
-#~ msgstr "Относительно выделения"
+#~ msgstr "Relativ till markering"
 #~ msgid "Relative To Lowermost"
-#~ msgstr "Относительно самого нижнего"
+#~ msgstr "Relativ till lägsta"
 #~ msgid "Redraw"
-#~ msgstr "Перерисовать"
+#~ msgstr "Rita om"
 #~ msgid "Curve"
-#~ msgstr "Кривая"
+#~ msgstr "Kurva"
 #~ msgid "Fonts"
-#~ msgstr "Шрифты"
+#~ msgstr "Typsnitt"
 #~ msgid "Font Family:"
-#~ msgstr "Семейство шрифтов:"
+#~ msgstr "Typsnittsfamilj:"
 #~ msgid "Size:"
-#~ msgstr "Размер"
+#~ msgstr "Storlek:"
 #~ msgid "Set Font `%s'"
-#~ msgstr "Выбрать шрифт `%s'"
+#~ msgstr "Ställ in typsnittet \"%s\""
 #~ msgid "Set Font Size %.1f"
-#~ msgstr "Выбрать рамер шрифта %.1f"
+#~ msgstr "Ställ in typsnittsstorleken %.1f"
 #~ msgid "Origin:"
-#~ msgstr "Положение:"
+#~ msgstr "Ursprung:"
 #~ msgid "Widths:"
-#~ msgstr "Ширина:"
+#~ msgstr "Bredder:"
 #~ msgid "Add H"
-#~ msgstr "Добавить H"
+#~ msgstr "Lägg till H"
 #~ msgid "Add V"
-#~ msgstr "Добавить V"
+#~ msgstr "Lägg till V"
 #~ msgid "Layers"
-#~ msgstr "Слои"
+#~ msgstr "Lager"
 #~ msgid "Rename"
-#~ msgstr "Переименовать"
+#~ msgstr "Byt namn"
 #~ msgid "Lower Layer"
-#~ msgstr "Опустить слой"
+#~ msgstr "Sänk lager"
 #~ msgid "Raise Layer"
-#~ msgstr "Поднять слой"
+#~ msgstr "Höj lager"
 #~ msgid "Move Selection Here"
-#~ msgstr "Переместить выделение сюда"
+#~ msgstr "Flytta markering hit"
 #~ msgid "Select All Children"
-#~ msgstr "Выделить всех потомков"
+#~ msgstr "Markera alla barn"
 #~ msgid "Deselect All Children"
-#~ msgstr "Снять выделение со всех потомков"
-
-# ../Sketch/UI/layerdlg.py:365 :381
+#~ msgstr "Avmarkera alla barn"
 #~ msgid "Name"
-#~ msgstr "Имя"
+#~ msgstr "Namn"
 #~ msgid "Paper format:"
-#~ msgstr "Формат бумаги:"
+#~ msgstr "Pappersformat:"
 #~ msgid "Line Style"
-#~ msgstr "Стиль прямой"
+#~ msgstr "Linjestil"
 #~ msgid "None"
-#~ msgstr "Ничего"
+#~ msgstr "Ingen"
 #~ msgid "Open Document"
-#~ msgstr "Открыть документ"
+#~ msgstr "Öppna dokument"
 #~ msgid "Save as PostScript..."
-#~ msgstr "Сохранить в виде PostScript..."
-# ../Sketch/UI/mainwindow.py:333 :352 ../Sketch/UI/printdlg.py:117 :166
+#~ msgstr "Spara som PostScript..."
 #~ msgid "Save As PostScript"
-#~ msgstr "Сохранить в виде PostScript"
+#~ msgstr "Spara som PostScript"
 #~ msgid "Insert Document..."
-#~ msgstr "Вставить документ..."
+#~ msgstr "Infoga dokument..."
 #~ msgid "The document is empty"
-#~ msgstr "Этот документ пуст"
+#~ msgstr "Dokumentet är tomt"
 #~ msgid "Hide Dialogs"
-#~ msgstr "Спрятать окна диалогов"
+#~ msgstr "Dölj dialogfönster"
 #~ msgid "Show Dialogs"
-#~ msgstr "Показать окна диалогов"
+#~ msgstr "Visa dialogfönster"
 #~ msgid "Layers..."
-#~ msgstr "Слои..."
+#~ msgstr "Lager..."
 #~ msgid "Font..."
-#~ msgstr "Шрифт..."
+#~ msgstr "Typsnitt..."
 #~ msgid "Page Layout..."
-#~ msgstr "Макет страницы..."
+#~ msgstr "Sidlayout..."
 #~ msgid "Curve Commands..."
-#~ msgstr "Команды построения кривых..."
+#~ msgstr "Kurvkommandon..."
 #~ msgid "Reload Module..."
-#~ msgstr "Перезагрузить модуль..."
+#~ msgstr "Läs om modul..."
 #~ msgid "Options..."
-#~ msgstr "Параметры..."
+#~ msgstr "Alternativ..."
 #~ msgid "Script"
-#~ msgstr "Сценарии"
+#~ msgstr "Skript"
 #~ msgid "Windows"
-#~ msgstr "Окна"
+#~ msgstr "Fönster"
+
 #, fuzzy
 #~ msgid ""
 #~ "Skencil (%(version)s)\n"
@@ -3380,46 +3344,46 @@ msgstr "Копировать"
 #~ "Python:\t%(py)s\tTcl:\t%(tcl)s\n"
 #~ "Tkinter:\t%(tkinter)s\tTk:\t%(tk)s"
 #~ msgstr ""
-#~ "Sketch (%(version)s)\n"
-#~ "(c) 1996-2005 by Bernhard Herzog\n"
-#~ "Перевод Андрей Киселев, 2001 г.\n"
-#~ "Версии:\n"
+#~ "Skencil (%(version)s)\n"
+#~ "© 1996-2005 by Bernhard Herzog\n"
+#~ "\n"
+#~ "Versioner:\n"
 #~ "Python:\t%(py)s\tTcl:\t%(tcl)s\n"
 #~ "Tkinter:\t%(tkinter)s\tTk:\t%(tk)s"
-
-#, fuzzy
 #~ msgid "About Skencil"
-#~ msgstr "О программе Sketch"
+#~ msgstr "Om Skencil"
 #~ msgid "Load Raster/EPS Image..."
-#~ msgstr "Загрузить растровое/EPS изображение"
+#~ msgstr "Läs in raster-/EPS-bild..."
 #~ msgid "# Undo Levels:"
-#~ msgstr "Число уровней отката"
+#~ msgstr "# Ångringshistorik:"
 #~ msgid "unlimited"
-#~ msgstr "неограничено"
+#~ msgstr "obegränsad"
 #~ msgid "Duplication Offset"
-#~ msgstr "Смещение при дублировании"
+#~ msgstr "Dupliceringsavstånd"
 #~ msgid "Hor."
-#~ msgstr "Гор."
+#~ msgstr "Hor."
 #~ msgid "Vert."
-#~ msgstr "Верт."
+#~ msgstr "Vert."
 #~ msgid "Default Unit"
-#~ msgstr "Единица измерения по умолчанию"
+#~ msgstr "Standardenhet"
 #~ msgid "Could not load palette %s; trying mini.spl..."
-#~ msgstr "Невозможно загрузить палитру %s; попробуем mini.spl..."
+#~ msgstr "Kunde inte läsa in paletten %s, försöker med mini.spl..."
 #~ msgid "Could not load palette mini.spl; reverting to black&white"
-#~ msgstr "Невозможно загрузить палитру mini.spl; возвращаемся к черно-белому"
+#~ msgstr "Kunde inte läsa in paletten mini.slp; återgår till svartvitt"
+#~ msgid "Skencil/Sketch Palette"
+#~ msgstr "Skencil-/Sketchpalett"
+#~ msgid "Embed fonts"
+#~ msgstr "Bädda in typsnitt"
 #~ msgid "Printer"
-#~ msgstr "Принтер"
+#~ msgstr "Skrivare"
 #~ msgid "Command"
-#~ msgstr "Команда"
+#~ msgstr "Kommando"
 #~ msgid "EPS"
 #~ msgstr "EPS"
 #~ msgid "Filename"
-#~ msgstr "Имя файла"
-
-#, fuzzy
+#~ msgstr "Filnamn"
 #~ msgid "Skencil/Sketch Document"
-#~ msgstr "Документ Sketch"
+#~ msgstr "Skencil-/Sketchdokument"
 #~ msgid "JPEG"
 #~ msgstr "JPEG"
 #~ msgid "GIF"
@@ -3427,73 +3391,35 @@ msgstr "Копировать"
 #~ msgid "TIFF"
 #~ msgstr "TIFF"
 #~ msgid "Windows / OS/2 Bitmap"
-#~ msgstr "Windows / OS/2 Bitmap"
+#~ msgstr "Windows- / OS/2-bitmappsbild"
 #~ msgid "PCX"
 #~ msgstr "PCX"
 #~ msgid "Ok"
-#~ msgstr "Ok"
+#~ msgstr "OK"
 #~ msgid "Adobe Illustrator"
 #~ msgstr "Adobe Illustrator"
-
-# ../Plugins/Filters/ailoader.py:400 :428
 #~ msgid "Vector patterns not supported. Using black"
-#~ msgstr "Векторные узоры не поддерживаются. Заливаем черным."
+#~ msgstr "Vektormönster stöds inte. Använder svart"
 #~ msgid "Gradient ColorStyle %d not yet supported.substituted black"
-#~ msgstr "Градиентный стиль %d пока не поддерживается. Подставляем черный"
-# ../Plugins/Filters/ailoader.py:533 :563
+#~ msgstr "Färgskale-ColorStyle %d stöds inte än. Ersatte med svart"
 #~ msgid "Unknown ColorStyle %d"
-#~ msgstr "Неизвестный Стиль цвета %d"
+#~ msgstr "Okänd ColorStyle %d"
 #~ msgid "less than two color stops in gradient"
-#~ msgstr "меньше двух цветовых отметок в градиенте"
+#~ msgstr "färre än två färgstopp i färgskalan"
 #~ msgid "Unknown gradient type %d"
-#~ msgstr "Неизвестный тип градиента %d"
+#~ msgstr "Okänd färgskaletyp %d"
 #~ msgid "Multiple Master fonts not supported. Using Times Roman"
-#~ msgstr "Шрифты Multiple Master не поддерживаются. Используется Times Roman"
+#~ msgstr "Flera huvudtypsnitt stöds inte. Använder Times Roman"
 #~ msgid "Additional encoding ignored"
-#~ msgstr "Дополнительная кодировка игнорирована"
+#~ msgstr "Ytterligare kodning ignorerad"
 #~ msgid "Area text not supported"
-#~ msgstr "Текстовые области не поддерживаются"
+#~ msgstr "Areatext stöds inte"
 #~ msgid "No font %s."
-#~ msgstr "Нет шрифта %s."
+#~ msgstr "Inget typsnitt %s."
 #~ msgid "Only images with 1 or 3 components and 8 bits/component supported"
-#~ msgstr ""
-#~ "Поддерживаются только изображения с 1 или 3 каналами и 8 битами на канал"
+#~ msgstr "Endast bilder med 1 eller 3 komponenter och 8 bitar/komponent stöds"
 #~ msgid "Bzipped Files"
-#~ msgstr "Файлы сжаты bzip2"
+#~ msgstr "Bzippade filer"
 #~ msgid "Color model %s not implemented. Using black"
-#~ msgstr "Цветовая модель %s не реализована. Используется черный"
-#~ msgid "Unknown unit specification %d, assuming inches"
-#~ msgstr "Неизвестная единица измерения %d, полагются дюймы"
-#~ msgid "Invalid image specification"
-#~ msgstr "Ошибочно заданное изображение"
-#~ msgid "fill type 'monochrome-bitmap' not implemented, using solid black"
-#~ msgstr "заливка битовой маской не реализована, используется сплошной черный"
-#~ msgid "fill type 'texture' not implemented, using solid black"
-#~ msgstr "заливка текстурой не реализована, используется сплошной черный"
-# ../Plugins/Filters/cmxloader.py:1167 :1404
-#~ msgid "fill type %d not implemented, using solid black"
-#~ msgstr "заливка типа %s не реализована, используется сплошной черный"
-#~ msgid "Lens specification ignored"
-#~ msgstr "Заданная линза игнорирована"
-#~ msgid "Canvas specification ignored"
-#~ msgstr "Заданный холст игнорирован"
-#~ msgid "Texture fill not implemented, using solid black"
-#~ msgstr "Заливка текстурой не реализована, используется сплошной черный"
-#~ msgid "Substituting radial gradient for square gradient"
-#~ msgstr "Подставляется радиальный градиент для квадратного градиента"
-#~ msgid "Image for twocolor fill is not 1 bit deep"
-#~ msgstr "Изображение для двуцветной заливки не 1-битной глубины"
-#~ msgid "Unexpected end of file"
-#~ msgstr "Неожиданный конец файла"
-#~ msgid "Drawfile"
-#~ msgstr "Нарисовать эллипс"
-#~ msgid "Gzipped Files"
-#~ msgstr "Файлы сжаты gzip"
-#, fuzzy
-#~ msgid ""
-#~ "The file was created by a newer version of Skencil or Sketch, there might "
-#~ "be inaccuracies."
-#~ msgstr "Файл создан более новой версией Sketch, возможны неточности"
-#~ msgid "Unknown paper format '%s', using A4 instead"
-#~ msgstr "Неизвестный формат бумаги '%s', взамен используется A4"
+#~ msgstr "Färgmodellen %s stöds inte. Använd svart"
 

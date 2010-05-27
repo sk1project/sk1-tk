@@ -1,173 +1,187 @@
-# Russian translation for Sketch
-# Copyright (C) 2001,2002 Andrey Kiselev <a_kissel@eudoramail.com>
+# Kinyarwanda translations for skencil package.
+# Copyright (C) 2005 Free Software Foundation, Inc.
+# Steve Murphy <murf@e-tools.com>, 2005.
+# Steve performed initial rough translation from compendium built from translations provided by the following translators:
+# Philibert Ndandali  <ndandali@yahoo.fr>, 2005.
+# Viateur MUGENZI <muvia1@yahoo.fr>, 2005.
+# Noëlla Mupole <s24211045@tuks.co.za>, 2005.
+# Carole Karema <karemacarole@hotmail.com>, 2005.
+# JEAN BAPTISTE NGENDAHAYO <ngenda_denis@yahoo.co.uk>, 2005.
+# Augustin KIBERWA  <akiberwa@yahoo.co.uk>, 2005.
+# Donatien NSENGIYUMVA <ndonatienuk@yahoo.co.uk>, 2005.
+# Antoine Bigirimana <antoine@e-tools.com>, 2005.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Sketch 0.6.8\n"
+"Project-Id-Version: skencil 0.6.16pre3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-27 22:25+0200\n"
-"PO-Revision-Date: 2010-05-27 23:21+0100\n"
+"PO-Revision-Date: 2010-05-27 22:56+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/app/Graphics/arrow.py:81
-#, python-format
+#, fuzzy, python-format
 msgid "%s is not an arrow definition file"
-msgstr "%s не является файлом, определяющим стрелку"
+msgstr "%sni OYA Akambi Insobanuro IDOSIYE"
 
 #: src/app/Graphics/arrow.py:94
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Error trying to read arrows from %s\n"
 "Using builtin defaults"
-msgstr ""
-"Ошибка при чтении стрелок из %s\n"
-"Будут использованы встроенные определения"
+msgstr "Kuri Gusoma Utwambi Bivuye"
 
 #: src/app/Graphics/bezier.py:186
-#, python-format
+#, fuzzy, python-format
 msgid "PolyBezier (%(nodes)d nodes in %(paths)d paths)"
-msgstr "Полином Безье (%(nodes)d узлов в %(paths)d участках)"
+msgstr "D in Inzira D Inzira"
 
 #: src/app/Graphics/bezier.py:262
 msgid "Create Curve"
-msgstr "Создать кривую"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:334
 msgid "Create Poly-Line"
-msgstr "Создать ломаную"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:460
 msgid "Select All Nodes"
-msgstr "Выделить все узлы"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:777
-#, python-format
+#, fuzzy, python-format
 msgid "%d nodes in PolyBezier"
-msgstr "%d узлов в полиноме Безье"
+msgstr "%din"
 
 #: src/app/Graphics/bezier.py:786
 msgid "PolyBezier"
-msgstr "Полином Безье"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:788
+#, fuzzy
 msgid "First node of PolyBezier"
-msgstr "Первый узел полинома Безье"
+msgstr "Bya"
 
 #: src/app/Graphics/bezier.py:790
+#, fuzzy
 msgid "Last node of PolyBezier"
-msgstr "Последний узел полинома Безье"
+msgstr "Bya"
 
 #: src/app/Graphics/bezier.py:792
+#, fuzzy
 msgid "1 node of PolyBezier"
-msgstr "1 узел полинома Безье"
+msgstr "1. Bya"
 
 #: src/app/Graphics/bezier.py:795
-#, python-format
+#, fuzzy, python-format
 msgid "Point on curve at position %.2f"
-msgstr "Точка на кривой в позиции %.2f"
+msgstr "ku Agaheto ku Ibirindiro"
 
 #: src/app/Graphics/bezier.py:798
+#, fuzzy
 msgid "No Node of PolyBezier"
-msgstr "Нет узла на полиноме Безье"
+msgstr "Bya"
 
 #: src/app/Graphics/bezier.py:849
 msgid "Cut Curve"
-msgstr "Вырезать кривую"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:932
+#, fuzzy
 msgid "Close Nodes"
-msgstr "Замкнуть узлы"
+msgstr "Funga"
 
 #: src/app/Graphics/bezier.py:942
 msgid "Angle"
-msgstr "Угол"
+msgstr "Imfuruka"
 
 #: src/app/Graphics/bezier.py:943
 msgid "Smooth"
-msgstr "Сглаживание"
+msgstr "Kunoza"
 
 #: src/app/Graphics/bezier.py:944
 msgid "Symmetrical"
-msgstr "Симметрично"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:959
 msgid "Curve->Line"
-msgstr "Кривая->Прямая"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:974
 msgid "Line->Curve"
-msgstr "Прямая->Кривая"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:996
 msgid "Delete Nodes"
-msgstr "Удалить узлы"
+msgstr ""
 
 #: src/app/Graphics/bezier.py:1013
 msgid "Insert Nodes"
-msgstr "Вставить узлы"
+msgstr ""
 
 #: src/app/Graphics/blendgroup.py:115
-#, python-format
+#, fuzzy, python-format
 msgid "Interpolation with %d steps"
-msgstr "Интерполяция в %d шагов"
+msgstr "Na: Intambwe"
 
 #: src/app/Graphics/blendgroup.py:336
-#, python-format
+#, fuzzy, python-format
 msgid "BlendGroup with %d control objects"
-msgstr "Группа смешивания с %d управляющими объектами"
+msgstr "Na: Igenzura Ibintu"
 
 #: src/app/Graphics/color.py:315
 msgid "Registration Black ("
 msgstr ""
 
 #: src/app/Graphics/color.py:386
+#, fuzzy
 msgid "I can't alloc all needed colors. I'll use a private colormap"
-msgstr "Невозможно разместить все необходимые цвета. Использована ограниченная палитра"
+msgstr "Byose Amabara Gukoresha a By'umwihariko"
 
 #: src/app/Graphics/compound.py:252
-#, python-format
+#, fuzzy, python-format
 msgid "Compound with %d objects"
-msgstr "Скомпоновать с %d объектами"
+msgstr "Na: Ibintu"
 
 #: src/app/Graphics/dashes.py:35
-#, python-format
+#, fuzzy, python-format
 msgid "%s is not dashes file"
-msgstr "%s не является файлом определения пунктира"
+msgstr "%sni OYA Utunyerezo IDOSIYE"
 
 #: src/app/Graphics/dashes.py:38
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Error trying to read dashes from %s\n"
 "Using builtin defaults"
-msgstr ""
-"Ошибка при чтении пунктира из %s\n"
-"Будут использованы встроенные определения"
+msgstr "Kuri Gusoma Utunyerezo Bivuye"
 
 #: src/app/Graphics/document.py:83
 msgid "Guide Lines"
-msgstr "Направляющие"
+msgstr ""
 
-# ../Sketch/Graphics/document.py:86 :229 ../Plugins/Filters/xfigloader.py:480
+# ../Sketch/Graphics/document.py:86:229 ../Plugins/Filters/xfigloader.py:503
 #: src/app/Graphics/document.py:85
 #: src/app/Graphics/document.py:143
 #, fuzzy
 msgid "MasterLayer 1"
-msgstr "Слой 1"
+msgstr "1."
 
-# ../Sketch/Graphics/document.py:86 :229 ../Plugins/Filters/xfigloader.py:480
+# ../Sketch/Graphics/document.py:86:229 ../Plugins/Filters/xfigloader.py:503
 #: src/app/Graphics/document.py:91
 #: src/app/Graphics/document.py:184
 #: src/app/Graphics/document.py:339
+#, fuzzy
 msgid "Layer 1"
-msgstr "Слой 1"
+msgstr "1."
 
 #: src/app/Graphics/document.py:119
-#, python-format
+#, fuzzy, python-format
 msgid "Layer %d"
-msgstr "Слой %d"
+msgstr "Akugara..."
 
 #: src/app/Graphics/document.py:314
 #, python-format
@@ -182,70 +196,72 @@ msgstr ""
 #: src/app/Graphics/document.py:642
 #: src/app/Scripting/wrapper.py:115
 msgid "Create Object"
-msgstr "Создать объект"
+msgstr ""
 
 #: src/app/Graphics/document.py:1425
 msgid "Add Style"
-msgstr "Добавить стиль"
+msgstr ""
 
 #: src/app/Graphics/document.py:1436
 msgid "Set Properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/Graphics/document.py:1466
 #: src/app/UI/mainwindow.py:850
 msgid "Delete"
-msgstr "Удалить"
+msgstr "Gusiba"
 
 #: src/app/Graphics/document.py:1502
 msgid "Move To Top"
-msgstr "Переместить наверх"
+msgstr ""
 
 #: src/app/Graphics/document.py:1505
 msgid "Move To Bottom"
-msgstr "Переместить вниз"
+msgstr ""
 
 #: src/app/Graphics/document.py:1508
 msgid "Lower"
-msgstr "Опустить"
+msgstr "Cya-hasi"
 
 #: src/app/Graphics/document.py:1511
 msgid "Raise"
-msgstr "Поднять"
+msgstr ""
 
 #: src/app/Graphics/document.py:1515
-#, python-format
+#, fuzzy, python-format
 msgid "Move Selection to `%s'"
-msgstr "Переместить выделение в %s"
+msgstr "Kuri"
 
 #: src/app/Graphics/document.py:1572
 #: src/app/UI/mainwindow.py:801
 #: src/app/UI/ttk_ext.py:33
 msgid "Cut"
-msgstr "Вырезать"
+msgstr "Gukata"
 
 #: src/app/Graphics/document.py:1592
 #: src/app/Graphics/document.py:1597
 #: src/app/UI/mainwindow.py:858
 #: src/app/UI/mainwindow.py:859
 msgid "Duplicate"
-msgstr "Дублировать"
+msgstr "Gusubiramo"
 
 #: src/app/Graphics/document.py:1630
 msgid "Create Group"
-msgstr "Создать группу"
+msgstr "Kurema Itsinda"
 
+# sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_UNDO_REMAKEOUTLINE.text
 #: src/app/Graphics/document.py:1651
 #: src/app/UI/context/group_panel.py:23
 msgid "Ungroup"
-msgstr "Разгруппировать"
+msgstr "kuvana mu itsinda"
 
+# sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_UNDO_REMAKEOUTLINE.text
 #: src/app/Graphics/document.py:1681
 #: src/app/UI/mainwindow.py:881
 #: src/app/UI/context/group_panel.py:25
 #, fuzzy
 msgid "Ungroup All"
-msgstr "Разгруппировать"
+msgstr "kuvana mu itsinda"
 
 #: src/app/Graphics/document.py:1701
 msgid "Modify&Copy"
@@ -254,54 +270,62 @@ msgstr ""
 #: src/app/Graphics/document.py:1709
 #: src/app/UI/mainwindow.py:874
 msgid "Create Mask Group"
-msgstr "Создать маскирующую группу"
+msgstr ""
 
 #: src/app/Graphics/document.py:1741
+#, fuzzy
 msgid "Transform"
-msgstr "Преобразовать"
+msgstr "Guhindura"
 
 #: src/app/Graphics/document.py:1744
+#, fuzzy
 msgid "Translate"
-msgstr "Перевести"
+msgstr "translate"
 
 #: src/app/Graphics/document.py:1748
 #: src/app/UI/mainwindow.py:873
 msgid "Remove Transformation"
-msgstr "Снять преобразование"
+msgstr ""
 
 #: src/app/Graphics/document.py:1760
 msgid "Align Objects"
-msgstr "Выровнять объекты"
+msgstr ""
 
 #: src/app/Graphics/document.py:1798
 #: src/app/UI/mainwindow.py:866
 msgid "Abut Horizontal"
-msgstr "Выстроить по горизонтали"
+msgstr ""
 
 #: src/app/Graphics/document.py:1823
 #: src/app/UI/mainwindow.py:867
 msgid "Abut Vertical"
-msgstr "Выстроить по вертикали"
+msgstr ""
 
+# sw/source\ui\utlui\attrdesc.src:STR_HORI_MIRROR.text
 #: src/app/Graphics/document.py:1856
 #: src/app/UI/mainwindow.py:869
+#, fuzzy
 msgid "Flip Horizontal"
-msgstr "Перевернуть вдоль верт. оси"
+msgstr "Guhindukiza intambike"
 
+# #-#-#-#-#  svx.pot (PACKAGE VERSION)  #-#-#-#-#
+# svx/source\svdraw\svdstr.src:STR_EditMirrorVert.text
+# #-#-#-#-#  svx.pot (PACKAGE VERSION)  #-#-#-#-#
+# svx/source\svdraw\svdstr.src:STR_DragMethMirrorVert.text
 #: src/app/Graphics/document.py:1863
 #: src/app/UI/mainwindow.py:870
+#, fuzzy
 msgid "Flip Vertical"
-msgstr "Перевернуть вдоль гор. оси"
+msgstr "Guhindukiza ubuhagarike"
 
 #: src/app/Graphics/document.py:1868
 msgid "Flip Both"
-msgstr "Перевернуть"
+msgstr ""
 
 #: src/app/Graphics/document.py:1882
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:206
-#, fuzzy
 msgid "Rotation"
-msgstr "Общие настройки"
+msgstr ""
 
 #: src/app/Graphics/document.py:1901
 #: src/app/UI/pluginpanels/transform/move_plugin.py:31
@@ -311,62 +335,64 @@ msgstr ""
 #: src/app/Graphics/document.py:1915
 #, fuzzy
 msgid "Move&Copy"
-msgstr "Копировать"
+msgstr "Guporora"
 
 #: src/app/Graphics/document.py:1949
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:178
 #, fuzzy
 msgid "Scale"
-msgstr "Сохранить"
+msgstr "Kubika"
 
 #: src/app/Graphics/document.py:2023
 #: src/app/UI/pluginpanels/effects/blend_plugin.py:24
 msgid "Blend"
-msgstr "Смешать"
+msgstr ""
 
 #: src/app/Graphics/document.py:2032
+#, fuzzy
 msgid "I can't blend the selected objects"
-msgstr "Невозможно смешать выбранные объекты"
+msgstr "i Byahiswemo Ibintu"
 
 #: src/app/Graphics/document.py:2056
 #: src/app/UI/mainwindow.py:872
 msgid "Cancel Blend"
-msgstr "Прервать смешивание"
+msgstr ""
 
 #: src/app/Graphics/document.py:2084
 #: src/app/UI/mainwindow.py:875
 msgid "Create Path Text"
-msgstr "Создать текст вдоль кривой"
+msgstr ""
 
 #: src/app/Graphics/document.py:2111
 #: src/app/UI/mainwindow.py:876
 msgid "Create Clone"
-msgstr "Создать клон"
+msgstr ""
 
 #: src/app/Graphics/document.py:2142
 #: src/app/UI/mainwindow.py:863
 msgid "Combine Beziers"
-msgstr "Объединить кривые Безье"
+msgstr ""
 
 #: src/app/Graphics/document.py:2163
 #: src/app/UI/mainwindow.py:864
 msgid "Split Beziers"
-msgstr "Разделить кривые Безье"
+msgstr ""
 
 #: src/app/Graphics/document.py:2194
 #: src/app/UI/mainwindow.py:862
+#, fuzzy
 msgid "Convert To Curve"
-msgstr "Превратить в кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/Graphics/document.py:2260
 #, fuzzy
 msgid "Convert Image"
-msgstr "Обратить изображение"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/Graphics/document.py:2287
 #: src/app/UI/mainwindow.py:898
 msgid "Invert Image"
-msgstr "Обратить изображение"
+msgstr ""
 
 #: src/app/Graphics/document.py:2300
 #: src/app/UI/dialogs/gotopagedlg.py:25
@@ -374,155 +400,161 @@ msgid "Go to page"
 msgstr ""
 
 #: src/app/Graphics/document.py:2322
-#, fuzzy
 msgid "Insert Pages"
-msgstr "Вставить узлы"
+msgstr ""
 
+# sfx2/sdi\sfxslots.src:SID_INSERTDOC.text
+# ../Sketch/UI/mainwindow.py:402:409 :417
 #: src/app/Graphics/document.py:2324
 #, fuzzy
 msgid "Insert Page"
-msgstr "Обратить изображение"
+msgstr "Kwinjiza Inyandiko"
 
 #: src/app/Graphics/document.py:2355
 #, fuzzy
 msgid "Delete Page"
-msgstr "Удалить слой"
+msgstr "Gusiba Akugara"
 
 #: src/app/Graphics/document.py:2442
 msgid "Select Layer"
-msgstr "Выбрать слой"
+msgstr ""
 
 #: src/app/Graphics/document.py:2454
 msgid "Change Layer State"
-msgstr "Изменить состояние слоя"
+msgstr ""
 
 #: src/app/Graphics/document.py:2472
 msgid "Set Layer Outline Color"
-msgstr "Установить цвет контура слоя"
+msgstr ""
 
 #: src/app/Graphics/document.py:2484
 msgid "Rename Layer"
-msgstr "Переименовать слой"
+msgstr "Kongera kwita Akugara"
 
 #: src/app/Graphics/document.py:2496
 msgid "Append Layer"
-msgstr "Добавить слой"
+msgstr ""
 
 #: src/app/Graphics/document.py:2510
 #: src/app/Graphics/layer.py:42
 msgid "New Layer"
-msgstr "Новый слой"
+msgstr ""
 
 #: src/app/Graphics/document.py:2566
 msgid "Move Layer Up"
-msgstr "Переместить слой вверх"
+msgstr ""
 
 #: src/app/Graphics/document.py:2577
 msgid "Move Layer Down"
-msgstr "Переместить слой вниз"
+msgstr ""
 
 #: src/app/Graphics/document.py:2618
 msgid "Delete Layer"
-msgstr "Удалить слой"
+msgstr "Gusiba Akugara"
 
 #: src/app/Graphics/document.py:2681
 #: src/app/UI/mainwindow.py:889
 msgid "Update Style"
-msgstr "Обновить стиль"
+msgstr "Kuvugurura Imisusire"
 
+# sfx2/source\dialog\newstyle.src:DLG_NEW_STYLE_BY_EXAMPLE.text
 #: src/app/Graphics/document.py:2720
-#, python-format
+#, fuzzy, python-format
 msgid "Create Style %s"
-msgstr "Создать стиль %s"
+msgstr "Gukora Imisusire"
 
 #: src/app/Graphics/document.py:2736
 #, python-format
 msgid "Remove Style %s"
-msgstr "Удалить стиль %s"
+msgstr ""
 
 #: src/app/Graphics/document.py:2790
 msgid "Change Page Layout"
-msgstr "Изменить макет страницы"
+msgstr ""
 
 #: src/app/Graphics/document.py:2805
 msgid "Set Grid Geometry"
-msgstr "Установить геометрию сетки"
+msgstr ""
 
 #: src/app/Graphics/document.py:2827
 msgid "Add Guide Line"
-msgstr "Добавить направляющую"
+msgstr ""
 
 #: src/app/Graphics/document.py:2844
 msgid "Delete Guide Line"
-msgstr "Удалить направляющую"
+msgstr ""
 
 #: src/app/Graphics/document.py:2858
 msgid "Move Guide Line"
-msgstr "Переместить направляющую"
+msgstr ""
 
 #: src/app/Graphics/ellipse.py:113
 msgid "Arc"
-msgstr "Дуга"
+msgstr "Agaheto"
 
 #: src/app/Graphics/ellipse.py:114
 msgid "Chord"
-msgstr "Хорда"
+msgstr ""
 
 #: src/app/Graphics/ellipse.py:115
 msgid "Pie Slice"
-msgstr "Сегмент"
+msgstr ""
 
 #: src/app/Graphics/ellipse.py:265
+#, fuzzy
 msgid "Circle radius %(radius)[length], center %(center)[position]"
-msgstr "Радиус окружности %(radius)[length], центр %(center)[position]"
+msgstr "Akarambararo Akarambararo Uburebure hagati hagati Ibirindiro"
 
 #: src/app/Graphics/ellipse.py:268
+#, fuzzy
 msgid "Ellipse axes %(axes)[size], center %(center)[position]"
-msgstr "Оси эллипса %(axes)[size], центр %(center)[position]"
+msgstr "Imirongo fatizo... Imirongo fatizo... Ingano hagati hagati Ibirindiro"
 
 #: src/app/Graphics/ellipse.py:286
 msgid "Create Ellipse"
-msgstr "Создать эллипс"
+msgstr ""
 
 #: src/app/Graphics/ellipse.py:325
+#, fuzzy
 msgid "Circle %(radius)[length], center %(center)[position]"
-msgstr "Окружность %(radius)[length], центр %(center)[position]"
+msgstr "Akarambararo Uburebure hagati hagati Ibirindiro"
 
 #: src/app/Graphics/ellipse.py:328
+#, fuzzy
 msgid "Ellipse %(size)[size], center %(center)[position]"
-msgstr "Эллипс %(size)[size], центр %(center)[position]"
+msgstr "Ingano Ingano hagati hagati Ibirindiro"
 
 #: src/app/Graphics/eps.py:148
-#, python-format
+#, fuzzy, python-format
 msgid "EpsFile `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
-msgstr "Файл EPS `%(filename)s' %(width)d x %(height)d в (%(x)d, %(y)d)"
+msgstr "Izina ry'idosiye: Ubugari D X Ubuhagarike D ku X D Y D"
 
 #: src/app/Graphics/graphics.py:1012
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Cannot load %(font)s:\n"
 "%(text)s"
-msgstr ""
-"Невозможно загрузить %(font)s:\n"
-"%(text)s"
+msgstr "Ibirimo Intego- nyuguti S Umwandiko S"
 
 #: src/app/Graphics/graphics.py:1187
-#, python-format
+#, fuzzy, python-format
 msgid "Can't create shared memory image: %s"
-msgstr "Невозможно создать изображение в разделяемой памяти: %s"
+msgstr "Kurema Ububiko Ishusho"
 
 #: src/app/Graphics/group.py:29
-#, python-format
+#, fuzzy, python-format
 msgid "Group with %d objects"
-msgstr "Сгруппировать %d объектов"
+msgstr "Na: Ibintu"
 
 #: src/app/Graphics/guide.py:90
+#, fuzzy
 msgid "Horizontal Guide Line at %(coord)[length]"
-msgstr "Горизонтальная направляющая в точке %(coord)[length]"
+msgstr "ku Uburebure"
 
 #: src/app/Graphics/guide.py:93
+#, fuzzy
 msgid "Vertical Guide Line at %(coord)[length]"
-msgstr "Вертикальная направляющая в точке %(coord)[length]"
+msgstr "ku Uburebure"
 
 #: src/app/Graphics/image.py:35
 msgid "RGB"
@@ -533,9 +565,8 @@ msgid "RGBA"
 msgstr ""
 
 #: src/app/Graphics/image.py:37
-#, fuzzy
 msgid "Grayscale"
-msgstr "Изображение в градациях серого"
+msgstr ""
 
 #: src/app/Graphics/image.py:38
 msgid "CMYK"
@@ -552,128 +583,140 @@ msgstr ""
 #: src/app/Graphics/image.py:165
 #, fuzzy, python-format
 msgid "Embedded %(mode)s image %(width)d x %(height)d at (%(x)d, %(y)d)"
-msgstr "Встроенное изображение %(width)d x %(height)d в точке (%(x)d, %(y)d)"
+msgstr "Ubugari D X Ubuhagarike D ku X D Y D"
 
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\Calc.xcs:....Layout.Line.Guide.text
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\WriterWeb.xcs:....Layout.Line.Guide.text
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\Writer.xcs:....Layout.Line.Guide.text
 #: src/app/Graphics/layer.py:242
 msgid "Guides"
-msgstr "Направляющие"
+msgstr "Ibiyobora"
 
 #: src/app/Graphics/layer.py:338
 #: src/app/UI/canvas.py:1712
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:24
 msgid "Grid"
-msgstr "Сетка"
+msgstr "Urusobe-tudirishya"
 
 #: src/app/Graphics/maskgroup.py:74
-#, python-format
+#, fuzzy, python-format
 msgid "MaskGroup with %d objects"
-msgstr "Маскирущая группа из %d объектов"
+msgstr "Na: Ibintu"
 
 #: src/app/Graphics/maskgroup.py:162
 msgid "Select Mask"
-msgstr "Выбрать маску"
+msgstr ""
 
 #: src/app/Graphics/plugobj.py:169
 #, python-format
 msgid "Unknown Plugin Object `%s'"
-msgstr "Неизвестный подключаемый модуль `%s'"
+msgstr ""
 
 #: src/app/Graphics/properties.py:397
 msgid "Fill Pattern"
-msgstr "Залить узором"
+msgstr ""
 
-# ../Sketch/Graphics/properties.py:399 :403
+# ../Sketch/Graphics/properties.py:397:401
 #: src/app/Graphics/properties.py:397
 #: src/app/Graphics/properties.py:401
 msgid "Pattern"
-msgstr "Узор"
+msgstr "Umutako"
 
 #: src/app/Graphics/properties.py:399
 msgid "Fill Transform Pattern"
-msgstr "Залить трансформированным узором"
+msgstr ""
 
 #: src/app/Graphics/properties.py:400
+#, fuzzy
 msgid "Transform pattern"
-msgstr "Трансформировать узор"
+msgstr "Ishusho"
 
+# svx/source\svdraw\svdstr.src:SIP_XA_LINEDASH.text
 #: src/app/Graphics/properties.py:401
+#, fuzzy
 msgid "Line Pattern"
-msgstr "Линейный узор"
+msgstr "Igice cy'umurongo"
 
 #: src/app/Graphics/properties.py:403
 msgid "Line Width"
-msgstr "Толщина линии"
+msgstr "Ubugari bw'Umurongo"
 
 #: src/app/Graphics/properties.py:403
 msgid "Width"
-msgstr "Толщина"
+msgstr "Ubugari"
 
 #: src/app/Graphics/properties.py:405
 msgid "Line Cap"
-msgstr "Окончание линии"
+msgstr ""
 
 #: src/app/Graphics/properties.py:405
 msgid "Cap"
-msgstr "Окончание"
+msgstr ""
 
 #: src/app/Graphics/properties.py:407
 msgid "Line Join"
-msgstr "Соединение линии"
+msgstr ""
 
 #: src/app/Graphics/properties.py:407
 msgid "Join"
-msgstr "Соединение"
+msgstr ""
 
 #: src/app/Graphics/properties.py:409
 msgid "Line Dashes"
-msgstr "Штрихи линии"
+msgstr ""
 
 #: src/app/Graphics/properties.py:409
 msgid "Dashes"
-msgstr "Штрихи"
+msgstr "Utunyerezo"
 
 #: src/app/Graphics/properties.py:410
+#, fuzzy
 msgid "Line Arrow 1"
-msgstr "Стрелка 1 линии"
+msgstr "1."
 
 #: src/app/Graphics/properties.py:410
+#, fuzzy
 msgid "Arrow 1"
-msgstr "Стрелка 1"
+msgstr "1."
 
 #: src/app/Graphics/properties.py:412
+#, fuzzy
 msgid "Line Arrow 2"
-msgstr "Стрелка 2 линии"
+msgstr "2."
 
 #: src/app/Graphics/properties.py:412
+#, fuzzy
 msgid "Arrow 2"
-msgstr "Стрелка 2"
+msgstr "2."
 
-# ../Sketch/Graphics/properties.py:416 :416
+# ../Sketch/Graphics/properties.py:414:414
 #: src/app/Graphics/properties.py:414
 msgid "Font"
-msgstr "Шрифт"
+msgstr "Umukono"
 
+# starmath/sdi\smslots.src:SID_FONTSIZE.text
 #: src/app/Graphics/properties.py:415
 msgid "Font Size"
-msgstr "Размер шрифта"
+msgstr "Ingano"
 
 #: src/app/Graphics/properties.py:415
 msgid "Size"
-msgstr "Размер"
+msgstr "Ingano"
 
 #: src/app/Graphics/properties.py:416
-#, fuzzy
 msgid "Linegap"
-msgstr "Окончание линии"
+msgstr ""
 
 #: src/app/Graphics/properties.py:417
 msgid "Wordgap"
 msgstr ""
 
 #: src/app/Graphics/properties.py:418
-#, fuzzy
 msgid "Chargap"
-msgstr "Окончание"
+msgstr ""
 
 #: src/app/Graphics/properties.py:419
 msgid "Text Alignment"
@@ -683,7 +726,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:35
 #, fuzzy
 msgid "Alignment"
-msgstr "Выровнять влево"
+msgstr "tondeka ibumoso"
 
 #: src/app/Graphics/properties.py:420
 msgid "Text Vertical Alignment"
@@ -692,222 +735,237 @@ msgstr ""
 #: src/app/Graphics/properties.py:420
 #, fuzzy
 msgid "VAlignment"
-msgstr "Выровнять влево"
+msgstr "tondeka ibumoso"
 
 #: src/app/Graphics/psdevice.py:193
-#, python-format
+#, fuzzy, python-format
 msgid "Can't embed font '%s': %s"
-msgstr "Невозможно включить шрифт '%s': %s"
+msgstr "Gutsindira Intego- nyuguti"
 
 #: src/app/Graphics/psdevice.py:200
-#, python-format
+#, fuzzy, python-format
 msgid "Can't find file for font '%s' for embedding"
-msgstr "Невозможно найти файл для шрифта '%s' для включения"
+msgstr "Gushaka IDOSIYE kugirango Intego- nyuguti kugirango"
 
 #: src/app/Graphics/rectangle.py:184
+#, fuzzy
 msgid "Rectangle %(size)[size]"
-msgstr "Прямоугольник %(size)[size] "
+msgstr "Ingano Ingano"
 
 #: src/app/Graphics/rectangle.py:203
 msgid "Create Rectangle"
-msgstr "Создать прямоугольник"
+msgstr ""
 
-# ../Sketch/Graphics/selection.py:466 :1118
+# ../Sketch/Graphics/selection.py:471:1122
 #: src/app/Graphics/selection.py:477
 #: src/app/Graphics/selection.py:1147
 msgid "No Selection"
-msgstr "Нет выделения"
+msgstr ""
 
 #: src/app/Graphics/selection.py:494
-#, python-format
+#, fuzzy, python-format
 msgid "%s on `%%(layer)s'"
-msgstr "%s в `%%(layer)s'"
+msgstr "%sku Akugara"
 
 #: src/app/Graphics/selection.py:497
-#, python-format
+#, fuzzy, python-format
 msgid "%(object)s on `%(layer)s'"
-msgstr "%(object)s в `%(layer)s'"
+msgstr "%(Igikoresho S ku Akugara"
 
 #: src/app/Graphics/selection.py:504
-#, python-format
+#, fuzzy, python-format
 msgid "%(number)d objects on `%(layer)s'"
-msgstr "%(number)d объектов в `%(layer)s'"
+msgstr "%(Umubare D Ibintu ku Akugara"
 
 #: src/app/Graphics/selection.py:508
-#, python-format
+#, fuzzy, python-format
 msgid "%d objects on several layers"
-msgstr "%d объектов в нескольких слоях"
+msgstr "%dIbintu ku"
 
 #: src/app/Graphics/selection.py:602
 msgid "Move Objects"
-msgstr "Переместить объекты"
+msgstr ""
 
 #: src/app/Graphics/selection.py:618
 msgid "Resize Objects"
-msgstr "Изменить размеры объектов"
+msgstr ""
 
 #: src/app/Graphics/selection.py:645
+#, fuzzy
 msgid "Scale %(factorx)[factor], %(factory)[factor]"
-msgstr "Масштабировать %(factorx)[factor], %(factory)[factor]"
+msgstr "Umubarwa Umubarwa"
 
 #: src/app/Graphics/selection.py:650
+#, fuzzy
 msgid "Move %(x)[length], %(y)[length]"
-msgstr "Переместить %(x)[length], %(y)[length]"
+msgstr "X Uburebure Y Uburebure"
 
 #: src/app/Graphics/selection.py:849
 msgid "Shear Objects"
-msgstr "Обрезать объекты"
+msgstr ""
 
 #: src/app/Graphics/selection.py:851
 msgid "Rotate Objects"
-msgstr "Вращать объекты"
+msgstr ""
 
 #: src/app/Graphics/selection.py:856
+#, fuzzy
 msgid "Rotation Center at %(position)[position]"
-msgstr "Центр вращения в %(position)[position]"
+msgstr "ku Ibirindiro Ibirindiro"
 
 #: src/app/Graphics/selection.py:861
+#, fuzzy
 msgid "Rotate by %(angle)[angle]"
-msgstr "Вращать на %(angle)[angle]"
+msgstr "ku Imfuruka Imfuruka"
 
 #: src/app/Graphics/selection.py:864
+#, fuzzy
 msgid "Horizontal Shear by %(ratio)[factor]"
-msgstr "Обрезать по горизонтали на %(ratio)[factor]"
+msgstr "ku Umubarwa"
 
 #: src/app/Graphics/selection.py:867
+#, fuzzy
 msgid "Vertical Shear by %(ratio)[factor]"
-msgstr "Обрезать по вертикали на %(ratio)[factor]"
+msgstr "ku Umubarwa"
 
 #: src/app/Graphics/selection.py:870
 msgid "Identity Transform"
-msgstr "Идентичное преобразование"
+msgstr ""
 
+# sw/source\ui\frmdlg\frmui.src:STR_OLE_EDIT.text
 #: src/app/Graphics/selection.py:1039
 #: src/app/UI/context/ellipse_panel.py:44
 #: src/app/UI/context/rectangle_panel.py:66
+#, fuzzy
 msgid "Edit Object"
-msgstr "Редактировать объекты"
+msgstr "Kwandika ikintu"
 
 #: src/app/Graphics/text.py:423
 msgid "Align Left"
-msgstr "Выровнять влево"
+msgstr "tondeka ibumoso"
 
 #: src/app/Graphics/text.py:425
 msgid "Align Right"
-msgstr "Выровнять вправо"
+msgstr "tondeka iburyo"
 
 #: src/app/Graphics/text.py:427
+#, fuzzy
 msgid "Align H. Center"
-msgstr "Выровнять по центру (гор.)"
+msgstr "H"
 
 #: src/app/Graphics/text.py:429
 msgid "Align Top"
-msgstr "Выровнять вверх"
+msgstr "tondeka hejuru"
 
 #: src/app/Graphics/text.py:431
+#, fuzzy
 msgid "Align V. Center"
-msgstr "Выровнять по центру (верт.)"
+msgstr "V"
 
 #: src/app/Graphics/text.py:433
 msgid "Align Baseline"
-msgstr "Выровнять по базовой линии"
+msgstr ""
 
 #: src/app/Graphics/text.py:435
 msgid "Align Bottom"
-msgstr "Выровнять вниз"
+msgstr "shyira/tondeka ku ndiba"
 
 #: src/app/Graphics/text.py:502
+#, fuzzy
 msgid "Text `%(text)s' at %(position)[position]"
-msgstr "Текст `%(text)s' в %(position)[position]"
+msgstr "Umwandiko ku Ibirindiro Ibirindiro"
 
 #: src/app/Graphics/text.py:573
 msgid "Create Text"
-msgstr "Создать текст"
+msgstr ""
 
 #: src/app/Graphics/text.py:858
-#, python-format
+#, fuzzy, python-format
 msgid "Text on Path: `%(text)s'"
-msgstr "Текст вдоль кривой:`%(text)s'"
+msgstr "ku Umwandiko"
 
 #: src/app/Graphics/text.py:1019
-#, python-format
+#, fuzzy, python-format
 msgid "Path Text: `%(text)s'"
-msgstr "Текст вдоль кривой:`%(text)s'"
+msgstr "Umwandiko"
 
+# sfx2/source\appl\newhelp.src:STR_HELP_MENU_TEXT_SELECTION_MODE.text
 #: src/app/Graphics/text.py:1029
 msgid "Select Text"
-msgstr "Выделить текст"
+msgstr "Guhitamo Umwandiko"
 
 #: src/app/Graphics/text.py:1033
 msgid "Select Path"
-msgstr "Выделить кривую"
+msgstr "Guhitamo inzira"
 
 #: src/app/Graphics/text.py:1040
 msgid "Rotate Letters"
-msgstr "Вращать буквы"
+msgstr ""
 
 #: src/app/Graphics/text.py:1042
 msgid "Skew Letters"
-msgstr "Сдвинуть буквы"
+msgstr ""
 
 #: src/app/UI/canvas.py:192
 msgid "Select"
-msgstr "Выделить"
+msgstr "Hitamo"
 
 #: src/app/UI/canvas.py:198
 #: src/app/UI/mainwindow.py:905
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Guhindura"
 
 #: src/app/UI/canvas.py:204
 msgid "Create"
-msgstr "Создать"
+msgstr "kurema"
 
-# ../Sketch/UI/canvas.py:191 :1213
+# ../Sketch/UI/canvas.py:191:1221
 #: src/app/UI/canvas.py:209
 #: src/app/UI/canvas.py:1318
 msgid "Zoom Area"
-msgstr "Область для увеличения"
+msgstr ""
 
 #: src/app/UI/canvas.py:213
 msgid "Pick Object"
-msgstr "Указать объект"
+msgstr ""
 
 #: src/app/UI/canvas.py:218
 msgid "Place Object"
-msgstr "Расположить объект"
+msgstr ""
 
 #: src/app/UI/canvas.py:826
 msgid "Draw Rectangle"
-msgstr "Нарисовать прямоугольник"
+msgstr ""
 
 #: src/app/UI/canvas.py:830
 msgid "Draw Ellipse"
-msgstr "Нарисовать эллипс"
+msgstr ""
 
 #: src/app/UI/canvas.py:834
 msgid "Draw Curve"
-msgstr "Нарисовать кривую"
+msgstr ""
 
 #: src/app/UI/canvas.py:838
 msgid "Draw Poly-Line"
-msgstr "Нарисовать ломаную"
+msgstr ""
 
+# sw/source\ui\shells\shells.src:STR_SHELLNAME_DRAW_TEXT.text
 #: src/app/UI/canvas.py:842
+#, fuzzy
 msgid "Draw Text"
-msgstr "Нарисовать текст"
+msgstr "Gushushanya umwandiko"
 
 #: src/app/UI/canvas.py:1006
 msgid "Selection Mode"
-msgstr "Режим выделения"
+msgstr "Uburyo bw'ihitamo"
 
 #: src/app/UI/canvas.py:1090
 msgid "Edit Mode"
-msgstr "Режим редактирования"
+msgstr "Hindura uburyo"
 
 #: src/app/UI/canvas.py:1386
 msgid "Toggle Mode"
-msgstr "Переключить режим"
+msgstr ""
 
 #: src/app/UI/canvas.py:1435
 msgid ""
@@ -933,43 +991,48 @@ msgstr ""
 
 #: src/app/UI/canvas.py:1640
 msgid "Snap to Grid"
-msgstr "Выровнять по сетке"
+msgstr "ca uhereye ku kazu"
 
 #: src/app/UI/canvas.py:1654
+#, fuzzy
 msgid "Snap to Objects"
-msgstr "Выровнять по объектам"
+msgstr "Kuri"
 
 #: src/app/UI/canvas.py:1669
+#, fuzzy
 msgid "Snap to Guides"
-msgstr "Выровнять по направляющим"
+msgstr "Icika ku biyobora"
 
 #: src/app/UI/canvas.py:1682
 msgid "Snap Bounding Rect"
-msgstr "Выровнять ограничивающий прямоугольник"
+msgstr ""
 
 #: src/app/UI/canvas.py:1695
 msgid "Snap Move Relative"
-msgstr "Выровнять относительное перемещение"
+msgstr ""
 
 #: src/app/UI/canvas.py:1714
 msgid "Objects"
-msgstr "Объекты"
+msgstr "ibintu"
 
 #: src/app/UI/canvas.py:1716
 msgid "Guide"
-msgstr "Направляющая"
+msgstr ""
 
+# svx/source\options\optgrid.src:RID_SVXPAGE_GRID.GRP_SNAP.text
 #: src/app/UI/canvas.py:1718
+#, fuzzy
 msgid "Snap: "
-msgstr "Выровнено: "
+msgstr "Gukata"
 
+# officecfg/registry\schema\org\openoffice\Office\Common.xcs:....View.Dialog.MousePositioning..2.text
 #: src/app/UI/canvas.py:1719
 msgid "No Snap"
-msgstr "Не выровнено"
+msgstr "Nta cika"
 
 #: src/app/UI/canvas.py:1750
 msgid "Crosshairs"
-msgstr "Перекрестия"
+msgstr ""
 
 #: src/app/UI/canvas.py:1905
 msgid "Refresh Window"
@@ -977,56 +1040,59 @@ msgstr ""
 
 #: src/app/UI/canvas.py:1935
 msgid "Zoom In"
-msgstr "Увеличить"
+msgstr "Ihindurangano wongera"
 
 #: src/app/UI/canvas.py:1937
 msgid "Zoom Out"
-msgstr "Уменьшить"
+msgstr "Ihindurangano ugabanya"
 
+# starmath/sdi\smslots.src:SID_FITINWINDOW.text
 #: src/app/UI/canvas.py:1956
+#, fuzzy
 msgid "Fit to Window"
-msgstr "Вписать в окно"
+msgstr "Kujyana n'idirishya"
 
 #: src/app/UI/canvas.py:1957
+#, fuzzy
 msgid "Fit Selected to Window"
-msgstr "Вписать выделение в окно"
+msgstr "Kuri"
 
 #: src/app/UI/canvas.py:1968
+#, fuzzy
 msgid "Fit Page to Window"
-msgstr "Вписать страницу в окно"
+msgstr "Kuri"
 
 #: src/app/UI/canvas.py:1981
 msgid "Restore Previous View"
-msgstr "Восстановить предыдущий вид"
+msgstr ""
 
 #: src/app/UI/canvas.py:1990
 #, fuzzy
 msgid "Contour View"
-msgstr "Продолжить"
+msgstr "Gukomeza"
 
 #: src/app/UI/canvas.py:1994
-#, fuzzy
 msgid "Draw Page Border"
-msgstr "Нарисовать контур страницы"
+msgstr ""
 
 #: src/app/UI/canvas.py:2034
 msgid "Set Fill Color..."
-msgstr "Выбрать цвет заливки..."
+msgstr ""
 
 #: src/app/UI/canvas.py:2050
 msgid "Set Fill Color"
-msgstr "Выбрать цвет заливки"
+msgstr ""
 
 #: src/app/UI/canvas.py:2067
 msgid "Set Line Color"
-msgstr "Выбрать цвет линии"
+msgstr ""
 
 #: src/app/UI/colordlg.py:319
 #, fuzzy
 msgid "Select RGB Color"
-msgstr "выбрать цвет"
+msgstr "Hitamo byose"
 
-# ../Sketch/UI/optiondlg.py:154 ../Sketch/UI/styledlg.py:162 :236
+# ../Sketch/UI/optiondlg.py:154 ../Sketch/UI/styledlg.py:162:236
 #: src/app/UI/colordlg.py:338
 #: src/app/UI/gradientedit.py:300
 #: src/app/UI/styledlg.py:195
@@ -1044,9 +1110,9 @@ msgstr "выбрать цвет"
 #: src/app/UI/dialogs/insertpagedlg.py:77
 #: src/app/UI/dialogs/msgdialog.py:25
 msgid "Cancel"
-msgstr "Отменить"
+msgstr "Kureka"
 
-# ../Sketch/UI/styledlg.py:160 :234
+# ../Sketch/UI/styledlg.py:160:234 ../Script/create_spiral.py:51
 #: src/app/UI/colordlg.py:342
 #: src/app/UI/gradientedit.py:298
 #: src/app/UI/sketchdlg.py:376
@@ -1066,13 +1132,13 @@ msgstr "Отменить"
 #: src/app/UI/dialogs/msgdialog.py:20
 #: src/app/UI/dialogs/msgdialog.py:35
 msgid "OK"
-msgstr "OK"
+msgstr "OKE"
 
 #: src/app/UI/dlg_blend.py:29
 msgid "BLEND"
 msgstr ""
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
+# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:208:265
 #: src/app/UI/dlg_blend.py:44
 #: src/app/UI/sketchdlg.py:196
 #: src/app/UI/sketchdlg.py:246
@@ -1097,119 +1163,123 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:134
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:106
 msgid "Apply"
-msgstr "Применить"
+msgstr "Gushyiraho"
 
 #: src/app/UI/dlg_blend.py:53
 #, fuzzy
 msgid "  Steps: "
-msgstr "Шаги"
+msgstr "Intambwe"
 
 #: src/app/UI/dlg_blend.py:66
+#, fuzzy
 msgid "Select Start"
-msgstr "Выделить начало"
+msgstr "Gutangira"
 
 #: src/app/UI/dlg_blend.py:73
+#, fuzzy
 msgid "Select End"
-msgstr "Выделить конец"
+msgstr "Impera"
 
 #: src/app/UI/dlg_blend.py:116
-#, fuzzy, python-format
+#, python-format
 msgid "Set %d Blend Steps"
-msgstr "Установить % шагов смешивания"
+msgstr ""
 
 #: src/app/UI/filldlg.py:273
 msgid "Color"
-msgstr "Цвет"
+msgstr "Ibara"
 
 #: src/app/UI/filldlg.py:328
 msgid "Border"
-msgstr "Граница"
+msgstr "Impera"
 
 #: src/app/UI/filldlg.py:338
 #: src/app/UI/gradientedit.py:285
 msgid "Edit Gradient"
-msgstr "Редактировать градиент"
+msgstr ""
 
 #: src/app/UI/filldlg.py:491
 msgid "Load Image..."
-msgstr "Загрузить изображение..."
+msgstr ""
 
 #: src/app/UI/filldlg.py:494
 msgid "Pick Image..."
-msgstr "Указать узображение..."
+msgstr ""
 
-# ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
+# ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1077:1092 :1110
 #: src/app/UI/filldlg.py:519
 #: src/app/UI/mainwindow.py:1490
 msgid "Load Image"
-msgstr "Загрузить изображение"
+msgstr ""
 
 #: src/app/UI/filldlg.py:520
 #: src/app/UI/mainwindow.py:1491
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Cannot load %(filename)s:\n"
 "%(message)s"
-msgstr ""
-"Невозможно загрузить %(filename)s:\n"
-"%(message)s"
+msgstr "Ibirimo Izina ry'idosiye: S Ubutumwa S"
 
+# svx/source\svdraw\svdstr.src:SIP_XA_FILLSTYLE.text
 #: src/app/UI/filldlg.py:549
+#, fuzzy
 msgid "Fill Style"
-msgstr "Стиль заливки"
+msgstr "Imisusire yo kuzuza"
 
 #: src/app/UI/filldlg.py:572
 msgid "Transform Pattern"
-msgstr "Преобразовать узор"
+msgstr ""
 
 #: src/app/UI/filldlg.py:698
 msgid "Set Fill"
-msgstr "Выбрать заливку"
+msgstr ""
 
 #: src/app/UI/gradientedit.py:180
 msgid "Set Handle Color"
-msgstr "Выбрать рабочий цвет"
+msgstr ""
 
 #: src/app/UI/gradientedit.py:182
 msgid "Delete Handle"
-msgstr "Удалить рабочий"
+msgstr ""
 
 #: src/app/UI/gradientedit.py:184
 msgid "Insert Handle"
-msgstr "Вставить рабочий"
+msgstr ""
 
 #: src/app/UI/gradientedit.py:296
 msgid "Reverse"
-msgstr ""
+msgstr "Ihindurakerekezo"
 
 #: src/app/UI/mainwindow.py:136
-#, python-format
+#, fuzzy, python-format
 msgid "Error running script `%s'"
-msgstr "Ошибка при запуске сценария `%s'"
+msgstr "IYANDIKA"
 
+# svx/source\svdraw\svdstr.src:SIP_XA_FILLSTYLE.text
 #: src/app/UI/mainwindow.py:637
 #, fuzzy
 msgid "Fill: "
-msgstr "Стиль заливки"
+msgstr "Imisusire yo kuzuza"
 
+# svx/source\svdraw\svdstr.src:SIP_XA_FILLSTYLE.text
 #: src/app/UI/mainwindow.py:640
 #, fuzzy
 msgid "Fill: None"
-msgstr "Стиль заливки"
+msgstr "Imisusire yo kuzuza"
 
 #: src/app/UI/mainwindow.py:645
 #, fuzzy
 msgid "Outline: "
-msgstr "Контур"
+msgstr "Imbata"
 
 #: src/app/UI/mainwindow.py:648
 #, fuzzy
 msgid "Outline: None"
-msgstr "Контур"
+msgstr "Imbata"
 
 #: src/app/UI/mainwindow.py:759
 msgid "New"
-msgstr "Создать"
+msgstr "Gishya"
 
 #: src/app/UI/mainwindow.py:760
 msgid "New Drawing Window"
@@ -1217,39 +1287,39 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:761
 msgid "Open..."
-msgstr "Открыть..."
+msgstr "Gufungura..."
 
 #: src/app/UI/mainwindow.py:766
 #: src/app/UI/tkext.py:1091
 #: src/app/UI/dialogs/msgdialog.py:23
 msgid "Save"
-msgstr "Сохранить"
+msgstr "Kubika"
 
 #: src/app/UI/mainwindow.py:767
 msgid "Save As..."
-msgstr "Сохранить как..."
+msgstr "Bika nka..."
 
 #: src/app/UI/mainwindow.py:768
 #, fuzzy
 msgid "Save All"
-msgstr "Сохранить"
+msgstr "Kubika"
 
 #: src/app/UI/mainwindow.py:769
 msgid "Export As..."
 msgstr ""
 
-# ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
+# ../Sketch/UI/printdlg.py:105 ../Sketch/UI/sketchdlg.py:212:270
 #: src/app/UI/mainwindow.py:770
 #: src/app/UI/sketchdlg.py:249
 #: src/app/UI/dialogs/aboutdlg.py:58
 msgid "Close"
-msgstr "Закрыть"
+msgstr "Gufunga"
 
-# ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
+# ../Sketch/UI/printdlg.py:105 ../Sketch/UI/sketchdlg.py:212:270
 #: src/app/UI/mainwindow.py:771
 #, fuzzy
 msgid "Close All"
-msgstr "Закрыть"
+msgstr "Gufunga"
 
 #: src/app/UI/mainwindow.py:772
 #: src/app/UI/mainwindow.py:833
@@ -1260,10 +1330,10 @@ msgstr ""
 msgid "Preferences..."
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:559 :561
+# ../Sketch/UI/mainwindow.py:567:569
 #: src/app/UI/mainwindow.py:775
 msgid "Exit"
-msgstr "Выход"
+msgstr "Gusohoka"
 
 #: src/app/UI/mainwindow.py:778
 msgid "Report bug..."
@@ -1280,21 +1350,22 @@ msgstr ""
 #: src/app/UI/mainwindow.py:781
 #, fuzzy
 msgid "About sK1..."
-msgstr "О программе..."
+msgstr "Byerekeye..."
 
 #: src/app/UI/mainwindow.py:782
 msgid "Plugins strip"
 msgstr ""
 
+# sfx2/sdi\sfxslots.src:SID_INSERTDOC.text
 #: src/app/UI/mainwindow.py:785
 #, fuzzy
 msgid "Insert Page..."
-msgstr "Обратить изображение"
+msgstr "Kwinjiza Inyandiko"
 
 #: src/app/UI/mainwindow.py:786
 #, fuzzy
 msgid "Delete Page..."
-msgstr "Удалить слой"
+msgstr "Gusiba Akugara"
 
 #: src/app/UI/mainwindow.py:787
 msgid "Next Page"
@@ -1305,80 +1376,99 @@ msgid "Previous Page"
 msgstr ""
 
 #: src/app/UI/mainwindow.py:789
-#, fuzzy
 msgid "Go to Page..."
-msgstr "Загрузить изображение..."
+msgstr ""
 
 #: src/app/UI/mainwindow.py:791
 msgid "Add Horizontal Guide Line"
-msgstr "Добавить горизонтальную направляющую"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:792
 msgid "Add Vertical Guide Line"
-msgstr "Добавить вертикальную направляющую"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:794
 #, fuzzy
 msgid "Zoom 1:1"
-msgstr "Увеличить"
+msgstr "Ihindurangano wongera"
 
 #: src/app/UI/mainwindow.py:795
 #: src/app/UI/ttk_ext.py:35
 msgid "Copy"
-msgstr "Копировать"
+msgstr "Guporora"
 
 #: src/app/UI/mainwindow.py:804
 #: src/app/UI/mainwindow.py:1537
 #: src/app/UI/mainwindow.py:1547
 #: src/app/UI/ttk_ext.py:37
 msgid "Paste"
-msgstr "Вставить"
+msgstr "Komeka"
 
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..PBM_-_Portable_Bitmap.text
 #: src/app/UI/mainwindow.py:807
 #, fuzzy
 msgid "Export Bitmap..."
-msgstr "Portable Bitmap"
+msgstr "Bitimapu Itwarika"
 
+# svx/source\svdraw\svdstr.src:STR_EditAlign.text
 #: src/app/UI/mainwindow.py:811
 #, fuzzy
 msgid "Align to ..."
-msgstr "Выравнивание..."
+msgstr "Gutondeka"
 
+# #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
+# offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SW_EDITOPTIONS.5.text
+# #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
+# offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SW_ONLINEOPTIONS.4.text
+# #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
+# offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SC_EDITOPTIONS.8.text
+# #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
+# offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SD_EDITOPTIONS.4.text
+# #-#-#-#-#  offmgr.pot (PACKAGE VERSION)  #-#-#-#-#
+# offmgr/source\offapp\dialog\treeopt.src:RID_OFADLG_OPTIONS_TREE_PAGES.SID_SD_GRAPHIC_OPTIONS.4.text
 #: src/app/UI/mainwindow.py:812
 #, fuzzy
 msgid "Grid Setup..."
-msgstr "Сетка..."
+msgstr "Urusobetudirishya"
 
 #: src/app/UI/mainwindow.py:813
 #, fuzzy
 msgid "Outline..."
-msgstr "Контур"
+msgstr "Imbata"
 
+# #-#-#-#-#  sc.pot (PACKAGE VERSION)  #-#-#-#-#
+# sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_UNDO_AUTOFILL.text
+# #-#-#-#-#  sc.pot (PACKAGE VERSION)  #-#-#-#-#
+# sc/source\ui\src\menue.src:SCCFG_PLUGINMENU.SUBMENU_EDIT.SUBMENU_FILL.text
+# #-#-#-#-#  sc.pot (PACKAGE VERSION)  #-#-#-#-#
+# sc/source\ui\src\menue.src:SCCFG_MENUBAR.SUBMENU_EDIT.SUBMENU_FILL.text
 #: src/app/UI/mainwindow.py:814
+#, fuzzy
 msgid "Fill..."
-msgstr "Заливка..."
+msgstr "Kuzuza"
 
+# svtools/source\filepicker\filepicker.src:STR_SVT_FILEPICKER_TEMPLATES.text
 #: src/app/UI/mainwindow.py:816
+#, fuzzy
 msgid "Styles..."
-msgstr "Стили..."
+msgstr "Imisusire:"
 
 #: src/app/UI/mainwindow.py:817
 msgid "Blend..."
-msgstr "Смешивание..."
+msgstr ""
 
 #: src/app/UI/mainwindow.py:821
-#, fuzzy
 msgid "Guides Setup..."
-msgstr "Направляющие..."
+msgstr ""
 
 #: src/app/UI/mainwindow.py:822
 msgid "Print..."
-msgstr "Печать..."
+msgstr "Gucapa..."
 
 #: src/app/UI/mainwindow.py:823
 #, fuzzy
 msgid "Print to PDF..."
-msgstr "Печать..."
+msgstr "Gucapa..."
 
 #: src/app/UI/mainwindow.py:825
 #, fuzzy
@@ -1388,16 +1478,16 @@ msgstr "..."
 #: src/app/UI/mainwindow.py:826
 #, fuzzy
 msgid "Rotate..."
-msgstr "Повернуть против часовой"
+msgstr "Imyandikire:"
 
 #: src/app/UI/mainwindow.py:827
 #, fuzzy
 msgid "Resize..."
-msgstr "Линия..."
+msgstr "Umurongo..."
 
 #: src/app/UI/mainwindow.py:832
 msgid "Load Palette..."
-msgstr "Загрузить палитру..."
+msgstr ""
 
 #: src/app/UI/mainwindow.py:834
 msgid "Import bitmap..."
@@ -1405,85 +1495,83 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:836
 msgid "Name Style..."
-msgstr "Именованный стиль..."
+msgstr ""
 
 #: src/app/UI/mainwindow.py:839
 #: src/app/UI/ttk_ext.py:40
 msgid "Select All"
-msgstr "Выделить все"
+msgstr "Hitamo byose"
 
 #: src/app/UI/mainwindow.py:840
 msgid "Select Next"
-msgstr "Выделить следующий"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:841
 msgid "Select Previous"
-msgstr "Выделить предыдущий"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:842
 msgid "Select First Child"
-msgstr "Выделить первого потомка"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:843
 msgid "Select Parent"
-msgstr "Выделить родителя"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:845
 #, fuzzy
 msgid "Move Up"
-msgstr "Поднять на одного вверх "
+msgstr "Kuri"
 
 #: src/app/UI/mainwindow.py:846
 #, fuzzy
 msgid "Move Down"
-msgstr "Опустить на одного вниз"
+msgstr "Kuri"
 
 #: src/app/UI/mainwindow.py:847
 #, fuzzy
 msgid "Move Right"
-msgstr "Высота"
+msgstr "Ubuhagarike"
 
 #: src/app/UI/mainwindow.py:848
 #, fuzzy
 msgid "Move Left"
-msgstr "Переместить объекты"
+msgstr "Kuri"
 
 #: src/app/UI/mainwindow.py:852
+#, fuzzy
 msgid "Move to Top"
-msgstr "Поднять вверх"
+msgstr "Kuri"
 
 #: src/app/UI/mainwindow.py:853
+#, fuzzy
 msgid "Move to Bottom"
-msgstr "Опустить вниз"
+msgstr "Kuri"
 
 #: src/app/UI/mainwindow.py:855
 msgid "Move One Up"
-msgstr "Поднять на одного вверх "
+msgstr ""
 
 #: src/app/UI/mainwindow.py:856
 msgid "Move One Down"
-msgstr "Опустить на одного вниз"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:860
 #, fuzzy
 msgid "Group selected objects"
-msgstr "Сгруппировать %d объектов"
+msgstr "Na: Ibintu"
 
-# ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/UI/mainwindow.py:861
-#, fuzzy
 msgid "Ungroup selection"
-msgstr "Нет выделения"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:878
-#, fuzzy
 msgid "Rotate Left 90"
-msgstr "Вращать буквы"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:879
-#, fuzzy
 msgid "Rotate 180"
-msgstr "Повернуть против часовой"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:880
 msgid "Rotate Right 90"
@@ -1492,70 +1580,72 @@ msgstr ""
 #: src/app/UI/mainwindow.py:883
 #: src/app/events/undo.py:200
 msgid "Undo"
-msgstr "Откат"
+msgstr "Isubiranyuma"
 
 #: src/app/UI/mainwindow.py:884
 #: src/app/events/undo.py:209
 msgid "Redo"
-msgstr "Повтор"
+msgstr "Gusubiramo"
 
 #: src/app/UI/mainwindow.py:885
 msgid "Discard Undo History"
-msgstr "Сбросить историю откатов"
+msgstr ""
 
-# ../Sketch/UI/mainwindow.py:1136 :1267
+# ../Sketch/UI/mainwindow.py:1145:1276
 #: src/app/UI/mainwindow.py:887
 #: src/app/UI/mainwindow.py:1513
 msgid "No Fill"
-msgstr "Нет заливки"
+msgstr "Nta Kuzuza"
 
-# ../Sketch/UI/mainwindow.py:1139 :1268
+# ../Sketch/UI/mainwindow.py:1148:1277
 #: src/app/UI/mainwindow.py:888
 #: src/app/UI/mainwindow.py:1516
 msgid "No Line"
-msgstr "Нет линии"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:893
 #: src/app/UI/context/image_panel.py:35
 #, fuzzy
 msgid "Convert to CMYK"
-msgstr "Превратить в кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/UI/mainwindow.py:894
 #: src/app/UI/context/image_panel.py:39
 #, fuzzy
 msgid "Convert to RGB"
-msgstr "Превратить в кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/UI/mainwindow.py:895
 #: src/app/UI/context/image_panel.py:43
 #, fuzzy
 msgid "Convert to Grayscale"
-msgstr "Превратить в кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/UI/mainwindow.py:896
 #: src/app/UI/context/image_panel.py:47
 #, fuzzy
 msgid "Convert to B&W"
-msgstr "Превратить в кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/UI/mainwindow.py:899
 msgid "Embed Image"
-msgstr "Встроенное изображение"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:904
 msgid "File"
-msgstr "Файл"
+msgstr "Idosiye "
 
 #: src/app/UI/mainwindow.py:906
 msgid "View"
-msgstr "Вид"
+msgstr "Kureba"
 
 #: src/app/UI/mainwindow.py:907
 #: src/app/UI/pluginpanels/pbrowser.py:45
 msgid "Layout"
-msgstr "Макет"
+msgstr "Imboneko"
 
+# ../Sketch/UI/mainwindow.py:894 ../Script/spread.py:44:66 :89:114 :137:160
+# :183:209
 #: src/app/UI/mainwindow.py:908
 #: src/app/scripts/spread.py:45
 #: src/app/scripts/spread.py:67
@@ -1566,12 +1656,12 @@ msgstr "Макет"
 #: src/app/scripts/spread.py:184
 #: src/app/scripts/spread.py:210
 msgid "Arrange"
-msgstr "Расположение"
+msgstr "Gutunganya"
 
 #: src/app/UI/mainwindow.py:909
 #: src/app/UI/pluginpanels/pbrowser.py:48
 msgid "Effects"
-msgstr "Эффекты"
+msgstr "Ingaruka"
 
 #: src/app/UI/mainwindow.py:910
 msgid "Bitmaps"
@@ -1579,7 +1669,7 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:912
 msgid "Style"
-msgstr "Стиль"
+msgstr "imisusire"
 
 #: src/app/UI/mainwindow.py:915
 #: src/app/UI/cc/ccenterdialog.py:80
@@ -1588,42 +1678,43 @@ msgstr ""
 
 #: src/app/UI/mainwindow.py:918
 msgid "Special"
-msgstr "Специальный"
+msgstr "cyihariye/kitasanzwe"
 
 #: src/app/UI/mainwindow.py:1007
 msgid "Zoom"
-msgstr "Увеличение"
+msgstr "Ingano"
 
 #: src/app/UI/mainwindow.py:1226
 #: src/app/UI/mainwindow.py:1234
 msgid "Load Palette"
-msgstr "Загрузить палитру"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:1235
 #, fuzzy, python-format
 msgid ""
 "\n"
 "Cannot load palette %(filename)s!\n"
-msgstr "Невозможно загрузить палитру из файла %(filename)s"
+msgstr "Ibirimo Urwunge rw'ibara: Izina ry'idosiye: S"
 
+# sc/source\ui\src\globstr.src:RID_GLOBSTR.STR_DOC_MODIFIED.text
 #: src/app/UI/mainwindow.py:1351
+#, fuzzy
 msgid "modified"
-msgstr "изменено"
+msgstr "Byahinduwe"
 
 #: src/app/UI/mainwindow.py:1352
 msgid "unmodified"
-msgstr "не изменено"
+msgstr ""
 
 #: src/app/UI/mainwindow.py:1458
 msgid "to load image - sK1"
 msgstr ""
 
 #: src/app/UI/palette.py:131
-#, fuzzy
 msgid "Sketch Palette"
-msgstr "Палитра Sketch"
+msgstr ""
 
-# ../Sketch/UI/palette.py:146 ../Sketch/UI/skapp.py:61 :76
+# ../Sketch/UI/palette.py:138 ../Sketch/UI/skapp.py:61:76
 #: src/app/UI/palette.py:132
 #: src/app/managers/dialogmanager.py:31
 #: src/app/managers/dialogmanager.py:54
@@ -1632,154 +1723,161 @@ msgstr "Палитра Sketch"
 #: src/app/managers/dialogmanager.py:87
 #: src/app/managers/dialogmanager.py:90
 msgid "All Files"
-msgstr "Все файлы"
+msgstr "Amadosiye yose"
 
 #: src/app/UI/plugindlg.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Set %s"
-msgstr "Установить %s"
+msgstr "Gushyiraho"
 
 #: src/app/UI/plugindlg.py:230
 msgid "Set Parameters"
-msgstr "Установить параметры"
+msgstr ""
 
 #: src/app/UI/sketchdlg.py:238
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:79
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:189
 #: src/app/UI/pluginpanels/properties/outlineprop.py:189
 msgid "Auto Update"
-msgstr "Автообновление"
+msgstr "Ukwishyira ku gihe"
 
+# VCARD_LDAP_UPDATEURL
+# # @name VCARD_LDAP_UPDATEURL
+# # @loc None
 #: src/app/UI/sketchdlg.py:243
+#, fuzzy
 msgid "Update From..."
-msgstr "Обновить из..."
+msgstr "Yashizweho kugihe kuri"
 
 #: src/app/UI/styledlg.py:35
 msgid "Styles"
-msgstr "Стили"
+msgstr "Imisusire"
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
+# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:208:265
 #: src/app/UI/styledlg.py:51
 #, fuzzy
 msgid "Apply style"
-msgstr "Применить"
+msgstr "Gushyiraho"
 
 #: src/app/UI/styledlg.py:58
 #, fuzzy
 msgid "Delete style"
-msgstr "Удалить слой"
+msgstr "Gusiba Akugara"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
+# ../Sketch/UI/styledlg.py:118:170 :175
 #: src/app/UI/styledlg.py:136
 #: src/app/UI/styledlg.py:210
 msgid "Create Style"
-msgstr "Создать стиль"
+msgstr "Gukora Imisusire"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
+# ../Sketch/UI/styledlg.py:118:170 :175
 #: src/app/UI/styledlg.py:205
 #, fuzzy
 msgid "Create Style Info"
-msgstr "Создать стиль"
+msgstr "Gukora Imisusire"
 
 #: src/app/UI/styledlg.py:206
+#, fuzzy
 msgid "Please enter a style name."
-msgstr "Введите имя стиля, пожалуйста"
+msgstr "Injiza a IMISUSIRE Izina:"
 
 #: src/app/UI/styledlg.py:211
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The name `%(name)s' is already used.\n"
 "Please choose another one."
-msgstr ""
-"Имя `%(name)s' уже используется.\n"
-"Выберите другое, пожалуйста."
+msgstr "Wahitamoirindi."
 
 #: src/app/UI/styledlg.py:234
 msgid "Set Default Properties"
-msgstr "Установить свойства по умолчанию"
+msgstr ""
 
 #: src/app/UI/styledlg.py:246
 #, fuzzy
 msgid ""
 "Please select the object categories whose\n"
 " default properties you want to change"
-msgstr "Выберите категории объектов, чьи свойства по умолчанию Вы хотите сменить"
+msgstr "Guhitamo i Igikoresho Ibyiciro bya Mburabuzi Indangakintu... Kuri Guhindura>>"
 
+# sc/source\ui\src\scstring.src:SCSTR_DRAWSHELL.text
 #: src/app/UI/styledlg.py:254
+#, fuzzy
 msgid "Graphics Objects"
-msgstr "Графические объекты"
+msgstr "Ibikoresho by'ibishushanyo"
 
+# sc/source\ui\src\scstring.src:SCSTR_DRAWTEXTSHELL.text
 #: src/app/UI/styledlg.py:260
+#, fuzzy
 msgid "Text Objects"
-msgstr "Текстовые объекты"
+msgstr "Ibikoresho by'umwandiko"
 
 #: src/app/UI/tkext.py:1089
 #: src/app/UI/dialogs/msgdialog.py:21
 msgid "Yes"
-msgstr "Да"
+msgstr "Yego"
 
 #: src/app/UI/tkext.py:1090
 #: src/app/UI/dialogs/msgdialog.py:22
 msgid "No"
-msgstr "Нет"
+msgstr "Oya"
 
+# starmath/sdi\smslots.src:SID_FONTSIZE.text
 #: src/app/UI/tkext.py:1092
 #: src/app/UI/dialogs/msgdialog.py:24
 #, fuzzy
 msgid "Don't Save"
-msgstr "Размер шрифта"
+msgstr "Ingano"
 
 #: src/app/UI/ttk_ext.py:38
 #, fuzzy
 msgid "Clear All"
-msgstr "Выделить все"
+msgstr "Hitamo byose"
 
 #: src/app/events/undo.py:199
-#, python-format
+#, fuzzy, python-format
 msgid "Undo %s"
-msgstr "Откат %s"
+msgstr "Isubiranyuma:"
 
 #: src/app/events/undo.py:208
-#, python-format
+#, fuzzy, python-format
 msgid "Redo %s"
-msgstr "Повтор %s"
+msgstr "Isubiramo:"
 
-# ../Sketch/Base/warn.py:63 :80
+# ../Sketch/Base/warn.py:63:80
 #: src/app/events/warn.py:62
 #: src/app/events/warn.py:81
 #: src/app/UI/pluginpanels/shaping/base.py:23
 msgid "Warning"
-msgstr "Предупреждение"
+msgstr "Iburira"
 
 #: src/app/events/warn.py:80
 msgid "Print Traceback"
-msgstr "Печать Traceback"
+msgstr ""
 
 #: src/app/events/warn.py:88
 msgid "Traceback"
-msgstr "Traceback"
+msgstr ""
 
 #: src/app/io/load.py:290
-#, python-format
+#, fuzzy, python-format
 msgid "%(message)s (%(count)d times)"
-msgstr "%(message)s (%(count)d раз)"
+msgstr "%(Ubutumwa S IBARA D Times"
 
 #: src/app/io/load.py:354
 msgid "Parsing error: "
 msgstr ""
 
 #: src/app/io/load.py:359
+#, fuzzy
 msgid "unrecognised file type"
-msgstr "неизвестный тип файла"
+msgstr "IDOSIYE Ubwoko"
 
 #: src/app/io/load.py:370
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Cannot open %(filename)s:\n"
 "%(message)s"
-msgstr ""
-"Невозможно открыть %(filename)s:\n"
-"%(message)s"
+msgstr "Gufungura Izina ry'idosiye: S Ubutumwa S"
 
 #: src/app/managers/dialogmanager.py:30
 #: src/app/managers/dialogmanager.py:56
@@ -1803,11 +1901,12 @@ msgstr ""
 msgid "Adobe Illustrator files (up to ver. 9.0) - *.ai"
 msgstr ""
 
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..EPS_-_Encapsulated_PostScript.text
 #: src/app/managers/dialogmanager.py:41
 #: src/app/managers/dialogmanager.py:74
 #, fuzzy
 msgid "Encapsulated PostScript files - *.eps"
-msgstr "Encapsulated PostScript"
+msgstr "IyandikaNyuma rikusanyijwe"
 
 #: src/app/managers/dialogmanager.py:42
 msgid "PostScript files - *.ps"
@@ -1883,9 +1982,8 @@ msgid "All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc."
 msgstr ""
 
 #: src/app/managers/dialogmanager.py:73
-#, fuzzy
 msgid "Portable Network Graphics files - *.png"
-msgstr "Portable Graymap"
+msgstr ""
 
 #: src/app/managers/dialogmanager.py:75
 msgid "JPEG files - *.jpg *jpeg"
@@ -1911,20 +2009,21 @@ msgstr ""
 msgid "Paintbrush files - *.pcx"
 msgstr ""
 
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..PBM_-_Portable_Bitmap.text
 #: src/app/managers/dialogmanager.py:81
 #, fuzzy
 msgid "Portable Bitmap files - *.pbm"
-msgstr "Portable Bitmap"
+msgstr "Bitimapu Itwarika"
 
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..PGM_-_Portable_Graymap.text
 #: src/app/managers/dialogmanager.py:82
 #, fuzzy
 msgid "Portable Graymap files - *.pgm"
-msgstr "Portable Graymap"
+msgstr "Ikaritakigina Itwarika"
 
 #: src/app/managers/dialogmanager.py:83
-#, fuzzy
 msgid "Portable Pixmap files - *.ppm"
-msgstr "Portable Pixmap"
+msgstr ""
 
 #: src/app/managers/dialogmanager.py:86
 msgid "sK1 color swatch palette"
@@ -1946,33 +2045,34 @@ msgstr ""
 msgid "sK1 has checked presence of following browsers:\n"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:201 :208
+# ../Sketch/UI/mainwindow.py:201:208
 #: src/app/managers/dialogmanager.py:227
 #, fuzzy
 msgid "Open file"
-msgstr "Открыть"
+msgstr "Gufungura"
 
 #: src/app/managers/dialogmanager.py:234
 msgid "Import drawing"
 msgstr ""
 
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..PBM_-_Portable_Bitmap.text
 #: src/app/managers/dialogmanager.py:241
 #, fuzzy
 msgid "Import bitmap"
-msgstr "Portable Bitmap"
+msgstr "Bitimapu Itwarika"
 
 #: src/app/managers/dialogmanager.py:251
 #: src/app/managers/dialogmanager.py:260
 #: src/app/managers/dialogmanager.py:265
 #, fuzzy
 msgid "Save file As..."
-msgstr "Сохранить как..."
+msgstr "Bika nka..."
 
-# ../Sketch/UI/mainwindow.py:266 :292
+# ../Sketch/UI/mainwindow.py:266:293
 #: src/app/managers/dialogmanager.py:256
 #, fuzzy
 msgid "Save file"
-msgstr "Сохранить в файл"
+msgstr "Kubika Idosiye"
 
 #: src/app/managers/dialogmanager.py:273
 msgid "Export drawing"
@@ -1982,29 +2082,29 @@ msgstr ""
 msgid "Export drawing as a bitmap"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:201 :208
+# ../Sketch/UI/mainwindow.py:201:208
 #: src/app/managers/docmanager.py:79
 #: src/app/managers/docmanager.py:84
 msgid "Open"
-msgstr "Открыть"
+msgstr "Gufungura"
 
-# ../Sketch/UI/mainwindow.py:202 :398
+# ../Sketch/UI/mainwindow.py:202:403
 #: src/app/managers/docmanager.py:79
 #, fuzzy
 msgid ""
 "\n"
 "An error occurred:\n"
 "\n"
-msgstr "Произошла ошибка:\n"
+msgstr "Ikosa"
 
-# ../Sketch/UI/mainwindow.py:209 :405
+# ../Sketch/UI/mainwindow.py:209:410
 #: src/app/managers/docmanager.py:84
 #, fuzzy
 msgid ""
 "\n"
 "Warnings from the import filter:\n"
 "\n"
-msgstr "Предупреждения фильтра импорта:\n"
+msgstr "Bivuye i Kuzana Muyunguruzi..."
 
 #: src/app/managers/docmanager.py:88
 #: src/app/managers/docmanager.py:92
@@ -2028,18 +2128,18 @@ msgstr ""
 msgid "Finish document processing"
 msgstr ""
 
-# ../Sketch/UI/printdlg.py:37 :96
+# ../Sketch/UI/printdlg.py:37:102
 #: src/app/managers/docmanager.py:161
 #, fuzzy
 msgid "Printing"
-msgstr "Печать"
+msgstr "Gucapa"
 
 #: src/app/managers/docmanager.py:162
 #, fuzzy
 msgid ""
 "The document doesn't have \n"
 " any printable layers!\n"
-msgstr "Документ не содержит слоев для печати"
+msgstr "Inyandiko Gicapika"
 
 #: src/app/managers/docmanager.py:168
 msgid "Print into PDF file"
@@ -2051,19 +2151,19 @@ msgstr ""
 msgid "Import vector"
 msgstr ""
 
-# ../Sketch/UI/mainwindow.py:202 :398
+# ../Sketch/UI/mainwindow.py:202:403
 #: src/app/managers/docmanager.py:225
 #, fuzzy
 msgid "An error occurred: "
-msgstr "Произошла ошибка:\n"
+msgstr "Ikosa"
 
-# ../Sketch/UI/mainwindow.py:209 :405
+# ../Sketch/UI/mainwindow.py:209:410
 #: src/app/managers/docmanager.py:230
 #, fuzzy
 msgid ""
 "Warnings from the import filter:\n"
 "\n"
-msgstr "Предупреждения фильтра импорта:\n"
+msgstr "Bivuye i Kuzana Muyunguruzi..."
 
 #: src/app/managers/docmanager.py:238
 msgid "Importing result: it seems the document is empty!"
@@ -2091,23 +2191,20 @@ msgid ""
 "\n"
 "Choose `continue' to try saving anyway,\n"
 "or `cancel' to cancel saving."
-msgstr ""
-"Невозможно создать резервный файл %(filename)s:\n"
-"%(message)s\n"
-"Выберите `продолжить' для того, чтобы попытаться сохранить,\n"
-"или `отменить' для отказа."
+msgstr "Kurema Inyibutsa IDOSIYE Izina ry'idosiye: S Ubutumwa Kuri Mu kubika Cyangwa Kuri Kureka"
 
-# ../Sketch/UI/mainwindow.py:266 :292
+# ../Sketch/UI/mainwindow.py:266:293
 #: src/app/managers/docmanager.py:305
 #: src/app/managers/docmanager.py:330
+#, fuzzy
 msgid "Save To File"
-msgstr "Сохранить в файл"
+msgstr "Kubika Idosiye"
 
 #: src/app/managers/docmanager.py:305
 msgid "Continue"
-msgstr "Продолжить"
+msgstr "Gukomeza"
 
-# ../Sketch/UI/mainwindow.py:293 :353 ../Sketch/UI/printdlg.py:167
+# ../Sketch/UI/mainwindow.py:294:359 ../Sketch/UI/printdlg.py:185
 #: src/app/managers/docmanager.py:331
 #, fuzzy, python-format
 msgid ""
@@ -2115,14 +2212,12 @@ msgid ""
 "Cannot save %(filename)s:\n"
 "\n"
 "%(message)s"
-msgstr ""
-"Невозможно сохранить файл %(filename)s:\n"
-"%(message)s"
+msgstr "Kubika Izina ry'idosiye: S Ubutumwa S"
 
 #: src/app/managers/docmanager.py:357
 #, fuzzy
 msgid "sK1 - Save Document..."
-msgstr "Сохранить документ"
+msgstr "Bika Inyandiko"
 
 #: src/app/managers/docmanager.py:359
 #, fuzzy, python-format
@@ -2131,106 +2226,96 @@ msgid ""
 "File: <%s> has been changed ! \n"
 "\n"
 "Do you want to save it?\n"
-msgstr ""
-"%s был изменен.\n"
-"Желаете его сохранить?"
+msgstr "%sByahinduwe Kuri Kubika"
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/scripts/create_spiral.py:34
-#, fuzzy
 msgid "Create Spiral"
-msgstr "Создать стиль"
+msgstr ""
 
 #: src/app/scripts/create_spiral.py:39
-#, fuzzy
 msgid "Rotations"
-msgstr "Общие настройки"
+msgstr ""
 
 #: src/app/scripts/create_spiral.py:46
 #: src/app/scripts/create_star.py:106
 msgid "Radius"
-msgstr "Радиус"
+msgstr "Akarambararo"
 
 #: src/app/scripts/create_spiral.py:91
-#, fuzzy
 msgid "Spiral"
-msgstr "Специальный"
+msgstr "Nyamwihinahine"
 
 #: src/app/scripts/create_spiral.py:92
 #: src/app/scripts/create_star_outline.py:86
-#, fuzzy
 msgid "Create Objects"
-msgstr "Создать объект"
+msgstr ""
 
-# ../Sketch/UI/styledlg.py:118 :170 :175
+# ../Script/create_star_outline.py:30 ../Script/create_star.py:68:161
 #: src/app/scripts/create_star.py:68
 #: src/app/scripts/create_star.py:161
 #: src/app/scripts/create_star_outline.py:30
-#, fuzzy
 msgid "Create Star"
-msgstr "Создать стиль"
+msgstr ""
 
 #: src/app/scripts/create_star.py:92
 #: src/app/scripts/create_star_outline.py:35
-#, fuzzy
 msgid "Corners"
-msgstr "Граница"
+msgstr ""
 
 #: src/app/scripts/create_star.py:99
 msgid "Steps"
-msgstr "Шаги"
+msgstr "Intambwe"
 
 #: src/app/scripts/create_star_outline.py:42
-#, fuzzy
 msgid "Outer Radius"
-msgstr "Радиус"
+msgstr ""
 
 #: src/app/scripts/create_star_outline.py:49
-#, fuzzy
 msgid "Inner Radius"
-msgstr "Радиус"
+msgstr ""
 
 #: src/app/scripts/create_star_outline.py:85
-#, fuzzy
 msgid "Star Outline"
-msgstr "Установить контур"
+msgstr ""
 
 #: src/app/scripts/export_raster.py:51
-#, fuzzy
 msgid "Choose Raster Parameters"
-msgstr "Установить параметры"
+msgstr ""
 
 #: src/app/scripts/export_raster.py:56
 msgid "ppi"
 msgstr ""
 
 #: src/app/scripts/export_raster.py:63
+#, fuzzy
 msgid "w. Transparency"
-msgstr ""
+msgstr "W."
 
 #: src/app/scripts/export_raster.py:70
 #, fuzzy
 msgid "use BB information"
-msgstr "Снять преобразование"
+msgstr "Gukoresha Ibisobanuro"
 
 #: src/app/scripts/export_raster.py:198
 msgid "Portable Pixmap"
-msgstr "Portable Pixmap"
-
-#: src/app/scripts/export_raster.py:199
-msgid "Portable Graymap"
-msgstr "Portable Graymap"
-
-#: src/app/scripts/export_raster.py:200
-msgid "Jpeg"
 msgstr ""
 
-#: src/app/scripts/export_raster.py:201
-#, fuzzy
-msgid "Portable Network Graphics"
-msgstr "Portable Graymap"
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..PGM_-_Portable_Graymap.text
+#: src/app/scripts/export_raster.py:199
+msgid "Portable Graymap"
+msgstr "Ikaritakigina Itwarika"
 
-# ../Script/export_raster.py:220 :233 :239
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..JPG_-_JPEG.text
+#: src/app/scripts/export_raster.py:200
+#, fuzzy
+msgid "Jpeg"
+msgstr "JPEG"
+
+#: src/app/scripts/export_raster.py:201
+msgid "Portable Network Graphics"
+msgstr ""
+
+# ../Script/export_raster.py:224:237 :243
 #: src/app/scripts/export_raster.py:224
 #: src/app/scripts/export_raster.py:237
 #: src/app/scripts/export_raster.py:243
@@ -2240,84 +2325,89 @@ msgstr ""
 #: src/app/scripts/export_raster.py:236
 #, fuzzy, python-format
 msgid "unknown extension %s"
-msgstr "Неизвестная функция %s"
+msgstr "Kitazwi Umugereka"
 
 #: src/app/scripts/export_raster.py:250
 msgid "Export Raster Alpha (100ppi)"
 msgstr ""
 
-# ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
 #: src/app/scripts/reload_image.py:76
 #, fuzzy
 msgid "Reload Image"
-msgstr "Загрузить изображение"
+msgstr "Kongerakuyitangiza"
 
 #: src/app/scripts/simple_separation.py:50
+#, fuzzy
 msgid ""
 "The drawing contains unsupported fill or line patterns. Only solid\n"
 "colors are supported.\n"
-msgstr ""
+msgstr "Igishushanyo Kirimo Kuzuza Cyangwa Umurongo"
 
 #: src/app/scripts/simple_separation.py:55
+#, fuzzy
 msgid "The drawing contains raster images, which are not supported for separation\n"
-msgstr ""
+msgstr "Igishushanyo Kirimo AGAPANDE Ishusho OYA kugirango"
 
 #: src/app/scripts/simple_separation.py:59
+#, fuzzy
 msgid ""
 "The drawing contains embedded EPS files which are not supported for\n"
 "separation\n"
-msgstr ""
+msgstr "Igishushanyo Kirimo Gitsindiye Idosiye OYA"
 
 #: src/app/scripts/simple_separation.py:137
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The drawing has %d unique colors.\n"
 "Please choose a basename for the separation files.\n"
 "There will be one file for each color with a name of\n"
 "the form basename-XXXXXX.ps where XXXXXX is the\n"
 "hexadecimal color value.\n"
-msgstr ""
+msgstr "Igishushanyo Cyo nyine Amabara Guhitamo a kugirango i Idosiye IDOSIYE kugirango Ibara Na: a Izina: Ifishi ni Ibara Agaciro"
 
 #: src/app/scripts/simple_separation.py:164
-#, fuzzy
 msgid "Basename:"
-msgstr "Переименовать"
+msgstr ""
 
-# ../Script/simple_separation.py:216 :268
+# ../Script/simple_separation.py:216:268
 #: src/app/scripts/simple_separation.py:214
 #: src/app/scripts/simple_separation.py:266
 msgid "Simple Separation"
 msgstr ""
 
 #: src/app/scripts/spread.py:44
+#, fuzzy
 msgid "Spread Horizontal (cascade left)"
-msgstr ""
+msgstr "Urukurikirane Ibumoso:"
 
 #: src/app/scripts/spread.py:66
+#, fuzzy
 msgid "Spread Horizontal (cascade right)"
-msgstr ""
+msgstr "Urukurikirane Iburyo:"
 
 #: src/app/scripts/spread.py:89
 #, fuzzy
 msgid "Spread Horizontal (center)"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "hagati"
 
 #: src/app/scripts/spread.py:114
-#, fuzzy
 msgid "Spread Horizontal (bbox)"
-msgstr "Перевернуть вдоль верт. оси"
+msgstr ""
 
 #: src/app/scripts/spread.py:137
+#, fuzzy
 msgid "Spread Vertical (cascade bottom)"
-msgstr ""
+msgstr "Urukurikirane Hasi:"
 
 #: src/app/scripts/spread.py:160
+#, fuzzy
 msgid "Spread Vertical (cascade top)"
-msgstr ""
+msgstr "Urukurikirane Hejuru:"
 
 #: src/app/scripts/spread.py:183
+#, fuzzy
 msgid "Spread Vertical (center)"
-msgstr ""
+msgstr "hagati"
 
 #: src/app/scripts/spread.py:209
 msgid "Spread Vertical (bbox)"
@@ -2342,7 +2432,7 @@ msgstr ""
 #: src/app/UI/context/ellipse_panel.py:63
 #, fuzzy
 msgid " Start: "
-msgstr "Выделить начало"
+msgstr "Gutangira"
 
 #: src/app/UI/context/ellipse_panel.py:68
 msgid ""
@@ -2361,9 +2451,8 @@ msgid ""
 msgstr ""
 
 #: src/app/UI/context/ellipse_panel.py:78
-#, fuzzy
 msgid "Reset angles"
-msgstr "Удалить рабочий"
+msgstr ""
 
 #: src/app/UI/context/ellipse_panel.py:82
 msgid "Swap angles"
@@ -2372,56 +2461,54 @@ msgstr ""
 #: src/app/UI/context/ellipse_panel.py:89
 #, fuzzy
 msgid "to Arc"
-msgstr "Дуга"
+msgstr "Agaheto"
 
 #: src/app/UI/context/ellipse_panel.py:93
-#, fuzzy
 msgid "to Chord"
-msgstr "Хорда"
+msgstr ""
 
-# ../Sketch/UI/mainwindow.py:1139 :1268
 #: src/app/UI/context/ellipse_panel.py:97
-#, fuzzy
 msgid "to Pie"
-msgstr "Нет линии"
+msgstr ""
 
+# starmath/sdi\smslots.src:SID_FONTSIZE.text
 #: src/app/UI/context/font_panel.py:41
 #, fuzzy
 msgid "Font name"
-msgstr "Размер шрифта"
+msgstr "Ingano"
 
 #: src/app/UI/context/font_panel.py:52
 #, fuzzy
 msgid "Font style"
-msgstr "Стиль шрифтов"
+msgstr "Imyandikire"
 
+# starmath/sdi\smslots.src:SID_FONTSIZE.text
 #: src/app/UI/context/font_panel.py:63
 #, fuzzy
 msgid "Font size"
-msgstr "Размер шрифта"
+msgstr "Ingano"
 
 #: src/app/UI/context/font_panel.py:77
 #, fuzzy
 msgid "Bold"
-msgstr "Смешать"
+msgstr "Impera"
 
 #: src/app/UI/context/font_panel.py:82
 msgid "Italic"
 msgstr ""
 
 #: src/app/UI/context/font_panel.py:155
-#, fuzzy
 msgid "Set Font Properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/context/group_panel.py:21
 msgid "Group"
-msgstr "Группировать"
+msgstr "Itsinda"
 
 #: src/app/UI/context/group_panel.py:34
 #, fuzzy
 msgid "Combine"
-msgstr "Продолжить"
+msgstr "Gukomeza"
 
 #: src/app/UI/context/group_panel.py:36
 msgid "Split"
@@ -2440,28 +2527,28 @@ msgid "Add guides across page border"
 msgstr ""
 
 #: src/app/UI/context/guides_panel.py:58
-#, fuzzy
 msgid "Remove all guides"
-msgstr "Удалить стиль %s"
+msgstr ""
 
 #: src/app/UI/context/jump_panel.py:31
 msgid " Jump:"
 msgstr ""
 
+# sfx2/sdi\sfxslots.src:SID_INSERTDOC.text
+# ../Sketch/UI/mainwindow.py:402:409 :417
 #: src/app/UI/context/nodeedit_panel.py:34
 #, fuzzy
 msgid "Insert node"
-msgstr "Вставить узлы"
+msgstr "Kwinjiza Inyandiko"
 
 #: src/app/UI/context/nodeedit_panel.py:37
 #, fuzzy
 msgid "Remove nodes"
-msgstr "Удалить стиль %s"
+msgstr "Funga"
 
 #: src/app/UI/context/nodeedit_panel.py:45
-#, fuzzy
 msgid "Join selected nodes"
-msgstr "Удалить узлы"
+msgstr ""
 
 #: src/app/UI/context/nodeedit_panel.py:48
 msgid "Break path at selected nodes"
@@ -2488,9 +2575,8 @@ msgid "Make selected segments curves"
 msgstr ""
 
 #: src/app/UI/context/nodeedit_panel.py:81
-#, fuzzy
 msgid "Select all nodes in path"
-msgstr "Выделить все узлы"
+msgstr ""
 
 #: src/app/UI/context/page_panel.py:19
 msgid "<Custom Size>"
@@ -2499,7 +2585,7 @@ msgstr ""
 #: src/app/UI/context/page_panel.py:33
 #, fuzzy
 msgid "Page: "
-msgstr "Размер страницы:"
+msgstr "Ingono y'urupapuro"
 
 #: src/app/UI/context/page_panel.py:50
 msgid "  H: "
@@ -2526,9 +2612,8 @@ msgid "Vertical radius of rounded corners"
 msgstr ""
 
 #: src/app/UI/context/rotation_panel.py:25
-#, fuzzy
 msgid " Rotate: "
-msgstr "Повернуть против часовой"
+msgstr ""
 
 #: src/app/UI/context/text_prop_panel.py:33
 msgid "Distance between words"
@@ -2543,9 +2628,8 @@ msgid "Distance between characters"
 msgstr ""
 
 #: src/app/UI/context/text_prop_panel.py:68
-#, fuzzy
 msgid "Set Text properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/context/textalign_panel.py:29
 msgid "Left alignment"
@@ -2560,9 +2644,8 @@ msgid "Right alignment"
 msgstr ""
 
 #: src/app/UI/context/textalign_panel.py:57
-#, fuzzy
 msgid "Set Text Alignment"
-msgstr "Установить контур"
+msgstr ""
 
 #: src/app/UI/context/unit_panel.py:27
 msgid " Units: "
@@ -2641,12 +2724,12 @@ msgstr ""
 #: src/app/UI/dialogs/deletepagedlg.py:25
 #, fuzzy
 msgid "Delete page"
-msgstr "Удалить слой"
+msgstr "Gusiba Akugara"
 
 #: src/app/UI/dialogs/deletepagedlg.py:41
 #, fuzzy
 msgid "Delete page No.: "
-msgstr "Удалить узлы"
+msgstr "Gusiba Akugara"
 
 #: src/app/UI/dialogs/deletepagedlg.py:67
 #: src/app/UI/dialogs/gotopagedlg.py:67
@@ -2666,14 +2749,15 @@ msgid "Go to page No.: "
 msgstr ""
 
 #: src/app/UI/dialogs/insertpagedlg.py:25
-#, fuzzy
 msgid "Insert pages"
-msgstr "Вставить узлы"
+msgstr ""
 
+# sfx2/sdi\sfxslots.src:SID_INSERTDOC.text
+# ../Sketch/UI/mainwindow.py:402:409 :417
 #: src/app/UI/dialogs/insertpagedlg.py:42
 #, fuzzy
 msgid "Insert: "
-msgstr "Вставить узлы"
+msgstr "Kwinjiza Inyandiko"
 
 #: src/app/UI/dialogs/insertpagedlg.py:47
 msgid " page(s)"
@@ -2682,7 +2766,7 @@ msgstr ""
 #: src/app/UI/dialogs/insertpagedlg.py:61
 #, fuzzy
 msgid "Before "
-msgstr "Граница"
+msgstr "Impera"
 
 #: src/app/UI/dialogs/insertpagedlg.py:63
 msgid "After "
@@ -2705,23 +2789,21 @@ msgid "Plugins"
 msgstr ""
 
 #: src/app/UI/pluginpanels/pbrowser.py:44
-#, fuzzy
 msgid "Object properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/pluginpanels/pbrowser.py:46
 #, fuzzy
 msgid "Transformation"
-msgstr "Снять преобразование"
+msgstr "Guhindura"
 
 #: src/app/UI/pluginpanels/pbrowser.py:47
 msgid "Shaping"
 msgstr ""
 
 #: src/app/UI/pluginpanels/pbrowser.py:49
-#, fuzzy
 msgid "Extentions"
-msgstr "Общие настройки"
+msgstr ""
 
 #: src/app/UI/widgets/colorchooser.py:87
 msgid ""
@@ -2732,13 +2814,13 @@ msgstr ""
 #: src/app/UI/widgets/colordigitizer.py:239
 #, fuzzy
 msgid "Color name:"
-msgstr "Цвет"
+msgstr "Ibara"
 
-# ../Sketch/Graphics/properties.py:399 :403
+# ../Sketch/Graphics/properties.py:397:401
 #: src/app/UI/widgets/colorspacesel.py:14
 #, fuzzy
 msgid "Empty pattern"
-msgstr "Узор"
+msgstr "Umutako"
 
 #: src/app/UI/widgets/colorspacesel.py:15
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:24
@@ -2749,12 +2831,11 @@ msgstr ""
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:25
 #, fuzzy
 msgid "CMYK color"
-msgstr "Цвет"
+msgstr "Ibara"
 
 #: src/app/UI/widgets/colorspacesel.py:17
-#, fuzzy
 msgid "Spot color"
-msgstr "выбрать цвет"
+msgstr ""
 
 #: src/app/UI/widgets/colorspacesel.py:18
 msgid "Registration Black"
@@ -2767,62 +2848,60 @@ msgstr ""
 
 #: src/app/UI/widgets/doctabs.py:206
 msgid "New Document"
-msgstr "Новый документ"
+msgstr "inyandiko nshya"
 
 #: src/app/UI/widgets/doctabs.py:208
 #, fuzzy
 msgid "Refresh Document"
-msgstr "Новый документ"
+msgstr "inyandiko nshya"
 
 #: src/app/UI/widgets/doctabs.py:210
 msgid "Save Document"
-msgstr "Сохранить документ"
+msgstr "Bika Inyandiko"
 
-# ../Sketch/UI/mainwindow.py:397 :404 :412
+# sfx2/sdi\sfxslots.src:SID_INSERTDOC.text
+# ../Sketch/UI/mainwindow.py:402:409 :417
 #: src/app/UI/widgets/doctabs.py:212
 #, fuzzy
 msgid "Close Other Documents"
-msgstr "Вставить документ"
+msgstr "Kwinjiza Inyandiko"
 
 #: src/app/UI/widgets/doctabs.py:215
 #, fuzzy
 msgid "Close Document"
-msgstr "Новый документ"
+msgstr "inyandiko nshya"
 
 #: src/app/UI/cc/panels/general.py:19
-#, fuzzy
 msgid "General Options"
-msgstr "Общие настройки"
+msgstr ""
 
 #: src/app/UI/cc/panels/general.py:21
 #, fuzzy
 msgid "root"
-msgstr "Сглаживание"
+msgstr "Kunoza"
 
-# ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/UI/pluginpanels/effects/align_plugin.py:23
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:27
 #, fuzzy
 msgid "Selection"
-msgstr "Нет выделения"
+msgstr "Hitamo"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:24
 #, fuzzy
 msgid "Lowermost"
-msgstr "Опустить"
+msgstr "Cya-hasi"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:25
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:28
 #: src/app/UI/pluginpanels/layout/page_plugin.py:33
 #, fuzzy
 msgid "Page"
-msgstr "Вставить"
+msgstr "Komeka"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:47
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:50
-#, fuzzy
 msgid " Relative to "
-msgstr "Относительно страницы"
+msgstr ""
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:57
 msgid " Alignment type "
@@ -2831,7 +2910,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:71
 #, fuzzy
 msgid "Align left sides"
-msgstr "Выровнять влево"
+msgstr "tondeka ibumoso"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:72
 msgid "Center on vertical axis"
@@ -2840,12 +2919,12 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:73
 #, fuzzy
 msgid "Align right sides"
-msgstr "Выровнять вправо"
+msgstr "tondeka iburyo"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:75
 #, fuzzy
 msgid "Align tops"
-msgstr "Выровнять вверх"
+msgstr "tondeka hejuru"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:76
 msgid "Center on horizontal axis"
@@ -2854,19 +2933,20 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/align_plugin.py:77
 #, fuzzy
 msgid "Align bottoms"
-msgstr "Выровнять вниз"
+msgstr "shyira/tondeka ku ndiba"
 
-# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
+# ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:208:265
 #: src/app/UI/pluginpanels/effects/align_plugin.py:100
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:106
 #, fuzzy
 msgid "Auto Apply"
-msgstr "Применить"
+msgstr "Gushyiraho"
 
+# sw/source\ui\frmdlg\frmui.src:STR_OLE_EDIT.text
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:25
 #, fuzzy
 msgid "Distribute Objects"
-msgstr "Изменить размеры объектов"
+msgstr "Kwandika ikintu"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:29
 msgid "Edge + Jump"
@@ -2929,9 +3009,8 @@ msgid "Replace to: "
 msgstr ""
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
-#, fuzzy
 msgid " Parameters "
-msgstr "Установить параметры"
+msgstr ""
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:78
 msgid "Case sensitive"
@@ -2960,132 +3039,136 @@ msgstr ""
 msgid " Grid size "
 msgstr ""
 
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\Calc.xcs:....Layout.Line.Guide.text
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\WriterWeb.xcs:....Layout.Line.Guide.text
+# #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
+# officecfg/registry\schema\org\openoffice\Office\Writer.xcs:....Layout.Line.Guide.text
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
 #, fuzzy
 msgid "Guidelines"
-msgstr "Направляющие"
+msgstr "Ibiyobora"
 
+# sw/source\ui\utlui\attrdesc.src:STR_HORI_MIRROR.text
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:87
 #, fuzzy
 msgid "Add Horizontal Guide"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Guhindukiza intambike"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:93
-#, fuzzy
 msgid "Add Vertical Guide"
-msgstr "Добавить вертикальную направляющую"
+msgstr ""
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:99
 #, fuzzy
 msgid "Delete Guide"
-msgstr "Удалить направляющую"
+msgstr "Gusiba"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:129
-#, python-format
+#, fuzzy, python-format
 msgid "% 6.*f %s    horizontal"
-msgstr "% 6.*f %s    по горизонтали"
+msgstr "%6."
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:131
-#, python-format
+#, fuzzy, python-format
 msgid "% 6.*f %s    vertical"
-msgstr "% 6.*f %s    по вертикали"
+msgstr "%6."
 
+# svx/source\engine3d\float3d.src:RID_SVXFLOAT3D_FIX_Y.text
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:156
 #, fuzzy
 msgid "Y: "
-msgstr "Y:"
+msgstr "Y"
 
+# officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..6.text
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:158
 #, fuzzy
 msgid "X: "
-msgstr "X:"
+msgstr "X"
 
 #: src/app/UI/pluginpanels/layout/page_plugin.py:111
 msgid "Portrait"
-msgstr "Портрет"
+msgstr "Impagarike"
 
 #: src/app/UI/pluginpanels/layout/page_plugin.py:117
 msgid "Landscape"
-msgstr "Альбом"
+msgstr "Intambike"
 
-# ../Sketch/UI/mainwindow.py:1136 :1267
+# ../Sketch/UI/mainwindow.py:1145:1276
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:33
 #, fuzzy
 msgid "Solid Fill"
-msgstr "Нет заливки"
+msgstr "Nta Kuzuza"
 
+# VCARD_LDAP_UPDATEURL
+# # @name VCARD_LDAP_UPDATEURL
+# # @loc None
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:70
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:180
 #: src/app/UI/pluginpanels/properties/outlineprop.py:180
 #, fuzzy
 msgid "Copy From..."
-msgstr "Обновить из..."
+msgstr "Yashizweho kugihe kuri"
 
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:74
 msgid "Restore color"
 msgstr ""
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:40
-#, fuzzy
 msgid "Gradient Fill"
-msgstr "Выбрать заливку"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:66
 #: src/app/UI/pluginpanels/properties/outlineprop.py:66
 #, fuzzy
 msgid "Color:"
-msgstr "Цвет"
+msgstr "Ibara"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:95
 #: src/app/UI/pluginpanels/properties/outlineprop.py:95
 #, fuzzy
 msgid "Line width:"
-msgstr "Толщина линии"
+msgstr "Ubugari bw'Umurongo"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:108
 #: src/app/UI/pluginpanels/properties/outlineprop.py:108
 #, fuzzy
 msgid "Style:"
-msgstr "Стиль"
+msgstr "imisusire"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:117
 #: src/app/UI/pluginpanels/properties/outlineprop.py:117
-#, fuzzy
 msgid " Corners: "
-msgstr "Граница"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:146
 #: src/app/UI/pluginpanels/properties/outlineprop.py:146
-#, fuzzy
 msgid " Line caps: "
-msgstr "Окончание линии"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:184
 #: src/app/UI/pluginpanels/properties/outlineprop.py:184
-#, fuzzy
 msgid "Restore properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:245
 #: src/app/UI/pluginpanels/properties/outlineprop.py:245
-#, fuzzy
 msgid "Set Outline Properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/outlinecolor.py:18
 #, fuzzy
 msgid "Outline Color"
-msgstr "Выбрать цвет линии"
+msgstr "Imbata"
 
 #: src/app/UI/pluginpanels/properties/outlinecolor.py:31
-#, fuzzy
 msgid "Set Outline Color"
-msgstr "Установить цвет контура слоя"
+msgstr ""
 
 #: src/app/UI/pluginpanels/properties/outlineprop.py:40
-#, fuzzy
 msgid "Outline Properties"
-msgstr "Установить свойства"
+msgstr ""
 
 #: src/app/UI/pluginpanels/shaping/base.py:27
 msgid "Two or more objects must be selected"
@@ -3117,7 +3200,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/shaping/outline.py:27
 #, fuzzy
 msgid "Outline to Curve"
-msgstr "Вырезать кривую"
+msgstr "Guhindura mu Murongo uhese"
 
 #: src/app/UI/pluginpanels/shaping/trim.py:25
 msgid "Trim"
@@ -3126,7 +3209,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/shaping/union.py:25
 #, fuzzy
 msgid "Union"
-msgstr "Откат"
+msgstr "Isubiranyuma"
 
 #: src/app/UI/pluginpanels/transform/move_plugin.py:98
 msgid "Absolute Coordinates"
@@ -3137,9 +3220,8 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:133
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:116
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:87
-#, fuzzy
 msgid "Basepoint:"
-msgstr "Переименовать"
+msgstr ""
 
 #: src/app/UI/pluginpanels/transform/move_plugin.py:127
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:136
@@ -3153,7 +3235,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:184
 #, fuzzy
 msgid "Resize"
-msgstr "Размер страницы:"
+msgstr "Ingono y'urupapuro"
 
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:109
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:111
@@ -3165,14 +3247,13 @@ msgid "Resize&Copy"
 msgstr ""
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:36
-#, fuzzy
 msgid "Rotate"
-msgstr "Повернуть против часовой"
+msgstr ""
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:83
 #, fuzzy
 msgid " Angle: "
-msgstr "Угол"
+msgstr "Imfuruka"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:89
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:68
@@ -3183,17 +3264,16 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:92
 #, fuzzy
 msgid "Center:"
-msgstr "Создать"
+msgstr "kurema"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:126
 #, fuzzy
 msgid "Absolute Center"
-msgstr "Выровнять по центру (гор.)"
+msgstr "H"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:222
-#, fuzzy
 msgid "Rotation&Copy"
-msgstr "Общие настройки"
+msgstr ""
 
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:27
 msgid "Scale and Mirror"
@@ -3211,8 +3291,9 @@ msgstr ""
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:183
 #, fuzzy
 msgid "Skew&Copy"
-msgstr "Копировать"
+msgstr "Guporora"
 
+#, fuzzy
 #~ msgid ""
 #~ "Usage:\tskencil [options] [filename]\n"
 #~ "\n"
@@ -3231,146 +3312,128 @@ msgstr "Копировать"
 #~ "  -geometry WxH+X+Y\n"
 #~ "\n"
 #~ msgstr ""
-#~ "Использование:\tskencil [параметры] [имя_файла]\n"
-#~ "\n"
-#~ "skencil принимает следующие параметры:\n"
-#~ "\n"
-#~ "  -h --help\t\tВыводит данную справку\n"
-#~ "  -d --display=DISPLAY\tUse DISPLAY a X Display\n"
-#~ "  -g --geometry=WxH+X+Y\tФорма и размеры главного окна, заданные "
-#~ "стандартным для X способом\n"
-#~ "  --run-script=script   Исполнить файл script после старта\n"
-#~ "  --version\t\tВывод номера версии\n"
-#~ "\n"
-#~ "для совместимости с другим программным обеспечением для X skencil также\n"
-#~ "поддерживает задание формы и размеров в стандартном для X формате:\n"
-#~ "\n"
-#~ "  -geometry WxH+X+Y\n"
-#~ "\n"
+#~ "Amahitamo Izina ry'idosiye: Amahitamo h iyi Ifashayobora D Kugaragaza a g "
+#~ "Iyigamashusho Iyigamashusho Bya i Idirishya in Bisanzwe Gukoresha "
+#~ "IYANDIKA IYANDIKA i IDOSIYE IYANDIKA Nyuma i Verisiyo Umubare Kuri Bihuye "
+#~ "neza Na: Ikindi in i Bisanzwe Imiterere Iyigamashusho"
+
+#, fuzzy
 #~ msgid "Cannot load plugin module %s"
-#~ msgstr "Невозможно загрузить подключаемый модуль %s"
+#~ msgstr "Ibirimo Modire"
+
+#, fuzzy
 #~ msgid "Cannot load filter %(name)s"
-#~ msgstr "Невозможно загрузить фильтр %(name)s"
+#~ msgstr "Ibirimo Muyunguruzi... Izina: S"
+
+#, fuzzy
 #~ msgid "Cannot load plugin %(name)s.%(attr)s"
-#~ msgstr "Невозможно загрузить подключаемый модуль %(name)s.%(attr)s"
+#~ msgstr "Ibirimo Izina: S S"
+
+#, fuzzy
 #~ msgid ""
 #~ "Cannot list directory %(filename)s\n"
 #~ "%(message)s"
-#~ msgstr ""
-#~ "Невозможно прочитать каталог %(filename)s\n"
-#~ "%(message)s"
+#~ msgstr "Urutonde bushyinguro Izina ry'idosiye: Ubutumwa S"
+
+#, fuzzy
 #~ msgid "No plugin-type information in %(filename)s"
-#~ msgstr "Отсутствует информация о подключаемом модуле в файле %(filename)s"
+#~ msgstr "Ubwoko Ibisobanuro in Izina ry'idosiye: S"
+
+#, fuzzy
 #~ msgid "can't read configuration information from %(filename)s"
-#~ msgstr ""
-#~ "невозможно прочитать конфигурационную информацию из файла %(filename)s"
+#~ msgstr "Gusoma Iboneza Ibisobanuro Bivuye Izina ry'idosiye: S"
+
+#, fuzzy
 #~ msgid ""
 #~ "I cannot find the metrics for the font %(ps_name)s.\n"
 #~ "The file %(afm)s is not in the font_path.\n"
 #~ "I'll use the metrics for %(fallback)s instead."
 #~ msgstr ""
-#~ "Невозможно найти метрики для шрифта %(ps_name)s.\n"
-#~ "Файл %(afm)s не находится в font_path.\n"
-#~ "Взамен будут использованы метрики для %(fallback)s."
+#~ "Gushaka i Bijyanye n'ipima kugirango i Intego- nyuguti S IDOSIYE S ni OYA "
+#~ "in i Gukoresha i Bijyanye n'ipima kugirango S"
+
+#, fuzzy
 #~ msgid ""
 #~ "Cannot list directory %s:%s\n"
 #~ "ignoring it in font_path"
-#~ msgstr ""
-#~ "Невозможно узнать содержимое каталога %s:%s.\n"
-#~ "Этот каталог будет проигнорирован в font_path."
-#~ msgid "Cannot load sfd file %(filename)s:%(message)s;ignoring it"
-#~ msgstr "Невозможно прочитать файл sfd %(filename)s:%(message)s, пропущен."
-#~ msgid "I can't find font %(fontname)s. I'll use %(fallback)s instead"
-#~ msgstr ""
-#~ "Невозможно найти шрифт %(fontname)s. Взамен будет использован %(fallback)"
-#~ "s."
-#~ msgid "Linked Image `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
-#~ msgstr ""
-#~ "Связанное изображение `%(filename)s' %(width)d x %(height)d в точке (%(x)"
-#~ "d, %(y)d)"
-#~ msgid "Align"
-#~ msgstr "Выровнять"
-#~ msgid "Relative To Selection"
-#~ msgstr "Относительно выделения"
-#~ msgid "Relative To Lowermost"
-#~ msgstr "Относительно самого нижнего"
-#~ msgid "Redraw"
-#~ msgstr "Перерисовать"
-#~ msgid "Curve"
-#~ msgstr "Кривая"
-#~ msgid "Fonts"
-#~ msgstr "Шрифты"
-#~ msgid "Font Family:"
-#~ msgstr "Семейство шрифтов:"
-#~ msgid "Size:"
-#~ msgstr "Размер"
-#~ msgid "Set Font `%s'"
-#~ msgstr "Выбрать шрифт `%s'"
-#~ msgid "Set Font Size %.1f"
-#~ msgstr "Выбрать рамер шрифта %.1f"
-#~ msgid "Origin:"
-#~ msgstr "Положение:"
-#~ msgid "Widths:"
-#~ msgstr "Ширина:"
-#~ msgid "Add H"
-#~ msgstr "Добавить H"
-#~ msgid "Add V"
-#~ msgstr "Добавить V"
-#~ msgid "Layers"
-#~ msgstr "Слои"
-#~ msgid "Rename"
-#~ msgstr "Переименовать"
-#~ msgid "Lower Layer"
-#~ msgstr "Опустить слой"
-#~ msgid "Raise Layer"
-#~ msgstr "Поднять слой"
-#~ msgid "Move Selection Here"
-#~ msgstr "Переместить выделение сюда"
-#~ msgid "Select All Children"
-#~ msgstr "Выделить всех потомков"
-#~ msgid "Deselect All Children"
-#~ msgstr "Снять выделение со всех потомков"
+#~ msgstr "Urutonde bushyinguro in"
 
-# ../Sketch/UI/layerdlg.py:365 :381
+#, fuzzy
+#~ msgid "Cannot load sfd file %(filename)s:%(message)s;ignoring it"
+#~ msgstr "Ibirimo IDOSIYE Izina ry'idosiye: S Ubutumwa S"
+
+#, fuzzy
+#~ msgid "I can't find font %(fontname)s. I'll use %(fallback)s instead"
+#~ msgstr "Gushaka Intego- nyuguti S Gukoresha S"
+
+#, fuzzy
+#~ msgid "Linked Image `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
+#~ msgstr "Izina ry'idosiye: Ubugari D X Ubuhagarike D ku X D Y D"
+#~ msgid "Align"
+#~ msgstr "Kuringaniza"
+#~ msgid "Redraw"
+#~ msgstr "Ongera Ushushanye"
+#~ msgid "Curve"
+#~ msgstr "Agaheto"
+#~ msgid "Size:"
+#~ msgstr "Ingano:"
+
+# shell/source\win32\shlxthandler\shlxthdl.lng:%ORIGIN%.text
+#, fuzzy
+#~ msgid "Origin:"
+#~ msgstr "Inkomoko"
+
+#, fuzzy
+#~ msgid "Add H"
+#~ msgstr "H"
+
+#, fuzzy
+#~ msgid "Add V"
+#~ msgstr "V"
+#~ msgid "Rename"
+#~ msgstr "Guhindura izina"
+
+# ../Sketch/UI/layerdlg.py:365:381
 #~ msgid "Name"
-#~ msgstr "Имя"
+#~ msgstr "Izina"
+# svx/source\dialog\page.src:RID_SVXPAGE_PAGE.FL_PAPER_SIZE.text
+#, fuzzy
 #~ msgid "Paper format:"
-#~ msgstr "Формат бумаги:"
+#~ msgstr "Imiterere y'urupapuro"
 #~ msgid "Line Style"
-#~ msgstr "Стиль прямой"
+#~ msgstr "Imisusire y'Umurongo"
 #~ msgid "None"
-#~ msgstr "Ничего"
+#~ msgstr "Ntacyo"
 #~ msgid "Open Document"
-#~ msgstr "Открыть документ"
+#~ msgstr "fungura inyandiko"
+
+#, fuzzy
 #~ msgid "Save as PostScript..."
-#~ msgstr "Сохранить в виде PostScript..."
-# ../Sketch/UI/mainwindow.py:333 :352 ../Sketch/UI/printdlg.py:117 :166
+#~ msgstr "Kubika Nka"
+
+# ../Sketch/UI/mainwindow.py:327:341 :358 ../Sketch/UI/printdlg.py:123:145
+# :184
+#, fuzzy
 #~ msgid "Save As PostScript"
-#~ msgstr "Сохранить в виде PostScript"
-#~ msgid "Insert Document..."
-#~ msgstr "Вставить документ..."
+#~ msgstr "Kubika"
+
+#, fuzzy
 #~ msgid "The document is empty"
-#~ msgstr "Этот документ пуст"
-#~ msgid "Hide Dialogs"
-#~ msgstr "Спрятать окна диалогов"
-#~ msgid "Show Dialogs"
-#~ msgstr "Показать окна диалогов"
-#~ msgid "Layers..."
-#~ msgstr "Слои..."
-#~ msgid "Font..."
-#~ msgstr "Шрифт..."
+#~ msgstr "Inyandiko ni ubusa"
+
+# sc/source\ui\src\popup.src:RID_POPUP_PREVIEW.SID_FORMATPAGE.text
+#, fuzzy
 #~ msgid "Page Layout..."
-#~ msgstr "Макет страницы..."
-#~ msgid "Curve Commands..."
-#~ msgstr "Команды построения кривых..."
+#~ msgstr "Imigaragarire y'Ipaji..."
+
+#, fuzzy
 #~ msgid "Reload Module..."
-#~ msgstr "Перезагрузить модуль..."
+#~ msgstr "Kongerakuyitangiza"
 #~ msgid "Options..."
-#~ msgstr "Параметры..."
+#~ msgstr "Amahitamo..."
 #~ msgid "Script"
-#~ msgstr "Сценарии"
-#~ msgid "Windows"
-#~ msgstr "Окна"
+#~ msgstr "Inyandiko-porogaramu"
+
 #, fuzzy
 #~ msgid ""
 #~ "Skencil (%(version)s)\n"
@@ -3379,121 +3442,193 @@ msgstr "Копировать"
 #~ "Versions:\n"
 #~ "Python:\t%(py)s\tTcl:\t%(tcl)s\n"
 #~ "Tkinter:\t%(tkinter)s\tTk:\t%(tk)s"
-#~ msgstr ""
-#~ "Sketch (%(version)s)\n"
-#~ "(c) 1996-2005 by Bernhard Herzog\n"
-#~ "Перевод Андрей Киселев, 2001 г.\n"
-#~ "Версии:\n"
-#~ "Python:\t%(py)s\tTcl:\t%(tcl)s\n"
-#~ "Tkinter:\t%(tkinter)s\tTk:\t%(tk)s"
+#~ msgstr "Verisiyo S C ku S"
 
 #, fuzzy
-#~ msgid "About Skencil"
-#~ msgstr "О программе Sketch"
-#~ msgid "Load Raster/EPS Image..."
-#~ msgstr "Загрузить растровое/EPS изображение"
-#~ msgid "# Undo Levels:"
-#~ msgstr "Число уровней отката"
-#~ msgid "unlimited"
-#~ msgstr "неограничено"
-#~ msgid "Duplication Offset"
-#~ msgstr "Смещение при дублировании"
-#~ msgid "Hor."
-#~ msgstr "Гор."
-#~ msgid "Vert."
-#~ msgstr "Верт."
-#~ msgid "Default Unit"
-#~ msgstr "Единица измерения по умолчанию"
 #~ msgid "Could not load palette %s; trying mini.spl..."
-#~ msgstr "Невозможно загрузить палитру %s; попробуем mini.spl..."
-#~ msgid "Could not load palette mini.spl; reverting to black&white"
-#~ msgstr "Невозможно загрузить палитру mini.spl; возвращаемся к черно-белому"
-#~ msgid "Printer"
-#~ msgstr "Принтер"
-#~ msgid "Command"
-#~ msgstr "Команда"
-#~ msgid "EPS"
-#~ msgstr "EPS"
-#~ msgid "Filename"
-#~ msgstr "Имя файла"
+#~ msgstr "OYA Ibirimo Urwunge rw'ibara:"
 
 #, fuzzy
-#~ msgid "Skencil/Sketch Document"
-#~ msgstr "Документ Sketch"
+#~ msgid "Could not load palette mini.spl; reverting to black&white"
+#~ msgstr "OYA Ibirimo Urwunge rw'ibara: Kuri"
+
+#, fuzzy
+#~ msgid "Embed fonts"
+#~ msgstr "Imyandikire"
+#~ msgid "Printer"
+#~ msgstr "Mucapyi"
+#~ msgid "Command"
+#~ msgstr "Icyo wifuza"
+#~ msgid "Filename"
+#~ msgstr "Izina ry'idosiye"
+
+# officecfg/registry\schema\org\openoffice\Office\Impress.xcs:....Filter.Export.LastUsed..JPG_-_JPEG.text
 #~ msgid "JPEG"
 #~ msgstr "JPEG"
+#, fuzzy
 #~ msgid "GIF"
 #~ msgstr "GIF"
+
+# officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Filter.Graphic.Export.EPS.Preview..1.text
 #~ msgid "TIFF"
 #~ msgstr "TIFF"
+#, fuzzy
 #~ msgid "Windows / OS/2 Bitmap"
-#~ msgstr "Windows / OS/2 Bitmap"
-#~ msgid "PCX"
-#~ msgstr "PCX"
+#~ msgstr "2."
 #~ msgid "Ok"
-#~ msgstr "Ok"
-#~ msgid "Adobe Illustrator"
-#~ msgstr "Adobe Illustrator"
+#~ msgstr "Oke"
 
-# ../Plugins/Filters/ailoader.py:400 :428
+# ../Plugins/Filters/ailoader.py:422:450
+#, fuzzy
 #~ msgid "Vector patterns not supported. Using black"
-#~ msgstr "Векторные узоры не поддерживаются. Заливаем черным."
+#~ msgstr "OYA umukara"
+
+#, fuzzy
 #~ msgid "Gradient ColorStyle %d not yet supported.substituted black"
-#~ msgstr "Градиентный стиль %d пока не поддерживается. Подставляем черный"
-# ../Plugins/Filters/ailoader.py:533 :563
-#~ msgid "Unknown ColorStyle %d"
-#~ msgstr "Неизвестный Стиль цвета %d"
+#~ msgstr "OYA Byasimbujwe umukara"
+
+#, fuzzy
 #~ msgid "less than two color stops in gradient"
-#~ msgstr "меньше двух цветовых отметок в градиенте"
+#~ msgstr "Birutwa Ibara in Ikizamuko"
+
+#, fuzzy
 #~ msgid "Unknown gradient type %d"
-#~ msgstr "Неизвестный тип градиента %d"
+#~ msgstr "Ikizamuko Ubwoko"
+
+#, fuzzy
 #~ msgid "Multiple Master fonts not supported. Using Times Roman"
-#~ msgstr "Шрифты Multiple Master не поддерживаются. Используется Times Roman"
+#~ msgstr "Imyandikire OYA"
+
+#, fuzzy
 #~ msgid "Additional encoding ignored"
-#~ msgstr "Дополнительная кодировка игнорирована"
+#~ msgstr "Imisobekere:"
+
+#, fuzzy
 #~ msgid "Area text not supported"
-#~ msgstr "Текстовые области не поддерживаются"
+#~ msgstr "Umwandiko OYA"
+
+#, fuzzy
 #~ msgid "No font %s."
-#~ msgstr "Нет шрифта %s."
+#~ msgstr "Intego- nyuguti"
+
+#, fuzzy
 #~ msgid "Only images with 1 or 3 components and 8 bits/component supported"
-#~ msgstr ""
-#~ "Поддерживаются только изображения с 1 или 3 каналами и 8 битами на канал"
-#~ msgid "Bzipped Files"
-#~ msgstr "Файлы сжаты bzip2"
+#~ msgstr "Ishusho Na: 1. Cyangwa 3. Na 8"
+
+#, fuzzy
 #~ msgid "Color model %s not implemented. Using black"
-#~ msgstr "Цветовая модель %s не реализована. Используется черный"
+#~ msgstr "Urugero OYA umukara"
+
+#, fuzzy
 #~ msgid "Unknown unit specification %d, assuming inches"
-#~ msgstr "Неизвестная единица измерения %d, полагются дюймы"
+#~ msgstr "Igice: inci"
+
+#, fuzzy
 #~ msgid "Invalid image specification"
-#~ msgstr "Ошибочно заданное изображение"
+#~ msgstr "Ishusho"
+
+#, fuzzy
 #~ msgid "fill type 'monochrome-bitmap' not implemented, using solid black"
-#~ msgstr "заливка битовой маской не реализована, используется сплошной черный"
+#~ msgstr "Kuzuza Ubwoko bararimwe OYA ikoresha Gikomeye umukara"
+
+#, fuzzy
 #~ msgid "fill type 'texture' not implemented, using solid black"
-#~ msgstr "заливка текстурой не реализована, используется сплошной черный"
-# ../Plugins/Filters/cmxloader.py:1167 :1404
+#~ msgstr "Kuzuza Ubwoko OYA ikoresha Gikomeye umukara"
+
+# ../Plugins/Filters/cmxloader.py:1172:1409
+#, fuzzy
 #~ msgid "fill type %d not implemented, using solid black"
-#~ msgstr "заливка типа %s не реализована, используется сплошной черный"
-#~ msgid "Lens specification ignored"
-#~ msgstr "Заданная линза игнорирована"
-#~ msgid "Canvas specification ignored"
-#~ msgstr "Заданный холст игнорирован"
+#~ msgstr "Kuzuza Ubwoko OYA ikoresha Gikomeye umukara"
+
+#, fuzzy
 #~ msgid "Texture fill not implemented, using solid black"
-#~ msgstr "Заливка текстурой не реализована, используется сплошной черный"
+#~ msgstr "Kuzuza OYA ikoresha Gikomeye umukara"
+
+#, fuzzy
 #~ msgid "Substituting radial gradient for square gradient"
-#~ msgstr "Подставляется радиальный градиент для квадратного градиента"
+#~ msgstr "Nyakarambararo Ikizamuko kugirango kare Ikizamuko"
+
+#, fuzzy
 #~ msgid "Image for twocolor fill is not 1 bit deep"
-#~ msgstr "Изображение для двуцветной заливки не 1-битной глубины"
+#~ msgstr "kugirango Kuzuza ni OYA 1. Njyakuzimu"
 #~ msgid "Unexpected end of file"
-#~ msgstr "Неожиданный конец файла"
-#~ msgid "Drawfile"
-#~ msgstr "Нарисовать эллипс"
-#~ msgid "Gzipped Files"
-#~ msgstr "Файлы сжаты gzip"
+#~ msgstr "Idosiye irangiye bititeguwe"
+
 #, fuzzy
 #~ msgid ""
 #~ "The file was created by a newer version of Skencil or Sketch, there might "
 #~ "be inaccuracies."
-#~ msgstr "Файл создан более новой версией Sketch, возможны неточности"
+#~ msgstr "IDOSIYE Byaremwe ku a Verisiyo Bya Cyangwa"
+
+#, fuzzy
 #~ msgid "Unknown paper format '%s', using A4 instead"
-#~ msgstr "Неизвестный формат бумаги '%s', взамен используется A4"
+#~ msgstr "urupapuro Imiterere ikoresha"
+
+# ../Plugins/Filters/skloader.py:177:183 :189
+#, fuzzy
+#~ msgid "No gradient for gradient pattern"
+#~ msgstr "Ikizamuko kugirango Ikizamuko Ishusho"
+
+# ../Plugins/Filters/skloader.py:266:275
+#, fuzzy
+#~ msgid "unnamed style"
+#~ msgstr "Kitiswe IMISUSIRE"
+
+#, fuzzy
+#~ msgid "Error reading line %s"
+#~ msgstr "Umurongo"
+
+#, fuzzy
+#~ msgid "Omitted some arguments for function %s"
+#~ msgstr "ingingo kugirango Umumaro"
+
+#, fuzzy
+#~ msgid "Cannot call function %s"
+#~ msgstr "Umumaro"
+
+#, fuzzy
+#~ msgid "Unknown function %s"
+#~ msgstr "Umumaro"
+
+#, fuzzy
+#~ msgid ""
+#~ "error %s:%s in line %d:\n"
+#~ "%s"
+#~ msgstr "Ikosa in Umurongo"
+
+#, fuzzy
+#~ msgid "The file is not a placeable windows metafile"
+#~ msgstr "IDOSIYE ni OYA a Idosiye idasanzwe"
+
+#, fuzzy
+#~ msgid "Bitmap brushes not yet implemented. Using black"
+#~ msgstr "OYA umukara"
+
+#, fuzzy
+#~ msgid "WMF objects"
+#~ msgstr "Ibintu"
+
+#, fuzzy
+#~ msgid "PostScript font `%(ps)s' substituted for TeX-font `%(tex)s'"
+#~ msgstr "Intego- nyuguti Byasimbujwe kugirango Intego- nyuguti"
+
+#, fuzzy
+#~ msgid "X-Spline treated as PolyLine"
+#~ msgstr "Nka"
+
+#, fuzzy
+#~ msgid ""
+#~ "error in line %d:\n"
+#~ "%s"
+#~ msgstr "Ikosa in Umurongo"
+#~ msgid "Text"
+#~ msgstr "Umwandiko"
+
+#, fuzzy
+#~ msgid "LCD Text: `%(text)s', size %(size)g"
+#~ msgstr "Umwandiko Ingano Ingano g"
+
+#, fuzzy
+#~ msgid "Regular Polygon: %(vertices)d vertices, radius %(radius)[length]"
+#~ msgstr "D Akarambararo Akarambararo Uburebure"
 
