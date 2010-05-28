@@ -65,7 +65,7 @@ class AboutDialog(ModalDialog):
 	
 	def build_tab_about(self):	
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 10)
-		self.nb.add(panel, text='About application')
+		self.nb.add(panel, text=_('About application'))
 
 		subpanel = TFrame(panel, style='FlatFrame', borderwidth = 0)		
 		subpanel.pack(side=TOP, fill=Y, expand = 1)
@@ -94,7 +94,7 @@ class AboutDialog(ModalDialog):
 			
 	def build_tab_authors(self):
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 5)
-		self.nb.add(panel, text='Authors')
+		self.nb.add(panel, text=_('Authors'))
 		
 		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)		
 		subpanel.grid(sticky=N+S+E+W)
@@ -125,7 +125,7 @@ class AboutDialog(ModalDialog):
 	
 	def build_tab_localization(self):
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 5)
-		self.nb.add(panel, text='Localization')
+		self.nb.add(panel, text=_('Localization'))
 		
 		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)		
 		subpanel.grid(sticky=N+S+E+W)
@@ -153,7 +153,7 @@ class AboutDialog(ModalDialog):
 	
 	def build_tab_license(self):
 		panel = TFrame(self.root, style='FlatFrame', borderwidth = 5)
-		self.nb.add(panel, text='License')
+		self.nb.add(panel, text=_('License'))
 		
 		subpanel = TFrame(panel, style='RoundedFrame', borderwidth = 4)
 		subpanel.grid(sticky=N+S+E+W)
