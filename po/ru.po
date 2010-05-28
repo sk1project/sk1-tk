@@ -360,7 +360,7 @@ msgstr "Сконвертировать изображение"
 #: src/app/Graphics/document.py:2287
 #: src/app/UI/mainwindow.py:898
 msgid "Invert Image"
-msgstr "Обратить изображение"
+msgstr "Инвертировать изображение"
 
 #: src/app/Graphics/document.py:2300
 #: src/app/UI/dialogs/gotopagedlg.py:25
@@ -843,7 +843,7 @@ msgstr "Выделить"
 #: src/app/UI/canvas.py:198
 #: src/app/UI/mainwindow.py:905
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Правка"
 
 #: src/app/UI/canvas.py:204
 msgid "Create"
@@ -1448,7 +1448,7 @@ msgstr "Повернуть вправо на  90"
 #: src/app/UI/mainwindow.py:883
 #: src/app/events/undo.py:200
 msgid "Undo"
-msgstr "Откат"
+msgstr "Омена"
 
 #: src/app/UI/mainwindow.py:884
 #: src/app/events/undo.py:209
@@ -1457,7 +1457,7 @@ msgstr "Повтор"
 
 #: src/app/UI/mainwindow.py:885
 msgid "Discard Undo History"
-msgstr "Сбросить историю откатов"
+msgstr "Удалить историю изменений"
 
 # ../Sketch/UI/mainwindow.py:1136 :1267
 #: src/app/UI/mainwindow.py:887
@@ -2269,7 +2269,7 @@ msgstr "Настройки sK1"
 
 #: src/app/UI/cc/ccenterdialog.py:83
 msgid "Restore Defaults"
-msgstr "Вернуться к исходным"
+msgstr "По умолчанию"
 
 #: src/app/UI/cc/ccenterdialog.py:134
 msgid "Preferences"
@@ -2508,11 +2508,11 @@ msgstr "Векторный редактор для препресса"
 #: src/app/UI/dialogs/aboutdlg.py:116
 msgid ""
 "\n"
-"To report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n"
+"To report bugs please use project bugtracker:\n https://bugs.launchpad.net/sk1/.\n"
 "\n"
 msgstr ""
 "\n"
-"Сообщить про ошибку можно в багтрекерре проекта: https://bugs.launchpad.net/sk1/.\n"
+"Сообщить про ошибку можно в багтрекерре проекта:\n https://bugs.launchpad.net/sk1/.\n"
 "\n"
 
 #: src/app/UI/dialogs/aboutdlg.py:117
@@ -2577,13 +2577,13 @@ msgstr ""
 
 #: src/app/UI/dialogs/aboutdlg.py:148
 msgid "We plan to provide localization resources for next version\n"
-msgstr "Мы предоставим локализационные ресурсы к следующей версии\n"
+msgstr "Мы предоставим локализационные ресурсы к следующей версии.\n"
 
 #: src/app/UI/dialogs/aboutdlg.py:149
 msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
 msgstr ""
 "Поэтому, если вы хотите присоединиться к нашей команде\n"
-" в качестве переводчика, свяжитесь с нами! "
+"в качестве переводчика, свяжитесь с нами! "
 
 #: src/app/UI/dialogs/deletepagedlg.py:25
 msgid "Delete page"
@@ -2836,11 +2836,11 @@ msgstr "Равномерно распределить по нижнему кра
 
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:30
 msgid "Color Space Converter"
-msgstr "Конвертер цветовых пространств"
+msgstr "Конвертер цвета"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:25
 msgid "Text Find & Replace"
-msgstr "Поиск и замена текста"
+msgstr "Поиск/замена текста"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:49
 msgid "Find: "
@@ -2940,7 +2940,7 @@ msgstr "Восстановить цвет"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:40
 msgid "Gradient Fill"
-msgstr "Градиентная заливка"
+msgstr "Градиенты"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:66
 #: src/app/UI/pluginpanels/properties/outlineprop.py:66
@@ -3090,7 +3090,7 @@ msgstr "Вращать и скопировать"
 
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:27
 msgid "Scale and Mirror"
-msgstr "Масштабирование и отражение"
+msgstr "Масштаб и отражение"
 
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:198
 msgid "Scale&Copy"
