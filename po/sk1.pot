@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-27 22:25+0200\n"
+"POT-Creation-Date: 2010-05-28 13:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2317,8 +2317,16 @@ msgstr ""
 msgid "Uses libraries: Tcl/Tk %s; Python %s"
 msgstr ""
 
+#: src/app/UI/dialogs/aboutdlg.py:68
+msgid "About application"
+msgstr ""
+
 #: src/app/UI/dialogs/aboutdlg.py:77
 msgid "Illustration program for prepress"
+msgstr ""
+
+#: src/app/UI/dialogs/aboutdlg.py:97
+msgid "Authors"
 msgstr ""
 
 #: src/app/UI/dialogs/aboutdlg.py:116
@@ -2365,6 +2373,10 @@ msgid ""
 "   Information support (http://linuxgraphics.ru)"
 msgstr ""
 
+#: src/app/UI/dialogs/aboutdlg.py:128
+msgid "Localization"
+msgstr ""
+
 #: src/app/UI/dialogs/aboutdlg.py:147
 msgid ""
 "\n"
@@ -2377,6 +2389,10 @@ msgstr ""
 
 #: src/app/UI/dialogs/aboutdlg.py:149
 msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
+msgstr ""
+
+#: src/app/UI/dialogs/aboutdlg.py:156
+msgid "License"
 msgstr ""
 
 #: src/app/UI/dialogs/deletepagedlg.py:25
