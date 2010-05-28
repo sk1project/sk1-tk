@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-27 22:25+0200\n"
-"PO-Revision-Date: 2010-05-28 12:58+0100\n"
+"POT-Creation-Date: 2010-05-28 13:38+0200\n"
+"PO-Revision-Date: 2010-05-28 13:42+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2501,18 +2501,27 @@ msgstr "О программе"
 msgid "Uses libraries: Tcl/Tk %s; Python %s"
 msgstr "Используются библиотеки: Tcl/Tk %s; Python %s"
 
+#: src/app/UI/dialogs/aboutdlg.py:68
+msgid "About application"
+msgstr "О программе"
+
 #: src/app/UI/dialogs/aboutdlg.py:77
 msgid "Illustration program for prepress"
 msgstr "Векторный редактор для препресса"
 
+#: src/app/UI/dialogs/aboutdlg.py:97
+msgid "Authors"
+msgstr "Авторы"
+
 #: src/app/UI/dialogs/aboutdlg.py:116
 msgid ""
 "\n"
-"To report bugs please use project bugtracker:\n https://bugs.launchpad.net/sk1/.\n"
+"To report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n"
 "\n"
 msgstr ""
 "\n"
-"Сообщить про ошибку можно в багтрекерре проекта:\n https://bugs.launchpad.net/sk1/.\n"
+"Сообщить про ошибку можно в багтрекерре проекта:\n"
+"https://bugs.launchpad.net/sk1/.\n"
 "\n"
 
 #: src/app/UI/dialogs/aboutdlg.py:117
@@ -2567,6 +2576,10 @@ msgstr ""
 "   alexandre.prokoudine@gmail.com\n"
 "   информационная поддержка (http://linuxgraphics.ru)"
 
+#: src/app/UI/dialogs/aboutdlg.py:128
+msgid "Localization"
+msgstr "Перевод"
+
 #: src/app/UI/dialogs/aboutdlg.py:147
 msgid ""
 "\n"
@@ -2584,6 +2597,10 @@ msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
 msgstr ""
 "Поэтому, если вы хотите присоединиться к нашей команде\n"
 "в качестве переводчика, свяжитесь с нами! "
+
+#: src/app/UI/dialogs/aboutdlg.py:156
+msgid "License"
+msgstr "Лицензия"
 
 #: src/app/UI/dialogs/deletepagedlg.py:25
 msgid "Delete page"
