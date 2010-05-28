@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-23 15:05+0300\n"
-"PO-Revision-Date: 2010-05-28 13:11+0100\n"
+"POT-Creation-Date: 2010-05-28 13:38+0200\n"
+"PO-Revision-Date: 2010-05-28 13:44+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -301,12 +301,12 @@ msgid "Flip Both"
 msgstr "Перевернути"
 
 #: src/app/Graphics/document.py:1882
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:202
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:206
 msgid "Rotation"
 msgstr "Обертання"
 
 #: src/app/Graphics/document.py:1901
-#: src/app/UI/pluginpanels/transform/move_plugin.py:29
+#: src/app/UI/pluginpanels/transform/move_plugin.py:31
 msgid "Move"
 msgstr "Переміщення"
 
@@ -1074,9 +1074,9 @@ msgstr "Перехід"
 #: src/app/UI/pluginpanels/shaping/outline.py:41
 #: src/app/UI/pluginpanels/shaping/trim.py:39
 #: src/app/UI/pluginpanels/shaping/union.py:39
-#: src/app/UI/pluginpanels/transform/move_plugin.py:121
+#: src/app/UI/pluginpanels/transform/move_plugin.py:123
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:132
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:149
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:153
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:134
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:106
 msgid "Apply"
@@ -2473,9 +2473,17 @@ msgstr "Про програму sK1"
 msgid "Uses libraries: Tcl/Tk %s; Python %s"
 msgstr "Бібліотеки що використовуються: Tcl/Tk %s; Python %s"
 
+#: src/app/UI/dialogs/aboutdlg.py:68
+msgid "About application"
+msgstr "О програме"
+
 #: src/app/UI/dialogs/aboutdlg.py:77
 msgid "Illustration program for prepress"
 msgstr "Редактор векторної графіки для додрукарської підготовки"
+
+#: src/app/UI/dialogs/aboutdlg.py:97
+msgid "Authors"
+msgstr "Авори"
 
 #: src/app/UI/dialogs/aboutdlg.py:116
 msgid ""
@@ -2539,6 +2547,10 @@ msgstr ""
 "   alexandre.prokoudine@gmail.com\n"
 "   Інформаційна підтримка (http://linuxgraphics.ru)"
 
+#: src/app/UI/dialogs/aboutdlg.py:128
+msgid "Localization"
+msgstr "Переклад"
+
 #: src/app/UI/dialogs/aboutdlg.py:147
 msgid ""
 "\n"
@@ -2557,6 +2569,10 @@ msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
 msgstr ""
 "Якщо ви хочете приєднання до команди sK1,\n"
 "просто зв'яжіться з нами!"
+
+#: src/app/UI/dialogs/aboutdlg.py:156
+msgid "License"
+msgstr "Лiцензiя"
 
 #: src/app/UI/dialogs/deletepagedlg.py:25
 msgid "Delete page"
@@ -3004,21 +3020,21 @@ msgstr "Підрізування"
 msgid "Union"
 msgstr "Об'єднання"
 
-#: src/app/UI/pluginpanels/transform/move_plugin.py:96
+#: src/app/UI/pluginpanels/transform/move_plugin.py:98
 msgid "Absolute Coordinates"
 msgstr "Абсолютні координати"
 
-#: src/app/UI/pluginpanels/transform/move_plugin.py:103
+#: src/app/UI/pluginpanels/transform/move_plugin.py:105
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:114
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:129
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:133
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:116
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:87
 msgid "Basepoint:"
 msgstr "Точка відліку"
 
-#: src/app/UI/pluginpanels/transform/move_plugin.py:125
+#: src/app/UI/pluginpanels/transform/move_plugin.py:127
 #: src/app/UI/pluginpanels/transform/resize_plugin.py:136
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:153
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:157
 #: src/app/UI/pluginpanels/transform/scale_plugin.py:138
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:110
 msgid "Apply to Copy"
@@ -3038,29 +3054,29 @@ msgstr "Пропорційно"
 msgid "Resize&Copy"
 msgstr "Зміна розміру копії"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:32
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:36
 msgid "Rotate"
 msgstr "Обертання"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:79
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:83
 msgid " Angle: "
 msgstr "Кут:"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:85
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:89
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:68
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:82
 msgid "deg"
 msgstr "градус"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:88
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:92
 msgid "Center:"
 msgstr "Центр:"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:122
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:126
 msgid "Absolute Center"
 msgstr "Абсолютний центр"
 
-#: src/app/UI/pluginpanels/transform/rotate_plugin.py:218
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:222
 msgid "Rotation&Copy"
 msgstr "Обертання копії"
 
