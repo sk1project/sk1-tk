@@ -19,10 +19,10 @@ class FlipPanel(CtxSubPanel):
 		CtxSubPanel.__init__(self, parent)
 		
 		b = TButton(self.panel, command=self.flip, style='Toolbutton', image='context_hflip')
-		tooltips.AddDescription(b, 'Flip Horizontal')
+		tooltips.AddDescription(b, _('Flip Horizontal'))
 		b.pack(side = LEFT)
 		b = TButton(self.panel,  command=self.flop, style='Toolbutton', image='context_vflip')
-		tooltips.AddDescription(b, 'Flip Vertical')
+		tooltips.AddDescription(b, _('Flip Vertical'))
 		b.pack(side = LEFT)
 		
 	def flip(self):

@@ -28,13 +28,13 @@ class RotatePanel(CtxSubPanel):
 						min = -360, max = 360, step = 1, width = 6, command = self.applyRotate)
 		self.entry_width.pack(side = LEFT)
 		b = TButton(self.panel, command=self.rotLeft, style='Toolbutton', image='context_rotate_ccw')
-		tooltips.AddDescription(b, 'Rotate -90°')
+		tooltips.AddDescription(b, _('Rotate -90°'))
 		b.pack(side = LEFT)
 		b = TButton(self.panel,  command=self.rot180, style='Toolbutton', image='context_rotate')
-		tooltips.AddDescription(b, 'Rotate 180°')
+		tooltips.AddDescription(b, _('Rotate 180°'))
 		b.pack(side = LEFT)
 		b = TButton(self.panel,  command=self.rotRight, style='Toolbutton', image='context_rotate_cw')
-		tooltips.AddDescription(b, 'Rotate 90°')
+		tooltips.AddDescription(b, _('Rotate 90°'))
 		b.pack(side = LEFT)
 
 	def rot180(self):

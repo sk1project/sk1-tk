@@ -292,7 +292,7 @@ class sK1MainWindow(Publisher):
 					command = self.no_pattern, args = 'fill')
 		but.pack(side = TOP)
 		but.bind('<ButtonPress-3>', self.no_pattern, 'line')
-		tooltips.AddDescription(but, "No color")
+		tooltips.AddDescription(but, _("No color"))
 		
 		self.palette.pack(side = LEFT, fill = Y, expand = 1)
 		
