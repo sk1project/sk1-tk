@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.9.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-28 13:38+0200\n"
-"PO-Revision-Date: 2010-05-28 13:44+0100\n"
+"PO-Revision-Date: 2010-05-28 14:30+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -2475,7 +2475,7 @@ msgstr "Бібліотеки що використовуються: Tcl/Tk %s; P
 
 #: src/app/UI/dialogs/aboutdlg.py:68
 msgid "About application"
-msgstr "О програме"
+msgstr "Про програму"
 
 #: src/app/UI/dialogs/aboutdlg.py:77
 msgid "Illustration program for prepress"
@@ -2483,7 +2483,7 @@ msgstr "Редактор векторної графіки для додрука
 
 #: src/app/UI/dialogs/aboutdlg.py:97
 msgid "Authors"
-msgstr "Авори"
+msgstr "Автори"
 
 #: src/app/UI/dialogs/aboutdlg.py:116
 msgid ""

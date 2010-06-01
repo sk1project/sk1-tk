@@ -8,12 +8,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-28 13:38+0200\n"
+"POT-Creation-Date: 2010-06-01 06:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/app/Graphics/arrow.py:81
@@ -267,10 +267,12 @@ msgid "Abut Vertical"
 msgstr ""
 
 #: src/app/Graphics/document.py:1856 src/app/UI/mainwindow.py:869
+#: src/app/UI/context/flip_panel.py:22
 msgid "Flip Horizontal"
 msgstr ""
 
 #: src/app/Graphics/document.py:1863 src/app/UI/mainwindow.py:870
+#: src/app/UI/context/flip_panel.py:25
 msgid "Flip Vertical"
 msgstr ""
 
@@ -1105,6 +1107,10 @@ msgstr ""
 msgid "Error running script `%s'"
 msgstr ""
 
+#: src/app/UI/mainwindow.py:295
+msgid "No color"
+msgstr ""
+
 #: src/app/UI/mainwindow.py:637
 msgid "Fill: "
 msgstr ""
@@ -1219,7 +1225,7 @@ msgstr ""
 msgid "Add Vertical Guide Line"
 msgstr ""
 
-#: src/app/UI/mainwindow.py:794
+#: src/app/UI/mainwindow.py:794 src/app/UI/mainwindow.py:1002
 msgid "Zoom 1:1"
 msgstr ""
 
@@ -2270,6 +2276,18 @@ msgstr ""
 
 #: src/app/UI/context/rotation_panel.py:25
 msgid " Rotate: "
+msgstr ""
+
+#: src/app/UI/context/rotation_panel.py:31
+msgid "Rotate -90°"
+msgstr ""
+
+#: src/app/UI/context/rotation_panel.py:34
+msgid "Rotate 180°"
+msgstr ""
+
+#: src/app/UI/context/rotation_panel.py:37
+msgid "Rotate 90°"
 msgstr ""
 
 #: src/app/UI/context/text_prop_panel.py:33

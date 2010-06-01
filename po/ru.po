@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-28 13:38+0200\n"
-"PO-Revision-Date: 2010-05-28 13:42+0100\n"
+"POT-Creation-Date: 2010-06-01 06:36+0200\n"
+"PO-Revision-Date: 2010-06-01 06:42+0100\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -125,7 +125,7 @@ msgstr "Сложный черный ("
 
 #: src/app/Graphics/color.py:386
 msgid "I can't alloc all needed colors. I'll use a private colormap"
-msgstr "Невозможно разместить все необходимые цвета. Использована ограниченная палитра"
+msgstr "Невозможно разместить все необходимые цвета. Будет использоватся ограниченная палитра"
 
 #: src/app/Graphics/compound.py:252
 #, python-format
@@ -144,7 +144,7 @@ msgid ""
 "Using builtin defaults"
 msgstr ""
 "Ошибка при чтении пунктира из %s\n"
-"Будут использованы встроенные определения"
+"Будут использованы встроенные ресурсы"
 
 #: src/app/Graphics/document.py:83
 msgid "Guide Lines"
@@ -198,11 +198,11 @@ msgstr "Удалить"
 
 #: src/app/Graphics/document.py:1502
 msgid "Move To Top"
-msgstr "Переместить наверх"
+msgstr "Поднять на передний план"
 
 #: src/app/Graphics/document.py:1505
 msgid "Move To Bottom"
-msgstr "Переместить вниз"
+msgstr "Опустить на задний план"
 
 #: src/app/Graphics/document.py:1508
 msgid "Lower"
@@ -283,11 +283,13 @@ msgstr "Выстроить по вертикали"
 
 #: src/app/Graphics/document.py:1856
 #: src/app/UI/mainwindow.py:869
+#: src/app/UI/context/flip_panel.py:22
 msgid "Flip Horizontal"
 msgstr "Перевернуть вдоль верт. оси"
 
 #: src/app/Graphics/document.py:1863
 #: src/app/UI/mainwindow.py:870
+#: src/app/UI/context/flip_panel.py:25
 msgid "Flip Vertical"
 msgstr "Перевернуть вдоль гор. оси"
 
@@ -341,12 +343,12 @@ msgstr "Создать клон"
 #: src/app/Graphics/document.py:2142
 #: src/app/UI/mainwindow.py:863
 msgid "Combine Beziers"
-msgstr "Объединить кривые Безье"
+msgstr "Объединить кривые"
 
 #: src/app/Graphics/document.py:2163
 #: src/app/UI/mainwindow.py:864
 msgid "Split Beziers"
-msgstr "Разделить кривые Безье"
+msgstr "Разделить кривые"
 
 #: src/app/Graphics/document.py:2194
 #: src/app/UI/mainwindow.py:862
@@ -500,7 +502,7 @@ msgstr ""
 #: src/app/Graphics/graphics.py:1187
 #, python-format
 msgid "Can't create shared memory image: %s"
-msgstr "Невозможно создать изображение в разделяемой памяти: %s"
+msgstr "Невозможно создать изображение в общей памяти: %s"
 
 #: src/app/Graphics/group.py:29
 #, python-format
@@ -566,7 +568,7 @@ msgstr "Выбрать маску"
 #: src/app/Graphics/plugobj.py:169
 #, python-format
 msgid "Unknown Plugin Object `%s'"
-msgstr "Неизвестный подключаемый модуль `%s'"
+msgstr "Неизвестный плагин-объект `%s'"
 
 #: src/app/Graphics/properties.py:397
 msgid "Fill Pattern"
@@ -653,7 +655,7 @@ msgstr "Размер"
 
 #: src/app/Graphics/properties.py:416
 msgid "Linegap"
-msgstr "Окончание линии"
+msgstr "Промежуток между строчками"
 
 #: src/app/Graphics/properties.py:417
 msgid "Wordgap"
@@ -834,7 +836,7 @@ msgstr "Вращать буквы"
 
 #: src/app/Graphics/text.py:1042
 msgid "Skew Letters"
-msgstr "Сдвинуть буквы"
+msgstr "Наклонить буквы"
 
 #: src/app/UI/canvas.py:192
 msgid "Select"
@@ -853,7 +855,7 @@ msgstr "Создать"
 #: src/app/UI/canvas.py:209
 #: src/app/UI/canvas.py:1318
 msgid "Zoom Area"
-msgstr "Область для увеличения"
+msgstr "Область увеличения"
 
 #: src/app/UI/canvas.py:213
 msgid "Pick Object"
@@ -921,15 +923,15 @@ msgstr "Управление цветом"
 
 #: src/app/UI/canvas.py:1640
 msgid "Snap to Grid"
-msgstr "Выровнять по сетке"
+msgstr "Выравнивать по сетке"
 
 #: src/app/UI/canvas.py:1654
 msgid "Snap to Objects"
-msgstr "Выровнять по объектам"
+msgstr "Выравнивать по объектам"
 
 #: src/app/UI/canvas.py:1669
 msgid "Snap to Guides"
-msgstr "Выровнять по направляющим"
+msgstr "Выравнивать по направляющим"
 
 #: src/app/UI/canvas.py:1682
 msgid "Snap Bounding Rect"
@@ -953,7 +955,7 @@ msgstr "Выровнено: "
 
 #: src/app/UI/canvas.py:1719
 msgid "No Snap"
-msgstr "Не выровнено"
+msgstr "Выравнивание отключено"
 
 #: src/app/UI/canvas.py:1750
 msgid "Crosshairs"
@@ -1055,7 +1057,7 @@ msgstr "OK"
 
 #: src/app/UI/dlg_blend.py:29
 msgid "BLEND"
-msgstr "BLEND"
+msgstr "СМЕШИВАНИЕ"
 
 # ../Sketch/UI/layoutdlg.py:113 ../Sketch/UI/sketchdlg.py:206 :263
 #: src/app/UI/dlg_blend.py:44
@@ -1120,7 +1122,7 @@ msgstr "Загрузить изображение..."
 
 #: src/app/UI/filldlg.py:494
 msgid "Pick Image..."
-msgstr "Указать узображение..."
+msgstr "Выбрать изображение..."
 
 # ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
 #: src/app/UI/filldlg.py:519
@@ -1170,6 +1172,10 @@ msgstr "Перевернуть"
 #, python-format
 msgid "Error running script `%s'"
 msgstr "Ошибка при запуске сценария `%s'"
+
+#: src/app/UI/mainwindow.py:295
+msgid "No color"
+msgstr "Без цвета"
 
 #: src/app/UI/mainwindow.py:637
 msgid "Fill: "
@@ -1292,6 +1298,7 @@ msgid "Add Vertical Guide Line"
 msgstr "Добавить вертикальную направляющую"
 
 #: src/app/UI/mainwindow.py:794
+#: src/app/UI/mainwindow.py:1002
 msgid "Zoom 1:1"
 msgstr "Масштаб 1:1"
 
@@ -1686,7 +1693,7 @@ msgstr "Очистить все"
 #: src/app/events/undo.py:199
 #, python-format
 msgid "Undo %s"
-msgstr "Откат %s"
+msgstr "Отмена %s"
 
 #: src/app/events/undo.py:208
 #, python-format
@@ -2455,6 +2462,18 @@ msgstr "Вертикальный радиус скругленных углов"
 #: src/app/UI/context/rotation_panel.py:25
 msgid " Rotate: "
 msgstr " Повернуть: "
+
+#: src/app/UI/context/rotation_panel.py:31
+msgid "Rotate -90°"
+msgstr "Повернуть на -90°"
+
+#: src/app/UI/context/rotation_panel.py:34
+msgid "Rotate 180°"
+msgstr "Повернуть на 180°"
+
+#: src/app/UI/context/rotation_panel.py:37
+msgid "Rotate 90°"
+msgstr "Повернуть на 90°"
 
 #: src/app/UI/context/text_prop_panel.py:33
 msgid "Distance between words"
