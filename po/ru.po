@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-01 06:36+0200\n"
-"PO-Revision-Date: 2010-06-01 06:42+0100\n"
+"PO-Revision-Date: 2010-06-05 02:54+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1324,7 +1324,7 @@ msgstr "Выравнивание..."
 
 #: src/app/UI/mainwindow.py:812
 msgid "Grid Setup..."
-msgstr "Параметры Сетки..."
+msgstr "Параметры сетки..."
 
 #: src/app/UI/mainwindow.py:813
 msgid "Outline..."
