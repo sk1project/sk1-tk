@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-01 06:36+0200\n"
-"PO-Revision-Date: 2010-06-05 02:54+0300\n"
+"PO-Revision-Date: 2010-06-05 16:15+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -685,7 +685,7 @@ msgstr "Вертикальное выравнивание"
 #: src/app/Graphics/psdevice.py:193
 #, python-format
 msgid "Can't embed font '%s': %s"
-msgstr "Невозможно включить шрифт '%s': %s"
+msgstr "Невозможно внедрить шрифт '%s': %s"
 
 #: src/app/Graphics/psdevice.py:200
 #, python-format
@@ -719,7 +719,7 @@ msgstr "%(object)s в `%(layer)s'"
 #: src/app/Graphics/selection.py:504
 #, python-format
 msgid "%(number)d objects on `%(layer)s'"
-msgstr "%(number)d объектов в `%(layer)s'"
+msgstr "%(number)d объекта(ов) в `%(layer)s'"
 
 #: src/app/Graphics/selection.py:508
 #, python-format
@@ -1291,11 +1291,11 @@ msgstr "Перейти к странице..."
 
 #: src/app/UI/mainwindow.py:791
 msgid "Add Horizontal Guide Line"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Добавить гор.направляющую"
 
 #: src/app/UI/mainwindow.py:792
 msgid "Add Vertical Guide Line"
-msgstr "Добавить вертикальную направляющую"
+msgstr "Добавить верт.направляющую"
 
 #: src/app/UI/mainwindow.py:794
 #: src/app/UI/mainwindow.py:1002
@@ -2085,7 +2085,7 @@ msgid ""
 "Do you want to save it?\n"
 msgstr ""
 "\n"
-"Файл:%s был изменен.\n"
+"Файл: %s был изменен.\n"
 "\n"
 "Желаете его сохранить?\n"
 
@@ -2656,7 +2656,7 @@ msgstr "Вставить: "
 
 #: src/app/UI/dialogs/insertpagedlg.py:47
 msgid " page(s)"
-msgstr " страница(цы)"
+msgstr " страницу(цы)"
 
 #: src/app/UI/dialogs/insertpagedlg.py:61
 msgid "Before "
@@ -2923,11 +2923,11 @@ msgstr "Направляющие"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:87
 msgid "Add Horizontal Guide"
-msgstr "Добавить горизонтальную направляющую"
+msgstr "Добавить гор.направляющую"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:93
 msgid "Add Vertical Guide"
-msgstr "Добавить вертикальную направляющую"
+msgstr "Добавить верт.направляющую"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:99
 msgid "Delete Guide"
