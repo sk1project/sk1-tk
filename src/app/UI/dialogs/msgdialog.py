@@ -60,7 +60,7 @@ class MessageDialog(ModalDialog):
 	
 		command = self.ok
 		for i in range(len(self.buttons)):
-			button = UpdatedButton(frame, text = '  '+self.buttons[i]+'  ', command = command, args = i)
+			button = UpdatedButton(frame, text = ' '+self.buttons[i]+' ', command = command, args = i)
 			button.grid(column = i, row = 0, sticky = 'ew', padx = 10, pady= 0)
 			if i == self.default:
 				button['default'] = 'active'
