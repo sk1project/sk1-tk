@@ -228,7 +228,7 @@ class DocTab(TButton):
 			return 0
 		
 	def refreshTab(self):
-		self.parent.mainwindow.canvas.commands.ForceRedraw()
+		self.parent.mainwindow.canvas.ForceRedraw()
 		
 	def saveTab(self):
 		self.parent.docmanager.SaveDocument(self.document)
