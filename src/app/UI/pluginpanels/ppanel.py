@@ -117,7 +117,7 @@ class PluginPanel(TFrame,Publisher):
 	def create_std_buttons(self, master):
 		frame = TFrame(master, style='FlatFrame', borderwidth=2)
 
-		button = UpdatedButton(frame, text = _("Apply"), command = self.do_apply, sensitivecb = self.can_apply, width = 15)
+		button = UpdatedButton(frame, text = _("Apply"), command = self.do_apply, sensitivecb = self.can_apply)
 		button.pack(side = TOP)
 		return frame
 			
