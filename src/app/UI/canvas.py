@@ -348,7 +348,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.invgc.init_gc(self.tkwin)
 		
 		#Cairo renderer initialization
-		self.gc.gc.CairoInit(self.tkwin.width,self.tkwin.height)
+		self.gc.gc.CairoInit(self.tkwin.width+100,self.tkwin.height+100)
 		self.gc.gc.CairoSetTolerance(preferences.cairo_tolerance)
 		self.gc.gc.CairoSetAntialias(preferences.cairo_antialias)
 		
