@@ -480,8 +480,6 @@ class Selection(Bounded):
 			br = self.coord_rect
 			hor_sel=round((br.right - br.left)/.283465)/10
 			ver_sel=round((br.top - br.bottom)/.283465)/10
-#             hor_sel=ceil(floor(10**3*(br.right - br.left)/2.83465)/10)/100
-#             ver_sel=ceil(floor(10**3*(br.top - br.bottom)/2.83465)/10)/100
 			document = sel_info[0][1].document
 			if len(sel_info) == 1:
 				path, obj = sel_info[0]
@@ -491,10 +489,10 @@ class Selection(Bounded):
 					dict.update(info[1])
 					# the %% is correct here. The result has to be a
 					# %-template itself.
-					text = _("%s on `%%(layer)s'") % info[0]+"\n Selection size: "+str(hor_sel)+" x "+str(ver_sel) +" mm"###
+					text = _("%s on `%%(layer)s'") % info[0]+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"###
 				else:
 					dict['object'] = info
-					text = _("%(object)s on `%(layer)s'")+"\n Selection size: "+str(hor_sel)+" x "+str(ver_sel) +" mm"    ###
+					text = _("%(object)s on `%(layer)s'")+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"    ###
 				result = text, dict
 			else:
 				layer = sel_info[0][0][0]
@@ -503,9 +501,9 @@ class Selection(Bounded):
 					layer_name = document.layers[layer].Name()
 					result = _("%(number)d objects on `%(layer)s'") \
 								% {'number':len(sel_info), 'layer':layer_name}
-					result = result + "\n Selection size: "+str(hor_sel)+" x "+str(ver_sel) +" mm"
+					result = result + _("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"
 				else:
-					result = _("%d objects on several layers") % len(sel_info)+"\n Selection size: "+str(hor_sel)+" x "+str(ver_sel) +" mm"  ###
+					result = _("%d objects on several layers") % len(sel_info)+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"  ###
 		return result
 
 	def CurrentInfoText(self):
