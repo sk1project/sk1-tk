@@ -229,7 +229,7 @@ class RectangleCreator(RectangularCreator):
 		if self.state & AlternateMask:
 			start = start - self.off
 		width, height = self.drag_cur - start
-		return 'Rectangle: %(size)[size]', {'size': (abs(width), abs(height))}
+		return _('Rectangle: %(size)[size]'), {'size': (abs(width), abs(height))}
 
 	def CreatedObject(self):
 		return Rectangle(self.trafo,
