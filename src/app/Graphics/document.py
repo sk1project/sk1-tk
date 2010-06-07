@@ -2177,17 +2177,13 @@ class EditDocument(SketchDocument, QueueingPublisher):
 				self.end_transaction()
 
 	def CanConvertToCurve(self):
-		check_crv = 0
-		if len(self.selection) >0:
-				check_crv = 1
-#		for a  in range(len(self.selection)):
-#			if self.selection.GetObjects()[a].is_curve:
-#				pass
-#			else:
-#				check_crv = 0
-		return check_crv
-		# return len(self.selection) == 1 \
-				#and self.selection.GetObjects()[0].is_curve
+		result = 0
+		for a in range(len(self.selection)):
+			if self.selection.GetObjects()[a].is_Rectangle or \
+			self.selection.GetObjects()[a].is_Ellipse or \
+			self.selection.GetObjects()[a].is_Text:
+				result = 1
+		return result
 
 	def ConvertToCurve(self):
 		if self.CanConvertToCurve():
