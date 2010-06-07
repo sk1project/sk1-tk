@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-01 06:36+0200\n"
+"POT-Creation-Date: 2010-06-07 03:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -667,75 +667,86 @@ msgstr ""
 msgid "Create Rectangle"
 msgstr ""
 
-#: src/app/Graphics/selection.py:477 src/app/Graphics/selection.py:1147
+#: src/app/Graphics/rectangle.py:232
+msgid "Rectangle: %(size)[size]"
+msgstr ""
+
+#: src/app/Graphics/selection.py:477 src/app/Graphics/selection.py:1145
 msgid "No Selection"
 msgstr ""
 
-#: src/app/Graphics/selection.py:494
+#: src/app/Graphics/selection.py:492
 #, python-format
 msgid "%s on `%%(layer)s'"
 msgstr ""
 
-#: src/app/Graphics/selection.py:497
+#: src/app/Graphics/selection.py:492 src/app/Graphics/selection.py:495
+#: src/app/Graphics/selection.py:504 src/app/Graphics/selection.py:506
+msgid ""
+"\n"
+" Selection size: "
+msgstr ""
+
+#: src/app/Graphics/selection.py:495
 #, python-format
 msgid "%(object)s on `%(layer)s'"
 msgstr ""
 
-#: src/app/Graphics/selection.py:504
+#: src/app/Graphics/selection.py:502
 #, python-format
 msgid "%(number)d objects on `%(layer)s'"
 msgstr ""
 
-#: src/app/Graphics/selection.py:508
+#: src/app/Graphics/selection.py:506
 #, python-format
 msgid "%d objects on several layers"
 msgstr ""
 
-#: src/app/Graphics/selection.py:602
+#: src/app/Graphics/selection.py:600
 msgid "Move Objects"
 msgstr ""
 
-#: src/app/Graphics/selection.py:618
+#: src/app/Graphics/selection.py:616
 msgid "Resize Objects"
 msgstr ""
 
-#: src/app/Graphics/selection.py:645
+#: src/app/Graphics/selection.py:643
 msgid "Scale %(factorx)[factor], %(factory)[factor]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:650
+#: src/app/Graphics/selection.py:648
 msgid "Move %(x)[length], %(y)[length]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:849
+#: src/app/Graphics/selection.py:847
 msgid "Shear Objects"
 msgstr ""
 
-#: src/app/Graphics/selection.py:851
+#: src/app/Graphics/selection.py:849
 msgid "Rotate Objects"
 msgstr ""
 
-#: src/app/Graphics/selection.py:856
+#: src/app/Graphics/selection.py:854
 msgid "Rotation Center at %(position)[position]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:861
+#: src/app/Graphics/selection.py:859
 msgid "Rotate by %(angle)[angle]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:864
+#: src/app/Graphics/selection.py:862
 msgid "Horizontal Shear by %(ratio)[factor]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:867
+#: src/app/Graphics/selection.py:865
 msgid "Vertical Shear by %(ratio)[factor]"
 msgstr ""
 
-#: src/app/Graphics/selection.py:870
+#: src/app/Graphics/selection.py:868
 msgid "Identity Transform"
 msgstr ""
 
-#: src/app/Graphics/selection.py:1039 src/app/UI/context/ellipse_panel.py:44
+#: src/app/Graphics/selection.py:1037 src/app/UI/context/ellipse_panel.py:44
 #: src/app/UI/context/rectangle_panel.py:66
 msgid "Edit Object"
 msgstr ""
