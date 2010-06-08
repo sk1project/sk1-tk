@@ -8,7 +8,8 @@
 import app, os, string, math
 from app.conf import const
 from sk1sdk.libtk import Tkinter
-from sk1sdk import tkstyle
+from sk1sdk import tkstyle, tkXcursor
+from sk1libs.utils import system 
 
 	
 class UIManager:
@@ -31,8 +32,21 @@ class UIManager:
 		
 	def defineCursors(self):
 		cur_dir=os.path.join(app.config.sk_share_dir,'cursors')
-		setattr(const, 'CurEdit', ('@' + os.path.join(cur_dir,'CurEdit.xbm'),'black'))
-		setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir,'CurZoom.xbm'),'black'))
+		if system.get_os_family()==system.LINUX:
+			if tkXcursor.is_xcursor_supported(self.root):
+				cur_dir=os.path.join(cur_dir,'xcursor')
+				setattr(const, 'CurEdit', tkXcursor.load_cursor(self.root, os.path.join(cur_dir,'cur_edit')))
+				setattr(const, 'CurZoom', tkXcursor.load_cursor(self.root, os.path.join(cur_dir,'cur_zoom')))
+			else:
+				cur_dir=os.path.join(cur_dir,'xbm')
+				setattr(const, 'CurEdit', ('@' + os.path.join(cur_dir,'CurEdit.xbm'),'black'))
+				setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir,'CurZoom.xbm'),'black'))
+		elif system.get_os_family()==system.WINDOWS:
+			pass
+		elif system.get_os_family()==system.MACOSX:
+			pass
+		else:
+			pass
 		
 	def uploadExtentions(self):
 		tcl=os.path.join(app.config.sk_dir,'app','tcl')

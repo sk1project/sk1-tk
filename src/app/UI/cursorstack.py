@@ -19,6 +19,7 @@
 #
 # CursorStack provides methods for dealing with these things.
 #
+import types
 
 class CursorStack:
 
@@ -64,4 +65,8 @@ class CursorStack:
 
 	def set_window_cursor(self, cursor):
 		if cursor != self.last_cursor:
-			self['cursor'] = self.last_cursor = cursor
+			if type(cursor) is types.IntType:
+				from sk1sdk import tkXcursor
+				tkXcursor.set_cursor(self, cursor)
+			else:
+				self['cursor'] = self.last_cursor = cursor
