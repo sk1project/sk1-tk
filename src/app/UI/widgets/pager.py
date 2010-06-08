@@ -40,6 +40,7 @@ class Pager(TFrame, Publisher):
 		self.mainwindow.Subscribe(DOCUMENT, self.Resubscribe)
 		self.Resubscribe()
 		self.doc_paged()
+		self.text.bind('<Double-Button-1>', self.mainwindow.GotoPage)
 				
 	def stub(self):
 		pass
@@ -53,7 +54,7 @@ class Pager(TFrame, Publisher):
 		if not self.hidden and num_pages==1:
 			self.container.forget()
 			self.hidden=1		
-		self.text['text']=' Page %u of %u '%(current_page,num_pages)
+		self.text['text']=_(' Page %u of %u '%(current_page,num_pages))
 		
 	def Resubscribe(self, *arg):
 		self.mainwindow.document.Subscribe(PAGE, self.doc_paged)
