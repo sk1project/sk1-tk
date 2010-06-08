@@ -61,7 +61,7 @@ class StylePanel(PropertyPanel):
 		top2 = TFrame(top, height=3, style='FlatFrame')
 		top2.pack(side = BOTTOM, expand = 0, fill = X)
 		
-		button = UpdatedButton(top, text ="Create new style", command = self.CreateStyleFromSelection, 
+		button = UpdatedButton(top, text =_("Create new style"), command = self.CreateStyleFromSelection, 
 							sensitivecb = self.main_window.document.CanCreateStyle, width=15)
 		button.pack(side = BOTTOM, expand = 0)
 		self.Subscribe(SELECTION, button.Update)
@@ -153,7 +153,7 @@ class CreateStyleDlg(SKModal):
 		top2 = TFrame(top, style='FlatFrame')
 		top2.pack(side = TOP, expand = 0, fill = X)
 		
-		format_label = TLabel(top2, text='Style name:', borderwidth=0)
+		format_label = TLabel(top2, text=_('Style name:'), borderwidth=0)
 		format_label.pack(side = LEFT, pady=3)
 		
 		self.entry_name = TEntrybox(top, command = self.ok, width = 15)
@@ -162,7 +162,7 @@ class CreateStyleDlg(SKModal):
 		top2 = TFrame(top, height=5, style='FlatFrame')
 		top2.pack(side = TOP, expand = 0, fill = X)
 		
-		prop_cont=TLabelframe(top, text='Style properties', padding=10)
+		prop_cont=TLabelframe(top, text=_('Style properties'), padding=10)
 		prop_cont.pack(side = TOP, fill=X)
 
 		properties = self.object.Properties()
@@ -188,12 +188,12 @@ class CreateStyleDlg(SKModal):
 		top2.pack(side = TOP, expand = 0, fill = X)
 			
 		but_frame = Frame(top)
-		but_frame.pack(side = TOP, fill = BOTH, expand = 1)
+		but_frame.pack(side = TOP, fill=X)
 
-		button = TButton(but_frame, text = _("OK"), command = self.ok)
-		button.pack(side = LEFT, expand = 1)
 		button = TButton(but_frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = RIGHT, expand = 1)
+		button.pack(side = RIGHT, padx=5)
+		button = TButton(but_frame, text = _("OK"), command = self.ok)
+		button.pack(side = RIGHT, padx=5)
 		
 		root.resizable (width=0, height=0)
 		
