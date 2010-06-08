@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-07 03:35+0300\n"
-"PO-Revision-Date: 2010-06-08 20:42+0300\n"
+"POT-Creation-Date: 2010-06-08 23:39+0300\n"
+"PO-Revision-Date: 2010-06-08 23:42+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -350,106 +350,106 @@ msgstr "Объединить кривые"
 msgid "Split Beziers"
 msgstr "Разделить кривые"
 
-#: src/app/Graphics/document.py:2194
+#: src/app/Graphics/document.py:2190
 #: src/app/UI/mainwindow.py:862
 msgid "Convert To Curve"
 msgstr "Превратить в кривую"
 
-#: src/app/Graphics/document.py:2260
+#: src/app/Graphics/document.py:2256
 msgid "Convert Image"
 msgstr "Сконвертировать изображение"
 
-#: src/app/Graphics/document.py:2287
+#: src/app/Graphics/document.py:2283
 #: src/app/UI/mainwindow.py:898
 msgid "Invert Image"
 msgstr "Инвертировать изображение"
 
-#: src/app/Graphics/document.py:2300
+#: src/app/Graphics/document.py:2296
 #: src/app/UI/dialogs/gotopagedlg.py:25
 msgid "Go to page"
 msgstr "Перейти к странице"
 
-#: src/app/Graphics/document.py:2322
+#: src/app/Graphics/document.py:2318
 msgid "Insert Pages"
 msgstr "Вставить страницы"
 
-#: src/app/Graphics/document.py:2324
+#: src/app/Graphics/document.py:2320
 msgid "Insert Page"
 msgstr "Вставить страницу"
 
-#: src/app/Graphics/document.py:2355
+#: src/app/Graphics/document.py:2351
 msgid "Delete Page"
 msgstr "Удалить страницу"
 
-#: src/app/Graphics/document.py:2442
+#: src/app/Graphics/document.py:2438
 msgid "Select Layer"
 msgstr "Выбрать слой"
 
-#: src/app/Graphics/document.py:2454
+#: src/app/Graphics/document.py:2450
 msgid "Change Layer State"
 msgstr "Изменить состояние слоя"
 
-#: src/app/Graphics/document.py:2472
+#: src/app/Graphics/document.py:2468
 msgid "Set Layer Outline Color"
 msgstr "Установить цвет контура слоя"
 
-#: src/app/Graphics/document.py:2484
+#: src/app/Graphics/document.py:2480
 msgid "Rename Layer"
 msgstr "Переименовать слой"
 
-#: src/app/Graphics/document.py:2496
+#: src/app/Graphics/document.py:2492
 msgid "Append Layer"
 msgstr "Добавить слой"
 
-#: src/app/Graphics/document.py:2510
+#: src/app/Graphics/document.py:2506
 #: src/app/Graphics/layer.py:42
 msgid "New Layer"
 msgstr "Новый слой"
 
-#: src/app/Graphics/document.py:2566
+#: src/app/Graphics/document.py:2562
 msgid "Move Layer Up"
 msgstr "Переместить слой вверх"
 
-#: src/app/Graphics/document.py:2577
+#: src/app/Graphics/document.py:2573
 msgid "Move Layer Down"
 msgstr "Переместить слой вниз"
 
-#: src/app/Graphics/document.py:2618
+#: src/app/Graphics/document.py:2614
 msgid "Delete Layer"
 msgstr "Удалить слой"
 
-#: src/app/Graphics/document.py:2681
+#: src/app/Graphics/document.py:2677
 #: src/app/UI/mainwindow.py:889
 msgid "Update Style"
 msgstr "Обновить стиль"
 
-#: src/app/Graphics/document.py:2720
+#: src/app/Graphics/document.py:2716
 #, python-format
 msgid "Create Style %s"
 msgstr "Создать стиль %s"
 
-#: src/app/Graphics/document.py:2736
+#: src/app/Graphics/document.py:2732
 #, python-format
 msgid "Remove Style %s"
 msgstr "Удалить стиль %s"
 
-#: src/app/Graphics/document.py:2790
+#: src/app/Graphics/document.py:2786
 msgid "Change Page Layout"
 msgstr "Изменить макет страницы"
 
-#: src/app/Graphics/document.py:2805
+#: src/app/Graphics/document.py:2801
 msgid "Set Grid Geometry"
 msgstr "Установить геометрию сетки"
 
-#: src/app/Graphics/document.py:2827
+#: src/app/Graphics/document.py:2823
 msgid "Add Guide Line"
 msgstr "Добавить направляющую"
 
-#: src/app/Graphics/document.py:2844
+#: src/app/Graphics/document.py:2840
 msgid "Delete Guide Line"
 msgstr "Удалить направляющую"
 
-#: src/app/Graphics/document.py:2858
+#: src/app/Graphics/document.py:2854
 msgid "Move Guide Line"
 msgstr "Переместить направляющую"
 
@@ -753,6 +753,10 @@ msgstr "Изменить размеры объектов"
 msgid "Scale %(factorx)[factor], %(factory)[factor]"
 msgstr "Масштабировать %(factorx)[factor], %(factory)[factor]"
 
+#: src/app/Graphics/selection.py:644
+msgid "Changing size to:"
+msgstr "Текущий размер:"
+
 #: src/app/Graphics/selection.py:648
 msgid "Move %(x)[length], %(y)[length]"
 msgstr "Переместить %(x)[length], %(y)[length]"
@@ -1031,7 +1035,7 @@ msgstr "Выбрать RGB цвет"
 # ../Sketch/UI/optiondlg.py:154 ../Sketch/UI/styledlg.py:162 :236
 #: src/app/UI/colordlg.py:338
 #: src/app/UI/gradientedit.py:300
-#: src/app/UI/styledlg.py:195
+#: src/app/UI/styledlg.py:193
 #: src/app/UI/styledlg.py:269
 #: src/app/UI/tkext.py:1093
 #: src/app/managers/docmanager.py:304
@@ -1052,7 +1056,7 @@ msgstr "Отменить"
 #: src/app/UI/colordlg.py:342
 #: src/app/UI/gradientedit.py:298
 #: src/app/UI/sketchdlg.py:376
-#: src/app/UI/styledlg.py:193
+#: src/app/UI/styledlg.py:195
 #: src/app/UI/styledlg.py:272
 #: src/app/UI/tkext.py:1088
 #: src/app/events/warn.py:82
@@ -1116,7 +1120,7 @@ msgstr "Выделить конец"
 #: src/app/UI/dlg_blend.py:116
 #, python-format
 msgid "Set %d Blend Steps"
-msgstr "Установить % шагов смешивания"
+msgstr "Установить %d шагов смешивания"
 
 #: src/app/UI/filldlg.py:273
 msgid "Color"
@@ -1643,10 +1647,23 @@ msgid "Delete style"
 msgstr "Удалить стиль"
 
 # ../Sketch/UI/styledlg.py:118 :170 :175
+#: src/app/UI/styledlg.py:64
+msgid "Create new style"
+msgstr "Создать стиль"
+
+# ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/UI/styledlg.py:136
 #: src/app/UI/styledlg.py:210
 msgid "Create Style"
 msgstr "Создать стиль"
+
+#: src/app/UI/styledlg.py:156
+msgid "Style name:"
+msgstr "Имя стиля:"
+
+#: src/app/UI/styledlg.py:165
+msgid "Style properties"
+msgstr "Свойства стиля"
 
 # ../Sketch/UI/styledlg.py:118 :170 :175
 #: src/app/UI/styledlg.py:205
@@ -2773,6 +2790,11 @@ msgstr "Закрыть другие документы"
 #: src/app/UI/widgets/doctabs.py:215
 msgid "Close Document"
 msgstr "Закрыть документ"
+
+#: src/app/UI/widgets/pager.py:57
+#, python-format
+msgid " Page %u of %u "
+msgstr "Страница %u из %u"
 
 #: src/app/UI/cc/panels/general.py:19
 msgid "General Options"
