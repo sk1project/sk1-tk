@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-07 03:35+0300\n"
+"POT-Creation-Date: 2010-06-08 23:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -328,101 +328,101 @@ msgstr ""
 msgid "Split Beziers"
 msgstr ""
 
-#: src/app/Graphics/document.py:2194 src/app/UI/mainwindow.py:862
+#: src/app/Graphics/document.py:2190 src/app/UI/mainwindow.py:862
 msgid "Convert To Curve"
 msgstr ""
 
-#: src/app/Graphics/document.py:2260
+#: src/app/Graphics/document.py:2256
 msgid "Convert Image"
 msgstr ""
 
-#: src/app/Graphics/document.py:2287 src/app/UI/mainwindow.py:898
+#: src/app/Graphics/document.py:2283 src/app/UI/mainwindow.py:898
 msgid "Invert Image"
 msgstr ""
 
-#: src/app/Graphics/document.py:2300 src/app/UI/dialogs/gotopagedlg.py:25
+#: src/app/Graphics/document.py:2296 src/app/UI/dialogs/gotopagedlg.py:25
 msgid "Go to page"
 msgstr ""
 
-#: src/app/Graphics/document.py:2322
+#: src/app/Graphics/document.py:2318
 msgid "Insert Pages"
 msgstr ""
 
-#: src/app/Graphics/document.py:2324
+#: src/app/Graphics/document.py:2320
 msgid "Insert Page"
 msgstr ""
 
-#: src/app/Graphics/document.py:2355
+#: src/app/Graphics/document.py:2351
 msgid "Delete Page"
 msgstr ""
 
-#: src/app/Graphics/document.py:2442
+#: src/app/Graphics/document.py:2438
 msgid "Select Layer"
 msgstr ""
 
-#: src/app/Graphics/document.py:2454
+#: src/app/Graphics/document.py:2450
 msgid "Change Layer State"
 msgstr ""
 
-#: src/app/Graphics/document.py:2472
+#: src/app/Graphics/document.py:2468
 msgid "Set Layer Outline Color"
 msgstr ""
 
-#: src/app/Graphics/document.py:2484
+#: src/app/Graphics/document.py:2480
 msgid "Rename Layer"
 msgstr ""
 
-#: src/app/Graphics/document.py:2496
+#: src/app/Graphics/document.py:2492
 msgid "Append Layer"
 msgstr ""
 
-#: src/app/Graphics/document.py:2510 src/app/Graphics/layer.py:42
+#: src/app/Graphics/document.py:2506 src/app/Graphics/layer.py:42
 msgid "New Layer"
 msgstr ""
 
-#: src/app/Graphics/document.py:2566
+#: src/app/Graphics/document.py:2562
 msgid "Move Layer Up"
 msgstr ""
 
-#: src/app/Graphics/document.py:2577
+#: src/app/Graphics/document.py:2573
 msgid "Move Layer Down"
 msgstr ""
 
-#: src/app/Graphics/document.py:2618
+#: src/app/Graphics/document.py:2614
 msgid "Delete Layer"
 msgstr ""
 
-#: src/app/Graphics/document.py:2681 src/app/UI/mainwindow.py:889
+#: src/app/Graphics/document.py:2677 src/app/UI/mainwindow.py:889
 msgid "Update Style"
 msgstr ""
 
-#: src/app/Graphics/document.py:2720
+#: src/app/Graphics/document.py:2716
 #, python-format
 msgid "Create Style %s"
 msgstr ""
 
-#: src/app/Graphics/document.py:2736
+#: src/app/Graphics/document.py:2732
 #, python-format
 msgid "Remove Style %s"
 msgstr ""
 
-#: src/app/Graphics/document.py:2790
+#: src/app/Graphics/document.py:2786
 msgid "Change Page Layout"
 msgstr ""
 
-#: src/app/Graphics/document.py:2805
+#: src/app/Graphics/document.py:2801
 msgid "Set Grid Geometry"
 msgstr ""
 
-#: src/app/Graphics/document.py:2827
+#: src/app/Graphics/document.py:2823
 msgid "Add Guide Line"
 msgstr ""
 
-#: src/app/Graphics/document.py:2844
+#: src/app/Graphics/document.py:2840
 msgid "Delete Guide Line"
 msgstr ""
 
-#: src/app/Graphics/document.py:2858
+#: src/app/Graphics/document.py:2854
 msgid "Move Guide Line"
 msgstr ""
 
@@ -714,6 +714,10 @@ msgstr ""
 msgid "Scale %(factorx)[factor], %(factory)[factor]"
 msgstr ""
 
+#: src/app/Graphics/selection.py:644
+msgid "Changing size to:"
+msgstr ""
+
 #: src/app/Graphics/selection.py:648
 msgid "Move %(x)[length], %(y)[length]"
 msgstr ""
@@ -984,7 +988,7 @@ msgid "Select RGB Color"
 msgstr ""
 
 #: src/app/UI/colordlg.py:338 src/app/UI/gradientedit.py:300
-#: src/app/UI/styledlg.py:195 src/app/UI/styledlg.py:269
+#: src/app/UI/styledlg.py:193 src/app/UI/styledlg.py:269
 #: src/app/UI/tkext.py:1093 src/app/managers/docmanager.py:304
 #: src/app/scripts/create_spiral.py:53 src/app/scripts/create_star.py:119
 #: src/app/scripts/create_star_outline.py:56
@@ -996,7 +1000,7 @@ msgid "Cancel"
 msgstr ""
 
 #: src/app/UI/colordlg.py:342 src/app/UI/gradientedit.py:298
-#: src/app/UI/sketchdlg.py:376 src/app/UI/styledlg.py:193
+#: src/app/UI/sketchdlg.py:376 src/app/UI/styledlg.py:195
 #: src/app/UI/styledlg.py:272 src/app/UI/tkext.py:1088
 #: src/app/events/warn.py:82 src/app/scripts/create_spiral.py:51
 #: src/app/scripts/create_star.py:115
@@ -1535,8 +1539,20 @@ msgstr ""
 msgid "Delete style"
 msgstr ""
 
+#: src/app/UI/styledlg.py:64
+msgid "Create new style"
+msgstr ""
+
 #: src/app/UI/styledlg.py:136 src/app/UI/styledlg.py:210
 msgid "Create Style"
+msgstr ""
+
+#: src/app/UI/styledlg.py:156
+msgid "Style name:"
+msgstr ""
+
+#: src/app/UI/styledlg.py:165
+msgid "Style properties"
 msgstr ""
 
 #: src/app/UI/styledlg.py:205
@@ -2554,6 +2570,11 @@ msgstr ""
 
 #: src/app/UI/widgets/doctabs.py:215
 msgid "Close Document"
+msgstr ""
+
+#: src/app/UI/widgets/pager.py:57
+#, python-format
+msgid " Page %u of %u "
 msgstr ""
 
 #: src/app/UI/cc/panels/general.py:19
