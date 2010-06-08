@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-08 23:39+0300\n"
-"PO-Revision-Date: 2010-06-08 23:42+0300\n"
+"POT-Creation-Date: 2010-06-08 23:49+0300\n"
+"PO-Revision-Date: 2010-06-08 23:50+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2791,10 +2791,14 @@ msgstr "Закрыть другие документы"
 msgid "Close Document"
 msgstr "Закрыть документ"
 
+#: src/app/UI/widgets/pager.py:32
+msgid " Page 2 of 2 "
+msgstr " Страница 2 из 2 "
+
 #: src/app/UI/widgets/pager.py:57
 #, python-format
 msgid " Page %u of %u "
-msgstr "Страница %u из %u"
+msgstr " Страница %u из %u "
 
 #: src/app/UI/cc/panels/general.py:19
 msgid "General Options"
