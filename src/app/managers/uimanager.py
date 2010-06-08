@@ -8,7 +8,7 @@
 import app, os, string, math
 from app.conf import const
 from sk1sdk.libtk import Tkinter
-from sk1sdk import tkstyle, tkXcursor
+from sk1sdk import tkstyle
 from sk1libs.utils import system 
 
 	
@@ -33,6 +33,7 @@ class UIManager:
 	def defineCursors(self):
 		cur_dir=os.path.join(app.config.sk_share_dir,'cursors')
 		if system.get_os_family()==system.LINUX:
+			from sk1sdk import tkXcursor
 			if tkXcursor.is_xcursor_supported(self.root):
 				cur_dir=os.path.join(cur_dir,'xcursor')
 				setattr(const, 'CurEdit', tkXcursor.load_cursor(self.root, os.path.join(cur_dir,'cur_edit')))
