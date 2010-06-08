@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-07 03:35+0300\n"
-"PO-Revision-Date: 2010-06-07 03:38+0300\n"
+"PO-Revision-Date: 2010-06-08 20:42+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -507,7 +507,7 @@ msgstr "Невозможно создать изображение в общей
 #: src/app/Graphics/group.py:29
 #, python-format
 msgid "Group with %d objects"
-msgstr "Сгруппировать %d объектов"
+msgstr "Группа из %d объектов"
 
 #: src/app/Graphics/guide.py:90
 msgid "Horizontal Guide Line at %(coord)[length]"
@@ -2372,7 +2372,7 @@ msgstr "Установить свойства шрифта"
 
 #: src/app/UI/context/group_panel.py:21
 msgid "Group"
-msgstr "Группировать"
+msgstr "Сгруппировать"
 
 #: src/app/UI/context/group_panel.py:34
 msgid "Combine"
