@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-08 23:39+0300\n"
+"POT-Creation-Date: 2010-06-08 23:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2570,6 +2570,10 @@ msgstr ""
 
 #: src/app/UI/widgets/doctabs.py:215
 msgid "Close Document"
+msgstr ""
+
+#: src/app/UI/widgets/pager.py:32
+msgid " Page 2 of 2 "
 msgstr ""
 
 #: src/app/UI/widgets/pager.py:57
