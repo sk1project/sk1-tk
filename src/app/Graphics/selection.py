@@ -641,7 +641,7 @@ class SizeRectangle(SelectionRectangle):
 			hor_sel=ceil(floor(10**3*x*(br.right - br.left)/2.83465)/10)/100
 			ver_sel=ceil(floor(10**3*y*(br.top - br.bottom)/2.83465)/10)/100
 			text = _("Scale %(factorx)[factor], %(factory)[factor]")
-			text = text +"\n Changing size to: "+str(hor_sel)+" x "+str(ver_sel) +" mm"
+			text = text +"\n "+_("Changing size to:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"
 			data['factorx'] = x
 			data['factory'] = y
 		else:
