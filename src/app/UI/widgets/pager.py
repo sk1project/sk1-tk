@@ -40,7 +40,7 @@ class Pager(TFrame, Publisher):
 		self.mainwindow.Subscribe(DOCUMENT, self.Resubscribe)
 		self.Resubscribe()
 		self.doc_paged()
-		self.text.bind('<Double-Button-1>', self.mainwindow.GotoPage)
+		self.text.bind('<Double-Button-1>', self.GoToPage)
 				
 	def stub(self):
 		pass
@@ -76,5 +76,7 @@ class Pager(TFrame, Publisher):
 	def PageNext(self):
 		self.mainwindow.NextPage()	
 		
+	def GoToPage(self, *args):
+		self.mainwindow.GotoPage()
 		
 
