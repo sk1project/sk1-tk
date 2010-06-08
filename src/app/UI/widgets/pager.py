@@ -29,7 +29,7 @@ class Pager(TFrame, Publisher):
 		self.home_but.pack(side=LEFT)
 		self.home_but=TButton(self.container, style='PagerPrevious', command=self.PagePrevious)
 		self.home_but.pack(side=LEFT)
-		self.text=TLabel(self.container, style='FlatLabel', text=' Page 2 of 2 ')
+		self.text=TLabel(self.container, style='FlatLabel', text=_(' Page 2 of 2 '))
 		self.text.pack(side=LEFT)
 		self.home_but=TButton(self.container, style='PagerNext', command=self.PageNext)
 		self.home_but.pack(side=LEFT)
