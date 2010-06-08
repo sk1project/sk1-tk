@@ -68,5 +68,6 @@ class CursorStack:
 			if type(cursor) is types.IntType:
 				from sk1sdk import tkXcursor
 				tkXcursor.set_cursor(self, cursor)
+				self.last_cursor = cursor
 			else:
 				self['cursor'] = self.last_cursor = cursor
