@@ -36,8 +36,18 @@ class UIManager:
 			from sk1sdk import tkXcursor
 			if tkXcursor.is_xcursor_supported(self.root):
 				cur_dir=os.path.join(cur_dir,'xcursor')
-				setattr(const, 'CurEdit', tkXcursor.load_cursor(self.root, os.path.join(cur_dir,'cur_edit')))
-				setattr(const, 'CurZoom', tkXcursor.load_cursor(self.root, os.path.join(cur_dir,'cur_zoom')))
+				loader=tkXcursor.load_cursor
+				setattr(const, 'CurStd', loader(self.root, os.path.join(cur_dir,'cur_std')))
+				setattr(const, 'CurEdit', loader(self.root, os.path.join(cur_dir,'cur_edit')))
+				setattr(const, 'CurZoom', loader(self.root, os.path.join(cur_dir,'cur_zoom')))
+				setattr(const, 'CurCreate', loader(self.root, os.path.join(cur_dir,'cur_create')))
+				setattr(const, 'CurCreateRect', loader(self.root, os.path.join(cur_dir,'cur_create_rect')))
+				setattr(const, 'CurCreateEllipse', loader(self.root, os.path.join(cur_dir,'cur_create_ellipse')))
+				setattr(const, 'CurCreatePolyline', loader(self.root, os.path.join(cur_dir,'cur_create_polyline')))
+				setattr(const, 'CurCreateBezier', loader(self.root, os.path.join(cur_dir,'cur_create_bezier')))
+				setattr(const, 'CurPick', loader(self.root, os.path.join(cur_dir,'cur_pick')))
+				setattr(const, 'CurText', loader(self.root, os.path.join(cur_dir,'cur_text')))
+				
 			else:
 				cur_dir=os.path.join(cur_dir,'xbm')
 				setattr(const, 'CurEdit', ('@' + os.path.join(cur_dir,'CurEdit.xbm'),'black'))

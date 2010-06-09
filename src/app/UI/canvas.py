@@ -860,6 +860,14 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.create_type = gfx_name
 		if gfx_name=='SimpleTextCreator':
 			self.push_static_cursor(const.CurText)
+		elif gfx_name=='RectangleCreator':
+			self.push_static_cursor(const.CurCreateRect)
+		elif gfx_name=='EllipseCreator':
+			self.push_static_cursor(const.CurCreateEllipse)
+		elif gfx_name=='PolyLineCreator':
+			self.push_static_cursor(const.CurCreatePolyline)
+		elif gfx_name=='PolyBezierCreator':
+			self.push_static_cursor(const.CurCreateBezier)
 		else:
 			self.push_static_cursor(const.CurCreate)
 		self.mode.text = self.create_creator.creation_text
@@ -930,7 +938,12 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			if set_mode:
 				new_mode()
 		else:
-			self.push_static_cursor(const.CurCreate)
+			if self.create_type=='PolyLineCreator':
+				self.push_static_cursor(const.CurCreatePolyline)
+			elif  self.create_type=='PolyBezierCreator':
+				self.push_static_cursor(const.CurCreateBezier)
+			else:
+				self.push_static_cursor(const.CurCreate)
 			self.current = obj
 			obj.Show(self.invgc)
 
