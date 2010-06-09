@@ -612,6 +612,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				pass
 			elif event.button == const.Button3:
 				self.copy_flag=1
+				self.set_window_cursor(const.CurCopy)
 			else:
 				pass
 		finally:

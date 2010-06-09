@@ -903,7 +903,7 @@ class TrafoRectangle(SelRectBase):
 					[pixmaps.TurnTL, pixmaps.ShearLR,    pixmaps.TurnTR,
 					pixmaps.ShearUD,                    pixmaps.ShearUD,
 					pixmaps.TurnBL, pixmaps.ShearLR,    pixmaps.TurnBR],
-					[const.CurTurn] * 8) \
+					[const.CurCreate] * 8) \
 				+ [handle.MakePixmapHandle(self.center, (0, 0), pixmaps.Center)]
 
 

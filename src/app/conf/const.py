@@ -236,10 +236,10 @@ CurCreatePolyline= 'crosshair'# is replaced by custom cursor in uimanager
 CurCreateBezier= 'crosshair'# is replaced by custom cursor in uimanager
 #----------------------------------
 CurPlace	= 'crosshair'	# is replaced by custom cursor in uimanager
-CurHGuide       = 'sb_v_double_arrow'
-CurVGuide       = 'sb_h_double_arrow'
+CurHGuide       = 'sb_v_double_arrow' # is replaced by custom cursor in uimanager
+CurVGuide       = 'sb_h_double_arrow' # is replaced by custom cursor in uimanager
 CurZoom		= 'plus'	# is replaced by custom cursor in uimanager
-CurCopy		= 'plus'	
+CurCopy		= 'plus'	# is replaced by custom cursor in uimanager
 
 CurEdit     = 'left_ptr'	# is replaced by custom cursor in uimanager
 CurText     = 'xterm'	# is replaced by custom cursor in uimanager
