@@ -224,7 +224,7 @@ CapProjecting	= X.CapProjecting
 # cursors
 
 CurStd		= 'top_left_arrow'# is replaced by custom cursor in uimanager
-CurHandle	= 'crosshair'
+CurHandle	= 'crosshair' # is replaced by custom cursor in uimanager
 CurTurn		= 'exchange'
 CurPick		= 'hand2' # is replaced by custom cursor in uimanager
 #---------Tool cursors-------------
@@ -234,21 +234,24 @@ CurCreateEllipse= 'crosshair'# is replaced by custom cursor in uimanager
 CurCreatePolyline= 'crosshair'# is replaced by custom cursor in uimanager
 CurCreateBezier= 'crosshair'# is replaced by custom cursor in uimanager
 #----------------------------------
-CurPlace	= 'crosshair'
-CurDragColor	= 'spraycan'
+CurPlace	= 'crosshair'	# is replaced by custom cursor in uimanager
 CurHGuide       = 'sb_v_double_arrow'
 CurVGuide       = 'sb_h_double_arrow'
 CurZoom		= 'plus'	# is replaced by custom cursor in uimanager
 CurCopy		= 'plus'	
-CurUp       = 'based_arrow_up'
-CurUpDown   = 'sb_v_double_arrow'
-CurDown     = 'based_arrow_down'
+
 CurEdit     = 'left_ptr'	# is replaced by custom cursor in uimanager
 CurText     = 'xterm'	# is replaced by custom cursor in uimanager
+
+#-----------Should be system defined-------------
 CurHResize  = 'sb_h_double_arrow'
 CurVResize  = 'sb_v_double_arrow'
 
-# unused as yet
+#-----------Obsolete or unused-----------
+CurUp       = 'based_arrow_up'
+CurUpDown   = 'sb_v_double_arrow'
+CurDown     = 'based_arrow_down'
+CurDragColor	= 'spraycan'
 CurHelp		= 'question_arrow'
 CurWait		= 'watch'
 CurMove		= 'top_left_arrow'#'fleur'

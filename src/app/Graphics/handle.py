@@ -67,8 +67,9 @@ from app.conf import const
 
 class Handle:
 
-	def __init__(self, type, p, cursor = const.CurHandle, offset = None,
+	def __init__(self, type, p, cursor = None, offset = None,
 					p2 = None, list = None, pixmap = None, code = None):
+		if cursor is None: cursor = const.CurHandle
 		self.type = type
 		self.p = p
 		self.cursor = cursor
@@ -85,30 +86,34 @@ class Handle:
 	def __repr__(self):
 		return "Handle(%d, %s, index = %s)" % (self.type, self.p, self.index)
 
-def MakeHandle(type, p, cursor = const.CurHandle):
+def MakeHandle(type, p, cursor = None):
+	if cursor is None: cursor = const.CurHandle
 	return Handle(type, p, cursor)
 
 def MakeNodeHandle(p, selected = 0, code = 0):
 	if selected:
-		return Handle(const.HandleSelectedNode, p, code = code)
-	return Handle(const.HandleNode, p, code = code)
+		return Handle(const.HandleSelectedNode, p, cursor = const.CurEdit, code = code)
+	return Handle(const.HandleNode, p, cursor = const.CurEdit, code = code)
 
 def MakeObjectHandleList(list):
 	return Handle(const.Handle_SmallOpenRectList, None, list = list)
 
+#Bezier node control points
 def MakeControlHandle(p, code = 0):
-	return Handle(const.HandleControlPoint, p, code = code)
+	return Handle(const.HandleControlPoint, p, cursor = const.CurEdit, code = code)
 
 def MakeCurveHandle(p):
-	return Handle(const.HandleCurvePoint, p, cursor = None)
+	return Handle(const.HandleCurvePoint, p, cursor = const.CurEdit)
 
 def MakeLineHandle(p1, p2):
-	return Handle(const.HandleLine, p1, p2 = p2)
+	return Handle(const.HandleLine, p1, cursor = const.CurEdit, p2 = p2)
 
-def MakeOffsetHandle(p, offset, cursor = const.CurHandle):
+def MakeOffsetHandle(p, offset, cursor = None):
+	if cursor is None: cursor = const.CurHandle
 	return Handle(const.Handle, p, cursor, offset = offset)
 
-def MakePixmapHandle(p, offset, pixmap, cursor = const.CurHandle):
+def MakePixmapHandle(p, offset, pixmap, cursor = None):
+	if cursor is None: cursor = const.CurHandle
 	return Handle(const.Handle_Pixmap, p, cursor, offset = offset,
 					pixmap = pixmap)
 

@@ -47,6 +47,8 @@ class UIManager:
 				setattr(const, 'CurCreateBezier', loader(self.root, os.path.join(cur_dir,'cur_create_bezier')))
 				setattr(const, 'CurPick', loader(self.root, os.path.join(cur_dir,'cur_pick')))
 				setattr(const, 'CurText', loader(self.root, os.path.join(cur_dir,'cur_text')))
+				setattr(const, 'CurPlace', loader(self.root, os.path.join(cur_dir,'cur_place')))
+				setattr(const, 'CurHandle', loader(self.root, os.path.join(cur_dir,'cur_handle')))
 				
 			else:
 				cur_dir=os.path.join(cur_dir,'xbm')
