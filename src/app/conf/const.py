@@ -227,6 +227,7 @@ CurStd		= 'top_left_arrow'# is replaced by custom cursor in uimanager
 CurHandle	= 'crosshair' # is replaced by custom cursor in uimanager
 CurTurn		= 'exchange'
 CurPick		= 'hand2' # is replaced by custom cursor in uimanager
+CurMove		= 'hand2'# is replaced by custom cursor in uimanager
 #---------Tool cursors-------------
 CurCreate	= 'crosshair'# is replaced by custom cursor in uimanager
 CurCreateRect	= 'crosshair'# is replaced by custom cursor in uimanager 
@@ -254,7 +255,6 @@ CurDown     = 'based_arrow_down'
 CurDragColor	= 'spraycan'
 CurHelp		= 'question_arrow'
 CurWait		= 'watch'
-CurMove		= 'top_left_arrow'#'fleur'
 
 
 #
