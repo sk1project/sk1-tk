@@ -225,7 +225,6 @@ CapProjecting	= X.CapProjecting
 
 CurStd		= 'top_left_arrow'# is replaced by custom cursor in uimanager
 CurHandle	= 'crosshair' # is replaced by custom cursor in uimanager
-CurTurn		= 'exchange'
 CurPick		= 'hand2' # is replaced by custom cursor in uimanager
 CurMove		= 'hand2'# is replaced by custom cursor in uimanager
 #---------Tool cursors-------------
@@ -253,6 +252,7 @@ CurUp       = 'based_arrow_up'
 CurUpDown   = 'sb_v_double_arrow'
 CurDown     = 'based_arrow_down'
 CurDragColor	= 'spraycan'
+CurTurn		= 'exchange'
 CurHelp		= 'question_arrow'
 CurWait		= 'watch'
 
