@@ -1219,7 +1219,13 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def place_enter(self, object, text):
 		#self.create_creator = None
-		self.push_static_cursor(const.CurPlace)
+		if object.is_GuideLine:
+			if object.horizontal:
+				self.push_static_cursor(const.CurHGuide)
+			else:
+				self.push_static_cursor(const.CurVGuide)
+		else:
+			self.push_static_cursor(const.CurPlace)
 		self.place_object = object
 		self.place_text = text
 		self.start_drag = 1

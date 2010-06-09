@@ -49,6 +49,8 @@ class UIManager:
 				setattr(const, 'CurText', loader(self.root, os.path.join(cur_dir,'cur_text')))
 				setattr(const, 'CurPlace', loader(self.root, os.path.join(cur_dir,'cur_place')))
 				setattr(const, 'CurHandle', loader(self.root, os.path.join(cur_dir,'cur_handle')))
+				setattr(const, 'CurHGuide', loader(self.root, os.path.join(cur_dir,'cur_hguide')))
+				setattr(const, 'CurVGuide', loader(self.root, os.path.join(cur_dir,'cur_vguide')))
 				
 			else:
 				cur_dir=os.path.join(cur_dir,'xbm')
