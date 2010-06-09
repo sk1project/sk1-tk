@@ -60,15 +60,15 @@ class EllipsePanel(CtxSubPanel):
 		if not self.builded:
 			cmds = self.mw.canvas.commands.Ellipse
 			
-			label = TLabel(self.panel, text=_(" Start: "))
-			label.pack(side = LEFT)
+			label = TLabel(self.panel, text=_("Start:"))
+			label.pack(side = LEFT, padx=5)
 			self.entry_start = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.start,
 							min = -360, max = 360, step = 5, width = 6, command = self.applyAngle)
 			self.entry_start.pack(side = LEFT)
 			tooltips.AddDescription(self.entry_start, _('The angle (in degrees) from the horizontal\nto the arc\'s start point'))
 			
-			label = TLabel(self.panel, text=_(" End: "))
-			label.pack(side = LEFT)
+			label = TLabel(self.panel, text=_("End:"))
+			label.pack(side = LEFT, padx=5)
 			self.entry_end = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.end,
 							min = -360, max = 360, step = 5, width = 6, command = self.applyAngle)
 			self.entry_end.pack(side = LEFT)

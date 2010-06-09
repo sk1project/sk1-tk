@@ -22,11 +22,12 @@ class RotatePanel(CtxSubPanel):
 		self.angle=DoubleVar(self.mw.root)
 		self.angle.set(0)
 		
-		label = TLabel(self.panel, text=_(" Rotate: "))
+		label = TLabel(self.panel, image='context_R')
 		label.pack(side = LEFT)
 		self.entry_width = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.angle,
 						min = -360, max = 360, step = 1, width = 6, command = self.applyRotate)
-		self.entry_width.pack(side = LEFT)
+		tooltips.AddDescription(self.entry_width, _('Rotation angle'))
+		self.entry_width.pack(side = LEFT, padx=5)
 		b = TButton(self.panel, command=self.rotLeft, style='Toolbutton', image='context_rotate_ccw')
 		tooltips.AddDescription(b, _('Rotate -90°'))
 		b.pack(side = LEFT)

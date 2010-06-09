@@ -9,6 +9,7 @@ from sk1sdk.libttk import TButton, TLabel
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import SELECTION, CHANGED, EDITED
 from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar
+from sk1sdk.libttk import tooltips
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
@@ -36,19 +37,21 @@ class ResizePanel(CtxSubPanel):
 		self.var_height.set(0)
 		
 		label = TLabel(self.panel, image='size_h')
-		label.pack(side = LEFT,padx=3)
+		label.pack(side = LEFT)
+		
 		self.entry_width = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.var_width_number,
 						min = 0, max = 50000, step = jump, width = 6, command = self.applyResize)
-		self.entry_width.pack(side = LEFT)
+		tooltips.AddDescription(self.entry_width, _("Width of selection"))
+		self.entry_width.pack(side = LEFT, padx=5)
 
-		label = TLabel(self.panel, text=' ')
-		label.pack(side = LEFT)
 
 		label = TLabel(self.panel, image='size_v')
-		label.pack(side = LEFT,padx=3)
+		label.pack(side = LEFT)
+		
 		self.entry_height = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.var_height_number,
 						min = 0, max = 50000, step = jump, width = 6, command = self.applyResize)
-		self.entry_height.pack(side = LEFT)
+		tooltips.AddDescription(self.entry_height, _("Height of selection"))
+		self.entry_height.pack(side = LEFT, padx=5)
 		
 		self.ReSubscribe()
 		config.preferences.Subscribe(CHANGED, self.update_pref)
