@@ -32,4 +32,4 @@ class CtxSubPanel:
 		self.separator.forget()
 		
 	def setNormal(self):
-		self.separator.pack(side = RIGHT)
+		self.separator.pack(side = RIGHT, padx=2)

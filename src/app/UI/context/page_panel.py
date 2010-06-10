@@ -9,6 +9,7 @@ from sk1sdk.libttk import TCombobox, TLabel,TCheckbutton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED
 from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
+from sk1sdk.libtk.tkext import FlatFrame
 from sk1sdk.libttk import tooltips
 from subpanel import CtxSubPanel
 from app import  _, config
@@ -32,13 +33,17 @@ class PagePanel(CtxSubPanel):
 		self.page_orientation=config.preferences.default_page_orientation
 		
 		label = TLabel(self.panel, text=_("Page:"))
-		label.pack(side = LEFT, padx=5)
+		label.pack(side = LEFT, padx=2)
 		self.page_formats = TCombobox(self.panel, state='readonly', postcommand = self.set_format, 
 									 values=self.make_formats(), width=17, style='ComboNormal',
 									 textvariable=self.var_format_name)
 		tooltips.AddDescription(self.page_formats, _("Page formats"))
-		self.page_formats.pack(side = LEFT, padx=5)
-		
+		self.page_formats.pack(side = LEFT, padx=2)
+
+		#--------------
+		sep=FlatFrame(self.panel,width=5,height=2)
+		sep.pack(side = LEFT)
+		#--------------		
 		
 		var_width_number = DoubleVar(root)
 		var_height_number = DoubleVar(root)
@@ -53,26 +58,31 @@ class PagePanel(CtxSubPanel):
 		label.pack(side = LEFT)
 		self.widthentry = TSpinbox(self.panel, textvariable = var_width_number, command = self.applyResize,
 								vartype=1, min = 5, max = 50000, step = jump, width = 7)
-		tooltips.AddDescription(self.widthentry, _("Width of paper"))
-		self.widthentry.pack(side = LEFT, padx=5)
+		tooltips.AddDescription(self.widthentry, _("Page width"))
+		self.widthentry.pack(side = LEFT, padx=2)
+
+		#--------------
+		sep=FlatFrame(self.panel,width=5,height=2)
+		sep.pack(side = LEFT)
+		#--------------
 		
 		label = TLabel(self.panel, text=_("V:"))
 		label.pack(side = LEFT)		
 		self.heightentry = TSpinbox(self.panel, textvariable =var_height_number, command = self.applyResize,
 		 						vartype=1, min = 5, max = 50000, step = jump, width = 7)
-		tooltips.AddDescription(self.heightentry, _("Height of paper"))
-		self.heightentry.pack(side = LEFT, padx=5)
+		tooltips.AddDescription(self.heightentry, _("Page height"))
+		self.heightentry.pack(side = LEFT, padx=2)
 		
 		self.portrait_val= StringVar(root)
 		self.landscape_val = StringVar(root)
 		
 		self.portrait=TCheckbutton(self.panel, image='context_portrait', variable =self.portrait_val, 
 								   command = self.set_portrait, style='ToolBarCheckButton')
-		tooltips.AddDescription(self.portrait, _("page layout to Portrait"))
-		self.portrait.pack(side = LEFT)
+		tooltips.AddDescription(self.portrait, _("Portrait"))
+		self.portrait.pack(side = LEFT, padx=2)
 		self.landscape=TCheckbutton(self.panel, image='context_landscape', variable =self.landscape_val, 
 									command = self.set_landscape, style='ToolBarCheckButton')	
-		tooltips.AddDescription(self.landscape, _("page layout to Landscape"))
+		tooltips.AddDescription(self.landscape, _("Landscape"))
 		self.landscape.pack(side = LEFT)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
 

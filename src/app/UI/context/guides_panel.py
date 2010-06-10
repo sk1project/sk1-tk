@@ -44,7 +44,7 @@ class GuidesPanel(CtxSubPanel):
 		self.entry_jump = TSpinbox(self.panel,  var=0, 
 						vartype=1, textvariable = self.var_jump_number,
 						min = -1000, max = 1000, step = 5, width = 6, command = self.addGuidesFrame)
-		self.entry_jump.pack(side = LEFT, padx=5)
+		self.entry_jump.pack(side = LEFT, padx=2)
 		config.preferences.Subscribe(CHANGED, self.update)		
 		self.var_jump.set(0)
 		self.update(0, 0)		

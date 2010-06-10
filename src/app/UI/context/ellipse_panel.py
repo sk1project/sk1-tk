@@ -10,6 +10,7 @@ from app.UI.ttk_ext import TSpinbox
 from app.UI.tkext import ToolbarButton, TCommandButton
 from app.conf.const import SELECTION, EDITED
 from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar
+from sk1sdk.libtk.tkext import FlatFrame
 from subpanel import CtxSubPanel
 from app import  _
 from app.Graphics import ellipse
@@ -61,18 +62,23 @@ class EllipsePanel(CtxSubPanel):
 			cmds = self.mw.canvas.commands.Ellipse
 			
 			label = TLabel(self.panel, text=_("Start:"))
-			label.pack(side = LEFT, padx=5)
+			label.pack(side = LEFT, padx=2)
 			self.entry_start = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.start,
 							min = -360, max = 360, step = 5, width = 6, command = self.applyAngle)
-			self.entry_start.pack(side = LEFT)
-			tooltips.AddDescription(self.entry_start, _('The angle (in degrees) from the horizontal\nto the arc\'s start point'))
+			self.entry_start.pack(side = LEFT, padx=2)
+			tooltips.AddDescription(self.entry_start, _('Arc start point angle'))
+
+			#--------------
+			sep=FlatFrame(self.panel,width=5,height=2)
+			sep.pack(side = LEFT)
+			#--------------		
 			
 			label = TLabel(self.panel, text=_("End:"))
-			label.pack(side = LEFT, padx=5)
+			label.pack(side = LEFT, padx=2)
 			self.entry_end = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.end,
 							min = -360, max = 360, step = 5, width = 6, command = self.applyAngle)
-			self.entry_end.pack(side = LEFT)
-			tooltips.AddDescription(self.entry_end, _('The angle (in degrees) from the horizontal\nto the arc\'s end point'))
+			self.entry_end.pack(side = LEFT, padx=2)
+			tooltips.AddDescription(self.entry_end, _('Arc end point angle'))
 			
 			b = TButton(self.panel, command=self.ResetAngle, style='Toolbutton', image='context_arc_reset')
 			tooltips.AddDescription(b, _('Reset angles'))

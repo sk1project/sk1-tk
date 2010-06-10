@@ -8,6 +8,7 @@
 from app.conf.const import SELECTION
 from sk1sdk.libtk.Tkinter import LEFT
 from app.UI.tkext import TCommandButton
+from sk1sdk.libttk import tooltips
 from subpanel import CtxSubPanel
 from app import  _
 
@@ -18,12 +19,18 @@ class GroupPanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		b = TCommandButton(self.panel, self.mw.commands.GroupSelected, style='TextButton', text=_('Group'))
+		
+		b = TCommandButton(self.panel, self.mw.commands.GroupSelected, style='Toolbutton', image='context_group')
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, self.mw.commands.UngroupSelected, style='TextButton', text=_('Ungroup'))
+		tooltips.AddDescription(b, _('Group'))
+		
+		b = TCommandButton(self.panel, self.mw.commands.UngroupSelected, style='Toolbutton', image='context_ungroup')
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, self.mw.commands.UngrAll, style='TextButton', text=_('Ungroup All'))
+		tooltips.AddDescription(b, _('Ungroup'))
+		
+		b = TCommandButton(self.panel, self.mw.commands.UngrAll, style='Toolbutton', image='context_ungroupall')
 		b.pack(side = LEFT)
+		tooltips.AddDescription(b, _('Ungroup All'))
 
 class CombinePanel(CtxSubPanel):
 	
@@ -31,10 +38,14 @@ class CombinePanel(CtxSubPanel):
 	
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		b = TCommandButton(self.panel, self.mw.commands.CombineBeziers, style='TextButton', text=_('Combine'))
+		
+		b = TCommandButton(self.panel, self.mw.commands.CombineBeziers, style='Toolbutton', image='context_combine')
 		b.pack(side = LEFT)
-		b = TCommandButton(self.panel, self.mw.commands.SplitBeziers, style='TextButton', text=_('Split'))
+		tooltips.AddDescription(b, _('Combine'))
+		
+		b = TCommandButton(self.panel, self.mw.commands.SplitBeziers, style='Toolbutton', image='context_split')
 		b.pack(side = LEFT)
+		tooltips.AddDescription(b, _('Split'))
 		
 class ToCurvePanel(CtxSubPanel):
 	
@@ -44,4 +55,5 @@ class ToCurvePanel(CtxSubPanel):
 		CtxSubPanel.__init__(self, parent)
 		b = TCommandButton(self.panel, self.mw.commands.ConvertToCurve, style='Toolbutton', image='context_to_curve')
 		b.pack(side = LEFT)
+		tooltips.AddDescription(b, _('Convert to curve'))
 	
