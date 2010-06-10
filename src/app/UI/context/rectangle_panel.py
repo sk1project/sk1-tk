@@ -24,7 +24,7 @@ class RectanglePanel(CtxSubPanel):
 		CtxSubPanel.__init__(self, parent)
 		self.radius1 = DoubleVar(self.mw.root, 0)
 		self.radius2 = DoubleVar(self.mw.root, 0)
-		label = TLabel(self.panel, text=_("Rx:"))
+		label = TLabel(self.panel, image='context_rect_rx')
 		label.pack(side = LEFT, padx=2)
 		self.entry_radius1 = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.radius1,
 						min = 0, max = 100, step = 1, width = 6, command = self.applyRadius1)
@@ -36,7 +36,7 @@ class RectanglePanel(CtxSubPanel):
 		sep.pack(side = LEFT)
 		#--------------		
 		
-		label = TLabel(self.panel, text=_("Ry:"))
+		label = TLabel(self.panel, image='context_rect_ry')
 		label.pack(side = LEFT, padx=2)
 		self.entry_radius2 = TSpinbox(self.panel,  var=0, vartype=1, textvariable = self.radius2,
 						min = 0, max = 100, step = 1, width = 6, command = self.applyRadius1)
