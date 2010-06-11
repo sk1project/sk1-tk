@@ -39,12 +39,12 @@ class InsertPageDialog(ModalDialog):
 		
 		top = TFrame(root, style='FlatFrame', borderwidth = 5)
 		top.pack(side = TOP, fill = X, expand = 1)
-		label = TLabel(top, text = _("Insert: "), style='FlatLabel')
+		label = TLabel(top, text = _("Insert:")+" ", style='FlatLabel')
 		label.pack(side = LEFT)
 		self.numpages_spin = TSpinbox(top,  var=1, vartype=0, textvariable = self.numpages,
 						min = 1, max = 1000, step = 1, width = 6, command = self.ok)
 		self.numpages_spin.pack(side = LEFT)		
-		label = TLabel(top, text = _(" page(s)"), style='FlatLabel')
+		label = TLabel(top, text = " "+_("page(s)"), style='FlatLabel')
 		label.pack(side = LEFT)
 
 
@@ -58,12 +58,12 @@ class InsertPageDialog(ModalDialog):
 			self.var_reference.set('before')
 		else:
 			self.var_reference.set('after')			
-		radio = UpdatedRadiobutton(rbframe, value = 'before', text = _("Before "), variable = self.var_reference)
+		radio = UpdatedRadiobutton(rbframe, value = 'before', text = _("Before")+" ", variable = self.var_reference)
 		radio.pack(side=TOP, anchor=W)
-		radio = UpdatedRadiobutton(rbframe, value = 'after', text = _("After "), variable = self.var_reference)
+		radio = UpdatedRadiobutton(rbframe, value = 'after', text = _("After")+" ", variable = self.var_reference)
 		radio.pack(side=TOP, anchor=W)	
 		
-		label = TLabel(middle, text = _(" page No.: "), style='FlatLabel')
+		label = TLabel(middle, text = " "+_("page No.:")+" ", style='FlatLabel')
 		label.pack(side = LEFT)
 		self.pagenum_spin = TSpinbox(middle, var=app.mw.document.active_page+1, vartype=0, textvariable = self.pagenum,
 						min = 1, max = len(app.mw.document.pages), step = 1, width = 6, command = self.ok)

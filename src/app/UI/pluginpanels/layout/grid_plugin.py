@@ -36,7 +36,7 @@ class GridPanel(PluginPanel):
 # ===========================================================
 		do_apply = self.do_apply
 
-		label=TLabel(top, text=_(" Grid origin "), style="FlatLabel")
+		label=TLabel(top, text=" "+_("Grid origin")+" ", style="FlatLabel")
 		label.pack()
 		frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		
@@ -57,7 +57,7 @@ class GridPanel(PluginPanel):
 
 # ===========================================================
 
-		label=TLabel(top, text=_(" Grid size "), style="FlatLabel")
+		label=TLabel(top, text=" "+_("Grid size")+" ", style="FlatLabel")
 		label.pack()
 		frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		frame.pack(side = TOP, fill=X, pady=4, padx=2)

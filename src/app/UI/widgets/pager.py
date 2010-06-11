@@ -29,7 +29,7 @@ class Pager(TFrame, Publisher):
 		self.home_but.pack(side=LEFT)
 		self.home_but=TButton(self.container, style='PagerPrevious', command=self.PagePrevious)
 		self.home_but.pack(side=LEFT)
-		self.text=TLabel(self.container, style='FlatLabel', text=_(' Page 2 of 2 '))
+		self.text=TLabel(self.container, style='FlatLabel', text=' '+_('Page 2 of 2')+' ')
 		self.text.pack(side=LEFT)
 		self.home_but=TButton(self.container, style='PagerNext', command=self.PageNext)
 		self.home_but.pack(side=LEFT)
@@ -54,7 +54,7 @@ class Pager(TFrame, Publisher):
 		if not self.hidden and num_pages==1:
 			self.container.forget()
 			self.hidden=1		
-		self.text['text']=_(' Page %u of %u ')%(current_page,num_pages)
+		self.text['text']=' '+_('Page %u of %u')%(current_page,num_pages)+' '
 		
 	def Resubscribe(self, *arg):
 		self.mainwindow.document.Subscribe(PAGE, self.doc_paged)

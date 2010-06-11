@@ -38,7 +38,7 @@ class ColorSpaceConverter(PluginPanel):
 		self.cs_name = StringVar(top)
 		self.cs_name.set(RGB)
 		
-		label = TLabel(top, text=_("Colorspace: "))
+		label = TLabel(top, text=_("Colorspace:")+" ")
 		label.pack(side = TOP, anchor=W)
 		
 		self.colorspaces = TCombobox(top, state='readonly', postcommand = self.set_cs, 

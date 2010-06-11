@@ -222,7 +222,7 @@ class DocumentManager:
 		except SketchError, value:
 			dlg.close_dlg()
 			group=None
-			msgDialog(self.mw.root, title = _("Import vector"), message = _("An error occurred: ") + str(value))
+			msgDialog(self.mw.root, title = _("Import vector"), message = _("An error occurred:")+" " + str(value))
 			self.mw.remove_mru_file(filename)
 		else:
 			messages = doc.meta.load_messages

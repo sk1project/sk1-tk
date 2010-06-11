@@ -33,7 +33,7 @@ class ColorSpaceSelector(TFrame):
 									 textvariable=self.cs_name)
 		self.colorspaces.pack(side = BOTTOM, fill=X)
 		
-		label = TLabel(self, text=_("Colorspace: "))
+		label = TLabel(self, text=_("Colorspace:")+" ")
 		label.pack(side = LEFT, anchor='sw')
 		
 		label = TLabel(self, image=sign)

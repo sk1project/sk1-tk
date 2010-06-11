@@ -153,9 +153,9 @@ class GuidelinesPanel(PluginPanel):
 			self.var_pos.set(pos)
 			self.entry.set_value(round(pos*100/self.var_pos.Factor())/100)
 			if horizontal:
-				self.var_label.set(_("Y: "))
+				self.var_label.set("Y: ")
 			else:
-				self.var_label.set(_("X: "))
+				self.var_label.set("X: ")
 		else:
 			self.selected = None
 

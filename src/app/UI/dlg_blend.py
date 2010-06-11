@@ -50,7 +50,7 @@ class BlendPanel(PropertyPanel):
 
 		steps_frame = Frame(top, relief = 'flat', bd = 15)
 		steps_frame.pack(side = TOP, fill = X, expand = 1)
-		label = Label(steps_frame, text = _("  Steps: "))
+		label = Label(steps_frame, text = "  "+_("Steps:")+" ")
 		label.pack(side = LEFT, anchor = E)
 		self.var_steps = IntVar(top)
 		self.var_steps.set(config.preferences.blend_panel_default_steps)

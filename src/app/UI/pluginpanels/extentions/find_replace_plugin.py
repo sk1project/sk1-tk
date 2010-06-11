@@ -46,7 +46,7 @@ class FindReplacePanel(PluginPanel):
 		findField = TEntryExt(main_frame, textvariable=self.find_var)
 		findField.pack(side = RIGHT)
 			   
-		label = TLabel(main_frame, style='FlatLabel', text = _("Find: "))
+		label = TLabel(main_frame, style='FlatLabel', text = _("Find:")+" ")
 		label.pack(side = RIGHT, anchor = E)
 		#---------------------------------------------------------
 		main_frame = TFrame(top, style='FlatFrame', borderwidth=3)
@@ -58,13 +58,13 @@ class FindReplacePanel(PluginPanel):
 		replaceField = TEntryExt(main_frame, textvariable=self.replace_var)
 		replaceField.pack(side = RIGHT)
 		
-		label = TLabel(main_frame, style='FlatLabel', text = _("Replace to: "))
+		label = TLabel(main_frame, style='FlatLabel', text = _("Replace to:")+" ")
 		label.pack(side = RIGHT, anchor = E)
 		
 		main_frame = TFrame(top, style='FlatFrame', borderwidth=3)
 		main_frame.pack(side = TOP)
 		#---------------------------------------------------------
-		label=TLabel(top, text=_(" Parameters "), style="FlatLabel")
+		label=TLabel(top, text=" "+_("Parameters")+" ", style="FlatLabel")
 		label.pack()
 		
 		parametersFrameLabel=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)

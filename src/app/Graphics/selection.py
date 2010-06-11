@@ -489,10 +489,10 @@ class Selection(Bounded):
 					dict.update(info[1])
 					# the %% is correct here. The result has to be a
 					# %-template itself.
-					text = _("%s on `%%(layer)s'") % info[0]+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"###
+					text = _("%s on `%%(layer)s'") % info[0]+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"###
 				else:
 					dict['object'] = info
-					text = _("%(object)s on `%(layer)s'")+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"    ###
+					text = _("%(object)s on `%(layer)s'")+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"    ###
 				result = text, dict
 			else:
 				layer = sel_info[0][0][0]
@@ -501,9 +501,9 @@ class Selection(Bounded):
 					layer_name = document.layers[layer].Name()
 					result = _("%(number)d objects on `%(layer)s'") \
 								% {'number':len(sel_info), 'layer':layer_name}
-					result = result + _("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"
+					result = result +"\n "+ _("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"
 				else:
-					result = _("%d objects on several layers") % len(sel_info)+_("\n Selection size: ")+str(hor_sel)+" x "+str(ver_sel) +" mm"  ###
+					result = _("%d objects on several layers") % len(sel_info)+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"  ###
 		return result
 
 	def CurrentInfoText(self):

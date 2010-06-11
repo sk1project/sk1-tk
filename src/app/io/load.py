@@ -351,7 +351,7 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 						doc.meta.load_messages = messages
 					return doc
 				except Exception, value:
-					raise SketchLoadError(_("Parsing error: ")+ str(value))
+					raise SketchLoadError(_("Parsing error:")+" "+ str(value))
 								
 			finally:
 				info.UnloadPlugin()

@@ -634,7 +634,7 @@ class sK1MainWindow(Publisher):
 					fill_frame["style"]='ColorWatchNormal'
 					fillcolor=rgb_to_tk(properties.fill_pattern.Color().RGB())
 					fill_frame["background"]=fillcolor
-					filltxt=_('Fill: ') + properties.fill_pattern.Color().toString()
+					filltxt=_('Fill:')+' ' + properties.fill_pattern.Color().toString()
 				except:
 					fill_frame["style"]='ColorWatchTransp'
 					filltxt=_('Fill: None')
@@ -642,7 +642,7 @@ class sK1MainWindow(Publisher):
 				try:
 					outline_frame["style"]='ColorWatchNormal'
 					outline_frame["background"]=rgb_to_tk(properties.line_pattern.Color().RGB())
-					outlinetxt=_('Outline: ')+ str(math.ceil(math.floor(10**4*properties.line_width/2.83465)/10)/1000) +' mm' 
+					outlinetxt=_('Outline:')+' '+ str(math.ceil(math.floor(10**4*properties.line_width/2.83465)/10)/1000) +' mm' 
 				except:
 					outline_frame["style"]='ColorWatchTransp'
 					outlinetxt=_('Outline: None')

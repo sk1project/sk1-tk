@@ -114,7 +114,7 @@ class OutlinePropertiesPanel(PluginPanel):
 			
 		########### CORNERS #####################################################	
 		
-		label=TLabel(selection_frame, text=_(" Corners: "), style="FlatLabel")
+		label=TLabel(selection_frame, text=" "+_("Corners:")+" ", style="FlatLabel")
 		label.pack()
 		
 		corners_frame=TLabelframe(selection_frame, labelwidget=label, style='Labelframe', borderwidth=8)
@@ -143,7 +143,7 @@ class OutlinePropertiesPanel(PluginPanel):
 		
 		########### LINE CAPS ###################################################
 		
-		label=TLabel(selection_frame, text=_(" Line caps: "), style="FlatLabel")
+		label=TLabel(selection_frame, text=" "+_("Line caps:")+" ", style="FlatLabel")
 		label.pack()
 		
 		caps_frame=TLabelframe(selection_frame, labelwidget=label, style='Labelframe', borderwidth=8)

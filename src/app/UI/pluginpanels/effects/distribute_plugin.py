@@ -47,7 +47,7 @@ class DistributePlugin(PluginPanel):
 		top = TFrame(self.panel, style='FlatFrame')
 		top.pack(side = TOP, fill=BOTH)
 		#---------------------------------------------------------
-		label=TLabel(top, text=_(" Relative to "), style="FlatLabel")
+		label=TLabel(top, text=" "+_("Relative to")+" ", style="FlatLabel")
 		label.pack(side = TOP, fill = BOTH, padx=5)
 		rel_frame=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=4)
 		rel_frame.pack(side = TOP, fill=X, padx=5, pady=2)
@@ -58,7 +58,7 @@ class DistributePlugin(PluginPanel):
 									 textvariable=self.var_reference, postcommand = self.set_cs)
 		self.reference.pack(side = TOP)
 		#---------------------------------------------------------
-		label=TLabel(top, text=_(" Distribute type "), style="FlatLabel")
+		label=TLabel(top, text=" "+_("Distribute type")+" ", style="FlatLabel")
 		label.pack(side = TOP, fill = BOTH, padx=5)
 		framec=TLabelframe(top, labelwidget=label, style='Labelframe', borderwidth=3)
 		framec.pack(side = TOP, fill=X, padx=5, pady=2)

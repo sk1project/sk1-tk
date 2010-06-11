@@ -80,7 +80,7 @@ class RotatePanel(PluginPanel):
 		
 		angle_frame = TFrame(top, style='FlatFrame', borderwidth=3)
 		angle_frame.pack(side = TOP, fill = BOTH)
-		label = TLabel(angle_frame, style='FlatLabel', text = _(" Angle: "))
+		label = TLabel(angle_frame, style='FlatLabel', text = " "+_("Angle:")+" ")
 		label.pack(side = LEFT, padx=5)
 		
 		self.entry_angle = TSpinbox(angle_frame, var=0, vartype=1, textvariable = self.var_angle, 

@@ -1452,7 +1452,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return br
 
 	def SelectionSizeInfo(self):
-		result = _(" --.-- mm \n --.-- mm ")
+		result = " --.-- mm \n --.-- mm "
 		if self.document.selection.objects:
 			sel_info = self.document.selection.objects
 			br = self.document.selection.coord_rect
@@ -1735,7 +1735,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		if self.snap_to_guide:
 			snap.append(_("Guide"))
 		if snap:
-			return _("Snap: ") + string.join(snap, '/')
+			return _("Snap:")+" " + string.join(snap, '/')
 		return _("No Snap")
 
 	#

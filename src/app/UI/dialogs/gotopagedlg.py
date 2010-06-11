@@ -38,7 +38,7 @@ class GoToPageDialog(ModalDialog):
 		middle = TFrame(root, style='FlatFrame', borderwidth = 5)
 		middle.pack(side = TOP, fill = X, expand = 1)
 	
-		label = TLabel(middle, text = _("Go to page No.: "), style='FlatLabel')
+		label = TLabel(middle, text = _("Go to page No.:")+" ", style='FlatLabel')
 		label.pack(side = LEFT)
 		self.pagenum_spin = TSpinbox(middle, var=app.mw.document.active_page+1, vartype=0, textvariable = self.pagenum,
 						min = 1, max = len(app.mw.document.pages), step = 1, width = 6, command = self.ok)
