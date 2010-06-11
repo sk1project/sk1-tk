@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-11 07:01+0300\n"
-"PO-Revision-Date: 2010-06-11 07:10+0300\n"
+"POT-Creation-Date: 2010-06-11 21:12+0300\n"
+"PO-Revision-Date: 2010-06-11 22:39+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: src/app/Graphics/bezier.py:186
 #, python-format
 msgid "PolyBezier (%(nodes)d nodes in %(paths)d paths)"
-msgstr "Полином Безье (%(nodes)d узлов в %(paths)d участках)"
+msgstr "Кривая Безье (%(nodes)d узлов в %(paths)d участках)"
 
 #: src/app/Graphics/bezier.py:262
 msgid "Create Curve"
@@ -46,23 +46,23 @@ msgstr "Выделить все узлы"
 #: src/app/Graphics/bezier.py:777
 #, python-format
 msgid "%d nodes in PolyBezier"
-msgstr "%d узлов в полиноме Безье"
+msgstr "%d узлов в кривой Безье"
 
 #: src/app/Graphics/bezier.py:786
 msgid "PolyBezier"
-msgstr "Полином Безье"
+msgstr "Кривая Безье"
 
 #: src/app/Graphics/bezier.py:788
 msgid "First node of PolyBezier"
-msgstr "Первый узел полинома Безье"
+msgstr "Первый узел кривой Безье"
 
 #: src/app/Graphics/bezier.py:790
 msgid "Last node of PolyBezier"
-msgstr "Последний узел полинома Безье"
+msgstr "Последний узел кривой Безье"
 
 #: src/app/Graphics/bezier.py:792
 msgid "1 node of PolyBezier"
-msgstr "1 узел полинома Безье"
+msgstr "1 узел кривой Безье"
 
 #: src/app/Graphics/bezier.py:795
 #, python-format
@@ -71,7 +71,7 @@ msgstr "Точка на кривой в позиции %.2f"
 
 #: src/app/Graphics/bezier.py:798
 msgid "No Node of PolyBezier"
-msgstr "Нет узла на полиноме Безье"
+msgstr "Нет узла на кривой Безье"
 
 #: src/app/Graphics/bezier.py:849
 msgid "Cut Curve"
@@ -2401,7 +2401,7 @@ msgstr "Удалить все направляющие"
 
 #: src/app/UI/context/jump_panel.py:31
 msgid "Jump:"
-msgstr "Скачок:"
+msgstr "Смещение:"
 
 #: src/app/UI/context/nodeedit_panel.py:34
 msgid "Insert node"
@@ -2444,39 +2444,41 @@ msgid "Select all nodes in path"
 msgstr "Выделить все узлы"
 
 #: src/app/UI/context/page_panel.py:21
+#: src/app/UI/context/page_panel.py:30
+#: src/app/UI/pluginpanels/layout/page_plugin.py:28
 msgid "<Custom Size>"
-msgstr "<Custom Size>"
+msgstr "<Произвольный>"
 
-#: src/app/UI/context/page_panel.py:35
+#: src/app/UI/context/page_panel.py:37
 msgid "Page:"
 msgstr "Страница:"
 
-#: src/app/UI/context/page_panel.py:40
+#: src/app/UI/context/page_panel.py:42
 msgid "Page formats"
 msgstr "Форматы страницы"
 
-#: src/app/UI/context/page_panel.py:57
+#: src/app/UI/context/page_panel.py:59
 msgid "H:"
 msgstr "Ш:"
 
-#: src/app/UI/context/page_panel.py:61
+#: src/app/UI/context/page_panel.py:63
 msgid "Page width"
 msgstr "Ширина страницы"
 
-#: src/app/UI/context/page_panel.py:69
+#: src/app/UI/context/page_panel.py:71
 msgid "V:"
 msgstr "В:"
 
-#: src/app/UI/context/page_panel.py:73
+#: src/app/UI/context/page_panel.py:75
 msgid "Page height"
 msgstr "Высота страницы"
 
-#: src/app/UI/context/page_panel.py:81
+#: src/app/UI/context/page_panel.py:83
 #: src/app/UI/pluginpanels/layout/page_plugin.py:111
 msgid "Portrait"
 msgstr "Портрет"
 
-#: src/app/UI/context/page_panel.py:85
+#: src/app/UI/context/page_panel.py:87
 #: src/app/UI/pluginpanels/layout/page_plugin.py:117
 msgid "Landscape"
 msgstr "Альбом"
