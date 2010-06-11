@@ -2155,8 +2155,9 @@ class EditDocument(SketchDocument, QueueingPublisher):
 				self.end_transaction()
 
 	def CanSplitBeziers(self):
-		return len(self.selection) == 1 \
-				and self.selection.GetObjects()[0].is_Bezier
+		return len(self.selection) == 1 and \
+				 self.selection.GetObjects()[0].is_Bezier and \
+				 len(self.selection.GetObjects()[0].paths)>1
 
 	def SplitBeziers(self):
 		if self.CanSplitBeziers():
