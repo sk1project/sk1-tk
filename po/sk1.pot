@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-11 07:01+0300\n"
+"POT-Creation-Date: 2010-06-11 22:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1016,7 +1016,7 @@ msgstr ""
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:116
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:49
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:37
-#: src/app/UI/pluginpanels/layout/page_plugin.py:126
+#: src/app/UI/pluginpanels/layout/page_plugin.py:128
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:59
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:55
 #: src/app/UI/pluginpanels/properties/outlineprop.py:55
@@ -2261,7 +2261,8 @@ msgstr ""
 msgid "Select all nodes in path"
 msgstr ""
 
-#: src/app/UI/context/page_panel.py:21
+#: src/app/UI/context/page_panel.py:28
+#: src/app/UI/pluginpanels/layout/page_plugin.py:40
 msgid "<Custom Size>"
 msgstr ""
 
@@ -2290,12 +2291,12 @@ msgid "Page height"
 msgstr ""
 
 #: src/app/UI/context/page_panel.py:81
-#: src/app/UI/pluginpanels/layout/page_plugin.py:111
+#: src/app/UI/pluginpanels/layout/page_plugin.py:113
 msgid "Portrait"
 msgstr ""
 
 #: src/app/UI/context/page_panel.py:85
-#: src/app/UI/pluginpanels/layout/page_plugin.py:117
+#: src/app/UI/pluginpanels/layout/page_plugin.py:119
 msgid "Landscape"
 msgstr ""
 
