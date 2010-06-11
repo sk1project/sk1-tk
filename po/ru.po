@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-08 23:49+0300\n"
-"PO-Revision-Date: 2010-06-08 23:50+0300\n"
+"POT-Creation-Date: 2010-06-11 07:01+0300\n"
+"PO-Revision-Date: 2010-06-11 07:10+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -235,13 +235,13 @@ msgid "Create Group"
 msgstr "Создать группу"
 
 #: src/app/Graphics/document.py:1651
-#: src/app/UI/context/group_panel.py:23
+#: src/app/UI/context/group_panel.py:29
 msgid "Ungroup"
 msgstr "Разгруппировать"
 
 #: src/app/Graphics/document.py:1681
 #: src/app/UI/mainwindow.py:881
-#: src/app/UI/context/group_panel.py:25
+#: src/app/UI/context/group_panel.py:33
 msgid "Ungroup All"
 msgstr "Разгруппировать все"
 
@@ -551,7 +551,7 @@ msgid "Guides"
 msgstr "Направляющие"
 
 #: src/app/Graphics/layer.py:338
-#: src/app/UI/canvas.py:1712
+#: src/app/UI/canvas.py:1732
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:24
 msgid "Grid"
 msgstr "Сетка"
@@ -719,12 +719,8 @@ msgstr "%s в `%%(layer)s'"
 #: src/app/Graphics/selection.py:495
 #: src/app/Graphics/selection.py:504
 #: src/app/Graphics/selection.py:506
-msgid ""
-"\n"
-" Selection size: "
-msgstr ""
-"\n"
-" Размер выделенного: "
+msgid "Selection size:"
+msgstr "Размер выделенного:"
 
 #: src/app/Graphics/selection.py:495
 #, python-format
@@ -790,8 +786,8 @@ msgid "Identity Transform"
 msgstr "Идентичное преобразование"
 
 #: src/app/Graphics/selection.py:1037
-#: src/app/UI/context/ellipse_panel.py:44
-#: src/app/UI/context/rectangle_panel.py:66
+#: src/app/UI/context/ellipse_panel.py:45
+#: src/app/UI/context/rectangle_panel.py:72
 msgid "Edit Object"
 msgstr "Редактировать объекты"
 
@@ -872,7 +868,7 @@ msgstr "Создать"
 
 # ../Sketch/UI/canvas.py:191 :1213
 #: src/app/UI/canvas.py:209
-#: src/app/UI/canvas.py:1318
+#: src/app/UI/canvas.py:1338
 msgid "Zoom Area"
 msgstr "Область увеличения"
 
@@ -884,147 +880,139 @@ msgstr "Указать объект"
 msgid "Place Object"
 msgstr "Расположить объект"
 
-#: src/app/UI/canvas.py:826
+#: src/app/UI/canvas.py:827
 msgid "Draw Rectangle"
 msgstr "Нарисовать прямоугольник"
 
-#: src/app/UI/canvas.py:830
+#: src/app/UI/canvas.py:831
 msgid "Draw Ellipse"
 msgstr "Нарисовать эллипс"
 
-#: src/app/UI/canvas.py:834
+#: src/app/UI/canvas.py:835
 msgid "Draw Curve"
 msgstr "Нарисовать кривую"
 
-#: src/app/UI/canvas.py:838
+#: src/app/UI/canvas.py:839
 msgid "Draw Poly-Line"
 msgstr "Нарисовать ломаную"
 
-#: src/app/UI/canvas.py:842
+#: src/app/UI/canvas.py:843
 msgid "Draw Text"
 msgstr "Нарисовать текст"
 
-#: src/app/UI/canvas.py:1006
+#: src/app/UI/canvas.py:1020
 msgid "Selection Mode"
 msgstr "Режим выделения"
 
-#: src/app/UI/canvas.py:1090
+#: src/app/UI/canvas.py:1104
 msgid "Edit Mode"
 msgstr "Режим редактирования"
 
-#: src/app/UI/canvas.py:1386
+#: src/app/UI/canvas.py:1406
 msgid "Toggle Mode"
 msgstr "Переключить режим"
 
-#: src/app/UI/canvas.py:1435
-msgid ""
-" --.-- mm \n"
-" --.-- mm "
-msgstr ""
-" --.-- mm \n"
-" --.-- mm "
-
-#: src/app/UI/canvas.py:1577
+#: src/app/UI/canvas.py:1597
 msgid "Use Xlib Renderer"
 msgstr "Использовать Xlib движок"
 
-#: src/app/UI/canvas.py:1592
+#: src/app/UI/canvas.py:1612
 msgid "Use Cairo Renderer"
 msgstr "Использовать Cairo движок"
 
-#: src/app/UI/canvas.py:1608
+#: src/app/UI/canvas.py:1628
 msgid "Alpha Channel"
 msgstr "Альфа канал"
 
-#: src/app/UI/canvas.py:1623
+#: src/app/UI/canvas.py:1643
 msgid "Color Managment"
 msgstr "Управление цветом"
 
-#: src/app/UI/canvas.py:1640
+#: src/app/UI/canvas.py:1660
 msgid "Snap to Grid"
 msgstr "Выравнивать по сетке"
 
-#: src/app/UI/canvas.py:1654
+#: src/app/UI/canvas.py:1674
 msgid "Snap to Objects"
 msgstr "Выравнивать по объектам"
 
-#: src/app/UI/canvas.py:1669
+#: src/app/UI/canvas.py:1689
 msgid "Snap to Guides"
 msgstr "Выравнивать по направляющим"
 
-#: src/app/UI/canvas.py:1682
+#: src/app/UI/canvas.py:1702
 msgid "Snap Bounding Rect"
 msgstr "Выровнять ограничивающий прямоугольник"
 
-#: src/app/UI/canvas.py:1695
+#: src/app/UI/canvas.py:1715
 msgid "Snap Move Relative"
 msgstr "Выровнять относительное перемещение"
 
-#: src/app/UI/canvas.py:1714
+#: src/app/UI/canvas.py:1734
 msgid "Objects"
 msgstr "Объекты"
 
-#: src/app/UI/canvas.py:1716
+#: src/app/UI/canvas.py:1736
 msgid "Guide"
 msgstr "Направляющая"
 
-#: src/app/UI/canvas.py:1718
-msgid "Snap: "
-msgstr "Выровнено: "
+#: src/app/UI/canvas.py:1738
+msgid "Snap:"
+msgstr "Выровнено:"
 
-#: src/app/UI/canvas.py:1719
+#: src/app/UI/canvas.py:1739
 msgid "No Snap"
 msgstr "Выравнивание отключено"
 
-#: src/app/UI/canvas.py:1750
+#: src/app/UI/canvas.py:1770
 msgid "Crosshairs"
 msgstr "Перекрестия"
 
-#: src/app/UI/canvas.py:1905
+#: src/app/UI/canvas.py:1925
 msgid "Refresh Window"
 msgstr "Обновить окно"
 
-#: src/app/UI/canvas.py:1935
+#: src/app/UI/canvas.py:1955
 msgid "Zoom In"
 msgstr "Увеличить"
 
-#: src/app/UI/canvas.py:1937
+#: src/app/UI/canvas.py:1957
 msgid "Zoom Out"
 msgstr "Уменьшить"
 
-#: src/app/UI/canvas.py:1956
+#: src/app/UI/canvas.py:1976
 msgid "Fit to Window"
 msgstr "Вписать в окно"
 
-#: src/app/UI/canvas.py:1957
+#: src/app/UI/canvas.py:1977
 msgid "Fit Selected to Window"
 msgstr "Вписать выделение в окно"
 
-#: src/app/UI/canvas.py:1968
+#: src/app/UI/canvas.py:1988
 msgid "Fit Page to Window"
 msgstr "Вписать страницу в окно"
 
-#: src/app/UI/canvas.py:1981
+#: src/app/UI/canvas.py:2001
 msgid "Restore Previous View"
 msgstr "Восстановить предыдущий вид"
 
-#: src/app/UI/canvas.py:1990
+#: src/app/UI/canvas.py:2010
 msgid "Contour View"
 msgstr "Просмотр в контурах"
 
-#: src/app/UI/canvas.py:1994
+#: src/app/UI/canvas.py:2014
 msgid "Draw Page Border"
 msgstr "Рисовать контур страницы"
 
-#: src/app/UI/canvas.py:2034
+#: src/app/UI/canvas.py:2054
 msgid "Set Fill Color..."
 msgstr "Выбрать цвет заливки..."
 
-#: src/app/UI/canvas.py:2050
+#: src/app/UI/canvas.py:2070
 msgid "Set Fill Color"
 msgstr "Выбрать цвет заливки"
 
-#: src/app/UI/canvas.py:2067
+#: src/app/UI/canvas.py:2087
 msgid "Set Line Color"
 msgstr "Выбрать цвет линии"
 
@@ -1106,8 +1094,8 @@ msgid "Apply"
 msgstr "Применить"
 
 #: src/app/UI/dlg_blend.py:53
-msgid "  Steps: "
-msgstr "  Шаги: "
+msgid "Steps:"
+msgstr "Шаги:"
 
 #: src/app/UI/dlg_blend.py:66
 msgid "Select Start"
@@ -1197,16 +1185,16 @@ msgid "No color"
 msgstr "Без цвета"
 
 #: src/app/UI/mainwindow.py:637
-msgid "Fill: "
-msgstr "Заливка: "
+msgid "Fill:"
+msgstr "Заливка:"
 
 #: src/app/UI/mainwindow.py:640
 msgid "Fill: None"
 msgstr "Заливка: Нет"
 
 #: src/app/UI/mainwindow.py:645
-msgid "Outline: "
-msgstr "Контур: "
+msgid "Outline:"
+msgstr "Контур:"
 
 #: src/app/UI/mainwindow.py:648
 msgid "Outline: None"
@@ -1753,7 +1741,7 @@ msgid "%(message)s (%(count)d times)"
 msgstr "%(message)s (%(count)d раз)"
 
 #: src/app/io/load.py:354
-msgid "Parsing error: "
+msgid "Parsing error:"
 msgstr "Ошибка разбора:"
 
 #: src/app/io/load.py:359
@@ -2034,8 +2022,8 @@ msgstr "Импортировать вектор"
 
 # ../Sketch/UI/mainwindow.py:202 :398
 #: src/app/managers/docmanager.py:225
-msgid "An error occurred: "
-msgstr "Произошла ошибка: "
+msgid "An error occurred:"
+msgstr "Произошла ошибка:"
 
 # ../Sketch/UI/mainwindow.py:209 :405
 #: src/app/managers/docmanager.py:230
@@ -2318,48 +2306,40 @@ msgstr "Настройки"
 msgid "Preference Panel"
 msgstr "Панель настроек"
 
-#: src/app/UI/context/ellipse_panel.py:63
-msgid " Start: "
-msgstr " Начало: "
+#: src/app/UI/context/ellipse_panel.py:64
+msgid "Start:"
+msgstr " Начало:"
 
-#: src/app/UI/context/ellipse_panel.py:68
-msgid ""
-"The angle (in degrees) from the horizontal\n"
-"to the arc's start point"
-msgstr ""
-"Угол в градусах от горизонтали\n"
-"до стартовой точки сегмента"
+#: src/app/UI/context/ellipse_panel.py:69
+msgid "Arc start point angle"
+msgstr "Угол начальной точки дуги"
 
-#: src/app/UI/context/ellipse_panel.py:70
-msgid " End: "
+#: src/app/UI/context/ellipse_panel.py:76
+msgid "End:"
 msgstr "Конец:"
 
-#: src/app/UI/context/ellipse_panel.py:75
-msgid ""
-"The angle (in degrees) from the horizontal\n"
-"to the arc's end point"
-msgstr ""
-"Угол в градусах от горизонтали\n"
-"до стартовой точки сегмента"
+#: src/app/UI/context/ellipse_panel.py:81
+msgid "Arc end point angle"
+msgstr "Угол конечной точки дуги"
 
-#: src/app/UI/context/ellipse_panel.py:78
+#: src/app/UI/context/ellipse_panel.py:84
 msgid "Reset angles"
 msgstr "Переустановить углы"
 
-#: src/app/UI/context/ellipse_panel.py:82
+#: src/app/UI/context/ellipse_panel.py:88
 msgid "Swap angles"
 msgstr "Поменять местами углы"
 
-#: src/app/UI/context/ellipse_panel.py:89
+#: src/app/UI/context/ellipse_panel.py:95
 msgid "to Arc"
 msgstr "Дуга"
 
-#: src/app/UI/context/ellipse_panel.py:93
+#: src/app/UI/context/ellipse_panel.py:99
 msgid "to Chord"
 msgstr "Хорда"
 
 # ../Sketch/UI/mainwindow.py:1139 :1268
-#: src/app/UI/context/ellipse_panel.py:97
+#: src/app/UI/context/ellipse_panel.py:103
 msgid "to Pie"
 msgstr "Сегмент"
 
@@ -2387,17 +2367,21 @@ msgstr "Italic"
 msgid "Set Font Properties"
 msgstr "Установить свойства шрифта"
 
-#: src/app/UI/context/group_panel.py:21
+#: src/app/UI/context/group_panel.py:25
 msgid "Group"
 msgstr "Сгруппировать"
 
-#: src/app/UI/context/group_panel.py:34
+#: src/app/UI/context/group_panel.py:44
 msgid "Combine"
 msgstr "Соединить"
 
-#: src/app/UI/context/group_panel.py:36
+#: src/app/UI/context/group_panel.py:48
 msgid "Split"
 msgstr "Разъединить"
+
+#: src/app/UI/context/group_panel.py:58
+msgid "Convert to curve"
+msgstr "Сконвертировать в кривую"
 
 #: src/app/UI/context/guides_panel.py:24
 msgid "Add page frame"
@@ -2416,7 +2400,7 @@ msgid "Remove all guides"
 msgstr "Удалить все направляющие"
 
 #: src/app/UI/context/jump_panel.py:31
-msgid " Jump:"
+msgid "Jump:"
 msgstr "Скачок:"
 
 #: src/app/UI/context/nodeedit_panel.py:34
@@ -2459,51 +2443,75 @@ msgstr "Сделать выбранные сегменты линиями"
 msgid "Select all nodes in path"
 msgstr "Выделить все узлы"
 
-#: src/app/UI/context/page_panel.py:19
+#: src/app/UI/context/page_panel.py:21
 msgid "<Custom Size>"
 msgstr "<Custom Size>"
 
-#: src/app/UI/context/page_panel.py:33
-msgid "Page: "
-msgstr "Страница: "
+#: src/app/UI/context/page_panel.py:35
+msgid "Page:"
+msgstr "Страница:"
 
-#: src/app/UI/context/page_panel.py:50
-msgid "  H: "
-msgstr "  Ш: "
+#: src/app/UI/context/page_panel.py:40
+msgid "Page formats"
+msgstr "Форматы страницы"
 
-#: src/app/UI/context/page_panel.py:56
-msgid "  V: "
-msgstr "  В: "
+#: src/app/UI/context/page_panel.py:57
+msgid "H:"
+msgstr "Ш:"
 
-#: src/app/UI/context/rectangle_panel.py:26
-msgid " Rx: "
-msgstr " Rx: "
+#: src/app/UI/context/page_panel.py:61
+msgid "Page width"
+msgstr "Ширина страницы"
 
-#: src/app/UI/context/rectangle_panel.py:31
+#: src/app/UI/context/page_panel.py:69
+msgid "V:"
+msgstr "В:"
+
+#: src/app/UI/context/page_panel.py:73
+msgid "Page height"
+msgstr "Высота страницы"
+
+#: src/app/UI/context/page_panel.py:81
+#: src/app/UI/pluginpanels/layout/page_plugin.py:111
+msgid "Portrait"
+msgstr "Портрет"
+
+#: src/app/UI/context/page_panel.py:85
+#: src/app/UI/pluginpanels/layout/page_plugin.py:117
+msgid "Landscape"
+msgstr "Альбом"
+
+#: src/app/UI/context/rectangle_panel.py:32
 msgid "Horizontal radius of rounded corners"
 msgstr "Горизонтальный радиус скругленных углов"
 
-#: src/app/UI/context/rectangle_panel.py:33
-msgid " Ry: "
-msgstr " Ry: "
-
-#: src/app/UI/context/rectangle_panel.py:38
+#: src/app/UI/context/rectangle_panel.py:44
 msgid "Vertical radius of rounded corners"
 msgstr "Вертикальный радиус скругленных углов"
 
-#: src/app/UI/context/rotation_panel.py:25
-msgid " Rotate: "
-msgstr " Повернуть: "
+# ../Sketch/Graphics/selection.py:466 :1118
+#: src/app/UI/context/resize_panel.py:44
+msgid "Width of selection"
+msgstr "Ширина выделенного"
 
-#: src/app/UI/context/rotation_panel.py:31
+# ../Sketch/Graphics/selection.py:466 :1118
+#: src/app/UI/context/resize_panel.py:53
+msgid "Height of selection"
+msgstr "Высота выделенного"
+
+#: src/app/UI/context/rotation_panel.py:29
+msgid "Rotation angle"
+msgstr "Угол поворота"
+
+#: src/app/UI/context/rotation_panel.py:32
 msgid "Rotate -90°"
 msgstr "Повернуть на -90°"
 
-#: src/app/UI/context/rotation_panel.py:34
+#: src/app/UI/context/rotation_panel.py:35
 msgid "Rotate 180°"
 msgstr "Повернуть на 180°"
 
-#: src/app/UI/context/rotation_panel.py:37
+#: src/app/UI/context/rotation_panel.py:38
 msgid "Rotate 90°"
 msgstr "Повернуть на 90°"
 
@@ -2540,8 +2548,8 @@ msgid "Set Text Alignment"
 msgstr "Установить отбивку текста"
 
 #: src/app/UI/context/unit_panel.py:27
-msgid " Units: "
-msgstr " Единицы: "
+msgid "Units:"
+msgstr " Единицы:"
 
 #: src/app/UI/dialogs/aboutdlg.py:25
 msgid "About sK1"
@@ -2658,8 +2666,8 @@ msgid "Delete page"
 msgstr "Удалить слой"
 
 #: src/app/UI/dialogs/deletepagedlg.py:41
-msgid "Delete page No.: "
-msgstr "Удалить страницы No.: "
+msgid "Delete page No.:"
+msgstr "Удалить страницы No.:"
 
 #: src/app/UI/dialogs/deletepagedlg.py:67
 #: src/app/UI/dialogs/gotopagedlg.py:67
@@ -2675,32 +2683,32 @@ msgid "Incorrect page number!"
 msgstr "Неверный номер страницы!"
 
 #: src/app/UI/dialogs/gotopagedlg.py:41
-msgid "Go to page No.: "
-msgstr "Перейти к странице No.: "
+msgid "Go to page No.:"
+msgstr "Перейти к странице No.:"
 
 #: src/app/UI/dialogs/insertpagedlg.py:25
 msgid "Insert pages"
 msgstr "Вставить страницы"
 
 #: src/app/UI/dialogs/insertpagedlg.py:42
-msgid "Insert: "
-msgstr "Вставить: "
+msgid "Insert:"
+msgstr "Вставить:"
 
 #: src/app/UI/dialogs/insertpagedlg.py:47
-msgid " page(s)"
-msgstr " страницу(цы)"
+msgid "page(s)"
+msgstr "страницу(цы)"
 
 #: src/app/UI/dialogs/insertpagedlg.py:61
-msgid "Before "
+msgid "Before"
 msgstr "Перед"
 
 #: src/app/UI/dialogs/insertpagedlg.py:63
-msgid "After "
-msgstr "После "
+msgid "After"
+msgstr "После"
 
 #: src/app/UI/dialogs/insertpagedlg.py:66
-msgid " page No.: "
-msgstr " страница No.: "
+msgid "page No.:"
+msgstr "страница No.:"
 
 #: src/app/UI/dialogs/insertpagedlg.py:97
 msgid "Incorrect number of pages!"
@@ -2767,8 +2775,8 @@ msgstr "Сложный черный"
 
 #: src/app/UI/widgets/colorspacesel.py:36
 #: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:41
-msgid "Colorspace: "
-msgstr "Цветовое пространство: "
+msgid "Colorspace:"
+msgstr "Цветовая модель:"
 
 #: src/app/UI/widgets/doctabs.py:206
 msgid "New Document"
@@ -2792,13 +2800,13 @@ msgid "Close Document"
 msgstr "Закрыть документ"
 
 #: src/app/UI/widgets/pager.py:32
-msgid " Page 2 of 2 "
-msgstr " Страница 2 из 2 "
+msgid "Page 2 of 2"
+msgstr "Страница 2 из 2"
 
 #: src/app/UI/widgets/pager.py:57
 #, python-format
-msgid " Page %u of %u "
-msgstr " Страница %u из %u "
+msgid "Page %u of %u"
+msgstr "Страница %u из %u"
 
 #: src/app/UI/cc/panels/general.py:19
 msgid "General Options"
@@ -2826,12 +2834,12 @@ msgstr "Страница"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:47
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:50
-msgid " Relative to "
-msgstr " Относительно "
+msgid "Relative to"
+msgstr "Относительно"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:57
-msgid " Alignment type "
-msgstr " Тип отбивки "
+msgid "Alignment type"
+msgstr "Тип отбивки"
 
 #: src/app/UI/pluginpanels/effects/align_plugin.py:71
 msgid "Align left sides"
@@ -2876,8 +2884,8 @@ msgid "Distribute"
 msgstr "Распределение"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:61
-msgid " Distribute type "
-msgstr " Тип распределения "
+msgid "Distribute type"
+msgstr "Тип распределения"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:76
 msgid "Distribute left sides equidistantly"
@@ -2920,16 +2928,16 @@ msgid "Text Find & Replace"
 msgstr "Поиск/замена текста"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:49
-msgid "Find: "
+msgid "Find:"
 msgstr "Найти:"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:61
-msgid "Replace to: "
+msgid "Replace to:"
 msgstr "Заменить на:"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
-msgid " Parameters "
-msgstr " Параметры "
+msgid "Parameters"
+msgstr "Параметры"
 
 #: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:78
 msgid "Case sensitive"
@@ -2951,11 +2959,11 @@ msgid "Text Replace"
 msgstr "Замена текста"
 
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:39
-msgid " Grid origin "
+msgid "Grid origin"
 msgstr "Центр сетки"
 
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:60
-msgid " Grid size "
+msgid "Grid size"
 msgstr "Размер сетки"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
@@ -2983,22 +2991,6 @@ msgstr "% 6.*f %s    по горизонтали"
 #, python-format
 msgid "% 6.*f %s    vertical"
 msgstr "% 6.*f %s    по вертикали"
-
-#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:156
-msgid "Y: "
-msgstr "Y: "
-
-#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:158
-msgid "X: "
-msgstr "X: "
-
-#: src/app/UI/pluginpanels/layout/page_plugin.py:111
-msgid "Portrait"
-msgstr "Портрет"
-
-#: src/app/UI/pluginpanels/layout/page_plugin.py:117
-msgid "Landscape"
-msgstr "Альбом"
 
 # ../Sketch/UI/mainwindow.py:1136 :1267
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:33
@@ -3036,12 +3028,12 @@ msgstr "Стиль:"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:117
 #: src/app/UI/pluginpanels/properties/outlineprop.py:117
-msgid " Corners: "
+msgid "Corners:"
 msgstr "Углы:"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:146
 #: src/app/UI/pluginpanels/properties/outlineprop.py:146
-msgid " Line caps: "
+msgid "Line caps:"
 msgstr "Концы линий:"
 
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:184
@@ -3144,8 +3136,8 @@ msgid "Rotate"
 msgstr "Вращать"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:83
-msgid " Angle: "
-msgstr " Угол: "
+msgid "Angle:"
+msgstr "Угол:"
 
 #: src/app/UI/pluginpanels/transform/rotate_plugin.py:89
 #: src/app/UI/pluginpanels/transform/skew_plugin.py:68
@@ -3182,6 +3174,44 @@ msgstr "Наклон"
 msgid "Skew&Copy"
 msgstr "Наклонить и скопировать"
 
+#~ msgid ""
+#~ " --.-- mm \n"
+#~ " --.-- mm "
+#~ msgstr ""
+#~ " --.-- mm \n"
+#~ " --.-- mm "
+#~ msgid "  Steps: "
+#~ msgstr "  Шаги: "
+#~ msgid ""
+#~ "The angle (in degrees) from the horizontal\n"
+#~ "to the arc's start point"
+#~ msgstr ""
+#~ "Угол в градусах от горизонтали\n"
+#~ "до стартовой точки сегмента"
+#~ msgid ""
+#~ "The angle (in degrees) from the horizontal\n"
+#~ "to the arc's end point"
+#~ msgstr ""
+#~ "Угол в градусах от горизонтали\n"
+#~ "до стартовой точки сегмента"
+#~ msgid "  H: "
+#~ msgstr "  Ш: "
+#~ msgid "  V: "
+#~ msgstr "  В: "
+#~ msgid " Rx: "
+#~ msgstr " Rx: "
+#~ msgid " Ry: "
+#~ msgstr " Ry: "
+#~ msgid " Rotate: "
+#~ msgstr " Повернуть: "
+#~ msgid "Y: "
+#~ msgstr "Y: "
+#~ msgid "X: "
+#~ msgstr "X: "
+#~ msgid " Corners: "
+#~ msgstr "Углы:"
+#~ msgid " Angle: "
+#~ msgstr " Угол: "
 #~ msgid ""
 #~ "Usage:\tskencil [options] [filename]\n"
 #~ "\n"
@@ -3303,8 +3333,6 @@ msgstr "Наклонить и скопировать"
 # ../Sketch/UI/layerdlg.py:365 :381
 #~ msgid "Name"
 #~ msgstr "Имя"
-#~ msgid "Paper format:"
-#~ msgstr "Формат бумаги:"
 #~ msgid "Line Style"
 #~ msgstr "Стиль прямой"
 #~ msgid "None"
