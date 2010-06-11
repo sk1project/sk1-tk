@@ -18,14 +18,14 @@ from app.Graphics.papersize import Papersize, PapersizesList
 from app.UI.lengthvar import LengthVar
 from app.Graphics.pagelayout import PageLayout
 
-USER_SPECIFIC = _('<Custom Size>')
-
 class PagePanel(CtxSubPanel):
 	
 	name='PagePanel'
 	
 	def __init__(self, parent):
-		CtxSubPanel.__init__(self, parent)		
+		CtxSubPanel.__init__(self, parent)
+		
+		self.USER_SPECIFIC = _("<Custom Size>")		
 		
 		root=self.mw.root
 		self.var_format_name = StringVar(root)
@@ -92,7 +92,7 @@ class PagePanel(CtxSubPanel):
 		
 		formatname=self.doc.Layout().FormatName()
 		if formatname=='':
-			formatname=USER_SPECIFIC
+			formatname=self.USER_SPECIFIC
 			width, height = self.doc.PageSize()
 			if width <= height:
 				self.page_orientation=0
@@ -110,7 +110,7 @@ class PagePanel(CtxSubPanel):
 		formats=()
 		for format in PapersizesList:
 			formats+=(format[0],)
-		formats+=(USER_SPECIFIC,)
+		formats+=(self.USER_SPECIFIC,)
 		return formats
 	
 	def set_portrait(self):
@@ -154,7 +154,7 @@ class PagePanel(CtxSubPanel):
 		
 	def set_entry_sensitivity(self):
 		formatname = self.var_format_name.get()
-		if formatname != USER_SPECIFIC:
+		if formatname != self.USER_SPECIFIC:
 			self.widthentry.set_state(DISABLED)
 			self.heightentry.set_state(DISABLED)
 		else:
@@ -166,7 +166,7 @@ class PagePanel(CtxSubPanel):
 		self.var_height.set(height)
 			
 	def update_size_from_name(self, formatname):
-		if not formatname == USER_SPECIFIC:
+		if not formatname == self.USER_SPECIFIC:
 			width, height = Papersize[formatname]
 			if self.page_orientation:
 				width, height = height, width
@@ -185,7 +185,7 @@ class PagePanel(CtxSubPanel):
 		
 	def apply_settings(self):
 		formatname = self.var_format_name.get()
-		if formatname == USER_SPECIFIC:
+		if formatname == self.USER_SPECIFIC:
 			layout = PageLayout(width = self.var_width.get(),
 								height = self.var_height.get(),
 								orientation = 0)

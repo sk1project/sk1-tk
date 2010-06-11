@@ -25,7 +25,7 @@ from app.UI.lengthvar import LengthVar, create_unit_menu
 
 import app
 
-USER_SPECIFIC = '<Custom Size>'
+
 
 class PagePlugin(PluginPanel):
 	
@@ -36,6 +36,8 @@ class PagePlugin(PluginPanel):
 		PluginPanel.init(self, master)
 		self.top = self.panel
 		root = self.top
+		
+		self.USER_SPECIFIC = _("<Custom Size>")
 		
 		top_root = TFrame(root, borderwidth=2, style='FlatFrame')
 		top_root.pack(side = TOP, expand = 1, fill = X)
@@ -58,7 +60,7 @@ class PagePlugin(PluginPanel):
 		format_frame.pack(side = TOP, expand = 1, fill = X, pady = 4)
 
 		format_names = map(lambda t: t[0], PapersizesList)
-		format_names.append(USER_SPECIFIC)
+		format_names.append(self.USER_SPECIFIC)
 		self.var_format_name = StringVar(root)
 		
 		format_menu =TComboSmall(format_frame, format_names, command = self.choose_format,
@@ -151,17 +153,17 @@ class PagePlugin(PluginPanel):
 			self.label["image"] = 'landscape'
 		else:
 			self.label["image"] = 'portrait'
-		if formatname and formatname != USER_SPECIFIC:
+		if formatname and formatname != self.USER_SPECIFIC:
 			self.update_size_from_name(formatname)
 		else:
-			formatname = USER_SPECIFIC
+			formatname = self.USER_SPECIFIC
 			self.update_size(layout.Width(), layout.Height())
 		self.var_format_name.set(formatname)
 		self.set_entry_sensitivity()
 
 	def set_entry_sensitivity(self):
 		formatname = self.var_format_name.get()
-		if formatname != USER_SPECIFIC:
+		if formatname != self.USER_SPECIFIC:
 			self.widthentry.set_state("disabled")
 			self.heightentry.set_state("disabled")
 		else:
@@ -170,13 +172,13 @@ class PagePlugin(PluginPanel):
 
 	def choose_format(self, formatname):
 		self.var_format_name.set(formatname)
-		if formatname != USER_SPECIFIC:
+		if formatname != self.USER_SPECIFIC:
 			self.update_size_from_name(formatname)
 		self.set_entry_sensitivity()
 
 	def choose_orientation(self):
 		name = self.var_format_name.get()
-		if name != USER_SPECIFIC:
+		if name != self.USER_SPECIFIC:
 			self.update_size_from_name(name)
 		if self.var_orientation.get() == Landscape:
 			self.label["image"] = 'landscape'
@@ -185,7 +187,7 @@ class PagePlugin(PluginPanel):
 
 	def apply_settings(self):
 		formatname = self.var_format_name.get()
-		if formatname == USER_SPECIFIC:
+		if formatname == self.USER_SPECIFIC:
 			layout = PageLayout(width = self.var_width.get(),
 								height = self.var_height.get(),
 								orientation = self.var_orientation.get())
