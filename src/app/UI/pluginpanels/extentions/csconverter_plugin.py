@@ -13,7 +13,7 @@ from sk1sdk.libttk import tooltips
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 
 from app import _, config, Rect, mw, EmptyPattern, SolidPattern, NullUndo
-from app.Graphics.color import CreateRGBColor, CreateCMYKColor
+from app.Graphics.color import CreateRGBAColor, CreateCMYKAColor
 from app.conf import const
 import app
 from app.UI.tkext import UpdatedButton
@@ -32,7 +32,7 @@ class ColorSpaceConverter(PluginPanel):
 
 	def init(self, master):
 		PluginPanel.init(self, master)
-		top = TFrame(self.panel, style='FlatFrame', borderwidth=10)
+		top = TFrame(self.panel, style='FlatFrame', borderwidth=7)
 		top.pack(side = TOP, fill=BOTH)
 		
 		self.cs_name = StringVar(top)
@@ -44,12 +44,12 @@ class ColorSpaceConverter(PluginPanel):
 		self.colorspaces = TCombobox(top, state='readonly', postcommand = self.set_cs, 
 									 values=self.make_cs_list(), width=14, style='ComboNormal',
 									 textvariable=self.cs_name)
-		self.colorspaces.pack(side = TOP, fill=X)
+		self.colorspaces.pack(side = TOP, fill=X, pady=3)
 		
 		button = UpdatedButton(top, text = _("Apply"),
 								command = self.apply_colorspace,
 								sensitivecb = self.is_selection)
-		button.pack(side = BOTTOM, expand = 1, fill = X)
+		button.pack(side = BOTTOM, expand = 1, fill = X, pady=3)
 		self.Subscribe(SELECTION, button.Update)
 		
 
@@ -182,11 +182,11 @@ class ColorSpaceConverter(PluginPanel):
 		
 		elif cs_name == 'CMYK':
 			c, m, y, k = color.getCMYK()
-			return CreateCMYKColor(c, m, y, k)
+			return CreateCMYKAColor(c, m, y, k, color.alpha)
 		
 		elif cs_name == 'RGB':
 			r, g, b = color.getRGB()
-			return CreateRGBColor(r, g, b)
+			return CreateRGBAColor(r, g, b, color.alpha)
 
 instance=ColorSpaceConverter()
 app.extentions_plugins.append(instance)
