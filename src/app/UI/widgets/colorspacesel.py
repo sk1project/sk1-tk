@@ -8,7 +8,8 @@
 from sk1sdk.libttk import TFrame, TLabel, TCombobox
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP,W, E, S, DISABLED, NORMAL, StringVar
 from app import _
-from app.Graphics.color import CreateRGBColor, CreateCMYKColor, CreateSPOTColor, Registration_Black
+from app.Graphics.color import CreateRGBColor, CreateCMYKColor, CreateSPOTColor, Registration_Black, \
+			 CreateRGBAColor, CreateCMYKAColor
 
 
 EMPTY=_('Empty pattern')
@@ -31,7 +32,7 @@ class ColorSpaceSelector(TFrame):
 		self.colorspaces = TCombobox(self, state='readonly', postcommand = self.set_cs, 
 									 values=self.make_cs_list(allow_emtpy), width=17, style='ComboNormal',
 									 textvariable=self.cs_name)
-		self.colorspaces.pack(side = BOTTOM, fill=X)
+		self.colorspaces.pack(side = BOTTOM, fill=X, pady=3)
 		
 		label = TLabel(self, text=_("Colorspace:")+" ")
 		label.pack(side = LEFT, anchor='sw')
@@ -53,13 +54,13 @@ class ColorSpaceSelector(TFrame):
 					self.callback(CreateRGBColor(0,0,0))
 				else:
 					r,g,b=self.color.getRGB()
-					self.callback(CreateRGBColor(r,g,b))
+					self.callback(CreateRGBAColor(r,g,b, self.color.alpha))
 			elif self.cs_name.get()==CMYK:
 				if self.current_cs==EMPTY:
 					self.callback(CreateCMYKColor(0,0,0,1))
 				else:
 					c,m,y,k=self.color.getCMYK()
-					self.callback(CreateCMYKColor(c,m,y,k))
+					self.callback(CreateCMYKAColor(c,m,y,k, self.color.alpha))
 			elif self.cs_name.get()==REGISTRATION:
 				self.callback(Registration_Black())
 			elif self.cs_name.get()==SPOT:

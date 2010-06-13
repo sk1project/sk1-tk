@@ -11,7 +11,7 @@ from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W,
 from sk1sdk.libtk.Tkinter import StringVar, DoubleVar, IntVar
 from sk1libs.imaging import Image
 
-from app.Graphics.color import CreateRGBColor, CreateCMYKColor
+from app.Graphics.color import CreateRGBAColor, CreateCMYKAColor
 
 from app.conf.const import CHANGED, ConstraintMask
 
@@ -140,7 +140,7 @@ class RGBDigitizer(TFrame):
 		r=self.R_value.get() / 255.0
 		g=self.G_value.get() / 255.0
 		b=self.B_value.get() / 255.0
-		self.callback(CreateRGBColor(r,g,b))
+		self.callback(CreateRGBAColor(r,g,b,self.color.alpha))
 	
 	def html_component_changed(self, *arg):
 		html=self.HTML_value.get()
@@ -152,7 +152,7 @@ class RGBDigitizer(TFrame):
 			r=round(self.color.red*255, 2)
 			g=round(self.color.green*255, 2)
 			b=round(self.color.blue*255, 2)		
-		self.callback(CreateRGBColor(r,g,b))
+		self.callback(CreateRGBAColor(r,g,b,self.color.alpha))
 	
 	
 class CMYKDigitizer(TFrame):
@@ -226,7 +226,7 @@ class CMYKDigitizer(TFrame):
 		m=self.M_value.get() / 100.0
 		y=self.Y_value.get() / 100.0
 		k=self.K_value.get() / 100.0
-		self.callback(CreateCMYKColor(c,m,y,k))
+		self.callback(CreateCMYKAColor(c,m,y,k,self.color.alpha))
 	
 class SPOTDigitizer(TFrame):
 	

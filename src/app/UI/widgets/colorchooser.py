@@ -18,7 +18,7 @@ from app.conf.const import CHANGED, ConstraintMask
 
 from app import _sketch
 from app import  _, StandardColors, Trafo, SketchError, Publisher
-from app.Graphics.color import skvisual, CreateRGBColor, CreateCMYKColor
+from app.Graphics.color import skvisual, CreateRGBColor, CreateCMYKColor, CreateRGBAColor, CreateCMYKAColor
 
 from app.UI.tkext import PyWidget
 
@@ -70,11 +70,11 @@ class ColorChooserWidget(TFrame):
 	def reset_color(self, color):
 		r,g,b=color
 		if self.color.model=='RGB':
-			self.callback(CreateRGBColor(r,g,b))
+			self.callback(CreateRGBAColor(r,g,b,self.color.alpha))
 		elif self.color.model=='CMYK':
 			rgb=CreateRGBColor(r,g,b)
 			c,m,y,k=rgb.getCMYK()
-			self.callback(CreateCMYKColor(c,m,y,k))
+			self.callback(CreateCMYKAColor(c,m,y,k,self.color.alpha))
 		else:
 			pass
 		
