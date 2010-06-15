@@ -4,9 +4,14 @@ include src/sk1
 include src/app/modules/descr.txt
 include src/app/VERSION
 include src/sk1.desktop src/sk1.png src/sk1.xpm
+include messages/locale.in messages/README
 
 recursive-include src/app/tcl *.tcl
 recursive-include src/extentions *.*
-recursive-include src/share *.*
 
-recursive-include locales *.*
+recursive-include src/share/cursors *.*
+recursive-include src/share/palettes *.*
+recursive-include src/share/ps_templates *.*
+recursive-include src/share/resources *.*
+
+recursive-include po *.*

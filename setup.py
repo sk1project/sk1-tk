@@ -27,7 +27,7 @@
 # --------------------------------------------------------------------------
 #  to create binary RPM distribution:  python setup.py bdist_rpm
 # --------------------------------------------------------------------------
-#  to create deb package just use alien command (i.e. rpm2deb)
+#  to create binary DEB package:  python setup.py bdist_deb
 # --------------------------------------------------------------------------
 #  to create localization .po file: python setup.py build_locale (Linux only)
 # --------------------------------------------------------------------------
@@ -38,6 +38,8 @@
 import os, sys, shutil
 
 COPY=False
+DEBIAN=False
+VERSION='0.9.1pre'
 
 #Return directory list for provided path
 def get_dirs(path='.'):
@@ -156,7 +158,11 @@ if __name__ == "__main__":
 	if len(sys.argv)>1 and sys.argv[1]=='build&copy':
 		COPY=True
 		sys.argv[1]='build'
-	
+		
+	if len(sys.argv)>1 and sys.argv[1]=='bdist_deb':
+		DEBIAN=True
+		sys.argv[1]='build'
+		
 	if len(sys.argv)>1 and not sys.argv[1]=='sdist':	
 		generate_locales()
 
@@ -248,7 +254,7 @@ if __name__ == "__main__":
 			libraries=['m', 'X11', 'cairo'])
 			
 	setup (name = 'sK1',
-			version = '0.9.1pre',
+			version = VERSION,
 			description = 'Vector graphics editor for prepress',
 			author = 'Igor E. Novikov',
 			author_email = 'igor.e.novikov@gmail.com',
@@ -354,7 +360,40 @@ if COPY:
 	
 	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/_type1module.so','src/app/modules/')
 	print '\n _type1module.so has been copied to src/ directory'
-			
+	
+#################################################
+# Implementation of bdist_deb command
+#################################################
+if DEBIAN:
+	print '\nDEBIAN PACKAGE BUILD'
+	print '===================='
+	import shutil, string, platform
+	version=(string.split(sys.version)[0])[0:3]
+	
+	target='build/deb-root/usr/lib/python'+version+'/dist-packages'
+	
+	if os.path.lexists(os.path.join('build','deb-root')):
+		os.system('rm -rf build/deb-root')
+	os.makedirs(os.path.join('build','deb-root','DEBIAN'))
+	shutil.copy('DEBIAN/control', 'build/deb-root/DEBIAN')
+	os.makedirs(target)
+	os.makedirs('build/deb-root/usr/bin')
+	os.makedirs('build/deb-root/usr/share/applications')
+	os.makedirs('build/deb-root/usr/share/pixmaps')
+	
+	os.system('cp -R build/lib.linux-'+platform.machine()+'-'+version+'/sk1 '+target)
+	os.system('cp src/sk1.desktop build/deb-root/usr/share/applications')
+	os.system('cp src/sk1.png build/deb-root/usr/share/pixmaps')	
+	os.system('cp src/sk1.xpm build/deb-root/usr/share/pixmaps')
+	os.system('cp src/sk1 build/deb-root/usr/bin')
+	os.system('chmod +x build/deb-root/usr/bin/sk1')
+		
+	if os.path.lexists('dist'):	
+		os.system('rm -rf dist/*.deb')
+	else:
+		os.makedirs('dist')
+	
+	os.system('dpkg --build build/deb-root/ dist/sk1-'+VERSION+'.deb')			
 			
 			
 			
