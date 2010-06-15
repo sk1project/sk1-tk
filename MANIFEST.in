@@ -6,6 +6,8 @@ include src/app/VERSION
 include src/sk1.desktop src/sk1.png src/sk1.xpm
 include messages/locale.in messages/README
 
+include DEBIAN/control
+
 recursive-include src/app/tcl *.tcl
 recursive-include src/extentions *.*
 
