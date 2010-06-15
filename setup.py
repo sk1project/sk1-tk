@@ -29,7 +29,7 @@
 # --------------------------------------------------------------------------
 #  to create binary DEB package:  python setup.py bdist_deb
 # --------------------------------------------------------------------------
-#  to create localization .po file: python setup.py build_locale (Linux only)
+#  to update localization .pot file: python setup.py build_locale (Linux only)
 # --------------------------------------------------------------------------
 #
 #  help on available distribution formats: python setup.py bdist --help-formats
