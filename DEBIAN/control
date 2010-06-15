@@ -1,0 +1,15 @@
+Package: sk1
+Version: 0.9.1pre-rev905
+Architecture: i386
+Maintainer: Igor Novikov <igor.e.novikov@gmail.com>
+Depends: libc6, libcairo2, libfreetype6, libx11-6, libxext6, tcl8.5 (>= 8.5.0), tk8.5 (>= 8.5.0), zlib1g, sk1libs
+Section: Python Programming Language
+Priority: extra
+Description: Vector graphics editor for prepress
+ .
+ sK1 is an open source vector graphics editor similar to CorelDRAW, Adobe Illustrator, or Freehand.
+ First of all sK1 is oriented for prepress industry, therefore works with CMYK colorspace and
+ produces CMYK-based PDF and postscript output.
+ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
+ .
+
