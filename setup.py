@@ -393,7 +393,7 @@ if DEBIAN:
 	else:
 		os.makedirs('dist')
 	
-	os.system('dpkg --build build/deb-root/ dist/sk1-'+VERSION+'.deb')			
+	os.system('dpkg --build build/deb-root/ dist/python-sk1-'+VERSION+'.deb')			
 			
 			
 			
