@@ -39,7 +39,7 @@ import os, sys, shutil
 
 COPY=False
 DEBIAN=False
-VERSION='0.9.1pre'
+VERSION='0.9.1pre2'
 
 #Return directory list for provided path
 def get_dirs(path='.'):
@@ -267,7 +267,7 @@ if __name__ == "__main__":
 sK1 is an open source vector graphics editor similar to CorelDRAW, Adobe Illustrator, or Freehand. 
 First of all sK1 is oriented for prepress industry, therefore works with CMYK colorspace and
 produces CMYK-based PDF and postscript output.
-sK1 Team (http://sk1project.org), copyright (C) 2003-2009 by Igor E. Novikov.
+sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 			''',
 		classifiers=[
 			'Development Status :: 5 - Stable',
@@ -361,6 +361,8 @@ if COPY:
 	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/_type1module.so','src/app/modules/')
 	print '\n _type1module.so has been copied to src/ directory'
 	
+	os.system('rm -rf build')
+	
 #################################################
 # Implementation of bdist_deb command
 #################################################
@@ -370,12 +372,20 @@ if DEBIAN:
 	import shutil, string, platform
 	version=(string.split(sys.version)[0])[0:3]
 	
+	arch,bin = platform.architecture()
+	if arch=='64bit':
+		arch='amd64'
+	else:
+		arch='i386'
+		
 	target='build/deb-root/usr/lib/python'+version+'/dist-packages'
 	
 	if os.path.lexists(os.path.join('build','deb-root')):
 		os.system('rm -rf build/deb-root')
 	os.makedirs(os.path.join('build','deb-root','DEBIAN'))
-	shutil.copy('DEBIAN/control', 'build/deb-root/DEBIAN')
+	
+	os.system("cat DEBIAN/control |sed 's/<PLATFORM>/"+arch+"/g'|sed 's/<VERSION>/"+VERSION+"/g'> build/deb-root/DEBIAN/control")	
+
 	os.makedirs(target)
 	os.makedirs('build/deb-root/usr/bin')
 	os.makedirs('build/deb-root/usr/share/applications')
@@ -393,7 +403,7 @@ if DEBIAN:
 	else:
 		os.makedirs('dist')
 	
-	os.system('dpkg --build build/deb-root/ dist/python-sk1-'+VERSION+'.deb')			
+	os.system('dpkg --build build/deb-root/ dist/python-sk1-'+VERSION+'_'+arch+'.deb')			
 			
 			
 			
