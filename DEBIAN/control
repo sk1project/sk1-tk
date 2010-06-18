@@ -1,8 +1,8 @@
-Package: sk1
+Package: python-sk1
 Version: 0.9.1pre2
 Architecture: i386
 Maintainer: Igor Novikov <igor.e.novikov@gmail.com>
-Depends: libc6, libcairo2, libfreetype6, libx11-6, libxext6, tcl8.5 (>= 8.5.0), tk8.5 (>= 8.5.0), zlib1g, sk1libs, sk1sdk
+Depends: libc6, libcairo2, libfreetype6, libx11-6, libxext6, tcl8.5 (>= 8.5.0), tk8.5 (>= 8.5.0), zlib1g, python-sk1libs, python-sk1sdk
 Section: Python Programming Language
 Priority: extra
 Description: Vector graphics editor for prepress
