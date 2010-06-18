@@ -3,7 +3,7 @@ Version: <VERSION>
 Architecture: <PLATFORM>
 Maintainer: Igor Novikov <igor.e.novikov@gmail.com>
 Depends: libc6, libcairo2, libfreetype6, libx11-6, libxext6, tcl8.5 (>= 8.5.0), tk8.5 (>= 8.5.0), zlib1g, python (>=2.4), python (<<3.0), python-sk1libs, python-sk1sdk
-Section: Python Programming Language
+Section: graphics
 Priority: extra
 Description: Vector graphics editor for prepress
  .
