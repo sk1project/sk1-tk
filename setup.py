@@ -35,7 +35,7 @@
 #  help on available distribution formats: python setup.py bdist --help-formats
 #
 
-import os, sys, shutil
+import os, shutil, sys
 
 COPY=False
 DEBIAN=False
@@ -253,7 +253,7 @@ if __name__ == "__main__":
 			include_dirs=['/usr/include/cairo'],
 			libraries=['m', 'X11', 'cairo'])
 			
-	setup (name = 'sK1',
+	setup (name = 'sk1',
 			version = VERSION,
 			description = 'Vector graphics editor for prepress',
 			author = 'Igor E. Novikov',
@@ -340,7 +340,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 ##############################################	
 			
 if COPY:
-	import shutil, string, platform
+	import string, platform
 	version=(string.split(sys.version)[0])[0:3]
 	
 	shutil.copy('build/lib.linux-'+platform.machine()+'-'+version+'/sk1/app/modules/paxmodule.so','src/app/modules/')
@@ -369,7 +369,7 @@ if COPY:
 if DEBIAN:
 	print '\nDEBIAN PACKAGE BUILD'
 	print '===================='
-	import shutil, string, platform
+	import string, platform
 	version=(string.split(sys.version)[0])[0:3]
 	
 	arch,bin = platform.architecture()
