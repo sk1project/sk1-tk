@@ -1435,11 +1435,13 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.gc.line_style = X.LineOnOffDash
 			self.gc.dashes = 5
 			x, y = self.DocToWin(point)
+			self.gc.SetForegroundAndFill(self.visual.get_pixel(StandardColors.cyan.RGB()))
 			if horizontal:
 				self.gc.DrawLine(0, y, self.widget.width, y)
 			else:
 				self.gc.DrawLine(x, 0, x, self.widget.height)
 			self.gc.line_style = X.LineSolid
+			self.gc.SetForegroundAndFill(self.visual.get_pixel(StandardColors.white.RGB()))
 		self.scale=temp_scale
 
 	def DrawPageOutline(self, width, height):
