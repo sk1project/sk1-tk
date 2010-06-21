@@ -13,7 +13,7 @@
 	<color c="0" m="0" y="0" k="0.2" name="20% Black" />
 	<color c="0" m="0" y="0" k="0.1" name="10% Black" />
 	<color c="0.000000" m="0.000000" y="0.000000" k="0.000000" name="White" />
- 
+
 	<color c="1" m="0.000000" y="0.0" k="0.000000" name="Cyan" />
 	<color c="0.0" m="1" y="0.000000" k="0.000000" name="Magenta" />
 	<color c="0.000000" m="0.000000" y="1" k="0.000000" name="Yellow" />
