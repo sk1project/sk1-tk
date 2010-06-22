@@ -81,13 +81,13 @@ from math import sin, cos, atan2, hypot, pi, fmod, floor
 		
 from app import _, Rect, UnionRects, EmptyRect, NullPoint, Polar, \
 		IdentityMatrix, SingularMatrix, Identity, Trafo, Scale, Translation, \
-		Rotation, NullUndo, CreateMultiUndo, RegisterCommands
+		Rotation, NullUndo, CreateMultiUndo, RegisterCommands, Point
 from app.UI.command import AddCmd
 from app import config
 from app.conf import const
 
 import handle
-import selinfo, codecs
+import selinfo, codecs, copy
 from base import Primitive, RectangularPrimitive, Creator, Editor
 from compound import Compound
 from group import Group
@@ -119,12 +119,22 @@ ALIGN_RIGHT = 2
 class CommonText:
 
 	commands = []
+	curves_cache=None
+	bounding_rect_cache=None
+	coord_rect_cache=None
+	typesets_cache=None
 
 	def __init__(self, text = '', duplicate = None):
 		if duplicate is not None:
 			self.text = duplicate.text
 		else:
 			self.text = text
+			
+	def clear_cache(self):
+		self.curves_cache=None
+		self.bounding_rect_cache=None
+		self.coord_rect_cache=None
+		self.typesets_cache=None
 
 	def SetText(self, text, caret = None):
 		if self.editor is not None:
@@ -136,6 +146,7 @@ class CommonText:
 		if caret is not None and self.editor is not None:
 			self.editor.SetCaret(caret)
 		self._changed()
+		self.clear_cache()
 		return undo
 
 	def Text(self):
@@ -154,12 +165,14 @@ class CommonText:
 			undo = self.properties.SetProperty(font = font, font_size = size)
 		else:
 			undo = self.properties.SetProperty(font = font)
+		self.clear_cache()
 		return self.properties_changed(undo)
 	
 	def SetGap(self, char, word, line):		
 		undo = self.properties.SetProperty(chargap = char,
 								wordgap = word,
 								linegap = line)
+		self.clear_cache()
 		return self.properties_changed(undo)
 	
 	def SetAlign(self, align, valign):	
@@ -167,11 +180,13 @@ class CommonText:
 			valign=const.ALIGN_CENTER
 		else:
 			valign=const.ALIGN_BASE	
-		undo = self.properties.SetProperty(align = align, valign = valign)		
+		undo = self.properties.SetProperty(align = align, valign = valign)	
+		self.clear_cache()	
 		return self.properties_changed(undo)
 
 	def SetFontSize(self, size):
 		undo = self.properties.SetProperty(font_size = size)
+		self.clear_cache()
 		return self.properties_changed(undo)
 
 	def Font(self):
@@ -395,7 +410,14 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def Hit(self, p, rect, device, clip = 0):
 		a = self.properties
-		llx, lly, urx, ury = a.font.TextBoundingBox(self.text, a.font_size, a)
+		
+		if self.bounding_rect_cache is None:
+			res=a.font.TextBoundingBox(self.text, a.font_size, a)
+			self.bounding_rect_cache=copy.deepcopy(res)
+		else:
+			res=copy.deepcopy(self.bounding_rect_cache)
+		
+		llx, lly, urx, ury = res
 		trafo = self.trafo(self.atrafo)
 		trafo = trafo(Trafo(urx - llx, 0, 0, ury - lly, llx, lly))
 		return device.ParallelogramHit(p, trafo, 1, 1, 1,
@@ -406,8 +428,20 @@ class SimpleText(CommonText, RectangularPrimitive):
 		if multiple:
 			return trafo(NullPoint)
 		else:
-			pts = self.properties.font.TypesetText(self.text,self.properties)
+			
+			if self.typesets_cache is None:
+				pts = self.properties.font.TypesetText(self.text,self.properties)
+				self.typesets_cache=self.duplicate_typeset(pts)
+			else:
+				pts=self.duplicate_typeset(self.typesets_cache)
+				
 			return map(trafo, pts)
+		
+	def duplicate_typeset(self,typeset):
+		result=[]
+		for point in typeset:
+			result.append(Point(point.x, point.y))
+		return result
 
 	def SetAlignment(self, horizontal, vertical):
 		undo = (self.SetAlignment, self.halign, self.valign)
@@ -418,6 +452,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 			self.valign = vertical
 			self.properties.valign = vertical
 		self._changed()
+		
 		return undo
 	
 	AddCmd(commands, 'AlignLeft', _("Align Left"), SetAlignment,
@@ -455,10 +490,22 @@ class SimpleText(CommonText, RectangularPrimitive):
 		RectangularPrimitive.DrawShape(self, device)
 		base_trafo = self.trafo(self.atrafo)
 		base_trafo = base_trafo(Scale(self.properties.font_size))
-		paths = self.properties.font.GetPaths(self.text, self.properties)
+		if self.curves_cache is None:
+			paths = self.properties.font.GetPaths(self.text, self.properties)
+			self.curves_cache=paths
+			self.properties_cache=self.properties
+		else:
+			paths=self.curves_cache
+		paths=self.duplicate_paths(paths)
 		obj = PolyBezier(paths, self.properties.Duplicate())
 		obj.Transform(base_trafo)
 		device.MultiBezier(obj.paths, rect, clip)
+		
+	def duplicate_paths(self,paths):
+		copy = []
+		for path in paths:
+			copy.append(path.Duplicate())
+		return tuple(copy)
 
 	def update_atrafo(self):
 #		a = self.properties
@@ -486,9 +533,21 @@ class SimpleText(CommonText, RectangularPrimitive):
 	def update_rects(self):
 		trafo = self.trafo(self.atrafo)
 		a = self.properties
-		rect = apply(Rect, a.font.TextBoundingBox(self.text, a.font_size, a))
+		
+		if self.bounding_rect_cache is None:
+			res=a.font.TextBoundingBox(self.text, a.font_size, a)
+			self.bounding_rect_cache=copy.deepcopy(res)
+		else:
+			res=copy.deepcopy(self.bounding_rect_cache)						
+		rect = apply(Rect, res)		
 		self.bounding_rect = trafo(rect).grown(2)
-		rect = apply(Rect, a.font.TextCoordBox(self.text, a.font_size, a))
+		
+		if self.coord_rect_cache is None:
+			res=a.font.TextCoordBox(self.text, a.font_size, a)
+			self.coord_rect_cache=copy.deepcopy(res)
+		else:
+			res=copy.deepcopy(self.coord_rect_cache)
+		rect = apply(Rect, res)
 		self.coord_rect = trafo(rect)
 
 	def Info(self):
@@ -531,7 +590,14 @@ class SimpleText(CommonText, RectangularPrimitive):
 			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			paths = self.properties.font.GetPaths(self.text, self.properties)
+			
+			if self.curves_cache is None:
+				paths = self.properties.font.GetPaths(self.text, self.properties)
+				self.curves_cache=paths
+				self.properties_cache=self.properties
+			else:
+				paths=self.curves_cache
+			
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 			return obj
@@ -542,7 +608,14 @@ class SimpleText(CommonText, RectangularPrimitive):
 			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
-			paths = self.properties.font.GetPaths(self.text, self.properties)
+			
+			if self.curves_cache is None:
+				paths = self.properties.font.GetPaths(self.text, self.properties)
+				self.curves_cache=paths
+				self.properties_cache=self.properties
+			else:
+				paths=self.curves_cache
+			
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 		return obj.paths 
@@ -620,7 +693,14 @@ class SimpleTextEditor(CommonTextEditor):
 		trafo = self.trafo(self.atrafo(Scale(self.properties.font_size)))
 		trafo = trafo.inverse()
 		p2 = trafo(p)
-		pts = self.properties.font.TypesetText(self.text + ' ',self.properties)
+		
+		if self.typesets_cache is None:
+			pts = self.properties.font.TypesetText(self.text,self.properties)
+			self.typesets_cache=self.duplicate_typeset(pts)
+		else:
+			pts=self.duplicate_typeset(self.typesets_cache)
+			
+#		pts = self.properties.font.TypesetText(self.text + ' ',self.properties)
 		dists = []
 		for i in range(len(pts)):
 			dists.append((abs(pts[i].x - p2.x), i))
@@ -628,6 +708,12 @@ class SimpleTextEditor(CommonTextEditor):
 		self.SetCaret(caret)
 #		print "CATCHED!"
 		return 1
+	
+	def duplicate_typeset(self,typeset):
+		result=[]
+		for point in typeset:
+			result.append(Point(point.x, point.y))
+		return result
 
 	def Destroy(self):
 		CommonTextEditor.Destroy(self)
