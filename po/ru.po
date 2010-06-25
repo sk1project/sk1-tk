@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-11 21:12+0300\n"
-"PO-Revision-Date: 2010-06-15 20:54+0300\n"
+"PO-Revision-Date: 2010-06-16 00:39+0300\n"
 "Last-Translator: Igor E.Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -527,7 +527,7 @@ msgstr "RGBA"
 
 #: src/app/Graphics/image.py:37
 msgid "Grayscale"
-msgstr "Изображение в градациях серого"
+msgstr "Grayscale"
 
 #: src/app/Graphics/image.py:38
 msgid "CMYK"
@@ -535,7 +535,7 @@ msgstr "CMYK"
 
 #: src/app/Graphics/image.py:39
 msgid "Monochrome"
-msgstr "Двухцветное"
+msgstr "Monochrome"
 
 #: src/app/Graphics/image.py:40
 msgid "UNSUPPORTED"
