@@ -332,6 +332,15 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 			ext_modules = [filter_module, type1mod_module, skread_module, 
 						pstokenize_module, skmod_module, pax_module])
 	
+	
+	
+#################################################
+# .py source compiling
+#################################################
+if sys.argv[1]=='build':
+	import compileall
+	compileall.compile_dir('build/')
+		
 ##############################################
 # This section for developing purpose only
 # Command 'python setup.py build&copy' allows
@@ -389,7 +398,7 @@ if DEBIAN:
 	os.makedirs(target)
 	os.makedirs('build/deb-root/usr/bin')
 	os.makedirs('build/deb-root/usr/share/applications')
-	os.makedirs('build/deb-root/usr/share/pixmaps')
+	os.makedirs('build/deb-root/usr/share/pixmaps')	
 	
 	os.system('cp -R build/lib.linux-'+platform.machine()+'-'+version+'/sk1 '+target)
 	os.system('cp src/sk1.desktop build/deb-root/usr/share/applications')
