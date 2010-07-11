@@ -26,9 +26,23 @@ def convertForKdialog(filetypes):
 		result+='|'+descr+' \n'		
 	return result
 
+def convertForZenity(filetypes):
+	'''This function converts filetypes tuple into string
+	in zenity format
+	'''
+	result=''
+	for filetype in filetypes:
+		descr=filetype[0]
+		extentions=filetype[1]	
+		ext=''	
+		for extention in extentions:
+			ext+=extention+' '
+		result+='--file-filter "'+descr+'|'+ext+'" '		
+	return result
+
 
 openfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),
-				 (_("All Files"),	 '*.*'))			   
+				 (_("All Files"),	 '*'))		   
 
 importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. '),
 				  ('*.sK1', '*.sk1', '*.SK1', '*.sk', '*.SK', '*.ai', '*.AI', '*.eps', '*.EPS', '*.ps', '*.PS',
@@ -51,7 +65,7 @@ importfiletypes=((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.w
 				 (_('HPGL cutting plotter files - *.plt'),('*.plt', '*.PLT')),
 				 (_('AutoCAD DXF files - *.dxf'),('*.dxf', '*.DXF')),				 
 				 (_('XFig files - *.fig'),('*.fig', '*.FIG')),
-				 (_("All Files"),	 '*.*'))
+				 (_("All Files"),	 '*'))
 
 savefiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.SK1')),)
 
@@ -64,7 +78,7 @@ exportfiletypes=((_('sK1 vector graphics files - *.sK1'),('*.sK1', '*.sk1', '*.S
 				 (_('Scalable Vector Graphics files - *.svg'),('*.svg', '*.SVG')),
 				 (_('Windows Metafile files - *.wmf'),('*.wmf', '*.WMF')),
 				 (_('HPGL cutting plotter files - *.plt'),('*.plt', '*.PLT')),
-				 (_("All Files"),	 '*.*'))
+				 (_("All Files"),	 '*'))
 
 imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc.'),
 				 ('*.png', '*.PNG', '*.gif', '*.GIF', '*.jpg', '*.JPG', '*.jpeg', '*.JPEG', '*.tif', '*.TIF',
@@ -81,7 +95,7 @@ imagefiletypes=((_('All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.
 				(_('Portable Bitmap files - *.pbm'),('*.pbm', '*.PBM')),
 				(_('Portable Graymap files - *.pgm'),('*.pgm', '*.PGM')),
 				(_('Portable Pixmap files - *.ppm'),('*.ppm', '*.PPM')),
-				(_("All Files"),	 '*.*'))
+				(_("All Files"),	 '*'))
 
 palette_types = ((_("sK1 color swatch palette"), ('*.skp', '*.SKP')),
 				(_("All Files"),	 '*'))
@@ -343,8 +357,8 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	winid=str(master.winfo_id())
 	execline=StringVar(master, name='execline')
 	execline.set('kdialog --title "'+name+
-					  '" --caption "'+title+'" --embed "'+winid+
-					  '" --name "'+name+'" --icon "'+icon+
+					  '" --caption "'+title+'" --attach '+winid+
+					  ' --name "'+name+'" --icon "'+icon+
 					  '" --getopenfilename "'+initialdir+'" "'+ filetypes+' "')
 	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
@@ -366,7 +380,7 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	winid=str(master.winfo_id())
 	execline=StringVar(master, name='execline')
 	execline.set('kdialog --title "'+name+
-					  '" --caption "'+title+'" --embed "'+winid+
+					  '" --caption "'+title+'" --attach "'+winid+
 					  '" --name "'+name+'" --icon "'+icon+
 					  '" --getsavefilename "'+initialdir+'" "'+ filetypes+'"')
 	filename=master.tk.call('::desktop_integration::launch_dialog')
@@ -385,12 +399,14 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	'''
 	initialdir=string.replace(check_initialdir(kw['initialdir']),' ','\ ')
 	master.update()
+	filetypes=convertForZenity(kw['filetypes'])
+	print filetypes
 	winid=str(master.winfo_id())
 	name+=' - '+title
 	name=string.replace(name,' ','\ ')
 	icon=string.replace(icon,' ','\ ')
 	execline=StringVar(master, name='execline')
-	execline.set('zenity --file-selection --name='+name+' --filename='+initialdir+'/ --window-icon='+icon)
+	execline.set('zenity --file-selection --name='+name+' --filename='+initialdir+'/ '+filetypes+'--window-icon='+icon)
 	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
@@ -411,12 +427,13 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 		initialfile=string.replace(kw['initialfile'],' ','\ ')
 	else:
 		initialfile=''
-	winid=str(master.winfo_id())
+	winid=str(master.winfo_id())	
+	filetypes=convertForZenity(kw['filetypes'])
 	name+=' - '+title
 	name=string.replace(name,' ','\ ')
 	icon=string.replace(icon,' ','\ ')
 	execline=StringVar(master, name='execline')
-	execline.set('zenity --file-selection --save --name='+name+' --filename='+os.path.join(initialdir,initialfile)+' --window-icon='+icon+' --confirm-overwrite')	
+	execline.set('zenity --file-selection --save --name="'+name+'" --filename='+os.path.join(initialdir,initialfile)+' '+filetypes+' --window-icon='+icon+' --confirm-overwrite')	
 	filename=master.tk.call('::desktop_integration::launch_dialog')
 	return (master.tk.system_to_utf8(filename), filename)
 
