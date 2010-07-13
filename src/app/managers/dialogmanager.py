@@ -400,7 +400,6 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	initialdir=string.replace(check_initialdir(kw['initialdir']),' ','\ ')
 	master.update()
 	filetypes=convertForZenity(kw['filetypes'])
-	print filetypes
 	winid=str(master.winfo_id())
 	name+=' - '+title
 	name=string.replace(name,' ','\ ')
