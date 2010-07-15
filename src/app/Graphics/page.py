@@ -7,19 +7,29 @@
 # For more info see COPYRIGHTS file in root directory.
 
 from pagelayout import PageLayout
+from compound import EditableCompound
 
-class Page:
+class Page(EditableCompound):
 	
 	name=""	
-	pagelayout=None
-	layers=[]
+	page_layout=None
+	objects=[]
+	is_Page=1
+	is_Bezier=0
+	is_Plugin=0
 	
-	def __init__(self, name="", pagelayout=PageLayout()):
+	def __init__(self, name="", page_layout=PageLayout(), *args, **kw):
 		self.name=name
-		self.pagelayout=pagelayout
-		
+		self.page_layout=page_layout
+		EditableCompound.__init__(self, *args, **kw)
+	
+	def CanSelect(self):
+		return 0
+	
 	def SaveToFile(self, file):	
-		for layer in self.layers:
+		file.Page(self.name, self.page_layout.paperformat, self.page_layout.width, 
+				self.page_layout.height, self.page_layout.orientation)
+		for layer in self.objects:
 		    layer.SaveToFile(file)
 	
 	

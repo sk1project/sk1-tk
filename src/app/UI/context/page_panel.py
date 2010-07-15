@@ -7,7 +7,7 @@
 
 from sk1sdk.libttk import TCombobox, TLabel,TCheckbutton
 from app.UI.ttk_ext import TSpinbox
-from app.conf.const import CHANGED
+from app.conf.const import CHANGED, DOCUMENT, PAGE
 from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
 from sk1sdk.libtk.tkext import FlatFrame
 from sk1sdk.libttk import tooltips
@@ -85,6 +85,7 @@ class PagePanel(CtxSubPanel):
 		tooltips.AddDescription(self.landscape, _("Landscape"))
 		self.landscape.pack(side = LEFT)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
+		self.doc.Subscribe(PAGE, self.update_pref)
 
 		
 	def init_from_doc(self):
@@ -140,6 +141,7 @@ class PagePanel(CtxSubPanel):
 		self.var_width.unit=config.preferences.default_unit
 		self.var_height.unit=config.preferences.default_unit
 		width, height = self.doc.PageSize()
+		self.var_format_name.set(self.doc.page_layout.paperformat)
 		self.update_size(width, height)
 
 	def update(self):		
