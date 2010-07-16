@@ -142,6 +142,9 @@ class PagePanel(CtxSubPanel):
 		self.var_height.unit=config.preferences.default_unit
 		width, height = self.doc.PageSize()
 		self.var_format_name.set(self.doc.page_layout.paperformat)
+		if self.doc.page_layout.paperformat =="":
+			self.var_format_name.set(self.USER_SPECIFIC)
+			self.set_entry_sensitivity()
 		self.update_size(width, height)
 
 	def update(self):		
@@ -168,6 +171,8 @@ class PagePanel(CtxSubPanel):
 		self.var_height.set(height)
 			
 	def update_size_from_name(self, formatname):
+		if formatname=="":
+			formatname=self.USER_SPECIFIC
 		if not formatname == self.USER_SPECIFIC:
 			width, height = Papersize[formatname]
 			if self.page_orientation:
