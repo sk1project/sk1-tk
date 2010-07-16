@@ -164,7 +164,7 @@ class DocumentManager:
 		############ --->		
 		if tofile:
 			directory=config.preferences.dir_for_vector_export
-			filename = document.meta.filename
+			filename = document.meta.filename[:-3]+'pdf'			
 			filename, pdffile=dialogman.getGenericSaveFilename(_("Print into PDF file"), 
 															app.managers.dialogmanager.pdf_types, 
 															initialdir = directory, initialfile = filename)
@@ -183,7 +183,7 @@ class DocumentManager:
 		fileformat = filters.guess_export_plugin('.pdf')
 		self.SaveToFile(document, pdffile.name, fileformat, '', '')
 		
-		os.popen('kprinter --caption sK1 "'+ pdffile.name + '"', 'w')
+		os.system('kprinter --caption sK1 "'+ pdffile.name + '"', 'w')
 		
 		self.mw.root.update()
 		self.mw.canvas.ForceRedraw()
