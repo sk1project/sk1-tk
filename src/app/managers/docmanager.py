@@ -123,7 +123,7 @@ class DocumentManager:
 
 			if not filename:
 				return
-			extension = os.path.splitext(filename)[1]
+			extension = os.path.splitext(filename)[1].lower()
 			fileformat = filters.guess_export_plugin(extension)
 			if not fileformat:
 				fileformat = filters.NativeFormat
@@ -164,7 +164,7 @@ class DocumentManager:
 		############ --->		
 		if tofile:
 			directory=config.preferences.dir_for_vector_export
-			filename = document.meta.filename[:-3]+'pdf'			
+			filename = document.meta.filename[:-4]+'.pdf'			
 			filename, pdffile=dialogman.getGenericSaveFilename(_("Print into PDF file"), 
 															app.managers.dialogmanager.pdf_types, 
 															initialdir = directory, initialfile = filename)
