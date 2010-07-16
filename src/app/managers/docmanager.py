@@ -234,14 +234,17 @@ class DocumentManager:
 			doc.meta.load_messages = ''
 		
 		if not was_exception:	
-			group = doc.as_group()	
-			if group is not None:
-				if config.preferences.import_insertion_mode:
-					self.mw.canvas.PlaceObject(group)
+			if len(doc.pages)>1:
+				self.mw.document.AddImportedPages(doc.pages)
+			else:			
+				group = doc.as_group()	
+				if group is not None:
+					if config.preferences.import_insertion_mode:
+						self.mw.canvas.PlaceObject(group)
+					else:
+						self.mw.document.Insert(group)
 				else:
-					self.mw.document.Insert(group)
-			else:
-				msgDialog(self.mw.root, title = _("Import vector"), message=_("Importing result: it seems the document is empty!"))
+					msgDialog(self.mw.root, title = _("Import vector"), message=_("Importing result: it seems the document is empty!"))
 		config.preferences.dir_for_vector_import=os.path.dirname(filename)
 		
 	def import_callback(self, arg):
