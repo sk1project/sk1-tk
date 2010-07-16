@@ -76,12 +76,12 @@ class DocumentManager:
 				self.tabspanel.addNewTab(self.activedoc)
 		except Exception, value:
 			dlg.CloseDialog()
-			msgDialog(self.mw.root, title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value))
+			msgDialog(self.mw.root, title = _("Open"), message = _("\nAn error occurred:\n\n") + str(value)+"\n")
 			self.mw.remove_mru_file(filename)
 		else:
 			messages = doc.meta.load_messages
 			if messages:
-				msgDialog(self.mw.root, title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages)
+				msgDialog(self.mw.root, title = _("Open"), message=_("\nWarnings from the import filter:\n\n")+ messages+"\n")
 			doc.meta.load_messages = ''
 			
 	def open_callback(self, arg):
