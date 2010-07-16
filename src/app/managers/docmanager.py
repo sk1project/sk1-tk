@@ -115,8 +115,20 @@ class DocumentManager:
 				directory=fs.gethome()
 				
 			if use_dialog==SAVE_MODE:
+				extension = os.path.splitext(filename)[1].lower()
+				if not extension=='.sk1':
+					if extension=="":
+						filename+='.sk1'
+					else:
+						filename=filename[:-1*len(extension)]+'.sk1'
 				filename, sysfilename=dialogman.getSaveFilename(initialdir = directory, initialfile = filename)			
 			if use_dialog==SAVE_AS_MODE:
+				extension = os.path.splitext(filename)[1].lower()
+				if not extension=='.sk1':
+					if extension=="":
+						filename+='.sk1'
+					else:
+						filename=filename[:-1*len(extension)]+'.sk1'
 				filename, sysfilename=dialogman.getSaveAsFilename(initialdir = directory, initialfile = filename)
 			if use_dialog==EXPORT_MODE:
 				filename, sysfilename=dialogman.getExportFilename(initialdir = directory, initialfile = filename)	
