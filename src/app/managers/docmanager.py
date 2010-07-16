@@ -236,6 +236,7 @@ class DocumentManager:
 		if not was_exception:	
 			if len(doc.pages)>1:
 				self.mw.document.AddImportedPages(doc.pages)
+				msgDialog(self.mw.root, title = _("Import vector"), message=_("%i pages were added to the document")%(len(doc.pages)), icon='info')
 			else:			
 				group = doc.as_group()	
 				if group is not None:
