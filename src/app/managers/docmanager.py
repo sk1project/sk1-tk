@@ -202,6 +202,8 @@ class DocumentManager:
 		return None
 	
 	def ImportVector(self, filename = None):
+		was_exception=False
+		
 		if not filename:
 			directory = config.preferences.dir_for_vector_import
 			if directory=='~':
@@ -218,24 +220,28 @@ class DocumentManager:
 			dlg = ProgressDialog(self.mw.root, 'File importing')
 			doc=dlg.RunDialog(self.import_callback, filename)
 			############ <---			doc = load.load_drawing(filename)
-			group = doc.as_group()
+			
 		except SketchError, value:
 			dlg.close_dlg()
 			group=None
 			msgDialog(self.mw.root, title = _("Import vector"), message = _("An error occurred:")+" " + str(value))
 			self.mw.remove_mru_file(filename)
+			was_exception=True
 		else:
 			messages = doc.meta.load_messages
 			if messages:
 				msgDialog(self.mw.root, title = _("Import vector"), message=_("Warnings from the import filter:\n\n") + messages)
 			doc.meta.load_messages = ''
-		if group is not None:
-			if config.preferences.import_insertion_mode:
-				self.mw.canvas.PlaceObject(group)
+		
+		if not was_exception:	
+			group = doc.as_group()	
+			if group is not None:
+				if config.preferences.import_insertion_mode:
+					self.mw.canvas.PlaceObject(group)
+				else:
+					self.mw.document.Insert(group)
 			else:
-				self.mw.document.Insert(group)
-		else:
-			msgDialog(self.mw.root, title = _("Import vector"), message=_("Importing result: it seems the document is empty!"))
+				msgDialog(self.mw.root, title = _("Import vector"), message=_("Importing result: it seems the document is empty!"))
 		config.preferences.dir_for_vector_import=os.path.dirname(filename)
 		
 	def import_callback(self, arg):
