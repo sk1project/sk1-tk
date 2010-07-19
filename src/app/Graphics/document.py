@@ -354,9 +354,10 @@ class SketchDocument(Protocols):
 			for page in self.pages:
 				self.layers.remove(page)
 			lost_objects=[]
-			for obj in self.layers:
-				if not obj.is_Layer:
-					lost_objects.append(obj)
+			if len(self.pages) and len(self.layers):
+				for obj in self.layers:
+					if not obj.is_Layer:
+						lost_objects.append(obj)
 			if len(lost_objects):
 				for obj in lost_objects:
 					self.layers.remove(obj)
