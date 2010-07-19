@@ -43,6 +43,7 @@ class Compound(GraphicsObject):
 	is_Group	  = 0
 	is_Compound	  = 1
 	can_be_empty  = 0
+	is_Page       = 0
 
 	allow_traversal = 0
 
