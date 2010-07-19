@@ -353,6 +353,15 @@ class SketchDocument(Protocols):
 					self.pages.append(obj)
 			for page in self.pages:
 				self.layers.remove(page)
+			lost_objects=[]
+			for obj in self.layers:
+				if not obj.is_Layer:
+					lost_objects.append(obj)
+			if len(lost_objects):
+				for obj in lost_objects:
+					self.layers.remove(obj)
+					self.pages[0].objects[0].objects.append(obj)					
+#		self._print_document_structure()
 		if self.active_layer is None:
 			for layer in self.layers:
 				if layer.CanSelect():
