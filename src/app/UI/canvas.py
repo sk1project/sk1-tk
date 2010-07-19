@@ -30,7 +30,7 @@ preferences = config.preferences
 from app.events.warn import pdebug, warn, INTERNAL
 
 from app.conf.const import STATE, MODE, SELECTION, VIEW, POSITION, EDITED, \
-		LAYER_STATE, LAYER_ACTIVE, CURRENTINFO, CHANGED, \
+		LAYER_STATE, LAYER_ACTIVE, CURRENTINFO, CHANGED, GRID, \
 		SelectSet, SelectAdd, SelectSubtract, \
 		SelectSubobjects, SelectDrag, SelectGuide
 import app
@@ -2014,7 +2014,22 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	AddCmd('TogglePageOutlineMode', _("Draw Page Border"),
 			value = 0, value_cb = 'IsPageOutlineMode', subscribe_to = VIEW,
 			is_check = 1)
+	
+	AddCmd('ToggleShowGrid', _("Show Grid"),
+			value = 0, value_cb = 'IsGridVisible', subscribe_to = GRID,
+			is_check = 1)
+	
+	def ToggleShowGrid(self):
+		if self.document.IsGridVisible():
+			self.document.ShowGrid(0)
+		else:
+			self.document.ShowGrid(1)
+		self.ForceRedraw()
+		self.issue(GRID)
+		
 
+	def IsGridVisible(self):
+		return self.document.IsGridVisible()
 	#
 	#
 	#

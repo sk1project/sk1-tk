@@ -189,7 +189,7 @@ class Preferences(connector.Publisher):
 	grid_visible = 0
 	
 	#Grid style: 0 - dotted; 1- lines
-	grid_style = 1
+	grid_style = 0
 	
 	#The grid color of a new document as a tuple of RGB values in the range 0..1. E.g. (0, 0, 1) for blue
 	#grid_color = ('RGB', 0, 0, 1)

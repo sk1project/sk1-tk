@@ -888,8 +888,6 @@ class sK1MainWindow(Publisher):
 	AddDocCmd('LineNone', _("No Line"), 'AddStyle', args = EmptyLineStyle)
 	AddDocCmd('UpdateStyle', _("Update Style"), 'UpdateDynamicStyleSel')
 
-	
-
 	AddDocCmd('Convert_to_CMYK', _("Convert to CMYK"), 'ConvertImage', args = CMYK_IMAGE, sensitive_cb ='CanBeCMYK')
 	AddDocCmd('Convert_to_RGB', _("Convert to RGB"), 'ConvertImage', args = RGB_IMAGE, sensitive_cb ='CanBeRGB')
 	AddDocCmd('Convert_to_Grayscale', _("Convert to Grayscale"), 'ConvertImage', args = GRAYSCALE_IMAGE, sensitive_cb ='CanBeGrayscale')	
@@ -1018,6 +1016,7 @@ class sK1MainWindow(Publisher):
 					None,
 					cmds.ToggleOutlineMode,
 					cmds.TogglePageOutlineMode,
+					cmds.ToggleShowGrid,
 					None,
 					cmds.ToggleCrosshairs,
 					None,
@@ -1273,16 +1272,6 @@ class sK1MainWindow(Publisher):
 			# This might happen if the dialog is buggy...
 			warn(INTERNAL, 'dialog %s alread removed from dialog list', name)
 
-	def KGetOpenFilename(self,title="sK1", filetypes = None, initialdir = '', initialfile = ''):
-		self.root.update()
-		winid=str(self.root.winfo_id())
-		from_K = os.popen('kdialog --caption \''+title+'\' --embed \''+winid+'\' --getopenfilename \''+initialdir+'\''+ filetypes)
-		file=from_K.readline()
-		file=locale_utils.strip_line(file)
-		from_K.close()
-		file=locale_utils.locale_to_utf(file)
-		return file
-
 	def KPrinting(self):
 		self.docmanager.PrintDocument(self.document)
 		self.root.update()
@@ -1452,20 +1441,6 @@ class sK1MainWindow(Publisher):
 	#
 	#       Create Image
 	#
-
-	def GetOpenImageFilename(self, title = None, initialdir = '', initialfile = '', no_eps = 0):
-		if title is None:
-			title = _("to load image - sK1")
-		if no_eps:
-			filetypes = skapp.imagefiletypes()
-		else:
-			filetypes = skapp.imagefiletypes()
-		filename = self.KGetOpenFilename(title = title,
-													filetypes = filetypes,
-													initialdir = initialdir,
-													initialfile = initialfile)
-		return filename
-
 
 	def CreateImage(self, sysfilename = None):
 		if not sysfilename:

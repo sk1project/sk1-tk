@@ -426,6 +426,7 @@ class SketchDocument(Protocols):
 		self.layers=[self.snap_grid] + self.pages[0].objects + self.getMasterLayers() + [self.guide_layer]
 		self.active_layer=(self.pages[0]).objects[0]
 
+
 #
 #	Class MetaInfo
 #
@@ -2890,7 +2891,17 @@ class EditDocument(SketchDocument, QueueingPublisher):
 		return self.snap_grid.Geometry()
 
 	def GridLayerChanged(self):
-		return self.queue_grid()
+		return self.queue_grid()	
+		
+	def ShowGrid(self, value):
+		if value:
+			self.snap_grid.visible=1
+		else:
+			self.snap_grid.visible=0
+		self.queue_grid()	
+			
+	def IsGridVisible(self):
+		return self.snap_grid.visible
 
 
 	#
