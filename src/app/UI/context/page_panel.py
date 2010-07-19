@@ -145,7 +145,9 @@ class PagePanel(CtxSubPanel):
 		if self.doc.page_layout.paperformat =="":
 			self.var_format_name.set(self.USER_SPECIFIC)
 			self.set_entry_sensitivity()
+		self.page_orientation=self.doc.page_layout.orientation
 		self.update_size(width, height)
+		self.update()
 
 	def update(self):		
 		self.set_entry_sensitivity()
