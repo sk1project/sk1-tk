@@ -203,3 +203,4 @@ class PagePanel(CtxSubPanel):
 								orientation = self.page_orientation)
 		self.mw.canvas.bitmap_buffer=None
 		self.doc.SetLayout(layout)
+		self.doc.pages[self.doc.active_page].page_layout=layout
