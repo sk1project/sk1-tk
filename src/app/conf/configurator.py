@@ -194,6 +194,7 @@ class Preferences(connector.Publisher):
 	#The grid color of a new document as a tuple of RGB values in the range 0..1. E.g. (0, 0, 1) for blue
 	#grid_color = ('RGB', 0, 0, 1)
 	grid_color = ('RGB', 0.83, 0.87, 0.91)
+	grid_line_transparency = 0.5
 	
 	#The outline color of a new GuideLayer as a tuple of RGB values in the range 0..1.
 	guide_color = ('RGB', 0, 0.3, 1)

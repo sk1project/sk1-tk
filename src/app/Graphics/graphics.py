@@ -1406,8 +1406,8 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		
 		if config.preferences.cairo_enabled :
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
-			type,r,g,b=config.preferences.grid_color
-			self.gc.CairoSetSourceRGBA(r,g,b,0.6)
+			type,r,g,b=config.preferences.grid_color			
+			self.gc.CairoSetSourceRGBA(r,g,b,config.preferences.grid_line_transparency)
 			self.gc.CairoSetOutlineAttr(1.0,const.CapButt, const.JoinMiter)
 			for dx in range(nx):
 				x=winx + dx*xwinwidth
