@@ -2897,8 +2897,7 @@ class EditDocument(SketchDocument, QueueingPublisher):
 		if value:
 			self.snap_grid.visible=1
 		else:
-			self.snap_grid.visible=0
-		self.queue_grid()	
+			self.snap_grid.visible=0			
 			
 	def IsGridVisible(self):
 		return self.snap_grid.visible

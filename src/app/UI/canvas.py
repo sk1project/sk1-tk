@@ -1616,7 +1616,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		try:
 			config.preferences.cairo_enabled=1
 			if config.preferences.alpha_channel_enabled == -1:
-				config.preferences.alpha_channel_enabled = 0
+				config.preferences.alpha_channel_enabled = 1
 			self.ForceRedraw()
 			self.issue_state()
 		finally:

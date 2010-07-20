@@ -1379,7 +1379,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		# Draw/DrawShape methods of the various graphics objects and the
 		# document/layer Note: This functions assumes that doc_to_win is
 		# in its initial state
-		self.SetProperties(self.grid_style)
+		
 		xwinwidth = self.LengthToWinFloat(xwidth)
 		if not xwinwidth:
 			if __debug__:
@@ -1403,13 +1403,31 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		winx, winy = self.DocToWinPoint((startx, starty))
 		nx = int((rect.right - rect.left) / xwidth) + 2
 		ny = int((rect.top - rect.bottom) / ywidth) + 2
-		if self.line:
-			self.properties.ExecuteLine(self)
-		self.gc.line_width = 0
-		if config.preferences.grid_style:
-			_sketch.DrawGridAsLines(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+		
+		if config.preferences.cairo_enabled :
+			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
+			type,r,g,b=config.preferences.grid_color
+			self.gc.CairoSetSourceRGBA(r,g,b,0.6)
+			self.gc.CairoSetOutlineAttr(1.0,const.CapButt, const.JoinMiter)
+			for dx in range(nx):
+				x=winx + dx*xwinwidth
+				self.gc.CairoDrawLine(x, 0, x, self.widget.height)
+			for dy in range(ny):
+				y=winy + dy*ywinwidth
+				self.gc.CairoDrawLine(0, y, self.widget.width, y)
+			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 		else:
-			_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+			self.SetProperties(self.grid_style)
+			
+
+			if self.line:
+				self.properties.ExecuteLine(self)
+			self.gc.line_width = 0
+			if config.preferences.grid_style:
+				print self.grid_style
+				_sketch.DrawGridAsLines(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
+			else:
+				_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
 		
 
 	def DrawGuideLine(self, point, horizontal, mode):
