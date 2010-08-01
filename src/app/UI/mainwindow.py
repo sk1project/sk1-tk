@@ -819,7 +819,7 @@ class sK1MainWindow(Publisher):
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 #	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'LoadPlugin', args = ('Guidelines'))
-	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'), sensitive_cb ='HasKPrinter')
+	AddCmd('KPrinting', _("Print..."), 'KPrinting', image = 'menu_file_print', key_stroke = ('Ctrl+P', 'Ctrl+p'), subscribe_to = CHANGED, sensitive_cb ='HasKPrinter')
 	AddCmd('PrintToPDF', _("Print to PDF..."), 'PrintToPDF', image = 'menu_file_pdf')
 #	AddCmd('CreatePrintDialog', _("LPR printing..."), 'CreateDialog', args = ('printdlg', 'PrintPanel'))
 	AddCmd('CreateMoveDialog', _("Move..."), 'LoadPlugin', args = ('Move'), key_stroke = 'Alt+F9')
@@ -1197,7 +1197,10 @@ class sK1MainWindow(Publisher):
 			self.canvas.bitmap_buffer=None
 	
 	def HasKPrinter(self):
-		return dialogman.is_kprinter
+		if config.preferences.print_command:
+			return 1
+		else:
+			return 0
 	
 	def PCshowHide(self):
 		self.pc.showHide()

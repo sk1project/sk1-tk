@@ -5,7 +5,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import os, sys
+import os, sys, app
 from xml.sax import handler
 
 from app.events import connector
@@ -21,19 +21,19 @@ class Configurator:
 		self.sk_command = 'sk1'
 		
 		self.sk_dir = base_dir
-		self.sk_share_dir = os.path.join(self.sk_dir,'share')
-		self.sk_palettes = os.path.join(self.sk_share_dir,'palettes')
-		self.sk_ps = os.path.join(self.sk_share_dir,'ps_templates')
+		self.sk_share_dir = os.path.join(self.sk_dir, 'share')
+		self.sk_palettes = os.path.join(self.sk_share_dir, 'palettes')
+		self.sk_ps = os.path.join(self.sk_share_dir, 'ps_templates')
 		
 		self.user_home_dir = gethome()
-		self.user_config_dir = os.path.join(self.user_home_dir,'.sK1')
-		self.user_palettes = os.path.join(self.user_config_dir,'palettes')
-		self.user_themes = os.path.join(self.user_config_dir,'themes')
-		self.user_icc = os.path.join(self.user_config_dir,'icc')
-		self.user_fonts = os.path.join(self.user_config_dir,'fonts')
-		self.user_plugins = os.path.join(self.user_config_dir,'plugins')
-		self.user_color_themes = os.path.join(self.user_config_dir,'color_themes')
-		self.user_icons = os.path.join(self.user_config_dir,'icons')
+		self.user_config_dir = os.path.join(self.user_home_dir, '.sK1')
+		self.user_palettes = os.path.join(self.user_config_dir, 'palettes')
+		self.user_themes = os.path.join(self.user_config_dir, 'themes')
+		self.user_icc = os.path.join(self.user_config_dir, 'icc')
+		self.user_fonts = os.path.join(self.user_config_dir, 'fonts')
+		self.user_plugins = os.path.join(self.user_config_dir, 'plugins')
+		self.user_color_themes = os.path.join(self.user_config_dir, 'color_themes')
+		self.user_icons = os.path.join(self.user_config_dir, 'icons')
 		
 		self.plugin_path = []  # Directories where sK1 searches for plugins. The expanded plugin_dir is appended to this
 
@@ -42,10 +42,10 @@ class Configurator:
 		#============USER CONFIG==================='
 		self.check_user_config()
 		if os.path.isfile(self.user_preferences_file):
-			prefs=Preferences()
+			prefs = Preferences()
 			prefs.load(self.user_preferences_file)
-			if prefs.sk1_version==sKVersion:
-				self.preferences=prefs
+			if prefs.sk1_version == sKVersion:
+				self.preferences = prefs
 			else:
 				self.preferences = Preferences()
 				self.preferences.sk1_version = sKVersion
@@ -54,15 +54,15 @@ class Configurator:
 			self.preferences.sk1_version = sKVersion
 			
 		#===============DEPRECATED VARIABLES===============
-		self.std_res_dir = os.path.join(self.sk_dir,'share/resources')  
-		self.pixmap_dir = os.path.join(self.sk_dir,'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
+		self.std_res_dir = os.path.join(self.sk_dir, 'share/resources')  
+		self.pixmap_dir = os.path.join(self.sk_dir, 'share/resources')  # Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
 		self.postscript_prolog = os.path.join(self.sk_ps, 'sk1-proc.ps')  # PostScript Prolog.
 		#============================================
 		
 	def save_user_preferences(self):
 		self.preferences.save(self.user_preferences_file)
 	
-	def get_preference(self,key, default):
+	def get_preference(self, key, default):
 		if hasattr(self.preferences, key):
 			return getattr(self.preferences, key)
 		return default
@@ -93,7 +93,7 @@ class Configurator:
 			except (IOError, os.error), value:
 				sys.stderr('Cannot write preferences into %s.' % user_config_dir)
 				sys.exit(1)
-		dirs=[
+		dirs = [
 			self.user_palettes,
 			self.user_themes,
 			self.user_fonts,
@@ -105,9 +105,9 @@ class Configurator:
 		for item in dirs:
 			self.check_config_subdir(item)
 			
-	def check_config_subdir(self,path):
+	def check_config_subdir(self, path):
 		if os.path.islink(path) or os.path.isfile(path):
-			os.rename(path, '%s~'%path )
+			os.rename(path, '%s~' % path)
 		if not os.path.isdir(path):	
 			os.mkdir(path, 0777)
 
@@ -119,6 +119,7 @@ class Preferences(connector.Publisher):
 		if not hasattr(self, attr) or getattr(self, attr) != value:
 			self.__dict__[attr] = value
 			self.issue(CHANGED, attr, value)
+			app.mw.issue(CHANGED)
 			
 	def load(self, filename=None):
 		import xml.sax
@@ -150,23 +151,23 @@ class Preferences(connector.Publisher):
 		try:
 			file = open(filename, 'w')
 		except (IOError, os.error), value:
-			sys.stderr('cannot write preferences into %s: %s'% (`filename`, value[1]))
+			sys.stderr('cannot write preferences into %s: %s' % (`filename`, value[1]))
 			return
 	
-		writer = XMLGenerator(out=file,encoding=self.system_encoding)
+		writer = XMLGenerator(out=file, encoding=self.system_encoding)
 		writer.startDocument()	
 		defaults = Preferences.__dict__
 		items = self.__dict__.items()
 		items.sort()
-		writer.startElement('preferences',{})
+		writer.startElement('preferences', {})
 		writer.characters('\n')
 		for key, value in items:
 			if defaults.has_key(key) and defaults[key] == value:
 				continue
 			writer.characters('	')
-			writer.startElement('%s' % key,{})
+			writer.startElement('%s' % key, {})
 			if type(value) == PointType:
-				to_write= '(%g, %g)' % tuple(value)
+				to_write = '(%g, %g)' % tuple(value)
 				writer.characters('Point%s' % to_write)
 			else:
 				writer.characters('%s' % `value`)
@@ -290,13 +291,13 @@ class Preferences(connector.Publisher):
 	activate_tooltips = 1		#Use Tooltips. 
 	tooltip_delay = 500	#Delay for tooltips in milliseconds
 
-	window_title_template ='%(appname)s - [%(docname)s]'
+	window_title_template = '%(appname)s - [%(docname)s]'
 	
 	panel_use_coordinates = 1		#	If true, use the saved coordinates when opening a panel
 	panel_correct_wm = 1	#	If true, try to compensate for the coordinate changes the window manager introduces by reparenting.
 	blend_panel_default_steps = 10	
 	print_destination = 'printer'	#	Default print destination. 'file' for file, 'printer' for printer	
-	print_directory = '~'		#	default directory for printing to file
+
 	menu_tearoff_fix = 1		#	Menus
 	drawing_precision = 3
 
@@ -310,49 +311,49 @@ class Preferences(connector.Publisher):
 #	color_theme = 'eXPect'
 #	color_theme = 'ClassicPlastik'
 
-	icons='CrystalSVG'
+	icons = 'CrystalSVG'
 #	icons='eXPect'
 #	icons='Tango'
 #	icons='Human'
 	
 	#---------UI fonts---------
-	small_font='Tahoma 8'
-	normal_font='Tahoma 9'
-	large_font='Tahoma 10 bold'
-	fixed_font='CourierNew 9'
+	small_font = 'Tahoma 8'
+	normal_font = 'Tahoma 9'
+	large_font = 'Tahoma 10 bold'
+	fixed_font = 'CourierNew 9'
 	
 	#---------Color managment---------	
-	user_rgb_profile=0
-	user_cmyk_profile=0
-	user_monitor_profile=0
+	user_rgb_profile = 0
+	user_cmyk_profile = 0
+	user_monitor_profile = 0
 	
-	printer_intent=0
-	monitor_intent=0
+	printer_intent = 0
+	monitor_intent = 0
 	
-	use_cms=1
-	use_cms_for_bitmap=1
-	simulate_printer=0
+	use_cms = 1
+	use_cms_for_bitmap = 1
+	simulate_printer = 0
 	
 	# 0 - use RGB, 1 - use CMYK
-	color_blending_rule=1
+	color_blending_rule = 1
 	
 	#----------Document font managment-------------	
 	default_font = 'BitstreamVeraSans-Roman'	# The PS name of the font used for new text-objects
-	system_font_dir='/usr/share/fonts'
-	user_font_dir='.fonts' # should be expanded to absolute path
+	system_font_dir = '/usr/share/fonts'
+	user_font_dir = '.fonts' # should be expanded to absolute path
 	#If the font file for a font can't be found or if a requested font 
 	#is not known at all, the fallback_font is used (PS name here):	
 	fallback_font = 'BitstreamVeraSans-Roman'
 	
 	#---------Open/save dialogs managment----
-	dir_for_open='~'
-	dir_for_save='~'
-	dir_for_vector_import='~'
-	dir_for_vector_export='~'
-	dir_for_bitmap_import='~'
-	dir_for_bitmap_export='~'
+	dir_for_open = '~'
+	dir_for_save = '~'
+	dir_for_vector_import = '~'
+	dir_for_vector_export = '~'
+	dir_for_bitmap_import = '~'
+	dir_for_bitmap_export = '~'
 	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type=0
+	dialog_type = 0
 	#------------------------------------
 
 	#RULER data
@@ -373,12 +374,12 @@ class Preferences(connector.Publisher):
 	#
 	#	Cairo data
 	#
-	cairo_enabled=1
-	alpha_channel_enabled=1
-	bitmap_alpha_channel_enabled=1
-	cairo_tolerance=.1
-	cairo_antialias=0
-	cairo_bitmap_filter=0
+	cairo_enabled = 1
+	alpha_channel_enabled = 1
+	bitmap_alpha_channel_enabled = 1
+	cairo_tolerance = .1
+	cairo_antialias = 0
+	cairo_bitmap_filter = 0
 	
 	#
 	#	Bezier Objects
@@ -400,7 +401,7 @@ class Preferences(connector.Publisher):
 	#	affected.
 	unload_import_filters = 1	
 	
-	handle_jump= 1  #Handle jump to manipulate objects by keyboard arrows (mm)	
+	handle_jump = 1  #Handle jump to manipulate objects by keyboard arrows (mm)	
 	
 	editor_line_width = 1		#   The line width for the outlines during a drag.
 	
@@ -410,7 +411,11 @@ class Preferences(connector.Publisher):
 	standard_scripts = ["app.scripts.export_raster", "app.scripts.simple_separation",
 						"app.scripts.spread", "app.scripts.reload_image",
 						"app.scripts.create_star", "app.scripts.create_star_outline",
-						"app.scripts.create_spiral", "app.scripts.read_gimp_path",]
+						"app.scripts.create_spiral", "app.scripts.read_gimp_path", ]
+	
+	#==========PRINTING SECTION============
+	print_command = ''
+	pdf_level='1.5'
 		
 class XMLPrefReader(handler.ContentHandler):
 	"""Handler for xml file reading"""
@@ -423,8 +428,8 @@ class XMLPrefReader(handler.ContentHandler):
 		self.key = name
 
 	def endElement(self, name):
-		if name!='preferences':
-			code=compile('self.value='+self.value,'<string>','exec')
+		if name != 'preferences':
+			code = compile('self.value=' + self.value, '<string>', 'exec')
 			exec code
 			self.pref.__dict__[self.key] = self.value
 

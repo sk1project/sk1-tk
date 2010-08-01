@@ -186,27 +186,33 @@ class DocumentManager:
 			dlg.RunDialog(self.print_tofile_callback, document, pdffile)
 		else:
 			dlg = ProgressDialog(self.mw.root, 'PDF generation')
-			dlg.RunDialog(self.print_callback, document)
+			command, pdffile=dlg.RunDialog(self.print_callback, document)
+			os.system(command)
 
 	def print_callback(self, arg):
 		document=arg[0]
 		from tempfile import NamedTemporaryFile
 		pdffile=NamedTemporaryFile()
-		fileformat = filters.guess_export_plugin('.pdf')
-		self.SaveToFile(document, pdffile.name, fileformat, '', '')
 		
-		os.system('kprinter --caption sK1 "'+ pdffile.name + '"', 'w')
+		fileformat = filters.guess_export_plugin('.pdf')
+		ver=config.preferences.pdf_level
+		pdf_ver=(int(ver[0]), int(ver[2]))
+		saver = filters.find_export_plugin(fileformat)
+		saver(document, pdffile.name, options={'pdf_version':pdf_ver})
+		
+		command=config.preferences.print_command
+		command=command.replace('%f','"'+pdffile.name+'"')		
 		
 		self.mw.root.update()
 		self.mw.canvas.ForceRedraw()
-		time.sleep(.5)
-		return None
+		return (command, pdffile)
 	
 	def print_tofile_callback(self, arg):
 		document=arg[0]
 		pdffile=arg[1]
 				
 		fileformat = filters.guess_export_plugin('.pdf')
+		
 		self.SaveToFile(document, pdffile, fileformat, '', '')
 		
 		self.mw.root.update()

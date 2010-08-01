@@ -68,10 +68,10 @@ class ControlCenterDialog(ModalDialog):
 		botpanel.pack(side = BOTTOM, fill = X, expand=0)
 
 		
-		cancel_bt = TButton(botpanel, text=_("Cancel"), command=self.ok)
+		cancel_bt = TButton(botpanel, text=_("Cancel"), command=self.cancel)
 		cancel_bt.pack(side = RIGHT)
 		
-		apply_bt = TButton(botpanel, text=_("Apply"), command=self.ok)
+		apply_bt = TButton(botpanel, text=_("Apply"), command=self.do_apply)
 		apply_bt.pack(side = RIGHT, padx=10)
 		
 		ok_bt = TButton(botpanel, text=_("OK"), command=self.ok)
@@ -80,7 +80,7 @@ class ControlCenterDialog(ModalDialog):
 		help_bt = TButton(botpanel, text=_("Help"), state='disabled')
 		help_bt.pack(side = LEFT)
 		
-		rdefs_bt = TButton(botpanel, text=_("Restore Defaults"))
+		rdefs_bt = TButton(botpanel, text=_("Restore Defaults"), command=self.do_restore)
 		rdefs_bt.pack(side = LEFT, padx=10)
 		
 		self.focus_widget = cancel_bt
@@ -97,7 +97,15 @@ class ControlCenterDialog(ModalDialog):
 		self.loadByName('general')
 		
 	def ok(self, *arg):
+		for plugin in self.plugins:
+			plugin.apply()
 		self.close_dlg()
+		
+	def do_apply(self, *arg):
+		self.current_plugin.apply()
+		
+	def do_restore(self, *arg):
+		self.current_plugin.restore()
 	
 	def cancel(self, *arg):
 		self.close_dlg(None)
