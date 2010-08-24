@@ -1378,28 +1378,13 @@ class sK1MainWindow(Publisher):
 		dialogman.launchBrowserURL('http://sk1project.org/forum/')
 		
 	def ReportBug(self):
-		dialogman.launchBrowserURL('https://bugs.launchpad.net/sk1/')
+		dialogman.launchBrowserURL('http://sk1project.org/contact.php')
 
 	def AboutBox(self):
 		aboutDialog(self.root)
 		
 	def Preferences(self):
 		ControlCenter(self.root)
-		
-#		abouttext = _("sK1 (%(version)s) - A Python&Tcl/Tk -based vector graphics editor for printing industry.\n "
-#						"(c) 2003-2006 by Igor E. Novikov\n\n"
-#						"This program is free software under the terms of "
-#						"the GNU LGPL v.2.0. For more info - COPYRIGHTS file in sK1 root directory.\n\n"
-#						"Libraries versions:\n"
-#						"Python:\t%(py)s\t\nTcl:\t%(tcl)s\n"
-#						"Tkinter:\t%(tkinter)s\t\nTk:\t%(tk)s") \
-#					% {'version':sKVersion,
-#						'py':string.split(sys.version)[0],
-#						'tcl':TclVersion,
-#						'tkinter':string.split(Tkinter.__version__)[1],
-#						'tk':TkVersion}
-#
-#		self.application.MessageBox(title = _("About sK1"), message = abouttext, icon = 'construct')
 
 
 
