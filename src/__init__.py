@@ -9,6 +9,10 @@
 def sk1_run():
 	import sys, os, warnings
 	
+	if not os.environ['LANG']=='':
+		lang=os.environ['LANG'].split('.')
+		os.environ['LANG']=lang[0]+lang[1].upper()
+		
 	warnings.filterwarnings("ignore")
 	
 	_pkgdir = __path__[0]
