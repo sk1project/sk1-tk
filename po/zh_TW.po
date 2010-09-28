@@ -1,0 +1,3006 @@
+# Traditional Chinese Messages for sk1.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# This file is distributed under the same license as the sk1 package.
+# Wei-Lun Chao <chaoweilun@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sk1 0.9.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-11 22:13+0300\n"
+"PO-Revision-Date: 2010-09-26 23:14+0800\n"
+"Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/app/Graphics/arrow.py:81
+#, python-format
+msgid "%s is not an arrow definition file"
+msgstr "%s 並非箭頭定義檔案"
+
+#: src/app/Graphics/arrow.py:94
+#, python-format
+msgid ""
+"Error trying to read arrows from %s\n"
+"Using builtin defaults"
+msgstr ""
+"試著從 %s 讀取箭頭時發生錯誤\n"
+"使用內建的預設值"
+
+#: src/app/Graphics/bezier.py:186
+#, python-format
+msgid "PolyBezier (%(nodes)d nodes in %(paths)d paths)"
+msgstr "多點曲線 (%(nodes)d 個節點在 %(paths)d 條路徑中)"
+
+#: src/app/Graphics/bezier.py:262
+msgid "Create Curve"
+msgstr "建立曲線"
+
+#: src/app/Graphics/bezier.py:334
+msgid "Create Poly-Line"
+msgstr "建立折線"
+
+#: src/app/Graphics/bezier.py:460
+msgid "Select All Nodes"
+msgstr "全選節點"
+
+#: src/app/Graphics/bezier.py:777
+#, python-format
+msgid "%d nodes in PolyBezier"
+msgstr "%d 個節點於多點曲線中"
+
+#: src/app/Graphics/bezier.py:786
+msgid "PolyBezier"
+msgstr "多點曲線"
+
+#: src/app/Graphics/bezier.py:788
+msgid "First node of PolyBezier"
+msgstr "多點曲線的第一節點"
+
+#: src/app/Graphics/bezier.py:790
+msgid "Last node of PolyBezier"
+msgstr "多點曲線的最末節點"
+
+#: src/app/Graphics/bezier.py:792
+msgid "1 node of PolyBezier"
+msgstr "多點曲線的一個節點"
+
+#: src/app/Graphics/bezier.py:795
+#, python-format
+msgid "Point on curve at position %.2f"
+msgstr "曲線上的點位於 %.2f"
+
+#: src/app/Graphics/bezier.py:798
+msgid "No Node of PolyBezier"
+msgstr "多點曲線沒有節點"
+
+#: src/app/Graphics/bezier.py:849
+msgid "Cut Curve"
+msgstr "剪下曲線"
+
+#: src/app/Graphics/bezier.py:932
+msgid "Close Nodes"
+msgstr "關閉節點"
+
+#: src/app/Graphics/bezier.py:942
+msgid "Angle"
+msgstr "角度"
+
+#: src/app/Graphics/bezier.py:943
+msgid "Smooth"
+msgstr "平滑"
+
+#: src/app/Graphics/bezier.py:944
+msgid "Symmetrical"
+msgstr "對稱"
+
+#: src/app/Graphics/bezier.py:959
+msgid "Curve->Line"
+msgstr "曲線→直線"
+
+#: src/app/Graphics/bezier.py:974
+msgid "Line->Curve"
+msgstr "直線→曲線"
+
+#: src/app/Graphics/bezier.py:996
+msgid "Delete Nodes"
+msgstr "刪除節點"
+
+#: src/app/Graphics/bezier.py:1013
+msgid "Insert Nodes"
+msgstr "插入節點"
+
+#: src/app/Graphics/blendgroup.py:115
+#, python-format
+msgid "Interpolation with %d steps"
+msgstr "具有 %d 步數的內插法"
+
+#: src/app/Graphics/blendgroup.py:336
+#, python-format
+msgid "BlendGroup with %d control objects"
+msgstr "具有 %d 個控制物件的漸變群組"
+
+#: src/app/Graphics/color.py:315
+msgid "Registration Black ("
+msgstr "註冊黑色 ("
+
+#: src/app/Graphics/color.py:386
+msgid "I can't alloc all needed colors. I'll use a private colormap"
+msgstr "我無法配置所有需要的顏色。我將使用個人顏色對照表"
+
+#: src/app/Graphics/compound.py:252
+#, python-format
+msgid "Compound with %d objects"
+msgstr "具有 %d 個物件的合成物件"
+
+#: src/app/Graphics/dashes.py:35
+#, python-format
+msgid "%s is not dashes file"
+msgstr "%s 並非虛線檔案"
+
+#: src/app/Graphics/dashes.py:38
+#, python-format
+msgid ""
+"Error trying to read dashes from %s\n"
+"Using builtin defaults"
+msgstr ""
+"試著從 %s 讀取虛線時發生錯誤\n"
+"使用內建的預設值"
+
+#: src/app/Graphics/document.py:83
+msgid "Guide Lines"
+msgstr "參考線"
+
+#: src/app/Graphics/document.py:85 src/app/Graphics/document.py:143
+msgid "MasterLayer 1"
+msgstr "主圖層 1"
+
+#: src/app/Graphics/document.py:91 src/app/Graphics/document.py:184
+#: src/app/Graphics/document.py:339
+msgid "Layer 1"
+msgstr "圖層 1"
+
+#: src/app/Graphics/document.py:119
+#, python-format
+msgid "Layer %d"
+msgstr "圖層 %d"
+
+#: src/app/Graphics/document.py:314
+#, python-format
+msgid "Saving page %u of %u"
+msgstr "儲存第 %u 頁之於 %u 頁面"
+
+#: src/app/Graphics/document.py:321
+#, python-format
+msgid "Saving page %u of %u, layer %u of %u"
+msgstr "儲存第 %u 頁之於 %u 頁面，第 %u 層之於 %u 圖層"
+
+#: src/app/Graphics/document.py:642 src/app/Scripting/wrapper.py:115
+msgid "Create Object"
+msgstr "建立物件"
+
+#: src/app/Graphics/document.py:1425
+msgid "Add Style"
+msgstr "加入樣式"
+
+#: src/app/Graphics/document.py:1436
+msgid "Set Properties"
+msgstr "設定屬性"
+
+#: src/app/Graphics/document.py:1466 src/app/UI/mainwindow.py:850
+msgid "Delete"
+msgstr "刪除"
+
+#: src/app/Graphics/document.py:1502
+msgid "Move To Top"
+msgstr "移動到頂端"
+
+#: src/app/Graphics/document.py:1505
+msgid "Move To Bottom"
+msgstr "移動到底部"
+
+#: src/app/Graphics/document.py:1508
+msgid "Lower"
+msgstr "降低"
+
+#: src/app/Graphics/document.py:1511
+msgid "Raise"
+msgstr "提高"
+
+#: src/app/Graphics/document.py:1515
+#, python-format
+msgid "Move Selection to `%s'"
+msgstr "移動所選到「%s」"
+
+#: src/app/Graphics/document.py:1572 src/app/UI/mainwindow.py:801
+#: src/app/UI/ttk_ext.py:33
+msgid "Cut"
+msgstr "剪下"
+
+#: src/app/Graphics/document.py:1592 src/app/Graphics/document.py:1597
+#: src/app/UI/mainwindow.py:858 src/app/UI/mainwindow.py:859
+msgid "Duplicate"
+msgstr "重製"
+
+#: src/app/Graphics/document.py:1630
+msgid "Create Group"
+msgstr "建立群組"
+
+#: src/app/Graphics/document.py:1651 src/app/UI/context/group_panel.py:29
+msgid "Ungroup"
+msgstr "取消分組"
+
+#: src/app/Graphics/document.py:1681 src/app/UI/mainwindow.py:881
+#: src/app/UI/context/group_panel.py:33
+msgid "Ungroup All"
+msgstr "取消所有分組"
+
+#: src/app/Graphics/document.py:1701
+msgid "Modify&Copy"
+msgstr "修改 & 複製"
+
+#: src/app/Graphics/document.py:1709 src/app/UI/mainwindow.py:874
+msgid "Create Mask Group"
+msgstr "建立遮罩群組"
+
+#: src/app/Graphics/document.py:1741
+msgid "Transform"
+msgstr "變換"
+
+#: src/app/Graphics/document.py:1744
+msgid "Translate"
+msgstr "轉換"
+
+#: src/app/Graphics/document.py:1748 src/app/UI/mainwindow.py:873
+msgid "Remove Transformation"
+msgstr "移除變換"
+
+#: src/app/Graphics/document.py:1760
+msgid "Align Objects"
+msgstr "對齊物件"
+
+#: src/app/Graphics/document.py:1798 src/app/UI/mainwindow.py:866
+msgid "Abut Horizontal"
+msgstr "水平緊靠"
+
+#: src/app/Graphics/document.py:1823 src/app/UI/mainwindow.py:867
+msgid "Abut Vertical"
+msgstr "垂直緊靠"
+
+#: src/app/Graphics/document.py:1856 src/app/UI/mainwindow.py:869
+#: src/app/UI/context/flip_panel.py:22
+msgid "Flip Horizontal"
+msgstr "水平翻轉"
+
+#: src/app/Graphics/document.py:1863 src/app/UI/mainwindow.py:870
+#: src/app/UI/context/flip_panel.py:25
+msgid "Flip Vertical"
+msgstr "垂直翻轉"
+
+#: src/app/Graphics/document.py:1868
+msgid "Flip Both"
+msgstr "雙軸翻轉"
+
+#: src/app/Graphics/document.py:1882
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:206
+msgid "Rotation"
+msgstr "旋轉"
+
+#: src/app/Graphics/document.py:1901
+#: src/app/UI/pluginpanels/transform/move_plugin.py:31
+msgid "Move"
+msgstr "移動"
+
+#: src/app/Graphics/document.py:1915
+msgid "Move&Copy"
+msgstr "移動 & 複製"
+
+#: src/app/Graphics/document.py:1949
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:178
+msgid "Scale"
+msgstr "比例"
+
+#: src/app/Graphics/document.py:2023
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:24
+msgid "Blend"
+msgstr "漸變"
+
+#: src/app/Graphics/document.py:2032
+msgid "I can't blend the selected objects"
+msgstr "我無法漸變已選物件"
+
+#: src/app/Graphics/document.py:2056 src/app/UI/mainwindow.py:872
+msgid "Cancel Blend"
+msgstr "取消漸變"
+
+#: src/app/Graphics/document.py:2084 src/app/UI/mainwindow.py:875
+msgid "Create Path Text"
+msgstr "建立路徑文字"
+
+#: src/app/Graphics/document.py:2111 src/app/UI/mainwindow.py:876
+msgid "Create Clone"
+msgstr "建立仿本"
+
+#: src/app/Graphics/document.py:2142 src/app/UI/mainwindow.py:863
+msgid "Combine Beziers"
+msgstr "合併曲線"
+
+#: src/app/Graphics/document.py:2163 src/app/UI/mainwindow.py:864
+msgid "Split Beziers"
+msgstr "分割曲線"
+
+#: src/app/Graphics/document.py:2190 src/app/UI/mainwindow.py:862
+msgid "Convert To Curve"
+msgstr "轉換為曲線"
+
+#: src/app/Graphics/document.py:2256
+msgid "Convert Image"
+msgstr "轉換圖像"
+
+#: src/app/Graphics/document.py:2283 src/app/UI/mainwindow.py:898
+msgid "Invert Image"
+msgstr "反相圖像"
+
+#: src/app/Graphics/document.py:2296 src/app/UI/dialogs/gotopagedlg.py:25
+msgid "Go to page"
+msgstr "前往頁面"
+
+#: src/app/Graphics/document.py:2318
+msgid "Insert Pages"
+msgstr "插入多頁"
+
+#: src/app/Graphics/document.py:2320
+msgid "Insert Page"
+msgstr "插入頁面"
+
+#: src/app/Graphics/document.py:2351
+msgid "Delete Page"
+msgstr "刪除頁面"
+
+#: src/app/Graphics/document.py:2438
+msgid "Select Layer"
+msgstr "選取圖層"
+
+#: src/app/Graphics/document.py:2450
+msgid "Change Layer State"
+msgstr "變更圖層狀態"
+
+#: src/app/Graphics/document.py:2468
+msgid "Set Layer Outline Color"
+msgstr "設定圖層外框顏色"
+
+#: src/app/Graphics/document.py:2480
+msgid "Rename Layer"
+msgstr "重新命名圖層"
+
+#: src/app/Graphics/document.py:2492
+msgid "Append Layer"
+msgstr "附加圖層"
+
+#: src/app/Graphics/document.py:2506 src/app/Graphics/layer.py:42
+msgid "New Layer"
+msgstr "新增圖層"
+
+#: src/app/Graphics/document.py:2562
+msgid "Move Layer Up"
+msgstr "向上移動圖層"
+
+#: src/app/Graphics/document.py:2573
+msgid "Move Layer Down"
+msgstr "向下移動圖層"
+
+#: src/app/Graphics/document.py:2614
+msgid "Delete Layer"
+msgstr "刪除圖層"
+
+#: src/app/Graphics/document.py:2677 src/app/UI/mainwindow.py:889
+msgid "Update Style"
+msgstr "更新樣式"
+
+#: src/app/Graphics/document.py:2716
+#, python-format
+msgid "Create Style %s"
+msgstr "建立樣式 %s"
+
+#: src/app/Graphics/document.py:2732
+#, python-format
+msgid "Remove Style %s"
+msgstr "移除樣式 %s"
+
+#: src/app/Graphics/document.py:2786
+msgid "Change Page Layout"
+msgstr "變更頁面布局"
+
+#: src/app/Graphics/document.py:2801
+msgid "Set Grid Geometry"
+msgstr "設定格線幾何位置"
+
+#: src/app/Graphics/document.py:2823
+msgid "Add Guide Line"
+msgstr "加入參考線"
+
+#: src/app/Graphics/document.py:2840
+msgid "Delete Guide Line"
+msgstr "刪除參考線"
+
+#: src/app/Graphics/document.py:2854
+msgid "Move Guide Line"
+msgstr "移動參考線"
+
+#: src/app/Graphics/ellipse.py:113
+msgid "Arc"
+msgstr "弧線"
+
+#: src/app/Graphics/ellipse.py:114
+msgid "Chord"
+msgstr "套索"
+
+#: src/app/Graphics/ellipse.py:115
+msgid "Pie Slice"
+msgstr "扇形"
+
+#: src/app/Graphics/ellipse.py:265
+msgid "Circle radius %(radius)[length], center %(center)[position]"
+msgstr "圓半徑 %(radius)[length]，中心 %(center)[position]"
+
+#: src/app/Graphics/ellipse.py:268
+msgid "Ellipse axes %(axes)[size], center %(center)[position]"
+msgstr "橢圓軸 %(axes)[大小]，中心 %(center)[position]"
+
+#: src/app/Graphics/ellipse.py:286
+msgid "Create Ellipse"
+msgstr "建立橢圓"
+
+#: src/app/Graphics/ellipse.py:325
+msgid "Circle %(radius)[length], center %(center)[position]"
+msgstr "圓 %(radius)[length]，中心 %(center)[position]"
+
+#: src/app/Graphics/ellipse.py:328
+msgid "Ellipse %(size)[size], center %(center)[position]"
+msgstr "橢圓 %(size)[size]，中心 %(center)[position]"
+
+#: src/app/Graphics/eps.py:148
+#, python-format
+msgid "EpsFile `%(filename)s' %(width)d x %(height)d at (%(x)d, %(y)d)"
+msgstr "EpsFile「%(filename)s」%(width)d x %(height)d 於 (%(x)d, %(y)d)"
+
+#: src/app/Graphics/graphics.py:1012
+#, python-format
+msgid ""
+"Cannot load %(font)s:\n"
+"%(text)s"
+msgstr ""
+"無法載入 %(font)s：\n"
+"%(text)s"
+
+#: src/app/Graphics/graphics.py:1187
+#, python-format
+msgid "Can't create shared memory image: %s"
+msgstr "無法建立共用記憶體圖像：%s"
+
+#: src/app/Graphics/group.py:29
+#, python-format
+msgid "Group with %d objects"
+msgstr "具有 %d 個物件的群組"
+
+#: src/app/Graphics/guide.py:90
+msgid "Horizontal Guide Line at %(coord)[length]"
+msgstr "水平參考線於 %(coord)[length]"
+
+#: src/app/Graphics/guide.py:93
+msgid "Vertical Guide Line at %(coord)[length]"
+msgstr "垂直參考線於 %(coord)[length]"
+
+#: src/app/Graphics/image.py:35
+msgid "RGB"
+msgstr "RGB"
+
+#: src/app/Graphics/image.py:36
+msgid "RGBA"
+msgstr "RGBA"
+
+#: src/app/Graphics/image.py:37
+msgid "Grayscale"
+msgstr "灰階"
+
+#: src/app/Graphics/image.py:38
+msgid "CMYK"
+msgstr "CMYK"
+
+#: src/app/Graphics/image.py:39
+msgid "Monochrome"
+msgstr "單色"
+
+#: src/app/Graphics/image.py:40
+msgid "UNSUPPORTED"
+msgstr "未支援"
+
+#: src/app/Graphics/image.py:165
+#, python-format
+msgid "Embedded %(mode)s image %(width)d x %(height)d at (%(x)d, %(y)d)"
+msgstr "嵌入式 %(mode)s 圖像 %(width)d x %(height)d 於 (%(x)d，%(y)d)"
+
+#: src/app/Graphics/layer.py:242
+msgid "Guides"
+msgstr "參考線"
+
+#: src/app/Graphics/layer.py:338 src/app/UI/canvas.py:1732
+#: src/app/UI/pluginpanels/layout/grid_plugin.py:24
+msgid "Grid"
+msgstr "格線"
+
+#: src/app/Graphics/maskgroup.py:74
+#, python-format
+msgid "MaskGroup with %d objects"
+msgstr "具有 %d 個物件的遮罩群組"
+
+#: src/app/Graphics/maskgroup.py:162
+msgid "Select Mask"
+msgstr "選取遮罩"
+
+#: src/app/Graphics/plugobj.py:169
+#, python-format
+msgid "Unknown Plugin Object `%s'"
+msgstr "不明外掛程式物件「%s」"
+
+#: src/app/Graphics/properties.py:397
+msgid "Fill Pattern"
+msgstr "填充式樣"
+
+#: src/app/Graphics/properties.py:397 src/app/Graphics/properties.py:401
+msgid "Pattern"
+msgstr "式樣"
+
+#: src/app/Graphics/properties.py:399
+msgid "Fill Transform Pattern"
+msgstr "填充變換式樣"
+
+#: src/app/Graphics/properties.py:400
+msgid "Transform pattern"
+msgstr "變換式樣"
+
+#: src/app/Graphics/properties.py:401
+msgid "Line Pattern"
+msgstr "線條式樣"
+
+#: src/app/Graphics/properties.py:403
+msgid "Line Width"
+msgstr "線條寬度"
+
+#: src/app/Graphics/properties.py:403
+msgid "Width"
+msgstr "寬度"
+
+#: src/app/Graphics/properties.py:405
+msgid "Line Cap"
+msgstr "線條頂端"
+
+#: src/app/Graphics/properties.py:405
+msgid "Cap"
+msgstr "頂端"
+
+#: src/app/Graphics/properties.py:407
+msgid "Line Join"
+msgstr "線條聯結"
+
+#: src/app/Graphics/properties.py:407
+msgid "Join"
+msgstr "聯結"
+
+#: src/app/Graphics/properties.py:409
+msgid "Line Dashes"
+msgstr "線條虛線"
+
+#: src/app/Graphics/properties.py:409
+msgid "Dashes"
+msgstr "虛線"
+
+#: src/app/Graphics/properties.py:410
+msgid "Line Arrow 1"
+msgstr "線條箭頭 1"
+
+#: src/app/Graphics/properties.py:410
+msgid "Arrow 1"
+msgstr "箭頭 1"
+
+#: src/app/Graphics/properties.py:412
+msgid "Line Arrow 2"
+msgstr "線條箭頭 2"
+
+#: src/app/Graphics/properties.py:412
+msgid "Arrow 2"
+msgstr "箭頭 2"
+
+#: src/app/Graphics/properties.py:414
+msgid "Font"
+msgstr "字型"
+
+#: src/app/Graphics/properties.py:415
+msgid "Font Size"
+msgstr "字型尺寸"
+
+#: src/app/Graphics/properties.py:415
+msgid "Size"
+msgstr "大小"
+
+#: src/app/Graphics/properties.py:416
+msgid "Linegap"
+msgstr "線條間隔"
+
+#: src/app/Graphics/properties.py:417
+msgid "Wordgap"
+msgstr "字組間隔"
+
+#: src/app/Graphics/properties.py:418
+msgid "Chargap"
+msgstr "字元間隔"
+
+#: src/app/Graphics/properties.py:419
+msgid "Text Alignment"
+msgstr "文字對齊"
+
+#: src/app/Graphics/properties.py:419
+#: src/app/UI/pluginpanels/effects/align_plugin.py:35
+msgid "Alignment"
+msgstr "對齊"
+
+#: src/app/Graphics/properties.py:420
+msgid "Text Vertical Alignment"
+msgstr "文字垂直對齊"
+
+#: src/app/Graphics/properties.py:420
+msgid "VAlignment"
+msgstr "垂直對齊"
+
+#: src/app/Graphics/psdevice.py:193
+#, python-format
+msgid "Can't embed font '%s': %s"
+msgstr "無法內嵌字型「%s」：%s"
+
+#: src/app/Graphics/psdevice.py:200
+#, python-format
+msgid "Can't find file for font '%s' for embedding"
+msgstr "找不到字型「%s」的檔案以做為內嵌之用"
+
+#: src/app/Graphics/rectangle.py:184
+msgid "Rectangle %(size)[size]"
+msgstr "矩形 %(size)[size]"
+
+#: src/app/Graphics/rectangle.py:203
+msgid "Create Rectangle"
+msgstr "建立矩形"
+
+#: src/app/Graphics/rectangle.py:232
+msgid "Rectangle: %(size)[size]"
+msgstr "矩形：%(size)[size]"
+
+#: src/app/Graphics/selection.py:477 src/app/Graphics/selection.py:1145
+msgid "No Selection"
+msgstr "沒有選擇"
+
+#: src/app/Graphics/selection.py:492
+#, python-format
+msgid "%s on `%%(layer)s'"
+msgstr "%s 於「%%(layer)s」"
+
+#: src/app/Graphics/selection.py:492 src/app/Graphics/selection.py:495
+#: src/app/Graphics/selection.py:504 src/app/Graphics/selection.py:506
+msgid "Selection size:"
+msgstr "選擇大小："
+
+#: src/app/Graphics/selection.py:495
+#, python-format
+msgid "%(object)s on `%(layer)s'"
+msgstr "%(object)s 於「%(layer)s」"
+
+#: src/app/Graphics/selection.py:502
+#, python-format
+msgid "%(number)d objects on `%(layer)s'"
+msgstr "%(number)d 個物件於「%(layer)s」"
+
+#: src/app/Graphics/selection.py:506
+#, python-format
+msgid "%d objects on several layers"
+msgstr "%d 個物件於多個圖層"
+
+#: src/app/Graphics/selection.py:600
+msgid "Move Objects"
+msgstr "移動物件"
+
+#: src/app/Graphics/selection.py:616
+msgid "Resize Objects"
+msgstr "調整物件大小"
+
+#: src/app/Graphics/selection.py:643
+msgid "Scale %(factorx)[factor], %(factory)[factor]"
+msgstr "比例 %(factorx)[factor], %(factory)[factor]"
+
+#: src/app/Graphics/selection.py:644
+msgid "Changing size to:"
+msgstr "變更大小為："
+
+#: src/app/Graphics/selection.py:648
+msgid "Move %(x)[length], %(y)[length]"
+msgstr "移動 %(x)[length], %(y)[length]"
+
+#: src/app/Graphics/selection.py:847
+msgid "Shear Objects"
+msgstr "修剪物件"
+
+#: src/app/Graphics/selection.py:849
+msgid "Rotate Objects"
+msgstr "旋轉物件"
+
+#: src/app/Graphics/selection.py:854
+msgid "Rotation Center at %(position)[position]"
+msgstr "旋轉中心在 %(position)[position]"
+
+#: src/app/Graphics/selection.py:859
+msgid "Rotate by %(angle)[angle]"
+msgstr "旋轉 %(angle)[angle]"
+
+#: src/app/Graphics/selection.py:862
+msgid "Horizontal Shear by %(ratio)[factor]"
+msgstr "水平修剪 %(ratio)[factor]"
+
+#: src/app/Graphics/selection.py:865
+msgid "Vertical Shear by %(ratio)[factor]"
+msgstr "垂直修剪 %(ratio)[factor]"
+
+#: src/app/Graphics/selection.py:868
+msgid "Identity Transform"
+msgstr "身分變換"
+
+#: src/app/Graphics/selection.py:1037 src/app/UI/context/ellipse_panel.py:45
+#: src/app/UI/context/rectangle_panel.py:72
+msgid "Edit Object"
+msgstr "編輯物件"
+
+#: src/app/Graphics/text.py:423
+msgid "Align Left"
+msgstr "靠左對齊"
+
+#: src/app/Graphics/text.py:425
+msgid "Align Right"
+msgstr "靠右對齊"
+
+#: src/app/Graphics/text.py:427
+msgid "Align H. Center"
+msgstr "對齊水平中心"
+
+#: src/app/Graphics/text.py:429
+msgid "Align Top"
+msgstr "向上對齊"
+
+#: src/app/Graphics/text.py:431
+msgid "Align V. Center"
+msgstr "對齊垂直中心"
+
+#: src/app/Graphics/text.py:433
+msgid "Align Baseline"
+msgstr "對齊基線"
+
+#: src/app/Graphics/text.py:435
+msgid "Align Bottom"
+msgstr "向下對齊"
+
+#: src/app/Graphics/text.py:502
+msgid "Text `%(text)s' at %(position)[position]"
+msgstr "文字「%(text)s」在 %(position)[position]"
+
+#: src/app/Graphics/text.py:573
+msgid "Create Text"
+msgstr "建立文字"
+
+#: src/app/Graphics/text.py:858
+#, python-format
+msgid "Text on Path: `%(text)s'"
+msgstr "文字於路徑：「%(text)s」"
+
+#: src/app/Graphics/text.py:1019
+#, python-format
+msgid "Path Text: `%(text)s'"
+msgstr "路徑文字：「%(text)s」"
+
+#: src/app/Graphics/text.py:1029
+msgid "Select Text"
+msgstr "選取文字"
+
+#: src/app/Graphics/text.py:1033
+msgid "Select Path"
+msgstr "選取路徑"
+
+#: src/app/Graphics/text.py:1040
+msgid "Rotate Letters"
+msgstr "旋轉字母"
+
+#: src/app/Graphics/text.py:1042
+msgid "Skew Letters"
+msgstr "歪斜字母"
+
+#: src/app/UI/canvas.py:192
+msgid "Select"
+msgstr "選取"
+
+#: src/app/UI/canvas.py:198 src/app/UI/mainwindow.py:905
+msgid "Edit"
+msgstr "編輯"
+
+#: src/app/UI/canvas.py:204
+msgid "Create"
+msgstr "建立"
+
+#: src/app/UI/canvas.py:209 src/app/UI/canvas.py:1338
+msgid "Zoom Area"
+msgstr "縮放區域"
+
+#: src/app/UI/canvas.py:213
+msgid "Pick Object"
+msgstr "揀取物件"
+
+#: src/app/UI/canvas.py:218
+msgid "Place Object"
+msgstr "置放物件"
+
+#: src/app/UI/canvas.py:827
+msgid "Draw Rectangle"
+msgstr "繪製矩形"
+
+#: src/app/UI/canvas.py:831
+msgid "Draw Ellipse"
+msgstr "繪製橢圓"
+
+#: src/app/UI/canvas.py:835
+msgid "Draw Curve"
+msgstr "繪製曲線"
+
+#: src/app/UI/canvas.py:839
+msgid "Draw Poly-Line"
+msgstr "繪製折線"
+
+#: src/app/UI/canvas.py:843
+msgid "Draw Text"
+msgstr "繪圖文字"
+
+#: src/app/UI/canvas.py:1020
+msgid "Selection Mode"
+msgstr "選擇模式"
+
+#: src/app/UI/canvas.py:1104
+msgid "Edit Mode"
+msgstr "編輯模式"
+
+#: src/app/UI/canvas.py:1406
+msgid "Toggle Mode"
+msgstr "切換模式"
+
+#: src/app/UI/canvas.py:1597
+msgid "Use Xlib Renderer"
+msgstr "使用 Xlib 潤算器"
+
+#: src/app/UI/canvas.py:1612
+msgid "Use Cairo Renderer"
+msgstr "使用 Cairo 潤算器"
+
+#: src/app/UI/canvas.py:1628
+msgid "Alpha Channel"
+msgstr "α通道"
+
+#: src/app/UI/canvas.py:1643
+msgid "Color Managment"
+msgstr "顏色管理"
+
+#: src/app/UI/canvas.py:1660
+msgid "Snap to Grid"
+msgstr "靠齊格線"
+
+#: src/app/UI/canvas.py:1674
+msgid "Snap to Objects"
+msgstr "靠齊物件"
+
+#: src/app/UI/canvas.py:1689
+msgid "Snap to Guides"
+msgstr "靠齊參考線"
+
+#: src/app/UI/canvas.py:1702
+msgid "Snap Bounding Rect"
+msgstr "靠齊外框矩形"
+
+#: src/app/UI/canvas.py:1715
+msgid "Snap Move Relative"
+msgstr "靠齊相對移動"
+
+#: src/app/UI/canvas.py:1734
+msgid "Objects"
+msgstr "物件"
+
+#: src/app/UI/canvas.py:1736
+msgid "Guide"
+msgstr "參考線"
+
+#: src/app/UI/canvas.py:1738
+msgid "Snap:"
+msgstr "靠齊："
+
+#: src/app/UI/canvas.py:1739
+msgid "No Snap"
+msgstr "沒有靠齊"
+
+#: src/app/UI/canvas.py:1770
+msgid "Crosshairs"
+msgstr "十字準線"
+
+#: src/app/UI/canvas.py:1925
+msgid "Refresh Window"
+msgstr "重新整理視窗"
+
+#: src/app/UI/canvas.py:1955
+msgid "Zoom In"
+msgstr "放大"
+
+#: src/app/UI/canvas.py:1957
+msgid "Zoom Out"
+msgstr "縮小"
+
+#: src/app/UI/canvas.py:1976
+msgid "Fit to Window"
+msgstr "符合視窗尺寸"
+
+#: src/app/UI/canvas.py:1977
+msgid "Fit Selected to Window"
+msgstr "令已選符合視窗"
+
+#: src/app/UI/canvas.py:1988
+msgid "Fit Page to Window"
+msgstr "令頁面符合視窗"
+
+#: src/app/UI/canvas.py:2001
+msgid "Restore Previous View"
+msgstr "還原前一檢視"
+
+#: src/app/UI/canvas.py:2010
+msgid "Contour View"
+msgstr "輪廓檢視"
+
+#: src/app/UI/canvas.py:2014
+msgid "Draw Page Border"
+msgstr "繪製頁面邊框"
+
+#: src/app/UI/canvas.py:2054
+msgid "Set Fill Color..."
+msgstr "設定充填顏色…"
+
+#: src/app/UI/canvas.py:2070
+msgid "Set Fill Color"
+msgstr "設定充填顏色"
+
+#: src/app/UI/canvas.py:2087
+msgid "Set Line Color"
+msgstr "設定線條顏色"
+
+#: src/app/UI/colordlg.py:319
+msgid "Select RGB Color"
+msgstr "選取 RGB 顏色"
+
+#: src/app/UI/colordlg.py:338 src/app/UI/gradientedit.py:300
+#: src/app/UI/styledlg.py:193 src/app/UI/styledlg.py:269
+#: src/app/UI/tkext.py:1093 src/app/managers/docmanager.py:304
+#: src/app/scripts/create_spiral.py:53 src/app/scripts/create_star.py:119
+#: src/app/scripts/create_star_outline.py:56
+#: src/app/scripts/export_raster.py:78
+#: src/app/scripts/simple_separation.py:173 src/app/UI/cc/ccenterdialog.py:71
+#: src/app/UI/dialogs/deletepagedlg.py:52 src/app/UI/dialogs/gotopagedlg.py:52
+#: src/app/UI/dialogs/insertpagedlg.py:77 src/app/UI/dialogs/msgdialog.py:25
+msgid "Cancel"
+msgstr "取消"
+
+#: src/app/UI/colordlg.py:342 src/app/UI/gradientedit.py:298
+#: src/app/UI/sketchdlg.py:376 src/app/UI/styledlg.py:195
+#: src/app/UI/styledlg.py:272 src/app/UI/tkext.py:1088
+#: src/app/events/warn.py:82 src/app/scripts/create_spiral.py:51
+#: src/app/scripts/create_star.py:115
+#: src/app/scripts/create_star_outline.py:54
+#: src/app/scripts/export_raster.py:76
+#: src/app/scripts/simple_separation.py:171 src/app/UI/cc/ccenterdialog.py:77
+#: src/app/UI/dialogs/deletepagedlg.py:57 src/app/UI/dialogs/gotopagedlg.py:57
+#: src/app/UI/dialogs/insertpagedlg.py:82 src/app/UI/dialogs/msgdialog.py:20
+#: src/app/UI/dialogs/msgdialog.py:35
+msgid "OK"
+msgstr "確定"
+
+#: src/app/UI/dlg_blend.py:29
+msgid "BLEND"
+msgstr "漸變"
+
+#: src/app/UI/dlg_blend.py:44 src/app/UI/sketchdlg.py:196
+#: src/app/UI/sketchdlg.py:246 src/app/UI/cc/ccenterdialog.py:74
+#: src/app/UI/pluginpanels/ppanel.py:120
+#: src/app/UI/pluginpanels/effects/align_plugin.py:110
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:116
+#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:49
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:37
+#: src/app/UI/pluginpanels/layout/page_plugin.py:128
+#: src/app/UI/pluginpanels/properties/fill_plugin.py:59
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:55
+#: src/app/UI/pluginpanels/properties/outlineprop.py:55
+#: src/app/UI/pluginpanels/shaping/divide.py:39
+#: src/app/UI/pluginpanels/shaping/intersect.py:39
+#: src/app/UI/pluginpanels/shaping/outline.py:41
+#: src/app/UI/pluginpanels/shaping/trim.py:39
+#: src/app/UI/pluginpanels/shaping/union.py:39
+#: src/app/UI/pluginpanels/transform/move_plugin.py:123
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:132
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:153
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:134
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:106
+msgid "Apply"
+msgstr "套用"
+
+#: src/app/UI/dlg_blend.py:53
+msgid "Steps:"
+msgstr "步數："
+
+#: src/app/UI/dlg_blend.py:66
+msgid "Select Start"
+msgstr "選取起始"
+
+#: src/app/UI/dlg_blend.py:73
+msgid "Select End"
+msgstr "選取結束"
+
+#: src/app/UI/dlg_blend.py:116
+#, python-format
+msgid "Set %d Blend Steps"
+msgstr "設定 %d 漸變步驟"
+
+#: src/app/UI/filldlg.py:273
+msgid "Color"
+msgstr "顏色"
+
+#: src/app/UI/filldlg.py:328
+msgid "Border"
+msgstr "邊框"
+
+#: src/app/UI/filldlg.py:338 src/app/UI/gradientedit.py:285
+msgid "Edit Gradient"
+msgstr "編輯漸層圖案"
+
+#: src/app/UI/filldlg.py:491
+msgid "Load Image..."
+msgstr "載入圖像…"
+
+#: src/app/UI/filldlg.py:494
+msgid "Pick Image..."
+msgstr "揀取圖像…"
+
+#: src/app/UI/filldlg.py:519 src/app/UI/mainwindow.py:1490
+msgid "Load Image"
+msgstr "載入圖像"
+
+#: src/app/UI/filldlg.py:520 src/app/UI/mainwindow.py:1491
+#, python-format
+msgid ""
+"Cannot load %(filename)s:\n"
+"%(message)s"
+msgstr ""
+"無法載入 %(filename)s：\n"
+"%(message)s"
+
+#: src/app/UI/filldlg.py:549
+msgid "Fill Style"
+msgstr "充填樣式"
+
+#: src/app/UI/filldlg.py:572
+msgid "Transform Pattern"
+msgstr "變換式樣"
+
+#: src/app/UI/filldlg.py:698
+msgid "Set Fill"
+msgstr "設定填充"
+
+#: src/app/UI/gradientedit.py:180
+msgid "Set Handle Color"
+msgstr "設定控柄顏色"
+
+#: src/app/UI/gradientedit.py:182
+msgid "Delete Handle"
+msgstr "刪除控柄"
+
+#: src/app/UI/gradientedit.py:184
+msgid "Insert Handle"
+msgstr "插入控柄"
+
+#: src/app/UI/gradientedit.py:296
+msgid "Reverse"
+msgstr "反向"
+
+#: src/app/UI/mainwindow.py:136
+#, python-format
+msgid "Error running script `%s'"
+msgstr "執行命令稿「%s」時發生錯誤"
+
+#: src/app/UI/mainwindow.py:295
+msgid "No color"
+msgstr "無色"
+
+#: src/app/UI/mainwindow.py:637
+msgid "Fill:"
+msgstr "填充："
+
+#: src/app/UI/mainwindow.py:640
+msgid "Fill: None"
+msgstr "填充：無"
+
+#: src/app/UI/mainwindow.py:645
+msgid "Outline:"
+msgstr "外框："
+
+#: src/app/UI/mainwindow.py:648
+msgid "Outline: None"
+msgstr "外框：無"
+
+#: src/app/UI/mainwindow.py:759
+msgid "New"
+msgstr "新增"
+
+#: src/app/UI/mainwindow.py:760
+msgid "New Drawing Window"
+msgstr "新繪圖視窗"
+
+#: src/app/UI/mainwindow.py:761
+msgid "Open..."
+msgstr "開啟…"
+
+#: src/app/UI/mainwindow.py:766 src/app/UI/tkext.py:1091
+#: src/app/UI/dialogs/msgdialog.py:23
+msgid "Save"
+msgstr "儲存"
+
+#: src/app/UI/mainwindow.py:767
+msgid "Save As..."
+msgstr "另存為…"
+
+#: src/app/UI/mainwindow.py:768
+msgid "Save All"
+msgstr "全部儲存"
+
+#: src/app/UI/mainwindow.py:769
+msgid "Export As..."
+msgstr "匯出為…"
+
+#: src/app/UI/mainwindow.py:770 src/app/UI/sketchdlg.py:249
+#: src/app/UI/dialogs/aboutdlg.py:58
+msgid "Close"
+msgstr "關閉"
+
+#: src/app/UI/mainwindow.py:771
+msgid "Close All"
+msgstr "全部關閉"
+
+#: src/app/UI/mainwindow.py:772 src/app/UI/mainwindow.py:833
+msgid "Import vector..."
+msgstr "匯入向量…"
+
+#: src/app/UI/mainwindow.py:774
+msgid "Preferences..."
+msgstr "偏好設定…"
+
+#: src/app/UI/mainwindow.py:775
+msgid "Exit"
+msgstr "離開"
+
+#: src/app/UI/mainwindow.py:778
+msgid "Report bug..."
+msgstr "報告錯誤…"
+
+#: src/app/UI/mainwindow.py:779
+msgid "Project web site..."
+msgstr "計畫網站…"
+
+#: src/app/UI/mainwindow.py:780
+msgid "Project forum..."
+msgstr "計畫論壇…"
+
+#: src/app/UI/mainwindow.py:781
+msgid "About sK1..."
+msgstr "關於 sK1…"
+
+#: src/app/UI/mainwindow.py:782
+msgid "Plugins strip"
+msgstr "外掛程式片斷"
+
+#: src/app/UI/mainwindow.py:785
+msgid "Insert Page..."
+msgstr "插入頁面…"
+
+#: src/app/UI/mainwindow.py:786
+msgid "Delete Page..."
+msgstr "刪除頁面…"
+
+#: src/app/UI/mainwindow.py:787
+msgid "Next Page"
+msgstr "下一頁"
+
+#: src/app/UI/mainwindow.py:788
+msgid "Previous Page"
+msgstr "上一頁"
+
+#: src/app/UI/mainwindow.py:789
+msgid "Go to Page..."
+msgstr "前往頁面…"
+
+#: src/app/UI/mainwindow.py:791
+msgid "Add Horizontal Guide Line"
+msgstr "加入水平參考線"
+
+#: src/app/UI/mainwindow.py:792
+msgid "Add Vertical Guide Line"
+msgstr "加入垂直參考線"
+
+#: src/app/UI/mainwindow.py:794 src/app/UI/mainwindow.py:1002
+msgid "Zoom 1:1"
+msgstr "縮放 1:1"
+
+#: src/app/UI/mainwindow.py:795 src/app/UI/ttk_ext.py:35
+msgid "Copy"
+msgstr "複製"
+
+#: src/app/UI/mainwindow.py:804 src/app/UI/mainwindow.py:1537
+#: src/app/UI/mainwindow.py:1547 src/app/UI/ttk_ext.py:37
+msgid "Paste"
+msgstr "貼上"
+
+#: src/app/UI/mainwindow.py:807
+msgid "Export Bitmap..."
+msgstr "匯出點陣圖…"
+
+#: src/app/UI/mainwindow.py:811
+msgid "Align to ..."
+msgstr "對齊到…"
+
+#: src/app/UI/mainwindow.py:812
+msgid "Grid Setup..."
+msgstr "格線設定…"
+
+#: src/app/UI/mainwindow.py:813
+msgid "Outline..."
+msgstr "外框…"
+
+#: src/app/UI/mainwindow.py:814
+msgid "Fill..."
+msgstr "填充…"
+
+#: src/app/UI/mainwindow.py:816
+msgid "Styles..."
+msgstr "樣式…"
+
+#: src/app/UI/mainwindow.py:817
+msgid "Blend..."
+msgstr "漸變…"
+
+#: src/app/UI/mainwindow.py:821
+msgid "Guides Setup..."
+msgstr "參考線設定…"
+
+#: src/app/UI/mainwindow.py:822
+msgid "Print..."
+msgstr "列印…"
+
+#: src/app/UI/mainwindow.py:823
+msgid "Print to PDF..."
+msgstr "列印成 PDF…"
+
+#: src/app/UI/mainwindow.py:825
+msgid "Move..."
+msgstr "移動…"
+
+#: src/app/UI/mainwindow.py:826
+msgid "Rotate..."
+msgstr "旋轉…"
+
+#: src/app/UI/mainwindow.py:827
+msgid "Resize..."
+msgstr "調整大小…"
+
+#: src/app/UI/mainwindow.py:832
+msgid "Load Palette..."
+msgstr "載入調色盤…"
+
+#: src/app/UI/mainwindow.py:834
+msgid "Import bitmap..."
+msgstr "匯入點陣圖…"
+
+#: src/app/UI/mainwindow.py:836
+msgid "Name Style..."
+msgstr "名稱樣式…"
+
+#: src/app/UI/mainwindow.py:839 src/app/UI/ttk_ext.py:40
+msgid "Select All"
+msgstr "全選"
+
+#: src/app/UI/mainwindow.py:840
+msgid "Select Next"
+msgstr "選取下一個"
+
+#: src/app/UI/mainwindow.py:841
+msgid "Select Previous"
+msgstr "選取上一個"
+
+#: src/app/UI/mainwindow.py:842
+msgid "Select First Child"
+msgstr "選取第一個子物件"
+
+#: src/app/UI/mainwindow.py:843
+msgid "Select Parent"
+msgstr "選取上層物件"
+
+#: src/app/UI/mainwindow.py:845
+msgid "Move Up"
+msgstr "向上移動"
+
+#: src/app/UI/mainwindow.py:846
+msgid "Move Down"
+msgstr "向下移動"
+
+#: src/app/UI/mainwindow.py:847
+msgid "Move Right"
+msgstr "向右移動"
+
+#: src/app/UI/mainwindow.py:848
+msgid "Move Left"
+msgstr "向左移動"
+
+#: src/app/UI/mainwindow.py:852
+msgid "Move to Top"
+msgstr "移動到頂端"
+
+#: src/app/UI/mainwindow.py:853
+msgid "Move to Bottom"
+msgstr "移動到底部"
+
+#: src/app/UI/mainwindow.py:855
+msgid "Move One Up"
+msgstr "上移一層"
+
+#: src/app/UI/mainwindow.py:856
+msgid "Move One Down"
+msgstr "下移一層"
+
+#: src/app/UI/mainwindow.py:860
+msgid "Group selected objects"
+msgstr "已選物件設為群組"
+
+#: src/app/UI/mainwindow.py:861
+msgid "Ungroup selection"
+msgstr "已選物件取消群組"
+
+#: src/app/UI/mainwindow.py:878
+msgid "Rotate Left 90"
+msgstr "向左旋轉 90 度"
+
+#: src/app/UI/mainwindow.py:879
+msgid "Rotate 180"
+msgstr "旋轉 180 度"
+
+#: src/app/UI/mainwindow.py:880
+msgid "Rotate Right 90"
+msgstr "向右旋轉 90 度"
+
+#: src/app/UI/mainwindow.py:883 src/app/events/undo.py:200
+msgid "Undo"
+msgstr "復原"
+
+#: src/app/UI/mainwindow.py:884 src/app/events/undo.py:209
+msgid "Redo"
+msgstr "重做"
+
+#: src/app/UI/mainwindow.py:885
+msgid "Discard Undo History"
+msgstr "捨棄復原歷史"
+
+#: src/app/UI/mainwindow.py:887 src/app/UI/mainwindow.py:1513
+msgid "No Fill"
+msgstr "無填充"
+
+#: src/app/UI/mainwindow.py:888 src/app/UI/mainwindow.py:1516
+msgid "No Line"
+msgstr "無線條"
+
+#: src/app/UI/mainwindow.py:893 src/app/UI/context/image_panel.py:35
+msgid "Convert to CMYK"
+msgstr "轉換為 CMYK"
+
+#: src/app/UI/mainwindow.py:894 src/app/UI/context/image_panel.py:39
+msgid "Convert to RGB"
+msgstr "轉換為 RGB"
+
+#: src/app/UI/mainwindow.py:895 src/app/UI/context/image_panel.py:43
+msgid "Convert to Grayscale"
+msgstr "轉換為灰階"
+
+#: src/app/UI/mainwindow.py:896 src/app/UI/context/image_panel.py:47
+msgid "Convert to B&W"
+msgstr "轉換為黑白"
+
+#: src/app/UI/mainwindow.py:899
+msgid "Embed Image"
+msgstr "內嵌圖像"
+
+#: src/app/UI/mainwindow.py:904
+msgid "File"
+msgstr "檔案"
+
+#: src/app/UI/mainwindow.py:906
+msgid "View"
+msgstr "檢視"
+
+#: src/app/UI/mainwindow.py:907 src/app/UI/pluginpanels/pbrowser.py:45
+msgid "Layout"
+msgstr "版面配置"
+
+#: src/app/UI/mainwindow.py:908 src/app/scripts/spread.py:45
+#: src/app/scripts/spread.py:67 src/app/scripts/spread.py:90
+#: src/app/scripts/spread.py:115 src/app/scripts/spread.py:138
+#: src/app/scripts/spread.py:161 src/app/scripts/spread.py:184
+#: src/app/scripts/spread.py:210
+msgid "Arrange"
+msgstr "排列"
+
+#: src/app/UI/mainwindow.py:909 src/app/UI/pluginpanels/pbrowser.py:48
+msgid "Effects"
+msgstr "效果"
+
+#: src/app/UI/mainwindow.py:910
+msgid "Bitmaps"
+msgstr "點陣圖"
+
+#: src/app/UI/mainwindow.py:912
+msgid "Style"
+msgstr "樣式"
+
+#: src/app/UI/mainwindow.py:915 src/app/UI/cc/ccenterdialog.py:80
+msgid "Help"
+msgstr "求助"
+
+#: src/app/UI/mainwindow.py:918
+msgid "Special"
+msgstr "特殊"
+
+#: src/app/UI/mainwindow.py:1007
+msgid "Zoom"
+msgstr "縮放"
+
+#: src/app/UI/mainwindow.py:1226 src/app/UI/mainwindow.py:1234
+msgid "Load Palette"
+msgstr "載入調色盤"
+
+#: src/app/UI/mainwindow.py:1235
+#, python-format
+msgid ""
+"\n"
+"Cannot load palette %(filename)s!\n"
+msgstr ""
+"\n"
+"無法載入調色盤 %(filename)s！\n"
+
+#: src/app/UI/mainwindow.py:1351
+msgid "modified"
+msgstr "已更動"
+
+#: src/app/UI/mainwindow.py:1352
+msgid "unmodified"
+msgstr "未更動"
+
+#: src/app/UI/mainwindow.py:1458
+msgid "to load image - sK1"
+msgstr "要載入圖像 - sK1"
+
+#: src/app/UI/palette.py:131
+msgid "Sketch Palette"
+msgstr "Sketch 調色盤"
+
+#: src/app/UI/palette.py:132 src/app/managers/dialogmanager.py:31
+#: src/app/managers/dialogmanager.py:54 src/app/managers/dialogmanager.py:67
+#: src/app/managers/dialogmanager.py:84 src/app/managers/dialogmanager.py:87
+#: src/app/managers/dialogmanager.py:90
+msgid "All Files"
+msgstr "所有檔案"
+
+#: src/app/UI/plugindlg.py:214
+#, python-format
+msgid "Set %s"
+msgstr "設定 %s"
+
+#: src/app/UI/plugindlg.py:230
+msgid "Set Parameters"
+msgstr "設定參數"
+
+#: src/app/UI/sketchdlg.py:238
+#: src/app/UI/pluginpanels/properties/fill_plugin.py:79
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:189
+#: src/app/UI/pluginpanels/properties/outlineprop.py:189
+msgid "Auto Update"
+msgstr "自動更新"
+
+#: src/app/UI/sketchdlg.py:243
+msgid "Update From..."
+msgstr "更新自…"
+
+#: src/app/UI/styledlg.py:35
+msgid "Styles"
+msgstr "樣式"
+
+#: src/app/UI/styledlg.py:51
+msgid "Apply style"
+msgstr "套用樣式"
+
+#: src/app/UI/styledlg.py:58
+msgid "Delete style"
+msgstr "刪除樣式"
+
+#: src/app/UI/styledlg.py:64
+msgid "Create new style"
+msgstr "建立新的樣式"
+
+#: src/app/UI/styledlg.py:136 src/app/UI/styledlg.py:210
+msgid "Create Style"
+msgstr "建立樣式"
+
+#: src/app/UI/styledlg.py:156
+msgid "Style name:"
+msgstr "樣式名稱："
+
+#: src/app/UI/styledlg.py:165
+msgid "Style properties"
+msgstr "樣式屬性"
+
+#: src/app/UI/styledlg.py:205
+msgid "Create Style Info"
+msgstr "建立樣式資訊"
+
+#: src/app/UI/styledlg.py:206
+msgid "Please enter a style name."
+msgstr "請輸入樣式名稱。"
+
+#: src/app/UI/styledlg.py:211
+#, python-format
+msgid ""
+"The name `%(name)s' is already used.\n"
+"Please choose another one."
+msgstr ""
+"名稱「%(name)s」已經使用。\n"
+"請選擇另外一個。"
+
+#: src/app/UI/styledlg.py:234
+msgid "Set Default Properties"
+msgstr "設定預設屬性"
+
+#: src/app/UI/styledlg.py:246
+msgid ""
+"Please select the object categories whose\n"
+" default properties you want to change"
+msgstr ""
+"請選取您要變更其預設屬性的物件類別"
+
+#: src/app/UI/styledlg.py:254
+msgid "Graphics Objects"
+msgstr "圖形物件"
+
+#: src/app/UI/styledlg.py:260
+msgid "Text Objects"
+msgstr "文字物件"
+
+#: src/app/UI/tkext.py:1089 src/app/UI/dialogs/msgdialog.py:21
+msgid "Yes"
+msgstr "是"
+
+#: src/app/UI/tkext.py:1090 src/app/UI/dialogs/msgdialog.py:22
+msgid "No"
+msgstr "否"
+
+#: src/app/UI/tkext.py:1092 src/app/UI/dialogs/msgdialog.py:24
+msgid "Don't Save"
+msgstr "不儲存"
+
+#: src/app/UI/ttk_ext.py:38
+msgid "Clear All"
+msgstr "全部清除"
+
+#: src/app/events/undo.py:199
+#, python-format
+msgid "Undo %s"
+msgstr "復原 %s"
+
+#: src/app/events/undo.py:208
+#, python-format
+msgid "Redo %s"
+msgstr "重做 %s"
+
+#: src/app/events/warn.py:62 src/app/events/warn.py:81
+#: src/app/UI/pluginpanels/shaping/base.py:23
+msgid "Warning"
+msgstr "警告"
+
+#: src/app/events/warn.py:80
+msgid "Print Traceback"
+msgstr "列印追溯"
+
+#: src/app/events/warn.py:88
+msgid "Traceback"
+msgstr "追溯"
+
+#: src/app/io/load.py:290
+#, python-format
+msgid "%(message)s (%(count)d times)"
+msgstr "%(message)s (%(count)d 次)"
+
+#: src/app/io/load.py:354
+msgid "Parsing error:"
+msgstr "剖析錯誤："
+
+#: src/app/io/load.py:359
+msgid "unrecognised file type"
+msgstr "無法辨識的檔案類型"
+
+#: src/app/io/load.py:370
+#, python-format
+msgid ""
+"Cannot open %(filename)s:\n"
+"%(message)s"
+msgstr ""
+"無法開啟 %(filename)s：\n"
+"%(message)s"
+
+#: src/app/managers/dialogmanager.py:30 src/app/managers/dialogmanager.py:56
+#: src/app/managers/dialogmanager.py:58
+msgid "sK1 vector graphics files - *.sK1"
+msgstr "sK1 向量圖形檔案 - *.sK1"
+
+#: src/app/managers/dialogmanager.py:33
+msgid "All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. "
+msgstr "所有支援的檔案 - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf 等等 "
+
+#: src/app/managers/dialogmanager.py:38
+msgid "sK1 vector graphics files - *.sk1"
+msgstr "sK1 向量圖形檔案 - *.sk1"
+
+#: src/app/managers/dialogmanager.py:39
+msgid "Sketch\\Skencil files - *.sk"
+msgstr "Sketch\\Skencil 檔案 - *.sk"
+
+#: src/app/managers/dialogmanager.py:40
+msgid "Adobe Illustrator files (up to ver. 9.0) - *.ai"
+msgstr "Adobe Illustrator 檔案 (最高到 ver. 9.0) - *.ai"
+
+#: src/app/managers/dialogmanager.py:41 src/app/managers/dialogmanager.py:74
+msgid "Encapsulated PostScript files - *.eps"
+msgstr "封裝的 PostScript 檔案 - *.eps"
+
+#: src/app/managers/dialogmanager.py:42
+msgid "PostScript files - *.ps"
+msgstr "PostScript 檔案 - *.ps"
+
+#: src/app/managers/dialogmanager.py:43
+msgid "CorelDRAW Graphics files (7-X4 ver.) - *.cdr"
+msgstr "CorelDRAW 圖形檔案 (7-X4 ver.) - *.cdr"
+
+#: src/app/managers/dialogmanager.py:44
+msgid "CorelDRAW Templates files (7-X4 ver.) - *.cdt"
+msgstr "CorelDRAW 範本檔案 (7-X4 ver.) - *.cdt"
+
+#: src/app/managers/dialogmanager.py:45
+msgid "CorelDRAW Presentation Exchange files - *.cmx"
+msgstr "CorelDRAW 簡報交換檔案 - *.cmx"
+
+#: src/app/managers/dialogmanager.py:46
+msgid "CorelDRAW Compressed Exchange files (CDRX format) - *.ccx"
+msgstr "CorelDRAW 壓縮過的交換檔案 (CDRX 格式) - *.ccx"
+
+#: src/app/managers/dialogmanager.py:47 src/app/managers/dialogmanager.py:63
+msgid "Computer Graphics Metafile files - *.cgm"
+msgstr "電腦圖形中繼檔案 - *.cgm"
+
+#: src/app/managers/dialogmanager.py:48
+msgid "Acorn Draw files - *.aff"
+msgstr "Acorn 繪製檔案 - *.aff"
+
+#: src/app/managers/dialogmanager.py:49 src/app/managers/dialogmanager.py:64
+msgid "Scalable Vector Graphics files - *.svg"
+msgstr "可縮放向量圖形檔案 - *.svg"
+
+#: src/app/managers/dialogmanager.py:50 src/app/managers/dialogmanager.py:65
+msgid "Windows Metafile files - *.wmf"
+msgstr "Windows 中繼檔案 - *.wmf"
+
+#: src/app/managers/dialogmanager.py:51 src/app/managers/dialogmanager.py:66
+msgid "HPGL cutting plotter files - *.plt"
+msgstr "HPGL 切割繪圖器檔案 - *.plt"
+
+#: src/app/managers/dialogmanager.py:52
+msgid "AutoCAD DXF files - *.dxf"
+msgstr "AutoCAD DXF 檔案 - *.dxf"
+
+#: src/app/managers/dialogmanager.py:53
+msgid "XFig files - *.fig"
+msgstr "XFig 檔案 - *.fig"
+
+#: src/app/managers/dialogmanager.py:59
+msgid "Sketch and Skencil files - *.sk"
+msgstr "Sketch 與 Skencil 檔案 - *.sk"
+
+#: src/app/managers/dialogmanager.py:60
+msgid "Adobe Illustrator files (ver. 5.0) - *.ai"
+msgstr "Adobe Illustrator 檔案 (ver. 5.0) - *.ai"
+
+#: src/app/managers/dialogmanager.py:61 src/app/managers/dialogmanager.py:89
+msgid "Portable Document Format (PDF 1.5) - *.pdf"
+msgstr "可移植文件格式 (PDF 1.5) - *.pdf"
+
+#: src/app/managers/dialogmanager.py:62
+msgid "PostScript - *.ps"
+msgstr "PostScript - *.ps"
+
+#: src/app/managers/dialogmanager.py:69
+msgid "All supported files - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx etc."
+msgstr "所有支援的檔案 - *.png *.jpg *.tif *.gif *.psd *.bmp *.pcx 等等"
+
+#: src/app/managers/dialogmanager.py:73
+msgid "Portable Network Graphics files - *.png"
+msgstr "可移植網路圖形檔案 - *.png"
+
+#: src/app/managers/dialogmanager.py:75
+msgid "JPEG files - *.jpg *jpeg"
+msgstr "JPEG 檔案 - *.jpg * jpeg"
+
+#: src/app/managers/dialogmanager.py:76
+msgid "TIFF files - *.tif *.tiff"
+msgstr "TIFF 檔案 - *.tif *.tiff"
+
+#: src/app/managers/dialogmanager.py:77
+msgid "CompuServ Graphics files - *.gif"
+msgstr "CompuServ 圖形檔案 - *.gif"
+
+#: src/app/managers/dialogmanager.py:78
+msgid "Adobe Photoshop files (up to v.3.0) - *.psd"
+msgstr "Adobe Photoshop 檔案 (最高到 v.3.0) - *.psd"
+
+#: src/app/managers/dialogmanager.py:79
+msgid "Windows Bitmap files - *.bmp"
+msgstr "Windows 點陣圖檔案 - *.bmp"
+
+#: src/app/managers/dialogmanager.py:80
+msgid "Paintbrush files - *.pcx"
+msgstr "Paintbrush 檔案 - *.pcx"
+
+#: src/app/managers/dialogmanager.py:81
+msgid "Portable Bitmap files - *.pbm"
+msgstr "可移植點陣圖檔案 - *.pbm"
+
+#: src/app/managers/dialogmanager.py:82
+msgid "Portable Graymap files - *.pgm"
+msgstr "可移植灰階圖檔案 - *.pgm"
+
+#: src/app/managers/dialogmanager.py:83
+msgid "Portable Pixmap files - *.ppm"
+msgstr "可移植像素圖檔案 - *.ppm"
+
+#: src/app/managers/dialogmanager.py:86
+msgid "sK1 color swatch palette"
+msgstr "sK1 顏色樣本調色盤"
+
+#: src/app/managers/dialogmanager.py:213
+msgid "Browser not found"
+msgstr "找不到瀏覽器"
+
+#: src/app/managers/dialogmanager.py:216
+msgid "and all the browsers are absent in the system!\n"
+msgstr "而且在系統中缺乏任何瀏覽器！\n"
+
+#: src/app/managers/dialogmanager.py:217
+msgid "Please consider installing browser in your system."
+msgstr "請考慮在您的系統中安裝瀏覽器。"
+
+#: src/app/managers/dialogmanager.py:214
+msgid "sK1 has checked presence of following browsers:\n"
+msgstr "sK1 已經檢查過下列瀏覽器是否存在：\n"
+
+#: src/app/managers/dialogmanager.py:227
+msgid "Open file"
+msgstr "開啟檔案"
+
+#: src/app/managers/dialogmanager.py:234
+msgid "Import drawing"
+msgstr "匯入繪圖"
+
+#: src/app/managers/dialogmanager.py:241
+msgid "Import bitmap"
+msgstr "匯入點陣圖"
+
+#: src/app/managers/dialogmanager.py:251 src/app/managers/dialogmanager.py:260
+#: src/app/managers/dialogmanager.py:265
+msgid "Save file As..."
+msgstr "檔案另存為…"
+
+#: src/app/managers/dialogmanager.py:256
+msgid "Save file"
+msgstr "儲存檔案"
+
+#: src/app/managers/dialogmanager.py:273
+msgid "Export drawing"
+msgstr "匯出繪圖"
+
+#: src/app/managers/dialogmanager.py:280
+msgid "Export drawing as a bitmap"
+msgstr "匯出繪圖為點陣圖"
+
+#: src/app/managers/docmanager.py:79 src/app/managers/docmanager.py:84
+msgid "Open"
+msgstr "開啟"
+
+#: src/app/managers/docmanager.py:79
+msgid ""
+"\n"
+"An error occurred:\n\n"
+msgstr ""
+"\n"
+"發生錯誤：\n\n"
+
+#: src/app/managers/docmanager.py:84
+msgid ""
+"\n"
+"Warnings from the import filter:\n\n"
+msgstr ""
+"\n"
+"警告來自匯入過濾器：\n\n"
+
+#: src/app/managers/docmanager.py:88 src/app/managers/docmanager.py:92
+msgid "Document parsing"
+msgstr "剖析文件中"
+
+#: src/app/managers/docmanager.py:89 src/app/managers/docmanager.py:144
+msgid "Start document processing"
+msgstr "開始處理文件"
+
+#: src/app/managers/docmanager.py:93
+msgid "Document has been loaded"
+msgstr "已載入文件"
+
+#: src/app/managers/docmanager.py:143
+msgid "Document saving/exporting"
+msgstr "儲存/匯出文件中"
+
+#: src/app/managers/docmanager.py:146
+msgid "Finish document processing"
+msgstr "完成文件處理"
+
+#: src/app/managers/docmanager.py:161
+msgid "Printing"
+msgstr "列印"
+
+#: src/app/managers/docmanager.py:162
+msgid ""
+"The document doesn't have \n"
+" any printable layers!\n"
+msgstr ""
+"文件沒有\n"
+"任何可列印圖層！\n"
+
+#: src/app/managers/docmanager.py:168
+msgid "Print into PDF file"
+msgstr "列印成為 PDF 檔案"
+
+#: src/app/managers/docmanager.py:225 src/app/managers/docmanager.py:230
+#: src/app/managers/docmanager.py:238
+msgid "Import vector"
+msgstr "匯入向量"
+
+#: src/app/managers/docmanager.py:225
+msgid "An error occurred:"
+msgstr "發生錯誤："
+
+#: src/app/managers/docmanager.py:230
+msgid "Warnings from the import filter:\n\n"
+msgstr "警告來自匯入過濾器：\n\n"
+
+#: src/app/managers/docmanager.py:238
+msgid "Importing result: it seems the document is empty!"
+msgstr "匯入結果：文件似乎是空的！"
+
+#: src/app/managers/docmanager.py:242 src/app/managers/docmanager.py:246
+msgid "File importing"
+msgstr "匯入檔案"
+
+#: src/app/managers/docmanager.py:243
+msgid "Start file parsing"
+msgstr "開始剖析檔案"
+
+#: src/app/managers/docmanager.py:247
+msgid "File has been imported"
+msgstr "檔案已被匯入"
+
+#: src/app/managers/docmanager.py:299
+#, python-format
+msgid ""
+"\n"
+"Cannot create backup file %(filename)s:\n"
+"%(message)s\n\n"
+"Choose `continue' to try saving anyway,\n"
+"or `cancel' to cancel saving."
+msgstr ""
+"\n"
+"無法建立備份檔案 %(filename)s: \n"
+"%(message)s\n\n"
+"選取「繼續」以嘗試無論如何都要儲存，\n"
+"或是「取消」以取消儲存。"
+
+#: src/app/managers/docmanager.py:305 src/app/managers/docmanager.py:330
+msgid "Save To File"
+msgstr "存入檔案"
+
+#: src/app/managers/docmanager.py:305
+msgid "Continue"
+msgstr "繼續"
+
+#: src/app/managers/docmanager.py:331
+#, python-format
+msgid ""
+"\n"
+"Cannot save %(filename)s:\n\n"
+"%(message)s"
+msgstr ""
+"\n"
+"無法儲存 %(filename)s：\n\n"
+"%(message)s"
+
+#: src/app/managers/docmanager.py:357
+msgid "sK1 - Save Document..."
+msgstr "sK1 - 儲存文件…"
+
+#: src/app/managers/docmanager.py:359
+#, python-format
+msgid ""
+"\n"
+"File: <%s> has been changed ! \n\n"
+"Do you want to save it?\n"
+msgstr ""
+"\n"
+"檔案：<%s> 已變更！\n\n"
+"您要儲存它嗎？\n"
+
+#: src/app/scripts/create_spiral.py:34
+msgid "Create Spiral"
+msgstr "建立螺旋"
+
+#: src/app/scripts/create_spiral.py:39
+msgid "Rotations"
+msgstr "旋轉數"
+
+#: src/app/scripts/create_spiral.py:46 src/app/scripts/create_star.py:106
+msgid "Radius"
+msgstr "半徑"
+
+#: src/app/scripts/create_spiral.py:91
+msgid "Spiral"
+msgstr "螺旋"
+
+#: src/app/scripts/create_spiral.py:92
+#: src/app/scripts/create_star_outline.py:86
+msgid "Create Objects"
+msgstr "建立物件"
+
+#: src/app/scripts/create_star.py:68 src/app/scripts/create_star.py:161
+#: src/app/scripts/create_star_outline.py:30
+msgid "Create Star"
+msgstr "建立星型"
+
+#: src/app/scripts/create_star.py:92 src/app/scripts/create_star_outline.py:35
+msgid "Corners"
+msgstr "角數"
+
+#: src/app/scripts/create_star.py:99
+msgid "Steps"
+msgstr "步數"
+
+#: src/app/scripts/create_star_outline.py:42
+msgid "Outer Radius"
+msgstr "外徑"
+
+#: src/app/scripts/create_star_outline.py:49
+msgid "Inner Radius"
+msgstr "內徑"
+
+#: src/app/scripts/create_star_outline.py:85
+msgid "Star Outline"
+msgstr "星型外框"
+
+#: src/app/scripts/export_raster.py:51
+msgid "Choose Raster Parameters"
+msgstr "選擇點陣參數"
+
+#: src/app/scripts/export_raster.py:56
+msgid "ppi"
+msgstr "ppi"
+
+#: src/app/scripts/export_raster.py:63
+msgid "w. Transparency"
+msgstr "具備透明度"
+
+#: src/app/scripts/export_raster.py:70
+msgid "use BB information"
+msgstr "使用 BB 資訊"
+
+#: src/app/scripts/export_raster.py:198
+msgid "Portable Pixmap"
+msgstr "可移植的像素圖"
+
+#: src/app/scripts/export_raster.py:199
+msgid "Portable Graymap"
+msgstr "可移植的灰階圖"
+
+#: src/app/scripts/export_raster.py:200
+msgid "Jpeg"
+msgstr "Jpeg"
+
+#: src/app/scripts/export_raster.py:201
+msgid "Portable Network Graphics"
+msgstr "PNG"
+
+#: src/app/scripts/export_raster.py:224 src/app/scripts/export_raster.py:237
+#: src/app/scripts/export_raster.py:243
+msgid "Export Raster"
+msgstr "匯出點陣"
+
+#: src/app/scripts/export_raster.py:236
+#, python-format
+msgid "unknown extension %s"
+msgstr "不明的副檔名 %s"
+
+#: src/app/scripts/export_raster.py:250
+msgid "Export Raster Alpha (100ppi)"
+msgstr "匯出點陣α值(100 ppi)"
+
+#: src/app/scripts/reload_image.py:76
+msgid "Reload Image"
+msgstr "重新載入圖像"
+
+#: src/app/scripts/simple_separation.py:50
+msgid ""
+"The drawing contains unsupported fill or line patterns. Only solid\n"
+"colors are supported.\n"
+msgstr ""
+"繪製圖含有不支援的填充或線條式樣。只支援單純\n"
+"顏色。\n"
+
+#: src/app/scripts/simple_separation.py:55
+msgid "The drawing contains raster images, which are not supported for separation\n"
+msgstr "繪製圖含有點陣圖像，分離時不支援該項\n"
+
+#: src/app/scripts/simple_separation.py:59
+msgid ""
+"The drawing contains embedded EPS files which are not supported for\n"
+"separation\n"
+msgstr ""
+"繪製圖含有嵌入式 EPS 檔案，分離時不支援該項\n"
+
+#: src/app/scripts/simple_separation.py:137
+#, python-format
+msgid ""
+"The drawing has %d unique colors.\n"
+"Please choose a basename for the separation files.\n"
+"There will be one file for each color with a name of\n"
+"the form basename-XXXXXX.ps where XXXXXX is the\n"
+"hexadecimal color value.\n"
+msgstr ""
+"繪製圖有 %d 種唯一的顏色。\n"
+"請選擇分離檔案的基本名稱。\n"
+"將會對於每種顏色都產生一個具有名稱\n"
+"為 基本名稱-XXXXXX.ps 形式的檔案。其中 XXXXXX 代表\n"
+"顏色的十六進位值。\n"
+
+#: src/app/scripts/simple_separation.py:164
+msgid "Basename:"
+msgstr "基本名稱："
+
+#: src/app/scripts/simple_separation.py:214
+#: src/app/scripts/simple_separation.py:266
+msgid "Simple Separation"
+msgstr "簡單分離"
+
+#: src/app/scripts/spread.py:44
+msgid "Spread Horizontal (cascade left)"
+msgstr "水平展開 (向左重疊顯示)"
+
+#: src/app/scripts/spread.py:66
+msgid "Spread Horizontal (cascade right)"
+msgstr "水平展開 (向右重疊顯示)"
+
+#: src/app/scripts/spread.py:89
+msgid "Spread Horizontal (center)"
+msgstr "水平展開 (置中)"
+
+#: src/app/scripts/spread.py:114
+msgid "Spread Horizontal (bbox)"
+msgstr "水平展開 (外框)"
+
+#: src/app/scripts/spread.py:137
+msgid "Spread Vertical (cascade bottom)"
+msgstr "垂直展開 (向下重疊顯示)"
+
+#: src/app/scripts/spread.py:160
+msgid "Spread Vertical (cascade top)"
+msgstr "垂直展開 (向上重疊顯示)"
+
+#: src/app/scripts/spread.py:183
+msgid "Spread Vertical (center)"
+msgstr "垂直展開 (置中)"
+
+#: src/app/scripts/spread.py:209
+msgid "Spread Vertical (bbox)"
+msgstr "垂直展開 (外框)"
+
+#: src/app/UI/cc/ccenterdialog.py:31
+msgid "sK1 Preferences"
+msgstr "sK1 偏好設定"
+
+#: src/app/UI/cc/ccenterdialog.py:83
+msgid "Restore Defaults"
+msgstr "還原預設值"
+
+#: src/app/UI/cc/ccenterdialog.py:134
+msgid "Preferences"
+msgstr "偏好設定"
+
+#: src/app/UI/cc/prefpanel.py:17
+msgid "Preference Panel"
+msgstr "偏好設定面板"
+
+#: src/app/UI/context/ellipse_panel.py:64
+msgid "Start:"
+msgstr "起始："
+
+#: src/app/UI/context/ellipse_panel.py:69
+msgid "Arc start point angle"
+msgstr "弧線起始點角度"
+
+#: src/app/UI/context/ellipse_panel.py:76
+msgid "End:"
+msgstr "結束："
+
+#: src/app/UI/context/ellipse_panel.py:81
+msgid "Arc end point angle"
+msgstr "弧線結束點角度"
+
+#: src/app/UI/context/ellipse_panel.py:84
+msgid "Reset angles"
+msgstr "重置角度"
+
+#: src/app/UI/context/ellipse_panel.py:88
+msgid "Swap angles"
+msgstr "交換角度"
+
+#: src/app/UI/context/ellipse_panel.py:95
+msgid "to Arc"
+msgstr "弧線"
+
+#: src/app/UI/context/ellipse_panel.py:99
+msgid "to Chord"
+msgstr "套索"
+
+#: src/app/UI/context/ellipse_panel.py:103
+msgid "to Pie"
+msgstr "扇形"
+
+#: src/app/UI/context/font_panel.py:41
+msgid "Font name"
+msgstr "字型名稱"
+
+#: src/app/UI/context/font_panel.py:52
+msgid "Font style"
+msgstr "字型樣式"
+
+#: src/app/UI/context/font_panel.py:63
+msgid "Font size"
+msgstr "字型尺寸"
+
+#: src/app/UI/context/font_panel.py:77
+msgid "Bold"
+msgstr "粗體"
+
+#: src/app/UI/context/font_panel.py:82
+msgid "Italic"
+msgstr "斜體"
+
+#: src/app/UI/context/font_panel.py:155
+msgid "Set Font Properties"
+msgstr "設定字型屬性"
+
+#: src/app/UI/context/group_panel.py:25
+msgid "Group"
+msgstr "群組"
+
+#: src/app/UI/context/group_panel.py:44
+msgid "Combine"
+msgstr "合併"
+
+#: src/app/UI/context/group_panel.py:48
+msgid "Split"
+msgstr "分割"
+
+#: src/app/UI/context/group_panel.py:58
+msgid "Convert to curve"
+msgstr "轉換為曲線"
+
+#: src/app/UI/context/guides_panel.py:24
+msgid "Add page frame"
+msgstr "加入頁框"
+
+#: src/app/UI/context/guides_panel.py:27
+msgid "Add guides for page center"
+msgstr "加入頁面中心參考線"
+
+#: src/app/UI/context/guides_panel.py:34
+msgid "Add guides across page border"
+msgstr "加入跨越頁面邊框參考線"
+
+#: src/app/UI/context/guides_panel.py:58
+msgid "Remove all guides"
+msgstr "移除所有參考線"
+
+#: src/app/UI/context/jump_panel.py:31
+msgid "Jump:"
+msgstr "跳躍："
+
+#: src/app/UI/context/nodeedit_panel.py:34
+msgid "Insert node"
+msgstr "插入節點"
+
+#: src/app/UI/context/nodeedit_panel.py:37
+msgid "Remove nodes"
+msgstr "移除節點"
+
+#: src/app/UI/context/nodeedit_panel.py:45
+msgid "Join selected nodes"
+msgstr "聯結已選節點"
+
+#: src/app/UI/context/nodeedit_panel.py:48
+msgid "Break path at selected nodes"
+msgstr "中斷已選節點路徑"
+
+#: src/app/UI/context/nodeedit_panel.py:56
+msgid "Make selected nodes corner"
+msgstr "轉角化已選節點"
+
+#: src/app/UI/context/nodeedit_panel.py:59
+msgid "Make selected nodes smooth"
+msgstr "平滑化已選節點"
+
+#: src/app/UI/context/nodeedit_panel.py:62
+msgid "Make selected nodes symmetric"
+msgstr "對稱化已選節點"
+
+#: src/app/UI/context/nodeedit_panel.py:70
+msgid "Make selected segments lines"
+msgstr "線條化已選區段"
+
+#: src/app/UI/context/nodeedit_panel.py:73
+msgid "Make selected segments curves"
+msgstr "曲線化已選區段"
+
+#: src/app/UI/context/nodeedit_panel.py:81
+msgid "Select all nodes in path"
+msgstr "選取路徑中所有節點"
+
+#: src/app/UI/context/page_panel.py:28
+#: src/app/UI/pluginpanels/layout/page_plugin.py:40
+msgid "<Custom Size>"
+msgstr "<自訂大小>"
+
+#: src/app/UI/context/page_panel.py:35
+msgid "Page:"
+msgstr "頁面："
+
+#: src/app/UI/context/page_panel.py:40
+msgid "Page formats"
+msgstr "頁面格式"
+
+#: src/app/UI/context/page_panel.py:57
+msgid "H:"
+msgstr "水平："
+
+#: src/app/UI/context/page_panel.py:61
+msgid "Page width"
+msgstr "頁面寬度"
+
+#: src/app/UI/context/page_panel.py:69
+msgid "V:"
+msgstr "垂直："
+
+#: src/app/UI/context/page_panel.py:73
+msgid "Page height"
+msgstr "頁面高度"
+
+#: src/app/UI/context/page_panel.py:81
+#: src/app/UI/pluginpanels/layout/page_plugin.py:113
+msgid "Portrait"
+msgstr "直印"
+
+#: src/app/UI/context/page_panel.py:85
+#: src/app/UI/pluginpanels/layout/page_plugin.py:119
+msgid "Landscape"
+msgstr "橫印"
+
+#: src/app/UI/context/rectangle_panel.py:32
+msgid "Horizontal radius of rounded corners"
+msgstr "圓角水平半徑"
+
+#: src/app/UI/context/rectangle_panel.py:44
+msgid "Vertical radius of rounded corners"
+msgstr "圓角垂直半徑"
+
+#: src/app/UI/context/resize_panel.py:44
+msgid "Width of selection"
+msgstr "選取的寬度"
+
+#: src/app/UI/context/resize_panel.py:53
+msgid "Height of selection"
+msgstr "選取的高度"
+
+#: src/app/UI/context/rotation_panel.py:29
+msgid "Rotation angle"
+msgstr "旋轉角度"
+
+#: src/app/UI/context/rotation_panel.py:32
+msgid "Rotate -90°"
+msgstr "旋轉 -90°"
+
+#: src/app/UI/context/rotation_panel.py:35
+msgid "Rotate 180°"
+msgstr "旋轉 180°"
+
+#: src/app/UI/context/rotation_panel.py:38
+msgid "Rotate 90°"
+msgstr "旋轉 90°"
+
+#: src/app/UI/context/text_prop_panel.py:33
+msgid "Distance between words"
+msgstr "字詞間距"
+
+#: src/app/UI/context/text_prop_panel.py:42
+msgid "Distance between lines"
+msgstr "字列間距"
+
+#: src/app/UI/context/text_prop_panel.py:51
+msgid "Distance between characters"
+msgstr "字元間距"
+
+#: src/app/UI/context/text_prop_panel.py:68
+msgid "Set Text properties"
+msgstr "設定文字屬性"
+
+#: src/app/UI/context/textalign_panel.py:29
+msgid "Left alignment"
+msgstr "向左對齊"
+
+#: src/app/UI/context/textalign_panel.py:33
+msgid "Center alignment"
+msgstr "置中對齊"
+
+#: src/app/UI/context/textalign_panel.py:37
+msgid "Right alignment"
+msgstr "向右對齊"
+
+#: src/app/UI/context/textalign_panel.py:57
+msgid "Set Text Alignment"
+msgstr "設定文字對齊"
+
+#: src/app/UI/context/unit_panel.py:27
+msgid "Units:"
+msgstr "單位："
+
+#: src/app/UI/dialogs/aboutdlg.py:25
+msgid "About sK1"
+msgstr "關於 sK1"
+
+#: src/app/UI/dialogs/aboutdlg.py:46
+#, python-format
+msgid "Uses libraries: Tcl/Tk %s; Python %s"
+msgstr "使用函式庫：Tcl/Tk %s；Python %s"
+
+#: src/app/UI/dialogs/aboutdlg.py:68
+msgid "About application"
+msgstr "關於應用程式"
+
+#: src/app/UI/dialogs/aboutdlg.py:77
+msgid "Illustration program for prepress"
+msgstr "印前處理程式"
+
+#: src/app/UI/dialogs/aboutdlg.py:97
+msgid "Authors"
+msgstr "作者"
+
+#: src/app/UI/dialogs/aboutdlg.py:116
+msgid ""
+"\n"
+"To report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n\n"
+msgstr ""
+"\n"
+"要回報錯誤請使用計畫錯誤追蹤系統：https://bugs.launchpad.net/sk1/ 。\n\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:117
+msgid ""
+"Igor Novikov\n"
+"   igor.e.novikov@gmail.com\n"
+"   Project Leader\n\n"
+msgstr ""
+"Igor Novikov\n"
+"   igor.e.novikov@gmail.com\n"
+"   計畫召集人\n\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:118
+msgid ""
+"Maxim Barabash\n"
+"   maxim.s.barabash@gmail.com\n"
+"   Designer\n\n"
+msgstr ""
+"Maxim Barabash\n"
+"   maxim.s.barabash@gmail.com\n"
+"   設計師\n\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:119
+msgid ""
+"Acknowledgments:\n"
+"=======================================\n"
+msgstr ""
+"致謝：\n"
+"=======================================\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:120
+msgid ""
+"Valek Fillipov\n"
+"   CDR format reverse engineering\n\n"
+msgstr ""
+"Valek Fillipov\n"
+"   CDR 格式逆向工程\n\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:121
+msgid ""
+"Alexandre Prokoudine\n"
+"   alexandre.prokoudine@gmail.com\n"
+"   Information support (http://linuxgraphics.ru)"
+msgstr ""
+"Alexandre Prokoudine\n"
+"   alexandre.prokoudine@gmail.com\n"
+"   資訊支援 (http://linuxgraphics.ru)"
+
+#: src/app/UI/dialogs/aboutdlg.py:128
+msgid "Localization"
+msgstr "本地化"
+
+#: src/app/UI/dialogs/aboutdlg.py:147
+msgid ""
+"\n"
+"The project is not localized yet.\n"
+msgstr ""
+"\n"
+"本計畫尚未本地化。\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:148
+msgid "We plan to provide localization resources for next version\n"
+msgstr "我們計畫於下一版本提供本地化資源\n"
+
+#: src/app/UI/dialogs/aboutdlg.py:149
+msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
+msgstr "因此如果您希望以本地化工作者參加 sK1 團隊，請直接連絡我們！"
+
+#: src/app/UI/dialogs/aboutdlg.py:156
+msgid "License"
+msgstr "授權"
+
+#: src/app/UI/dialogs/deletepagedlg.py:25
+msgid "Delete page"
+msgstr "刪除頁面"
+
+#: src/app/UI/dialogs/deletepagedlg.py:41
+msgid "Delete page No.:"
+msgstr "刪除頁面號碼："
+
+#: src/app/UI/dialogs/deletepagedlg.py:67 src/app/UI/dialogs/gotopagedlg.py:67
+#: src/app/UI/dialogs/insertpagedlg.py:93
+#: src/app/UI/dialogs/insertpagedlg.py:97
+msgid "Error"
+msgstr "錯誤"
+
+#: src/app/UI/dialogs/deletepagedlg.py:67 src/app/UI/dialogs/gotopagedlg.py:67
+#: src/app/UI/dialogs/insertpagedlg.py:93
+msgid "Incorrect page number!"
+msgstr "不正確的頁碼！"
+
+#: src/app/UI/dialogs/gotopagedlg.py:41
+msgid "Go to page No.:"
+msgstr "前往頁面號碼："
+
+#: src/app/UI/dialogs/insertpagedlg.py:25
+msgid "Insert pages"
+msgstr "插入頁面"
+
+#: src/app/UI/dialogs/insertpagedlg.py:42
+msgid "Insert:"
+msgstr "插入："
+
+#: src/app/UI/dialogs/insertpagedlg.py:47
+msgid "page(s)"
+msgstr "頁面"
+
+#: src/app/UI/dialogs/insertpagedlg.py:61
+msgid "Before"
+msgstr "之前"
+
+#: src/app/UI/dialogs/insertpagedlg.py:63
+msgid "After"
+msgstr "之後"
+
+#: src/app/UI/dialogs/insertpagedlg.py:66
+msgid "page No.:"
+msgstr "頁面號碼："
+
+#: src/app/UI/dialogs/insertpagedlg.py:97
+msgid "Incorrect number of pages!"
+msgstr "不正確的頁數！"
+
+#: src/app/UI/pluginpanels/pbrowser.py:22
+msgid "Plugin Browser"
+msgstr "外掛瀏覽器"
+
+#: src/app/UI/pluginpanels/pbrowser.py:43
+msgid "Plugins"
+msgstr "外掛程式"
+
+#: src/app/UI/pluginpanels/pbrowser.py:44
+msgid "Object properties"
+msgstr "物件屬性"
+
+#: src/app/UI/pluginpanels/pbrowser.py:46
+msgid "Transformation"
+msgstr "變換"
+
+#: src/app/UI/pluginpanels/pbrowser.py:47
+msgid "Shaping"
+msgstr "成形"
+
+#: src/app/UI/pluginpanels/pbrowser.py:49
+msgid "Extentions"
+msgstr "延伸"
+
+#: src/app/UI/widgets/colorchooser.py:87
+msgid ""
+"Empty pattern selected,\n"
+"i.e. object will not be filled"
+msgstr ""
+"已選空白式樣，\n"
+"也就是物件將不會被充填"
+
+#: src/app/UI/widgets/colordigitizer.py:239
+msgid "Color name:"
+msgstr "顏色名稱："
+
+#: src/app/UI/widgets/colorspacesel.py:14
+msgid "Empty pattern"
+msgstr "空白式樣"
+
+#: src/app/UI/widgets/colorspacesel.py:15
+#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:24
+msgid "RGB color"
+msgstr "RGB 顏色"
+
+#: src/app/UI/widgets/colorspacesel.py:16
+#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:25
+msgid "CMYK color"
+msgstr "CMYK 顏色"
+
+#: src/app/UI/widgets/colorspacesel.py:17
+msgid "Spot color"
+msgstr "特別色"
+
+#: src/app/UI/widgets/colorspacesel.py:18
+msgid "Registration Black"
+msgstr "混合黑"
+
+#: src/app/UI/widgets/colorspacesel.py:36
+#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:41
+msgid "Colorspace:"
+msgstr "顏色空間："
+
+#: src/app/UI/widgets/doctabs.py:206
+msgid "New Document"
+msgstr "新文件"
+
+#: src/app/UI/widgets/doctabs.py:208
+msgid "Refresh Document"
+msgstr "重新整理文件"
+
+#: src/app/UI/widgets/doctabs.py:210
+msgid "Save Document"
+msgstr "儲存文件"
+
+#: src/app/UI/widgets/doctabs.py:212
+msgid "Close Other Documents"
+msgstr "關閉其他文件"
+
+#: src/app/UI/widgets/doctabs.py:215
+msgid "Close Document"
+msgstr "關閉文件"
+
+#: src/app/UI/widgets/pager.py:32
+msgid "Page 2 of 2"
+msgstr "頁面 2 之於 2"
+
+#: src/app/UI/widgets/pager.py:57
+#, python-format
+msgid "Page %u of %u"
+msgstr "頁面 %u 之於 %u"
+
+#: src/app/UI/cc/panels/general.py:19
+msgid "General Options"
+msgstr "一般選項"
+
+#: src/app/UI/cc/panels/general.py:21
+msgid "root"
+msgstr "根"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:23
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:27
+msgid "Selection"
+msgstr "選擇"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:24
+msgid "Lowermost"
+msgstr "最低"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:25
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:28
+#: src/app/UI/pluginpanels/layout/page_plugin.py:33
+msgid "Page"
+msgstr "頁面"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:47
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:50
+msgid "Relative to"
+msgstr "相對於"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:57
+msgid "Alignment type"
+msgstr "對齊類型"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:71
+msgid "Align left sides"
+msgstr "左側對齊"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:72
+msgid "Center on vertical axis"
+msgstr "依垂直軸線置中"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:73
+msgid "Align right sides"
+msgstr "右側對齊"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:75
+msgid "Align tops"
+msgstr "頂端對齊"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:76
+msgid "Center on horizontal axis"
+msgstr "依水平軸線置中"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:77
+msgid "Align bottoms"
+msgstr "底部對齊"
+
+#: src/app/UI/pluginpanels/effects/align_plugin.py:100
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:106
+msgid "Auto Apply"
+msgstr "自動套用"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:25
+msgid "Distribute Objects"
+msgstr "分布物件"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:29
+msgid "Edge + Jump"
+msgstr "邊緣 + 跳躍"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:38
+msgid "Distribute"
+msgstr "分布"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:61
+msgid "Distribute type"
+msgstr "分布型態"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:76
+msgid "Distribute left sides equidistantly"
+msgstr "分布等距對齊左側"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:77
+msgid "Distribute centers equidistantly horizontally"
+msgstr "分布水平等距置中"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:78
+msgid "Make horizontal gaps between objects equal"
+msgstr "讓物件的水平間隙相同"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:79
+msgid "Distribute right sides equidistantly"
+msgstr "分布等距對齊右側"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:81
+msgid "Distribute tops sides equidistantly"
+msgstr "分布等距對齊頂端"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:82
+msgid "Distribute centers equidistantly vertically"
+msgstr "分布垂直等距置中"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:83
+msgid "Make vertical gaps between objects equal"
+msgstr "讓物件的垂直間隙相同"
+
+#: src/app/UI/pluginpanels/effects/distribute_plugin.py:84
+msgid "Distribute bottoms sides equidistantly"
+msgstr "分布等距對齊底部"
+
+#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:30
+msgid "Color Space Converter"
+msgstr "顏色空間轉換器"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:25
+msgid "Text Find & Replace"
+msgstr "文字尋找 & 置換"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:49
+msgid "Find:"
+msgstr "尋找："
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:61
+msgid "Replace to:"
+msgstr "置換為："
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
+msgid "Parameters"
+msgstr "參數"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:78
+msgid "Case sensitive"
+msgstr "大小寫相符"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:83
+msgid "Whole word"
+msgstr "全字拼寫"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:88
+msgid "RegExp search"
+msgstr "正規表示式搜尋"
+
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:104
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:112
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:117
+#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:126
+msgid "Text Replace"
+msgstr "文字置換"
+
+#: src/app/UI/pluginpanels/layout/grid_plugin.py:39
+msgid "Grid origin"
+msgstr "格線原點"
+
+#: src/app/UI/pluginpanels/layout/grid_plugin.py:60
+msgid "Grid size"
+msgstr "格線大小"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
+msgid "Guidelines"
+msgstr "參考線"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:87
+msgid "Add Horizontal Guide"
+msgstr "加入水平參考線"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:93
+msgid "Add Vertical Guide"
+msgstr "加入垂直參考線"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:99
+msgid "Delete Guide"
+msgstr "刪除參考線"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:129
+#, python-format
+msgid "% 6.*f %s    horizontal"
+msgstr "% 6.*f %s    水平"
+
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:131
+#, python-format
+msgid "% 6.*f %s    vertical"
+msgstr "% 6.*f %s    垂直"
+
+#: src/app/UI/pluginpanels/properties/fill_plugin.py:33
+msgid "Solid Fill"
+msgstr "單色填充"
+
+#: src/app/UI/pluginpanels/properties/fill_plugin.py:70
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:180
+#: src/app/UI/pluginpanels/properties/outlineprop.py:180
+msgid "Copy From..."
+msgstr "複製自…"
+
+#: src/app/UI/pluginpanels/properties/fill_plugin.py:74
+msgid "Restore color"
+msgstr "還原顏色"
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:40
+msgid "Gradient Fill"
+msgstr "漸層填充"
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:66
+#: src/app/UI/pluginpanels/properties/outlineprop.py:66
+msgid "Color:"
+msgstr "顏色："
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:95
+#: src/app/UI/pluginpanels/properties/outlineprop.py:95
+msgid "Line width:"
+msgstr "線條寬度："
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:108
+#: src/app/UI/pluginpanels/properties/outlineprop.py:108
+msgid "Style:"
+msgstr "樣式："
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:117
+#: src/app/UI/pluginpanels/properties/outlineprop.py:117
+msgid "Corners:"
+msgstr "角數："
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:146
+#: src/app/UI/pluginpanels/properties/outlineprop.py:146
+msgid "Line caps:"
+msgstr "線條頂端："
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:184
+#: src/app/UI/pluginpanels/properties/outlineprop.py:184
+msgid "Restore properties"
+msgstr "還原屬性"
+
+#: src/app/UI/pluginpanels/properties/gradient_fill.py:245
+#: src/app/UI/pluginpanels/properties/outlineprop.py:245
+msgid "Set Outline Properties"
+msgstr "設定外框屬性"
+
+#: src/app/UI/pluginpanels/properties/outlinecolor.py:18
+msgid "Outline Color"
+msgstr "外框顏色"
+
+#: src/app/UI/pluginpanels/properties/outlinecolor.py:31
+msgid "Set Outline Color"
+msgstr "設定外框顏色"
+
+#: src/app/UI/pluginpanels/properties/outlineprop.py:40
+msgid "Outline Properties"
+msgstr "外框屬性"
+
+#: src/app/UI/pluginpanels/shaping/base.py:27
+msgid "Two or more objects must be selected"
+msgstr "必選兩個以上物件"
+
+#: src/app/UI/pluginpanels/shaping/base.py:36
+msgid "Paths in polygon objects must be closed"
+msgstr "在多邊形物件中的路徑必須閉合"
+
+#: src/app/UI/pluginpanels/shaping/base.py:40
+msgid "Only rectangles, ellipses and polygons must be selected"
+msgstr "必選只有矩形、橢圓和多邊形"
+
+#: src/app/UI/pluginpanels/shaping/divide.py:25
+msgid "Divide"
+msgstr "分割"
+
+#: src/app/UI/pluginpanels/shaping/divide.py:51
+#: src/app/UI/pluginpanels/shaping/intersect.py:51
+#: src/app/UI/pluginpanels/shaping/trim.py:51
+#: src/app/UI/pluginpanels/shaping/union.py:51
+msgid "Leave originals"
+msgstr "保留原來的"
+
+#: src/app/UI/pluginpanels/shaping/intersect.py:25
+msgid "Intersection"
+msgstr "交集"
+
+#: src/app/UI/pluginpanels/shaping/outline.py:27
+msgid "Outline to Curve"
+msgstr "外框轉曲線"
+
+#: src/app/UI/pluginpanels/shaping/trim.py:25
+msgid "Trim"
+msgstr "修剪"
+
+#: src/app/UI/pluginpanels/shaping/union.py:25
+msgid "Union"
+msgstr "聯合"
+
+#: src/app/UI/pluginpanels/transform/move_plugin.py:98
+msgid "Absolute Coordinates"
+msgstr "絕對座標"
+
+#: src/app/UI/pluginpanels/transform/move_plugin.py:105
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:114
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:133
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:116
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:87
+msgid "Basepoint:"
+msgstr "基點："
+
+#: src/app/UI/pluginpanels/transform/move_plugin.py:127
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:136
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:157
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:138
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:110
+msgid "Apply to Copy"
+msgstr "套用複製"
+
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:28
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:184
+msgid "Resize"
+msgstr "調整大小"
+
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:109
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:111
+msgid "Proportional"
+msgstr "比例"
+
+#: src/app/UI/pluginpanels/transform/resize_plugin.py:204
+msgid "Resize&Copy"
+msgstr "調整大小 & 複製"
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:36
+msgid "Rotate"
+msgstr "旋轉"
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:83
+msgid "Angle:"
+msgstr "角度："
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:89
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:68
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:82
+msgid "deg"
+msgstr "度"
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:92
+msgid "Center:"
+msgstr "中心："
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:126
+msgid "Absolute Center"
+msgstr "絕對中心"
+
+#: src/app/UI/pluginpanels/transform/rotate_plugin.py:222
+msgid "Rotation&Copy"
+msgstr "旋轉 & 複製"
+
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:27
+msgid "Scale and Mirror"
+msgstr "縮放與鏡像"
+
+#: src/app/UI/pluginpanels/transform/scale_plugin.py:198
+msgid "Scale&Copy"
+msgstr "縮放 & 複製"
+
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:31
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:152
+msgid "Skew"
+msgstr "歪斜"
+
+#: src/app/UI/pluginpanels/transform/skew_plugin.py:183
+msgid "Skew&Copy"
+msgstr "歪斜 & 複製"
