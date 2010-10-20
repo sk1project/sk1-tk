@@ -145,7 +145,7 @@ class sK1MainWindow(Publisher):
 		p_frame.pack(side='right', fill=Y)
 		
 		palette_frame = TFrame(p_frame, style='FlatFrame')
-		palette_frame.pack(side='right', fill=Y, pady=5, padx=5)
+		palette_frame.pack(side='right', fill=Y, pady=5, padx=3)
 		
 		b = TLabel(p_frame, style='VLine3')
 		
