@@ -7,8 +7,8 @@
 
 
 from sk1sdk.libttk import TFrame, TLabel, TButton, TCombobox
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END
-from sk1sdk.libtk.Tkinter import Label, StringVar
+from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, WORD
+from sk1sdk.libtk.Tkinter import Label, StringVar, Text
 from sk1sdk.libtk.tkext import FlatFrame
 from app import _, config
 import app
@@ -167,16 +167,16 @@ class PrintingOptionsPanel(PrefPanel):
 	levels=('1.3','1.4','1.5','1.6','1.7')
 	
 	def build(self):
-		text = _('sK1 generates PDF file as a printing output.\n\
-So as a printing target you can use any application\n\
-which accepts PDF file on input: evince, kprinter, acroread etc.\n\
-Printing command should contain %f symbols replaced by \n\
+		text = _('sK1 generates PDF file as a printing output. So as a printing target you can use any application \
+which accepts PDF file on input: evince, kprinter, acroread etc. \
+Printing command should contain %f symbols replaced by \
 temporal PDF file name during printing.')			
-		label = Label(self, text=text, justify=LEFT)
+		label = Text(self, height=5, wrap=WORD)
 		label.pack(side=TOP, anchor='nw')
+		label.insert(END, text)
 		
 		frame=FlatFrame(self)
-		frame.pack(side=TOP, fill=X, expand=1, pady=25)
+		frame.pack(side=TOP, fill=X, expand=1, pady=10)
 
 		frame.columnconfigure(1, weight=1)
 		
