@@ -1256,8 +1256,8 @@ rSASvJTGhnhcV3EJlo3kh53ltF5nAhQAOw==}]
     }
     #set folder $Priv(folderImage)
     #set file   $Priv(fileImage)
-    set folder "tk_folder_large"
-    set file "tk_file_large"
+    set folder "mime_folder_22"
+    set file "mime_file_22"
 
     set appPWD [pwd]
     if {[catch {
