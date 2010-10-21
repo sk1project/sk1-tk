@@ -119,7 +119,8 @@ class Preferences(connector.Publisher):
 		if not hasattr(self, attr) or getattr(self, attr) != value:
 			self.__dict__[attr] = value
 			self.issue(CHANGED, attr, value)
-			app.mw.issue(CHANGED)
+			if not app.mw is None:
+				app.mw.issue(CHANGED)
 			
 	def load(self, filename=None):
 		import xml.sax
@@ -353,7 +354,7 @@ class Preferences(connector.Publisher):
 	dir_for_bitmap_import = '~'
 	dir_for_bitmap_export = '~'
 	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type = 1
+	dialog_type = 2
 	#------------------------------------
 
 	#RULER data
