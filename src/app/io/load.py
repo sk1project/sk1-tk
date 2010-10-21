@@ -367,7 +367,8 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 
 def load_drawing(filename):
 	if type(filename) == StringType:
-		name=locale_utils.utf_to_locale(filename)
+		name=filename
+		#name=locale_utils.utf_to_locale(filename)
 		#name=locale_utils.strip_line(name)
 		try:
 			file = open(name, 'rb')
