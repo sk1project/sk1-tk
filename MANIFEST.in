@@ -15,5 +15,6 @@ recursive-include src/share/cursors *.*
 recursive-include src/share/palettes *.*
 recursive-include src/share/ps_templates *.*
 recursive-include src/share/resources *.*
+recursive-include src/share/locales *.*
 
 recursive-include po *.*
