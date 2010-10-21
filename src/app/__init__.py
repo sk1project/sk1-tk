@@ -9,6 +9,26 @@
 
 import os, sys, string
 
+uimanager=None
+dialogman=None
+mw=None
+
+####Info variables for progress dialogs
+info1=None
+info2=None
+info3=None
+info_win=None
+#######################################
+
+
+objprop_plugins=[]
+layout_plugins=[]
+transform_plugins=[]
+effects_plugins=[]
+extentions_plugins=[]
+shaping_plugins=[]
+pref_plugins=[]
+
 
 _pkgdir = __path__[0]
 
@@ -46,23 +66,6 @@ config = Configurator(base_dir=_parentdir)
 
 from managers.colormanager import ColorManager
 colormanager=ColorManager()
-uimanager=None
-dialogman=None
-mw=None
-
-####Info variables for progress dialogs
-info1=None
-info2=None
-info3=None
-info_win=None
-#######################################
-objprop_plugins=[]
-layout_plugins=[]
-transform_plugins=[]
-effects_plugins=[]
-extentions_plugins=[]
-shaping_plugins=[]
-pref_plugins=[]
 
 
 from _sketch import Rect, PointsToRect, UnionRects, IntersectRects, EmptyRect, InfinityRect, RectType
