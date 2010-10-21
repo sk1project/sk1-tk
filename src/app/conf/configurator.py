@@ -353,7 +353,7 @@ class Preferences(connector.Publisher):
 	dir_for_bitmap_import = '~'
 	dir_for_bitmap_export = '~'
 	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type = 0
+	dialog_type = 1
 	#------------------------------------
 
 	#RULER data
