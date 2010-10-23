@@ -35,7 +35,7 @@ def make_button(*args, **kw):
 class DistributePlugin(PluginPanel):
 	
 	name='Distribute'
-	title = _("Distribute")
+	title = _("Distribution")
 	
 	def init(self, master):
 		PluginPanel.init(self, master)

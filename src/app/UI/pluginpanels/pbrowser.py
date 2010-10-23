@@ -46,7 +46,7 @@ class PluginBrowser(PluginPanel):
 		transform_group=PluginCategory('Transform', _("Transformation"))
 		shaping_group=PluginCategory('Shaping', _("Shaping"))
 		effects_group=PluginCategory('Effects', _("Effects"))
-		extentions_group=PluginCategory('Extentions', _("Extentions"))
+		extentions_group=PluginCategory('Extentions', _("Extensions"))
 
 		objprop_group.contents=app.objprop_plugins
 		layout_group.contents=app.layout_plugins

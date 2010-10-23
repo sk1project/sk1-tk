@@ -27,7 +27,7 @@ from app.UI.lengthvar import LengthVar, create_unit_menu
 
 class GuidelinesPanel(PluginPanel):
 	name='Guidelines'
-	title = _("Guidelines")
+	title = _("Guides")
 
 
 	def init(self, master):
