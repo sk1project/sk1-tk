@@ -29,7 +29,9 @@
 # --------------------------------------------------------------------------
 #  to create binary DEB package:  python setup.py bdist_deb
 # --------------------------------------------------------------------------
-#  to update localization .pot file: python setup.py build_locale (Linux only)
+#  to update localization .pot file: python setup.py build_pot_file (Linux only)
+# --------------------------------------------------------------------------
+#  to create localization .mo files: python setup.py build_locales (Linux only)
 # --------------------------------------------------------------------------
 #
 #  help on available distribution formats: python setup.py bdist --help-formats
@@ -122,6 +124,7 @@ def get_files_tree(path='.', ext='*'):
 
 #Collects messages for localization resources
 def build_pot_resource():
+	print 'POT FILE UPDATE...'
 	files=get_files_tree('src','py')
 	res=open('messages/locale.in','w')
 	for file in files:
@@ -129,10 +132,11 @@ def build_pot_resource():
 	res.close()	
 	os.system('xgettext -f messages/locale.in -L Python -p po 2>messages/warnings.log')
 	os.system('rm -f po/sk1.pot;mv po/messages.po po/sk1.pot')
-	sys.exit(0)
+	
 	
 #Generates *.mo files
 def generate_locales():
+	print 'LOCALES BUILD'
 	files=get_files('po','po')
 	if len(files):
 		for file in files:
@@ -141,6 +145,7 @@ def generate_locales():
 			mo_file=os.path.join('src','share','locales',lang,'LC_MESSAGES','sk1.mo')
 			if not os.path.lexists(os.path.join('src','share','locales',lang,'LC_MESSAGES')):
 				os.makedirs(os.path.join('src','share','locales',lang,'LC_MESSAGES'))
+			print po_file, '==>',mo_file
 			os.system('msgfmt -o '+mo_file+' '+po_file)		
 
 
@@ -152,10 +157,16 @@ def generate_locales():
 
 if __name__ == "__main__":
 	
-	if len(sys.argv)>1 and sys.argv[1]=='build_locale':
+	if len(sys.argv)>1 and sys.argv[1]=='build_pot_file':
 		build_pot_resource()
+		sys.exit(0)
+		
+	if len(sys.argv)>1 and sys.argv[1]=='build_locales':
+		generate_locales()
+		sys.exit(0)
 		
 	if len(sys.argv)>1 and sys.argv[1]=='build&copy':
+		build_pot_resource()
 		COPY=True
 		sys.argv[1]='build'
 		
