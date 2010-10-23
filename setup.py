@@ -173,6 +173,10 @@ if __name__ == "__main__":
 	if len(sys.argv)>1 and sys.argv[1]=='bdist_deb':
 		DEBIAN=True
 		sys.argv[1]='build'
+		generate_locales()
+		
+	if len(sys.argv)>1 and sys.argv[1]=='bdist_rpm':
+		generate_locales()
 		
 	if len(sys.argv)>1 and not sys.argv[1]=='sdist':	
 		generate_locales()
