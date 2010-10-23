@@ -15,6 +15,20 @@ from app.UI.ttk_ext import TSpinbox
 from sk1sdk.libtk.Tkinter import StringVar, Text, TclVersion
 from sk1sdk.libtk.Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE
 
+TRANSLATORS= """
+Chinese Traditional:
+     Wei-Lun Chao     
+     chaoweilun@gmail.com
+     
+Russian:
+     Igor Novikov
+     igor.e.novikov@gmail.com
+     
+Ukrainian:
+     Maxim Barabash
+     maxim.s.barabash@gmail.com
+
+"""
 
 class AboutDialog(ModalDialog):
 
@@ -113,7 +127,7 @@ class AboutDialog(ModalDialog):
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
 		
-		txt=_('\nTo report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n\n')
+		txt=_('\nTo report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/\n\n')
 		txt+=_('Igor Novikov\n   igor.e.novikov@gmail.com\n   Project Leader\n\n')
 		txt+=_('Maxim Barabash\n   maxim.s.barabash@gmail.com\n   Designer\n\n')
 		txt+=_('Acknowledgments:\n=======================================\n')
@@ -144,11 +158,8 @@ class AboutDialog(ModalDialog):
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
 		
-		txt=_('\nThe project is not localized yet.\n')
-		txt+=_('We plan to provide localization resources for next version\n')
-		txt+=_('So if you wish joining to sK1 team as a localizator, just contact us!')
 		text['state']=NORMAL
-		text.insert(END, txt)
+		text.insert(END, TRANSLATORS)
 		text['state']=DISABLED
 	
 	def build_tab_license(self):
