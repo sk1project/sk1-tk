@@ -10,7 +10,7 @@
 #
 
 from sk1sdk.libttk import TFrame, TButton
-from sk1sdk.libtk.Tkinter import Canvas, LEFT, RIGHT, TOP, BOTTOM, X, Y, BOTH
+from sk1sdk.libtk.Tkinter import Canvas, Frame, LEFT, RIGHT, TOP, BOTTOM, X, Y, BOTH
 from app.conf import const
 import string
 
@@ -29,7 +29,7 @@ class ResizableTFrame(TFrame):
 		self.counter=0
 		
 		if orient in [LEFT,RIGHT]:
-			self.spacer=Canvas(self, width=size, height=1)
+			self.spacer=Frame(self, width=size, height=1)
 			self.grip=TButton(self, style='VGrip', cursor=const.CurHResize)
 			if orient==LEFT:
 				self.spacer.pack(side=TOP)
@@ -40,7 +40,7 @@ class ResizableTFrame(TFrame):
 				self.grip.pack(side=RIGHT, fill=Y)
 				self.panel.pack(side=LEFT, fill=BOTH, expand=1)
 		else:
-			self.spacer=Canvas(self, width=1, height=size)
+			self.spacer=Frame(self, width=1, height=size)
 			self.grip=TButton(self, style='HGrip', cursor=const.CurVResize)
 			if orient==BOTTOM:				
 				self.grip.pack(side=BOTTOM, fill=X)
