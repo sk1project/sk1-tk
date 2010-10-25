@@ -64,7 +64,7 @@ class PluginBrowser(PluginPanel):
 		PluginPanel.collapse_panel(self)
 		if self.collapsed:
 			self.pcontainer.spacer.canv_size=10
-			self.pcontainer.spacer['width']=10
+#			self.pcontainer.spacer['width']=10
 			
 			
 class PluginCategory:
