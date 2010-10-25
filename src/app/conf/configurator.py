@@ -212,6 +212,12 @@ class Preferences(connector.Publisher):
 	default_unit = 'mm'
 	default_unit_jump = 0.1
 	
+	#Type of coordinate system: 
+	# 0 - left down corner of page
+	# 1 - left upper corner of page
+	# 2 - center of page 
+	coord_system = 0
+	
 	poslabel_sets_default_unit = 1
 	
 	#How many steps to draw in a gradient pattern

@@ -233,9 +233,8 @@ class sK1MainWindow(Publisher):
 		vrule.bind('<Double-Button-1>', self.RulerDoublePressV)
 		
 		#ruler corner 
-		b = TLabel(frame, style="FlatLabel", image="rulers_corner")
-		b.bind('<Button-1>', self.GuideDialog)
-		tooltips.AddDescription(b, self.commands.CreateGuideDialog.menu_name)
+		b = tkruler.RulerCorner(frame, bg=config.preferences.ruler_color)
+		tooltips.AddDescription(b, _('Change system coordinates'))
 		b.grid(column=1, row=0, sticky='news')
 		
 		resolution = config.preferences.screen_resolution
