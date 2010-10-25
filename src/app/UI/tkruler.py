@@ -276,6 +276,10 @@ class RulerCorner(Label):
 		def __init__(self, master=None, **kw):			
 			apply(Label.__init__, (self, master), kw)
 			self['image'] = 'rulers_corner'
+			if config.preferences.coord_system == 2:
+				self['image'] = 'rulers_corner2'
+			if config.preferences.coord_system == 1:
+				self['image'] = 'rulers_corner1'
 			self.bind('<Button-1>', self.change_coord)
 		
 		def change_coord(self, *args):
