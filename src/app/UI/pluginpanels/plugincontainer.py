@@ -19,19 +19,22 @@ class PluginContainer(ResizableTFrame):
 	visible=0
 	loaded=[]
 	activated=[]
-	rborder=None
 	
 	def __init__(self, master, root, mw, cnf={}, **kw):
 		self.mw=mw
 		self.root=root
 		self.master=master
-		ResizableTFrame.__init__(self, master, root, size=200, orient=LEFT, min=100, max=300)
+		ResizableTFrame.__init__(self, master, root, size=200, orient=LEFT, min=200, max=300)
+		
+		b = TLabel(self.panel, style='HLine')
+		b.pack(side=BOTTOM, fill=X)	
+		
 		self.browserframe=ResizableTFrame(self.panel, root, size=10, orient=BOTTOM, min=10, max=500)
 		self.browserframe.pack(side=TOP, fill=X)
 		self.plugins=app.objprop_plugins+app.layout_plugins+app.transform_plugins
 		self.plugins+=app.effects_plugins+app.extentions_plugins+app.shaping_plugins
 		
-		self.pbrowser=PluginBrowser()		
+		self.pbrowser=PluginBrowser()	
 		
 	def showHide(self):
 		if not self.pbrowser.activated:
@@ -41,12 +44,11 @@ class PluginContainer(ResizableTFrame):
 			
 		if not self.visible:
 			self.visible=1
-			self.rborder.pack(side=RIGHT, fill=Y)
 			self.pack(side=RIGHT, fill=Y)						
 		else:
 			self.visible=0
-			self.rborder.forget()
 			self.forget()
+			self.master['width']=1
 			self.mw.canvas.clear_buffer_bitmap()
 
 	def loadByName(self,name):

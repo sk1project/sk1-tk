@@ -146,14 +146,9 @@ class sK1MainWindow(Publisher):
 		
 		palette_frame = TFrame(p_frame, style='FlatFrame')
 		palette_frame.pack(side='right', fill=Y, pady=5, padx=3)
-		
-		b = TLabel(p_frame, style='VLine3')
-		
-		self.pc = PluginContainer(p_frame, self.root, self)
-		self.pc.rborder = b
-		
+	
 		b = TLabel(root, style='VLine2')
-		b.pack(side='right', fill=Y)
+		b.pack(side=RIGHT, fill=Y)
 
 		# the menu
 		self.mbar = TFrame(root, name='menubar', style='MenuBarFrame', borderwidth=2)
@@ -179,6 +174,12 @@ class sK1MainWindow(Publisher):
 		####################################
 		# Drawing area creating 
 		####################################
+
+		pc_frame = TFrame(root, style='FlatFrame')
+		pc_frame.pack(side='right', fill=Y, expand=1)
+		
+		self.pc = PluginContainer(pc_frame, self.root, self)	
+				
 		base_frame = TFrame(root, name='drawing_area_frame', style='FlatFrame')
 		base_frame.pack(side=LEFT, fill=BOTH, expand=1)
 		
