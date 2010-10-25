@@ -283,10 +283,10 @@ class RulerCorner(Label):
 				self['image'] = 'rulers_corner'
 				config.preferences.coord_system = 0				
 			elif config.preferences.coord_system == 1:
-				self['image'] = 'rulers_corner'
+				self['image'] = 'rulers_corner2'
 				config.preferences.coord_system = 2
 			else:
-				self['image'] = 'rulers_corner'
+				self['image'] = 'rulers_corner1'
 				config.preferences.coord_system = 1
 				
 				
