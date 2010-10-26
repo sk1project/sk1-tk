@@ -95,6 +95,7 @@ class sK1MainWindow(Publisher):
 
 	tk_basename = 'sk1'
 	tk_class_name = 'sK1'
+	pc = None
 
 	def __init__(self, application, filename, run_script=None):    
 		self.application = application
@@ -162,6 +163,9 @@ class sK1MainWindow(Publisher):
 		self.ctxpanel = ctxPanel.ContexPanel(root, self)
 		self.ctxpanel.panel.pack(fill=X)
 
+		b = ToolbarButton(self.ctxpanel.panel, self.commands.PCshowHide, image="show_side_panel")
+		tooltips.AddDescription(b, self.commands.PCshowHide.menu_name)
+		b.pack(side=RIGHT)
 
 		# the status bar
 		self.status_bar = TFrame(root, name='statusbar', style='FlatFrame')
@@ -535,13 +539,10 @@ class sK1MainWindow(Publisher):
 		b.pack(side=TOP)
 		tooltips.AddDescription(b, self.commands.CreateFillStyleDialog.menu_name)
 		#Spacer
-		b = TLabel(tframe, style='HLine')
-		b.pack(side=TOP, fill=X)
+#		b = TLabel(tframe, style='HLine')
+#		b.pack(side=TOP, fill=X)
 		
-		b = ToolbarButton(tframe, self.commands.PCshowHide, image="show_side_panel")
-		tooltips.AddDescription(b, self.commands.PCshowHide.menu_name)
-		b.pack(side=TOP, fill=X)	
-		
+	
 		b = TLabel(tframe, style='HLine')
 		b.pack(side=BOTTOM, fill=X)
 		
@@ -1201,7 +1202,7 @@ class sK1MainWindow(Publisher):
 			return 1
 		else:
 			return 0
-	
+		
 	def PCshowHide(self):
 		self.pc.showHide()
 
