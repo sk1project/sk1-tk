@@ -24,67 +24,59 @@ from app.UI.pluginpanels.ppanel import PluginPanel
 
 class BlendPlugin(PluginPanel):
 	
-	name='Blend'
+	name = 'Blend'
 	title = _("Blend")
 	
 	def init(self, master):
 		PluginPanel.init(self, master)
 		
 		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
-		top.pack(side = TOP, fill=BOTH)
+		top.pack(side=TOP, fill=BOTH)
 		
 		sign = TFrame(top, style='RoundedFrame', borderwidth=5)
-		sign.pack(side = TOP)
+		sign.pack(side=TOP)
 
-		self.sign=TLabel(sign, image='effects_blend')
+		self.sign = TLabel(sign, image='effects_blend')
 		self.sign.pack(side=TOP)
 
 		button_frame = TFrame(top, style='FlatFrame')
-		button_frame.pack(side = BOTTOM, fill = BOTH, expand = 1)
+		button_frame.pack(side=BOTTOM, fill=BOTH, expand=1)
 
 		self.update_buttons = []
-		button = UpdatedButton(top, text = _("Apply"),
-								command = self.apply_blend,
-								sensitivecb = self.doc_can_blend)
-		button.pack(in_ = button_frame, side = LEFT, expand = 1, fill = X)
+		button = UpdatedButton(top, text=_("Apply"),
+								command=self.apply_blend,
+								sensitivecb=self.doc_can_blend)
+		button.pack(in_=button_frame, side=LEFT, expand=1, fill=X)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
 		
 
-		steps_frame = TFrame(top, style='FlatFrame', borderwidth = 15)
-		steps_frame.pack(side = TOP)
-		label = TLabel(steps_frame, text = "  "+_("Steps:")+" ")
-		label.pack(side = LEFT, anchor = E)
+		steps_frame = TFrame(top, style='FlatFrame', borderwidth=15)
+		steps_frame.pack(side=TOP)
+		label = TLabel(steps_frame, text="  " + _("Steps:") + " ")
+		label.pack(side=LEFT, anchor=E)
 		
 		self.var_steps = IntVar(top)
 		self.var_steps.set(config.preferences.blend_panel_default_steps)
 		
-		self.entry = TSpinbox(steps_frame, var=10, vartype=0, textvariable = self.var_steps, 
-									min = 1, max = 100000, step = 1, width = 6, command=self.apply_blend)
-#		self.entry = MyEntry(steps_frame, name = 'steps',
-#								textvariable = self.var_steps, background = '#FFFFFF', 
-#								selectbackground = '#6ABCFF', 
-#								selectborderwidth=0,
-#								command = self.apply_blend)
-		self.entry.pack(side = LEFT, anchor = E)
-#		scroll = MiniScroller(steps_frame, variable = self.var_steps,
-#								min = 2, max = None, step = 1)
-#		scroll.pack(side = LEFT, fill = Y)
+		self.entry = TSpinbox(steps_frame, var=10, vartype=0, textvariable=self.var_steps,
+									min=1, max=100000, step=1, width=6, command=self.apply_blend)
+		self.entry.pack(side=LEFT, anchor=E)
 
 
-		button = UpdatedButton(top, text = _("Select Start"),
-								sensitivecb = self.can_select,
-								command = self.select_control,
-								args = SelectStart)
-		button.pack(side = BOTTOM, fill = X, expand = 1)
+		button = UpdatedButton(top, text=_("Select Start"),
+								sensitivecb=self.can_select,
+								command=self.select_control,
+								args=SelectStart)
+		button.pack(side=BOTTOM, fill=X, expand=1)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
 
-		button = UpdatedButton(top, text = _("Select End"),
-								sensitivecb = self.can_select,
-								command = self.select_control,
-								args = SelectEnd)
-		button.pack(side = BOTTOM, fill = X, expand = 1)
+		button = UpdatedButton(top, text=_("Select End"),
+								sensitivecb=self.can_select,
+								command=self.select_control,
+								args=SelectEnd)
+		button.pack(side=BOTTOM, fill=X, expand=1)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
 		
@@ -165,5 +157,5 @@ class BlendPlugin(PluginPanel):
 		
 		
 		
-instance=BlendPlugin()
+instance = BlendPlugin()
 app.effects_plugins.append(instance)
