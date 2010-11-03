@@ -192,7 +192,7 @@ if __name__ == "__main__":
  
 	src_path='src/'
 	
-	filter_src=src_path+'extentions/filter/'
+	filter_src=src_path+'extensions/filter/'
 				
 	filter_module = Extension('sk1.app.modules.streamfilter',
 			define_macros = [('MAJOR_VERSION', '0'),
@@ -224,25 +224,25 @@ if __name__ == "__main__":
 		sys.exit(1)
 
  
- 	type1mod_src=src_path+'extentions/type1mod/'				
+ 	type1mod_src=src_path+'extensions/type1mod/'				
 	type1mod_module = Extension('sk1.app.modules._type1module',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [type1mod_src+'_type1module.c'])
  
- 	skread_src=src_path+'extentions/skread/'				
+ 	skread_src=src_path+'extensions/skread/'				
 	skread_module = Extension('sk1.app.modules.skreadmodule',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources = [skread_src+'skreadmodule.c'])
 
- 	pstokenize_src=src_path+'extentions/pstokenize/'				
+ 	pstokenize_src=src_path+'extensions/pstokenize/'				
 	pstokenize_module = Extension('sk1.app.modules.pstokenize',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],			
 			sources = [pstokenize_src+'pstokenize.c', pstokenize_src+'pschartab.c'])
 			
- 	pax_src=src_path+'extentions/pax/'
+ 	pax_src=src_path+'extensions/pax/'
  	pax_include_dirs=['/usr/include/cairo']
  	pax_include_dirs.extend(tcl_include_dirs)
 	pax_module = Extension('sk1.app.modules.paxmodule',
@@ -256,7 +256,7 @@ if __name__ == "__main__":
 			include_dirs=pax_include_dirs,
 			libraries=['X11', 'Xext', 'tk'+tcl_ver, 'tcl'+tcl_ver, 'cairo'])
 			
- 	skmod_src=src_path+'extentions/skmod/'	
+ 	skmod_src=src_path+'extensions/skmod/'	
 	skmod_module = Extension('sk1.app.modules._sketchmodule',
 			define_macros = [('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
@@ -314,7 +314,7 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 				'sk1.app.UI.widgets', 
 				'sk1.app.UI.pluginpanels', 
 				'sk1.app.UI.pluginpanels.effects', 				
-				'sk1.app.UI.pluginpanels.extentions',
+				'sk1.app.UI.pluginpanels.extensions',
 				'sk1.app.UI.pluginpanels.layout', 
 				'sk1.app.UI.pluginpanels.properties', 
 				'sk1.app.UI.pluginpanels.transform', 

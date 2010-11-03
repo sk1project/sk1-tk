@@ -9,7 +9,7 @@ include messages/locale.in messages/README
 include DEBIAN/control
 
 recursive-include src/app/tcl *.tcl
-recursive-include src/extentions *.*
+recursive-include src/extensions *.*
 
 recursive-include src/share/cursors *.*
 recursive-include src/share/palettes *.*
