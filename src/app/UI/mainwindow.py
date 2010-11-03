@@ -815,7 +815,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateFillStyleDialog', _("Fill..."), 'LoadPlugin', args=('SolidFill'), key_stroke='F11')
 #	AddCmd('CreateFontDialog', _("Fonts..."), 'CreateDialog', args = ('fontdlg', 'FontPanel'), key_stroke = 'Ctrl+f')
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args=('styledlg', 'StylePanel'))
-	AddCmd('CreateBlendDialog', _("Blend..."), 'CreateDialog', args=('dlg_blend', 'BlendPanel'), key_stroke=('Ctrl+B', 'Ctrl+b'))
+	AddCmd('CreateBlendDialog', _("Blend..."),  'LoadPlugin', args=('Blend'), key_stroke=('Ctrl+B', 'Ctrl+b'))
 #	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
 	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 #	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
