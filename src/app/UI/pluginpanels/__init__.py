@@ -1,1 +1,1 @@
-import effects, layout, transform, extentions, properties, shaping
+import effects, layout, transform, extensions, properties, shaping
