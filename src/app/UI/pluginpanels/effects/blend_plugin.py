@@ -68,7 +68,7 @@ class BlendPlugin(PluginPanel):
 								sensitivecb=self.can_select,
 								command=self.select_control,
 								args=SelectStart)
-		button.pack(side=BOTTOM, fill=X, expand=1, pady=2)
+		button.pack(side=BOTTOM, fill=X, expand=1, pady=3)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
 

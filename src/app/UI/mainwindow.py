@@ -439,19 +439,19 @@ class sK1MainWindow(Publisher):
 		#-----------------------------------            
 		# Renderers
 		#-----------------------------------
-		b = ToolbarCheckbutton(tbar, canvas.commands.UseXlibRenderer, image='toolbar_xlib')
-		b.pack(side=LEFT)
-		tooltips.AddDescription(b, canvas.commands.UseXlibRenderer.menu_name)
-		
-		label = TLabel(tbar, image="sb_sep")
-		label.pack(side=LEFT)
-		
-		b = ToolbarCheckbutton(tbar, canvas.commands.UseCairoRenderer, image='toolbar_cairo')
-		b.pack(side=LEFT)
-		tooltips.AddDescription(b, canvas.commands.UseCairoRenderer.menu_name)
-		
-		label = TLabel(tbar, image="sb_sep")
-		label.pack(side=LEFT)
+#		b = ToolbarCheckbutton(tbar, canvas.commands.UseXlibRenderer, image='toolbar_xlib')
+#		b.pack(side=LEFT)
+#		tooltips.AddDescription(b, canvas.commands.UseXlibRenderer.menu_name)
+#		
+#		label = TLabel(tbar, image="sb_sep")
+#		label.pack(side=LEFT)
+#		
+#		b = ToolbarCheckbutton(tbar, canvas.commands.UseCairoRenderer, image='toolbar_cairo')
+#		b.pack(side=LEFT)
+#		tooltips.AddDescription(b, canvas.commands.UseCairoRenderer.menu_name)
+#		
+#		label = TLabel(tbar, image="sb_sep")
+#		label.pack(side=LEFT)
 		
 		#b = ToolbarCheckbuttoncommands, canvas.commands.AllowAlphaChannel, image='toolbar_alpha')
 		#b.pack(side = LEFT)

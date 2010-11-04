@@ -35,6 +35,12 @@ class ColorSpaceConverter(PluginPanel):
 		top = TFrame(self.panel, style='FlatFrame', borderwidth=7)
 		top.pack(side = TOP, fill=BOTH)
 		
+		sign = TFrame(top, style='RoundedFrame', borderwidth=5)
+		sign.pack(side=TOP)
+
+		self.sign = TLabel(sign, image='color_converter')
+		self.sign.pack(side=TOP)
+		
 		self.cs_name = StringVar(top)
 		self.cs_name.set(RGB)
 		
