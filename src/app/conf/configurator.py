@@ -378,16 +378,7 @@ class Preferences(connector.Publisher):
 	#	Screen Gamma. (leave this at 1.0 for now)
 	#screen_gamma = 1.0
 	
-	#
-	#	Cairo data
-	#
-	cairo_enabled = 1
-	alpha_channel_enabled = 1
-	bitmap_alpha_channel_enabled = 1
-	cairo_tolerance = .1
-	cairo_antialias = 0
-	cairo_bitmap_filter = 0
-	
+
 	#
 	#	Bezier Objects
 	#
@@ -419,6 +410,14 @@ class Preferences(connector.Publisher):
 						"app.scripts.spread", "app.scripts.reload_image",
 						"app.scripts.create_star", "app.scripts.create_star_outline",
 						"app.scripts.create_spiral", "app.scripts.read_gimp_path", ]
+
+	#==========CAIRO DATA SECTION============
+	cairo_enabled = 1
+	alpha_channel_enabled = 1
+	bitmap_alpha_channel_enabled = 1
+	cairo_tolerance = .1
+	cairo_antialias = 0
+	cairo_bitmap_filter = 0	
 	
 	#==========PRINTING SECTION============
 	print_command = ''

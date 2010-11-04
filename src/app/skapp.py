@@ -170,6 +170,11 @@ class SketchApplication(TkApplication, Publisher):
 	def Run(self):
 		self.SetClipboard(None)
 		tooltips.Init(self.root, config.preferences.tooltip_delay, config.preferences.activate_tooltips)
+		
+		#Forcing cairo mode to avoid Xlib clashes
+		config.preferences.cairo_enabled = 1
+		config.preferences.alpha_channel_enabled = 1
+		
 		self.main_window.UpdateCommands()
 		# Enter Main Loop
 		self.main_window.Run()
