@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sketch 0.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-21 13:48+0300\n"
-"PO-Revision-Date: 2010-10-23 15:48+0300\n"
+"POT-Creation-Date: 2010-11-05 11:16+0200\n"
+"PO-Revision-Date: 2010-11-05 11:28+0300\n"
 "Last-Translator: Igor Novikov <igor.e.novikov@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -187,7 +187,7 @@ msgid "Set Properties"
 msgstr "Установить свойства"
 
 #: src/app/Graphics/document.py:1514
-#: src/app/UI/mainwindow.py:850
+#: src/app/UI/mainwindow.py:851
 msgid "Delete"
 msgstr "Удалить"
 
@@ -213,15 +213,15 @@ msgid "Move Selection to `%s'"
 msgstr "Переместить выделение в %s"
 
 #: src/app/Graphics/document.py:1620
-#: src/app/UI/mainwindow.py:801
+#: src/app/UI/mainwindow.py:802
 #: src/app/UI/ttk_ext.py:33
 msgid "Cut"
 msgstr "Вырезать"
 
 #: src/app/Graphics/document.py:1640
 #: src/app/Graphics/document.py:1645
-#: src/app/UI/mainwindow.py:858
 #: src/app/UI/mainwindow.py:859
+#: src/app/UI/mainwindow.py:860
 msgid "Duplicate"
 msgstr "Дублировать"
 
@@ -235,7 +235,7 @@ msgid "Ungroup"
 msgstr "Разгруппировать"
 
 #: src/app/Graphics/document.py:1729
-#: src/app/UI/mainwindow.py:881
+#: src/app/UI/mainwindow.py:882
 #: src/app/UI/context/group_panel.py:33
 msgid "Ungroup All"
 msgstr "Разгруппировать все"
@@ -245,7 +245,7 @@ msgid "Modify&Copy"
 msgstr "Модифицировать и скопировать"
 
 #: src/app/Graphics/document.py:1757
-#: src/app/UI/mainwindow.py:874
+#: src/app/UI/mainwindow.py:875
 msgid "Create Mask Group"
 msgstr "Создать маскирующую группу"
 
@@ -258,7 +258,7 @@ msgid "Translate"
 msgstr "Перевести"
 
 #: src/app/Graphics/document.py:1796
-#: src/app/UI/mainwindow.py:873
+#: src/app/UI/mainwindow.py:874
 msgid "Remove Transformation"
 msgstr "Снять преобразование"
 
@@ -267,23 +267,23 @@ msgid "Align Objects"
 msgstr "Выровнять объекты"
 
 #: src/app/Graphics/document.py:1846
-#: src/app/UI/mainwindow.py:866
+#: src/app/UI/mainwindow.py:867
 msgid "Abut Horizontal"
 msgstr "Выстроить по горизонтали"
 
 #: src/app/Graphics/document.py:1871
-#: src/app/UI/mainwindow.py:867
+#: src/app/UI/mainwindow.py:868
 msgid "Abut Vertical"
 msgstr "Выстроить по вертикали"
 
 #: src/app/Graphics/document.py:1904
-#: src/app/UI/mainwindow.py:869
+#: src/app/UI/mainwindow.py:870
 #: src/app/UI/context/flip_panel.py:22
 msgid "Flip Horizontal"
 msgstr "Перевернуть вдоль верт. оси"
 
 #: src/app/Graphics/document.py:1911
-#: src/app/UI/mainwindow.py:870
+#: src/app/UI/mainwindow.py:871
 #: src/app/UI/context/flip_panel.py:25
 msgid "Flip Vertical"
 msgstr "Перевернуть вдоль гор. оси"
@@ -312,41 +312,41 @@ msgid "Scale"
 msgstr "Масштабировать"
 
 #: src/app/Graphics/document.py:2071
-#: src/app/UI/pluginpanels/effects/blend_plugin.py:24
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:28
 msgid "Blend"
-msgstr "Смешать"
+msgstr "Смешивание"
 
 #: src/app/Graphics/document.py:2080
 msgid "I can't blend the selected objects"
 msgstr "Невозможно смешать выбранные объекты"
 
 #: src/app/Graphics/document.py:2104
-#: src/app/UI/mainwindow.py:872
+#: src/app/UI/mainwindow.py:873
 msgid "Cancel Blend"
 msgstr "Прервать смешивание"
 
 #: src/app/Graphics/document.py:2132
-#: src/app/UI/mainwindow.py:875
+#: src/app/UI/mainwindow.py:876
 msgid "Create Path Text"
 msgstr "Создать текст вдоль кривой"
 
 #: src/app/Graphics/document.py:2159
-#: src/app/UI/mainwindow.py:876
+#: src/app/UI/mainwindow.py:877
 msgid "Create Clone"
 msgstr "Создать клон"
 
 #: src/app/Graphics/document.py:2190
-#: src/app/UI/mainwindow.py:863
+#: src/app/UI/mainwindow.py:864
 msgid "Combine Beziers"
 msgstr "Объединить кривые"
 
 #: src/app/Graphics/document.py:2212
-#: src/app/UI/mainwindow.py:864
+#: src/app/UI/mainwindow.py:865
 msgid "Split Beziers"
 msgstr "Разделить кривые"
 
 #: src/app/Graphics/document.py:2239
-#: src/app/UI/mainwindow.py:862
+#: src/app/UI/mainwindow.py:863
 msgid "Convert To Curve"
 msgstr "Превратить в кривую"
 
@@ -355,7 +355,7 @@ msgid "Convert Image"
 msgstr "Сконвертировать изображение"
 
 #: src/app/Graphics/document.py:2332
-#: src/app/UI/mainwindow.py:896
+#: src/app/UI/mainwindow.py:897
 msgid "Invert Image"
 msgstr "Инвертировать изображение"
 
@@ -373,13 +373,12 @@ msgid "Insert Page"
 msgstr "Вставить страницу"
 
 #: src/app/Graphics/document.py:2393
-#, fuzzy
 msgid "Add Imported Pages"
-msgstr "Вставить страницы"
+msgstr "Вставить импортированные страницы"
 
 #: src/app/Graphics/document.py:2395
 msgid "Add imported Page"
-msgstr ""
+msgstr "Вставить импортированную страницу"
 
 #: src/app/Graphics/document.py:2430
 msgid "Delete Page"
@@ -423,7 +422,7 @@ msgid "Delete Layer"
 msgstr "Удалить слой"
 
 #: src/app/Graphics/document.py:2756
-#: src/app/UI/mainwindow.py:889
+#: src/app/UI/mainwindow.py:890
 msgid "Update Style"
 msgstr "Обновить стиль"
 
@@ -551,6 +550,7 @@ msgid "Embedded %(mode)s image %(width)d x %(height)d at (%(x)d, %(y)d)"
 msgstr "Встроенное %(mode)s изображение %(width)d x %(height)d в точке (%(x)d, %(y)d)"
 
 #: src/app/Graphics/layer.py:242
+#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
 msgid "Guides"
 msgstr "Направляющие"
 
@@ -862,7 +862,7 @@ msgid "Select"
 msgstr "Выделить"
 
 #: src/app/UI/canvas.py:198
-#: src/app/UI/mainwindow.py:903
+#: src/app/UI/mainwindow.py:904
 msgid "Edit"
 msgstr "Правка"
 
@@ -1009,9 +1009,8 @@ msgid "Draw Page Border"
 msgstr "Рисовать контур страницы"
 
 #: src/app/UI/canvas.py:2018
-#, fuzzy
 msgid "Show Grid"
-msgstr "Выравнивать по сетке"
+msgstr "Показать сетку"
 
 #: src/app/UI/canvas.py:2069
 msgid "Set Fill Color..."
@@ -1082,9 +1081,10 @@ msgstr "СМЕШИВАНИЕ"
 #: src/app/UI/cc/ccenterdialog.py:74
 #: src/app/UI/pluginpanels/ppanel.py:120
 #: src/app/UI/pluginpanels/effects/align_plugin.py:110
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:46
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:116
-#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:49
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:37
+#: src/app/UI/pluginpanels/extensions/csconverter_plugin.py:55
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:37
 #: src/app/UI/pluginpanels/layout/page_plugin.py:128
 #: src/app/UI/pluginpanels/properties/fill_plugin.py:59
 #: src/app/UI/pluginpanels/properties/gradient_fill.py:55
@@ -1103,18 +1103,22 @@ msgid "Apply"
 msgstr "Применить"
 
 #: src/app/UI/dlg_blend.py:53
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:56
 msgid "Steps:"
 msgstr "Шаги:"
 
 #: src/app/UI/dlg_blend.py:66
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:67
 msgid "Select Start"
 msgstr "Выделить начало"
 
 #: src/app/UI/dlg_blend.py:73
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:75
 msgid "Select End"
 msgstr "Выделить конец"
 
 #: src/app/UI/dlg_blend.py:116
+#: src/app/UI/pluginpanels/effects/blend_plugin.py:129
 #, python-format
 msgid "Set %d Blend Steps"
 msgstr "Установить %d шагов смешивания"
@@ -1142,12 +1146,12 @@ msgstr "Выбрать изображение..."
 
 # ../Sketch/UI/filldlg.py:529 ../Sketch/UI/mainwindow.py:1068 :1083 :1101
 #: src/app/UI/filldlg.py:519
-#: src/app/UI/mainwindow.py:1453
+#: src/app/UI/mainwindow.py:1454
 msgid "Load Image"
 msgstr "Загрузить изображение"
 
 #: src/app/UI/filldlg.py:520
-#: src/app/UI/mainwindow.py:1454
+#: src/app/UI/mainwindow.py:1455
 #, python-format
 msgid ""
 "Cannot load %(filename)s:\n"
@@ -1184,354 +1188,358 @@ msgstr "Вставить рабочий"
 msgid "Reverse"
 msgstr "Перевернуть"
 
-#: src/app/UI/mainwindow.py:136
+#: src/app/UI/mainwindow.py:137
 #, python-format
 msgid "Error running script `%s'"
 msgstr "Ошибка при запуске сценария `%s'"
 
-#: src/app/UI/mainwindow.py:295
+#: src/app/UI/mainwindow.py:241
+msgid "Change system coordinates"
+msgstr "Изменить систему координат"
+
+#: src/app/UI/mainwindow.py:299
 msgid "No color"
 msgstr "Без цвета"
 
-#: src/app/UI/mainwindow.py:637
+#: src/app/UI/mainwindow.py:638
 msgid "Fill:"
 msgstr "Заливка:"
 
-#: src/app/UI/mainwindow.py:640
+#: src/app/UI/mainwindow.py:641
 msgid "Fill: None"
 msgstr "Заливка: Нет"
 
-#: src/app/UI/mainwindow.py:645
+#: src/app/UI/mainwindow.py:646
 msgid "Outline:"
 msgstr "Контур:"
 
-#: src/app/UI/mainwindow.py:648
+#: src/app/UI/mainwindow.py:649
 msgid "Outline: None"
 msgstr "Контур: Нет"
 
-#: src/app/UI/mainwindow.py:759
+#: src/app/UI/mainwindow.py:760
 msgid "New"
 msgstr "Создать"
 
-#: src/app/UI/mainwindow.py:760
+#: src/app/UI/mainwindow.py:761
 msgid "New Drawing Window"
 msgstr "Новое окно"
 
-#: src/app/UI/mainwindow.py:761
+#: src/app/UI/mainwindow.py:762
 msgid "Open..."
 msgstr "Открыть..."
 
-#: src/app/UI/mainwindow.py:766
+#: src/app/UI/mainwindow.py:767
 #: src/app/UI/tkext.py:1091
 #: src/app/UI/dialogs/msgdialog.py:23
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/app/UI/mainwindow.py:767
+#: src/app/UI/mainwindow.py:768
 msgid "Save As..."
 msgstr "Сохранить как..."
 
-#: src/app/UI/mainwindow.py:768
+#: src/app/UI/mainwindow.py:769
 msgid "Save All"
 msgstr "Сохранить все"
 
-#: src/app/UI/mainwindow.py:769
+#: src/app/UI/mainwindow.py:770
 msgid "Export As..."
 msgstr "Экспортировать как..."
 
 # ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
-#: src/app/UI/mainwindow.py:770
+#: src/app/UI/mainwindow.py:771
 #: src/app/UI/sketchdlg.py:249
-#: src/app/UI/dialogs/aboutdlg.py:58
+#: src/app/UI/dialogs/aboutdlg.py:72
 msgid "Close"
 msgstr "Закрыть"
 
 # ../Sketch/UI/printdlg.py:99 ../Sketch/UI/sketchdlg.py:210 :268
-#: src/app/UI/mainwindow.py:771
+#: src/app/UI/mainwindow.py:772
 msgid "Close All"
 msgstr "Закрыть все"
 
-#: src/app/UI/mainwindow.py:772
-#: src/app/UI/mainwindow.py:833
+#: src/app/UI/mainwindow.py:773
+#: src/app/UI/mainwindow.py:834
 msgid "Import vector..."
 msgstr "Импортировать вектор..."
 
-#: src/app/UI/mainwindow.py:774
+#: src/app/UI/mainwindow.py:775
 msgid "Preferences..."
 msgstr "Настройки..."
 
 # ../Sketch/UI/mainwindow.py:559 :561
-#: src/app/UI/mainwindow.py:775
+#: src/app/UI/mainwindow.py:776
 msgid "Exit"
 msgstr "Выход"
 
-#: src/app/UI/mainwindow.py:778
+#: src/app/UI/mainwindow.py:779
 msgid "Report bug..."
 msgstr "Сообщить про ошибку..."
 
-#: src/app/UI/mainwindow.py:779
+#: src/app/UI/mainwindow.py:780
 msgid "Project web site..."
 msgstr "Веб-сайт проекта..."
 
-#: src/app/UI/mainwindow.py:780
+#: src/app/UI/mainwindow.py:781
 msgid "Project forum..."
 msgstr "Форум проекта..."
 
-#: src/app/UI/mainwindow.py:781
+#: src/app/UI/mainwindow.py:782
 msgid "About sK1..."
 msgstr "О программе... "
 
-#: src/app/UI/mainwindow.py:782
+#: src/app/UI/mainwindow.py:783
 msgid "Plugins strip"
 msgstr "Панель плагинов"
 
-#: src/app/UI/mainwindow.py:785
+#: src/app/UI/mainwindow.py:786
 msgid "Insert Page..."
 msgstr "Вставить страницу..."
 
-#: src/app/UI/mainwindow.py:786
+#: src/app/UI/mainwindow.py:787
 msgid "Delete Page..."
 msgstr "Удалить страницу..."
 
-#: src/app/UI/mainwindow.py:787
+#: src/app/UI/mainwindow.py:788
 msgid "Next Page"
 msgstr "Следующая страница"
 
-#: src/app/UI/mainwindow.py:788
+#: src/app/UI/mainwindow.py:789
 msgid "Previous Page"
 msgstr "Предыдущая страница"
 
-#: src/app/UI/mainwindow.py:789
+#: src/app/UI/mainwindow.py:790
 msgid "Go to Page..."
 msgstr "Перейти к странице..."
 
-#: src/app/UI/mainwindow.py:791
+#: src/app/UI/mainwindow.py:792
 msgid "Add Horizontal Guide Line"
 msgstr "Добавить гор.направляющую"
 
-#: src/app/UI/mainwindow.py:792
+#: src/app/UI/mainwindow.py:793
 msgid "Add Vertical Guide Line"
 msgstr "Добавить верт.направляющую"
 
-#: src/app/UI/mainwindow.py:794
-#: src/app/UI/mainwindow.py:1000
+#: src/app/UI/mainwindow.py:795
+#: src/app/UI/mainwindow.py:1001
 msgid "Zoom 1:1"
 msgstr "Масштаб 1:1"
 
-#: src/app/UI/mainwindow.py:795
+#: src/app/UI/mainwindow.py:796
 #: src/app/UI/ttk_ext.py:35
 msgid "Copy"
 msgstr "Копировать"
 
-#: src/app/UI/mainwindow.py:804
-#: src/app/UI/mainwindow.py:1500
-#: src/app/UI/mainwindow.py:1510
+#: src/app/UI/mainwindow.py:805
+#: src/app/UI/mainwindow.py:1501
+#: src/app/UI/mainwindow.py:1511
 #: src/app/UI/ttk_ext.py:37
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/app/UI/mainwindow.py:807
+#: src/app/UI/mainwindow.py:808
 msgid "Export Bitmap..."
 msgstr "Экспортировать в битмап"
 
-#: src/app/UI/mainwindow.py:811
+#: src/app/UI/mainwindow.py:812
 msgid "Align to ..."
 msgstr "Выравнивание..."
 
-#: src/app/UI/mainwindow.py:812
+#: src/app/UI/mainwindow.py:813
 msgid "Grid Setup..."
 msgstr "Параметры сетки..."
 
-#: src/app/UI/mainwindow.py:813
+#: src/app/UI/mainwindow.py:814
 msgid "Outline..."
 msgstr "Контур..."
 
-#: src/app/UI/mainwindow.py:814
+#: src/app/UI/mainwindow.py:815
 msgid "Fill..."
 msgstr "Заливка..."
 
-#: src/app/UI/mainwindow.py:816
+#: src/app/UI/mainwindow.py:817
 msgid "Styles..."
 msgstr "Стили..."
 
-#: src/app/UI/mainwindow.py:817
+#: src/app/UI/mainwindow.py:818
 msgid "Blend..."
 msgstr "Смешивание..."
 
-#: src/app/UI/mainwindow.py:821
+#: src/app/UI/mainwindow.py:822
 msgid "Guides Setup..."
 msgstr "Направляющие..."
 
-#: src/app/UI/mainwindow.py:822
+#: src/app/UI/mainwindow.py:823
 msgid "Print..."
 msgstr "Печать..."
 
-#: src/app/UI/mainwindow.py:823
+#: src/app/UI/mainwindow.py:824
 msgid "Print to PDF..."
 msgstr "Печать в PDF файл..."
 
-#: src/app/UI/mainwindow.py:825
+#: src/app/UI/mainwindow.py:826
 msgid "Move..."
 msgstr "Перемещение..."
 
-#: src/app/UI/mainwindow.py:826
+#: src/app/UI/mainwindow.py:827
 msgid "Rotate..."
 msgstr "Вращение..."
 
-#: src/app/UI/mainwindow.py:827
+#: src/app/UI/mainwindow.py:828
 msgid "Resize..."
 msgstr "Изменить размер..."
 
-#: src/app/UI/mainwindow.py:832
+#: src/app/UI/mainwindow.py:833
 msgid "Load Palette..."
 msgstr "Загрузить палитру..."
 
-#: src/app/UI/mainwindow.py:834
+#: src/app/UI/mainwindow.py:835
 msgid "Import bitmap..."
 msgstr "Импортировать изображение..."
 
-#: src/app/UI/mainwindow.py:836
+#: src/app/UI/mainwindow.py:837
 msgid "Name Style..."
 msgstr "Именованный стиль..."
 
-#: src/app/UI/mainwindow.py:839
+#: src/app/UI/mainwindow.py:840
 #: src/app/UI/ttk_ext.py:40
 msgid "Select All"
 msgstr "Выделить все"
 
-#: src/app/UI/mainwindow.py:840
+#: src/app/UI/mainwindow.py:841
 msgid "Select Next"
 msgstr "Выделить следующий"
 
-#: src/app/UI/mainwindow.py:841
+#: src/app/UI/mainwindow.py:842
 msgid "Select Previous"
 msgstr "Выделить предыдущий"
 
-#: src/app/UI/mainwindow.py:842
+#: src/app/UI/mainwindow.py:843
 msgid "Select First Child"
 msgstr "Выделить первого потомка"
 
-#: src/app/UI/mainwindow.py:843
+#: src/app/UI/mainwindow.py:844
 msgid "Select Parent"
 msgstr "Выделить родителя"
 
-#: src/app/UI/mainwindow.py:845
+#: src/app/UI/mainwindow.py:846
 msgid "Move Up"
 msgstr "Поднять на одного вверх"
 
-#: src/app/UI/mainwindow.py:846
+#: src/app/UI/mainwindow.py:847
 msgid "Move Down"
 msgstr "Опустить на одного вниз"
 
-#: src/app/UI/mainwindow.py:847
+#: src/app/UI/mainwindow.py:848
 msgid "Move Right"
 msgstr "Переместить вправо"
 
-#: src/app/UI/mainwindow.py:848
+#: src/app/UI/mainwindow.py:849
 msgid "Move Left"
 msgstr "Переместить влево"
 
-#: src/app/UI/mainwindow.py:852
+#: src/app/UI/mainwindow.py:853
 msgid "Move to Top"
 msgstr "Поднять вверх"
 
-#: src/app/UI/mainwindow.py:853
+#: src/app/UI/mainwindow.py:854
 msgid "Move to Bottom"
 msgstr "Опустить вниз"
 
-#: src/app/UI/mainwindow.py:855
+#: src/app/UI/mainwindow.py:856
 msgid "Move One Up"
 msgstr "Поднять на одного вверх "
 
-#: src/app/UI/mainwindow.py:856
+#: src/app/UI/mainwindow.py:857
 msgid "Move One Down"
 msgstr "Опустить на одного вниз"
 
-#: src/app/UI/mainwindow.py:860
+#: src/app/UI/mainwindow.py:861
 msgid "Group selected objects"
 msgstr "Сгруппировать выбранные объекты"
 
 # ../Sketch/Graphics/selection.py:466 :1118
-#: src/app/UI/mainwindow.py:861
+#: src/app/UI/mainwindow.py:862
 msgid "Ungroup selection"
 msgstr "Разгруппировать выделенное"
 
-#: src/app/UI/mainwindow.py:878
+#: src/app/UI/mainwindow.py:879
 msgid "Rotate Left 90"
 msgstr "Вращать влево на 90"
 
-#: src/app/UI/mainwindow.py:879
+#: src/app/UI/mainwindow.py:880
 msgid "Rotate 180"
 msgstr "Повернуть на 180"
 
-#: src/app/UI/mainwindow.py:880
+#: src/app/UI/mainwindow.py:881
 msgid "Rotate Right 90"
 msgstr "Повернуть вправо на  90"
 
-#: src/app/UI/mainwindow.py:883
+#: src/app/UI/mainwindow.py:884
 #: src/app/events/undo.py:200
 msgid "Undo"
 msgstr "Омена"
 
-#: src/app/UI/mainwindow.py:884
+#: src/app/UI/mainwindow.py:885
 #: src/app/events/undo.py:209
 msgid "Redo"
 msgstr "Повтор"
 
-#: src/app/UI/mainwindow.py:885
+#: src/app/UI/mainwindow.py:886
 msgid "Discard Undo History"
 msgstr "Удалить историю изменений"
 
 # ../Sketch/UI/mainwindow.py:1136 :1267
-#: src/app/UI/mainwindow.py:887
-#: src/app/UI/mainwindow.py:1476
+#: src/app/UI/mainwindow.py:888
+#: src/app/UI/mainwindow.py:1477
 msgid "No Fill"
 msgstr "Нет заливки"
 
 # ../Sketch/UI/mainwindow.py:1139 :1268
-#: src/app/UI/mainwindow.py:888
-#: src/app/UI/mainwindow.py:1479
+#: src/app/UI/mainwindow.py:889
+#: src/app/UI/mainwindow.py:1480
 msgid "No Line"
 msgstr "Нет линии"
 
-#: src/app/UI/mainwindow.py:891
+#: src/app/UI/mainwindow.py:892
 #: src/app/UI/context/image_panel.py:35
 msgid "Convert to CMYK"
 msgstr "Сконвертировать в CMYK"
 
-#: src/app/UI/mainwindow.py:892
+#: src/app/UI/mainwindow.py:893
 #: src/app/UI/context/image_panel.py:39
 msgid "Convert to RGB"
 msgstr "Сконвертировать в RGB"
 
-#: src/app/UI/mainwindow.py:893
+#: src/app/UI/mainwindow.py:894
 #: src/app/UI/context/image_panel.py:43
 msgid "Convert to Grayscale"
 msgstr "Сконвертировать в оттенки серого"
 
-#: src/app/UI/mainwindow.py:894
+#: src/app/UI/mainwindow.py:895
 #: src/app/UI/context/image_panel.py:47
 msgid "Convert to B&W"
 msgstr "Сконвертировать в ч/б"
 
-#: src/app/UI/mainwindow.py:897
+#: src/app/UI/mainwindow.py:898
 msgid "Embed Image"
 msgstr "Встроенное изображение"
 
-#: src/app/UI/mainwindow.py:902
+#: src/app/UI/mainwindow.py:903
 msgid "File"
 msgstr "Файл"
 
-#: src/app/UI/mainwindow.py:904
+#: src/app/UI/mainwindow.py:905
 msgid "View"
 msgstr "Вид"
 
-#: src/app/UI/mainwindow.py:905
-#: src/app/UI/pluginpanels/pbrowser.py:45
+#: src/app/UI/mainwindow.py:906
+#: src/app/UI/pluginpanels/pbrowser.py:52
 msgid "Layout"
 msgstr "Макет"
 
-#: src/app/UI/mainwindow.py:906
+#: src/app/UI/mainwindow.py:907
 #: src/app/scripts/spread.py:45
 #: src/app/scripts/spread.py:67
 #: src/app/scripts/spread.py:90
@@ -1543,38 +1551,38 @@ msgstr "Макет"
 msgid "Arrange"
 msgstr "Расположение"
 
-#: src/app/UI/mainwindow.py:907
-#: src/app/UI/pluginpanels/pbrowser.py:48
+#: src/app/UI/mainwindow.py:908
+#: src/app/UI/pluginpanels/pbrowser.py:55
 msgid "Effects"
 msgstr "Эффекты"
 
-#: src/app/UI/mainwindow.py:908
+#: src/app/UI/mainwindow.py:909
 msgid "Bitmaps"
 msgstr "Изображения"
 
-#: src/app/UI/mainwindow.py:910
+#: src/app/UI/mainwindow.py:911
 msgid "Style"
 msgstr "Стиль"
 
-#: src/app/UI/mainwindow.py:913
+#: src/app/UI/mainwindow.py:914
 #: src/app/UI/cc/ccenterdialog.py:80
 msgid "Help"
 msgstr "Помощь"
 
-#: src/app/UI/mainwindow.py:916
+#: src/app/UI/mainwindow.py:917
 msgid "Special"
 msgstr "Специальный"
 
-#: src/app/UI/mainwindow.py:1005
+#: src/app/UI/mainwindow.py:1006
 msgid "Zoom"
 msgstr "Увеличение"
 
-#: src/app/UI/mainwindow.py:1228
-#: src/app/UI/mainwindow.py:1236
+#: src/app/UI/mainwindow.py:1229
+#: src/app/UI/mainwindow.py:1237
 msgid "Load Palette"
 msgstr "Загрузить палитру"
 
-#: src/app/UI/mainwindow.py:1237
+#: src/app/UI/mainwindow.py:1238
 #, python-format
 msgid ""
 "\n"
@@ -1583,11 +1591,11 @@ msgstr ""
 "\n"
 "Невозможно загрузить палитру из файла %(filename)s\n"
 
-#: src/app/UI/mainwindow.py:1343
+#: src/app/UI/mainwindow.py:1344
 msgid "modified"
 msgstr "изменено"
 
-#: src/app/UI/mainwindow.py:1344
+#: src/app/UI/mainwindow.py:1345
 msgid "unmodified"
 msgstr "не изменено"
 
@@ -2044,7 +2052,7 @@ msgstr ""
 #: src/app/managers/docmanager.py:257
 #, python-format
 msgid "%i pages were added to the document"
-msgstr ""
+msgstr "В документ добавлено страниц: %i шт."
 
 #: src/app/managers/docmanager.py:266
 msgid "Importing result: it seems the document is empty!"
@@ -2564,31 +2572,31 @@ msgstr "Установить отбивку текста"
 msgid "Units:"
 msgstr " Единицы:"
 
-#: src/app/UI/dialogs/aboutdlg.py:25
+#: src/app/UI/dialogs/aboutdlg.py:39
 msgid "About sK1"
 msgstr "О программе"
 
-#: src/app/UI/dialogs/aboutdlg.py:46
+#: src/app/UI/dialogs/aboutdlg.py:60
 #, python-format
 msgid "Uses libraries: Tcl/Tk %s; Python %s"
 msgstr "Используются библиотеки: Tcl/Tk %s; Python %s"
 
-#: src/app/UI/dialogs/aboutdlg.py:68
+#: src/app/UI/dialogs/aboutdlg.py:82
 msgid "About application"
 msgstr "О программе"
 
-#: src/app/UI/dialogs/aboutdlg.py:77
+#: src/app/UI/dialogs/aboutdlg.py:91
 msgid "Illustration program for prepress"
 msgstr "Векторный редактор для препресса"
 
-#: src/app/UI/dialogs/aboutdlg.py:97
+#: src/app/UI/dialogs/aboutdlg.py:111
 msgid "Authors"
 msgstr "Авторы"
 
-#: src/app/UI/dialogs/aboutdlg.py:116
+#: src/app/UI/dialogs/aboutdlg.py:130
 msgid ""
 "\n"
-"To report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/.\n"
+"To report bugs please use project bugtracker: https://bugs.launchpad.net/sk1/\n"
 "\n"
 msgstr ""
 "\n"
@@ -2596,7 +2604,7 @@ msgstr ""
 "https://bugs.launchpad.net/sk1/.\n"
 "\n"
 
-#: src/app/UI/dialogs/aboutdlg.py:117
+#: src/app/UI/dialogs/aboutdlg.py:131
 msgid ""
 "Igor Novikov\n"
 "   igor.e.novikov@gmail.com\n"
@@ -2608,7 +2616,7 @@ msgstr ""
 "   руководитель проекта\n"
 "\n"
 
-#: src/app/UI/dialogs/aboutdlg.py:118
+#: src/app/UI/dialogs/aboutdlg.py:132
 msgid ""
 "Maxim Barabash\n"
 "   maxim.s.barabash@gmail.com\n"
@@ -2620,7 +2628,7 @@ msgstr ""
 "   дизайнер\n"
 "\n"
 
-#: src/app/UI/dialogs/aboutdlg.py:119
+#: src/app/UI/dialogs/aboutdlg.py:133
 msgid ""
 "Acknowledgments:\n"
 "=======================================\n"
@@ -2628,7 +2636,7 @@ msgstr ""
 "Благодарности:\n"
 "=======================================\n"
 
-#: src/app/UI/dialogs/aboutdlg.py:120
+#: src/app/UI/dialogs/aboutdlg.py:134
 msgid ""
 "Valek Fillipov\n"
 "   CDR format reverse engineering\n"
@@ -2638,7 +2646,7 @@ msgstr ""
 "   Реверс-инжениринг CDR формата\n"
 "\n"
 
-#: src/app/UI/dialogs/aboutdlg.py:121
+#: src/app/UI/dialogs/aboutdlg.py:135
 msgid ""
 "Alexandre Prokoudine\n"
 "   alexandre.prokoudine@gmail.com\n"
@@ -2648,29 +2656,11 @@ msgstr ""
 "   alexandre.prokoudine@gmail.com\n"
 "   информационная поддержка (http://linuxgraphics.ru)"
 
-#: src/app/UI/dialogs/aboutdlg.py:128
+#: src/app/UI/dialogs/aboutdlg.py:142
 msgid "Localization"
 msgstr "Перевод"
 
-#: src/app/UI/dialogs/aboutdlg.py:147
-msgid ""
-"\n"
-"The project is not localized yet.\n"
-msgstr ""
-"\n"
-"Локализация проекта не закончена.\n"
-
-#: src/app/UI/dialogs/aboutdlg.py:148
-msgid "We plan to provide localization resources for next version\n"
-msgstr "Мы предоставим локализационные ресурсы к следующей версии.\n"
-
-#: src/app/UI/dialogs/aboutdlg.py:149
-msgid "So if you wish joining to sK1 team as a localizator, just contact us!"
-msgstr ""
-"Поэтому, если вы хотите присоединиться к нашей команде\n"
-"в качестве переводчика, свяжитесь с нами! "
-
-#: src/app/UI/dialogs/aboutdlg.py:156
+#: src/app/UI/dialogs/aboutdlg.py:167
 msgid "License"
 msgstr "Лицензия"
 
@@ -2731,24 +2721,24 @@ msgstr "Неверное число страниц!"
 msgid "Plugin Browser"
 msgstr "Браузер плагинов"
 
-#: src/app/UI/pluginpanels/pbrowser.py:43
+#: src/app/UI/pluginpanels/pbrowser.py:50
 msgid "Plugins"
 msgstr "Плагины"
 
-#: src/app/UI/pluginpanels/pbrowser.py:44
+#: src/app/UI/pluginpanels/pbrowser.py:51
 msgid "Object properties"
 msgstr "Свойства объекта"
 
-#: src/app/UI/pluginpanels/pbrowser.py:46
+#: src/app/UI/pluginpanels/pbrowser.py:53
 msgid "Transformation"
 msgstr "Преобразование"
 
-#: src/app/UI/pluginpanels/pbrowser.py:47
+#: src/app/UI/pluginpanels/pbrowser.py:54
 msgid "Shaping"
 msgstr "Форма"
 
-#: src/app/UI/pluginpanels/pbrowser.py:49
-msgid "Extentions"
+#: src/app/UI/pluginpanels/pbrowser.py:56
+msgid "Extensions"
 msgstr "Расширения"
 
 #: src/app/UI/widgets/colorchooser.py:87
@@ -2759,7 +2749,15 @@ msgstr ""
 "Выбран пустой паттерн,\n"
 "т.е. объект не будет залит"
 
-#: src/app/UI/widgets/colordigitizer.py:239
+#: src/app/UI/widgets/colordigitizer.py:88
+msgid "Alpha channel: "
+msgstr "Альфа канал: "
+
+#: src/app/UI/widgets/colordigitizer.py:193
+msgid "Opacity: "
+msgstr "Непрозрачность: "
+
+#: src/app/UI/widgets/colordigitizer.py:275
 msgid "Color name:"
 msgstr "Имя цвета:"
 
@@ -2769,12 +2767,12 @@ msgid "Empty pattern"
 msgstr "Пустой патерн"
 
 #: src/app/UI/widgets/colorspacesel.py:16
-#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:24
+#: src/app/UI/pluginpanels/extensions/csconverter_plugin.py:24
 msgid "RGB color"
 msgstr "RGB цвет"
 
 #: src/app/UI/widgets/colorspacesel.py:17
-#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:25
+#: src/app/UI/pluginpanels/extensions/csconverter_plugin.py:25
 msgid "CMYK color"
 msgstr "CMYK цвет"
 
@@ -2787,7 +2785,7 @@ msgid "Registration Black"
 msgstr "Сложный черный"
 
 #: src/app/UI/widgets/colorspacesel.py:37
-#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:41
+#: src/app/UI/pluginpanels/extensions/csconverter_plugin.py:47
 msgid "Colorspace:"
 msgstr "Цветовая модель:"
 
@@ -2836,37 +2834,33 @@ msgstr "root"
 
 #: src/app/UI/cc/panels/general.py:48
 msgid "Grid and Guides"
-msgstr ""
+msgstr "Сетка и направляющие"
 
 #: src/app/UI/cc/panels/general.py:76
-#, fuzzy
 msgid "Application fonts"
-msgstr "Смещение при дублировании"
+msgstr "Шрифты приложения"
 
 #: src/app/UI/cc/panels/general.py:104
-#, fuzzy
 msgid "Color Management"
 msgstr "Управление цветом"
 
 #: src/app/UI/cc/panels/general.py:132
-#, fuzzy
 msgid "Cairo Renderer"
-msgstr "Использовать Cairo движок"
+msgstr "Cairo движок"
 
 #: src/app/UI/cc/panels/general.py:170
 #, python-format
 msgid "sK1 generates PDF file as a printing output. So as a printing target you can use any application which accepts PDF file on input: evince, kprinter, acroread etc. Printing command should contain %f symbols replaced by temporal PDF file name during printing."
-msgstr ""
+msgstr "В качестве результата печати sK1 создает PDF файл. Поэтому в качестве печатного устройства вы можете использовать любое приложение, которое открывает PDF файлы: evince, kprinter, acroread и т.п. Команда печати должна содержать символы %f которые буду заменены именем временного PDF файла."
 
 # ../Sketch/UI/printdlg.py:37 :96
 #: src/app/UI/cc/panels/general.py:183
-#, fuzzy
 msgid "Printing command:"
-msgstr "Печать"
+msgstr "Команда печати:"
 
 #: src/app/UI/cc/panels/general.py:191
 msgid "Output PDF level:"
-msgstr ""
+msgstr "Версия PDF:"
 
 # ../Sketch/Graphics/selection.py:466 :1118
 #: src/app/UI/pluginpanels/effects/align_plugin.py:23
@@ -2932,7 +2926,7 @@ msgid "Edge + Jump"
 msgstr "Край + скачок"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:38
-msgid "Distribute"
+msgid "Distribution"
 msgstr "Распределение"
 
 #: src/app/UI/pluginpanels/effects/distribute_plugin.py:61
@@ -2971,42 +2965,42 @@ msgstr "Равные вертикальные отступы между объе
 msgid "Distribute bottoms sides equidistantly"
 msgstr "Равномерно распределить по нижнему краю"
 
-#: src/app/UI/pluginpanels/extentions/csconverter_plugin.py:30
+#: src/app/UI/pluginpanels/extensions/csconverter_plugin.py:30
 msgid "Color Space Converter"
 msgstr "Конвертер цвета"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:25
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:25
 msgid "Text Find & Replace"
 msgstr "Поиск/замена текста"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:49
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:49
 msgid "Find:"
 msgstr "Найти:"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:61
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:61
 msgid "Replace to:"
 msgstr "Заменить на:"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:67
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:67
 msgid "Parameters"
 msgstr "Параметры"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:78
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:78
 msgid "Case sensitive"
 msgstr "С учетом регистра"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:83
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:83
 msgid "Whole word"
 msgstr "Целое слово"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:88
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:88
 msgid "RegExp search"
 msgstr "Регулярное выражение"
 
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:104
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:112
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:117
-#: src/app/UI/pluginpanels/extentions/find_replace_plugin.py:126
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:104
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:112
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:117
+#: src/app/UI/pluginpanels/extensions/find_replace_plugin.py:126
 msgid "Text Replace"
 msgstr "Замена текста"
 
@@ -3017,10 +3011,6 @@ msgstr "Центр сетки"
 #: src/app/UI/pluginpanels/layout/grid_plugin.py:60
 msgid "Grid size"
 msgstr "Размер сетки"
-
-#: src/app/UI/pluginpanels/layout/guidelines_plugin.py:30
-msgid "Guidelines"
-msgstr "Направляющие"
 
 #: src/app/UI/pluginpanels/layout/guidelines_plugin.py:87
 msgid "Add Horizontal Guide"
@@ -3226,6 +3216,21 @@ msgstr "Наклон"
 msgid "Skew&Copy"
 msgstr "Наклонить и скопировать"
 
+#~ msgid ""
+#~ "\n"
+#~ "The project is not localized yet.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Локализация проекта не закончена.\n"
+#~ msgid "We plan to provide localization resources for next version\n"
+#~ msgstr "Мы предоставим локализационные ресурсы к следующей версии.\n"
+#~ msgid ""
+#~ "So if you wish joining to sK1 team as a localizator, just contact us!"
+#~ msgstr ""
+#~ "Поэтому, если вы хотите присоединиться к нашей команде\n"
+#~ "в качестве переводчика, свяжитесь с нами! "
+#~ msgid "Guidelines"
+#~ msgstr "Направляющие"
 #~ msgid "Saving page %u of %u, layer %u of %u"
 #~ msgstr "Сохранение страницы %u из %u, слоя %u из %u"
 #~ msgid "to load image - sK1"
