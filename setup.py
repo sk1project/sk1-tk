@@ -218,6 +218,13 @@ if __name__ == "__main__":
 			tcl_ver ='8.5'
 		if os.path.isfile('/usr/lib/libtcl8.6.so'):
 			tcl_ver ='8.6'
+	
+	#Fix for Fedora
+	if not tcl_ver:
+		if os.path.isfile('/usr/lib64/libtcl8.5.so'):
+			tcl_ver ='8.5'
+		if os.path.isfile('/usr/lib64/libtcl8.6.so'):
+			tcl_ver ='8.6'
 			
 	if not tcl_ver:
 		print 'System tcl/tk =>8.5 libraries have not found!'
