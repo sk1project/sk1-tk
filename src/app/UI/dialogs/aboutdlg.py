@@ -16,6 +16,10 @@ from sk1sdk.libtk.Tkinter import StringVar, Text, TclVersion
 from sk1sdk.libtk.Tkinter import TOP,LEFT,RIGHT,BOTTOM,X,Y,BOTH,W,S,N,E,NORMAL,DISABLED,END, NONE
 
 TRANSLATORS= """
+Brazilian Portuguese:
+	 Joao S. O. Bueno
+	 jsbueno@python.org.br
+
 Chinese Traditional:
      Wei-Lun Chao     
      chaoweilun@gmail.com
