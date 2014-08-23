@@ -142,9 +142,9 @@ def generate_locales():
 		for file in files:
 			lang = file.split('.')[0]
 			po_file = os.path.join('po', file)
-			mo_file = os.path.join('src', 'share', 'locales', lang, 'LC_MESSAGES', 'sk1.mo')
-			if not os.path.lexists(os.path.join('src', 'share', 'locales', lang, 'LC_MESSAGES')):
-				os.makedirs(os.path.join('src', 'share', 'locales', lang, 'LC_MESSAGES'))
+			mo_file = os.path.join('src', 'sk1', 'share', 'locales', lang, 'LC_MESSAGES', 'sk1.mo')
+			if not os.path.lexists(os.path.join('src', 'sk1', 'share', 'locales', lang, 'LC_MESSAGES')):
+				os.makedirs(os.path.join('src', 'sk1', 'share', 'locales', lang, 'LC_MESSAGES'))
 			print po_file, '==>', mo_file
 			os.system('msgfmt -o ' + mo_file + ' ' + po_file)
 
