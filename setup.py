@@ -190,7 +190,7 @@ if __name__ == "__main__":
 	for item in ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']:
 		share_dirs.append(item)
 
-	src_path = 'src/'
+	src_path = 'src/sk1/'
 
 	filter_src = src_path + 'extensions/filter/'
 
@@ -334,9 +334,9 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 				'sk1.app.X11'
 			],
 
-			package_dir={'sk1': 'src',
-			'sk1.app': 'src/app',
-			'sk1.app.modules': 'src/app/modules',
+			package_dir={'sk1': 'src/sk1',
+			'sk1.app': 'src/sk1/app',
+			'sk1.app.modules': 'src/sk1/app/modules',
 			},
 
 			package_data={'sk1.app': ['VERSION', 'tcl/*.tcl'],
