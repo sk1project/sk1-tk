@@ -190,9 +190,9 @@ if __name__ == "__main__":
 	for item in ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']:
 		share_dirs.append(item)
 
-	src_path = 'src/sk1/'
+	src = 'src/sk1/'
 
-	filter_src = src_path + 'extensions/filter/'
+	filter_src = src + 'extensions/filter/'
 
 	filter_module = Extension('sk1.app.modules.streamfilter',
 			define_macros=[('MAJOR_VERSION', '0'),
@@ -231,25 +231,25 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 
- 	type1mod_src = src_path + 'extensions/type1mod/'
+ 	type1mod_src = src + 'extensions/type1mod/'
 	type1mod_module = Extension('sk1.app.modules._type1module',
 			define_macros=[('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources=[type1mod_src + '_type1module.c'])
 
- 	skread_src = src_path + 'extensions/skread/'
+ 	skread_src = src + 'extensions/skread/'
 	skread_module = Extension('sk1.app.modules.skreadmodule',
 			define_macros=[('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources=[skread_src + 'skreadmodule.c'])
 
- 	pstokenize_src = src_path + 'extensions/pstokenize/'
+ 	pstokenize_src = src + 'extensions/pstokenize/'
 	pstokenize_module = Extension('sk1.app.modules.pstokenize',
 			define_macros=[('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
 			sources=[pstokenize_src + 'pstokenize.c', pstokenize_src + 'pschartab.c'])
 
- 	pax_src = src_path + 'extensions/pax/'
+ 	pax_src = src + 'extensions/pax/'
  	pax_include_dirs = ['/usr/include/cairo']
  	pax_include_dirs.extend(tcl_include_dirs)
 	pax_module = Extension('sk1.app.modules.paxmodule',
@@ -263,7 +263,7 @@ if __name__ == "__main__":
 			include_dirs=pax_include_dirs,
 			libraries=['X11', 'Xext', 'tk' + tcl_ver, 'tcl' + tcl_ver, 'cairo'])
 
- 	skmod_src = src_path + 'extensions/skmod/'
+ 	skmod_src = src + 'extensions/skmod/'
 	skmod_module = Extension('sk1.app.modules._sketchmodule',
 			define_macros=[('MAJOR_VERSION', '0'),
 						('MINOR_VERSION', '9')],
@@ -374,22 +374,22 @@ if COPY:
 	import string, platform
 	version = (string.split(sys.version)[0])[0:3]
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/paxmodule.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/paxmodule.so', src + 'app/modules/')
 	print '\n paxmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/pstokenize.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/pstokenize.so', src + 'app/modules/')
 	print '\n pstokenize.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_sketchmodule.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_sketchmodule.so', src + 'app/modules/')
 	print '\n _sketchmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/skreadmodule.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/skreadmodule.so', src + 'app/modules/')
 	print '\n skreadmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/streamfilter.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/streamfilter.so', src + 'app/modules/')
 	print '\n streamfilter.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_type1module.so', 'src/app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_type1module.so', src + 'app/modules/')
 	print '\n _type1module.so has been copied to src/ directory'
 
 	os.system('rm -rf build')
