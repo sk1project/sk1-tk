@@ -39,7 +39,7 @@
 
 import os, shutil, sys
 
-COPY = False
+COPY = True
 DEBIAN = False
 VERSION = '0.9.1pre2'
 
