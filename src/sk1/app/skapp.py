@@ -10,7 +10,7 @@ import sys
 
 from app.events.warn import pdebug
 from app import _, config, Publisher
-from sk1libs import filters
+from uniconvertor import filters
 import app
 from app.Graphics import document
 

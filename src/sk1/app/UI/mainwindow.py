@@ -12,7 +12,7 @@ from types import TupleType, ListType
 from uniconvertor.utils import fs
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, sKVersion
-from sk1libs import filters
+from uniconvertor import filters
 from app.io import load
 from app.conf import const
 from app.utils import locale_utils

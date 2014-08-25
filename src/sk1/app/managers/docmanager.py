@@ -8,7 +8,7 @@
 from app import _, Document, config, dialogman, SketchError
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 from app.utils import locale_utils
-from sk1libs import filters
+from uniconvertor import filters
 from uniconvertor import utils
 from uniconvertor.utils import fs, system
 from app.io import load
