@@ -9,7 +9,7 @@
 import os, sys, string
 from types import TupleType, ListType
 
-from sk1libs.utils import fs
+from uniconvertor.utils import fs
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, sKVersion
 from sk1libs import filters

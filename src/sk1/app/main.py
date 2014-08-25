@@ -27,7 +27,7 @@
 import sys, getopt, string
 
 import app
-from sk1libs.utils import Empty
+from uniconvertor.utils import Empty
 
 usage = ''"""\
 Usage:	sk1 [OPTION] [INPUT FILE]

@@ -34,7 +34,7 @@ Limitations:
 import os
 
 from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, PostScriptDevice
-from sk1libs.utils import system
+from uniconvertor.utils import system
 from app.UI.sketchdlg import SKModal
 
 from sk1sdk.libtk.Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH

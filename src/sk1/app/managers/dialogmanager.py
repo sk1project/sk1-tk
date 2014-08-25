@@ -6,8 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import app, os, string, math, string, sk1
-from sk1libs.utils.system import getenv 
-from sk1libs.utils.fs import gethome
+from uniconvertor.utils.system import getenv 
+from uniconvertor.utils.fs import gethome
 from app import _
 from sk1sdk.libtk.Tkinter import StringVar
 from app.UI.dialogs.msgdialog import msgDialog

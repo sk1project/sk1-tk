@@ -9,7 +9,7 @@ import app, os, string, math
 from app.conf import const
 from sk1sdk.libtk import Tkinter
 from sk1sdk import tkstyle
-from sk1libs.utils import system 
+from uniconvertor.utils import system 
 
 	
 class UIManager:

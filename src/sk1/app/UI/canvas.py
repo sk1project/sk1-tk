@@ -17,7 +17,7 @@ import string
 from types import TupleType
 from math import floor, ceil
 
-from sk1libs.utils import Empty, format
+from uniconvertor.utils import Empty, format
 
 from app import _, InvertingDevice, HitTestDevice, StandardColors, Point, Translation
 from app.Graphics.selection import SelectionRectangle
