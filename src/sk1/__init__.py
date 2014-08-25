@@ -12,17 +12,17 @@ LANG = ''
 def sk1_run():
 	global LANG
 	import sys, os, warnings
-	
-	if not os.environ['LANG'] == '':
-		lang = os.environ['LANG'].split('.')
-		LANG = os.environ['LANG']
-		os.environ['LANG'] = lang[0] + lang[1].upper()
-		
+
+#	if not os.environ['LANG'] == '':
+#		lang = os.environ['LANG'].split('.')
+#		LANG = os.environ['LANG']
+#		os.environ['LANG'] = lang[0] + lang[1].upper()
+
 	warnings.filterwarnings("ignore")
-	
+
 	_pkgdir = __path__[0]
 	sys.path.insert(1, _pkgdir)
-	
+
 	import app
 	app.config.sk_command = sys.argv[0]
 	app.main.main()
