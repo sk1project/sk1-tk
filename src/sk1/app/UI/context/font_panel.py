@@ -15,7 +15,7 @@ from app import  _, config
 from math import floor, ceil
 from app.UI.lengthvar import LengthVar
 from app.Graphics import text, properties
-from sk1libs import ft2engine
+from uniconvertor import ft2engine
 from sk1sdk.libttk import tooltips
 from string import atof
 
