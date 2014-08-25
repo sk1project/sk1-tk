@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TFrame, TLabel, TCombobox
 from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
 from sk1sdk.libtk.Tkinter import StringVar, DoubleVar, IntVar, Canvas
-from sk1libs.imaging import Image
+from PIL import Image
 
 from app.X11.X import GXxor, ZPixmap
 

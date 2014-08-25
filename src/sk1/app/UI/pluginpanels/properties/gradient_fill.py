@@ -24,7 +24,7 @@ from app.UI import styledlg
 
 from sk1sdk.libttk import tooltips
 
-from sk1libs.imaging import Image, ImageDraw
+from PIL import Image, ImageDraw
 from sk1sdk import tkimage
 
 DEFAULT_WIDTH=0.283286

@@ -21,7 +21,7 @@
 
 import os, math
 
-from sk1libs.imaging import Image
+from PIL import Image
 
 from app.Lib import dscparser
 from sk1libs.utils import sh_quote

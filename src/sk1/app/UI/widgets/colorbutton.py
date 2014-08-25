@@ -8,7 +8,7 @@
 # The color sample size is 31x20 px
 
 from sk1sdk.libttk import TButton
-from sk1libs.imaging import Image
+from PIL import Image
 from sk1sdk import tkimage
 
 class TColorButton(TButton):

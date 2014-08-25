@@ -29,7 +29,7 @@ from types import TupleType
 import operator, string
 from math import atan2, hypot, pi, sin, cos
 
-from sk1libs.imaging import Image
+from PIL import Image
 
 from app.X11 import X
 from pax import PaxRegionType, IntersectMasks, CreateRegion

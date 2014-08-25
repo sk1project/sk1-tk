@@ -6,7 +6,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from sk1libs.imaging import Image
+from PIL import Image
 import pax
 
 from app.X11 import X

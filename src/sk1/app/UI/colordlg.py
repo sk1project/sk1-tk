@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from sk1libs.imaging import Image
+from PIL import Image
 from app.X11.X import GXxor, ZPixmap
 
 from colorsys import hsv_to_rgb, rgb_to_hsv
