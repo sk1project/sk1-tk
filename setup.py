@@ -275,6 +275,40 @@ if __name__ == "__main__":
 			include_dirs=['/usr/include/cairo'],
 			libraries=['m', 'X11', 'cairo'])
 
+	dirs = get_dirs_tree('src/tkstyle')
+
+	share_dirs_sdk = []
+	for item in dirs:
+		share_dirs_sdk.append(os.path.join(item[4:], '*.*'))
+
+	src_sdk = 'src/sk1sdk/'
+
+	tkpng_src = src_sdk + 'tkpng/libtkpng/'
+	tkpng_module = Extension('sk1sdk.tkpng.libtkpng',
+			define_macros=[('MAJOR_VERSION', '0'),
+						('MINOR_VERSION', '9')],
+			sources=[tkpng_src + 'tkImgPNG.c', tkpng_src + 'tkImgPNGInit.c'],
+			include_dirs=tcl_include_dirs,
+			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver, 'z'])
+
+	tkXcursor_src = src_sdk + 'tkXcursor/'
+	tkXcursor_include_dirs = ['/usr/include/X11/Xcursor']
+	tkXcursor_include_dirs.extend(tcl_include_dirs)
+	tkXcursor_module = Extension('sk1sdk.tkXcursor._tkXcursor',
+		define_macros=[('MAJOR_VERSION', '1'),
+						('MINOR_VERSION', '0')],
+			sources=[tkXcursor_src + '_tkXcursor.c'],
+			include_dirs=tkXcursor_include_dirs,
+			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver, 'Xcursor'])
+
+	paxtkinter_src = src_sdk + 'libtk/libtkinter/'
+	paxtkinter_module = Extension('sk1sdk.libtk._tkinter',
+			define_macros=[('MAJOR_VERSION', '1'),
+						('MINOR_VERSION', '0')],
+			sources=[paxtkinter_src + '_tkinter.c'],
+			include_dirs=tcl_include_dirs,
+			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver])
+
 	setup (name='sk1',
 			version=VERSION,
 			description='Vector graphics editor for prepress',
@@ -331,17 +365,31 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 				'sk1.app.UI.cc',
 				'sk1.app.UI.cc.panels',
 				'sk1.app.utils',
-				'sk1.app.X11'
+				'sk1.app.X11',
+				'sk1sdk',
+				'sk1sdk.libtk',
+				'sk1sdk.libttk',
+				'sk1sdk.tkpng',
+				'sk1sdk.tkstyle',
+				'sk1sdk.tkXcursor',
 			],
 
 			package_dir={'sk1': 'src/sk1',
 			'sk1.app': 'src/sk1/app',
 			'sk1.app.modules': 'src/sk1/app/modules',
+			'sk1sdk': src,
+			'sk1sdk.libtk': src + 'libtk',
+			'sk1sdk.libttk': src + 'libttk',
+			'sk1sdk.tkpng': src + 'tkpng',
+			'sk1sdk.tkstyle': src + 'tkstyle',
+			'sk1sdk.tkXcursor': src + 'tkXcursor',
 			},
 
 			package_data={'sk1.app': ['VERSION', 'tcl/*.tcl'],
 			'sk1': share_dirs,
-			'sk1.app.modules': ['descr.txt', ]
+			'sk1.app.modules': ['descr.txt', ],
+			'sk1sdk.tkpng': ['pkgIndex.tcl', ],
+			'sk1sdk': share_dirs_sdk,
 			},
 
 			scripts=['src/script/sk1'],
@@ -352,7 +400,8 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 					],
 
 			ext_modules=[filter_module, type1mod_module, skread_module,
-						pstokenize_module, skmod_module, pax_module])
+						pstokenize_module, skmod_module, pax_module,
+						paxtkinter_module, tkpng_module, tkXcursor_module])
 
 
 
@@ -391,6 +440,15 @@ if COPY:
 
 	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_type1module.so', src + 'app/modules/')
 	print '\n _type1module.so has been copied to src/ directory'
+
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/libtk/_tkinter.so', src_sdk + 'libtk/')
+	print '\n _tkinter.so has been copied to src/ directory'
+
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/tkpng/libtkpng.so', src_sdk + 'tkpng/')
+	print '\n libtkpng.so has been copied to src/ directory'
+
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/tkXcursor/_tkXcursor.so', src_sdk + 'tkXcursor/')
+	print '\n _tkXcursor.so has been copied to src/ directory'
 
 	os.system('rm -rf build')
 
