@@ -375,14 +375,14 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 			],
 
 			package_dir={'sk1': 'src/sk1',
-			'sk1.app': 'src/sk1/app',
-			'sk1.app.modules': 'src/sk1/app/modules',
-			'sk1sdk': src,
-			'sk1sdk.libtk': src + 'libtk',
-			'sk1sdk.libttk': src + 'libttk',
-			'sk1sdk.tkpng': src + 'tkpng',
-			'sk1sdk.tkstyle': src + 'tkstyle',
-			'sk1sdk.tkXcursor': src + 'tkXcursor',
+			'sk1.app': src + 'app',
+			'sk1.app.modules': src + 'app/modules',
+			'sk1sdk': src_sdk,
+			'sk1sdk.libtk': src_sdk + 'libtk',
+			'sk1sdk.libttk': src_sdk + 'libttk',
+			'sk1sdk.tkpng': src_sdk + 'tkpng',
+			'sk1sdk.tkstyle': src_sdk + 'tkstyle',
+			'sk1sdk.tkXcursor': src_sdk + 'tkXcursor',
 			},
 
 			package_data={'sk1.app': ['VERSION', 'tcl/*.tcl'],
@@ -423,31 +423,40 @@ if COPY:
 	import string, platform
 	version = (string.split(sys.version)[0])[0:3]
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/paxmodule.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/paxmodule.so', src + 'app/modules/')
 	print '\n paxmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/pstokenize.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/pstokenize.so', src + 'app/modules/')
 	print '\n pstokenize.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_sketchmodule.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/_sketchmodule.so', src + 'app/modules/')
 	print '\n _sketchmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/skreadmodule.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/skreadmodule.so', src + 'app/modules/')
 	print '\n skreadmodule.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/streamfilter.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/streamfilter.so', src + 'app/modules/')
 	print '\n streamfilter.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1/app/modules/_type1module.so', src + 'app/modules/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1/app/modules/_type1module.so', src + 'app/modules/')
 	print '\n _type1module.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/libtk/_tkinter.so', src_sdk + 'libtk/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1sdk/libtk/_tkinter.so', src_sdk + 'libtk/')
 	print '\n _tkinter.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/tkpng/libtkpng.so', src_sdk + 'tkpng/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1sdk/tkpng/libtkpng.so', src_sdk + 'tkpng/')
 	print '\n libtkpng.so has been copied to src/ directory'
 
-	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version + '/sk1sdk/tkXcursor/_tkXcursor.so', src_sdk + 'tkXcursor/')
+	shutil.copy('build/lib.linux-' + platform.machine() + '-' + version +
+			'/sk1sdk/tkXcursor/_tkXcursor.so', src_sdk + 'tkXcursor/')
 	print '\n _tkXcursor.so has been copied to src/ directory'
 
 	os.system('rm -rf build')
