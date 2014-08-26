@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preferences>
+	<name>'ClassicPlastik'</name>
+	<bg>'#959ba2'</bg>
+	<foreground>'#000000'</foreground>
+	<highlightbackground>'#ededed'</highlightbackground>
+	<highlightcolor>'#000000'</highlightcolor>
+	<disabledforeground>'#a3a3a3'</disabledforeground>
+	<selectbackground>'#4e87da'</selectbackground>
+	<selectforeground>'#000000'</selectforeground>
+</preferences>

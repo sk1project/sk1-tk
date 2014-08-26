@@ -1,0 +1,47 @@
+.FILE => file
+.DIR => folder
+-------------
+SVG => svg
+CDR => cdr
+CDT => cdr
+CMX => cmx
+CCX => cmx
+AI => pdf
+PS => ps
+EPS => ps
+PDF => pdf
+CGM => vectorgfx
+WMF => vectorgfx
+PLT => vectorgfx
+DXF => vectorgfx
+SK1 => sk1
+SK => sk
+FIG => vectorgfx
+AFF => vectorgfx
+-------------
+GZ => tar
+TGZ => tar
+ZIP => tar
+TAR => tar
+7Z => tar
+RAR => tar
+BZ2 => tar
+-------------
+TXT => txt
+-------------
+SKP => colorscm
+-------------
+PNG => image
+GIF => image
+JPG => image
+JPEG => image
+TIF => image
+TIFF => image
+BMP => image
+PCX => image
+PBM => image
+PGM => image
+PPM => image
+PSD => image
+-------------
+
