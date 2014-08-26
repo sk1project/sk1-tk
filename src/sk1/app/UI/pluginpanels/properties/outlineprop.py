@@ -24,8 +24,7 @@ from app.UI import styledlg
 
 from sk1sdk.libttk import tooltips
 
-from PIL import Image, ImageDraw
-from sk1sdk import tkimage
+from PIL import Image, ImageDraw, ImageTk
 
 DEFAULT_WIDTH=0.283286
 DEFAULT_CORNER=const.JoinMiter
@@ -307,7 +306,7 @@ class OutlinePropertiesPanel(PluginPanel):
 					fill=1
 				draw.line([(point,y),(point+item*DASH_WIDTH,y)], color, DASH_WIDTH)
 				point+=item*DASH_WIDTH
-		self.generated_tk_image=tkimage.PhotoImage(self.generated_image)
+		self.generated_tk_image=ImageTk.PhotoImage(self.generated_image)
 		return self.generated_tk_image
 	
 	def update_pref(self, *arg):

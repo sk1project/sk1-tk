@@ -8,8 +8,7 @@
 # The color sample size is 31x20 px
 
 from sk1sdk.libttk import TButton
-from PIL import Image
-from sk1sdk import tkimage
+from PIL import Image, ImageTk
 
 class TColorButton(TButton):
 	
@@ -24,6 +23,6 @@ class TColorButton(TButton):
 		else:
 			#the color should be a rgb tuple like (10,20,30)
 			self.bitmap=Image.new("RGB",(31,20),color)
-			self.image=tkimage.PhotoImage(self.bitmap)
+			self.image=ImageTk.PhotoImage(self.bitmap)
 			self['image']=self.image
 			
