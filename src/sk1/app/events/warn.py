@@ -20,7 +20,7 @@ USER = 'USER'
 
 #TEMPORAL CONSTANTS TO DO REFACTORING
 WARN_METHOD = 'dialog'
-PRINT_INTERNAL_WARNINGS =1
+PRINT_INTERNAL_WARNINGS = 0
 PRINT_DEBUG_MESSAGES = 1
 
 def write_error(message):
@@ -43,29 +43,29 @@ def flexible_format(format, args, kw):
 			text = string.join([format] + map(str, kw.items()))
 		else:
 			text = format
-	
+
 	return text
-	
+
 
 def warn(_level, _message, *args, **kw):
 	_message = flexible_format(_message, args, kw)
 
 	if _level == INTERNAL:
 		#TODO: reverse to preferences after refactoring
-		if PRINT_INTERNAL_WARNINGS: 
+		if PRINT_INTERNAL_WARNINGS:
 # 		if config.preferences.print_internal_warnings:
 			write_error(_message)
 	else:
 		app = main.application
 		#TODO: reverse to preferences after refactoring
-		if app and WARN_METHOD == 'dialog': #config.preferences.warn_method == 'dialog':
-			app.MessageBox(title = _("Warning"), message = _message,
-							icon = 'warning')
+		if app and WARN_METHOD == 'dialog':#config.preferences.warn_method == 'dialog':
+			app.MessageBox(title=_("Warning"), message=_message,
+							icon='warning')
 		else:
 			write_error(_message)
 	return _message
 
-def warn_tb(_level, _message = '', *args, **kw):
+def warn_tb(_level, _message='', *args, **kw):
 	_message = flexible_format(_message, args, kw)
 
 	if _level == INTERNAL:
@@ -78,42 +78,42 @@ def warn_tb(_level, _message = '', *args, **kw):
 		app = main.application
 		if app:
 			tb = _("Print Traceback")
-			result = app.MessageBox(title = _("Warning"), message = _message,
-									icon = 'warning', buttons = (_("OK"), tb))
+			result = app.MessageBox(title=_("Warning"), message=_message,
+									icon='warning', buttons=(_("OK"), tb))
 			if result == tb:
 				from cStringIO import StringIO
 				file = StringIO()
-				traceback.print_exc(file = file)
+				traceback.print_exc(file=file)
 				_message = file.getvalue()
-				app.MessageBox(title = _("Traceback"), message = _message,
-								icon = 'warning')
+				app.MessageBox(title=_("Traceback"), message=_message,
+								icon='warning')
 		else:
 			write_error(_message)
 			traceback.print_exc()
 	return _message
-		
+
 
 
 
 def Dict(**kw):
 	return kw
 
-_levels = Dict(default = 1,
-				__del__ = 0,
-				Graphics = 1,
-				properties = 0,
-				DND = 1,
-				context_menu = 0,
-				Load = Dict(default = 1,
-				PSK = 1,
-				AI = 1,
-				echo_messages = 1),
-				PS = 1,
-				bezier = 1,
-				styles = 1,
-				tkext = 0,
-				handles = 0,
-				timing = 0)
+_levels = Dict(default=1,
+				__del__=0,
+				Graphics=1,
+				properties=0,
+				DND=1,
+				context_menu=0,
+				Load=Dict(default=1,
+				PSK=1,
+				AI=1,
+				echo_messages=1),
+				PS=1,
+				bezier=1,
+				styles=1,
+				tkext=0,
+				handles=0,
+				timing=0)
 
 def pdebug(level, message, *args, **kw):
 	#TODO: reverse to preferences after refactoring
