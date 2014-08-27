@@ -80,6 +80,7 @@ encoding//src/sk1/app/UI/widgets/treewidget.py=utf-8
 encoding//src/sk1/app/__init__.py=utf-8
 encoding//src/sk1/app/conf/configurator.py=utf-8
 encoding//src/sk1/app/conf/const.py=utf-8
+encoding//src/sk1/app/events/warn.py=utf-8
 encoding//src/sk1/app/io/load.py=utf-8
 encoding//src/sk1/app/io/loadres.py=utf-8
 encoding//src/sk1/app/main.py=utf-8
