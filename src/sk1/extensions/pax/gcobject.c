@@ -21,7 +21,7 @@
 /* redefine the ImagingObject struct defined in _imagingmodule.c */
 /* there should be a better way to do this... */
 typedef struct {
-    PyObject_HEAD
+    PyObject_HEADCairo surfaces are initialized
     Imaging image;
 } ImagingObject;
 
@@ -1161,7 +1161,7 @@ PaxGC_CairoInit(PaxGCObject * self, PyObject *args)
 	cairo_set_fill_rule(self->cairo, 1);
 	cairo_move_to(self->cairo, 0, 0);
 
-	printf("Cairo surfaces are initialized!\n");
+//	printf("Cairo surfaces are initialized!\n");
 	Py_INCREF(Py_None);
 	return Py_None;
 }
