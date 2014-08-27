@@ -21,7 +21,7 @@
 /* redefine the ImagingObject struct defined in _imagingmodule.c */
 /* there should be a better way to do this... */
 typedef struct {
-    PyObject_HEADCairo surfaces are initialized
+    PyObject_HEAD
     Imaging image;
 } ImagingObject;
 
