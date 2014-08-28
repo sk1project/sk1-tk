@@ -332,7 +332,6 @@ sK1 Team (http://sk1project.org), copyright (C) 2003-2010 by Igor E. Novikov.
 			'License :: OSI Approved :: LGPL v2',
 			'License :: OSI Approved :: GPL v2',
 			'Operating System :: POSIX',
-			'Operating System :: MacOS :: MacOS X',
 			'Programming Language :: Python',
 			'Programming Language :: Tcl',
 			'Programming Language :: C',
