@@ -33,6 +33,7 @@ encoding//src/sk1/app/UI/context/textalign_panel.py=utf-8
 encoding//src/sk1/app/UI/context/unit_panel.py=utf-8
 encoding//src/sk1/app/UI/converters.py=utf-8
 encoding//src/sk1/app/UI/cursorstack.py=utf-8
+encoding//src/sk1/app/UI/dialogs/aboutdlg.py=utf-8
 encoding//src/sk1/app/UI/dialogs/dialog.py=utf-8
 encoding//src/sk1/app/UI/dialogs/gotopagedlg.py=utf-8
 encoding//src/sk1/app/UI/dialogs/msgdialog.py=utf-8
