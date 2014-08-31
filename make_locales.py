@@ -28,6 +28,8 @@ Usage:
 --------------------------------------------------------------------------
 """
 
+import os, shutil, sys
+
 #Return directory list for provided path
 def get_dirs(path='.'):
 	list = []
