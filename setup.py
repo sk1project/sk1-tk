@@ -101,13 +101,14 @@ LONG_DEB_DESCRIPTION = ''' .
 #
 ############################################################
 src_path = 'src'
-pkg_path = os.path.join(src_path, 'sk1')
-pkg_path_sdk = os.path.join(src_path, 'sk1sdk')
 include_path = '/usr/include'
 modules = []
 scripts = ['src/script/sk1', ]
 deb_scripts = []
-data_files = []
+data_files = [
+('/usr/share/applications', ['src/sk1.desktop', ]),
+('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
+],
 deb_depends = 'python (>=2.4), python (<<3.0), python-imaging'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
