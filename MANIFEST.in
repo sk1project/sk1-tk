@@ -1,4 +1,4 @@
-include MANIFEST.in README setup.cfg libutils.py
+include MANIFEST.in README setup.cfg libutils.py make_locales.py
 include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
 include src/script/sk1
 include src/sk1/app/modules/descr.txt
