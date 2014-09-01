@@ -1147,14 +1147,14 @@ PaxGC_CairoInit(PaxGCObject * self, PyObject *args)
 	return NULL;
 
 	Visual *visual = DefaultVisual(self->display, DefaultScreen(self->display));
-	winsurface = cairo_xlib_surface_create(self->display, self->drawable, visual, width, height);
+	winsurface = cairo_xlib_surface_create(self->display, self->drawable, visual, width*2, height*2);
 	cairo_surface_set_device_offset(winsurface, -x_off, -y_off);
 	self->cairowin = cairo_create(winsurface);
 
 	cairo_set_fill_rule(self->cairowin, 1);
 	cairo_move_to(self->cairowin, 0, 0);
 
-	self->cairo_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
+	self->cairo_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width*2, height*2);
 	cairo_surface_set_device_offset(self->cairo_surface, -x_off, -y_off);
 	self->cairo = cairo_create(self->cairo_surface);
 
