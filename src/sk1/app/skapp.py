@@ -29,17 +29,17 @@ pixmaps = skpixmaps.PixmapTk
 # meta info defaults
 #
 meta_defaults = [
-	('fullpathname', None),		# the full pathname if read from a file
-	('filename', 'unnamed.sk1'),		# filename without dir
-	('directory', None),		# the directory
-	('backup_created', 0),		# true if a backup has been created
+	('fullpathname', None),# the full pathname if read from a file
+	('filename', 'unnamed.sk1'),# filename without dir
+	('directory', None),# the directory
+	('backup_created', 0),# true if a backup has been created
 	('format_name', filters.NativeFormat),# the filetype (do we need this ?)
-	('native_format', 1),		# whether the file was in native format
-	('ps_directory', None),		# dir where PostScript file was created
-	('ps_filename', ''),		# name of last postscript file
-	('compressed', ''),			# was compressed (by gzip or bzip2)
-	('compressed_file', ''),		# filename of compressed file
-	('load_messages', ''),		# (warning) messages
+	('native_format', 1),# whether the file was in native format
+	('ps_directory', None),# dir where PostScript file was created
+	('ps_filename', ''),# name of last postscript file
+	('compressed', ''),# was compressed (by gzip or bzip2)
+	('compressed_file', ''),# filename of compressed file
+	('load_messages', ''),# (warning) messages
 	]
 
 for key, val in meta_defaults:
@@ -56,25 +56,25 @@ class TkApplication:
 	tk_basename = ''
 	tk_class_name = ''
 
-	def __init__(self, screen_name = None, geometry = None):
+	def __init__(self, screen_name=None, geometry=None):
 		self.init_tk(screen_name, geometry)
 
-	def init_tk(self, screen_name = None, geometry = None):
-		self.root = Tk(screenName = screen_name, baseName = self.tk_basename, className = self.tk_class_name)
-		app.root=self.root
-		
-		
+	def init_tk(self, screen_name=None, geometry=None):
+		self.root = Tk(screenName=screen_name, baseName=self.tk_basename, className=self.tk_class_name)
+		app.root = self.root
+
+
 		from app.managers.uimanager import  UIManager
-		app.uimanager=UIManager(self.root)
-		
+		app.uimanager = UIManager(self.root)
+
 		from app.managers.dialogmanager import DialogManager
-		app.dialogman=DialogManager(self.root)
-		
-		
-		app.info1=StringVar(self.root,'')
-		app.info2=StringVar(self.root,'')
-		app.info3=DoubleVar(self.root,0)
-		
+		app.dialogman = DialogManager(self.root)
+
+
+		app.info1 = StringVar(self.root, '')
+		app.info2 = StringVar(self.root, '')
+		app.info3 = DoubleVar(self.root, 0)
+
 		# Reset locale again to make sure we get properly translated
 		# messages if desired by the user. For some reason it may
 		# have been reset by Tcl/Tk.
@@ -148,11 +148,11 @@ class SketchApplication(TkApplication, Publisher):
 	tk_basename = 'sk1'
 	tk_class_name = 'sK1'
 
-	def __init__(self, filename, screen_name = None, geometry = None,
-					run_script = None):
+	def __init__(self, filename, screen_name=None, geometry=None,
+					run_script=None):
 		self.filename = filename
 		self.run_script = run_script
-		TkApplication.__init__(self, screen_name = screen_name, geometry = geometry)
+		TkApplication.__init__(self, screen_name=screen_name, geometry=geometry)
 		self.build_window()
 
 	def issue_clipboard(self):
@@ -165,20 +165,20 @@ class SketchApplication(TkApplication, Publisher):
 		self.issue_clipboard()
 
 	def AskUser(self, title, message):
-		return self.MessageBox(title = title, message = message, buttons = tkext.YesNo) == tkext.Yes
+		return self.MessageBox(title=title, message=message, buttons=tkext.YesNo) == tkext.Yes
 
 	def Run(self):
 		self.SetClipboard(None)
 		tooltips.Init(self.root, config.preferences.tooltip_delay, config.preferences.activate_tooltips)
-		
+
 		#Forcing cairo mode to avoid Xlib clashes
 		config.preferences.cairo_enabled = 1
 		config.preferences.alpha_channel_enabled = 1
-		
+
 		self.main_window.UpdateCommands()
 		# Enter Main Loop
 		self.main_window.Run()
-		
+
 	def Refresh(self):
 		self.main_window.canvas.commands.FitPageToWindow
 
@@ -186,12 +186,13 @@ class SketchApplication(TkApplication, Publisher):
 		pixmaps.clear_cache()
 		self.root.destroy()
 
-	def init_tk(self, screen_name = None, geometry = None):
-		TkApplication.init_tk(self, screen_name = screen_name, geometry = geometry)
+	def init_tk(self, screen_name=None, geometry=None):
+		TkApplication.init_tk(self, screen_name=screen_name, geometry=geometry)
 		root = self.root
 		app.init_modules_from_widget(root)
 		app.uimanager.setApplicationIcon()
-		app.uimanager.maximizeApp()
+#		app.uimanager.maximizeApp()
+		root.geometry("1024x720")
 		root.group(root)
 
 	def build_window(self):
