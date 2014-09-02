@@ -192,7 +192,7 @@ class SketchApplication(TkApplication, Publisher):
 		app.init_modules_from_widget(root)
 		app.uimanager.setApplicationIcon()
 #		app.uimanager.maximizeApp()
-		root.geometry("1024x720")
+		app.uimanager.center_root()
 		root.group(root)
 
 	def build_window(self):
