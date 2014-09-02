@@ -109,7 +109,8 @@ data_files = [
 ('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
 ],
 deb_depends = 'libxcursor1, libcairo2, zlib1g, libx11, libxext, tk8.5 (>=8.5.0)'
-deb_depends += ', python (>=2.4), python (<<3.0), python-imaging'
+deb_depends += ', zenity, python (>=2.4), python (<<3.0), python-imaging'
+deb_depends += ', python-gtk2'
 deb_depends += ', python-uniconvertor (>=1.2), python-uniconvertor (<<2.0)'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
