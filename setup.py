@@ -69,7 +69,6 @@ CLASSIFIERS = [
 'Environment :: Desktop',
 'Intended Audience :: End Users/Desktop',
 'License :: OSI Approved :: LGPL v2',
-'License :: OSI Approved :: GPL v2',
 'Operating System :: POSIX',
 'Programming Language :: Python',
 'Programming Language :: Tcl',
