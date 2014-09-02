@@ -53,4 +53,5 @@ zenity
 python-dev
 python-gtk2
 python-imaging 
+python-imaging-tk
 python-uniconvertor (latest version from project repository)
