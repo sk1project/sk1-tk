@@ -50,6 +50,7 @@ zlib1g-dev
 libxext-dev 
 tk8.5-dev 
 zenity
+python-dev
 python-gtk2
 python-imaging 
 python-uniconvertor (latest version from project repository)
