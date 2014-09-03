@@ -44,13 +44,17 @@ some development packages. We describe dev-packages for Ubuntu|Debian, but for
 other distros they have similar names. So, you need:
 
 libx11-dev
-libxcursor1-dev 
+libxcursor-dev 
 libcairo2-dev
 zlib1g-dev 
 libxext-dev 
 tk8.5-dev 
-zenity
 python-dev
+
+
+To run application you need installing also:
+
+zenity
 python-gtk2
 python-imaging 
 python-imaging-tk
