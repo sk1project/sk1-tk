@@ -1,5 +1,5 @@
 /*
- * tkImgPNG.c --
+ * tkImgPNG.c  --
  *
  * A Tk photo image file handler for PNG files.  Requires zlib.
  *
