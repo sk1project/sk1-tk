@@ -9,32 +9,32 @@
 
 import os, sys, string
 
-uimanager=None
-dialogman=None
-mw=None
+uimanager = None
+dialogman = None
+mw = None
 
 ####Info variables for progress dialogs
-info1=None
-info2=None
-info3=None
-info_win=None
+info1 = None
+info2 = None
+info3 = None
+info_win = None
 #######################################
 
 
-objprop_plugins=[]
-layout_plugins=[]
-transform_plugins=[]
-effects_plugins=[]
-extentions_plugins=[]
-shaping_plugins=[]
-pref_plugins=[]
+objprop_plugins = []
+layout_plugins = []
+transform_plugins = []
+effects_plugins = []
+extentions_plugins = []
+shaping_plugins = []
+pref_plugins = []
 
 
 _pkgdir = __path__[0]
 
-temp=string.split(_pkgdir,'/')
+temp = string.split(_pkgdir, '/')
 temp.remove(temp[-1])
-_parentdir=string.join(temp,'/')
+_parentdir = string.join(temp, '/')
 
 sKVersion = string.strip(open(os.path.join(_pkgdir, 'VERSION')).read())
 
@@ -48,8 +48,8 @@ if os.path.isdir(dir):
 
 #-----------LOCALIZATION-------------------
 import gettext
-message_dir = os.path.join(_parentdir,'share', 'locales')
-if os.path.lexists(message_dir):	
+message_dir = os.path.join(_parentdir, 'share', 'locales')
+if os.path.lexists(message_dir):
 	gettext.bindtextdomain('sk1', message_dir)
 	gettext.textdomain('sk1')
 _ = gettext.gettext
@@ -65,7 +65,7 @@ from conf.configurator import Configurator
 config = Configurator(base_dir=_parentdir)
 
 from managers.colormanager import ColorManager
-colormanager=ColorManager()
+colormanager = ColorManager()
 
 
 from _sketch import Rect, PointsToRect, UnionRects, IntersectRects, EmptyRect, InfinityRect, RectType
@@ -86,16 +86,16 @@ from events.connector import Connect, Disconnect, Issue, RemovePublisher, Subscr
 
 
 #
-def updateInfo(inf1=None,inf2=None,inf3=None):
+def updateInfo(inf1=None, inf2=None, inf3=None):
 	if not inf1 is None:
 		info1.set(inf1)
 	if not inf2 is None:
-		info2.set(inf2)		
+		info2.set(inf2)
 	if not inf3 is None:
 		info3.set(inf3)
 	if not info_win is None:
 		info_win.update()
-		
+
 
 command_classes = []
 
@@ -148,6 +148,8 @@ from Graphics.text import SimpleText, SimpleTextCreator, PathText
 def init_lib():
 	from uniconvertor import filters
 # 	config.load_user_preferences()
+	from uniconvertor.ft2engine import scan_fonts_dirs
+	scan_fonts_dirs()
 	Issue(None, const.INITIALIZE)
 
 def init_ui():
