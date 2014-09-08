@@ -26,7 +26,7 @@ class Configurator:
 		self.sk_ps = os.path.join(self.sk_share_dir, 'ps_templates')
 
 		self.user_home_dir = gethome()
-		self.user_config_dir = os.path.join(self.user_home_dir, '.sK1')
+		self.user_config_dir = os.path.join(self.user_home_dir, '.config', 'sk1')
 		self.user_palettes = os.path.join(self.user_config_dir, 'palettes')
 		self.user_themes = os.path.join(self.user_config_dir, 'themes')
 		self.user_icc = os.path.join(self.user_config_dir, 'icc')
