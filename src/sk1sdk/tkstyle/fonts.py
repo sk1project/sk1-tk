@@ -53,7 +53,7 @@ def get_system_fonts():
 	os.system('python -c "%s" >%s 2>/dev/null' % (command, tmpfile.name))
 
 	font = tmpfile.readline().strip()
-	print font
+
 	normal_font = process_gtk_font_string(font)
 	small_font = copy.deepcopy(normal_font)
 	small_font[2] -= 1
