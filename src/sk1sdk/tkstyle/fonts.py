@@ -26,10 +26,10 @@ def get_builtin_fonts():
 	Returns list of four predefined fonts, used in sK1 UI.
 	"""
 	return [
-		['Sans',[],9],
-		['Sans',[],10],
-		['Sans',['bold',],12],
-		['Monospace',[],10],
+		['Sans', [], 9],
+		['Sans', [], 10],
+		['Sans', ['bold', ], 12],
+		['Monospace', [], 10],
 		]
 
 
@@ -47,28 +47,28 @@ def get_system_fonts():
 	Currently Gtk binding is implemented. Win32 and MacOS X 
 	implementation will be later.
 	"""
-	
-	tmpfile=NamedTemporaryFile()
+
+	tmpfile = NamedTemporaryFile()
 	command = "import gtk;w = gtk.Window();w.realize();style=w.get_style(); print style.font_desc.to_string();"
-	os.system('python -c "%s" >%s 2>/dev/null'%(command, tmpfile.name))
-	
-	font=tmpfile.readline().strip()
-	
-	normal_font=process_gtk_font_string(font)
-	small_font=copy.deepcopy(normal_font)
-	small_font[2]-=1
-	
-	large_font=copy.deepcopy(normal_font)
-	large_font[2]+=2
+	os.system('python -c "%s" >%s 2>/dev/null' % (command, tmpfile.name))
+
+	font = tmpfile.readline().strip()
+	print font
+	normal_font = process_gtk_font_string(font)
+	small_font = copy.deepcopy(normal_font)
+	small_font[2] -= 1
+
+	large_font = copy.deepcopy(normal_font)
+	large_font[2] += 2
 	if not 'bold' in large_font[1]:
 		large_font[1].append('bold')
-		
-	fixed_font=copy.deepcopy(normal_font)
-	fixed_font[0]='monospace'
-	
-	return [small_font,normal_font,large_font,fixed_font]
-	
-	
+
+	fixed_font = copy.deepcopy(normal_font)
+	fixed_font[0] = 'monospace'
+
+	return [small_font, normal_font, large_font, fixed_font]
+
+
 def process_gtk_font_string(font):
 	"""
 	Converts Gtk font string to font description list
@@ -77,10 +77,10 @@ def process_gtk_font_string(font):
 	Such form is much better for constructing of 
 	Tk font description.
 	"""
-	
-	font_style=[]
-	vals=font.split()
-	font_size=int(vals[-1])
+
+	font_style = []
+	vals = font.split()
+	font_size = int(vals[-1])
 	vals.remove(vals[-1])
 	if 'Bold' in vals:
 		vals.remove('Bold')
@@ -88,20 +88,20 @@ def process_gtk_font_string(font):
 	if 'Italic' in vals:
 		vals.remove('Italic')
 		font_style.append('italic')
-	font_family=string.join(vals,'\ ')
-	return [font_family,font_style,font_size]
+	font_family = string.join(vals, '\ ')
+	if font_family == 'Ubuntu':font_family = 'Ubuntu\ Regular'
+	return [font_family, font_style, font_size]
 
 def tkfont_from_list(font_list):
 	"""
 	Constructs tk font string from font list.
 	"""
-	return '%s %d '%(font_list[0],font_list[2]) + string.join(font_list[1])
+	return '%s %d ' % (font_list[0], font_list[2]) + string.join(font_list[1])
 
 if __name__ == '__main__':
-	fonts=get_system_fonts()
+	fonts = get_system_fonts()
 	for item in fonts:
 		print item
-	print tkfont_from_list(['San\ Serif', ['bold','italic'], 10])
+	print tkfont_from_list(['San\ Serif', ['bold', 'italic'], 10])
 
-		
-		
+
