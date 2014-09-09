@@ -9,6 +9,7 @@ encoding//src/sk1/app/Graphics/page.py=utf-8
 encoding//src/sk1/app/Graphics/papersize.py=utf-8
 encoding//src/sk1/app/Graphics/selection.py=utf-8
 encoding//src/sk1/app/Graphics/text.py=utf-8
+encoding//src/sk1/app/Lib/dscparser.py=utf-8
 encoding//src/sk1/app/Lib/units.py=utf-8
 encoding//src/sk1/app/UI/canvas.py=utf-8
 encoding//src/sk1/app/UI/cc/ccenterdialog.py=utf-8
