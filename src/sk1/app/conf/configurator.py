@@ -310,6 +310,9 @@ class Preferences(connector.Publisher):
 
 	window_title_template = '%(appname)s - [%(docname)s]'
 
+	#Defines splashscreen appearance
+	show_splash = 1
+
 	#Icons
 	color_icons = 1
 
