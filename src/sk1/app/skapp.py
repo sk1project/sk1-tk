@@ -17,7 +17,7 @@ from app.Graphics import document
 from app.conf.const import CLIPBOARD
 
 from sk1sdk.libtk.Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
-from sk1sdk.libtk.Tkinter import Label
+from sk1sdk.libtk.Tkinter import Label, Frame, X, TOP, LEFT
 from app.UI import tkext
 from types import ListType
 
@@ -65,12 +65,14 @@ class TkApplication:
 		app.root = self.root
 		self.splash = SplashScreen(self.root)
 		self.splash.show()
+		self.splash.set_val(.1)
 
 		from app.managers.uimanager import  UIManager
 		app.uimanager = UIManager(self.root)
 
 		from app.managers.dialogmanager import DialogManager
 		app.dialogman = DialogManager(self.root)
+		self.splash.set_val(.15)
 
 
 		app.info1 = StringVar(self.root, '')
@@ -102,6 +104,7 @@ class TkApplication:
 				sys.stderr.write('%s: invalid geometry specification %s' % (self.tk_basename, geometry))
 
 	def Mainloop(self):
+		self.splash.set_val(1)
 		self.splash.hide()
 		self.root.mainloop()
 
@@ -235,7 +238,9 @@ class SplashScreen:
 			self.win = Toplevel()
 			self.win.overrideredirect(1)
 			self.win.configure(background='black')
-			Label(self.win, image=self.img, cursor='watch').pack()
+			Label(self.win, image=self.img, cursor='watch', borderwidth=0).pack()
+			self.progress_bar = SS_ProgressBar(self.win)
+			self.progress_bar.pack(fill=X, side=TOP)
 			geom = (self.width, self.height, winXPos, winYPos)
 			self.win.geometry('%dx%d+%d+%d' % geom)
 			self.win.update()
@@ -245,3 +250,44 @@ class SplashScreen:
 		self.root.deiconify()
 		if self.flag and self.win:
 			self.win.destroy()
+
+	def set_val(self, val):
+		self.progress_bar.set_val(val)
+		self.win.update()
+
+class SS_ProgressBar(Frame):
+
+	prgs = None
+	width = 500
+
+	def __init__(self, parent):
+		Frame.__init__(self, parent, background='black',
+					height=13, relief='flat', borderwidth=3)
+		grframe = Frame(self, background='gray',
+					height=9, relief='flat', borderwidth=1)
+		grframe.pack(fill=X, side=TOP)
+		bkframe = Frame(grframe, background='black',
+					height=7, relief='flat', borderwidth=1)
+		bkframe.pack(fill=X, side=TOP)
+		self.prgs = Frame(bkframe, background='white', width=1,
+					height=3, relief='flat', borderwidth=1)
+		self.prgs.pack(side=LEFT)
+		self.width -= 3 * 2 + 2 + 2
+
+	def set_val(self, val):
+		self.prgs.configure(width=self.width * val)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
