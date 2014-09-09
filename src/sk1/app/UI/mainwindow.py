@@ -109,14 +109,25 @@ class sK1MainWindow(Publisher):
 		self.commands = None
 		self.tabspanel = None
 		self.docmanager = DocumentManager(self)
+
+		splash = self.application.splash
+
 		self.create_commands()
+		splash.set_val(.2)
 		self.build_window()
+		splash.set_val(.3)
 		self.build_menu()
+		splash.set_val(.4)
 		self.build_toolbar()
+		splash.set_val(.5)
 		self.build_tools()
+		splash.set_val(.6)
 		self.build_status_bar()
+		splash.set_val(.7)
 		self.__init_dlgs()
+		splash.set_val(.8)
 		self.document.Subscribe(SELECTION, self.refresh_buffer)
+		splash.set_val(.9)
 
 	def Run(self):
 		if self.filename:
