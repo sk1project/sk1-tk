@@ -6,7 +6,7 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import sys
+import sys, os
 
 from app.events.warn import pdebug
 from app import _, config, Publisher
@@ -16,7 +16,8 @@ from app.Graphics import document
 
 from app.conf.const import CLIPBOARD
 
-from sk1sdk.libtk.Tkinter import Tk, TclError, PhotoImage, Wm, StringVar, DoubleVar
+from sk1sdk.libtk.Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
+from sk1sdk.libtk.Tkinter import Label
 from app.UI import tkext
 from types import ListType
 
@@ -62,7 +63,8 @@ class TkApplication:
 	def init_tk(self, screen_name=None, geometry=None):
 		self.root = Tk(screenName=screen_name, baseName=self.tk_basename, className=self.tk_class_name)
 		app.root = self.root
-
+		self.splash = SplashScreen(self.root)
+		self.splash.show()
 
 		from app.managers.uimanager import  UIManager
 		app.uimanager = UIManager(self.root)
@@ -100,6 +102,7 @@ class TkApplication:
 				sys.stderr.write('%s: invalid geometry specification %s' % (self.tk_basename, geometry))
 
 	def Mainloop(self):
+		self.splash.hide()
 		self.root.mainloop()
 
 	def MessageBox(self, *args, **kw):
@@ -204,3 +207,41 @@ class SketchApplication(TkApplication, Publisher):
 	def SavePreferences(self, *args):
 		config.save_user_preferences()
 
+class SplashScreen:
+
+	root = None
+	win = None
+	img = 'splash-screen'
+	flag = 0
+
+	def __init__(self, root):
+		self.root = root
+		self.width = 500
+		self.height = 300
+		self.flag = config.preferences.show_splash
+
+	def show(self):
+		self.root.withdraw()
+		if self.flag:
+			img_file = os.path.join(app.config.sk_share_dir, self.img + '.png')
+			from sk1sdk.tkpng import load_icon
+			load_icon(self.root, img_file, self.img)
+
+			scrnWt = self.root.winfo_screenwidth()
+			scrnHt = self.root.winfo_screenheight()
+			winXPos = (scrnWt / 2) - (self.width / 2)
+			winYPos = (scrnHt / 2) - (self.height / 2)
+
+			self.win = Toplevel()
+			self.win.overrideredirect(1)
+			self.win.configure(background='black')
+			Label(self.win, image=self.img, cursor='watch').pack()
+			geom = (self.width, self.height, winXPos, winYPos)
+			self.win.geometry('%dx%d+%d+%d' % geom)
+			self.win.update()
+
+	def hide(self):
+		self.root.update()
+		self.root.deiconify()
+		if self.flag and self.win:
+			self.win.destroy()
