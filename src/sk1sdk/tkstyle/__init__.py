@@ -131,7 +131,6 @@ def _apply_colors(widget, style):
 
 def _apply_fonts(widget, style, correct_font):
 	font_list = style.fonts
-	print font_list
 	widget.tk.call('option', 'add', '*font', fonts.tkfont_from_list(font_list[1], correct_font))
 	sk1_txtsmall.set(fonts.tkfont_from_list(font_list[0], correct_font))
 	sk1_txtnormal.set(fonts.tkfont_from_list(font_list[1], correct_font))
