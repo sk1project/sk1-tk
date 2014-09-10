@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2003-2008 by Igor E. Novikov
-# Copyright (C) 1997, 1998, 1999 by Bernhard Herzog 
+# Copyright (C) 1997, 1998, 1999 by Bernhard Herzog
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -16,7 +16,7 @@ from sk1sdk.libttk import TLabel
 
 
 class Tooltips:
-	tooltip_delay=100
+	tooltip_delay = 100
 
 	def __init__(self):
 		self.descriptions = {}
@@ -50,9 +50,9 @@ class Tooltips:
 		self.balloon = Toplevel(self.root)
 		self.balloon.withdraw()
 		self.balloon.overrideredirect(1)
-		self.balloon["relief"]='flat'
-		label = TLabel(self.balloon, text = 'Tooltip', style='Tooltips')
-		label.pack()
+		self.balloon["relief"] = 'flat'
+		label = TLabel(self.balloon, text='Tooltip', style='Tooltips')
+		label.pack(ipadx=2, ipady=2)
 		self.balloon_label = label
 
 
@@ -61,21 +61,21 @@ class Tooltips:
 		self.balloon.withdraw()
 		self.balloon_label['text'] = text
 
-		width=self.balloon_label.winfo_reqwidth()
-		height=self.balloon_label.winfo_reqheight()
-		
-		screenwidth=self.root.winfo_screenwidth()
-		screenheight=self.root.winfo_screenheight()
-		
-		x=self.root.winfo_pointerx()
-		y=self.root.winfo_pointery()+20
-		
-		if screenwidth<(x+width):
-			x=x-width
+		width = self.balloon_label.winfo_reqwidth()
+		height = self.balloon_label.winfo_reqheight()
 
-		if screenheight<(y+height):
-			y=y-height-25
-					
+		screenwidth = self.root.winfo_screenwidth()
+		screenheight = self.root.winfo_screenheight()
+
+		x = self.root.winfo_pointerx()
+		y = self.root.winfo_pointery() + 20
+
+		if screenwidth < (x + width):
+			x = x - width
+
+		if screenheight < (y + height):
+			y = y - height - 25
+
 		self.balloon.geometry('%+d%+d' % (x, y))
 		self.balloon.update()
 		self.balloon.deiconify()
@@ -85,18 +85,17 @@ class Tooltips:
 		self.after_id = None
 		self.popup_balloon(widget_name, x, y, text)
 
-	def enter_widget(self, event):		
+	def enter_widget(self, event):
 		widget_name = event.widget
 		text = self.GetDescription(widget_name)
 		if text:
-			x=event.x;y=event.y
+			x = event.x;y = event.y
 			if self.after_id:
 				print 'after_id in enter'
 				self.root.after_cancel(self.after_id)
 			self.after_id = self.root.after(self.tooltip_delay, self.popup_delayed, widget_name, x, y, text)
 
 	def leave_widget(self, event):
-		widget_name = event.widget
 		global last_widget, after_id
 		if self.after_id is not None:
 			self.root.after_cancel(self.after_id)
@@ -118,10 +117,8 @@ AddDescription = _tooltips.AddDescription
 
 def Init(root, tooltip_delay=100, activate_tooltips=1):
 	if activate_tooltips:
-	   	root.bind_all('<Enter>', _tooltips.enter_widget)
-	   	root.bind_all('<Leave>', _tooltips.leave_widget)
-	   	root.bind_all('<ButtonPress>', _tooltips.button_press)
-	   	_tooltips.tooltip_delay = tooltip_delay
+		root.bind_all('<Enter>', _tooltips.enter_widget)
+		root.bind_all('<Leave>', _tooltips.leave_widget)
+		root.bind_all('<ButtonPress>', _tooltips.button_press)
+		_tooltips.tooltip_delay = tooltip_delay
 		_tooltips.create_balloon(root)
-		
-		
