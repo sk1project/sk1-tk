@@ -333,6 +333,9 @@ class Preferences(connector.Publisher):
 	large_font = 'Tahoma 10 bold'
 	fixed_font = 'CourierNew 9'
 
+	#Decreases UI font size to compensate difference between GNOME and Tk
+	correct_font = 1
+
 	#---------Ruler data---------
 	ruler_min_tick_step = 4
 	ruler_min_text_step = 33

@@ -26,7 +26,7 @@ class UIManager:
 
 		self.style = tkstyle.get_system_style(root)
 		self.currentColorTheme = self.style.colors
-		tkstyle.set_style(root, self.style, 1)
+		tkstyle.set_style(root, self.style, app.config.correct_font)
 		self.uploadExtentions()
 		self.defineCursors()
 

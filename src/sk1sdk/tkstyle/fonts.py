@@ -92,11 +92,13 @@ def process_gtk_font_string(font):
 	if font_family == 'Ubuntu':font_family = 'Ubuntu\ Regular'
 	return [font_family, font_style, font_size]
 
-def tkfont_from_list(font_list):
+def tkfont_from_list(font_list, correct_font):
 	"""
 	Constructs tk font string from font list.
 	"""
-	return '%s %d ' % (font_list[0], font_list[2]) + string.join(font_list[1])
+	delta = 0
+	if correct_font:delta = 1
+	return '%s %d ' % (font_list[0], font_list[2] - delta) + string.join(font_list[1])
 
 if __name__ == '__main__':
 	fonts = get_system_fonts()
