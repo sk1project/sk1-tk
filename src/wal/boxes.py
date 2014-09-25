@@ -18,6 +18,19 @@ class HLine(Tkinter.Frame):
 		kw['fill'] = Tkinter.X
 		Tkinter.Frame.pack(self, cnf=cnf, **kw)
 
+class VLine(Tkinter.Frame):
+
+	def __init__(self, master):
+		self.master = master
+		Tkinter.Frame.__init__(self, master=master, width=2)
+		self.config(relief=Tkinter.SUNKEN)
+		self.config(border=1)
+
+	def pack(self, cnf={}, **kw):
+		kw['expand'] = False
+		kw['fill'] = Tkinter.Y
+		Tkinter.Frame.pack(self, cnf=cnf, **kw)
+
 
 class VBox(Tkinter.Frame):
 

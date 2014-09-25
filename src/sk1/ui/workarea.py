@@ -6,21 +6,26 @@ class SK1_WorkArea(wal.VBox):
 	def __init__(self, master):
 		wal.VBox.__init__(self, master)
 
-		self.pack(wal.HLine(self))
-
 		ctx = wal.HBox(self, height=35)
 		self.pack(ctx, False, False)
 
 		self.pack(wal.HLine(self))
 
-		hbox = wal.HBox(self, bg='red')
+		#----
+
+		hbox = wal.HBox(self)
 		self.pack(hbox, True, True)
 
-		tools = wal.VBox(hbox, width=35, bg='blue')
+		tools = wal.VBox(hbox, width=35)
 		hbox.pack(tools, False, False)
 
-		pal = wal.VBox(hbox, width=20, bg='green')
+		hbox.pack(wal.VLine(hbox))
+
+		pal = wal.VBox(hbox, width=20)
 		hbox.pack(pal, False, False, end=True)
+
+		hbox.pack(wal.VLine(hbox), end=True)
+		#---
 
 		self.pack(wal.HLine(self))
 

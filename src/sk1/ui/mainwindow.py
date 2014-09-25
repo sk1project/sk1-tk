@@ -4,6 +4,7 @@ import wal
 from sk1 import config
 from sk1.ui.menubar import SK1_MenuBar
 from sk1.ui.toolbar import SK1_ToolBar
+from sk1.ui.workarea import SK1_WorkArea
 
 class SK1_MainWindow(wal.MainWindow):
 
