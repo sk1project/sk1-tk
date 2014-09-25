@@ -2,6 +2,8 @@
 import wal
 
 from sk1 import config
+from sk1.ui.menubar import SK1_MenuBar
+from sk1.ui.toolbar import SK1_ToolBar
 
 class SK1_MainWindow(wal.MainWindow):
 
@@ -12,12 +14,7 @@ class SK1_MainWindow(wal.MainWindow):
 	def build(self):
 
 		self.menubar = SK1_MenuBar(self)
-		self.pack(self.menubar)
-
-		self.pack(wal.HLine(self))
-
 		self.toolbar = SK1_ToolBar(self)
-		self.pack(self.toolbar)
 
 		self.workarea = SK1_WorkArea(self)
 		self.pack(self.workarea, True, True)
@@ -42,43 +39,3 @@ class SK1_MainWindow(wal.MainWindow):
 		else:
 			self.set_title(self.app.appdata.app_name)
 
-class SK1_MenuBar(wal.HBox):
-
-	def __init__(self, master):
-		wal.HBox.__init__(self, master, height=20)
-
-class SK1_ToolBar(wal.HBox):
-
-	def __init__(self, master):
-		wal.HBox.__init__(self, master, height=35)
-
-class SK1_WorkArea(wal.VBox):
-
-	def __init__(self, master):
-		wal.VBox.__init__(self, master)
-
-		self.pack(wal.HLine(self))
-
-		ctx = wal.HBox(self, height=35)
-		self.pack(ctx, False, False)
-
-		self.pack(wal.HLine(self))
-
-		hbox = wal.HBox(self, bg='red')
-		self.pack(hbox, True, True)
-
-		tools = wal.VBox(hbox, width=35, bg='blue')
-		hbox.pack(tools, False, False)
-
-		pal = wal.VBox(hbox, width=20, bg='green')
-		hbox.pack(pal, False, False, end=True)
-
-		self.pack(wal.HLine(self))
-
-		self.stbar = SK1_StatusBar(self)
-		self.pack(self.stbar, False, False, end=True)
-
-class SK1_StatusBar(wal.HBox):
-
-	def __init__(self, master):
-		wal.HBox.__init__(self, master, height=15)
