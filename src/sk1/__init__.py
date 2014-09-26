@@ -7,12 +7,8 @@
 
 import os
 
-from sk1.app_conf import get_app_config, AppData
-
-global LANG, config
-
+global LANG
 LANG = ''
-config = None
 
 def dummy_translator(text):
 	return text
@@ -36,19 +32,3 @@ def sk1_run():
 	import app
 	app.config.sk_command = sys.argv[0]
 	app.main.main()
-
-def sk1_2_run():
-
-	"""sK1 application launch routine."""
-
-	global config
-
-	_pkgdir = __path__[0]
-	config = get_app_config(_pkgdir)
-	appdata = AppData()
-	config.load(appdata.app_config)
-	config.resource_dir = os.path.join(_pkgdir, 'share')
-
-	from sk1.application import SK1_Application
-	application = SK1_Application(appdata)
-	application.run()
