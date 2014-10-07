@@ -11,7 +11,7 @@ from xml.sax import handler
 from app.events import connector
 from const import CHANGED
 from uniconvertor.utils.fs import gethome
-from app import Point, PointType, sKVersion
+from app import Point, PointType
 
 class Configurator:
 	"""Configuration class configs sK1 and loads preferences at start up."""
@@ -19,6 +19,7 @@ class Configurator:
 
 		self.name = 'sK1'
 		self.sk_command = 'sk1'
+		self.version = '1.0'
 
 		self.sk_dir = base_dir
 		self.sk_share_dir = os.path.join(self.sk_dir, 'share')
@@ -44,14 +45,14 @@ class Configurator:
 		if os.path.isfile(self.user_preferences_file):
 			prefs = Preferences()
 			prefs.load(self.user_preferences_file)
-			if prefs.sk1_version == sKVersion:
+			if prefs.sk1_version == self.version:
 				self.preferences = prefs
 			else:
 				self.preferences = Preferences()
-				self.preferences.sk1_version = sKVersion
+				self.preferences.sk1_version = self.version
 		else:
 			self.preferences = Preferences()
-			self.preferences.sk1_version = sKVersion
+			self.preferences.sk1_version = self.version
 
 		#===============DEPRECATED VARIABLES===============
 		self.std_res_dir = os.path.join(self.sk_dir, 'share/resources')

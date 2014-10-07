@@ -36,8 +36,6 @@ temp = string.split(_pkgdir, '/')
 temp.remove(temp[-1])
 _parentdir = string.join(temp, '/')
 
-sKVersion = string.strip(open(os.path.join(_pkgdir, 'VERSION')).read())
-
 for _dir in ('modules', 'Base'):
 	__path__.insert(0, os.path.join(_pkgdir, _dir))
 
@@ -63,6 +61,7 @@ NullPoint = Point(0, 0)
 
 from conf.configurator import Configurator
 config = Configurator(base_dir=_parentdir)
+sKVersion = config.version
 
 from managers.colormanager import ColorManager
 colormanager = ColorManager()
