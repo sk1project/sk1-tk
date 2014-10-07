@@ -5,42 +5,11 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import app, os, string, math, string, sk1
-from uniconvertor.utils.system import getenv
-from uniconvertor.utils.fs import gethome
+import app, os, sk1
 from app import _
-from sk1sdk.libtk.Tkinter import StringVar
-from app.UI.dialogs.msgdialog import msgDialog
 from tempfile import NamedTemporaryFile
 
-
-def convertForKdialog(filetypes):
-	'''This function converts filetypes tuple into string
-	in kdialog format
-	'''
-	result = ''
-	for filetype in filetypes:
-		descr = filetype[0]
-		extentions = filetype[1]
-		for extention in extentions:
-			result += extention + ' '
-		result += '|' + descr + ' \n'
-	return result
-
-def convertForZenity(filetypes):
-	'''This function converts filetypes tuple into string
-	in zenity format
-	'''
-	result = ''
-	for filetype in filetypes:
-		descr = filetype[0]
-		extentions = filetype[1]
-		ext = ''
-		for extention in extentions:
-			ext += extention + ' '
-		result += '--file-filter "' + descr + '|' + ext + '" '
-	return result
-
+PATH = os.path.dirname(os.path.abspath(__file__))
 
 openfiletypes = ((_('sK1 vector graphics files - *.sK1'), ('*.sK1', '*.sk1', '*.SK1')),
 				 (_("All Files"), 	 '*'))
@@ -104,115 +73,34 @@ palette_types = ((_("sK1 color swatch palette"), ('*.skp', '*.SKP')),
 pdf_types = ((_("Portable Document Format (PDF 1.5) - *.pdf"), ('*.pdf', '*.PDF')),
 				(_("All Files"), 	 '*'))
 
-KDE_DIALOG = 1
-GNOME_DIALOG = 2
-TK_DIALOG = 3
-
 SAVEMODE = 1
 OPENMODE = 0
 
-UNKNOWN_DESKTOP = 0
-KDE_DESKTOP = 1
-GNOME_DESKTOP = 2
+def convert_for_gtk2(filetypes):
+	'''This function converts filetypes tuple into string format
+	useful for gtk2 dialogs.
+	'''
+	result = ''
+	for filetype in filetypes:
+		descr = filetype[0]
+		extentions = filetype[1]
+		ext = ''
+		for extention in extentions:
+			ext += extention + ' '
+		result += descr + '|' + ext + '@'
+	return result
 
 class DialogManager:
-	#0- unknown; 1- KDE; 2- Gnome
 	root = None
-	desktop = UNKNOWN_DESKTOP
 	dialogObject = None
-	is_kdialog = 0
-	is_zenity = 0
-	is_konqueror = 0
-	is_firefox = 0
-	is_mozilla = 0
-	is_opera = 0
-	is_kprinter = 0
 	def __init__(self, root):
 		self.root = root
-		self.check_enviroment()
-		self.validate_binaries()
 		self.app_icon = os.path.join(app.config.user_icons, app.config.preferences.icons)
 		self.app_icon = os.path.join(self.app_icon, 'icon_sk1_16.png')
 
-	def check_enviroment(self):
-		ds = getenv('DESKTOP_SESSION')
-		if ds:
-			if string.find(string.upper(ds), 'KDE') > 0:
-				self.desktop = KDE_DESKTOP
-			else:
-				if string.find(string.upper(ds), 'GNOME') > 0:
-					self.desktop = GNOME_DESKTOP
-				else:
-					self.desktop = UNKNOWN_DESKTOP
-		else:
-			self.desktop = UNKNOWN_DESKTOP
-
-	def validate_binaries(self):
-		if os.system('which kdialog>/dev/null 2>/dev/null'):
-			self.is_kdialog = 0
-		else:
-			self.is_kdialog = 1
-		if os.system('which zenity>/dev/null 2>/dev/null'):
-			self.is_zenity = 0
-		else:
-			self.is_zenity = 1
-		if os.system('which konqueror>/dev/null 2>/dev/null'):
-			self.is_konqueror = 0
-		else:
-			self.is_konqueror = 1
-		if os.system('which firefox>/dev/null 2>/dev/null'):
-			self.is_firefox = 0
-		else:
-			self.is_firefox = 1
-		if os.system('which mozilla>/dev/null 2>/dev/null'):
-			self.is_mozilla = 0
-		else:
-			self.is_mozilla = 1
-		if os.system('which opera>/dev/null 2>/dev/null'):
-			self.is_opera = 0
-		else:
-			self.is_opera = 1
-		if os.system('which kprinter>/dev/null 2>/dev/null'):
-			self.is_kprinter = 0
-		else:
-			self.is_kprinter = 1
-
 	def get_dialog_type(self, mode):
-		dialog_mode = app.config.preferences.dialog_type
-		if not dialog_mode:
-			if not self.desktop:
-				dialog_type = TK_DIALOG
-			else:
-				dialog_type = self.desktop
-
-			if dialog_type == TK_DIALOG and self.is_zenity == 1:
-				dialog_type = GNOME_DIALOG
-
-			if dialog_type == TK_DIALOG and self.is_kdialog == 1:
-				dialog_type = KDE_DIALOG
-		else:
-			dialog_type = dialog_mode
-
-		if dialog_type == KDE_DIALOG and self.is_kdialog == 0:
-			dialog_type = TK_DIALOG
-		if dialog_type == GNOME_DIALOG and self.is_zenity == 0:
-			dialog_type = TK_DIALOG
-
-
-		if mode == SAVEMODE:
-			if dialog_type == KDE_DIALOG:
-				return KDE_GetSaveFilename
-			if dialog_type == GNOME_DIALOG:
-				return Gnome_GetSaveFilename
-			if dialog_type == TK_DIALOG:
-				return TkGetSaveFilename
-		if mode == OPENMODE:
-			if dialog_type == KDE_DIALOG:
-				return KDE_GetOpenFilename
-			if dialog_type == GNOME_DIALOG:
-				return Gnome_GetOpenFilename
-			if dialog_type == TK_DIALOG:
-				return TkGetOpenFilename
+		if mode == SAVEMODE: return Gtk2_GetSaveFilename
+		if mode == OPENMODE: return Gtk2_GetOpenFilename
 
 	def launchBrowserURL(self, url):
 		import webbrowser
@@ -247,10 +135,9 @@ class DialogManager:
 
 	def getGenericSaveFilename(self, title, filetypes, **kw):
 		name = app.config.name
+		title = _('Save file')
 		kw['filetypes'] = filetypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
-		if dialog_type == Gnome_GetSaveFilename:
-			title = _('Save file As...')
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 
 	def getSaveFilename(self, **kw):
@@ -258,8 +145,6 @@ class DialogManager:
 		title = _('Save file')
 		kw['filetypes'] = savefiletypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
-		if dialog_type == Gnome_GetSaveFilename:
-			title = _('Save file As...')
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 
 	def getSaveAsFilename(self, **kw):
@@ -267,7 +152,6 @@ class DialogManager:
 		title = _('Save file As...')
 		kw['filetypes'] = savefiletypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
-		#return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
 
 	def getExportFilename(self, **kw):
@@ -289,103 +173,12 @@ class DialogManager:
 
 def check_initialdir(initialdir):
 	if not os.path.exists(initialdir):
-		return gethome()
+		return '~'
 	else:
 		return initialdir
 
-def TkGetOpenFilename(master, name, title, icon, **kw):
-	''' Calls regular Tk open file dialog.
-	Parameteres:
-	master - parent window
-	name - application name
-	title - dialog title
-	**kw:
-	initialdir - absolute path to initial dir
-	filetypes - tuple of file types (see examples in the package)
-	
-	Returns: tuple of utf8 and system encoded file names
-	'''
-	kw['title'] = name + ' - ' + title
-	kw['initialdir'] = check_initialdir(kw['initialdir'])
-	filename = apply(master.tk.call, ('tk_getOpenFile', '-parent', master._w) + master._options(kw))
-	return (filename, master.tk.utf8_to_system(filename))
-
-def TkGetSaveFilename(master, name, title, icon, **kw):
-	''' Calls regular Tk save file dialog.
-	Parameteres:
-	master - parent window
-	name - application name
-	title - dialog title
-	**kw:
-	initialdir - absolute path to initial dir
-	initialfile - file name
-	filetypes - tuple of file types (see examples in the package)
-	
-	Returns: tuple of utf8 and system encoded file names
-	'''
-	kw['title'] = name + ' - ' + title
-	kw['initialdir'] = check_initialdir(kw['initialdir'])
-	filename = apply(master.tk.call, ('tk_getSaveFile', '-parent', master._w) + master._options(kw))
-	return (filename, master.tk.utf8_to_system(filename))
-
-def KDE_GetOpenFilename(master, name, title, icon, **kw):
-	''' Calls KDE open file dialog.
-	Parameteres:
-	master - parent window
-	name - application name
-	title - dialog title
-	**kw:
-	initialdir - absolute path to initial dir
-	filetypes - tuple of file types (see examples in the package)
-	
-	Returns: tuple of utf8 and system encoded file names
-	'''
-	initialdir = check_initialdir(kw['initialdir'])
-	filetypes = convertForKdialog(kw['filetypes'])
-	winid = str(master.winfo_id())
-
-	tmpfile = NamedTemporaryFile()
-	execline = ''
-	if sk1.LANG:
-		execline += 'export LANG=' + sk1.LANG + ';'
-
-	execline += 'kdialog --title "' + name + '" --caption "' + title + '" --attach ' + winid + ' --name "' + name + '" --icon "' + icon + '" --getopenfilename "' + initialdir + '/" "' + filetypes + '"'
-	os.system(execline + '>' + tmpfile.name)
-	result = tmpfile.readline().strip()
-	return (result, result)
-
-def KDE_GetSaveFilename(master, name, title, icon, **kw):
-	''' Calls KDE save file dialog.   
-	Parameteres:
-	master - parent window
-	name - application name
-	title - dialog title
-	**kw:
-	initialdir - absolute path to initial dir
-	filetypes - tuple of file types (see examples in the package)
-	
-	Returns: tuple of utf8 and system encoded file names
-	'''
-	initialdir = check_initialdir(kw['initialdir'])
-	initialfile = ''
-	if kw['initialfile']:
-		initialfile = kw['initialfile']
-	filetypes = convertForKdialog(kw['filetypes'])
-	winid = str(master.winfo_id())
-
-	tmpfile = NamedTemporaryFile()
-	execline = ''
-	if sk1.LANG:
-		execline += 'export LANG=' + sk1.LANG + ';'
-
-	execline += 'kdialog --title "' + name + '" --caption "' + title + '" --attach "' + winid + '" --name "' + name + '" --icon "' + icon + '" --getsavefilename "' + os.path.join(initialdir, initialfile) + '" "' + filetypes + '"'
-	print execline
-	os.system(execline + '>' + tmpfile.name)
-	result = tmpfile.readline().strip()
-	return (result, result)
-
-def Gnome_GetOpenFilename(master, name, title, icon, **kw):
-	''' Calls Gnome open file dialog.   
+def Gtk2_GetOpenFilename(master, name, title, icon, **kw):
+	''' Calls Gtk2 open file dialog.   
 	Parameteres:
 	master - parent window
 	name - application name
@@ -397,20 +190,20 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	'''
 	initialdir = check_initialdir(kw['initialdir'])
 	master.update()
-	filetypes = convertForZenity(kw['filetypes'])
-	winid = str(master.winfo_id())
+	filetypes = convert_for_gtk2(kw['filetypes'])
 	name += ' - ' + title
 
 	tmpfile = NamedTemporaryFile()
 	execline = ''
-	if sk1.LANG:
-		execline += 'export LANG=' + sk1.LANG + ';'
-	execline += 'zenity --file-selection --name="' + name + '" --filename="' + initialdir + '/" ' + filetypes + '--window-icon="' + icon + '"'
+	if sk1.LANG: execline += 'export LANG=' + sk1.LANG + ';'
+	execline += 'python %s/gtk/open_file_dialog.py ' % (PATH,)
+	execline += ' caption="' + name + '" start_dir="' + initialdir + '"'
+	execline += ' filetypes="' + filetypes + '" window-icon="' + icon + '"'
 	os.system(execline + '>' + tmpfile.name)
 	result = tmpfile.readline().strip()
 	return (result, result)
 
-def Gnome_GetSaveFilename(master, name, title, icon, **kw):
+def Gtk2_GetSaveFilename(master, name, title, icon, **kw):
 	''' Calls Gnome open file dialog.   
 	Parameteres:
 	master - parent window
@@ -424,19 +217,18 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	'''
 	initialdir = check_initialdir(kw['initialdir'])
 	initialfile = ''
-	if kw['initialfile']:
-		initialfile = kw['initialfile']
+	if kw['initialfile']: initialfile = kw['initialfile']
 
-	winid = str(master.winfo_id())
-	filetypes = convertForZenity(kw['filetypes'])
+	filetypes = convert_for_gtk2(kw['filetypes'])
 	name += ' - ' + title
 
 	tmpfile = NamedTemporaryFile()
 	execline = ''
-	if sk1.LANG:
-		execline += 'export LANG=' + sk1.LANG + ';'
-	execline += 'zenity --file-selection --save --name="' + name + '" --filename="' + os.path.join(initialdir, initialfile) + '" ' + filetypes + ' --window-icon="' + icon + '" --confirm-overwrite'
+	if sk1.LANG: execline += 'export LANG=' + sk1.LANG + ';'
+	path = os.path.join(initialdir, initialfile)
+	execline += 'python %s/gtk/save_file_dialog.py ' % (PATH,)
+	execline += ' caption="' + name + '" path="' + path + '" '
+	execline += ' filetypes="' + filetypes + '" window-icon="' + icon + '"'
 	os.system(execline + '>' + tmpfile.name)
 	result = tmpfile.readline().strip()
 	return (result, result)
-
