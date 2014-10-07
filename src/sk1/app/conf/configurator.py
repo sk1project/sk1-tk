@@ -27,18 +27,22 @@ class Configurator:
 		self.sk_ps = os.path.join(self.sk_share_dir, 'ps_templates')
 
 		self.user_home_dir = gethome()
-		self.user_config_dir = os.path.join(self.user_home_dir, '.config', 'sk1')
-		self.user_palettes = os.path.join(self.user_config_dir, 'palettes')
-		self.user_themes = os.path.join(self.user_config_dir, 'themes')
-		self.user_icc = os.path.join(self.user_config_dir, 'icc')
-		self.user_fonts = os.path.join(self.user_config_dir, 'fonts')
-		self.user_plugins = os.path.join(self.user_config_dir, 'plugins')
-		self.user_color_themes = os.path.join(self.user_config_dir, 'color_themes')
-		self.user_icons = os.path.join(self.user_config_dir, 'icons')
+		ucd = '%s-tk-%s' % (self.sk_command, self.version)
+		self.user_config_dir = os.path.join(self.user_home_dir, '.config', ucd)
+		ucd = self.user_config_dir
+		self.user_palettes = os.path.join(ucd, 'palettes')
+		self.user_themes = os.path.join(ucd, 'themes')
+		self.user_icc = os.path.join(ucd, 'icc')
+		self.user_fonts = os.path.join(ucd, 'fonts')
+		self.user_plugins = os.path.join(ucd, 'plugins')
+		self.user_color_themes = os.path.join(ucd, 'color_themes')
+		self.user_icons = os.path.join(ucd, 'icons')
 
-		self.plugin_path = []# Directories where sK1 searches for plugins. The expanded plugin_dir is appended to this
+		# Directories where sK1 searches for plugins.
+		# The expanded plugin_dir is appended to this
+		self.plugin_path = []
 
-		self.user_preferences_file = os.path.join(self.user_config_dir, 'preferences.xml')
+		self.user_preferences_file = os.path.join(ucd, 'preferences.xml')
 
 		#============USER CONFIG==================='
 		self.check_user_config()
@@ -56,8 +60,11 @@ class Configurator:
 
 		#===============DEPRECATED VARIABLES===============
 		self.std_res_dir = os.path.join(self.sk_dir, 'share/resources')
-		self.pixmap_dir = os.path.join(self.sk_dir, 'share/resources')# Subdirectory for the pixmaps. On startup it is expanded to an absolute pathname.
-		self.postscript_prolog = os.path.join(self.sk_ps, 'sk1-proc.ps')# PostScript Prolog.
+		# Subdirectory for the pixmaps. On startup it is expanded
+		# to an absolute pathname.
+		self.pixmap_dir = os.path.join(self.sk_dir, 'share/resources')
+		# PostScript Prolog file
+		self.postscript_prolog = os.path.join(self.sk_ps, 'sk1-proc.ps')
 		#============================================
 
 	def save_user_preferences(self):
@@ -132,16 +139,16 @@ class Preferences(connector.Publisher):
 		entity_resolver = EntityResolver()
 		dtd_handler = DTDHandler()
 		try:
-			input = open(filename, "r")
+			input_file = open(filename, "r")
 			input_source = InputSource()
-			input_source.setByteStream(input)
+			input_source.setByteStream(input_file)
 			xml_reader = xml.sax.make_parser()
 			xml_reader.setContentHandler(content_handler)
 			xml_reader.setErrorHandler(error_handler)
 			xml_reader.setEntityResolver(entity_resolver)
 			xml_reader.setDTDHandler(dtd_handler)
 			xml_reader.parse(input_source)
-			input.close
+			input_file.close
 		except:
 			pass
 
@@ -151,12 +158,12 @@ class Preferences(connector.Publisher):
 		from xml.sax.saxutils import XMLGenerator
 
 		try:
-			file = open(filename, 'w')
+			fileptr = open(filename, 'w')
 		except (IOError, os.error), value:
 			sys.stderr('cannot write preferences into %s: %s' % (`filename`, value[1]))
 			return
 
-		writer = XMLGenerator(out=file, encoding=self.system_encoding)
+		writer = XMLGenerator(out=fileptr, encoding=self.system_encoding)
 		writer.startDocument()
 		defaults = Preferences.__dict__
 		items = self.__dict__.items()
@@ -177,7 +184,7 @@ class Preferences(connector.Publisher):
 			writer.characters('\n')
 		writer.endElement('preferences')
 		writer.endDocument()
-		file.close
+		fileptr.close
 
 	#============== sK1 PREFERENCES ===================
 	sk1_version = ''
