@@ -196,8 +196,7 @@ class SketchApplication(TkApplication, Publisher):
 		TkApplication.init_tk(self, screen_name=screen_name, geometry=geometry)
 		root = self.root
 		app.init_modules_from_widget(root)
-		app.uimanager.setApplicationIcon()
-#		app.uimanager.maximizeApp()
+		app.uimanager.setApplicationIcon('icon_sk1_64')
 		app.uimanager.center_root()
 		root.group(root)
 
