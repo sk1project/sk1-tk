@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import app, os, string, math, string, sk1
-from uniconvertor.utils.system import getenv 
+from uniconvertor.utils.system import getenv
 from uniconvertor.utils.fs import gethome
 from app import _
 from sk1sdk.libtk.Tkinter import StringVar
@@ -24,7 +24,7 @@ def convertForKdialog(filetypes):
 		extentions = filetype[1]
 		for extention in extentions:
 			result += extention + ' '
-		result += '|' + descr + ' \n'		
+		result += '|' + descr + ' \n'
 	return result
 
 def convertForZenity(filetypes):
@@ -34,16 +34,16 @@ def convertForZenity(filetypes):
 	result = ''
 	for filetype in filetypes:
 		descr = filetype[0]
-		extentions = filetype[1]	
-		ext = ''	
+		extentions = filetype[1]
+		ext = ''
 		for extention in extentions:
 			ext += extention + ' '
-		result += '--file-filter "' + descr + '|' + ext + '" '		
+		result += '--file-filter "' + descr + '|' + ext + '" '
 	return result
 
 
 openfiletypes = ((_('sK1 vector graphics files - *.sK1'), ('*.sK1', '*.sk1', '*.SK1')),
-				 (_("All Files"), 	 '*'))		   
+				 (_("All Files"), 	 '*'))
 
 importfiletypes = ((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *.wmf etc. '),
 				  ('*.sK1', '*.sk1', '*.SK1', '*.sk', '*.SK', '*.ai', '*.AI', '*.eps', '*.EPS', '*.ps', '*.PS',
@@ -64,7 +64,7 @@ importfiletypes = ((_('All supported files - *.sk1 *.sk *.ai *.eps *.cdr *.svg *
 				 (_('Scalable Vector Graphics files - *.svg'), ('*.svg', '*.SVG')),
 				 (_('Windows Metafile files - *.wmf'), ('*.wmf', '*.WMF')),
 				 (_('HPGL cutting plotter files - *.plt'), ('*.plt', '*.PLT')),
-				 (_('AutoCAD DXF files - *.dxf'), ('*.dxf', '*.DXF')), 				 
+				 (_('AutoCAD DXF files - *.dxf'), ('*.dxf', '*.DXF')),
 				 (_('XFig files - *.fig'), ('*.fig', '*.FIG')),
 				 (_("All Files"), 	 '*'))
 
@@ -133,7 +133,7 @@ class DialogManager:
 		self.validate_binaries()
 		self.app_icon = os.path.join(app.config.user_icons, app.config.preferences.icons)
 		self.app_icon = os.path.join(self.app_icon, 'icon_sk1_16.png')
-	
+
 	def check_enviroment(self):
 		ds = getenv('DESKTOP_SESSION')
 		if ds:
@@ -146,7 +146,7 @@ class DialogManager:
 					self.desktop = UNKNOWN_DESKTOP
 		else:
 			self.desktop = UNKNOWN_DESKTOP
-	
+
 	def validate_binaries(self):
 		if os.system('which kdialog>/dev/null 2>/dev/null'):
 			self.is_kdialog = 0
@@ -171,34 +171,34 @@ class DialogManager:
 		if os.system('which opera>/dev/null 2>/dev/null'):
 			self.is_opera = 0
 		else:
-			self.is_opera = 1		
+			self.is_opera = 1
 		if os.system('which kprinter>/dev/null 2>/dev/null'):
 			self.is_kprinter = 0
 		else:
-			self.is_kprinter = 1		
-			
+			self.is_kprinter = 1
+
 	def get_dialog_type(self, mode):
 		dialog_mode = app.config.preferences.dialog_type
 		if not dialog_mode:
 			if not self.desktop:
 				dialog_type = TK_DIALOG
 			else:
-				dialog_type = self.desktop	
-				
+				dialog_type = self.desktop
+
 			if dialog_type == TK_DIALOG and self.is_zenity == 1:
 				dialog_type = GNOME_DIALOG
-				
+
 			if dialog_type == TK_DIALOG and self.is_kdialog == 1:
 				dialog_type = KDE_DIALOG
 		else:
 			dialog_type = dialog_mode
-			
+
 		if dialog_type == KDE_DIALOG and self.is_kdialog == 0:
 			dialog_type = TK_DIALOG
 		if dialog_type == GNOME_DIALOG and self.is_zenity == 0:
 			dialog_type = TK_DIALOG
 
-							
+
 		if mode == SAVEMODE:
 			if dialog_type == KDE_DIALOG:
 				return KDE_GetSaveFilename
@@ -213,44 +213,31 @@ class DialogManager:
 				return Gnome_GetOpenFilename
 			if dialog_type == TK_DIALOG:
 				return TkGetOpenFilename
-			
+
 	def launchBrowserURL(self, url):
-		if self.is_konqueror:
-			os.spawnlp(os.P_NOWAIT, 'konqueror', 'konqueror', url)
-		elif self.is_firefox:
-			os.spawnlp(os.P_NOWAIT, 'firefox', 'firefox', url)
-		elif self.is_mozilla:
-			os.spawnlp(os.P_NOWAIT, 'mozilla', 'mozilla', url)
-		elif self.is_opera:
-			os.spawnlp(os.P_NOWAIT, 'opera', 'opera', '-newpage', url)
-		else:
-			msgDialog(self.root,
-					title=_("Browser not found"),
-					message=_("sK1 has checked presence of following browsers:\n" + 
-							'konqueror, firefox, mozilla, opera\n' + 
-							_("and all the browsers are absent in the system!\n") + 
-							_("Please consider installing browser in your system.")))
-			
+		import webbrowser
+		webbrowser.open_new(url)
+
 	def getGenericOpenFilename(self, title, filetypes, **kw):
 		name = app.config.name
 		kw['filetypes'] = filetypes
 		dialog_type = self.get_dialog_type(OPENMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-			
+
 	def getOpenFilename(self, **kw):
 		name = app.config.name
 		title = _('Open file')
 		kw['filetypes'] = openfiletypes
 		dialog_type = self.get_dialog_type(OPENMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def getImportFilename(self, **kw):
 		name = app.config.name
 		title = _('Import drawing')
 		kw['filetypes'] = importfiletypes
 		dialog_type = self.get_dialog_type(OPENMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def getImportBMFilename(self, **kw):
 		name = app.config.name
 		title = _('Import bitmap')
@@ -265,7 +252,7 @@ class DialogManager:
 		if dialog_type == Gnome_GetSaveFilename:
 			title = _('Save file As...')
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def getSaveFilename(self, **kw):
 		name = app.config.name
 		title = _('Save file')
@@ -282,21 +269,21 @@ class DialogManager:
 		dialog_type = self.get_dialog_type(SAVEMODE)
 		#return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def getExportFilename(self, **kw):
 		name = app.config.name
 		title = _('Export drawing')
 		kw['filetypes'] = exportfiletypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def getExportBMFilename(self, **kw):
 		name = app.config.name
 		title = _('Export drawing as a bitmap')
 		kw['filetypes'] = imagefiletypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)
-	
+
 	def dialog_thread(self, dialog_type, name, title, **kw):
 		return apply(dialog_type, (self.root, name, title, self.app_icon), kw)
 
@@ -305,7 +292,7 @@ def check_initialdir(initialdir):
 		return gethome()
 	else:
 		return initialdir
-	
+
 def TkGetOpenFilename(master, name, title, icon, **kw):
 	''' Calls regular Tk open file dialog.
 	Parameteres:
@@ -356,7 +343,7 @@ def KDE_GetOpenFilename(master, name, title, icon, **kw):
 	initialdir = check_initialdir(kw['initialdir'])
 	filetypes = convertForKdialog(kw['filetypes'])
 	winid = str(master.winfo_id())
-	
+
 	tmpfile = NamedTemporaryFile()
 	execline = ''
 	if sk1.LANG:
@@ -383,14 +370,14 @@ def KDE_GetSaveFilename(master, name, title, icon, **kw):
 	initialfile = ''
 	if kw['initialfile']:
 		initialfile = kw['initialfile']
-	filetypes = convertForKdialog(kw['filetypes'])	
+	filetypes = convertForKdialog(kw['filetypes'])
 	winid = str(master.winfo_id())
-	
+
 	tmpfile = NamedTemporaryFile()
 	execline = ''
 	if sk1.LANG:
 		execline += 'export LANG=' + sk1.LANG + ';'
-	
+
 	execline += 'kdialog --title "' + name + '" --caption "' + title + '" --attach "' + winid + '" --name "' + name + '" --icon "' + icon + '" --getsavefilename "' + os.path.join(initialdir, initialfile) + '" "' + filetypes + '"'
 	print execline
 	os.system(execline + '>' + tmpfile.name)
@@ -413,7 +400,7 @@ def Gnome_GetOpenFilename(master, name, title, icon, **kw):
 	filetypes = convertForZenity(kw['filetypes'])
 	winid = str(master.winfo_id())
 	name += ' - ' + title
-	
+
 	tmpfile = NamedTemporaryFile()
 	execline = ''
 	if sk1.LANG:
@@ -439,16 +426,16 @@ def Gnome_GetSaveFilename(master, name, title, icon, **kw):
 	initialfile = ''
 	if kw['initialfile']:
 		initialfile = kw['initialfile']
-		
-	winid = str(master.winfo_id())	
+
+	winid = str(master.winfo_id())
 	filetypes = convertForZenity(kw['filetypes'])
 	name += ' - ' + title
-	
+
 	tmpfile = NamedTemporaryFile()
 	execline = ''
 	if sk1.LANG:
 		execline += 'export LANG=' + sk1.LANG + ';'
-	execline += 'zenity --file-selection --save --name="' + name + '" --filename="' + os.path.join(initialdir, initialfile) + '" ' + filetypes + ' --window-icon="' + icon + '" --confirm-overwrite'	
+	execline += 'zenity --file-selection --save --name="' + name + '" --filename="' + os.path.join(initialdir, initialfile) + '" ' + filetypes + ' --window-icon="' + icon + '" --confirm-overwrite'
 	os.system(execline + '>' + tmpfile.name)
 	result = tmpfile.readline().strip()
 	return (result, result)
