@@ -343,7 +343,8 @@ class DEB_Builder:
 				package_data={},
 				scripts=[],
 				data_files=[],
-				deb_scripts=[]):
+				deb_scripts=[],
+				dst=''):
 
 		self.name = name
 		self.version = version
@@ -361,6 +362,7 @@ class DEB_Builder:
 		self.scripts = scripts
 		self.data_files = data_files
 		self.deb_scripts = deb_scripts
+		if dst: self.dst = dst
 
 		self.package = 'python-%s' % self.name
 
@@ -378,7 +380,11 @@ class DEB_Builder:
 
 		self.src = 'build/lib.linux-%s-%s' % (self.machine, self.py_version)
 
-		self.dst = '%s/usr/lib/python%s/dist-packages' % (self.build_dir, self.py_version)
+		if not self.dst:
+			path = '%s/usr/lib/python%s/dist-packages'
+			self.dst = path % (self.build_dir, self.py_version)
+		else:
+			self.dst = self.build_dir + self.dst
 		self.bin_dir = '%s/usr/bin' % self.build_dir
 
 		self.package_name = 'python-%s-%s_%s.deb' % (self.name, self.version, self.arch)
@@ -463,7 +469,7 @@ class DEB_Builder:
 		if not files:return
 		for item in files:
 			msg = '%s -> %s' % (item, path)
-			if len(msg) > 80:msg = '%s -> \n%s%s' % (item, ' '*10, path)
+			if len(msg) > 80:msg = '%s -> \n%s%s' % (item, ' ' * 10, path)
 			self.info(msg, CP_CODE)
 			if os.system('cp %s %s' % (item, path)):
 				raise IOError('Cannot copying %s -> %s' % (item, path))

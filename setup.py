@@ -99,16 +99,17 @@ LONG_DEB_DESCRIPTION = ''' .
 # Build data
 #
 ############################################################
+install_path = '/usr/lib/%s-tk-%s' % (NAME, VERSION)
+os.environ["SK1_INSTALL_PATH"] = "%s" % (install_path,)
 src_path = 'src'
 include_path = '/usr/include'
 modules = []
 scripts = ['src/script/sk1', ]
 deb_scripts = []
-data_files = []
-#data_files = [
-#('/usr/share/applications', ['src/sk1.desktop', ]),
-#('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
-#]
+data_files = [
+('/usr/share/applications', ['src/sk1.desktop', ]),
+('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
+]
 deb_depends = 'libxcursor1, libcairo2, zlib1g, libx11, libxext, tk8.5 (>=8.5.0)'
 deb_depends += ', zenity, python (>=2.4), python (<<3.0), python-imaging'
 deb_depends += ', python-gtk2, python-imaging-tk'
@@ -311,7 +312,8 @@ if DEB_PACKAGE:
 					package_data=package_data,
 					scripts=scripts,
 					data_files=data_files,
-					deb_scripts=deb_scripts)
+					deb_scripts=deb_scripts,
+					dst=install_path)
 	bld.build()
 
 if CLEAR_BUILD: libutils.clear_build()
