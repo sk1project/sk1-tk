@@ -1231,7 +1231,7 @@ class sK1MainWindow(Publisher):
 
 	def LoadPalette(self, filename=None):
 		if not filename:
-			directory = config.user_palettes
+			directory = config.preferences.dir_for_palettes
 			if not directory:
 				directory = fs.gethome()
 
@@ -1248,6 +1248,7 @@ class sK1MainWindow(Publisher):
 		else:
 			self.palette.SetPalette(pal)
 			config.preferences.palette = filename
+			config.preferences.dir_for_palettes = os.path.dirname(filename)
 
 	def __init_dlgs(self):
 		self.dialogs = {}

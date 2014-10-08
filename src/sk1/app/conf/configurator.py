@@ -447,8 +447,7 @@ class Preferences(connector.Publisher):
 	dir_for_vector_export = '~'
 	dir_for_bitmap_import = '~'
 	dir_for_bitmap_export = '~'
-	#0- autodetect; 1- kdialog(KDE); 2- zenity(Gnome); 3 - Tk (modified);
-	dialog_type = 2
+	dir_for_palettes = '~'
 	#------------------------------------
 
 	color_cube = (6, 6, 6, 20)#	For PseudoColor displays.
