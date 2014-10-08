@@ -63,12 +63,13 @@ class TkApplication:
 	def init_tk(self, screen_name=None, geometry=None):
 		self.root = Tk(screenName=screen_name, baseName=self.tk_basename, className=self.tk_class_name)
 		app.root = self.root
-		self.splash = SplashScreen(self.root)
-		self.splash.show()
-		self.splash.set_val(.1)
 
 		from app.managers.uimanager import  UIManager
 		app.uimanager = UIManager(self.root)
+
+		self.splash = SplashScreen(self.root)
+		self.splash.show()
+		self.splash.set_val(.1)
 
 		from app.managers.dialogmanager import DialogManager
 		app.dialogman = DialogManager(self.root)
@@ -237,7 +238,12 @@ class SplashScreen:
 			self.win = Toplevel()
 			self.win.overrideredirect(1)
 			self.win.configure(background='black')
-			Label(self.win, image=self.img, cursor='watch', borderwidth=0).pack()
+			self.banner = Label(self.win, image=self.img, cursor='watch',
+							borderwidth=0)
+			self.banner.pack()
+			self.verlb = Label(self.win, text='version %s' % (config.version,),
+							bg='white')
+			self.verlb.place(x=10, y=260)
 			self.progress_bar = SS_ProgressBar(self.win)
 			self.progress_bar.pack(fill=X, side=TOP)
 			geom = (self.width, self.height, winXPos, winYPos)
