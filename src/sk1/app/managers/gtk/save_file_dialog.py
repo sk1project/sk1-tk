@@ -11,7 +11,8 @@ import os, sys, gtk
 ARGS = {
 	'path':'~',
 	'caption':'Save file',
-	'filetypes':''
+	'filetypes':'',
+	'window-icon':'',
 	}
 
 def process_args():
@@ -57,6 +58,9 @@ def get_save_file_name(path='~'):
 
 	doc_name = os.path.basename(path)
 	dialog.set_current_name(doc_name)
+	dialog.set_position(gtk.WIN_POS_CENTER)
+	if ARGS['window-icon'] and os.path.lexists(ARGS['window-icon']):
+		dialog.set_icon_from_file(ARGS['window-icon'])
 
 	for file_filter in _get_save_fiters():
 		dialog.add_filter(file_filter)

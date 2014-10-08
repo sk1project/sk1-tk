@@ -95,8 +95,8 @@ class DialogManager:
 	dialogObject = None
 	def __init__(self, root):
 		self.root = root
-		self.app_icon = os.path.join(app.config.user_icons, app.config.preferences.icons)
-		self.app_icon = os.path.join(self.app_icon, 'icon_sk1_16.png')
+		self.app_icon = os.path.join(app.config.sk_share_dir, 'images')
+		self.app_icon = os.path.join(self.app_icon, 'sk1-app-icon.png')
 
 	def get_dialog_type(self, mode):
 		if mode == SAVEMODE: return Gtk2_GetSaveFilename

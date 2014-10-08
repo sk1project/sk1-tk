@@ -12,6 +12,7 @@ ARGS = {
 	'start_dir':'~',
 	'caption':'Open file',
 	'filetypes':'',
+	'window-icon':'',
 	}
 
 def process_args():
@@ -52,7 +53,10 @@ def get_open_file_name(start_dir='~'):
 	dialog.set_default_response(gtk.RESPONSE_OK)
 	start_dir = expanduser_unicode(start_dir)
 	dialog.set_current_folder(start_dir)
+	dialog.set_show_hidden(False)
 	dialog.set_position(gtk.WIN_POS_CENTER)
+	if ARGS['window-icon'] and os.path.lexists(ARGS['window-icon']):
+		dialog.set_icon_from_file(ARGS['window-icon'])
 
 	for file_filter in _get_open_fiters():
 		dialog.add_filter(file_filter)
