@@ -480,12 +480,12 @@ class sK1MainWindow(Publisher):
 		b.pack(side=LEFT)
 		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
 
-		label = TLabel(tbar, image="toolbar_sep")
-		label.pack(side=LEFT)
-
-		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
-		tooltips.AddDescription(b, commands.Preferences.menu_name)
-		b.pack(side=LEFT)
+#		label = TLabel(tbar, image="toolbar_sep")
+#		label.pack(side=LEFT)
+#
+#		b = ToolbarButton(tbar, commands.Preferences, image="toolbar_configure")
+#		tooltips.AddDescription(b, commands.Preferences.menu_name)
+#		b.pack(side=LEFT)
 
 
 	def build_tools(self):
@@ -1210,11 +1210,7 @@ class sK1MainWindow(Publisher):
 		if self.canvas:
 			self.canvas.bitmap_buffer = None
 
-	def HasKPrinter(self):
-		if config.preferences.print_command:
-			return 1
-		else:
-			return 0
+	def HasKPrinter(self):return 1
 
 	def PCshowHide(self):
 		self.pc.showHide()
