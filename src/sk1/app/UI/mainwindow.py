@@ -283,7 +283,7 @@ class sK1MainWindow(Publisher):
 		palette_container = TFrame(palette_trough, style='FlatFrame')
 
 		self.palette = palette.PaletteWidget(palette_container)
-
+		self.palette.SetPalette(pal)
 		ScrollXUnits = self.palette.ScrollXUnits
 		ScrollXPages = self.palette.ScrollXPages
 		CanScrollLeft = self.palette.CanScrollLeft
@@ -844,6 +844,7 @@ class sK1MainWindow(Publisher):
 #	AddCmd('ShowDialogs', _("Show Dialogs"))
 
 	AddCmd('LoadPalette', _("Load Palette..."))
+	AddCmd('LoadBuiltinPalette', _("Load built-in palette"))
 	AddCmd('InsertFile', _("Import vector..."))
 	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to=None)
 #	AddCmd('DocumentInfo', "Document Info...")
@@ -968,13 +969,7 @@ class sK1MainWindow(Publisher):
 					#cmds.export_bitmap,
 					None,
 					cmds.KPrinting,
-					cmds.PrintToPDF,#cmds.CreatePrintDialog,
-#					None,
-					#cmds.CreateExportDialog,
-					#None,
-#					cmds.Preferences,
-#					None,
-#					cmds.DocumentInfo,
+					cmds.PrintToPDF,
 					None,
 					cmds.LoadMRU0,
 					cmds.LoadMRU1,
@@ -1034,7 +1029,8 @@ class sK1MainWindow(Publisher):
 					None,
 					cmds.ToggleCrosshairs,
 					None,
-					self.commands.LoadPalette
+					self.commands.LoadPalette,
+					self.commands.LoadBuiltinPalette
 					])
 
 	def make_layout_menu(self):
@@ -1228,6 +1224,12 @@ class sK1MainWindow(Publisher):
 
 	def MapKeystroke(self, stroke):
 		return self.keymap.MapKeystroke(stroke)
+
+	def LoadBuiltinPalette(self, *args):
+		palfile = os.path.join(config.sk_palettes, config.preferences.unipalette)
+		pal = palette.LoadPalette(palfile)
+		self.palette.SetPalette(pal)
+		config.preferences.palette = ''
 
 	def LoadPalette(self, filename=None):
 		if not filename:

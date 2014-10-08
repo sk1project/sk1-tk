@@ -52,7 +52,7 @@ class RGBPalette(Publisher):
 			self.name_to_entry[name] = entry
 			self.rgb_to_entry[rgb] = entry
 
-	def AddEntry(self, rgb, name = None, rename = 0):
+	def AddEntry(self, rgb, name=None, rename=0):
 		if name:
 			if self.name_to_entry.has_key(name):
 				if self.name_to_entry[name] != (rgb, name):
@@ -112,7 +112,7 @@ _mini_pal = [(0, 0, 0, 'Black'),
 				(1, 1, 1, 'White')]
 
 def GetStandardPalette():
-	palette = LoadPalette(None)
+	palette = LoadPalette(config.preferences.palette)
 	#if not palette:
 		#warn(USER,
 			#_("Could not load palette mini.spl; reverting to black&white"))
@@ -129,7 +129,7 @@ def LoadPalette(filename):
 		return None
 
 file_types = ((_("Sketch Palette"), '.spl'),
-				(_("All Files"),	 '*'))
+				(_("All Files"), 	 '*'))
 
 
 magic_rgb_palette = '##Sketch RGBPalette 0'
@@ -169,7 +169,7 @@ def ReadRGBPaletteFile(filename):
 			continue
 
 		line = split(line, None, 3)
-				
+
 		if len(line) != 4:
 			warn(INTERNAL, '%s:%d: wrong number of fields', filename, linenr)
 			continue
@@ -265,20 +265,20 @@ def Read_X_RGB_TXT(filename):
 	return palette
 
 class UniversalPalette:
-	
+
 	def __init__(self, file=None):
-		self.name=''
-		self.type=''
-		self.colors=[]
+		self.name = ''
+		self.type = ''
+		self.colors = []
 		if file and os.path.isfile(file):
-			self.file=file
+			self.file = file
 		else:
-			self.file=os.path.join(config.sk_palettes, config.preferences.unipalette)
+			self.file = os.path.join(config.sk_palettes, config.preferences.unipalette)
 		self.loadPalette(self.file)
-		
+
 	def loadPalette(self, file=None):
 		self.load(file)
-		
+
 	def load(self, filename=None):
 		content_handler = XMLPaletteReader(palette=self)
 		error_handler = ErrorHandler()
@@ -297,77 +297,77 @@ class UniversalPalette:
 			input.close
 		except:
 			pass
-	
+
 class XMLPaletteReader(handler.ContentHandler):
 	def __init__(self, palette=None):
 		self.key = None
 		self.value = None
 		self.palette = palette
-		self.attrs=None
-		self.type=None
+		self.attrs = None
+		self.type = None
 
 	def startElement(self, name, attrs):
 		self.key = name
-		self.attrs=attrs
+		self.attrs = attrs
 
-	def endElement(self, name):		
-		if name=='color':
-			if self.type=='RGB':
-				r=atof(self.attrs._attrs['r'])
-				g=atof(self.attrs._attrs['g'])
-				b=atof(self.attrs._attrs['b'])				
-				color_name=self.attrs._attrs['name']
-				self.palette.colors.append(RGB_Color(r,g,b, name=color_name))
+	def endElement(self, name):
+		if name == 'color':
+			if self.type == 'RGB':
+				r = atof(self.attrs._attrs['r'])
+				g = atof(self.attrs._attrs['g'])
+				b = atof(self.attrs._attrs['b'])
+				color_name = self.attrs._attrs['name']
+				self.palette.colors.append(RGB_Color(r, g, b, name=color_name))
 				#c,m,y,k=app.colormanager.convertRGB(r,g,b)
 				#print '<color c="%f"'%c,'m="%f"'%m,'y="%f"'%y,'k="%f"'%k,'name="%s"'%color_name,'/>'
-			if self.type=='CMYK':
-				c=atof(self.attrs._attrs['c'])
-				m=atof(self.attrs._attrs['m'])
-				y=atof(self.attrs._attrs['y'])
-				k=atof(self.attrs._attrs['k'])
-				color_name=self.attrs._attrs['name']
-				self.palette.colors.append(CMYK_Color(c,m,y,k, name=color_name))
-			if self.type=='SPOT':
-				r=atof(self.attrs._attrs['r'])
-				g=atof(self.attrs._attrs['g'])
-				b=atof(self.attrs._attrs['b'])
-				c=atof(self.attrs._attrs['c'])
-				m=atof(self.attrs._attrs['m'])
-				y=atof(self.attrs._attrs['y'])
-				k=atof(self.attrs._attrs['k'])
-				color_name=self.attrs._attrs['name']
-				palette=self.palette.name
-				self.palette.colors.append(CreateSPOTColor(r,g,b,c,m,y,k,color_name,palette))
-			if self.type=='SPOT-RGB':
-				r=atof(self.attrs._attrs['r'])
-				g=atof(self.attrs._attrs['g'])
-				b=atof(self.attrs._attrs['b'])
-				color_name=self.attrs._attrs['name']
-				palette=self.palette.name
-				self.palette.colors.append(CreateSPOT_RGBColor(r,g,b,color_name,palette))				
-			if self.type=='SPOT-CMYK':
-				c=atof(self.attrs._attrs['c'])
-				m=atof(self.attrs._attrs['m'])
-				y=atof(self.attrs._attrs['y'])
-				k=atof(self.attrs._attrs['k'])
-				color_name=self.attrs._attrs['name']
-				palette=self.palette.name
-				self.palette.colors.append(CreateSPOT_CMYKColor(c,m,y,k,color_name,palette))
-		if name=='description':			
-			self.type=self.attrs._attrs['type']
-			self.palette.name=self.attrs._attrs['name']
-			self.palette.type=self.attrs._attrs['type']
+			if self.type == 'CMYK':
+				c = atof(self.attrs._attrs['c'])
+				m = atof(self.attrs._attrs['m'])
+				y = atof(self.attrs._attrs['y'])
+				k = atof(self.attrs._attrs['k'])
+				color_name = self.attrs._attrs['name']
+				self.palette.colors.append(CMYK_Color(c, m, y, k, name=color_name))
+			if self.type == 'SPOT':
+				r = atof(self.attrs._attrs['r'])
+				g = atof(self.attrs._attrs['g'])
+				b = atof(self.attrs._attrs['b'])
+				c = atof(self.attrs._attrs['c'])
+				m = atof(self.attrs._attrs['m'])
+				y = atof(self.attrs._attrs['y'])
+				k = atof(self.attrs._attrs['k'])
+				color_name = self.attrs._attrs['name']
+				palette = self.palette.name
+				self.palette.colors.append(CreateSPOTColor(r, g, b, c, m, y, k, color_name, palette))
+			if self.type == 'SPOT-RGB':
+				r = atof(self.attrs._attrs['r'])
+				g = atof(self.attrs._attrs['g'])
+				b = atof(self.attrs._attrs['b'])
+				color_name = self.attrs._attrs['name']
+				palette = self.palette.name
+				self.palette.colors.append(CreateSPOT_RGBColor(r, g, b, color_name, palette))
+			if self.type == 'SPOT-CMYK':
+				c = atof(self.attrs._attrs['c'])
+				m = atof(self.attrs._attrs['m'])
+				y = atof(self.attrs._attrs['y'])
+				k = atof(self.attrs._attrs['k'])
+				color_name = self.attrs._attrs['name']
+				palette = self.palette.name
+				self.palette.colors.append(CreateSPOT_CMYKColor(c, m, y, k, color_name, palette))
+		if name == 'description':
+			self.type = self.attrs._attrs['type']
+			self.palette.name = self.attrs._attrs['name']
+			self.palette.type = self.attrs._attrs['type']
 
 	def characters(self, data):
 		self.value = data
 
 class ErrorHandler(handler.ErrorHandler): pass
 class EntityResolver(handler.EntityResolver): pass
-class DTDHandler(handler.DTDHandler): pass	
+class DTDHandler(handler.DTDHandler): pass
 
 class PaletteWidget(PyWidget, Publisher):
 
-	def __init__(self, master=None, palette = None, cell_size = 20, **kw):
+	def __init__(self, master=None, palette=None, cell_size=20, **kw):
 		if not kw.has_key('width'):
 			kw['width'] = cell_size
 		apply(PyWidget.__init__, (self, master), kw)
@@ -378,7 +378,7 @@ class PaletteWidget(PyWidget, Publisher):
 		self.gc = GraphicsDevice()
 		self.gc.SetViewportTransform(1.0, Identity, Identity)
 		self.start_idx = 0
-		self.unipalette= UniversalPalette()
+		self.unipalette = UniversalPalette()
 		self.SetPalette(self.unipalette)
 		self.dragging = 0
 		self.bind('<ButtonPress-1>', self.release_1)
@@ -388,7 +388,7 @@ class PaletteWidget(PyWidget, Publisher):
 		Publisher.Destroy(self)
 
 	def compute_num_cells(self):
-		self.num_cells = self.tkwin.height / self.cell_size+1
+		self.num_cells = self.tkwin.height / self.cell_size + 1
 
 	def MapMethod(self):
 		self.compute_num_cells()
@@ -473,13 +473,13 @@ class PaletteWidget(PyWidget, Publisher):
 #		self.UpdateWhenIdle()
 		self.tk.call(self._w, 'update')
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		win = self.tkwin
 		width = win.width
-		height =win.height
+		height = win.height
 		self.gc.StartDblBuffer()
 		self.gc.SetFillColor(StandardColors.black)
-		self.gc.FillRectangle(0, 0, height, width)		
+		self.gc.FillRectangle(0, 0, height, width)
 
 		x = 0
 		FillRectangle = self.gc.FillRectangle
@@ -490,27 +490,27 @@ class PaletteWidget(PyWidget, Publisher):
 		rgbs = self.unipalette.colors
 		rgbs = rgbs[self.start_idx:self.start_idx + self.num_cells]
 		###widget refresh###
-		r,g,b=tk_to_rgb(app.uimanager.currentColorTheme.bg)
+		r, g, b = tk_to_rgb(app.uimanager.currentColorTheme.bg)
 		SetFillColor(apply(create_color, (r, g, b)))
-		FillRectangle(0, 0,  width, height)
-		####################		
+		FillRectangle(0, 0, width, height)
+		####################
 		for rgb in rgbs:
 			SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
-			FillRectangle(0, x,  width, x + width)
+			FillRectangle(0, x, width, x + width)
 			SetFillColor(apply(create_color, (0.5, 0.5, 0.5)))
-			FillRectangle(1, x,  width, x + width-1)
+			FillRectangle(1, x, width, x + width - 1)
 			SetFillColor(rgb.RGB())
-			FillRectangle(2, x+1,  width-1, x + width-2)
-			if rgb.name=='Registration Color':
-				cw=5
-				lx=0+cw+1
-				ly=x+cw+2
-				rx=width-cw-1
-				ry=x+width-cw-2
+			FillRectangle(2, x + 1, width - 1, x + width - 2)
+			if rgb.name == 'Registration Color':
+				cw = 5
+				lx = 0 + cw + 1
+				ly = x + cw + 2
+				rx = width - cw - 1
+				ry = x + width - cw - 2
 				SetFillColor(apply(create_color, (1.0, 1.0, 1.0)))
-				DrawRectangle(Point(lx, ly-2), Point(rx, ry))	
-				DrawLine(Point(lx+4, ly-4), Point(lx+4, ry+2))	
-				DrawLine(Point(lx-2, ly+2), Point(rx+2, ly+2))
+				DrawRectangle(Point(lx, ly - 2), Point(rx, ry))
+				DrawLine(Point(lx + 4, ly - 4), Point(lx + 4, ry + 2))
+				DrawLine(Point(lx - 2, ly + 2), Point(rx + 2, ly + 2))
 			x = x + width
 		self.gc.EndDblBuffer()
 
