@@ -112,22 +112,23 @@ class sK1MainWindow(Publisher):
 
 		splash = self.application.splash
 
+		splash.set_val(.2, 'Creating commands...')
 		self.create_commands()
-		splash.set_val(.2)
+		splash.set_val(.25, 'Building main window...')
 		self.build_window()
-		splash.set_val(.3)
+		splash.set_val(.3, 'Menu build...')
 		self.build_menu()
-		splash.set_val(.4)
+		splash.set_val(.4, 'Toolbar build...')
 		self.build_toolbar()
-		splash.set_val(.5)
+		splash.set_val(.5, 'Tools build...')
 		self.build_tools()
-		splash.set_val(.6)
+		splash.set_val(.6, 'Statusbar build...')
 		self.build_status_bar()
-		splash.set_val(.7)
+		splash.set_val(.7, 'Dialogs initialization...')
 		self.__init_dlgs()
-		splash.set_val(.8)
+		splash.set_val(.8, 'Document initialization...')
 		self.document.Subscribe(SELECTION, self.refresh_buffer)
-		splash.set_val(.9)
+		splash.set_val(.9, 'Window ready...')
 
 	def Run(self):
 		if self.filename:
@@ -492,13 +493,7 @@ class sK1MainWindow(Publisher):
 		tframe = self.tframe
 		canvas = self.canvas
 
-		fr = TFrame(tframe, style='FlatFrame', borderwidth=12)
-		fr.pack(side=TOP, fill=X)
-		label = TLabel(fr, style='FlatLabel')
-		label.pack(side=TOP, fill=X)
-
-		label = TLabel(tframe, style='HLine')
-		label.pack(side=TOP, fill=X)
+		fr = TFrame(tframe, style='FlatFrame').pack(side=TOP, pady=5)
 
 		#Selection Mode Button
 		b = ToolsCheckbutton(tframe, canvas.commands.SelectionMode, image='tools_pointer')
