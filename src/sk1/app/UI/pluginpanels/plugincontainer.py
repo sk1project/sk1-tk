@@ -24,27 +24,25 @@ class PluginContainer(ResizableTFrame):
 		self.mw = mw
 		self.root = root
 		self.master = master
-		ResizableTFrame.__init__(self, master, root, size=240, orient=LEFT, min=200, max=400)
+		ResizableTFrame.__init__(self, master, root, size=240, orient=LEFT,
+								min=240, max=400)
 
 		b = TLabel(self.panel, style='HLine')
 		b.pack(side=BOTTOM, fill=X)
 
-		self.browserframe = ResizableTFrame(self.panel, root, size=10, orient=BOTTOM, min=10, max=500)
-		self.browserframe.pack(side=TOP, fill=X)
-		self.plugins = app.objprop_plugins + app.layout_plugins + app.transform_plugins
-		self.plugins += app.effects_plugins + app.extentions_plugins + app.shaping_plugins
-
 		self.pbrowser = PluginBrowser()
 
-	def showHide(self):
-		if not self.pbrowser.activated:
-			self.pbrowser.init(self.browserframe.panel, self)
-			self.pbrowser.forget()
-			self.pbrowser.pack(side=TOP, fill=BOTH, expand=1)
+		self.plugins = app.objprop_plugins + app.layout_plugins
+		self.plugins += app.transform_plugins + app.extentions_plugins
+		self.plugins += app.effects_plugins + app.shaping_plugins
+		self.plugins += [self.pbrowser]
 
+	def showHide(self):
 		if not self.visible:
 			self.visible = 1
 			self.pack(side=RIGHT, fill=Y)
+			if not self.loaded:
+				self.loadByName('PluginBrowser')
 		else:
 			self.visible = 0
 			self.forget()
@@ -61,6 +59,12 @@ class PluginContainer(ResizableTFrame):
 				if not plugin.packed:
 					plugin.restore_panel()
 				if plugin.collapsed:
-					plugin.collapse_panel()
+					plugin.decollapse_panel()
 			else:
 				plugin.init(self.panel)
+			if not plugin in self.loaded:
+				self.loaded.append(plugin)
+
+	def remove_plugin(self, plugin):
+		self.loaded.remove(plugin)
+		if not self.loaded: self.showHide()

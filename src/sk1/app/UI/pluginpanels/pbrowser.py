@@ -17,35 +17,34 @@ import app
 from ppanel import PluginPanel
 
 class PluginBrowser(PluginPanel):
-	
+
 	name = 'PluginBrowser'
 	title = _("Plugin Browser")
 	icon = 'strip_pbrowser'
-	
+
 	built = 0
-	
-	def init(self, master, pcontainer):
+	fill = BOTH
+	expand = 1
+
+	def init(self, master):
 		PluginPanel.init(self, master)
 		top = self.panel
-		self.pcontainer = pcontainer
 		ctheme = app.uimanager.currentColorTheme
-		
+
 		self.browserframe = TFrame(top, style='RoundedFrame', borderwidth=5)
 		self.browserframe.pack(side=TOP, fill=BOTH, expand=1)
 		self.scanvas = ScrolledCanvas(self.browserframe, bg=ctheme.editfieldbackground, height=150, width=170)
 		self.scanvas.frame.pack(side=TOP, fill=BOTH, expand=1)
-		self.closebut.forget()
-		
 		self.after_idle(self.rebuild_pb)
 
-		
+
 	def rebuild_pb(self):
-		self.build_plugins_tree()				
+		self.build_plugins_tree()
 		ctheme = app.uimanager.currentColorTheme
-		item = PluginsTreeItem(self.ptree, self.pcontainer)		
+		item = PluginsTreeItem(self.ptree, self.pcontainer)
 		node = TreeNode(self.scanvas.canvas, None, item, ctheme)
 		node.expand()
-		
+
 	def build_plugins_tree(self):
 		self.ptree = PluginCategory('ROOT', _("Plugins"))
 		objprop_group = PluginCategory('ObjProp', _("Object properties"))
@@ -61,31 +60,24 @@ class PluginBrowser(PluginPanel):
 		shaping_group.contents = app.shaping_plugins
 		effects_group.contents = app.effects_plugins
 		extentions_group.contents = app.extentions_plugins
-		
-		self.ptree.contents += [objprop_group, layout_group, transform_group, shaping_group,
-							effects_group, extentions_group]
-			
-			
 
-	def collapse_panel(self, *arg):
-		PluginPanel.collapse_panel(self)
-		if self.collapsed:
-			self.pcontainer.spacer.canv_size = 10
-#			self.pcontainer.spacer['width']=10
-			
-			
+		self.ptree.contents += [objprop_group, layout_group, transform_group,
+							shaping_group, effects_group, extentions_group]
+
+
+
 class PluginCategory:
-	
+
 	name = ''
 	title = ''
 	icon = 'strip_category'
 	contents = []
-	
+
 	def __init__(self, name, title):
 		self.name = name
-		self.title = title		
-		
-		
+		self.title = title
+
+
 class PluginsTreeItem(TreeItem):
 
 	"""The plugins tree browser """
@@ -105,8 +97,8 @@ class PluginsTreeItem(TreeItem):
 
 	def GetIconName(self):
 		return self.objects.icon
-			
-	def IsExpandable(self): 
+
+	def IsExpandable(self):
 		if(len(self.objects.contents)):
 			return True
 		else:
@@ -118,14 +110,14 @@ class PluginsTreeItem(TreeItem):
 			item = PluginsTreeItem(name, self.container)
 			sublist.append(item)
 		return sublist
-	
+
 	def addComment(self):
 		pass
-	
+
 	def OnDoubleClick(self):
 		if not self.IsExpandable():
-			self.container.loadByName(self.objects.name)	
-		
-		
-		
-		
+			self.container.loadByName(self.objects.name)
+
+
+
+

@@ -60,6 +60,7 @@ encoding//src/sk1/app/UI/pluginpanels/ppanel.py=utf-8
 encoding//src/sk1/app/UI/pluginpanels/properties/fill_plugin.py=utf-8
 encoding//src/sk1/app/UI/pluginpanels/properties/outlinecolor.py=utf-8
 encoding//src/sk1/app/UI/pluginpanels/properties/outlineprop.py=utf-8
+encoding//src/sk1/app/UI/pluginpanels/transform/move_plugin.py=utf-8
 encoding//src/sk1/app/UI/pluginpanels/transform/skew_plugin.py=utf-8
 encoding//src/sk1/app/UI/poslabel.py=utf-8
 encoding//src/sk1/app/UI/prompt.py=utf-8
