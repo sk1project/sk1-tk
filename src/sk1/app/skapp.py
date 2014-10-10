@@ -69,11 +69,11 @@ class TkApplication:
 
 		self.splash = SplashScreen(self.root)
 		self.splash.show()
-		self.splash.set_val(.1)
+		self.splash.set_val(.1, 'DialogManager initialization...')
 
 		from app.managers.dialogmanager import DialogManager
 		app.dialogman = DialogManager(self.root)
-		self.splash.set_val(.15)
+		self.splash.set_val(.15, 'Setting appication data...')
 
 
 		app.info1 = StringVar(self.root, '')
@@ -241,9 +241,15 @@ class SplashScreen:
 			self.banner = Label(self.win, image=self.img, cursor='watch',
 							borderwidth=0)
 			self.banner.pack()
+
 			self.verlb = Label(self.win, text='version %s' % (config.version,),
 							bg='white')
-			self.verlb.place(x=10, y=260)
+			self.verlb.place(x=10, y=240)
+			self.verlb['font'] += ' bold'
+
+			self.txtlb = Label(self.win, text='Start...',
+							bg='white')
+			self.txtlb.place(x=10, y=265)
 			self.progress_bar = SS_ProgressBar(self.win)
 			self.progress_bar.pack(fill=X, side=TOP)
 			geom = (self.width, self.height, winXPos, winYPos)
@@ -256,8 +262,9 @@ class SplashScreen:
 		if self.flag and self.win:
 			self.win.destroy()
 
-	def set_val(self, val):
+	def set_val(self, val, txt=''):
 		self.progress_bar.set_val(val)
+		if txt: self.txtlb['text'] = txt
 		self.win.update()
 
 class SS_ProgressBar(Frame):
