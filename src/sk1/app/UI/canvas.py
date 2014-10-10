@@ -25,7 +25,7 @@ from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
 
 from app import SketchInternalError, SelectionMode, EditMode
 from app.conf import const
-from app import config 
+from app import config
 preferences = config.preferences
 from app.events.warn import pdebug, warn, INTERNAL
 
@@ -45,13 +45,13 @@ from modes import MajorMode, TemporaryMode, WidgetWithModes, noop
 from converters import converters
 
 
-constraint_keysyms =   {'Control_L' : const.ControlMask,
+constraint_keysyms = {'Control_L' : const.ControlMask,
 						'Control_R' : const.ControlMask,
 						'Shift_L'   : const.ShiftMask,
 						'Shift_R'   : const.ShiftMask}
 
 command_list = []
-def AddCmd(name, menu_name, method_name = None, subscribe_to = STATE, **kw):
+def AddCmd(name, menu_name, method_name=None, subscribe_to=STATE, **kw):
 	# use name both as name and method name
 	kw['menu_name'] = menu_name
 	kw['subscribe_to'] = subscribe_to
@@ -88,7 +88,7 @@ stop_regular = 1
 
 def selection_type(state):
 	state = state & const.AllowedModifierMask
-	if state  == const.AddSelectionMask:
+	if state == const.AddSelectionMask:
 		type = SelectAdd
 	elif state == const.SubtractSelectionMask:
 		type = SelectSubtract
@@ -101,7 +101,7 @@ def selection_type(state):
 class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	document = None
-	commands = None	
+	commands = None
 
 	context_menu_items = ['ZoomOut',
 							'ZoomIn',
@@ -132,22 +132,22 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 							#'FitPageToWindow'
 							]
 
-	def __init__(self, master=None, toplevel = None, main_window = None,
-					document = None, **kw):
-		self.start_event=1
-		self.bitmap_buffer=None
-		self.exposed_after_covering=0
+	def __init__(self, master=None, toplevel=None, main_window=None,
+					document=None, **kw):
+		self.start_event = 1
+		self.bitmap_buffer = None
+		self.exposed_after_covering = 0
 		self.init_handles()
 		self.init_modes()
-		self.init_cross_hairs()		
+		self.init_cross_hairs()
 		WidgetWithModes.__init__(self)
 		kw['show_visible'] = 1
 		kw['show_printable'] = 0
 		self.snap_to_object = 0
 		self.snap_to_guide = 0
 		self.snap_correction_rect = 1
-		self.snap_move_relative = 0 #1
-		self.toplevel=toplevel
+		self.snap_move_relative = 0#1
+		self.toplevel = toplevel
 		apply(SketchView.__init__, (self, master, toplevel, document), kw)
 		CursorStack.__init__(self, const.CurStd, self.set_handle_cursor)
 
@@ -159,24 +159,24 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.ignore_key_press_events = 0
 		self.start_drag = 0
 		self.start_pos = None
-		self.dragging = 0	# true if dragging with left button down
-		self.current = None	# currently dragged/edited object
+		self.dragging = 0# true if dragging with left button down
+		self.current = None# currently dragged/edited object
 		self.correction = Point(0, 0)
-		self.create_creator = None	# Class of object to create
+		self.create_creator = None# Class of object to create
 								# None while in select/edit mode
 		self.create_type = ''
 		self.snap_to_grid = 0
 		self.snap_points = ()
 		self.init_bindings()
-		
 
-		self.copy_flag=0
-		self.start_rect=None
+
+		self.copy_flag = 0
+		self.start_rect = None
 
 		self.SelectionMode()
 		self.create_commands()
 		self.context_commands = None
-		
+
 
 
 		preferences.Subscribe(CHANGED, self.preference_changed)
@@ -187,35 +187,35 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 										self.selection_down, self.drag_mouse,
 										self.selection_up, noop,
 										self.selection_cancel,
-										start_drag = self.selection_start_drag,
-										name = 'Select',
-										text = _("Select"))
+										start_drag=self.selection_start_drag,
+										name='Select',
+										text=_("Select"))
 		m.edit_mode = MajorMode(self.edit_enter,
 								self.edit_down, self.drag_mouse, self.edit_up,
 								noop, self.edit_cancel,
-								start_drag = self.edit_start_drag,
-								name = 'Edit',
-								text = _("Edit"))
+								start_drag=self.edit_start_drag,
+								name='Edit',
+								text=_("Edit"))
 		m.creation_mode = MajorMode(self.creation_enter,
 									self.creation_begin, self.drag_to,
 									self.creation_end, self.creation_exit,
 									self.creation_cancel,
-									name = 'Create',
-									text = _("Create"))
+									name='Create',
+									text=_("Create"))
 		m.zoom_mode = TemporaryMode(self.zoom_enter, self.zoom_begin,
 									self.drag_to, self.zoom_end,
 									noop, self.zoom_cancel,
-									name = 'Zoom',
-									text = _("Zoom Area"))
+									name='Zoom',
+									text=_("Zoom Area"))
 		m.pick_mode = TemporaryMode(self.pick_enter, self.pick_begin, noop,
 									self.pick_end, noop, self.pick_cancel,
-									name = 'Pick',
-									text = _("Pick Object"))
+									name='Pick',
+									text=_("Pick Object"))
 		m.place_mode = TemporaryMode(self.place_enter, self.place_begin,
 										self.place_drag, self.place_end,
 										noop, self.place_cancel,
-										name = 'Place',
-										text = _("Place Object"))
+										name='Place',
+										text=_("Place Object"))
 
 	def init_bindings(self):
 		self.bind('<ButtonPress>', self.ButtonPressEvent)
@@ -228,15 +228,15 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.bind('<Expose>', self.ExposeEvent)
 		self.bind('<Visibility>', self.VisibilityEvent)
 		self.last_event = None
-		
-		
+
+
 	scroll_timer = None
-	
+
 	def start_auto_scroll(self):
 		intervall = preferences.autoscroll_interval
 		if intervall:
 			self.scroll_timer = self.after(intervall, self.auto_scroll)
-			
+
 
 	def cancel_auto_scroll(self):
 		if self.scroll_timer is not None:
@@ -317,11 +317,11 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		for c in classes:
 			map = maps.get(c.__name__)
 			if map is not None:
-				result =  map
+				result = map
 				break
 			map = self.find_map(c.__bases__)
 			if map is not None:
-				result =  map
+				result = map
 				break
 		return result
 
@@ -343,15 +343,15 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def init_gcs(self):
 		# XXX: integrate with SketchView
-		self.gc.init_gc(self.tkwin, graphics_exposures = 1)
+		self.gc.init_gc(self.tkwin, graphics_exposures=1)
 		self.invgc = InvertingDevice()
 		self.invgc.init_gc(self.tkwin)
-		
+
 		#Cairo renderer initialization
-		self.gc.gc.CairoInit(self.tkwin.width+100,self.tkwin.height+100)
+		self.gc.gc.CairoInit(self.tkwin.width + 100, self.tkwin.height + 100)
 		self.gc.gc.CairoSetTolerance(preferences.cairo_tolerance)
 		self.gc.gc.CairoSetAntialias(preferences.cairo_antialias)
-		
+
 		self.hitgc = HitTestDevice()
 		self.hitgc.init_gc(self.tkwin)
 		#self.tk.call(self._w, 'motionhints')
@@ -368,7 +368,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 									self.invgc.DrawPixmapHandle,
 									self.invgc.DrawCaretHandle]
 		self.gcs_initialized = 1
-		self.FitPageToWindow(save_viewport = 0)
+		self.FitPageToWindow(save_viewport=0)
 		self.set_gc_transforms()
 
 	def set_gc_transforms(self):
@@ -443,7 +443,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			recompute = 0
 			if args[0] == LAYER_STATE:
 				layer, visible_changed, printable_changed, outlined_changed \
-						= args[1]
+						 = args[1]
 				if layer.NumObjects():
 					if ((self.show_printable and printable_changed)
 						or (self.show_visible and visible_changed)):
@@ -463,10 +463,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 	def ExposeEvent(self, event):
 		if self.start_event:
-			self.start_event=0
+			self.start_event = 0
 		else:
-			self.exposed_after_covering=1	
-		
+			self.exposed_after_covering = 1
+
 	def VisibilityEvent(self, event):
 		#if self.start_event:
 			#self.start_event=0
@@ -474,11 +474,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			#self.exposed_after_covering=1
 		pass
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		#self.hide_handles()
 		if self.exposed_after_covering:
-			self.exposed_after_covering=0			
-			self.put_buffer_bitmap()
+			self.exposed_after_covering = 0
 			return
 		if hasattr(preferences, 'profile_redraw'):
 			import profile
@@ -510,48 +509,20 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		# scroll bar to scroll by a page could scroll twice for a
 		# complex drawing.
 		self.tkwin.Sync()
-		
-		self.save_bitmap_buffer()
-		
 
-	def save_bitmap_buffer(self):
-		w=self.gc.widget
-		if app.root.winfo_viewable():
-#			self.bitmap_buffer=w.GetImage(0, 0, w.width, w.height)
-			self.bitmap_buffer=1			
-		else:
-			self.bitmap_buffer=None
-
-		
-	def put_buffer_bitmap(self):
-		if config.preferences.cairo_enabled :
-			if not self.bitmap_buffer==None:		
-	#			self.gc.gc.PutImage(self.bitmap_buffer, 0, 0, 0, 0, self.gc.widget.width, self.gc.widget.height)
-				obj=self.document.SelectedObjects()
-				self.document.SelectNone()
-				self.gc.FinalizeDrawing()
-				self.document.SelectObject(obj)					
-			else:
-				self.RedrawMethod()				
-		else:
-			self.RedrawMethod()
-				
-	def clear_buffer_bitmap(self, *args):
-		self.bitmap_buffer=None
-			
 	#
 	#	Event handler
 	#
 
 	def ButtonPressEvent(self, event):
-		# handle button press event	
+		# handle button press event
 		self.focus_set()
 		self.begin_transaction()
 		self.expect_release_event = 1
 		self.last_event = event
 		event.button = event.num
 		if event.button != const.Button3 or event.button != const.Button2:
-			self.start_rect=self.document.selection.coord_rect
+			self.start_rect = self.document.selection.coord_rect
 		try:
 			self.ignore_key_press_events = 1
 			button = event.num
@@ -564,10 +535,6 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 							self.ignore_key_press_events = 0
 		finally:
 			self.end_transaction()
-		if event.button == const.Button1:
-#			self.save_bitmap_buffer()
-			if not self.exposed_after_covering:
-				self.after_idle(self.save_bitmap_buffer)
 
 	def PointerMotionEvent(self, event):
 		# handle Motion events
@@ -575,7 +542,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		#event.x, event.y = self.tkwin.QueryPointer()[4:6]
 		self.last_event = event
 		p = self.WinToDoc(event.x, event.y)
-		self.set_current_pos(p, snap = 1)
+		self.set_current_pos(p, snap=1)
 		if self.start_drag or self.dragging:
 			self.mode.mouse_move(p, event.state)
 			self.update_current_info_text()
@@ -597,21 +564,21 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				self.last_event = event
 				self.begin_transaction()
 				self.mode.button_up(p, event.button, event.state)
-				self.dragging = 0				
+				self.dragging = 0
 				if self.mode.isTemporaryMode:
 					self.exit_temporary_mode()
 				self.ignore_key_press_events = 0
 				self.expect_release_event = 0
-				self.end_transaction()	
-				
-				if self.copy_flag==1:
-					self.copy_flag=0
+				self.end_transaction()
+
+				if self.copy_flag == 1:
+					self.copy_flag = 0
 					self.document.ModifyAndCopy()
-	
+
 			elif event.button == const.Button2:
 				pass
 			elif event.button == const.Button3:
-				self.copy_flag=1
+				self.copy_flag = 1
 				self.set_window_cursor(const.CurCopy)
 			else:
 				pass
@@ -686,7 +653,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				stroke = mod + sym
 				cmd = self.MapKeystroke(stroke)
 
-			if cmd:				
+			if cmd:
 				if cmd.invoke_with_event:
 					cmd.Invoke(event)
 				elif cmd.invoke_with_keystroke:
@@ -758,7 +725,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#	(might be also interesting for the view)
 	#
 
-	def set_current_pos(self, p, snap = 0):
+	def set_current_pos(self, p, snap=0):
 		if snap and preferences.snap_current_pos:
 			p = self.snap_point(p)
 		self.current_pos = p
@@ -825,31 +792,31 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	# enter creation mode for a gfx_name objects
 	AddModeCmd('CreateRectangle', _("Draw Rectangle"), 'Create',
-				args = 'RectangleCreator',# bitmap = pixmaps.CreateRect,
-				value_on = 'Create:RectangleCreator',
-				sensitive_cb = 'can_create')
+				args='RectangleCreator',# bitmap = pixmaps.CreateRect,
+				value_on='Create:RectangleCreator',
+				sensitive_cb='can_create')
 	AddModeCmd('CreateEllipse', _("Draw Ellipse"), 'Create',
-				args = 'EllipseCreator',# bitmap = pixmaps.CreateEllipse,
-				value_on = 'Create:EllipseCreator',
-				sensitive_cb = 'can_create')
+				args='EllipseCreator',# bitmap = pixmaps.CreateEllipse,
+				value_on='Create:EllipseCreator',
+				sensitive_cb='can_create')
 	AddModeCmd('CreatePolyBezier', _("Draw Curve"), 'Create',
-				args = 'PolyBezierCreator',# bitmap = pixmaps.CreateCurve,
-				value_on = 'Create:PolyBezierCreator',
-				sensitive_cb = 'can_create')
+				args='PolyBezierCreator',# bitmap = pixmaps.CreateCurve,
+				value_on='Create:PolyBezierCreator',
+				sensitive_cb='can_create')
 	AddModeCmd('CreatePolyLine', _("Draw Poly-Line"), 'Create',
-				args = 'PolyLineCreator',# bitmap = pixmaps.CreatePoly,
-				value_on = 'Create:PolyLineCreator',
-				sensitive_cb = 'can_create')
-	AddModeCmd('CreateSimpleText', _("Draw Text"),  'Create',
-				args = 'SimpleTextCreator', key_stroke = 'F8',# bitmap = pixmaps.Text,
-				value_on = 'Create:SimpleTextCreator',
-				sensitive_cb = 'can_create')
-	def Create(self, gfx_name = None):
-		if gfx_name=='SimpleTextCreator':
+				args='PolyLineCreator',# bitmap = pixmaps.CreatePoly,
+				value_on='Create:PolyLineCreator',
+				sensitive_cb='can_create')
+	AddModeCmd('CreateSimpleText', _("Draw Text"), 'Create',
+				args='SimpleTextCreator', key_stroke='F8',# bitmap = pixmaps.Text,
+				value_on='Create:SimpleTextCreator',
+				sensitive_cb='can_create')
+	def Create(self, gfx_name=None):
+		if gfx_name == 'SimpleTextCreator':
 			infos = self.document.selection.GetInfo()
 			if len(infos) == 1 and infos[0][-1].is_SimpleText:
 				self.EditMode()
-				return			
+				return
 		self.begin_transaction()
 		if gfx_name is None:
 			gfx_name = self.create_type
@@ -859,15 +826,15 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def creation_enter(self, gfx_name):
 		self.create_creator = getattr(app, gfx_name)
 		self.create_type = gfx_name
-		if gfx_name=='SimpleTextCreator':
+		if gfx_name == 'SimpleTextCreator':
 			self.push_static_cursor(const.CurText)
-		elif gfx_name=='RectangleCreator':
+		elif gfx_name == 'RectangleCreator':
 			self.push_static_cursor(const.CurCreateRect)
-		elif gfx_name=='EllipseCreator':
+		elif gfx_name == 'EllipseCreator':
 			self.push_static_cursor(const.CurCreateEllipse)
-		elif gfx_name=='PolyLineCreator':
+		elif gfx_name == 'PolyLineCreator':
 			self.push_static_cursor(const.CurCreatePolyline)
-		elif gfx_name=='PolyBezierCreator':
+		elif gfx_name == 'PolyBezierCreator':
 			self.push_static_cursor(const.CurCreateBezier)
 		else:
 			self.push_static_cursor(const.CurCreate)
@@ -895,7 +862,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.dragging = 0
 
 
-	def creation_end(self, p, button, state, force_stop = stop_continue):
+	def creation_end(self, p, button, state, force_stop=stop_continue):
 		if __debug__:
 			self.check_transaction()
 		if self.current is None:
@@ -905,9 +872,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.creation_cancel()
 			return
 		self.current.ButtonUp(self.correct_and_snap(p), button, state)
-		self.do_end_creation(force_stop, set_mode = 1)
+		self.do_end_creation(force_stop, set_mode=1)
 
-	def do_end_creation(self, force_stop = stop_regular, set_mode = 0):
+	def do_end_creation(self, force_stop=stop_regular, set_mode=0):
 		if __debug__:
 			self.check_transaction()
 		self.pop_cursor_state()
@@ -939,18 +906,18 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			if set_mode:
 				new_mode()
 		else:
-			if self.create_type=='PolyLineCreator':
+			if self.create_type == 'PolyLineCreator':
 				self.push_static_cursor(const.CurCreatePolyline)
-			elif  self.create_type=='PolyBezierCreator':
+			elif  self.create_type == 'PolyBezierCreator':
 				self.push_static_cursor(const.CurCreateBezier)
 			else:
 				self.push_static_cursor(const.CurCreate)
 			self.current = obj
 			obj.Show(self.invgc)
 
-	def creation_exit(self, set_mode = 0):
+	def creation_exit(self, set_mode=0):
 		if self.current is not None:
-			self.do_end_creation(set_mode = set_mode)
+			self.do_end_creation(set_mode=set_mode)
 
 	def creation_cancel(self):
 		if self.current is not None:
@@ -965,7 +932,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	# two methods shared by the selection and edit modes
-	def begin_edit_object(self, p, button, state, handle = None):
+	def begin_edit_object(self, p, button, state, handle=None):
 		# begin to edit OBJ
 		self.current = self.document
 		if handle is not None:
@@ -976,7 +943,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.set_correction(self.current.ButtonDown(p, button, state))
 		self.current.Show(self.invgc, 1)
 
-	def stop_edit_object(self, p, button, state, force_stop = 0):
+	def stop_edit_object(self, p, button, state, force_stop=0):
 		if __debug__:
 			self.check_transaction()
 		if self.current is None:
@@ -1017,7 +984,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	# enter selection mode
-	AddModeCmd('SelectionMode', _("Selection Mode"), value_on = 'Select')
+	AddModeCmd('SelectionMode', _("Selection Mode"), value_on='Select')
 	def SelectionMode(self):
 		self.begin_transaction()
 		self.document.SetMode(SelectionMode)
@@ -1065,7 +1032,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		else:
 			self.document.SelectPoint(p, self.hitgc, type)
 
-	def selection_up(self, p, button, state, force_stop = 0):
+	def selection_up(self, p, button, state, force_stop=0):
 		if not self.dragging:
 			self.selection_click(p, button, state)
 		else:
@@ -1101,7 +1068,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 	#	Edit mode
 	#
-	AddModeCmd('EditMode', _("Edit Mode"), value_on = 'Edit')
+	AddModeCmd('EditMode', _("Edit Mode"), value_on='Edit')
 	def EditMode(self):
 		self.begin_transaction()
 		self.document.SetMode(EditMode)
@@ -1123,7 +1090,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		handle = self.handle_hit(p)
 		if handle is None:
 			self.hitgc.StartOutlineMode()
-			is_hit = self.document.SelectionHit(p, self.hitgc, test_all = 0)
+			is_hit = self.document.SelectionHit(p, self.hitgc, test_all=0)
 			self.hitgc.EndOutlineMode()
 		else:
 			is_hit = 1
@@ -1152,14 +1119,14 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.document.SelectHandle(handle, selection_type(state))
 		else:
 			self.hitgc.StartOutlineMode()
-			is_hit = self.document.SelectionHit(p, self.hitgc, test_all = 0)
+			is_hit = self.document.SelectionHit(p, self.hitgc, test_all=0)
 			self.hitgc.EndOutlineMode()
 			if is_hit:
 				self.document.SelectPointPart(p, self.hitgc)
 			else:
 				self.document.SelectPoint(p, self.hitgc)
 
-	def edit_up(self, p, button, state, force_stop = stop_continue):
+	def edit_up(self, p, button, state, force_stop=stop_continue):
 		if not self.dragging:
 			self.edit_click(p, button, state)
 		else:
@@ -1171,7 +1138,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				# a guideline
 				x = self.last_event.x
 				y = self.last_event.y
-				if 0 <= x < self.winfo_width() and 0<= y <=self.winfo_height():
+				if 0 <= x < self.winfo_width() and 0 <= y <= self.winfo_height():
 					self.document.MoveGuideLine(obj, obj.drag_cur)
 				else:
 					self.document.RemoveGuideLine(obj)
@@ -1211,10 +1178,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#		Place object mode
 	#
 
-	def PlaceObject(self, object, text = None):
+	def PlaceObject(self, object, text=None):
 		self.begin_transaction()
 		if self.IsCreationMode():
-			self.creation_exit(set_mode = 1)
+			self.creation_exit(set_mode=1)
 		self.enter_mode(self.modes.place_mode, object, text)
 		self.end_transaction()
 
@@ -1242,7 +1209,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		else:
 			self.place_object.SetLowerLeftCorner(p)
 			self.current = SelectionRectangle(self.place_object.coord_rect,
-									anchor = self.place_object.LayoutPoint())
+									anchor=self.place_object.LayoutPoint())
 			self.current.Select()
 		# selection rect doesn't use button and state:
 		self.set_correction(self.current.ButtonDown(p, 0, state))
@@ -1272,7 +1239,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.dragging = 0
 		self.start_drag = 0
 
-	def place_end(self, p, button, state, force_stop = stop_continue):
+	def place_end(self, p, button, state, force_stop=stop_continue):
 		self.pop_cursor_state()
 		if self.current is None:
 			return
@@ -1305,7 +1272,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#		Pick object mode
 	#
 
-	def PickObject(self, callback, args = ()):
+	def PickObject(self, callback, args=()):
 		self.SelectionMode()
 		self.begin_transaction()
 		self.enter_mode(self.modes.pick_mode, callback, args)
@@ -1323,7 +1290,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.pop_cursor_state()
 		self.pick_object_cb = None
 
-	def pick_end(self, p, button, state, force_stop = stop_continue):
+	def pick_end(self, p, button, state, force_stop=stop_continue):
 		self.pop_cursor_state()
 		object = self.document.PickObject(self.hitgc, p)
 		cb, args = self.pick_object_cb
@@ -1335,8 +1302,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#		Zoom mode
 	#
 
-	AddModeCmd('ZoomMode', _("Zoom Area"), key_stroke = 'F2', #bitmap = pixmaps.Zoom,
-				value_on = 'Zoom')
+	AddModeCmd('ZoomMode', _("Zoom Area"), key_stroke='F2',#bitmap = pixmaps.Zoom,
+				value_on='Zoom')
 	def ZoomMode(self):
 		self.begin_transaction()
 		self.enter_mode(self.modes.zoom_mode)
@@ -1356,7 +1323,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.dragging = 0
 		self.start_drag = 0
 
-	def zoom_end(self, p, button, state, force_stop = stop_continue):
+	def zoom_end(self, p, button, state, force_stop=stop_continue):
 		self.pop_cursor_state()
 		obj = None
 		if self.current is not None:
@@ -1383,7 +1350,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 				scale = (self.scale ** 2) / max(scalex, scaley)
 				x, y = self.DocToWin(rect.center())
 				center = rect.center() + Point(width / 2 - x,
-												-height / 2 + y) / scale
+												- height / 2 + y) / scale
 			else:
 				scale = min(scalex, scaley, self.max_scale)
 				center = rect.center()
@@ -1393,8 +1360,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			else:
 				scale = 2 * self.scale
 			center = p
-		self.SetScale(scale / self.pixel_per_point, do_center = 0)
-		self.SetCenter(center, move_contents = 0)
+		self.SetScale(scale / self.pixel_per_point, do_center=0)
+		self.SetCenter(center, move_contents=0)
 
 		self.start_drag = 0
 		self.dragging = 0
@@ -1403,8 +1370,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#	Other mode related methods
 	#
 
-	AddCmd('ToggleMode', _("Toggle Mode"), key_stroke = (' ', 'Ctrl+space'),
-			subscribe_to = None)
+	AddCmd('ToggleMode', _("Toggle Mode"), key_stroke=(' ', 'Ctrl+space'),
+			subscribe_to=None)
 	def ToggleMode(self):
 		self.begin_transaction()
 		try:
@@ -1440,10 +1407,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def PageInfoText(self):
 		layout = self.document.Layout()
-		form_p= layout.FormatName()
-		hor_p= ceil(floor(10**3*(layout.Width())/2.83465)/10)/100
-		ver_p= ceil(floor(10**3*(layout.Height())/2.83465)/10)/100
-		res=  'Page: '+form_p +  '  \n  ' + str(hor_p)+ ' x ' + str(ver_p)+ ' mm  '
+		form_p = layout.FormatName()
+		hor_p = ceil(floor(10 ** 3 * (layout.Width()) / 2.83465) / 10) / 100
+		ver_p = ceil(floor(10 ** 3 * (layout.Height()) / 2.83465) / 10) / 100
+		res = 'Page: ' + form_p + '  \n  ' + str(hor_p) + ' x ' + str(ver_p) + ' mm  '
 		return res
 
 	def SelectionSizeData(self):
@@ -1456,9 +1423,9 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		if self.document.selection.objects:
 			sel_info = self.document.selection.objects
 			br = self.document.selection.coord_rect
-			hor_sel=ceil(floor(10**3*(br.right - br.left)/2.83465)/10)/100
-			ver_sel=ceil(floor(10**3*(br.top - br.bottom)/2.83465)/10)/100
-			result = " "+str(hor_sel)+" mm \n "+str(ver_sel) +" mm "
+			hor_sel = ceil(floor(10 ** 3 * (br.right - br.left) / 2.83465) / 10) / 100
+			ver_sel = ceil(floor(10 ** 3 * (br.top - br.bottom) / 2.83465) / 10) / 100
+			result = " " + str(hor_sel) + " mm \n " + str(ver_sel) + " mm "
 		return result
 
 	def ModeName(self):
@@ -1504,8 +1471,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	def idle_update_snap_points(self):
 		self.snap_update_installed = 0
 		self.snap_points = []
-		self.document.WalkHierarchy(self.extract_snap_points, visible = 1,
-									printable = 0)
+		self.document.WalkHierarchy(self.extract_snap_points, visible=1,
+									printable=0)
 		self.snap_points.sort()
 
 	def correct_and_snap(self, point):
@@ -1513,7 +1480,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		points = [point]
 		if self.correction_rect and self.snap_correction_rect:
 			l, b, r, t = self.correction_rect.translated(point)
-			points = points + [Point(l,b), Point(l,t), Point(r,b), Point(r,t)]
+			points = points + [Point(l, b), Point(l, t), Point(r, b), Point(r, t)]
 
 		if self.dragging and self.start_pos \
 			and self.snap_move_relative:
@@ -1593,13 +1560,13 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 		result = min(pgrid, pguide, pobj, pmax)
 		return result
-	
+
 	AddCmd('UseXlibRenderer', _("Use Xlib Renderer"),
-			value = 0, value_cb = 'IsUsedXlibRenderer', is_check = 1)
+			value=0, value_cb='IsUsedXlibRenderer', is_check=1)
 	def UseXlibRenderer(self):
 		self.begin_transaction()
 		try:
-			config.preferences.cairo_enabled=0
+			config.preferences.cairo_enabled = 0
 			config.preferences.alpha_channel_enabled = -1
 			self.ForceRedraw()
 			self.issue_state()
@@ -1607,26 +1574,26 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.end_transaction()
 
 	def IsUsedXlibRenderer(self):
-		return abs(config.preferences.cairo_enabled-1)
-	
+		return abs(config.preferences.cairo_enabled - 1)
+
 	AddCmd('UseCairoRenderer', _("Use Cairo Renderer"),
-			value = 0, value_cb = 'IsUsedCairoRenderer', is_check = 1)
+			value=0, value_cb='IsUsedCairoRenderer', is_check=1)
 	def UseCairoRenderer(self):
 		self.begin_transaction()
 		try:
-			config.preferences.cairo_enabled=1
+			config.preferences.cairo_enabled = 1
 			if config.preferences.alpha_channel_enabled == -1:
 				config.preferences.alpha_channel_enabled = 1
 			self.ForceRedraw()
 			self.issue_state()
 		finally:
-			self.end_transaction()		
+			self.end_transaction()
 
 	def IsUsedCairoRenderer(self):
 		return config.preferences.cairo_enabled
 
 	AddCmd('AllowAlphaChannel', _("Alpha Channel"),
-			value = 0, value_cb = 'IsAlphaChannelAllowed', is_check = 1)
+			value=0, value_cb='IsAlphaChannelAllowed', is_check=1)
 	def AllowAlphaChannel(self):
 		self.begin_transaction()
 		try:
@@ -1635,13 +1602,13 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.ForceRedraw()
 			self.issue_state()
 		finally:
-			self.end_transaction()		
+			self.end_transaction()
 
 	def IsAlphaChannelAllowed(self):
 		return config.preferences.alpha_channel_enabled
-	
+
 	AddCmd('AllowCMS', _("Color Managment"),
-			value = 0, value_cb = 'IsCMSAllowed', is_check = 1)
+			value=0, value_cb='IsCMSAllowed', is_check=1)
 	def AllowCMS(self):
 		self.begin_transaction()
 		try:
@@ -1652,13 +1619,13 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.main_window.palette.RedrawMethod()
 			self.issue_state()
 		finally:
-			self.end_transaction()		
+			self.end_transaction()
 
 	def IsCMSAllowed(self):
 		return config.preferences.use_cms
 
 	AddCmd('ToggleSnapToGrid', _("Snap to Grid"),
-			value = 0, value_cb = 'IsSnappingToGrid', is_check = 1, key_stroke = ('Ctrl+Y','Ctrl+y'))
+			value=0, value_cb='IsSnappingToGrid', is_check=1, key_stroke=('Ctrl+Y', 'Ctrl+y'))
 	def ToggleSnapToGrid(self):
 		self.begin_transaction()
 		try:
@@ -1672,7 +1639,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 
 	AddCmd('ToggleSnapToObjects', _("Snap to Objects"),
-			value = 0, value_cb = 'IsSnappingToObjects', is_check = 1)
+			value=0, value_cb='IsSnappingToObjects', is_check=1)
 	def ToggleSnapToObjects(self):
 		self.begin_transaction()
 		try:
@@ -1687,7 +1654,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return self.snap_to_object
 
 	AddCmd('ToggleSnapToGuides', _("Snap to Guides"),
-			value = 0, value_cb = 'IsSnappingToGuides', is_check = 1, key_stroke = ('Alt+Y','Alt+y'))
+			value=0, value_cb='IsSnappingToGuides', is_check=1, key_stroke=('Alt+Y', 'Alt+y'))
 	def ToggleSnapToGuides(self):
 		self.begin_transaction()
 		try:
@@ -1700,7 +1667,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return self.snap_to_guide
 
 	AddCmd('ToggleSnapBoundingRect', _("Snap Bounding Rect"),
-			value = 0, value_cb = 'IsSnappingBoundingRect', is_check = 1)
+			value=0, value_cb='IsSnappingBoundingRect', is_check=1)
 	def ToggleSnapBoundingRect(self):
 		self.begin_transaction()
 		try:
@@ -1713,7 +1680,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return self.snap_correction_rect
 
 	AddCmd('ToggleSnapMoveRelative', _("Snap Move Relative"),
-			value = 0, value_cb = 'IsSnappingRelative', is_check = 1)
+			value=0, value_cb='IsSnappingRelative', is_check=1)
 	def ToggleSnapMoveRelative(self):
 		self.begin_transaction()
 		try:
@@ -1735,7 +1702,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		if self.snap_to_guide:
 			snap.append(_("Guide"))
 		if snap:
-			return _("Snap:")+" " + string.join(snap, '/')
+			return _("Snap:") + " " + string.join(snap, '/')
 		return _("No Snap")
 
 	#
@@ -1756,7 +1723,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		self.invgc.gc.DrawLine(x, 0, x, height)
 		self.crosshairs_pos = pos
 
-	def show_crosshairs(self, force = 0):
+	def show_crosshairs(self, force=0):
 		if self.crosshairs and self.crosshairs_visible:
 			if not self.crosshairs_drawn or force:
 				self.draw_crosshairs(self.current_pos)
@@ -1767,8 +1734,8 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.draw_crosshairs(self.crosshairs_pos)
 		self.crosshairs_drawn = 0
 
-	AddCmd('ToggleCrosshairs', _("Crosshairs"), key_stroke = 'Shift+F2',
-			value = 0, value_cb = 'IsShowingCrosshairs', is_check = 1)
+	AddCmd('ToggleCrosshairs', _("Crosshairs"), key_stroke='Shift+F2',
+			value=0, value_cb='IsShowingCrosshairs', is_check=1)
 	def ToggleCrosshairs(self):
 		self.begin_transaction()
 		try:
@@ -1783,7 +1750,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		return self.crosshairs
 
 
-	
+
 	#
 	#	Handles
 	#
@@ -1855,10 +1822,10 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 		self.hide_handles()
 		self.handle_points = points
-		self.handle_funcs  = funcs
+		self.handle_funcs = funcs
 		self.show_handles()
 
-	def show_handles(self, force = 0):
+	def show_handles(self, force=0):
 		if __debug__:
 			pdebug('handles',
 					'show_handles: drawn = %d, force = %d, update = %d',
@@ -1922,29 +1889,29 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#	whenever the displayed area changes
 	#
 
-	AddCmd('ForceRedraw', _("Refresh Window"), key_stroke = ('Alt+R','Alt+r'), subscribe_to = None)
-	
+	AddCmd('ForceRedraw', _("Refresh Window"), key_stroke=('Alt+R', 'Alt+r'), subscribe_to=None)
+
 	def ForceRedraw(self):
-		self.bitmap_buffer=None
+		self.bitmap_buffer = None
 		SketchView.ForceRedraw(self)
 
 
-	def set_origin(self, xorg, yorg, move_contents = 1):
+	def set_origin(self, xorg, yorg, move_contents=1):
 		self.begin_transaction()
 		try:
 			#self.hide_handles()
 			SketchView.set_origin(self, xorg, yorg,
-									move_contents = move_contents)
+									move_contents=move_contents)
 			self.queue_update_handles()
 		finally:
 			self.end_transaction()
 
-	def SetScale(self, scale, do_center = 1):
+	def SetScale(self, scale, do_center=1):
 		# Set current scale
 		self.begin_transaction()
 		try:
-			self.hide_handles() # XXX: really necessary ?
-			SketchView.SetScale(self, scale, do_center = do_center)
+			self.hide_handles()# XXX: really necessary ?
+			SketchView.SetScale(self, scale, do_center=do_center)
 			self.queue_update_handles()
 		finally:
 			self.end_transaction()
@@ -1952,53 +1919,53 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def ZoomFactor(self, factor):
 		self.SetScale(self.scale * factor)
-	AddCmd('ZoomIn', _("Zoom In"), 'ZoomFactor', args = 2.0, #bitmap = pixmaps.ZoomIn,
-		   key_stroke = '>')
-	AddCmd('ZoomOut', _("Zoom Out"), 'ZoomFactor', args = 0.5, #bitmap = pixmaps.ZoomOut,
-		   key_stroke = '<')
-			
+	AddCmd('ZoomIn', _("Zoom In"), 'ZoomFactor', args=2.0,#bitmap = pixmaps.ZoomIn,
+		   key_stroke='>')
+	AddCmd('ZoomOut', _("Zoom Out"), 'ZoomFactor', args=0.5,#bitmap = pixmaps.ZoomOut,
+		   key_stroke='<')
+
 
 
 	# add commands for inherited methods
-	AddCmd('ScrollYPages', 'Page Up', args = -1,# key_stroke = 'Prior',
-			subscribe_to = None)
-	AddCmd('ScrollYPages', 'Page Down', args = +1,# key_stroke = 'Next',
-			subscribe_to = None)
+	AddCmd('ScrollYPages', 'Page Up', args=-1,# key_stroke = 'Prior',
+			subscribe_to=None)
+	AddCmd('ScrollYPages', 'Page Down', args=+1,# key_stroke = 'Next',
+			subscribe_to=None)
 
 	# scrolling with the cursor keys
-	AddCmd('ScrollYPages', '', args = -1, key_stroke = 'Ctrl+Up', subscribe_to = None)
-	AddCmd('ScrollYPages', '', args = +1, key_stroke = 'Ctrl+Down', subscribe_to = None)
-	AddCmd('ScrollXPages', '', args = -1, key_stroke = 'Ctrl+Left', subscribe_to = None)
-	AddCmd('ScrollXPages', '', args = +1, key_stroke = 'Ctrl+Right', subscribe_to = None)
+	AddCmd('ScrollYPages', '', args=-1, key_stroke='Ctrl+Up', subscribe_to=None)
+	AddCmd('ScrollYPages', '', args=+1, key_stroke='Ctrl+Down', subscribe_to=None)
+	AddCmd('ScrollXPages', '', args=-1, key_stroke='Ctrl+Left', subscribe_to=None)
+	AddCmd('ScrollXPages', '', args=+1, key_stroke='Ctrl+Right', subscribe_to=None)
 
 	#	other view related methods
 
-	AddCmd('FitToWindow', _("Fit to Window"), key_stroke = 'F4', subscribe_to = None)
-	AddSelCmd('FitSelectedToWindow', _("Fit Selected to Window"), 'FitToWindow', args = 1, key_stroke = 'F1')
-	
-	def FitToWindow(self, selected_only = 0, save_viewport = 1):
+	AddCmd('FitToWindow', _("Fit to Window"), key_stroke='F4', subscribe_to=None)
+	AddSelCmd('FitSelectedToWindow', _("Fit Selected to Window"), 'FitToWindow', args=1, key_stroke='F1')
+
+	def FitToWindow(self, selected_only=0, save_viewport=1):
 		self.begin_transaction()
 		try:
-			self.hide_handles() # XXX: really necessary ?
-			SketchView.FitToWindow(self, selected_only = selected_only,
-									save_viewport = save_viewport)
+			self.hide_handles()# XXX: really necessary ?
+			SketchView.FitToWindow(self, selected_only=selected_only,
+									save_viewport=save_viewport)
 		finally:
 			self.end_transaction()
 
-	AddCmd('FitPageToWindow', _("Fit Page to Window"), key_stroke = 'Alt+F1', #bitmap = pixmaps.FitToPage,
-		   subscribe_to = None)
-	def FitPageToWindow(self, save_viewport = 1):
+	AddCmd('FitPageToWindow', _("Fit Page to Window"), key_stroke='Alt+F1',#bitmap = pixmaps.FitToPage,
+		   subscribe_to=None)
+	def FitPageToWindow(self, save_viewport=1):
 		self.begin_transaction()
 		try:
-			self.hide_handles()	 # XXX: really necessary ?
-			SketchView.FitPageToWindow(self, save_viewport = save_viewport)
+			self.hide_handles()# XXX: really necessary ?
+			SketchView.FitPageToWindow(self, save_viewport=save_viewport)
 		finally:
 			self.end_transaction()
 
 	def CanRestoreViewport(self):
 		return len(self.viewport_ring)
 
-	AddCmd('RestoreViewport', _("Restore Previous View"), key_stroke = 'F3', subscribe_to = VIEW, sensitive_cb = 'CanRestoreViewport')
+	AddCmd('RestoreViewport', _("Restore Previous View"), key_stroke='F3', subscribe_to=VIEW, sensitive_cb='CanRestoreViewport')
 	def RestoreViewport(self):
 		if self.viewport_ring:
 			self.begin_transaction()
@@ -2007,18 +1974,18 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			finally:
 				self.end_transaction()
 
-	AddCmd('ToggleOutlineMode', _("Contour View"), key_stroke = 'F9',
-			value = 0, value_cb = 'IsOutlineMode', subscribe_to = VIEW,
-			is_check = 1)
+	AddCmd('ToggleOutlineMode', _("Contour View"), key_stroke='F9',
+			value=0, value_cb='IsOutlineMode', subscribe_to=VIEW,
+			is_check=1)
 
 	AddCmd('TogglePageOutlineMode', _("Draw Page Border"),
-			value = 0, value_cb = 'IsPageOutlineMode', subscribe_to = VIEW,
-			is_check = 1)
-	
+			value=0, value_cb='IsPageOutlineMode', subscribe_to=VIEW,
+			is_check=1)
+
 	AddCmd('ToggleShowGrid', _("Show Grid"),
-			value = 0, value_cb = 'IsGridVisible', subscribe_to = GRID,
-			is_check = 1)
-	
+			value=0, value_cb='IsGridVisible', subscribe_to=GRID,
+			is_check=1)
+
 	def ToggleShowGrid(self):
 		if self.document.IsGridVisible():
 			self.document.ShowGrid(0)
@@ -2026,7 +1993,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.document.ShowGrid(1)
 		self.ForceRedraw()
 		self.issue(GRID)
-		
+
 
 	def IsGridVisible(self):
 		return self.document.IsGridVisible()
@@ -2036,14 +2003,14 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 
 	def unsubscribe_doc(self):
 		if self.document is not None:
-			self.document.Unsubscribe(SELECTION,self.selection_changed)
-			self.document.Unsubscribe(EDITED,self.doc_was_edited)
+			self.document.Unsubscribe(SELECTION, self.selection_changed)
+			self.document.Unsubscribe(EDITED, self.doc_was_edited)
 			self.document.Unsubscribe(MODE, self.set_mode_from_doc)
 		SketchView.unsubscribe_doc(self)
 
 	def subscribe_doc(self):
 		self.document.Subscribe(SELECTION, self.selection_changed)
-		self.document.Subscribe(EDITED,self.doc_was_edited)
+		self.document.Subscribe(EDITED, self.doc_was_edited)
 		self.document.Subscribe(MODE, self.set_mode_from_doc)
 		SketchView.subscribe_doc(self)
 
@@ -2067,7 +2034,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 	#
 
 	AddSelCmd('FillSolid', _("Set Fill Color..."))
-	def FillSolid(self, col = None):
+	def FillSolid(self, col=None):
 		# Set the fill style of the currently selected objects to a
 		# solid fill of color COL. If COL is None let the user
 		# interactively select a color.

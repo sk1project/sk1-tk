@@ -47,7 +47,6 @@ class PluginContainer(ResizableTFrame):
 			self.visible = 0
 			self.forget()
 			self.master['width'] = 1
-			self.mw.canvas.clear_buffer_bitmap()
 
 	def loadByName(self, name):
 		plugin = None
