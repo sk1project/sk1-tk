@@ -1262,9 +1262,9 @@ class sK1MainWindow(Publisher):
 			self.dialogs[dlgname] = dialog
 
 	def LoadPlugin(self, pluginname):
+		self.pc.loadByName(pluginname)
 		if not self.pc.visible:
 			self.PCshowHide()
-		self.pc.loadByName(pluginname)
 
 	def HideDialogs(self):
 		for dialog in self.dialogs.values():
