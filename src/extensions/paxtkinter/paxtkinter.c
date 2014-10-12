@@ -2019,7 +2019,7 @@ ins_string(PyObject *d, char *name, char *val)
 
 
 void
-init_tkinter(void) /* function name changed for pax */
+initpaxtkinter(void) /* function name changed for pax */
 {
 	PyObject *m, *d;
 
@@ -2030,7 +2030,7 @@ init_tkinter(void) /* function name changed for pax */
 #endif
 
 	/* module name changed for pax */
-	m = Py_InitModule("_tkinter", moduleMethods);
+	m = Py_InitModule("paxtkinter", moduleMethods);
 
 	d = PyModule_GetDict(m);
 	Tkinter_TclError = Py_BuildValue("s", "TclError");

@@ -36,8 +36,8 @@ import sys
 if sys.platform == "win32":
     # Attempt to configure Tcl/Tk without requiring PATH
     import FixTk
-from sk1sdk.libtk import _tkinter # If this fails your Python may not be configured for Tk
-tkinter = _tkinter # b/w compat for export
+import _tkinter# If this fails your Python may not be configured for Tk
+tkinter = _tkinter# b/w compat for export
 TclError = _tkinter.TclError
 from types import *
 from Tkconstants import *
@@ -387,14 +387,14 @@ class Misc:
               + _flatten(args) + _flatten(kw.items()))
     def tk_menuBar(self, *args):
         """Do not use. Needed in Tk 3.6 and earlier."""
-        pass # obsolete since Tk 4.0
+        pass# obsolete since Tk 4.0
     def wait_variable(self, name='PY_VAR'):
         """Wait until the variable is modified.
 
         A parameter of type IntVar, StringVar, DoubleVar or
         BooleanVar must be given."""
         self.tk.call('tkwait', 'variable', name)
-    waitvar = wait_variable # XXX b/w compat
+    waitvar = wait_variable# XXX b/w compat
     def wait_window(self, window=None):
         """Wait until a WIDGET is destroyed.
 
@@ -428,7 +428,7 @@ class Misc:
         this widget will get the focus if the application gets
         the focus through the window manager."""
         self.tk.call('focus', self._w)
-    focus = focus_set # XXX b/w compat?
+    focus = focus_set# XXX b/w compat?
     def focus_force(self):
         """Direct input focus to this widget even if the
         application does not have the focus. Use with
@@ -587,7 +587,7 @@ class Misc:
         status = self.tk.call('grab', 'status', self._w)
         if status == 'none': status = None
         return status
-    def option_add(self, pattern, value, priority = None):
+    def option_add(self, pattern, value, priority=None):
         """Set a VALUE (second parameter) for an option
         PATTERN (first parameter).
 
@@ -605,7 +605,7 @@ class Misc:
 
         Values with higher priority override lower values."""
         return self.tk.call('option', 'get', self._w, name, className)
-    def option_readfile(self, fileName, priority = None):
+    def option_readfile(self, fileName, priority=None):
         """Read file FILENAME into the option database.
 
         An optional second parameter gives the numeric
@@ -1037,7 +1037,7 @@ class Misc:
         if displayof is None:
             return ('-displayof', self._w)
         return ()
-    def _options(self, cnf, kw = None):
+    def _options(self, cnf, kw=None):
         """Internal function."""
         if kw:
             cnf = _cnfmerge((cnf, kw))
@@ -1061,7 +1061,7 @@ class Misc:
                             nv.append(('{%s}' if ' ' in item else '%s') % item)
                     else:
                         v = ' '.join(nv)
-                res = res + ('-'+k, v)
+                res = res + ('-' + k, v)
         return res
     def nametowidget(self, name):
         """Return the Tkinter instance of a widget identified by
@@ -1188,7 +1188,7 @@ class Misc:
             return cnf
         if type(cnf) is StringType:
             x = self.tk.split(
-                    self.tk.call(_flatten((self._w, cmd, '-'+cnf))))
+                    self.tk.call(_flatten((self._w, cmd, '-' + cnf))))
             return (x[0][1:],) + x[1:]
         self.tk.call(_flatten((self._w, cmd)) + self._options(cnf))
     # These used to be defined in Widget:
@@ -1273,7 +1273,7 @@ class Misc:
             if cnf[-1:] == '_':
                 cnf = cnf[:-1]
             if cnf[:1] != '-':
-                cnf = '-'+cnf
+                cnf = '-' + cnf
             options = (cnf,)
         else:
             options = self._options(cnf, kw)
@@ -1284,7 +1284,7 @@ class Misc:
             dict = {}
             for i in range(0, len(words), 2):
                 key = words[i][1:]
-                value = words[i+1]
+                value = words[i + 1]
                 if not value:
                     value = None
                 elif '.' in value:
@@ -1449,7 +1449,7 @@ class Wm:
         """
         args = ('wm', 'attributes', self._w) + args
         return self.tk.call(args)
-    attributes=wm_attributes
+    attributes = wm_attributes
 
     def wm_client(self, name=None):
         """Store NAME in WM_CLIENT_MACHINE property of this widget. Return
@@ -1461,7 +1461,7 @@ class Wm:
         of this widget. This list contains windows whose colormaps differ from their
         parents. Return current list of widgets if WLIST is empty."""
         if len(wlist) > 1:
-            wlist = (wlist,) # Tk needs a list of windows here
+            wlist = (wlist,)# Tk needs a list of windows here
         args = ('wm', 'colormapwindows', self._w) + wlist
         return map(self._nametowidget, self.tk.call(args))
     colormapwindows = wm_colormapwindows
@@ -1775,7 +1775,7 @@ class Pack:
         dict = {}
         for i in range(0, len(words), 2):
             key = words[i][1:]
-            value = words[i+1]
+            value = words[i + 1]
             if value[:1] == '.':
                 value = self._nametowidget(value)
             dict[key] = value
@@ -1826,7 +1826,7 @@ class Place:
         dict = {}
         for i in range(0, len(words), 2):
             key = words[i][1:]
-            value = words[i+1]
+            value = words[i + 1]
             if value[:1] == '.':
                 value = self._nametowidget(value)
             dict[key] = value
@@ -1875,7 +1875,7 @@ class Grid:
         dict = {}
         for i in range(0, len(words), 2):
             key = words[i][1:]
-            value = words[i+1]
+            value = words[i + 1]
             if value[:1] == '.':
                 value = self._nametowidget(value)
             dict[key] = value
@@ -1906,7 +1906,7 @@ class BaseWidget(Misc):
         if not name:
             name = repr(id(self))
         self._name = name
-        if master._w=='.':
+        if master._w == '.':
             self._w = '.' + name
         else:
             self._w = master._w + '.' + name
@@ -1968,8 +1968,8 @@ class Toplevel(BaseWidget, Wm):
                 val = cnf[wmkey]
                 # TBD: a hack needed because some keys
                 # are not valid as keyword arguments
-                if wmkey[-1] == '_': opt = '-'+wmkey[:-1]
-                else: opt = '-'+wmkey
+                if wmkey[-1] == '_': opt = '-' + wmkey[:-1]
+                else: opt = '-' + wmkey
                 extra = extra + (opt, val)
                 del cnf[wmkey]
         BaseWidget.__init__(self, master, 'toplevel', cnf, {}, extra)
@@ -2134,7 +2134,7 @@ class Canvas(Widget):
         return map(getdouble,
                            self.tk.splitlist(
                    self.tk.call((self._w, 'coords') + args)))
-    def _create(self, itemType, args, kw): # Args: (val, val, ..., cnf={})
+    def _create(self, itemType, args, kw):# Args: (val, val, ..., cnf={})
         """Internal function."""
         args = _flatten(args)
         cnf = args[-1]
@@ -2234,7 +2234,7 @@ class Canvas(Widget):
     def itemcget(self, tagOrId, option):
         """Return the resource value for an OPTION for item TAGORID."""
         return self.tk.call(
-            (self._w, 'itemcget') + (tagOrId, '-'+option))
+            (self._w, 'itemcget') + (tagOrId, '-' + option))
     def itemconfigure(self, tagOrId, cnf=None, **kw):
         """Configure resources of an item TAGORID.
 
@@ -2571,7 +2571,7 @@ class Listbox(Widget):
     def itemcget(self, index, option):
         """Return the resource value for an ITEM and an OPTION."""
         return self.tk.call(
-            (self._w, 'itemcget') + (index, '-'+option))
+            (self._w, 'itemcget') + (index, '-' + option))
     def itemconfigure(self, index, cnf=None, **kw):
         """Configure resources of an ITEM.
 
@@ -2594,7 +2594,7 @@ class Menu(Widget):
         selectcolor, takefocus, tearoff, tearoffcommand, title, type."""
         Widget.__init__(self, master, 'menu', cnf, kw)
     def tk_bindForTraversal(self):
-        pass # obsolete since Tk 4.0
+        pass# obsolete since Tk 4.0
     def tk_mbPost(self):
         self.tk.call('tk_mbPost', self._w)
     def tk_mbUnpost(self):
@@ -3196,7 +3196,7 @@ class OptionMenu(Menubutton):
         if kwargs.has_key('command'):
             del kwargs['command']
         if kwargs:
-            raise TclError, 'unknown option -'+kwargs.keys()[0]
+            raise TclError, 'unknown option -' + kwargs.keys()[0]
         menu.add_command(label=value,
                  command=_setit(variable, value, callback))
         for v in values:
@@ -3226,7 +3226,7 @@ class Image:
         self.tk = master.tk
         if not name:
             Image._last_id += 1
-            name = "pyimage%r" % (Image._last_id,) # tk itself would use image<x>
+            name = "pyimage%r" % (Image._last_id,)# tk itself would use image<x>
             # The following is needed for systems where id(x)
             # can return a negative number, such as Linux/m68k:
             if name[0] == '-': name = '_' + name[1:]
@@ -3236,7 +3236,7 @@ class Image:
         for k, v in cnf.items():
             if callable(v):
                 v = self._register(v)
-            options = options + ('-'+k, v)
+            options = options + ('-' + k, v)
         self.tk.call(('image', 'create', imgtype, name,) + options)
         self.name = name
     def __str__(self): return self.name
@@ -3248,9 +3248,9 @@ class Image:
                 # May happen if the root was destroyed
                 pass
     def __setitem__(self, key, value):
-        self.tk.call(self.name, 'configure', '-'+key, value)
+        self.tk.call(self.name, 'configure', '-' + key, value)
     def __getitem__(self, key):
-        return self.tk.call(self.name, 'configure', '-'+key)
+        return self.tk.call(self.name, 'configure', '-' + key)
     def configure(self, **kw):
         """Configure the image."""
         res = ()
@@ -3259,7 +3259,7 @@ class Image:
                 if k[-1] == '_': k = k[:-1]
                 if callable(v):
                     v = self._register(v)
-                res = res + ('-'+k, v)
+                res = res + ('-' + k, v)
         self.tk.call((self.name, 'config') + res)
     config = configure
     def height(self):
@@ -3297,19 +3297,19 @@ class PhotoImage(Image):
         destImage = PhotoImage()
         self.tk.call(destImage, 'copy', self.name)
         return destImage
-    def zoom(self,x,y=''):
+    def zoom(self, x, y=''):
         """Return a new PhotoImage with the same image as this widget
         but zoom it with X and Y."""
         destImage = PhotoImage()
-        if y=='': y=x
-        self.tk.call(destImage, 'copy', self.name, '-zoom',x,y)
+        if y == '': y = x
+        self.tk.call(destImage, 'copy', self.name, '-zoom', x, y)
         return destImage
-    def subsample(self,x,y=''):
+    def subsample(self, x, y=''):
         """Return a new PhotoImage based on the same image as this widget
         but use only every Xth or Yth pixel."""
         destImage = PhotoImage()
-        if y=='': y=x
-        self.tk.call(destImage, 'copy', self.name, '-subsample',x,y)
+        if y == '': y = x
+        self.tk.call(destImage, 'copy', self.name, '-subsample', x, y)
         return destImage
     def get(self, x, y):
         """Return the color (red, green, blue) of the pixel at X,Y."""
@@ -3560,7 +3560,7 @@ class PanedWindow(Widget):
         All geometry management options for child will be forgotten.
         """
         self.tk.call(self._w, 'forget', child)
-    forget=remove
+    forget = remove
 
     def identify(self, x, y):
         """Identify the panedwindow component at point x, y
@@ -3631,7 +3631,7 @@ class PanedWindow(Widget):
         Option may be any value allowed by the paneconfigure subcommand
         """
         return self.tk.call(
-            (self._w, 'panecget') + (child, '-'+option))
+            (self._w, 'panecget') + (child, '-' + option))
 
     def paneconfigure(self, tagOrId, cnf=None, **kw):
         """Query or modify the management options for window.
@@ -3710,7 +3710,7 @@ class PanedWindow(Widget):
             return cnf
         if type(cnf) == StringType and not kw:
             x = self.tk.split(self.tk.call(
-                self._w, 'paneconfigure', tagOrId, '-'+cnf))
+                self._w, 'paneconfigure', tagOrId, '-' + cnf))
             return (x[0][1:],) + x[1:]
         self.tk.call((self._w, 'paneconfigure', tagOrId) +
                  self._options(cnf, kw))
@@ -3726,19 +3726,19 @@ class PanedWindow(Widget):
 class Studbutton(Button):
     def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, 'studbutton', cnf, kw)
-        self.bind('<Any-Enter>',       self.tkButtonEnter)
-        self.bind('<Any-Leave>',       self.tkButtonLeave)
-        self.bind('<1>',               self.tkButtonDown)
+        self.bind('<Any-Enter>', self.tkButtonEnter)
+        self.bind('<Any-Leave>', self.tkButtonLeave)
+        self.bind('<1>', self.tkButtonDown)
         self.bind('<ButtonRelease-1>', self.tkButtonUp)
 
 class Tributton(Button):
     def __init__(self, master=None, cnf={}, **kw):
         Widget.__init__(self, master, 'tributton', cnf, kw)
-        self.bind('<Any-Enter>',       self.tkButtonEnter)
-        self.bind('<Any-Leave>',       self.tkButtonLeave)
-        self.bind('<1>',               self.tkButtonDown)
+        self.bind('<Any-Enter>', self.tkButtonEnter)
+        self.bind('<Any-Leave>', self.tkButtonLeave)
+        self.bind('<1>', self.tkButtonDown)
         self.bind('<ButtonRelease-1>', self.tkButtonUp)
-        self['fg']               = self['bg']
+        self['fg'] = self['bg']
         self['activebackground'] = self['bg']
 
 ######################################################################
@@ -3752,7 +3752,7 @@ def _test():
             text = text + unicode("\nThis should be a cedilla: \347",
                                   "iso-8859-1")
         except NameError:
-            pass # no unicode support
+            pass# no unicode support
     label = Label(root, text=text)
     label.pack()
     test = Button(root, text="Click me!",

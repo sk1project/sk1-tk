@@ -190,6 +190,14 @@ from distutils.core import setup, Extension
 
 macros = [('MAJOR_VERSION', '1'), ('MINOR_VERSION', '0')]
 
+paxtkinter_src = os.path.join(src_path, 'extensions', 'paxtkinter')
+files = make_source_list(paxtkinter_src, ['paxtkinter.c'])
+paxtkinter_module = Extension('app.paxtkinter',
+			include_dirs=tcl_include_dirs,
+			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver],
+			define_macros=macros, sources=files)
+modules.append(paxtkinter_module)
+
 filter_src = os.path.join(src_path, 'extensions', 'filter')
 files = ['streamfilter.c', 'filterobj.c', 'linefilter.c',
 		'subfilefilter.c', 'base64filter.c', 'nullfilter.c',
@@ -256,14 +264,6 @@ tkXcursor_module = Extension('sk1sdk.tkXcursor._tkXcursor',
 			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver, 'Xcursor'],
 			define_macros=macros, sources=files)
 modules.append(tkXcursor_module)
-
-paxtkinter_src = os.path.join(src_path, 'sk1sdk', 'libtk', 'libtkinter')
-files = make_source_list(paxtkinter_src, ['_tkinter.c'])
-paxtkinter_module = Extension('sk1sdk.libtk._tkinter',
-			include_dirs=tcl_include_dirs,
-			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver],
-			define_macros=macros, sources=files)
-modules.append(paxtkinter_module)
 
 tkcairo_src = os.path.join(src_path, 'sk1sdk', 'tkcairo')
 files = make_source_list(tkcairo_src, ['_tkcairo.c'])

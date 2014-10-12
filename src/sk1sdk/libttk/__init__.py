@@ -10,8 +10,8 @@ For more info see COPYRIGHTS file in sK1 root directory.
 __version__ = "$Revision: 0.1.0.0 $"
 
 import sys
-from sk1sdk.libtk import _tkinter 
-tkinter = _tkinter 
+import _tkinter
+tkinter = _tkinter
 TclError = _tkinter.TclError
 from types import *
 from sk1sdk.libtk.Tkconstants import *
@@ -106,35 +106,35 @@ class TScrollbar(Tkinter.Widget):
 		"""Set the fractional values of the slider position (upper and
 		lower ends as value between 0 and 1)."""
 		self.tk.call((self._w, 'set') + args)
-	def scroll_up(self,*args):
-		top,down=self.get()
-		offset=0
+	def scroll_up(self, *args):
+		top, down = self.get()
+		offset = 0
 		if top > self.scroll_offset:
-			top-=self.scroll_offset
-			down-=self.scroll_offset
-			offset=-self.scroll_offset
+			top -= self.scroll_offset
+			down -= self.scroll_offset
+			offset = -self.scroll_offset
 		else:
-			top=0
-			down-=top
-			offset-=top
-		self.set(top,down)
+			top = 0
+			down -= top
+			offset -= top
+		self.set(top, down)
 		if self['command'] is not None:
-			self.tk.call(self['command'],'moveto',top)
-	def scroll_down(self,*args):
-		top,down=self.get()
-		offset=0
-		if 1-down > self.scroll_offset:
-			top+=self.scroll_offset
-			down+=self.scroll_offset
-			offset=self.scroll_offset
+			self.tk.call(self['command'], 'moveto', top)
+	def scroll_down(self, *args):
+		top, down = self.get()
+		offset = 0
+		if 1 - down > self.scroll_offset:
+			top += self.scroll_offset
+			down += self.scroll_offset
+			offset = self.scroll_offset
 		else:
-			top+=1-down
-			down=1.0
-			offset=1-down
-		self.set(top,down)
+			top += 1 - down
+			down = 1.0
+			offset = 1 - down
+		self.set(top, down)
 		if self['command'] is not None:
-			self.tk.call(self['command'],'moveto',top)
-#----------------------------------------------------------------------------------------------------------------------------------------	
+			self.tk.call(self['command'], 'moveto', top)
+#----------------------------------------------------------------------------------------------------------------------------------------
 class TFrame(Tkinter.Widget):
 	"""Frame widget which may contain other widgets and can have a 3D border."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -152,7 +152,7 @@ class TFrame(Tkinter.Widget):
 			extra = ('-class', cnf['class'])
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'ttk::frame', cnf, {}, extra)
-#----------------------------------------------------------------------------------------------------------------------------------------	
+#----------------------------------------------------------------------------------------------------------------------------------------
 class TLabelframe(Tkinter.Widget):
 	"""TLabelFrame widget which may contain other widgets."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -170,12 +170,12 @@ class TLabelframe(Tkinter.Widget):
 			extra = ('-class', cnf['class'])
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'ttk::labelframe', cnf, {}, extra)
-#--------------------------------------------------------------------------------------------------	
+#--------------------------------------------------------------------------------------------------
 class TMenubutton(Tkinter.Widget):
 	"""Menubutton widget, obsolete since Tk8.0."""
 	def __init__(self, master=None, cnf={}, **kw):
 		Tkinter.Widget.__init__(self, master, 'ttk::menubutton', cnf, kw)
-#--------------------------------------------------------------------------------------------------	
+#--------------------------------------------------------------------------------------------------
 class TLabel(Tkinter.Widget):
 	"""Label widget which can display text and bitmaps."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -197,7 +197,7 @@ class TLabel(Tkinter.Widget):
 
 		"""
 		Tkinter.Widget.__init__(self, master, 'ttk::label', cnf, kw)
-#--------------------------------------------------------------------------------------------------	
+#--------------------------------------------------------------------------------------------------
 class TCheckbutton(Tkinter.Widget):
 	"""Checkbutton widget which is either in on- or off-state."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -226,7 +226,7 @@ class TCheckbutton(Tkinter.Widget):
 	def toggle(self):
 		"""Toggle the button."""
 		self.tk.call(self._w, 'toggle')
-#--------------------------------------------------------------------------------------------------		
+#--------------------------------------------------------------------------------------------------
 class TRadiobutton(Tkinter.Widget):
 	"""Radiobutton widget which shows only one of several buttons in on-state."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -253,7 +253,7 @@ class TRadiobutton(Tkinter.Widget):
 	def select(self):
 		"""Put the button in on-state."""
 		self.tk.call(self._w, 'select')
-#--------------------------------------------------------------------------------------------------			
+#--------------------------------------------------------------------------------------------------
 class TEntry(Tkinter.Widget):
 	"""Entry widget which allows to display simple text."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -267,7 +267,7 @@ class TEntry(Tkinter.Widget):
 		selectborderwidth, selectforeground, show, state, takefocus,
 		textvariable, validate, validatecommand, vcmd, width,
 		xscrollcommand."""
-		kw['cursor']='xterm'
+		kw['cursor'] = 'xterm'
 		Tkinter.Widget.__init__(self, master, 'ttk::entry', cnf, kw)
 	def delete(self, first, last=None):
 		"""Delete text from FIRST to LAST (not included)."""
@@ -390,11 +390,11 @@ class TButton(Tkinter.Widget):
 		is disabled.
 		"""
 		return self.tk.call(self._w, 'invoke')
-	
+
 	def state(self, state):
 		return self.tk.call(self, 'state', state)
-	
-#----------------------------------------------------------------------------------------------------------------------------------------	
+
+#----------------------------------------------------------------------------------------------------------------------------------------
 class TCombobox(Tkinter.Widget):
 	"""OptionMenu which allows the user to select a value from a menu."""
 	def __init__(self, master, **kwargs):
@@ -429,7 +429,7 @@ class TCombobox(Tkinter.Widget):
 		Tkinter.Widget.destroy(self)
 		#self.__menu = None
 
-#----------------------------------------------------------------------------------------------------------------------------------------	
+#----------------------------------------------------------------------------------------------------------------------------------------
 class LabelFrame(Tkinter.Widget):
 	"""Frame widget which may contain other widgets and can have a 3D border."""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -447,8 +447,8 @@ class LabelFrame(Tkinter.Widget):
 			extra = ('-class', cnf['class'])
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'labelframe', cnf, {}, extra)
-		
-#----------------------------------------------------------------------------------------------------------------------------------------	
+
+#----------------------------------------------------------------------------------------------------------------------------------------
 class TProgressbar(Tkinter.Widget):
 	"""ttk::progressbar - Provide progress feedback"""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -468,28 +468,28 @@ class TProgressbar(Tkinter.Widget):
 			extra = ('-class', cnf['class'])
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'ttk::progressbar', cnf, {}, extra)
-		
+
 	def start(self, interval=50):
 		"""Begin autoincrement mode: schedules a recurring timer event that 
 		calls step every interval milliseconds. If omitted, interval defaults 
 		to 50 milliseconds (20 steps/second)."""
 		self.tk.call(self._w, 'start', interval)
-		
+
 	def stop(self):
 		"""Stop autoincrement mode: cancels any recurring timer event initiated 
 		by pathName start."""
 		self.tk.call(self._w, 'stop')
-		
+
 	def step(self, amount=1.0):
 		"""Increments the -value by amount. amount defaults to 1.0 if omitted."""
 		self.tk.call(self._w, 'step', amount)
-		
+
 	def destroy(self):
 		"""Destroy this widget and the associated menu."""
 		self.stop()
 		Tkinter.Widget.destroy(self)
-		
-#----------------------------------------------------------------------------------------------------------------------------------------	
+
+#----------------------------------------------------------------------------------------------------------------------------------------
 class TNotebook(Tkinter.Widget):
 	"""ttk::notebook - Multi-paned container widget"""
 	def __init__(self, master=None, cnf={}, **kw):
@@ -512,30 +512,30 @@ class TNotebook(Tkinter.Widget):
 			extra = ('-class', cnf['class'])
 			del cnf['class']
 		Tkinter.Widget.__init__(self, master, 'ttk::notebook', cnf, {}, extra)
-		
+
 	def add(self, window, cnf={}, **kw):
 		"""Adds a new tab to the notebook. See TAB OPTIONS for the list of 
 		available options. If window is currently managed by the notebook 
 		but hidden, it is restored to its previous position."""
 		self.tk.call((self._w, 'add', window) + self._options(cnf, kw))
-				
+
 	def forget(self, tabid):
 		"""Removes the tab specified by tabid, unmaps and unmanages the 
 		associated window."""
 		self.tk.call(self._w, 'forget', tabid)
-		
+
 	def hide(self, tabid):
 		"""Hides the tab specified by tabid. The tab will not be displayed, 
 		but the associated window remains managed by the notebook and its 
 		configuration remembered. Hidden tabs may be restored with the add 
 		command."""
 		self.tk.call(self._w, 'hide', tabid)
-		
+
 	def index(self, tabid):
 		"""Returns the numeric index of the tab specified by tabid, or the 
 		total number of tabs if tabid is the string 'end'."""
 		self.tk.call(self._w, 'index', tabid)
-		
+
 	def insert(self, pos, window, cnf={}, **kw):
 		"""Inserts a pane at the specified position. pos is either the string 
 		end, an integer index, or the name of a managed subwindow. If subwindow 
@@ -549,5 +549,4 @@ class TNotebook(Tkinter.Widget):
 		If tabid is omitted, returns the widget name of the currently selected 
 		pane."""
 		self.tk.call(self._w, 'select', tabid)
-		
-	
+

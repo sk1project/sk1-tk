@@ -146,6 +146,10 @@ def init_lib():
 	Issue(None, const.INITIALIZE)
 
 def init_ui():
+    # workaround for a threaded _tkinter in Python 1.5.2
+    if sys.version[:5] >= '1.5.2':
+        import paxtkinter
+        sys.modules['_tkinter'] = paxtkinter
 
 	init_lib()
 
