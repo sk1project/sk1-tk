@@ -9,7 +9,7 @@
 
 from app.events.warn import pdebug
 
-from sk1sdk.libtk.Tkinter import Toplevel
+from Tkinter import Toplevel
 
 
 class ModalDialog:

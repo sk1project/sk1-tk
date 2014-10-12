@@ -44,7 +44,7 @@ from app import _, PostScriptDevice
 
 # for parameter dialogs
 from app.UI.sketchdlg import SKModal
-from sk1sdk.libtk.Tkinter import *
+from Tkinter import *
 
 class CreateRasterParametersDlg(SKModal):
 	"Create Tk Dialog to ask for raster parameters."

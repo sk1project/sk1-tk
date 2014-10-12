@@ -14,8 +14,8 @@ from uniconvertor import cms
 
 from sk1sdk.libttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
 from app.UI.ttk_ext import TSpinbox
-from sk1sdk.libtk.Tkinter import StringVar, Text, TclVersion
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, NONE
+from Tkinter import StringVar, Text, TclVersion
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, NONE
 
 TRANSLATORS = """
 Brazilian Portuguese:

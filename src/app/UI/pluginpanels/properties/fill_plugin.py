@@ -6,8 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton
-from sk1sdk.libtk.Tkinter import IntVar
-from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
+from Tkinter import IntVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.widgets.colorspacesel import ColorSpaceSelector
 from app.UI.widgets.colorchooser import ColorChooserWidget
 from app.UI.widgets.colordigitizer import ColorDigitizer

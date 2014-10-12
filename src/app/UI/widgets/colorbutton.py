@@ -7,7 +7,7 @@
 #
 # The color sample size is 31x20 px
 
-from sk1sdk.libtk.Tkinter import Button
+from Tkinter import Button
 
 def rgb_to_tkcolor(color):
 	"""

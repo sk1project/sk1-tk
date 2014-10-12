@@ -6,8 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton, TLabelframe
-from sk1sdk.libtk.Tkinter import IntVar, DoubleVar, StringVar
-from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
+from Tkinter import IntVar, DoubleVar, StringVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 from app.UI.ttk_ext import TSpinbox
 from app.UI.widgets.colorbutton import TColorButton
 

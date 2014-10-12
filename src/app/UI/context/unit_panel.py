@@ -7,7 +7,7 @@
 
 from sk1sdk.libttk import TLabel, TCombobox
 from app.conf.const import CHANGED
-from sk1sdk.libtk.Tkinter import LEFT, StringVar
+from Tkinter import LEFT, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from sk1sdk.libttk import tooltips

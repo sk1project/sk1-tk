@@ -16,8 +16,8 @@ from app.Graphics import document
 
 from app.conf.const import CLIPBOARD
 
-from sk1sdk.libtk.Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
-from sk1sdk.libtk.Tkinter import Label, Frame, X, TOP, LEFT
+from Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
+from Tkinter import Label, Frame, X, TOP, LEFT
 from app.UI import tkext
 from types import ListType
 

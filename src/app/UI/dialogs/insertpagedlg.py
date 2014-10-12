@@ -13,8 +13,8 @@ from msgdialog import msgDialog
 from sk1sdk.libttk import TButton, TLabel, TFrame
 from app.UI.ttk_ext import TSpinbox
 from app.UI.tkext import UpdatedRadiobutton
-from sk1sdk.libtk.Tkinter import StringVar
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W
+from Tkinter import StringVar
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, W
 
 class InsertPageDialog(ModalDialog):
 

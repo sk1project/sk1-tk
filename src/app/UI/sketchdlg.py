@@ -55,13 +55,13 @@ from app import config
 from app.conf import const
 import app
 
-from sk1sdk.libtk.Tkinter import Toplevel, IntVar, Frame, Checkbutton, Label
+from Tkinter import Toplevel, IntVar, Frame, Checkbutton, Label
 from sk1sdk.libttk import TButton, TLabel, TFrame
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, TkVersion
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, TkVersion
 
 from tkext import UpdatedButton
 import tkext
-from sk1sdk.libtk import tkMessageBox
+import tkMessageBox
 import skpixmaps
 pixmaps = skpixmaps.PixmapTk
 

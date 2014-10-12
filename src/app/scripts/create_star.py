@@ -17,7 +17,7 @@
 
 from math import pi
 
-from sk1sdk.libtk.Tkinter import IntVar, DoubleVar, Entry, Label, Button, Frame
+from Tkinter import IntVar, DoubleVar, Entry, Label, Button, Frame
 
 import app.Scripting
 from app import _, SolidPattern, StandardColors, PolyBezier, CreatePath, \

@@ -37,7 +37,7 @@ from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, PostScrip
 from uniconvertor.utils import system
 from app.UI.sketchdlg import SKModal
 
-from sk1sdk.libtk.Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH
+from Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH
 
 
 black = StandardColors.black

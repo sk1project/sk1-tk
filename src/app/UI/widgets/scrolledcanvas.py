@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TScrollbar, TFrame
-from sk1sdk.libtk.Tkinter import Canvas
+from Tkinter import Canvas
 
 class ScrolledCanvas:
 	def __init__(self, master, **opts):

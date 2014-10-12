@@ -20,7 +20,7 @@
 
 from app import Bezier, Line, ContAngle, ContSmooth, ContSymmetrical
 
-from sk1sdk.libtk.Tkinter import *
+from Tkinter import *
 
 class Viewer(Toplevel):
     type_names = {Line: "Line", Bezier: "Bezier"}

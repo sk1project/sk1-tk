@@ -21,8 +21,8 @@ from types import TupleType
 from app import config
 from app.Lib.units import unit_dict, unit_names
 
-from sk1sdk.libtk.Tkinter import TclError, StringVar, DoubleVar
-from sk1sdk.libtk.Tkinter import LEFT, RIGHT, X, Y, E, W
+from Tkinter import TclError, StringVar, DoubleVar
+from Tkinter import LEFT, RIGHT, X, Y, E, W
 from tkext import MyEntry, MyOptionMenu
 from ttk_ext import TComboSmall, TSpinbox
 from miniscroll import MiniScroller

@@ -8,8 +8,7 @@
 
 
 from sketchdlg import SketchPanel
-from sk1sdk.libtk.Tkinter import X, BOTH, LEFT, TOP
-from sk1sdk.libtk.Tkinter import Frame, Label
+from Tkinter import X, BOTH, LEFT, TOP, Frame, Label
 from tkext import UpdatedButton, MyEntry, UpdatedCheckbutton, \
 		MyOptionMenu2
 

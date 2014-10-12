@@ -19,11 +19,11 @@ from app import CreateRGBColor, StandardColors, Trafo, SketchError, \
 		Publisher, _
 from app.Graphics import color
 
-from sk1sdk.libtk.Tkinter import Frame,  Label,  DoubleVar, IntVar
+from Tkinter import Frame,  Label,  DoubleVar, IntVar
 
 from sk1sdk.libttk import TFrame, TButton, TLabel
 
-from sk1sdk.libtk.Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
+from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
 from tkext import PyWidget
 from ttk_ext import TSpinbox, TEntrybox
 from sketchdlg import SKModal

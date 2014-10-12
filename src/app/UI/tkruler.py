@@ -16,7 +16,7 @@ from app.conf import const
 from app.conf.const import CHANGED
 from sk1sdk.libtk.tkgraphics import NumWriter
 
-from sk1sdk.libtk.Tkinter import Canvas, Label
+from Tkinter import Canvas, Label
 from app.Lib import units
 
 HORIZONTAL = 0

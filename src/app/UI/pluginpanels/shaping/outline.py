@@ -8,8 +8,8 @@
 
 
 from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton
-from sk1sdk.libtk.Tkinter import IntVar
-from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
+from Tkinter import IntVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
 
 from app.conf.const import SELECTION, DOCUMENT, EDITED
 

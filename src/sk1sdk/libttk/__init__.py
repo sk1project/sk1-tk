@@ -14,8 +14,8 @@ import _tkinter
 tkinter = _tkinter
 TclError = _tkinter.TclError
 from types import *
-from sk1sdk.libtk.Tkconstants import *
-from sk1sdk.libtk import Tkinter
+from Tkconstants import *
+import Tkinter
 
 
 wantobjects = 1

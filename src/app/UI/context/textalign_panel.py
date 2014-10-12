@@ -7,7 +7,7 @@
 
 from app.conf.const import SELECTION, CHANGED, EDITED
 from app.conf import const
-from sk1sdk.libtk.Tkinter import LEFT, StringVar
+from Tkinter import LEFT, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from app.UI.tkext import UpdatedRadiobutton

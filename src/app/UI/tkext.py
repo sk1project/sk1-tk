@@ -17,11 +17,11 @@ from app.conf.const import CHANGED, DROP_COLOR, COMMAND, SELECTION
 from app.events.warn import warn_tb, INTERNAL
 from app.Graphics.color import rgb_to_tk
 
-from sk1sdk.libtk.Tkinter import Widget, Menu, Menubutton
+from Tkinter import Widget, Menu, Menubutton
 
 from sk1sdk.libttk import TButton, TLabel, TMenubutton, TRadiobutton
-from sk1sdk.libtk.Tkinter import LEFT, DISABLED, NORMAL, END, RAISED, SUNKEN
-from sk1sdk.libtk import Tkinter
+from Tkinter import LEFT, DISABLED, NORMAL, END, RAISED, SUNKEN
+import Tkinter
 
 import command
 #from skpixmaps import PixmapTk

@@ -7,9 +7,9 @@
 
 from app.UI.pluginpanels.ppanel import PluginPanel
 
-from sk1sdk.libtk.Tkinter import Frame, Label
+from Tkinter import Frame, Label
 from sk1sdk.libttk import TLabelframe, TFrame, TLabel
-from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, LEFT
+from Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, LEFT
 
 from app.conf.const import GRID, DOCUMENT
 from app.conf import const

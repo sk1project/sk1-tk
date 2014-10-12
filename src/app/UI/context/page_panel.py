@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TCombobox, TLabel, TCheckbutton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED, DOCUMENT, PAGE, UNDO
-from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
+from Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
 from sk1sdk.libtk.tkext import FlatFrame
 from sk1sdk.libttk import tooltips
 from subpanel import CtxSubPanel

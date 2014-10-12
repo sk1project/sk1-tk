@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TLabel, TButton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import CHANGED
-from sk1sdk.libtk.Tkinter import LEFT, DoubleVar, StringVar, RIGHT
+from Tkinter import LEFT, DoubleVar, StringVar, RIGHT
 from subpanel import CtxSubPanel
 from app import  _, config, PolyBezier, CreatePath, Point
 from sk1sdk.libttk import tooltips

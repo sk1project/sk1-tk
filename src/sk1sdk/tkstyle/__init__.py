@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 from colors import ColorScheme
-from sk1sdk.libtk.Tkinter import StringVar
+from Tkinter import StringVar
 import fonts, icons, themes, colors
 import sk1sdk, os, sys
 

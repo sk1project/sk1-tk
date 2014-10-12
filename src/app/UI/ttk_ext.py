@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 
-from sk1sdk.libtk.Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, NORMAL, DISABLED, END, VERTICAL
+from Tkinter import StringVar, TOP, LEFT, Y, X, BOTH, Widget, NORMAL, DISABLED, END, VERTICAL
 from tkext import WidgetWithCommand, ComboMenu, ComboCommand, MenuCommand, UpdatedMenu, MakeCommand
 from app import _
 

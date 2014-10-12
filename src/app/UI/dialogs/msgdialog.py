@@ -10,7 +10,7 @@ from app import _
 from dialog import ModalDialog
 
 from sk1sdk.libttk import TButton, TLabel, TFrame
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH
 from types import TupleType
 
 from app.UI.tkext import UpdatedButton

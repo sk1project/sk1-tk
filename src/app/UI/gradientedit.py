@@ -16,8 +16,8 @@ from app.conf.const import DROP_COLOR
 from app.events.warn import pdebug
 from app.Graphics import color
 
-from sk1sdk.libtk.Tkinter import Frame, Button
-from sk1sdk.libtk.Tkinter import BOTTOM, LEFT, RIGHT, BOTH
+from Tkinter import Frame, Button
+from Tkinter import BOTTOM, LEFT, RIGHT, BOTH
 from tkext import PyWidget, MenuCommand, UpdatedMenu
 import tkext
 

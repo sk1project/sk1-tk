@@ -38,7 +38,7 @@ class PixmapTk:
 	_cache = {}
 
 	def load_image(self, name):
-		from sk1sdk.libtk import Tkinter
+		import Tkinter
 		if name[0] == '*':
 			if config.preferences.color_icons:
 				image = self._cache.get(name)

@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TLabel, TButton
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import SELECTION
-from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar
+from Tkinter import LEFT, RIGHT, DoubleVar
 from subpanel import CtxSubPanel
 from app import  _
 from sk1sdk.libttk import tooltips

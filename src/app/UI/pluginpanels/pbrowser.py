@@ -6,7 +6,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TLabel, TFrame, TRadiobutton, LabelFrame
-from sk1sdk.libtk.Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
+from Tkinter import BOTH, LEFT, RIGHT, TOP, X, Y, BOTTOM, W
 from app.UI.widgets.scrolledcanvas import ScrolledCanvas
 from app.UI.widgets.treewidget import TreeItem, TreeNode
 

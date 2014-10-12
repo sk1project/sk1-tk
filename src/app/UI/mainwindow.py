@@ -27,12 +27,12 @@ from app.managers.docmanager import DocumentManager
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 
-from sk1sdk.libtk.Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
-from sk1sdk.libtk.Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
+from Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
+from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, TButton
 from widgets.doctabs import TabsPanel
 from widgets.pager import Pager
-from sk1sdk.libtk import Tkinter
+import Tkinter
 from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, ToolbarButton, \
 				CommandCheckbutton, MakeCommand, MultiButton, \
 			UpdatedRadiobutton, UpdatedCheckbutton, ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \

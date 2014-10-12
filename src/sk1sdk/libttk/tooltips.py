@@ -11,7 +11,7 @@
 #
 
 from types import InstanceType
-from sk1sdk.libtk.Tkinter import Toplevel
+from Tkinter import Toplevel
 from sk1sdk.libttk import TLabel
 
 

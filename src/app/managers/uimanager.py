@@ -7,7 +7,7 @@
 
 import app, os, string, math
 from app.conf import const
-from sk1sdk.libtk import Tkinter
+import Tkinter
 from sk1sdk import tkstyle
 from uniconvertor.utils import system
 

@@ -8,7 +8,7 @@
 from sk1sdk.libttk import TButton, TLabel
 from app.UI.ttk_ext import TSpinbox
 from app.conf.const import SELECTION, CHANGED, EDITED
-from sk1sdk.libtk.Tkinter import LEFT, RIGHT, DoubleVar, StringVar
+from Tkinter import LEFT, RIGHT, DoubleVar, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil

@@ -7,8 +7,8 @@
 
 
 from sk1sdk.libttk import TFrame, TLabel, TButton, TCombobox
-from sk1sdk.libtk.Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, WORD
-from sk1sdk.libtk.Tkinter import Label, StringVar, Text
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, WORD
+from Tkinter import Label, StringVar, Text
 from sk1sdk.libtk.tkext import FlatFrame
 from app import _, config
 import app

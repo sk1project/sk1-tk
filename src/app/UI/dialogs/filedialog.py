@@ -10,8 +10,8 @@ import app, os
 from dialog import ModalDialog
 from msgdialog import msgDialog
 
-from sk1sdk.libtk.Tkinter import TOP, BOTH, X, LEFT, BOTTOM, RIGHT, Y
-from sk1sdk.libtk.Tkinter import Label, Frame, Canvas
+from Tkinter import TOP, BOTH, X, LEFT, BOTTOM, RIGHT, Y
+from Tkinter import Label, Frame, Canvas
 from sk1sdk.libttk import TButton, TLabel, TFrame
 
 ACTION_SAVE = _('Save')

@@ -20,7 +20,7 @@
 from app import CreatePath, Point, _
 from app.UI.sketchdlg import SKModal
 
-from sk1sdk.libtk.Tkinter import *
+from Tkinter import *
 
 AVERAGE_BOTH = 0
 AVERAGE_X = 1

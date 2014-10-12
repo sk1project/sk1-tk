@@ -8,8 +8,8 @@
 
 
 import sketchdlg
-from sk1sdk.libtk.Tkinter import Frame, Label, IntVar
-from sk1sdk.libtk.Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
+from Tkinter import Frame, Label, IntVar
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, GROOVE, E, DISABLED, NORMAL
 from tkext import UpdatedButton, MyEntry
 
 from miniscroll import MiniScroller
