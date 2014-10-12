@@ -36,12 +36,6 @@ temp = string.split(_pkgdir, '/')
 temp.remove(temp[-1])
 _parentdir = string.join(temp, '/')
 
-for _dir in ('modules', 'Base'):
-	__path__.insert(0, os.path.join(_pkgdir, _dir))
-
-dir = os.path.join(_parentdir, 'app/modules')
-if os.path.isdir(dir):
-	sys.path.insert(1, dir)
 
 
 #-----------LOCALIZATION-------------------

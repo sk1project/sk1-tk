@@ -190,54 +190,56 @@ from distutils.core import setup, Extension
 
 macros = [('MAJOR_VERSION', '1'), ('MINOR_VERSION', '0')]
 
-filter_src = os.path.join(src_path, 'sk1', 'extensions', 'filter')
+filter_src = os.path.join(src_path, 'extensions', 'filter')
 files = ['streamfilter.c', 'filterobj.c', 'linefilter.c',
 		'subfilefilter.c', 'base64filter.c', 'nullfilter.c',
 		'stringfilter.c', 'binfile.c', 'hexfilter.c']
 files = make_source_list(filter_src, files)
-filter_module = Extension('sk1.app.modules.streamfilter',
+filter_module = Extension('streamfilter',
 		define_macros=macros, sources=files)
 modules.append(filter_module)
 
-type1mod_src = os.path.join(src_path, 'sk1', 'extensions', 'type1mod')
+type1mod_src = os.path.join(src_path, 'extensions', 'type1mod')
 files = make_source_list(type1mod_src, ['_type1module.c', ])
-type1mod_module = Extension('sk1.app.modules._type1module',
+type1mod_module = Extension('app._type1module',
 		define_macros=macros, sources=files)
 modules.append(type1mod_module)
 
-skread_src = os.path.join(src_path, 'sk1', 'extensions', 'skread')
+skread_src = os.path.join(src_path, 'extensions', 'skread')
 files = make_source_list(skread_src, ['skreadmodule.c', ])
-skread_module = Extension('sk1.app.modules.skreadmodule',
+skread_module = Extension('app.skreadmodule',
 		define_macros=macros, sources=files)
 modules.append(skread_module)
 
-pstokenize_src = os.path.join(src_path, 'sk1', 'extensions', 'pstokenize')
+pstokenize_src = os.path.join(src_path, 'extensions', 'pstokenize')
 files = make_source_list(pstokenize_src, ['pstokenize.c', 'pschartab.c'])
-pstokenize_module = Extension('sk1.app.modules.pstokenize',
+pstokenize_module = Extension('app.pstokenize',
 		define_macros=macros, sources=files)
 modules.append(pstokenize_module)
 
-pax_src = os.path.join(src_path, 'sk1', 'extensions', 'pax')
+pax_src = os.path.join(src_path, 'extensions', 'pax')
 pax_include_dirs = ['/usr/include/cairo'] + tcl_include_dirs
 pax_libs = ['X11', 'Xext', 'tk' + tcl_ver, 'tcl' + tcl_ver, 'cairo']
 files = ['borderobject.c', 'clipmask.c', 'cmapobject.c', 'fontobject.c',
 	'gcobject.c', 'imageobject.c', 'intl.c', 'paxmodule.c', 'paxutil.c',
 	'pixmapobject.c', 'regionobject.c', 'tkwinobject.c']
 files = make_source_list(pax_src, files)
-pax_module = Extension('sk1.app.modules.paxmodule',
+pax_module = Extension('paxmodule',
 		include_dirs=pax_include_dirs, libraries=pax_libs,
 		define_macros=macros, sources=files)
 modules.append(pax_module)
 
-skmod_src = os.path.join(src_path, 'sk1', 'extensions', 'skmod')
+skmod_src = os.path.join(src_path, 'extensions', 'skmod')
 files = ['curvedraw.c', 'curvefunc.c', 'curvelow.c', 'curvemisc.c',
 	'curveobject.c', 'skaux.c', 'skcolor.c', 'skdither.c', '_sketchmodule.c',
 	'skfm.c', 'skimage.c', 'skpoint.c', 'skrect.c', 'sktrafo.c']
 files = make_source_list(skmod_src, files)
-skmod_module = Extension('sk1.app.modules._sketchmodule',
+skmod_module = Extension('app._sketchmodule',
 		include_dirs=['/usr/include/cairo'], libraries=['m', 'X11', 'cairo'],
 		define_macros=macros, sources=files)
 modules.append(skmod_module)
+
+#--- sk1sdk extensions
 
 tkpng_src = os.path.join(src_path, 'sk1sdk', 'tkpng', 'libtkpng')
 files = make_source_list(tkpng_src, ['tkImgPNG.c', 'tkImgPNGInit.c'])

@@ -8,6 +8,7 @@ encoding//src/app/Graphics/papersize.py=utf-8
 encoding//src/app/Graphics/selection.py=utf-8
 encoding//src/app/Graphics/text.py=utf-8
 encoding//src/app/Lib/dscparser.py=utf-8
+encoding//src/app/Lib/type1.py=utf-8
 encoding//src/app/Lib/units.py=utf-8
 encoding//src/app/UI/canvas.py=utf-8
 encoding//src/app/UI/cc/ccenterdialog.py=utf-8
