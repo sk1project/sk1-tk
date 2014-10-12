@@ -55,7 +55,7 @@ CLEAR_BUILD = False
 #
 ############################################################
 NAME = 'sk1'
-VERSION = '1.0'
+VERSION = '0.9.2'
 DESCRIPTION = 'Vector graphics editor for prepress'
 AUTHOR = 'Igor E. Novikov'
 AUTHOR_EMAIL = 'igor.e.novikov@gmail.com'

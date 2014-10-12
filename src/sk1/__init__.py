@@ -26,9 +26,6 @@ def sk1_run():
 
 	warnings.filterwarnings("ignore")
 
-	_pkgdir = __path__[0]
-	sys.path.insert(1, _pkgdir)
-
 	import app
 	app.config.sk_command = sys.argv[0]
 	app.main.main()

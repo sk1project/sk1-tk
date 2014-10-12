@@ -190,7 +190,7 @@ class AboutDialog(ModalDialog):
 		sb['command'] = text.yview
 
 		text['state'] = NORMAL
-		txt = open(os.path.join(app.config.sk_dir, 'GNU_LGPL_v2')).read()
+		txt = open(os.path.join(app.config.sk1_dir, 'GNU_LGPL_v2')).read()
 		text.insert(END, txt)
 		text['state'] = DISABLED
 
