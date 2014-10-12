@@ -26,7 +26,6 @@ def create_context(widget):
 	INPUT VALUES: widget - target widget	
 	RETURN: pycairo context 
 	"""
-	widget['bg'] = ''
 	winname = widget._w
 	interpaddr = widget.tk.interpaddr()
 	w = widget.winfo_width()
