@@ -263,6 +263,14 @@ paxtkinter_module = Extension('sk1sdk.libtk._tkinter',
 			define_macros=macros, sources=files)
 modules.append(paxtkinter_module)
 
+tkcairo_src = os.path.join(src_path, 'sk1sdk', 'tkcairo')
+files = make_source_list(tkcairo_src, ['_tkcairo.c'])
+tkcairo_module = Extension('sk1sdk.tkcairo._tkcairo',
+			include_dirs=['/usr/include/cairo'] + tcl_include_dirs,
+			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver, 'cairo'],
+			define_macros=macros, sources=files)
+modules.append(tkcairo_module)
+
 setup(name=NAME,
 	version=VERSION,
 	description=DESCRIPTION,
