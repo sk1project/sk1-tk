@@ -214,10 +214,12 @@ class Preferences(connector.Publisher):
 	#grid_color = ('RGB', 0, 0, 1)
 	grid_color = ('RGB', 0.0, 0.0, 1.0)
 	grid_line_transparency = 0.15
+	gridlayer_color = (0.0, 0.0, 1.0, 0.15)
 
 	#The outline color of a new GuideLayer as a tuple of RGB values in
 	#the range 0..1. E.g. (0, 0, 1) for blue
 	guide_color = ('RGB', 0, 0.3, 1)
+	guideline_color = (0.0, 0.3, 1.0, 1.0)
 	horizontal_guide_shape = [5, 7]
 	vertical_guide_shape = [5, 8]
 

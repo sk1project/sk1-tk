@@ -15,23 +15,24 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-
+import cids
 from app import _, Point, PointType, InfinityRect
 from base import GraphicsObject, Draggable
 
 class GuideLine(GraphicsObject, Draggable):
 
 	is_GuideLine = 1
+	cid = cids.GUIDE
 
-	def __init__(self, point, horizontal = 0):
+	def __init__(self, point, horizontal=0):
 		self.point = point
 		self.horizontal = horizontal
 
 	def DrawShape(self, device):
-		device.DrawGuideLine(self.point, self.horizontal,1)
+		device.DrawGuideLine(self.point, self.horizontal, 1)
 
 	def DrawDragged(self, device, partially):
-		device.DrawGuideLine(self.drag_cur, self.horizontal,0)
+		device.DrawGuideLine(self.drag_cur, self.horizontal, 0)
 
 	def Hit(self, p, rect, device):
 		if self.horizontal:

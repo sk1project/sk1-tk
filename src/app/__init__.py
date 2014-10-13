@@ -100,6 +100,8 @@ def RegisterCommands(aclass):
 
 # from Graphics.base import GraphicsObject, Primitive
 
+from Graphics.renderer import DocRenderer
+
 from Graphics.arrow import StandardArrows, Arrow
 from Graphics.properties import Style, FillStyle, EmptyFillStyle, LineStyle, EmptyLineStyle, PropertyStack, EmptyProperties
 

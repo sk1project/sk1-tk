@@ -8,12 +8,12 @@
 
 from app.events.warn import pdebug
 
-from app import Rect, EmptyRect, IntersectRects, Document, GraphicsDevice,\
-		SketchInternalError, QueueingPublisher, StandardColors
+from app import Rect, EmptyRect, IntersectRects, Document, GraphicsDevice
+from app import SketchInternalError, QueueingPublisher, StandardColors
 
 from app.conf.const import STATE, VIEW, DOCUMENT, LAYOUT, REDRAW
 from app.conf.const import LAYER, LAYER_STATE, LAYER_ORDER, LAYER_COLOR
-from app import config
+from app import config, DocRenderer
 
 from tkext import PyWidget
 from viewport import Viewport
@@ -24,9 +24,9 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 
 	document = None
 
-	def __init__(self, master=None, toplevel = None, document = None,
-					show_visible = 0, show_printable = 1,
-					resolution = None, **kw):
+	def __init__(self, master=None, toplevel=None, document=None,
+					show_visible=0, show_printable=1,
+					resolution=None, **kw):
 		apply(PyWidget.__init__, (self, master), kw)
 		Viewport.__init__(self, resolution)
 		QueueingPublisher.__init__(self)
@@ -38,14 +38,15 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		self.show_printable = show_printable
 		self.gcs_initialized = 0
 		self.gc = GraphicsDevice()
-		
+		self.renderer = DocRenderer(self)
+
 
 		self.init_transactions()
 		if document is not None:
 			self.SetDocument(document)
 		else:
-			self.SetDocument(Document(create_layer = 1))
-			
+			self.SetDocument(Document(create_layer=1))
+
 
 	def destroy(self):
 		self.unsubscribe_doc()
@@ -71,7 +72,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		PyWidget.DestroyMethod(self)
 
 	def init_gcs(self):
-		self.gc.init_gc(self.tkwin, graphics_exposures = 1)
+		self.gc.init_gc(self.tkwin, graphics_exposures=1)
 		self.gc.draw_visible = self.show_visible
 		self.gc.draw_printable = self.show_printable
 		self.gc.allow_outline = 0
@@ -129,7 +130,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	#	receivers
 	#
 
-	def redraw_doc(self, all, rects = None):
+	def redraw_doc(self, all, rects=None):
 		if all:
 			self.clear_window()
 		else:
@@ -148,7 +149,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 			redraw = EmptyRect
 			if args[0] == LAYER_STATE:
 				layer, visible_changed, printable_changed, outlined_changed \
-						= args[1]
+						 = args[1]
 				rect = layer.bounding_rect
 				if rect is not EmptyRect:
 					if self.show_printable and printable_changed:
@@ -181,16 +182,18 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	#
 	#	Widget Methods (Redraw, ... )
 	#
+	def get_matrix(self):
+		return self.doc_to_win.coeff()
 
 	time_redraw = 0
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		# draw the document
 		if __debug__:
 			if self.time_redraw:
 				import time
 				start = time.clock()
 		if self.move_window_count >= 2:
-			self.clear_window(update = 0)
+			self.clear_window(update=0)
 		self.move_window_count = 0
 
 		region = self.do_clear(region)
@@ -220,35 +223,38 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		p1 = self.WinToDoc(x - 1, y - 1)
 		p2 = self.WinToDoc(x + w + 1, y + h + 1)
 		rect = Rect(p1, p2)
-		
+
 		if not config.preferences.cairo_enabled :
 			self.gc.SetFillColor(StandardColors.white)
-			self.gc.gc.FillRectangle(x, y, w, h) # XXX ugly to access gc.gc
+			self.gc.gc.FillRectangle(x, y, w, h)# XXX ugly to access gc.gc
 
 		#	draw paper
-		
+
 		#Drawing tracking
 #		print 'start draw'
 #		import time
 #		_t = time.clock()
-		
-		self.gc.StartDrawing()
-		if self.show_page_outline:
-			w, h = self.document.PageSize()
-			self.gc.DrawPageOutline(w, h)
+
+#		self.gc.StartDrawing()
+
+		self.renderer.draw(self.document, rect)
+
+#		if self.show_page_outline:
+#			w, h = self.document.PageSize()
+#			self.gc.DrawPageOutline(w, h)
 
 
 		self.document.Draw(self.gc, rect)
-		
+
 #		_tm = time.clock() - _t
 #		print 'doc draw:', _tm
 #		_t = time.clock()
-		
-		self.gc.FinalizeDrawing()
-		
+
+#		self.gc.FinalizeDrawing()
+
 #		_t = time.clock() - _t
 #		print 'finalize:', _t
-		
+
 		if region:
 			self.gc.PopClip()
 
@@ -261,6 +267,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	def ResizedMethod(self, width, height):
 		Viewport.ResizedMethod(self, width, height)
 		self.gc.WindowResized(width, height)
+		if self.gc.gc: self.RedrawMethod()
 
 
 	#
@@ -282,11 +289,11 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 # 	hbar.configure(jump = 1)
 # 	vbar.configure(jump = 1)
 
-	def set_origin(self, xorg, yorg, move_contents = 1):
+	def set_origin(self, xorg, yorg, move_contents=1):
 		self.begin_transaction()
 		try:
 			Viewport.set_origin(self, xorg, yorg,
-								move_contents = move_contents)
+								move_contents=move_contents)
 			self.set_gc_transforms()
 			self.issue_view()
 		finally:
@@ -306,16 +313,16 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 			else:
 				self.clear_window()
 
-	def SetScale(self, scale, do_center = 1):
+	def SetScale(self, scale, do_center=1):
 		# Set current scale
 		self.begin_transaction()
 		try:
-			Viewport.SetScale(self, scale, do_center = do_center)
+			Viewport.SetScale(self, scale, do_center=do_center)
 			self.set_gc_transforms()
 		finally:
 			self.end_transaction()
 
-	def zoom_fit_rect(self, rect, save_viewport = 0):
+	def zoom_fit_rect(self, rect, save_viewport=0):
 		if save_viewport:
 			self.save_viewport()
 		Viewport.zoom_fit_rect(self, rect)
@@ -324,7 +331,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	#
 	#	other view related methods
 	#
-	def FitToWindow(self, selected_only = 0, save_viewport = 1):
+	def FitToWindow(self, selected_only=0, save_viewport=1):
 		self.begin_transaction()
 		try:
 			if selected_only:
@@ -332,16 +339,16 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 			else:
 				rect = self.document.BoundingRect()
 			if rect:
-				self.zoom_fit_rect(rect, save_viewport = save_viewport)
+				self.zoom_fit_rect(rect, save_viewport=save_viewport)
 		finally:
 			self.end_transaction()
 
-	def FitPageToWindow(self, save_viewport = 1):
+	def FitPageToWindow(self, save_viewport=1):
 		self.begin_transaction()
 		try:
 			w, h = self.document.PageSize()
 			self.zoom_fit_rect(Rect(0, 0, w, h).grown(10),
-								save_viewport = save_viewport)
+								save_viewport=save_viewport)
 		finally:
 			self.end_transaction()
 
@@ -353,7 +360,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	#	mode doesn't change the displayed area) the outline mode changes the
 	#	way the drawing is displayed and thus issues VIEW.
 
-	def SetOutlineMode(self, on = 1):
+	def SetOutlineMode(self, on=1):
 		self.begin_transaction()
 		try:
 			if on:
@@ -383,7 +390,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	#	Show page outline on/off
 	#
 
-	def SetPageOutlineMode(self, on = 1):
+	def SetPageOutlineMode(self, on=1):
 		self.begin_transaction()
 		try:
 			self.show_page_outline = on
@@ -421,7 +428,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 			self.subscribe_doc()
 			self.clear_window()
 			self.SetPageSize(self.document.Layout().Size())
-			self.FitPageToWindow(save_viewport = 0)
+			self.FitPageToWindow(save_viewport=0)
 			self.issue_document()
 			self.issue_state()
 			self.issue_view()

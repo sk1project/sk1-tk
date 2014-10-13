@@ -81,13 +81,13 @@ import properties
 
 class Draggable:
 
-	drawn	= 0
-	dragging	= 0
-	drag_start	= NullPoint
-	drag_cur	= NullPoint
-	off		= NullPoint
+	drawn	 = 0
+	dragging	 = 0
+	drag_start	 = NullPoint
+	drag_cur	 = NullPoint
+	off		 = NullPoint
 
-	drag_mask = Button1Mask # XXX move this to some other class ?
+	drag_mask = Button1Mask# XXX move this to some other class ?
 
 
 	def __init__(self):
@@ -99,7 +99,7 @@ class Draggable:
 		# Start the drag at P. Initialize the instance variables. Set
 		# dragging to true.
 		# XXX: document the meaning of the return value
-		self.drawn = 0		# the object is not visible yet
+		self.drawn = 0# the object is not visible yet
 		self.dragging = 1
 		self.drag_start = p
 		self.drag_cur = p
@@ -166,12 +166,12 @@ class Draggable:
 	def DrawDragged(self, device, partially):
 		pass
 
-	def Show(self, device, partially = 0):
+	def Show(self, device, partially=0):
 		if not self.drawn:
 			self.DrawDragged(device, partially)
 		self.drawn = 1
 
-	def Hide(self, device, partially = 0):
+	def Hide(self, device, partially=0):
 		if self.drawn:
 			self.DrawDragged(device, partially)
 		self.drawn = 0
@@ -192,7 +192,7 @@ class Selectable:
 	def Hit(self, p, rect, device):
 		return None
 
-	def SelectSubobject(self, p, rect, device, path = None, *rest):
+	def SelectSubobject(self, p, rect, device, path=None, *rest):
 		return self
 
 	def GetObjectHandle(self, multiple):
@@ -209,15 +209,15 @@ class Selectable:
 
 class EditSelect(Selectable):
 
-	def SelectPoint(self, p, rect, device, mode = SelectSet):
+	def SelectPoint(self, p, rect, device, mode=SelectSet):
 		# Select (sub)object at P. If something is selected, return
 		# true, false otherwise.
 		return 0
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		pass
 
-	def SelectRect(self, rect, mode = SelectSet):
+	def SelectRect(self, rect, mode=SelectSet):
 		# select (sub-)object(s) in RECT
 		pass
 
@@ -251,47 +251,47 @@ class SelectAndDrag(Draggable, EditSelect):
 
 class Protocols:
 
-	is_GraphicsObject   = 0
-	is_Primitive        = 0
-	is_Editor           = 0
-	is_Creator          = 0
+	is_GraphicsObject = 0
+	is_Primitive = 0
+	is_Editor = 0
+	is_Creator = 0
 
-	has_edit_mode = 0	# true if object has an edit mode. If true, the
+	has_edit_mode = 0# true if object has an edit mode. If true, the
 						# Editor() method must be implemented
 
-	is_curve = 0	# true, if object can be represented by and
+	is_curve = 0# true, if object can be represented by and
 						# converted to a PolyBezier object. If true, the
 						# AsBezier() and Paths() methods must be
 						# implemented
 	is_clip = 0
 
-	has_fill		= 0	# True, iff object can have fill properties
-	has_line		= 0	# True, iff object can have line properties
-	has_font		= 0	# True, iff object can have a font
-	has_properties	= 0
+	has_fill		 = 0# True, iff object can have fill properties
+	has_line		 = 0# True, iff object can have line properties
+	has_font		 = 0# True, iff object can have a font
+	has_properties	 = 0
 
-	is_Bezier	= 0
-	is_Rectangle	= 0
-	is_Ellipse	= 0
-	is_Text		= 0	# Text objects must have a Font() method
+	is_Bezier	 = 0
+	is_Rectangle	 = 0
+	is_Ellipse	 = 0
+	is_Text		 = 0# Text objects must have a Font() method
 								# returning a font.
-	is_SimpleText       = 0
-	is_PathTextGroup    = 0 
-	is_PathTextText     = 0     # The text part of a path text group
-	is_Image	    = 0
-	is_Eps		    = 0
+	is_SimpleText = 0
+	is_PathTextGroup = 0
+	is_PathTextText = 0# The text part of a path text group
+	is_Image	 = 0
+	is_Eps		 = 0
 
-	is_Group		= 0
-	is_Compound		= 0
-	is_Layer		= 0
+	is_Group		 = 0
+	is_Compound		 = 0
+	is_Layer		 = 0
 
-	is_Blend		= 0     # The blendgroup
-	is_BlendInterpolation   = 0     # The interpolation child of a blend group
-	is_Clone		= 0
-	is_MaskGroup            = 0
-	is_GuideLine	        = 0
+	is_Blend		 = 0# The blendgroup
+	is_BlendInterpolation = 0# The interpolation child of a blend group
+	is_Clone		 = 0
+	is_MaskGroup = 0
+	is_GuideLine	 = 0
 
-	is_Plugin		= 0
+	is_Plugin		 = 0
 
 
 #
@@ -382,7 +382,7 @@ class Bounded:
 
 class HierarchyNode:
 
-	def __init__(self, duplicate = None):
+	def __init__(self, duplicate=None):
 		if duplicate is not None:
 			self.document = duplicate.document
 			if duplicate.was_untied:
@@ -410,7 +410,7 @@ class HierarchyNode:
 		if self.parent is not None:
 			return self.parent.SelectionInfo(self)
 
-	document = None	# the document self belongs to
+	document = None# the document self belongs to
 
 	def SetDocument(self, doc):
 		self.document = doc
@@ -460,7 +460,7 @@ class HierarchyNode:
 
 	def Duplicate(self):
 		# return a duplicate of self
-		return self.__class__(duplicate = self)
+		return self.__class__(duplicate=self)
 
 
 
@@ -475,6 +475,7 @@ class HierarchyNode:
 class GraphicsObject(Bounded, HierarchyNode, Selectable, Protocols):
 
 	is_GraphicsObject = 1
+	cid = None
 
 	keymap = None
 	commands = []
@@ -483,9 +484,9 @@ class GraphicsObject(Bounded, HierarchyNode, Selectable, Protocols):
 
 	script_access = {}
 
-	def __init__(self, duplicate = None):
+	def __init__(self, duplicate=None):
 		Selectable.__init__(self)
-		HierarchyNode.__init__(self, duplicate = duplicate)
+		HierarchyNode.__init__(self, duplicate=duplicate)
 
 	def ChildChanged(self, child):
 		# in compound objects, this method is called by the child
@@ -635,16 +636,16 @@ class Editor(SelectAndDrag):
 
 class Primitive(GraphicsObject):
 
-	has_fill	= 1
-	has_line	= 1
+	has_fill	 = 1
+	has_line	 = 1
 	has_properties = 1
 	is_Primitive = 1
 
 	tie_info = None
 	script_access = GraphicsObject.script_access.copy()
 
-	def __init__(self, properties = None, duplicate = None):
-		GraphicsObject.__init__(self, duplicate = duplicate)
+	def __init__(self, properties=None, duplicate=None):
+		GraphicsObject.__init__(self, duplicate=duplicate)
 		if duplicate is not None:
 			self.properties = duplicate.properties.Duplicate()
 			if duplicate.tie_info:
@@ -669,7 +670,7 @@ class Primitive(GraphicsObject):
 			self.properties.Tie(self.document, self.tie_info)
 			del self.tie_info
 
-	def Transform(self, trafo, rects = None):
+	def Transform(self, trafo, rects=None):
 		# Apply the affine transformation trafo to all coordinates and
 		# the properties.
 		undo = self.properties.Transform(trafo, rects)
@@ -708,7 +709,7 @@ class Primitive(GraphicsObject):
 		return self.properties
 	script_access['Properties'] = SCRIPT_OBJECT
 
-	def SetProperties(self, if_type_present = 0, **kw):
+	def SetProperties(self, if_type_present=0, **kw):
 		if if_type_present:
 			# change properties of that type if properties of that are
 			# already present.
@@ -770,7 +771,7 @@ class Primitive(GraphicsObject):
 
 class RectangularObject:
 
-	def __init__(self, trafo = None, duplicate = None):
+	def __init__(self, trafo=None, duplicate=None):
 		if duplicate is not None:
 			self.trafo = duplicate.trafo
 		else:
@@ -811,19 +812,19 @@ class RectangularObject:
 
 class RectangularPrimitive(RectangularObject, Primitive):
 
-	def __init__(self, trafo = None, properties = None, duplicate = None):
-		RectangularObject.__init__(self, trafo, duplicate = duplicate)
-		Primitive.__init__(self, properties = properties,
-							duplicate = duplicate)
+	def __init__(self, trafo=None, properties=None, duplicate=None):
+		RectangularObject.__init__(self, trafo, duplicate=duplicate)
+		Primitive.__init__(self, properties=properties,
+							duplicate=duplicate)
 
-	def Transform(self, trafo, transform_properties = 1):
+	def Transform(self, trafo, transform_properties=1):
 		undostyle = undo = NullUndo
 		try:
 			rect = self.bounding_rect
 			undo = RectangularObject.Transform(self, trafo)
 			if transform_properties:
 				rects = (rect, self.bounding_rect)
-				undostyle = Primitive.Transform(self, trafo, rects = rects)
+				undostyle = Primitive.Transform(self, trafo, rects=rects)
 			return CreateMultiUndo(undostyle, undo)
 		except:
 			Undo(undo)
@@ -831,7 +832,7 @@ class RectangularPrimitive(RectangularObject, Primitive):
 			raise
 
 	def Translate(self, offset):
-		return self.Transform(Translation(offset), transform_properties = 0)
+		return self.Transform(Translation(offset), transform_properties=0)
 
 
 class RectangularCreator(Creator):
