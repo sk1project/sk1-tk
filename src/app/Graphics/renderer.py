@@ -21,7 +21,7 @@ class DocRenderer:
 	canvas = None
 	surface = None
 	ctx = None
-	trafo = []
+	trafo = ()
 	doc = None
 	direct_matrix = cairo.Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
 	canvas_matrix = None
@@ -38,7 +38,7 @@ class DocRenderer:
 	def init_fields(self):
 		self.ctx = None
 		self.surface = None
-		self.trafo = []
+		self.trafo = ()
 		self.doc = None
 		self.rect = None
 		self.canvas_matrix = None
@@ -49,8 +49,9 @@ class DocRenderer:
 		self.rect = rect
 		self.width = self.canvas.winfo_width()
 		self.height = self.canvas.winfo_height()
-		self.zoom = abs(self.canvas.get_matrix()[0])
-		self.canvas_matrix = cairo.Matrix(*self.canvas.get_matrix())
+		self.trafo = self.canvas.get_matrix()
+		self.zoom = abs(self.trafo[0])
+		self.canvas_matrix = cairo.Matrix(*self.trafo)
 
 		self.surface = cairo.ImageSurface(cairo.FORMAT_RGB24,
 										self.width, self.height)
@@ -78,6 +79,13 @@ class DocRenderer:
 		winctx.set_source_surface(self.surface)
 		winctx.paint()
 		self.init_fields()
+
+	def doc_to_win(self, x, y):
+		m11 = self.trafo[0]
+		m22, dx, dy = self.trafo[3:]
+		x_new = m11 * x + dx
+		y_new = m22 * y + dy
+		return (x_new, y_new)
 
 	def draw_page(self):
 		if self.canvas.show_page_outline:
@@ -111,12 +119,12 @@ class DocRenderer:
 			self.ctx.set_source_rgba(*config.preferences.guideline_color)
 			for item in guides:
 				if item.horizontal:
-					y_win = self.canvas.DocToWin(0, item.point.y)[1]
+					y_win = self.doc_to_win(0, item.point.y)[1]
 					self.ctx.move_to(0, y_win)
 					self.ctx.line_to(self.width, y_win)
 					self.ctx.stroke()
 				else:
-					x_win = self.canvas.DocToWin(item.point.x, 0)[0]
+					x_win = self.doc_to_win(item.point.x, 0)[0]
 					self.ctx.move_to(x_win, 0)
 					self.ctx.line_to(x_win, self.height)
 					self.ctx.stroke()
@@ -134,7 +142,7 @@ class DocRenderer:
 
 		x, y, dx, dy = gridlayer.geometry
 
-		x0, y0 = self.canvas.DocToWin(x, y)
+		x0, y0 = self.doc_to_win(x, y)
 		dx = dx * self.zoom
 		dy = dy * self.zoom
 
