@@ -476,6 +476,7 @@ class GraphicsObject(Bounded, HierarchyNode, Selectable, Protocols):
 
 	is_GraphicsObject = 1
 	cid = None
+	cache_cpath = None
 
 	keymap = None
 	commands = []
@@ -499,6 +500,7 @@ class GraphicsObject(Bounded, HierarchyNode, Selectable, Protocols):
 	def _changed(self):
 		self.del_lazy_attrs()
 		self.issue_changed()
+		self.cache_cpath = None
 		return (self._changed,)
 
 	def SetLowerLeftCorner(self, corner):
@@ -658,6 +660,38 @@ class Primitive(GraphicsObject):
 
 	def Destroy(self):
 		GraphicsObject.Destroy(self)
+
+	#--- Cairo renderer suff
+
+	def _get_line_point(self, x, y, arg):
+		return [x, y]
+
+	def _get_segment_point(self, x0, y0, x1, y1, x2, y2, cont):
+		return [[x0, y0], [x1, y1], [x2, y2], cont]
+
+	def get_paths_list(self):
+		bezier = self.AsBezier()
+		paths_list = []
+		if bezier:
+			for path in bezier.paths:
+				path_list = [None, [], 0]
+				plist = path.get_save()
+				points = path_list[1]
+				start = True
+				for item in plist:
+					if len(item) == 3:
+						point = self._get_line_point(*item)
+						if start:
+							start = False
+							path_list[0] = point
+						else:
+							points.append(point)
+					elif len(item) == 7:
+						points.append(self._get_segment_point(*item))
+				if path.closed: path_list[2] = 1
+				paths_list.append(path_list)
+		return paths_list
+	#--- Cairo renderer suff end
 
 	def UntieFromDocument(self):
 		info = self.properties.Untie()

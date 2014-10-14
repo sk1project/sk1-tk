@@ -21,15 +21,14 @@
 # memory.
 #
 
-import os, app
+import app, cids
 from types import StringType
 
 from PIL import ImageChops
 
-from app import _, RegisterCommands, colormanager
-from app.UI.command import AddCmd
+from app import _, colormanager
 
-from external import ExternalData, get_cached, ExternalGraphics
+from external import ExternalData, ExternalGraphics
 
 RGB_IMAGE = _('RGB')
 RGBA_IMAGE = _('RGBA')
@@ -142,6 +141,7 @@ class Image(ExternalGraphics):
 
 	is_Image = 1
 	is_clip = 1
+	cid = cids.IMAGE
 
 	commands = ExternalGraphics.commands[:]
 

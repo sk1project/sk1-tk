@@ -11,11 +11,10 @@ from math import pi, floor, atan2, ceil
 from traceback import print_stack
 
 from app.conf.const import SelectSet, SelectAdd, SelectSubtract, SelectDrag, \
-		Button1Mask, ConstraintMask,\
-		SCRIPT_GET, SCRIPT_OBJECT, SCRIPT_OBJECTLIST, SCRIPT_UNDO
+		Button1Mask, ConstraintMask, SCRIPT_OBJECTLIST
 from app.events.warn import pdebug, warn, INTERNAL
 from app import Point, Polar, Rect, EmptyRect, UnionRects, PointsToRect
-from app import _, _sketch, CreatePath, config, RegisterCommands, \
+from app import _, _sketch, CreatePath, RegisterCommands, \
 		CreateMultiUndo, NullUndo, Undo
 
 from app.UI.command import AddCmd
@@ -23,9 +22,9 @@ from app.UI.command import AddCmd
 from app._sketch import ContAngle, ContSmooth, ContSymmetrical, \
 		SelNone, SelNodes, SelSegmentFirst, SelSegmentLast, Bezier, Line
 
-import handle
+import handle, cids
 from base import Primitive, Creator, Editor
-from blend import Blend, BlendPaths, MismatchError
+from blend import BlendPaths, MismatchError
 from properties import DefaultGraphicsProperties
 
 #
@@ -44,14 +43,15 @@ def undo_path(undo, path):
 
 class PolyBezier(Primitive):
 
-	is_Bezier	  = 1
+	is_Bezier	 = 1
 	has_edit_mode = 1
-	is_curve	  = 1
-	is_clip	  = 1
+	is_curve	 = 1
+	is_clip	 = 1
+	cid = cids.CURVE
 
 	script_access = Primitive.script_access.copy()
 
-	def __init__(self, paths = None, properties = None, duplicate = None):
+	def __init__(self, paths=None, properties=None, duplicate=None):
 		if duplicate is not None:
 			if paths is None:
 				paths = []
@@ -73,13 +73,13 @@ class PolyBezier(Primitive):
 		else:
 			self.paths = (CreatePath(),)
 
-		Primitive.__init__(self, properties = properties, duplicate=duplicate)
+		Primitive.__init__(self, properties=properties, duplicate=duplicate)
 
-	def Hit(self, p, rect, device, clip = 0):
+	def Hit(self, p, rect, device, clip=0):
 		for path in self.paths:
 			if path.hit_point(rect):
 				return 1
-		return device.MultiBezierHit(self.paths, p, self.properties, clip or self.Filled(), ignore_outline_mode = clip)
+		return device.MultiBezierHit(self.paths, p, self.properties, clip or self.Filled(), ignore_outline_mode=clip)
 
 	def do_undo(self, undo_list):
 		undo = map(undo_path, undo_list, self.paths)
@@ -95,8 +95,8 @@ class PolyBezier(Primitive):
 				undo.append(path.Transform(trafo))
 			self._changed()
 			undo = (self.do_undo, undo)
-			self.update_rects() # calling update_rects directly is a bit faster
-			undostyle = Primitive.Transform(self, trafo, rects = (rect, self.bounding_rect))
+			self.update_rects()# calling update_rects directly is a bit faster
+			undostyle = Primitive.Transform(self, trafo, rects=(rect, self.bounding_rect))
 			return CreateMultiUndo(undostyle, undo)
 		except:
 			Undo(undostyle)
@@ -111,7 +111,7 @@ class PolyBezier(Primitive):
 		self._changed()
 		return self.Translate, -offset
 
-	def DrawShape(self, device, rect = None, clip = 0):
+	def DrawShape(self, device, rect=None, clip=0):
 		Primitive.DrawShape(self, device)
 		device.MultiBezier(self.paths, rect, clip)
 
@@ -167,14 +167,14 @@ class PolyBezier(Primitive):
 								dir = p - controls[0]
 							else:
 								dir = p - p3
-							rect = UnionRects(rect, arrow1.BoundingRect(p,dir,width))
+							rect = UnionRects(rect, arrow1.BoundingRect(p, dir, width))
 						if arrow2 is not None:
 							type, controls, p, cont = path.Segment(-1)
 							if type == Bezier:
 								dir = p - controls[1]
 							else:
 								dir = p - path.Node(-2)
-							rect = UnionRects(rect, arrow2.BoundingRect(p,dir,width))
+							rect = UnionRects(rect, arrow2.BoundingRect(p, dir, width))
 		return rect
 
 	def Info(self):
@@ -199,15 +199,16 @@ class PolyBezier(Primitive):
 	def PathsAsObjects(self):
 		result = []
 		for path in self.paths:
-			object = self.__class__(paths = (path.Duplicate(),), properties = self.properties.Duplicate())
-			result.append(object)
+			obj = self.__class__(paths=(path.Duplicate(),),
+								properties=self.properties.Duplicate())
+			result.append(obj)
 		return result
 	script_access['PathsAsObjects'] = SCRIPT_OBJECTLIST
 
 	def AsBezier(self):
 		# is `return self' enough ?
-		return self.Duplicate()
-
+#		return self.Duplicate()
+		return self
 	#
 	#
 	#
@@ -222,7 +223,7 @@ class PolyBezier(Primitive):
 	def load_curve(self, *args):
 		apply(self.paths[-1].AppendBezier, args)
 
-	def load_close(self, copy_cont_from_last = 0):
+	def load_close(self, copy_cont_from_last=0):
 		self.paths[-1].load_close(copy_cont_from_last)
 
 	def guess_continuity(self):
@@ -248,7 +249,7 @@ class PolyBezier(Primitive):
 					raise
 
 		paths = BlendPaths(self.paths, other.paths, frac1, frac2)
-		blended = PolyBezier(paths = paths)
+		blended = PolyBezier(paths=paths)
 		self.set_blended_properties(blended, other, frac1, frac2)
 		return blended
 
@@ -272,7 +273,7 @@ class PolyBezierCreator(Creator):
 			node = self.drag_start
 		else:
 			return p
-		
+
 		if state & ConstraintMask:
 			radius, angle = (p - node).polar()
 			pi12 = pi / 12
@@ -325,7 +326,7 @@ class PolyBezierCreator(Creator):
 			device.DrawSmallRectHandle(p2)
 
 	def CreatedObject(self):
-		return PolyBezier(paths = (self.path,), properties = DefaultGraphicsProperties())
+		return PolyBezier(paths=(self.path,), properties=DefaultGraphicsProperties())
 
 
 
@@ -345,7 +346,7 @@ class PolyLineCreator(Creator):
 			node = self.drag_start
 		else:
 			return p
-		
+
 		if state & ConstraintMask:
 			radius, angle = (p - node).polar()
 			pi12 = pi / 12
@@ -390,7 +391,7 @@ class PolyLineCreator(Creator):
 				device.Line(self.drag_start, self.drag_cur)
 
 	def CreatedObject(self):
-		return PolyBezier(paths = (self.path,), properties = DefaultGraphicsProperties())
+		return PolyBezier(paths=(self.path,), properties=DefaultGraphicsProperties())
 
 SelCurvePoint = -1
 
@@ -422,7 +423,7 @@ class PolyBezierEditor(Editor):
 		self.selection_type = SelCurvePoint
 		return 1
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		path_idx, segment = handle.code
 		if segment < 0:
 			segment = -segment
@@ -446,7 +447,7 @@ class PolyBezierEditor(Editor):
 		elif mode == SelectSubtract:
 			path.SelectSegment(segment, 0)
 
-	def SelectRect(self, rect, mode = SelectSet):
+	def SelectRect(self, rect, mode=SelectSet):
 		selected = 0
 		for path in self.paths:
 			selected = path.select_rect(rect, mode) or selected
@@ -556,7 +557,7 @@ class PolyBezierEditor(Editor):
 				angle = pi12 * floor(angle / pi12 + 0.5)
 				p = node + Polar(radius, angle)
 		return p
-			
+
 	def MouseMove(self, p, state):
 		self.DragMove(self.apply_constraints(p, state))
 
@@ -597,7 +598,7 @@ class PolyBezierEditor(Editor):
 					p1 = adjust_control_point(p1, node, self.drag_cur, cont)
 					path.SetBezier(other, p1, p2, node2, cont2)
 				path.SelectSegment(segment)
-			return self.set_paths(paths) # set_paths calls _changed()
+			return self.set_paths(paths)# set_paths calls _changed()
 		elif self.selection_type == SelCurvePoint:
 			idx = self.selected_path
 			path = self.paths[idx].Duplicate()
@@ -613,8 +614,8 @@ class PolyBezierEditor(Editor):
 				else:
 					alpha = 1 - (((1 - t) * 2) ** 3) / 2
 
-				p1 = p1 + (self.off / (3 * t * (1 - t)**2)) * (1 - alpha)
-				p2 = p2 + (self.off / (3 * t**2 * (1 - t))) * alpha
+				p1 = p1 + (self.off / (3 * t * (1 - t) ** 2)) * (1 - alpha)
+				p2 = p2 + (self.off / (3 * t ** 2 * (1 - t))) * alpha
 
 				path.SetBezier(segment + 1, p1, p2, node, cont)
 			else:
@@ -641,7 +642,7 @@ class PolyBezierEditor(Editor):
 					else:
 						_p1 = _p1 + self.off
 					path.SetBezier(next, _p1, _p2, _node, _cont)
-			return self.set_paths(paths) # set_paths calls _changed()
+			return self.set_paths(paths)# set_paths calls _changed()
 
 	def DrawDragged(self, device, partially):
 		if self.selection_type == SelNodes:
@@ -687,7 +688,7 @@ class PolyBezierEditor(Editor):
 			segment = int(self.selected_idx)
 			t = self.selected_idx - segment
 			prevnode = path.Node(segment)
-			
+
 			type, control, node, cont = path.Segment(segment + 1)
 			if type == Bezier:
 				p1, p2 = control
@@ -696,8 +697,8 @@ class PolyBezierEditor(Editor):
 				else:
 					alpha = 1 - (((1 - t) * 2) ** 3) / 2
 
-				p1 = p1 + (self.off / (3 * t * (1 - t)**2)) * (1 - alpha)
-				p2 = p2 + (self.off / (3 * t**2 * (1 - t))) * alpha
+				p1 = p1 + (self.off / (3 * t * (1 - t) ** 2)) * (1 - alpha)
+				p2 = p2 + (self.off / (3 * t ** 2 * (1 - t))) * alpha
 
 				device.Bezier(prevnode, p1, p2, node)
 				device.DrawSmallRectHandle(p1)
@@ -846,7 +847,7 @@ class PolyBezierEditor(Editor):
 				else:
 					paths.append(path)
 		return self.set_paths(paths)
-	AddCmd(commands, OpenNodes, _("Cut Curve"), key_stroke = 'c')
+	AddCmd(commands, OpenNodes, _("Cut Curve"), key_stroke='c')
 
 	def CloseNodes(self):
 		# find out if close is possible
@@ -939,9 +940,9 @@ class PolyBezierEditor(Editor):
 			else:
 				new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, 'ContAngle', _("Angle"), SetContinuity,args = ContAngle, key_stroke = 'a')
-	AddCmd(commands, 'ContSmooth', _("Smooth"), SetContinuity, args = ContSmooth, key_stroke = 's')
-	AddCmd(commands, 'ContSymmetrical', _("Symmetrical"), SetContinuity, args = ContSymmetrical, key_stroke='y')
+	AddCmd(commands, 'ContAngle', _("Angle"), SetContinuity, args=ContAngle, key_stroke='a')
+	AddCmd(commands, 'ContSmooth', _("Smooth"), SetContinuity, args=ContSmooth, key_stroke='s')
+	AddCmd(commands, 'ContSymmetrical', _("Symmetrical"), SetContinuity, args=ContSymmetrical, key_stroke='y')
 
 	def SegmentsToLines(self):
 		if self.selection_type == SelCurvePoint:
@@ -956,7 +957,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, SegmentsToLines, _("Curve->Line"), key_stroke = 'l')
+	AddCmd(commands, SegmentsToLines, _("Curve->Line"), key_stroke='l')
 
 	def SegmentsToCurve(self):
 		if self.selection_type == SelCurvePoint:
@@ -971,7 +972,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, SegmentsToCurve, _("Line->Curve"), key_stroke = 'b')
+	AddCmd(commands, SegmentsToCurve, _("Line->Curve"), key_stroke='b')
 
 	def DeleteNodes(self):
 		new_paths = []
@@ -993,7 +994,7 @@ class PolyBezierEditor(Editor):
 				pdebug('bezier', 'PolyBezier removed')
 			self.document.DeselectObject(self.object)
 			return self.parent.Remove(self.object)
-	AddCmd(commands, DeleteNodes, _("Delete Nodes"), key_stroke = ('-', 'Delete'))
+	AddCmd(commands, DeleteNodes, _("Delete Nodes"), key_stroke=('-', 'Delete'))
 
 	def InsertNodes(self):
 		if self.selection_type == SelCurvePoint:
@@ -1010,7 +1011,7 @@ class PolyBezierEditor(Editor):
 				else:
 					new_paths.append(path)
 		return self.set_paths(new_paths)
-	AddCmd(commands, InsertNodes, _("Insert Nodes"), key_stroke = '+')
+	AddCmd(commands, InsertNodes, _("Insert Nodes"), key_stroke='+')
 
 	def ChangeRect(self):
 		prop = self.properties
@@ -1060,7 +1061,7 @@ def adjust_control_point(p, node, control, continuity):
 	else:
 		return p
 
-def subdivide(p0, p1, p2, p3, t = 0.5):
+def subdivide(p0, p1, p2, p3, t=0.5):
 	t2 = 1 - t
 	r = t2 * p1 + t * p2
 	q1 = t2 * p0 + t * p1
@@ -1237,7 +1238,7 @@ def set_continuity(path, cont):
 	return newpath
 
 
-def copy_path(dest, src, start = 0, end = -1, copy_selection = 1):
+def copy_path(dest, src, start=0, end=-1, copy_selection=1):
 	if start < 0:
 		start = src.len + start
 	if end < 0:
@@ -1285,7 +1286,7 @@ def split_path_at(path, at):
 		path1 = CreatePath()
 		path2 = CreatePath()
 		result = [path1, path2]
-		copy_path(path1, path, 0, 0, copy_selection = 0)
+		copy_path(path1, path, 0, 0, copy_selection=0)
 
 	type, control, node, cont = path.Segment(index + 1)
 	if type == Line:
@@ -1303,11 +1304,11 @@ def split_path_at(path, at):
 		path2.select_segment(0)
 		function = path1.AppendBezier
 		args = (p1, p2, q, ContSymmetrical)
-	copy_path(path2, path, index + 2, copy_selection = 0)
-	copy_path(path1, path, 1, index, copy_selection = 0)
+	copy_path(path2, path, index + 2, copy_selection=0)
+	copy_path(path1, path, 1, index, copy_selection=0)
 	apply(function, args)
 	return result
-	
+
 def segment_to_line(path, at):
 	index = int(at)
 	if path.SegmentType(index + 1) == Bezier:
@@ -1344,7 +1345,7 @@ def segment_to_curve(path, at):
 	else:
 		newpath = path
 	return newpath
-	
+
 
 
 def CombineBeziers(beziers):

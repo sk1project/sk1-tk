@@ -13,7 +13,7 @@ from app import SketchInternalError, QueueingPublisher, StandardColors
 
 from app.conf.const import STATE, VIEW, DOCUMENT, LAYOUT, REDRAW
 from app.conf.const import LAYER, LAYER_STATE, LAYER_ORDER, LAYER_COLOR
-from app import config, DocRenderer
+from app import config, DocRenderer, Trafo
 
 from tkext import PyWidget
 from viewport import Viewport
@@ -268,7 +268,6 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		Viewport.ResizedMethod(self, width, height)
 		self.gc.WindowResized(width, height)
 		if self.gc.gc: self.RedrawMethod()
-
 
 	#
 	#	Viewport- and related methods

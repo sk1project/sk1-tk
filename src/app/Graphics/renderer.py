@@ -5,10 +5,14 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import cairo, cids, math
+import cairo, cids, math, operator
 from sk1sdk import tkcairo
 
 from app import config
+
+SURFACE = cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1)
+CTX = cairo.Context(SURFACE)
+DIRECT_MATRIX = cairo.Matrix()
 
 CAIRO_BLACK = (0.0, 0.0, 0.0)
 CAIRO_DGRAY = (0.25, 0.25, 0.25)
@@ -29,6 +33,7 @@ class DocRenderer:
 	width = 0
 	height = 0
 	rect = None
+	stroke_mode = True
 
 
 	def __init__(self, canvas):
@@ -102,8 +107,11 @@ class DocRenderer:
 			self.ctx.rectangle(0.0, 0.0, w, h)
 			self.ctx.set_source_rgb(*CAIRO_BLACK)
 			self.ctx.stroke()
+			self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 
-	def draw_layer(self, layer):pass
+	def draw_layer(self, layer):
+		for obj in layer.objects:
+			self.draw_object(obj)
 
 	def draw_guidelayer(self, guidelayer):
 		if not guidelayer.visible: return
@@ -183,3 +191,66 @@ class DocRenderer:
 
 		self.ctx.set_matrix(self.canvas_matrix)
 		self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
+
+	def create_cpath(self, paths):
+		CTX.set_matrix(DIRECT_MATRIX)
+		CTX.new_path()
+		if not paths: return None
+		for path in paths:
+			CTX.new_sub_path()
+			start_point = path[0]
+			points = path[1]
+			end = path[2]
+			x, y = start_point
+			CTX.move_to(x, y)
+
+			for point in points:
+				if len(point) == 2:
+					x, y = point
+					CTX.line_to(x, y)
+				else:
+					p1, p2, p3, m = point
+					x1, y1 = p1
+					x2, y2 = p2
+					x3, y3 = p3
+					CTX.curve_to(x1, y1, x2, y2, x3, y3)
+			if end:
+				CTX.close_path()
+
+		cairo_path = CTX.copy_path()
+		return cairo_path
+
+	def draw_object(self, obj):
+		if obj.cid < cids.PRIMITIVE:
+			for item in obj.objects:
+				self.draw_object(item)
+		else:
+			if not obj.cache_cpath:
+				obj.cache_cpath = self.create_cpath(obj.get_paths_list())
+			if not obj.cache_cpath: return
+			fill = obj.properties.fill_pattern
+			if not fill.is_Empty:
+				self.ctx.set_source_rgba(*fill.Color().cRGBA())
+				self.ctx.append_path(obj.cache_cpath)
+				self.ctx.fill()
+			stroke = obj.properties.line_pattern
+			if not stroke.is_Empty:
+				self.ctx.set_line_width(obj.properties.line_width * self.zoom)
+				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
+				self.ctx.set_line_cap(obj.properties.line_cap)
+				self.ctx.set_line_join(obj.properties.line_join)
+
+				dashes = obj.properties.line_dashes
+				if dashes:
+					scale = obj.properties.line_width * self.zoom
+					dashes = map(operator.mul, dashes, [scale] * len(dashes))
+					dashes = map(int, map(round, dashes))
+					for idx in range(len(dashes)):
+						length = dashes[idx]
+						if length <= 0:
+							dashes[idx] = 1
+						elif length > 255:
+							dashes[idx] = 255
+					self.ctx.set_dash(dashes)
+				self.ctx.append_path(obj.cache_cpath)
+				self.ctx.stroke()

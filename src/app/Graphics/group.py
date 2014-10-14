@@ -21,9 +21,12 @@ from app import _
 from compound import EditableCompound
 from blend import Blend, MismatchError
 
+import cids
+
 class Group(EditableCompound):
 
     is_Group = 1
+    cid = cids.GROUP
 
     def Info(self):
 	return _("Group with %d objects") % len(self.objects)

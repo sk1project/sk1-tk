@@ -27,13 +27,13 @@
 from math import hypot
 
 from app.conf.const import corners, AlternateMask
-from app import _, SingularMatrix, PointsToRect, Trafo, Polar,\
+from app import _, SingularMatrix, PointsToRect, Trafo, Polar, \
 		RoundedRectanglePath, RectanglePath, NullUndo
 from app.events.warn import warn, INTERNAL
 
 from base import Primitive, RectangularPrimitive, RectangularCreator, Editor
 from bezier import PolyBezier
-import handle
+import handle, cids
 from properties import DefaultGraphicsProperties
 
 class Rectangle(RectangularPrimitive):
@@ -42,16 +42,17 @@ class Rectangle(RectangularPrimitive):
 	is_curve = 1
 	is_clip = 1
 	has_edit_mode = 1
+	cid = cids.RECTANGLE
 
 	_lazy_attrs = RectangularPrimitive._lazy_attrs.copy()
 	_lazy_attrs['rect_path'] = 'update_path'
 
-	def __init__(self, trafo = None, radius1 = 0, radius2 = 0,
-					properties = None, duplicate = None):
-		if trafo is not None and trafo.m11==trafo.m21==trafo.m12==trafo.m22==0:
-			trafo=Trafo(1,0,0,-1,trafo.v1,trafo.v2)
-		RectangularPrimitive.__init__(self, trafo, properties = properties,
-										duplicate = duplicate)	
+	def __init__(self, trafo=None, radius1=0, radius2=0,
+					properties=None, duplicate=None):
+		if trafo is not None and trafo.m11 == trafo.m21 == trafo.m12 == trafo.m22 == 0:
+			trafo = Trafo(1, 0, 0, -1, trafo.v1, trafo.v2)
+		RectangularPrimitive.__init__(self, trafo, properties=properties,
+										duplicate=duplicate)
 		if duplicate is not None:
 			self.radius1 = duplicate.radius1
 			self.radius2 = duplicate.radius2
@@ -62,7 +63,7 @@ class Rectangle(RectangularPrimitive):
 	def Radii(self):
 		return self.radius1, self.radius2
 
-	def SetTrafoAndRadii(self, trafo, radius1, radius2):	
+	def SetTrafoAndRadii(self, trafo, radius1, radius2):
 		undo = self.SetTrafoAndRadii, self.trafo, self.radius1, self.radius2
 		self.trafo = trafo
 		if radius1 <= 0 or radius2 <= 0:
@@ -79,7 +80,7 @@ class Rectangle(RectangularPrimitive):
 		self._changed()
 		return undo
 
-	def DrawShape(self, device, rect = None, clip = 0):
+	def DrawShape(self, device, rect=None, clip=0):
 		Primitive.DrawShape(self, device)
 		if self.radius1 == self.radius2 == 0:
 			device.Rectangle(self.trafo, clip)
@@ -98,22 +99,22 @@ class Rectangle(RectangularPrimitive):
 		return self.rect_path
 
 	def AsBezier(self):
-		return PolyBezier(paths = self.rect_path,
-							properties = self.properties.Duplicate())
+		return PolyBezier(paths=self.rect_path,
+							properties=self.properties.Duplicate())
 
-	def Hit(self, p, rect, device, clip = 0):
+	def Hit(self, p, rect, device, clip=0):
 		if self.radius1 == self.radius2 == 0:
 			return device.ParallelogramHit(p, self.trafo, 1, 1,
 											clip or self.Filled(),
 											self.properties,
-											ignore_outline_mode = clip)
+											ignore_outline_mode=clip)
 		else:
 			return device.MultiBezierHit(self.rect_path, p, self.properties,
 											clip or self.Filled(),
-											ignore_outline_mode = clip)
+											ignore_outline_mode=clip)
 	def GetSnapPoints(self):
 		return map(self.trafo, corners)
-	
+
 	def Snap(self, p):
 		try:
 			x, y = self.trafo.inverse()(p)
@@ -203,11 +204,11 @@ class RectangleCreator(RectangularCreator):
 	creation_text = _("Create Rectangle")
 
 	state = 0
-	
+
 	def MouseMove(self, p, state):
 		self.state = state
 		RectangularCreator.MouseMove(self, p, state)
-	
+
 	def ButtonUp(self, p, button, state):
 		if self.state & AlternateMask:
 			p = self.apply_constraint(p, state)
@@ -233,7 +234,7 @@ class RectangleCreator(RectangularCreator):
 
 	def CreatedObject(self):
 		return Rectangle(self.trafo,
-							properties = DefaultGraphicsProperties())
+							properties=DefaultGraphicsProperties())
 
 
 class RectangleEditor(Editor):
@@ -344,7 +345,7 @@ class RectangleEditor(Editor):
 				ratio = height / width
 			else:
 				ratio = radius1 / radius2
-			
+
 			if ratio > 1:
 				max1 = 0.5
 				max2 = max1 / ratio
@@ -362,7 +363,7 @@ class RectangleEditor(Editor):
 				radius2 = max(min(y, max2), 0)
 				radius1 = radius2 * ratio
 		return trafo, radius1, radius2
-	
+
 	def DrawDragged(self, device, partially):
 		if self.selection is not None:
 			trafo, radius1, radius2 = self.resize()
@@ -374,8 +375,8 @@ class RectangleEditor(Editor):
 
 		if radius1 == radius2 == 0:
 			for x, y, code in ((0, 0, -1), (1, 0, -2), (0, 1, -3), (1, 1, -4),
-								(0.5,   0, 1), (1.0, 0.5, 2),
-								(0.5, 1.0, 3), (  0, 0.5, 4)):
+								(0.5, 0, 1), (1.0, 0.5, 2),
+								(0.5, 1.0, 3), (0, 0.5, 4)):
 				h = handle.MakeNodeHandle(trafo(x, y))
 				h.x_code = code
 				handles.append(h)
@@ -406,7 +407,7 @@ class RectangleEditor(Editor):
 				handles.append(h)
 			else:
 				coords = ((0, radius2, 9), (0, 0.5, 4), (0, 1 - radius2, 10),
-							(1, radius2, 11),(1, 0.5, 2), (1, 1 - radius2, 12))
+							(1, radius2, 11), (1, 0.5, 2), (1, 1 - radius2, 12))
 				for x, y, code in coords:
 					h = handle.MakeNodeHandle(trafo(x, y))
 					h.x_code = code

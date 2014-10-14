@@ -23,15 +23,13 @@ from app.conf.const import ArcArc, ArcChord, ArcPieSlice, ConstraintMask, \
 from app import _, Point, Polar, Trafo, SingularMatrix, Rect, UnionRects, \
 		CreateMultiUndo, NullUndo, RegisterCommands
 
-import graphics
 
 from app.UI.command import AddCmd
 
-import handle
-from base import Primitive, RectangularPrimitive, RectangularCreator, Creator,\
+import handle, cids
+from base import Primitive, RectangularPrimitive, RectangularCreator, Creator, \
 		Editor
 from bezier import PolyBezier
-from blend import Blend
 from properties import DefaultGraphicsProperties
 
 from app import _sketch
@@ -64,13 +62,14 @@ class Ellipse(RectangularPrimitive):
 	is_curve = 1
 	is_clip = 1
 	has_edit_mode = 1
+	cid = cids.ELLIPSE
 
 	commands = RectangularPrimitive.commands[:]
 
-	def __init__(self, trafo = None, start_angle = 0.0, end_angle = 0.0,
-					arc_type = ArcPieSlice, properties = None, duplicate = None):
-		if trafo is not None and trafo.m11==trafo.m21==trafo.m12==trafo.m22==0:
-			trafo=Trafo(1,0,0,-1,trafo.v1,trafo.v2)
+	def __init__(self, trafo=None, start_angle=0.0, end_angle=0.0,
+					arc_type=ArcPieSlice, properties=None, duplicate=None):
+		if trafo is not None and trafo.m11 == trafo.m21 == trafo.m12 == trafo.m22 == 0:
+			trafo = Trafo(1, 0, 0, -1, trafo.v1, trafo.v2)
 		if duplicate is not None:
 			self.start_angle = duplicate.start_angle
 			self.end_angle = duplicate.end_angle
@@ -79,11 +78,11 @@ class Ellipse(RectangularPrimitive):
 			self.start_angle = start_angle
 			self.end_angle = end_angle
 			self.arc_type = arc_type
-		RectangularPrimitive.__init__(self, trafo, properties = properties,
-										duplicate = duplicate)
+		RectangularPrimitive.__init__(self, trafo, properties=properties,
+										duplicate=duplicate)
 		self.normalize()
 
-	def DrawShape(self, device, rect = None, clip = 0):
+	def DrawShape(self, device, rect=None, clip=0):
 		Primitive.DrawShape(self, device)
 		device.SimpleEllipse(self.trafo, self.start_angle, self.end_angle,
 								self.arc_type, rect, clip)
@@ -110,10 +109,10 @@ class Ellipse(RectangularPrimitive):
 	def ArcType(self):
 		return self.arc_type
 
-	AddCmd(commands, 'EllipseArc', _("Arc"), SetArcType, args = ArcArc)
-	AddCmd(commands, 'EllipseChord', _("Chord"), SetArcType, args = ArcChord)
+	AddCmd(commands, 'EllipseArc', _("Arc"), SetArcType, args=ArcArc)
+	AddCmd(commands, 'EllipseChord', _("Chord"), SetArcType, args=ArcChord)
 	AddCmd(commands, 'EllipsePieSlice', _("Pie Slice"), SetArcType,
-			args = ArcPieSlice)
+			args=ArcPieSlice)
 
 	def normalize(self):
 		pi2 = 2 * pi
@@ -131,14 +130,14 @@ class Ellipse(RectangularPrimitive):
 		return (path,)
 
 	def AsBezier(self):
-		return PolyBezier(paths = self.Paths(),
-							properties = self.properties.Duplicate())
+		return PolyBezier(paths=self.Paths(),
+							properties=self.properties.Duplicate())
 
-	def Hit(self, p, rect, device, clip = 0):
+	def Hit(self, p, rect, device, clip=0):
 		return device.SimpleEllipseHit(p, self.trafo, self.start_angle,
 										self.end_angle, self.arc_type,
 										self.properties, self.Filled() or clip,
-										ignore_outline_mode = clip)
+										ignore_outline_mode=clip)
 
 	def Blend(self, other, p, q):
 		blended = RectangularPrimitive.Blend(self, other, p, q)
@@ -301,11 +300,11 @@ class EllipseCreator(RectangularCreator):
 				self.trafo = Trafo(d.x, 0, 0, d.y, start.x, start.y)
 		else:
 			# the ellipse is inscribed into the rectangle with start and
-			# end as opposite corners. 
+			# end as opposite corners.
 			end = self.apply_constraint(self.drag_cur, state)
 			d = (end - start) / 2
 			self.trafo = Trafo(d.x, 0, 0, d.y, start.x + d.x, start.y + d.y)
-			
+
 	def MouseMove(self, p, state):
 		# Bypass RectangularCreator
 		Creator.MouseMove(self, p, state)
@@ -332,7 +331,7 @@ class EllipseCreator(RectangularCreator):
 
 	def CreatedObject(self):
 		return Ellipse(self.trafo,
-						properties = DefaultGraphicsProperties())
+						properties=DefaultGraphicsProperties())
 
 
 class EllipseEditor(Editor):
