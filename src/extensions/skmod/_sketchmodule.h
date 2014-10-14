@@ -20,8 +20,6 @@
 #ifndef _SKETCH_H
 #define _SKETCH_H
 
-#include <cairo-xlib.h>
-#include <cairo.h>
 #include "../pax/paxmodule.h"
 
 extern PyObject * Pax_GCType;

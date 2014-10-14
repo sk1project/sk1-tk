@@ -71,43 +71,6 @@ is_smooth(int * x, int * y)
     return 1;
 }
 
-static int
-cairo_is_smooth(double * x, double * y)
-{
-    double vx, vy, dx, dy, len = 0, lensqr, dist, par;
-
-    vx = x[3] - x[0]; vy = y[3] - y[0];
-    lensqr = vx * vx + vy * vy;
-
-    dx = x[1] - x[0]; dy = y[1] - y[0];
-    if (lensqr)
-    {
-	par = vx * dx + vy * dy;
-	if (par < 0 || par > lensqr)
-	    return 0;
-	len = sqrt(lensqr);
-	dist = abs(vx * dy - vy * dx);
-	if (dist > len * SMOOTH_EPSILON)
-	    return 0;
-    }
-    else if (dx != 0 || dy != 0)
-	return 0;
-
-    dx = x[2] - x[3]; dy = y[2] - y[3];
-    if (lensqr)
-    {
-	par = vx * dx + vy * dy;
-	if (par > 0 || par < -lensqr)
-	    return 0;
-	dist = abs(vx * dy - vy * dx);
-	if (dist > len * SMOOTH_EPSILON)
-	    return 0;
-    }
-    else if (dx != 0 || dy != 0)
-	return 0;
-
-    return 1;
-}
 
 static XPoint *
 bezier_recurse(XPoint * points, int * x, int * y, int depth)
@@ -155,52 +118,6 @@ bezier_recurse(XPoint * points, int * x, int * y, int depth)
     return points;
 }
 
-static CairoPoint *
-cairo_bezier_recurse(CairoPoint * points, double * x, double * y, int depth)
-{
-    double		u[7], v[7];
-    double		tx, ty;
-
-    u[1] = x[0] + x[1];
-    v[1] = y[0] + y[1];
-    tx = x[1] + x[2];
-    ty = y[1] + y[2];
-    u[5] = x[2] + x[3];
-    v[5] = y[2] + y[3];
-
-    u[2] = u[1] + tx;
-    v[2] = v[1] + ty;
-    u[4] = u[5] + tx;
-    v[4] = v[5] + ty;
-
-    u[3] = (u[2] + u[4] + 4) /8;
-    v[3] = (v[2] + v[4] + 4) /8;
-
-    if (depth > 0)
-    {
-	u[0] = x[0];		v[0] = y[0];
-	u[1] = (u[1] + 1) /2;	v[1] = (v[1] + 1) /2;
-	u[2] = (u[2] + 2) /4;	v[2] = (v[2] + 2) /4;
-	if (!cairo_is_smooth(u, v))
-	    points = cairo_bezier_recurse(points, u, v, depth - 1);
-    }
-
-    points->x = u[3];
-    points->y = v[3];
-    points++;
-
-    if (depth > 0)
-    {
-	u[4] = (u[4] + 2) /4;	v[4] = (v[4] + 2) /4;
-	u[5] = (u[5] + 1) /2;	v[5] = (v[5] + 1) /2;
-	u[6] = x[3];		v[6] = y[3];
-	if (!cairo_is_smooth(u + 3, v + 3))
-	    points = cairo_bezier_recurse(points, u + 3, v + 3, depth - 1);
-    }
-
-    return points;
-}
-
 int
 bezier_fill_points(XPoint * start, int * x, int * y)
 {
@@ -222,31 +139,6 @@ bezier_fill_points(XPoint * start, int * x, int * y)
 
     points->x = ROUND(x[3]);
     points->y = ROUND(y[3]);
-
-    return points - start + 1;
-}
-
-int
-cairo_bezier_fill_points(CairoPoint * start, double * x, double * y)
-{
-    CairoPoint * points = start;
-    int i;
-
-    points->x = x[0];
-    points->y = y[0];
-
-//     for (i = 0; i < 4; i++)
-//     {
-// 	x[i] <<= PREC_BITS; y[i] <<= PREC_BITS;
-//     }
-
-    if (!cairo_is_smooth(x, y))
-	points = cairo_bezier_recurse(points + 1, x, y, BEZIER_DEPTH);
-    else
-	points += 1;
-
-    points->x = x[3];
-    points->y = y[3];
 
     return points - start + 1;
 }

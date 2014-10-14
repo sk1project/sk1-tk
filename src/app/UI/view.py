@@ -188,22 +188,12 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	time_redraw = 0
 	def RedrawMethod(self, region=None):
 		# draw the document
-		if __debug__:
-			if self.time_redraw:
-				import time
-				start = time.clock()
+
 		if self.move_window_count >= 2:
 			self.clear_window(update=0)
 		self.move_window_count = 0
 
 		region = self.do_clear(region)
-
-		# draw document
-		self.gc.InitClip()
-		self.gc.ResetFontCache()
-		if region:
-			self.gc.PushClip()
-			self.gc.ClipRegion(region)
 
 		tkwin = self.tkwin
 		if region:
@@ -224,43 +214,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		p2 = self.WinToDoc(x + w + 1, y + h + 1)
 		rect = Rect(p1, p2)
 
-		if not config.preferences.cairo_enabled :
-			self.gc.SetFillColor(StandardColors.white)
-			self.gc.gc.FillRectangle(x, y, w, h)# XXX ugly to access gc.gc
-
-		#	draw paper
-
-		#Drawing tracking
-#		print 'start draw'
-#		import time
-#		_t = time.clock()
-
-#		self.gc.StartDrawing()
-
 		self.renderer.draw(self.document, rect)
-
-#		if self.show_page_outline:
-#			w, h = self.document.PageSize()
-#			self.gc.DrawPageOutline(w, h)
-
-
-		self.document.Draw(self.gc, rect)
-
-#		_tm = time.clock() - _t
-#		print 'doc draw:', _tm
-#		_t = time.clock()
-
-#		self.gc.FinalizeDrawing()
-
-#		_t = time.clock() - _t
-#		print 'finalize:', _t
-
-		if region:
-			self.gc.PopClip()
-
-		if __debug__:
-			if self.time_redraw:
-				pdebug('timing', 'redraw', time.clock() - start)
 
 		return region
 

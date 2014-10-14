@@ -1,5 +1,3 @@
-#include <cairo-xlib.h>
-#include <cairo.h>
 
 #ifndef GCOBJECT_H
 #define GCOBJECT_H
@@ -12,10 +10,6 @@ typedef struct PaxGCObject_
 	Drawable	drawable;
 	GC		gc;
 	int		shared;
-	cairo_t *       cairo;
-	cairo_t *       cairowin;
-	cairo_surface_t *  cairo_surface;
-	cairo_pattern_t *  cairo_pattern;
 	PyObject *	drawable_object;
 } PaxGCObject;
 

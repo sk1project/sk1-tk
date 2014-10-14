@@ -63,8 +63,6 @@ static PyMethodDef curve_functions[] = {
 
     /* Curve functions */
     {"draw_multipath",		SKCurve_PyDrawMultipath,	1},
-    {"cairo_draw_multipath",		SKCurve_PyCairoDrawMultipath,	1},
-    {"cairo_fill_multipath",		SKCurve_PyCairoFillMultipath,	1},
     {"test_transformed",	SKCurve_PyTestTransformed,	1},
     {"blend_paths",		SKCurve_PyBlendPaths,		1},
     {"multicurve_region",	SKCurve_PyMultipathRegion,	1},

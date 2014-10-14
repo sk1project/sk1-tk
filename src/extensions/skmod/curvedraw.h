@@ -17,21 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include <cairo-xlib.h>
-#include <cairo.h>
-
 #ifndef CURVEDRAW_H
 #define CURVEDRAW_H
 
 PyObject * SKCurve_PyDrawTransformed(SKCurveObject * self, PyObject * args);
 
-PyObject * SKCurve_PyCairoDrawTransformed(SKCurveObject * self, PyObject * args);
-
 PyObject * SKCurve_PyDrawMultipath(PyObject* self, PyObject * args);
-
-PyObject * SKCurve_PyCairoDrawMultipath(PyObject* self, PyObject * args);
-
-PyObject * SKCurve_PyCairoFillMultipath(PyObject* self, PyObject * args);
 
 PyObject * SKCurve_PyMultipathRegion(PyObject* self, PyObject * args);
 

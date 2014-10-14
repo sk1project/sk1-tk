@@ -7,12 +7,8 @@
 #define BEZIER_NUM_STEPS ((2 << (BEZIER_DEPTH + 1)) + 1)
 #define BEZIER_FILL_LENGTH (BEZIER_NUM_STEPS + 1)
 
-typedef struct {
-    double x, y;
-} CairoPoint;
 
 int bezier_fill_points(XPoint * points, int * x, int * y);
-int cairo_bezier_fill_points(CairoPoint * points, double * x, double * y);
 
 int bezier_hit_segment(int * x, int * y, int px, int py);
 int bezier_hit_line(int sx, int sy, int ex, int ey, int px, int py);
