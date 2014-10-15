@@ -37,7 +37,7 @@ class ExternalData:
 	stored_in_cache = 0
 	filename = ''
 
-	def __init__(self, filename = '', do_cache = 1):
+	def __init__(self, filename='', do_cache=1):
 		if filename and do_cache:
 			self.stored_in_cache = 1
 			instance_cache[filename] = self
@@ -68,12 +68,13 @@ class ExternalGraphics(RectangularObject, GraphicsObject):
 	has_edit_mode = 0
 	# by default this has no properties:
 	has_fill = has_line = has_font = 0
+	cache_cdata = None
 
 	data = None
 
-	def __init__(self, data = None, trafo = None, duplicate = None):
-		RectangularObject.__init__(self, trafo, duplicate = duplicate)
-		GraphicsObject.__init__(self, duplicate = duplicate)
+	def __init__(self, data=None, trafo=None, duplicate=None):
+		RectangularObject.__init__(self, trafo, duplicate=duplicate)
+		GraphicsObject.__init__(self, duplicate=duplicate)
 		if duplicate is not None:
 			data = duplicate.data
 		self.data = data
@@ -82,15 +83,16 @@ class ExternalGraphics(RectangularObject, GraphicsObject):
 		return self.data
 
 	def SetData(self, data):
+		self.cache_cdata = None
 		undo = self.SetData, self.data
 		self.data = data
 		# XXX issue_changed() here ?
 		return undo
 
-	def Hit(self, p, rect, device, clip = 0):
+	def Hit(self, p, rect, device, clip=0):
 		width, height = self.data.Size()
 		return device.ParallelogramHit(p, self.trafo, width, height, 1,
-										ignore_outline_mode = clip)
+										ignore_outline_mode=clip)
 
 	def SetLowerLeftCorner(self, corner):
 		# Used by the place mode in SketchCanvas. Currently no undo

@@ -6,6 +6,8 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import cairo, cids, math, operator
+from tempfile import NamedTemporaryFile
+
 from sk1sdk import tkcairo
 
 from app import config
@@ -224,6 +226,25 @@ class DocRenderer:
 		if obj.cid < cids.PRIMITIVE:
 			for item in obj.objects:
 				self.draw_object(item)
+		elif obj.cid == cids.IMAGE:
+			if not obj.cache_cdata:
+				tmpfile = NamedTemporaryFile()
+				obj.data.image.save(tmpfile.name, 'PNG')
+				png_loader = cairo.ImageSurface.create_from_png
+				obj.cache_cdata = png_loader(tmpfile.name)
+			if not obj.cache_cdata: return
+
+			h = obj.data.size[1]
+			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
+			xx = obj.trafo.m11 * self.zoom
+			yy = obj.trafo.m22 * self.zoom
+			yx = -obj.trafo.m21 * self.zoom
+			xy = -obj.trafo.m12 * self.zoom
+
+			self.ctx.set_matrix(cairo.Matrix(xx, yx, xy, yy, x0, y0))
+			self.ctx.set_source_surface(obj.cache_cdata)
+			self.ctx.paint()
+			self.ctx.set_matrix(self.canvas_matrix)
 		else:
 			if not obj.cache_cpath:
 				obj.cache_cpath = self.create_cpath(obj.get_paths_list())
