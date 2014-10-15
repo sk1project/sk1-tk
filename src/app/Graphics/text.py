@@ -586,7 +586,6 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def AsBezier(self):
 		if self.text:
-			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
 
@@ -597,7 +596,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 			else:
 				paths = self.curves_cache
 
-			obj = PolyBezier(paths, self.properties.Duplicate())
+			obj = PolyBezier(paths, self.properties.Duplicate()).Duplicate()
 			obj.Transform(base_trafo)
 			return obj
 
@@ -705,7 +704,6 @@ class SimpleTextEditor(CommonTextEditor):
 			dists.append((abs(pts[i].x - p2.x), i))
 		caret = min(dists)[-1]
 		self.SetCaret(caret)
-#		print "CATCHED!"
 		return 1
 
 	def duplicate_typeset(self, typeset):
