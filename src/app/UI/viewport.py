@@ -7,7 +7,7 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from app import Trafo, RectType, EmptyRect, InfinityRect
-from app import config 
+from app import config
 preferences = config.preferences
 from app.Graphics.papersize import Papersize
 
@@ -17,28 +17,28 @@ class Viewport:
 	max_scale = 30
 	min_scale = 0.01
 
-	def __init__(self, resolution = None):
+	def __init__(self, resolution=None):
 		self.hbar = None
 		self.vbar = None
 		self.hruler = None
 		self.vruler = None
 
-		self.base_width = 3000
+		self.base_width = 5000
 		self.base_height = 3000
 		self.nominal_scale = 1
 		self.scale = 1.0
 		self.virtual_width = self.base_width
-		self.virtual_height =  self.base_height
+		self.virtual_height = self.base_height
 		self.virtual_x = 0
 		self.virtual_y = 0
 		self.init_resolution(resolution)
-		self.set_page_size(Papersize['A4']) # XXX config
+		self.set_page_size(Papersize['A4'])# XXX config
 		self.compute_win_to_doc()
 		self.clear_rects = []
 		self.clear_entire_window = 0
 
 		self.init_viewport_ring()
-		
+
 
 
 	def init_resolution(self, resolution):
@@ -124,7 +124,7 @@ class Viewport:
 					y2 = self.tkwin.height
 				elif y2 < 0:
 					return
-				
+
 				self.clear_rects.append((x1 - 1, y1 - 1,
 											x2 - x1 + 2, y2 - y1 + 2))
 			else:
@@ -137,7 +137,7 @@ class Viewport:
 					self.clear_rects.append((x, 0, 1, self.tkwin.height))
 		self.UpdateWhenIdle()
 
-	def clear_window(self, update = 1):
+	def clear_window(self, update=1):
 		# Mark the entire window as invalid.
 		self.clear_entire_window = 1
 		self.clear_rects = []
@@ -148,7 +148,7 @@ class Viewport:
 		# Clear all areas marked as invalid by clear_area_doc() or
 		# clear_window(). These areas are added to REGION via its
 		# UnionRectWithRegion method. This function should be called by
-		# RedrawMethod() before any drawing is done		
+		# RedrawMethod() before any drawing is done
 
 		if config.preferences.cairo_enabled == 1:
 			self.clear_entire_window = 1
@@ -169,7 +169,7 @@ class Viewport:
 	#
 	#
 
-	def set_origin(self, xorg, yorg, move_contents = 1):
+	def set_origin(self, xorg, yorg, move_contents=1):
 		old_org_x = xo = self.virtual_x
 		old_org_y = yo = self.virtual_y
 		if xorg != None:
@@ -206,15 +206,15 @@ class Viewport:
 	#	Managing the displayed area
 	#
 
-	def SetCenter(self, center, move_contents = 1):
+	def SetCenter(self, center, move_contents=1):
 		# set origin so that center (in doc-coords) is in the center of the
 		# widget
 		cx, cy = self.DocToWin(center)
 		self.set_origin(self.virtual_x + cx - self.tkwin.width / 2,
 						self.virtual_y + cy - self.tkwin.height / 2,
-						move_contents = move_contents)
+						move_contents=move_contents)
 
-	def SetScale(self, scale, do_center = 1):
+	def SetScale(self, scale, do_center=1):
 		# Set current scale
 		scale = scale * self.pixel_per_point
 		if scale > self.max_scale:
@@ -235,9 +235,9 @@ class Viewport:
 		self.compute_win_to_doc()
 
 		if do_center:
-			self.SetCenter(center, move_contents = 0)
+			self.SetCenter(center, move_contents=0)
 		else:
-			self.set_origin(0, 0, move_contents = 0)
+			self.set_origin(0, 0, move_contents=0)
 
 		self.gc.SetViewportTransform(scale, self.doc_to_win, self.win_to_doc)
 
@@ -264,18 +264,18 @@ class Viewport:
 		if abs(rw) < epsilon:
 			return
 		width = self.tkwin.width
-		scalex = 0.9*float(width) / rw
+		scalex = 0.9 * float(width) / rw
 
 		rh = rect.top - rect.bottom
 		if abs(rh) < epsilon:
 			return
 		height = self.tkwin.height
-		scaley = 0.9*float(height) / rh
+		scaley = 0.9 * float(height) / rh
 
 		scale = min((scalex, scaley, self.max_scale))
 
-		self.SetScale(scale / self.pixel_per_point, do_center = 0)
-		self.SetCenter(rect.center(), move_contents = 0)
+		self.SetScale(scale / self.pixel_per_point, do_center=0)
+		self.SetCenter(rect.center(), move_contents=0)
 
 
 	def ZoomInfoText(self):
@@ -313,12 +313,12 @@ class Viewport:
 			min = self.virtual_y / vh
 			self.vbar.set(min, min + h / vh)
 
-	def update_rulers(self, force = 0):
+	def update_rulers(self, force=0):
 		start = self.WinToDoc(0, 0)
 		if self.hruler:
-			self.hruler.SetRange(start.x, self.scale, force = force)
+			self.hruler.SetRange(start.x, self.scale, force=force)
 		if self.vruler:
-			self.vruler.SetRange(start.y, self.scale, force = force)
+			self.vruler.SetRange(start.y, self.scale, force=force)
 
 	def xview(self, *args):
 		apply(self.tk.call, (self._w, 'xview') + args)
@@ -384,13 +384,13 @@ class Viewport:
 		if self.viewport_ring:
 			scale, vx, vy = self.viewport_ring[0]
 			del self.viewport_ring[0]
-			self.SetScale(scale / self.pixel_per_point, do_center = 0)
-			self.set_origin(vx, vy, move_contents = 0)
-			
-	def restore_viewport_from_data(self,view):
+			self.SetScale(scale / self.pixel_per_point, do_center=0)
+			self.set_origin(vx, vy, move_contents=0)
+
+	def restore_viewport_from_data(self, view):
 		scale, vx, vy = view
-		self.SetScale(scale / self.pixel_per_point, do_center = 0)
-		self.set_origin(vx, vy, move_contents = 0)
-		
+		self.SetScale(scale / self.pixel_per_point, do_center=0)
+		self.set_origin(vx, vy, move_contents=0)
+
 	def get_viewport_data(self):
 		return (self.scale, self.virtual_x, self.virtual_y)
