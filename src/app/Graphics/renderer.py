@@ -241,10 +241,12 @@ class DocRenderer:
 			yx = -obj.trafo.m21 * self.zoom
 			xy = -obj.trafo.m12 * self.zoom
 
+			self.ctx.set_antialias(cairo.ANTIALIAS_NONE)
 			self.ctx.set_matrix(cairo.Matrix(xx, yx, xy, yy, x0, y0))
 			self.ctx.set_source_surface(obj.cache_cdata)
 			self.ctx.paint()
 			self.ctx.set_matrix(self.canvas_matrix)
+			self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 		else:
 			if not obj.cache_cpath:
 				obj.cache_cpath = self.create_cpath(obj.get_paths_list())
@@ -256,22 +258,13 @@ class DocRenderer:
 				self.ctx.fill()
 			stroke = obj.properties.line_pattern
 			if not stroke.is_Empty:
-				self.ctx.set_line_width(obj.properties.line_width * self.zoom)
+				self.ctx.set_line_width(obj.properties.line_width)
 				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
+				#TODO: fix line cap mismatch
 				self.ctx.set_line_cap(obj.properties.line_cap)
 				self.ctx.set_line_join(obj.properties.line_join)
 
 				dashes = obj.properties.line_dashes
-				if dashes:
-					scale = obj.properties.line_width * self.zoom
-					dashes = map(operator.mul, dashes, [scale] * len(dashes))
-					dashes = map(int, map(round, dashes))
-					for idx in range(len(dashes)):
-						length = dashes[idx]
-						if length <= 0:
-							dashes[idx] = 1
-						elif length > 255:
-							dashes[idx] = 255
-					self.ctx.set_dash(dashes)
+				if dashes: self.ctx.set_dash(dashes)
 				self.ctx.append_path(obj.cache_cpath)
 				self.ctx.stroke()
