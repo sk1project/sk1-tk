@@ -15,7 +15,6 @@ from app import _, config
 from uniconvertor import filters
 from app import Publisher, Point, EmptyFillStyle, EmptyLineStyle, dialogman, \
 		EmptyPattern, GuideLine
-import app
 from app.Graphics import image, eps
 import app.Scripting
 from app.Graphics.color import rgb_to_tk
@@ -708,7 +707,7 @@ class sK1MainWindow(Publisher):
 		self.tabspanel.closeAll()
 
 	def Exit(self):
-		if not self.tabspanel.closeAll(exit=1) == tkext.Cancel:
+		if not self.tabspanel.closeAll(True) == tkext.Cancel:
 			self.commands = None
 			self.HideDialogs()
 			self.root.withdraw()

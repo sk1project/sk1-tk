@@ -6,9 +6,9 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TFrame, TLabel, TButton
-from Tkinter import LEFT, RIGHT, TOP, X, Y, BOTH, BOTTOM
-from app.UI.tkext import MenuCommand, UpdatedMenu, MakeCommand
-from app.conf.const import UNDO, DOCUMENT
+from Tkinter import LEFT, TOP, X, Y, BOTTOM
+from app.UI.tkext import UpdatedMenu, MakeCommand
+from app.conf.const import UNDO
 from app import _, Publisher
 from app.UI.dialogs import msgdialog
 import os
@@ -27,7 +27,8 @@ class TabsPanel(TFrame, Publisher):
 	def __init__(self, parent, mainwindow):
 		self.parent = parent
 		self.mainwindow = mainwindow
-		TFrame.__init__(self, self.parent, name='tabsPanel', style='FlatFrame', borderwidth=0)
+		TFrame.__init__(self, self.parent, name='tabsPanel', style='FlatFrame',
+					borderwidth=0)
 		self.left_label = TLabel(self, style=LEFT_CORNER, image='space_3')
 		self.right_label = TLabel(self, style=RIGHT_CORNER, image='space_3')
 		self.stub_label = TLabel(self, style='DrawingAreaTop', image='space_5')
@@ -105,13 +106,13 @@ class TabsPanel(TFrame, Publisher):
 		self.setActive(tab)
 		return tab
 
-	def closeTab(self, tab, exit=0):
+	def closeTab(self, tab, exit_state=False):
 		result = self.docmanager.save_doc_if_edited(tab.document)
 		index = self.content.index(tab)
 		if not result == msgdialog.Cancel:
 			self.content.remove(tab)
 			if not len(self.content):
-				if not exit:
+				if not exit_state:
 					self.docmanager.NewDocument()
 			else:
 				if tab.is_Active:
@@ -119,7 +120,7 @@ class TabsPanel(TFrame, Publisher):
 						self.setActive(self.content[index - 1])
 					else:
 						self.setActive(self.content[index])
-			if not exit:
+			if not exit_state:
 				self.docmanager.CloseDocument(tab.document)
 			tab.forget()
 			self.check_state()
@@ -146,10 +147,10 @@ class TabsPanel(TFrame, Publisher):
 					return
 		self.check_state()
 
-	def closeAll(self, exit=0):
+	def closeAll(self, exit_state=False):
 		for item in [] + self.content:
 			self.setActive(item)
-			if self.closeTab(item, exit) == msgdialog.Cancel:
+			if self.closeTab(item, exit_state) == msgdialog.Cancel:
 				self.check_state()
 				return msgdialog.Cancel
 		return msgdialog.Yes
