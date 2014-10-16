@@ -110,7 +110,8 @@ class TabsPanel(TFrame, Publisher):
 		index = self.content.index(tab)
 		if not result == msgdialog.Cancel:
 			self.content.remove(tab)
-			if not len(self.content) and not exit:
+			if not len(self.content):
+				if not exit:
 					self.docmanager.NewDocument()
 			else:
 				if tab.is_Active:

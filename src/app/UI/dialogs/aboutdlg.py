@@ -13,9 +13,8 @@ from app import dialogman
 from uniconvertor import cms
 
 from sk1sdk.libttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
-from app.UI.ttk_ext import TSpinbox
-from Tkinter import StringVar, Text, TclVersion
-from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, NONE
+from Tkinter import Text, TclVersion
+from Tkinter import TOP, LEFT, RIGHT, X, Y, BOTH, W, S, N, E, NORMAL, DISABLED, END, NONE
 
 TRANSLATORS = """
 Brazilian Portuguese:
@@ -82,6 +81,7 @@ class AboutDialog(ModalDialog):
 
 		self.top.bind('<Escape>', self.cancel)
 		self.top.protocol('WM_DELETE_WINDOW', self.cancel)
+		self.top.resizable (width=0, height=0)
 
 	def build_tab_about(self):
 		panel = TFrame(self.root, style='FlatFrame', borderwidth=10)

@@ -106,7 +106,9 @@ class TkApplication:
 
 	def Mainloop(self):
 		self.splash.set_val(1)
-		self.splash.hide()
+		self.root.update()
+		self.root.deiconify()
+		self.root.after(300, self.splash.hide)
 		self.root.mainloop()
 
 	def MessageBox(self, *args, **kw):
@@ -257,9 +259,8 @@ class SplashScreen:
 			self.win.update()
 
 	def hide(self):
-		self.root.update()
-		self.root.deiconify()
 		if self.flag and self.win:
+			self.win.withdraw()
 			self.win.destroy()
 
 	def set_val(self, val, txt=''):

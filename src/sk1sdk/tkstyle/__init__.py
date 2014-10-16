@@ -48,8 +48,7 @@ def set_style(widget, style, correct_font=True):
 	Applies style to application L&F.
 	style - should be Style object.
 	"""
-	if not sk1sdk.tkstyle.INITIALIZED:
-		_init_styling(widget)
+	if not INITIALIZED: _init_styling(widget)
 	sk1sdk.tkstyle.CURRENT_STYLE = style
 	_apply_colors(widget, style)
 	_apply_fonts(widget, style, correct_font)

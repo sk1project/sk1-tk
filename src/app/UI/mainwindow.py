@@ -6,18 +6,15 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import os, sys, string
+import os
 from types import TupleType, ListType
 
 from uniconvertor.utils import fs
 from app.events.warn import warn, warn_tb, INTERNAL, USER
-from app import _, config, sKVersion
+from app import _, config
 from uniconvertor import filters
-from app.io import load
-from app.conf import const
-from app.utils import locale_utils
 from app import Publisher, Point, EmptyFillStyle, EmptyLineStyle, dialogman, \
-		EmptyPattern, Document, GuideLine, PostScriptDevice, SketchError, PolyBezier, CreatePath, Polar
+		EmptyPattern, GuideLine
 import app
 from app.Graphics import image, eps
 import app.Scripting
@@ -25,27 +22,23 @@ from app.Graphics.color import rgb_to_tk
 from app.managers.docmanager import DocumentManager
 
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
-from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
+from app.conf.const import MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 
-from Tkinter import TclVersion, TkVersion, Frame, Scrollbar, Label, SW, StringVar
+from Tkinter import Frame
 from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
-from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, TButton
+from sk1sdk.libttk import  TFrame, TScrollbar, TLabel
 from widgets.doctabs import TabsPanel
 from widgets.pager import Pager
-import Tkinter
-from tkext import AppendMenu, UpdatedLabel, UpdatedButton, CommandButton, ToolbarButton, \
-				CommandCheckbutton, MakeCommand, MultiButton, \
-			UpdatedRadiobutton, UpdatedCheckbutton, ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
+from tkext import AppendMenu, UpdatedLabel, ToolbarButton, MakeCommand, \
+			ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
 			UpdatedTButton
 import tkext
 from context import ctxPanel
-from app.Graphics.image import RGB_IMAGE, RGBA_IMAGE, GRAYSCALE_IMAGE, CMYK_IMAGE, BW_IMAGE
+from app.Graphics.image import RGB_IMAGE, GRAYSCALE_IMAGE, CMYK_IMAGE, BW_IMAGE
 
 from command import CommandClass, Keymap, Commands
-from math import floor, ceil
 
 from canvas import SketchCanvas
-#from ExportR import export_raster_more_interactive
 import tkruler
 from poslabel import PositionLabel
 import palette
@@ -55,7 +48,6 @@ import math
 import skpixmaps
 pixmaps = skpixmaps.PixmapTk
 
-from app import skapp
 from dialogs.aboutdlg import aboutDialog
 from cc.ccenterdialog import ControlCenter
 from pluginpanels.plugincontainer import PluginContainer
@@ -154,15 +146,6 @@ class sK1MainWindow(Publisher):
 	def build_window(self):
 		root = self.application.root
 
-		p_frame = TFrame(root, style='FlatFrame')
-		p_frame.pack(side='right', fill=Y)
-
-		palette_frame = TFrame(p_frame, style='FlatFrame')
-		palette_frame.pack(side='right', fill=Y, pady=5, padx=3)
-
-		b = TLabel(root, style='VLine2')
-		b.pack(side=RIGHT, fill=Y)
-
 		# the menu
 		self.mbar = TFrame(root, name='menubar', style='MenuBarFrame', borderwidth=2)
 		self.mbar.pack(fill=X)
@@ -186,6 +169,17 @@ class sK1MainWindow(Publisher):
 		# the tools bar
 		self.tframe = TFrame(root, name='tools_frame', style='FlatFrame', borderwidth=2)
 		self.tframe.pack(side=LEFT, fill=Y)
+
+		# the palette
+
+		p_frame = TFrame(root, style='FlatFrame')
+		p_frame.pack(side='right', fill=Y)
+
+		palette_frame = TFrame(p_frame, style='FlatFrame')
+		palette_frame.pack(side='right', fill=Y, pady=5, padx=3)
+
+		b = TLabel(root, style='VLine2')
+		b.pack(side=RIGHT, fill=Y)
 
 		####################################
 		# Drawing area creating
@@ -1125,8 +1119,9 @@ class sK1MainWindow(Publisher):
 					cmds.Convert_to_BW,
 					None,
 					cmds.Invert,
-					None,
-					cmds.Embed])
+#					None,
+#					cmds.Embed
+					])
 
 	def make_style_menu(self):
 		return map(MakeCommand,
@@ -1140,8 +1135,8 @@ class sK1MainWindow(Publisher):
 					self.commands.CreateStyleFromSelection,
 					self.commands.CreateStyleDialog,
 					self.commands.UpdateStyle# ,
-#                                       None,
-#                                       self.commands.CreateFontDialog
+#                   None,
+#                   self.commands.CreateFontDialog
 					])
 
 	def make_script_menu(self):
