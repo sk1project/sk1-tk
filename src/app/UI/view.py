@@ -39,6 +39,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		self.gcs_initialized = 0
 		self.gc = GraphicsDevice()
 		self.renderer = DocRenderer(self)
+		self.widget_size = ()
 
 
 		self.init_transactions()
@@ -221,7 +222,13 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 	def ResizedMethod(self, width, height):
 		Viewport.ResizedMethod(self, width, height)
 		self.gc.WindowResized(width, height)
-		if self.gc.gc: self.RedrawMethod()
+		if self.widget_size:
+			center = self.WinToDoc(width / 2, height / 2,)
+			dx = ((width - self.widget_size[0]) / 2) / self.scale
+			dy = ((height - self.widget_size[1]) / 2) / self.scale
+			self.SetCenter((center[0] - dx, center[1] + dy))
+			self.RedrawMethod()
+		self.widget_size = (width, height)
 
 	#
 	#	Viewport- and related methods
@@ -300,7 +307,7 @@ class SketchView(PyWidget, Viewport, QueueingPublisher):
 		self.begin_transaction()
 		try:
 			w, h = self.document.PageSize()
-			self.zoom_fit_rect(Rect(0, 0, w, h).grown(10),
+			self.zoom_fit_rect(Rect(0, 0, w, h),
 								save_viewport=save_viewport)
 		finally:
 			self.end_transaction()
