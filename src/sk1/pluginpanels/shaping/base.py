@@ -10,10 +10,11 @@
 import math
 import UserDict
 
-from sk1.sketchdlg import MessageDialog
 from app import CreatePath, Point, Rect
-from app import _, Bezier, Line # segment types
+from app import _, Bezier, Line
 from app.Graphics.bezier import split_path_at
+
+from sk1.dialogs.sketchdlg import MessageDialog
 
 PRECISION = 8
 
@@ -94,7 +95,7 @@ def intersect_objects(objects):
 			# for better performance, group every 10 line segments
 			partials = []
 			for k in range(0, len(approx_path), 10):
-				partial = approx_path[k:k+11]
+				partial = approx_path[k:k + 11]
 				partials.append((i, j, partial, coord_rect(partial)))
 			if len(partials[-1]) == 1:
 				partial = partials.pop()
@@ -109,9 +110,9 @@ def intersect_objects(objects):
 				for object2, path2, approx_path2, rect2 in approx_paths[j]:
 					if rect1.overlaps(rect2):
 						for p in range(1, len(approx_path1)):
-							(p0, t0), (p1, t1) = approx_path1[p-1:p+1]
+							(p0, t0), (p1, t1) = approx_path1[p - 1:p + 1]
 							for q in range(1, len(approx_path2)):
-								(p2, t2), (p3, t3) = approx_path2[q-1:q+1]
+								(p2, t2), (p3, t3) = approx_path2[q - 1:q + 1]
 								if equal(p0, p2):
 									cp = p0
 								elif equal(p0, p3) or \
@@ -235,10 +236,10 @@ def split_paths(object, index_table):
 def tidy(path):
 	# remove redundant node at the end of the path
 	if path.len > 1:
-		type, control, node, cont = path.Segment(path.len-1)
-		if type == Line and equal(node, path.Node(path.len-2)):
+		type, control, node, cont = path.Segment(path.len - 1)
+		if type == Line and equal(node, path.Node(path.len - 2)):
 			new_path = CreatePath()
-			for i in range(path.len-1):
+			for i in range(path.len - 1):
 				type, control, node, cont = path.Segment(i)
 				new_path.AppendSegment(type, control, node, cont)
 			path = new_path
@@ -262,7 +263,7 @@ def on_line(p, a, b):
 def on_outline(p0, p1, object_paths):
 	for approx_path in object_paths:
 		for i in range(1, len(approx_path)):
-			(p2, t), (p3, t) = approx_path[i-1:i+1]
+			(p2, t), (p3, t) = approx_path[i - 1:i + 1]
 			if on_line(p0, p2, p3) and on_line(p1, p2, p3):
 				return 1
 	return 0
@@ -271,18 +272,18 @@ def contained(path, object):
 	approx_path = approximate_path(path)
 	object_paths = map(approximate_path, object.Paths())
 	for i in range(1, len(approx_path)):
-		(p0, t), (p1, t) = approx_path[i-1:i+1]
+		(p0, t), (p1, t) = approx_path[i - 1:i + 1]
 		if not on_outline(p0, p1, object_paths):
 			break
 	else:
 		return 1
 	p0 = Point(subdivide(p0.x, p1.x), subdivide(p0.y, p1.y))
-	p1 = Point(object.coord_rect.left   - 1.0,
+	p1 = Point(object.coord_rect.left - 1.0,
 				object.coord_rect.bottom - 1.0)
 	count = 0
 	for approx_path in object_paths:
 		for i in range(1, len(approx_path)):
-			(p2, t), (p3, t) = approx_path[i-1:i+1]
+			(p2, t), (p3, t) = approx_path[i - 1:i + 1]
 			cp = intersect_lines(p0, p1, p2, p3)
 			if cp is not None and (i == 1 or not equal(cp, p2)):
 				count = count + 1
@@ -307,8 +308,8 @@ def join(paths):
 					new_path.AppendSegment(type, control, node, cont)
 				start = cp2
 			elif equal(cp2, start):
-				last_type, last_control, node, cont = path.Segment(path.len-1)
-				for j in range(path.len-2, -1, -1):
+				last_type, last_control, node, cont = path.Segment(path.len - 1)
+				for j in range(path.len - 2, -1, -1):
 					type, control, node, cont = path.Segment(j)
 					if last_type == Bezier:
 						last_control = (last_control[1], last_control[0])

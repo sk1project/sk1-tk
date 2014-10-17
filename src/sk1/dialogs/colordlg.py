@@ -21,7 +21,7 @@ from app.Graphics import color
 from sk1sdk.libttk import TFrame, TButton, TLabel
 from sk1.tkext import PyWidget
 from sk1.ttk_ext import TSpinbox, TEntrybox
-from sk1.sketchdlg import SKModal
+from sk1.dialogs.sketchdlg import SKModal
 
 class MyDoubleVar(DoubleVar):
 

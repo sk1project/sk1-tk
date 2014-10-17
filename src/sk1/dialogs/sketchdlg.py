@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (C) 2003-2006 by Igor E. Novikov
-# Copyright (C) 1997, 1998, 1999, 2003 by Bernhard Herzog 
+# Copyright (C) 1997, 1998, 1999, 2003 by Bernhard Herzog
 #
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
@@ -46,24 +46,19 @@
 # Panel (CurvePanel and AlignPanel for instance)
 #
 
-from types import StringType
+from Tkinter import Toplevel, IntVar, Frame, Checkbutton
+from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, TkVersion
 
 from app.events.warn import pdebug, warn_tb, INTERNAL
 from app import _, Publisher
 from app.conf.const import SELECTION, DOCUMENT, EDITED, CLOSED
 from app import config
-from app.conf import const
-import app
 
-from Tkinter import Toplevel, IntVar, Frame, Checkbutton, Label
-from sk1sdk.libttk import TButton, TLabel, TFrame
-from Tkinter import TOP, LEFT, RIGHT, BOTTOM, X, BOTH, TkVersion
+from sk1sdk.libttk import TLabel, TFrame
 
-from tkext import UpdatedButton
-import tkext
-import tkMessageBox
-import skpixmaps
-pixmaps = skpixmaps.PixmapTk
+from sk1.tkext import UpdatedButton
+from sk1 import tkext
+
 
 
 class SketchPanel(Publisher):
@@ -77,8 +72,8 @@ class SketchPanel(Publisher):
 
 	receivers = [(SELECTION, 'issue', SELECTION)]
 
-	title = 'sK1'			# The window title
-	class_name = 'SKPanel'	# the class_name for resources
+	title = 'sK1'# The window title
+	class_name = 'SKPanel'# the class_name for resources
 
 	x_correction = 0
 	y_correction = 0
@@ -95,7 +90,7 @@ class SketchPanel(Publisher):
 		self.pref_pos_name = 'dlg_pos_' + self.__class__.__name__
 		if config.preferences.panel_use_coordinates:
 			posx, posy = config.get_preference(self.pref_pos_name, (0.1, 0.1))
-			
+
 			# avoid confusing behaviour of panels if the position is negative or > 1:
 			posx = max(min(posx, 1), 0)
 			posy = max(min(posy, 1), 0)
@@ -193,8 +188,8 @@ class SketchPanel(Publisher):
 	def create_std_buttons(self, master):
 		frame = Frame(master, borderwidth=2)
 
-		button = UpdatedButton(frame, text = _("Apply"), command = self.do_apply, sensitivecb = self.can_apply, width = 15)
-		button.pack(side = TOP)
+		button = UpdatedButton(frame, text=_("Apply"), command=self.do_apply, sensitivecb=self.can_apply, width=15)
+		button.pack(side=TOP)
 		return frame
 
 	def build_dlg(self):
@@ -224,7 +219,7 @@ class PropertyPanel(SketchPanel):
 	def __init__(self, master, main_window, doc, *args, **kw):
 		self.var_auto_update = IntVar(master)
 		self.var_auto_update.set(1)
-		apply(SketchPanel.__init__, (self, master, main_window, doc) +args, kw)
+		apply(SketchPanel.__init__, (self, master, main_window, doc) + args, kw)
 
 	receivers.append((SELECTION, 'selection_changed'))
 	receivers.append((EDITED, 'selection_changed'))
@@ -232,22 +227,22 @@ class PropertyPanel(SketchPanel):
 		if self.var_auto_update.get():
 			self.Update()
 
-	def create_std_buttons(self, master, update_from = 1):
+	def create_std_buttons(self, master, update_from=1):
 		button_frame = Frame(master)
 
-		button = Checkbutton(button_frame, text = _("Auto Update"),
-								variable = self.var_auto_update)
-		button.pack(side = TOP, expand = 1, fill = X)
+		button = Checkbutton(button_frame, text=_("Auto Update"),
+								variable=self.var_auto_update)
+		button.pack(side=TOP, expand=1, fill=X)
 
 		if update_from:
-			button = UpdatedButton(button_frame, text = _("Update From..."), command = self.update_from_object)
-			button.pack(side = TOP, expand = 1, fill = X)
+			button = UpdatedButton(button_frame, text=_("Update From..."), command=self.update_from_object)
+			button.pack(side=TOP, expand=1, fill=X)
 
-		button = UpdatedButton(button_frame, text = _("Apply"), command = self.do_apply, sensitivecb = self.can_apply)
-		button.pack(side = LEFT, expand = 1, fill = X)
+		button = UpdatedButton(button_frame, text=_("Apply"), command=self.do_apply, sensitivecb=self.can_apply)
+		button.pack(side=LEFT, expand=1, fill=X)
 		self.Subscribe(SELECTION, button.Update)
-		button = UpdatedButton(button_frame, text = _("Close"), command = self.close_dlg)
-		button.pack(side = RIGHT, expand = 1, fill = X)
+		button = UpdatedButton(button_frame, text=_("Close"), command=self.close_dlg)
+		button.pack(side=RIGHT, expand=1, fill=X)
 
 		return button_frame
 
@@ -306,7 +301,7 @@ class SKModal:
 
 		self.top = top
 		self.build_dlg()
-		mcx = master.winfo_rootx() + master.winfo_width()/ 2
+		mcx = master.winfo_rootx() + master.winfo_width() / 2
 		mcy = master.winfo_rooty() + master.winfo_height() / 2
 		top.withdraw()
 		top.update()
@@ -332,14 +327,14 @@ class SKModal:
 	def cancel(self):
 		self.close_dlg(None)
 
-	def close_dlg(self, result = None):
+	def close_dlg(self, result=None):
 		self.result = result
 		if self.old_focus is not None:
 			self.old_focus.focus_set()
 			self.old_focus = None
 		self.top.destroy()
 
-	def RunDialog(self, grab = 1):
+	def RunDialog(self, grab=1):
 		try:
 			self.old_focus = self.top.focus_get()
 		except KeyError:
@@ -372,8 +367,8 @@ class SKModal:
 class MessageDialog(SKModal):
 
 	class_name = 'SKMessageDialog'
-	
-	def __init__(self, master, title, message, buttons = _("OK"), default = 0, icon = 'warning', dlgname = '__dialog__'):
+
+	def __init__(self, master, title, message, buttons=_("OK"), default=0, icon='warning', dlgname='__dialog__'):
 		self.title = title
 		self.message = message
 		if type(buttons) != type(()):
@@ -381,27 +376,27 @@ class MessageDialog(SKModal):
 		self.buttons = buttons
 		self.default = -1
 		self.image = icon
-		SKModal.__init__(self, master, name = dlgname)
-	
+		SKModal.__init__(self, master, name=dlgname)
+
 	def build_dlg(self):
 		root = self.top
-		top = TFrame(root, style='FlatFrame', borderwidth = 10)
-		top.pack(side = TOP, fill = BOTH, expand = 1)
-		
-		frame = TFrame(top, name = 'top', style='FlatFrame')
-		frame.pack(side = TOP, fill = BOTH, expand = 1)
-		label = TLabel(frame, image = 'messagebox_'+self.image, style='FlatLabel')
-		label.pack(side = LEFT, padx = 5, pady = 5)
-		label = TLabel(frame, text = self.message, name = 'msg', style='FlatLabel', justify='center', anchor='center')
-		label.pack(side = RIGHT, fill = BOTH, expand = 1)
-	
-		frame = TFrame(top, name = 'bot', style='FlatFrame')
-		frame.pack(side = BOTTOM)#, fill = X, expand = 1)
-	
+		top = TFrame(root, style='FlatFrame', borderwidth=10)
+		top.pack(side=TOP, fill=BOTH, expand=1)
+
+		frame = TFrame(top, name='top', style='FlatFrame')
+		frame.pack(side=TOP, fill=BOTH, expand=1)
+		label = TLabel(frame, image='messagebox_' + self.image, style='FlatLabel')
+		label.pack(side=LEFT, padx=5, pady=5)
+		label = TLabel(frame, text=self.message, name='msg', style='FlatLabel', justify='center', anchor='center')
+		label.pack(side=RIGHT, fill=BOTH, expand=1)
+
+		frame = TFrame(top, name='bot', style='FlatFrame')
+		frame.pack(side=BOTTOM)#, fill = X, expand = 1)
+
 		command = self.ok
 		for i in range(len(self.buttons)):
-			button = UpdatedButton(frame, text = '  '+self.buttons[i]+'  ', command = command, args = i)
-			button.grid(column = i, row = 0, sticky = 'ew', padx = 10, pady= 0)
+			button = UpdatedButton(frame, text='  ' + self.buttons[i] + '  ', command=command, args=i)
+			button.grid(column=i, row=0, sticky='ew', padx=10, pady=0)
 			if i == self.default:
 				if TkVersion >= 8.0:
 					button['default'] = 'active'
@@ -409,17 +404,17 @@ class MessageDialog(SKModal):
 			else:
 				if TkVersion >= 8.0:
 					button['default'] = 'normal'
-	
+
 		if self.default is not None:
 			top.bind('<Return>', self.invoke_default)
-			
-		frame = TFrame(top, name = 'mid', style='FlatFrame', borderwidth=1)
-		frame.pack(side = TOP, fill = X)
+
+		frame = TFrame(top, name='mid', style='FlatFrame', borderwidth=1)
+		frame.pack(side=TOP, fill=X)
 
 		root.resizable (width=0, height=0)
-	
+
 	def ok(self, pos):
 		self.close_dlg(pos)
-	
+
 	def invoke_default(self, *rest):
 		self.ok(self.default)

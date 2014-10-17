@@ -27,7 +27,7 @@ from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton, TScrollbar, TLa
 from sk1.tkext import UpdatedButton, UpdatedListbox, MessageDialog
 from sk1.ttk_ext import TEntrybox
 from sk1 import skpixmaps
-from sk1.sketchdlg import PropertyPanel, SKModal
+from sk1.dialogs.sketchdlg import PropertyPanel, SKModal
 
 pixmaps = skpixmaps.PixmapTk
 

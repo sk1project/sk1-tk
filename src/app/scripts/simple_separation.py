@@ -35,7 +35,7 @@ import os
 
 from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, PostScriptDevice
 from uniconvertor.utils import system
-from sk1.sketchdlg import SKModal
+from sk1.dialogs.sketchdlg import SKModal
 
 from Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH
 

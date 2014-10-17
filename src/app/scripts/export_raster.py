@@ -43,7 +43,7 @@ import app.Scripting
 from app import _, PostScriptDevice
 
 # for parameter dialogs
-from sk1.sketchdlg import SKModal
+from sk1.dialogs.sketchdlg import SKModal
 from Tkinter import *
 
 class CreateRasterParametersDlg(SKModal):

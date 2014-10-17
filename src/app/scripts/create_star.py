@@ -23,7 +23,7 @@ import app.Scripting
 from app import _, SolidPattern, StandardColors, PolyBezier, CreatePath, \
 		Point, Polar
 
-from sk1.sketchdlg import SKModal
+from sk1.dialogs.sketchdlg import SKModal
 
 #
 #

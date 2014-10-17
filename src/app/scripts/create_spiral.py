@@ -23,7 +23,7 @@ from math import pi, cos, sin
 
 from app import _, PolyBezier, CreatePath, Polar, Point, \
 		ContAngle, ContSmooth, ContSymmetrical
-from sk1.sketchdlg import SKModal
+from sk1.dialogs.sketchdlg import SKModal
 
 from Tkinter import *
 
