@@ -183,14 +183,16 @@ class AboutDialog(ModalDialog):
 		sb = TScrollbar(subpanel)
 		sb.grid(row=0, column=1, sticky=N + S)
 
-		text = Text(subpanel, highlightthickness=0, font=app.config.preferences.fixed_font, wrap=NONE)
+		text = Text(subpanel, highlightthickness=0,
+				font=app.config.preferences.fixed_font, wrap=NONE)
 		text.grid(row=0, column=0, sticky=N + S + E + W)
 
 		text['yscrollcommand'] = sb.set
 		sb['command'] = text.yview
 
 		text['state'] = NORMAL
-		txt = open(os.path.join(app.config.sk1_dir, 'GNU_LGPL_v2')).read()
+		import aboutdlg_lic
+		txt = aboutdlg_lic.LICENSE
 		text.insert(END, txt)
 		text['state'] = DISABLED
 
