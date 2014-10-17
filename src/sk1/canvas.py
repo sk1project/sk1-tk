@@ -2034,7 +2034,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		# solid fill of color COL. If COL is None let the user
 		# interactively select a color.
 		if col is None:
-			import colordlg
+			from sk1.dialogs import colordlg
 			current_color = self.document.CurrentFillColor()
 			if current_color is None:
 				current_color = StandardColors.white

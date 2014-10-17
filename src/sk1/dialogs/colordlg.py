@@ -6,37 +6,26 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-
-from PIL import Image
-from app.X11.X import GXxor, ZPixmap
-
+import string
 from colorsys import hsv_to_rgb, rgb_to_hsv
 
-from app.conf.const import CHANGED, ConstraintMask
+from PIL import Image
+from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH, DoubleVar
 
-from app import _sketch
-from app import CreateRGBColor, StandardColors, Trafo, SketchError, \
-		Publisher, _
+from app.X11.X import GXxor, ZPixmap
+from app.conf.const import CHANGED, ConstraintMask
+from app import _, _sketch
+from app import CreateRGBColor, StandardColors, Trafo, SketchError, Publisher
 from app.Graphics import color
 
-from Tkinter import Frame,  Label,  DoubleVar, IntVar
-
 from sk1sdk.libttk import TFrame, TButton, TLabel
-
-from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH
-from tkext import PyWidget
-from ttk_ext import TSpinbox, TEntrybox
-from sketchdlg import SKModal
-
-import string
-
-
-
-
+from sk1.tkext import PyWidget
+from sk1.ttk_ext import TSpinbox, TEntrybox
+from sk1.sketchdlg import SKModal
 
 class MyDoubleVar(DoubleVar):
 
-	def __init__(self, master = None, precision = 3):
+	def __init__(self, master=None, precision=3):
 		self.precision = precision
 		DoubleVar.__init__(self, master)
 
@@ -49,7 +38,7 @@ class MyDoubleVar(DoubleVar):
 
 class ColorSample(PyWidget):
 
-	def __init__(self, master=None, color = None, **kw):
+	def __init__(self, master=None, color=None, **kw):
 		apply(PyWidget.__init__, (self, master), kw)
 		self.gc_initialized = 0
 		if color is None:
@@ -74,7 +63,7 @@ class ColorSample(PyWidget):
 		if self.color != color:
 			self.set_color(color)
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		self.tkwin.ClearArea(0, 0, 0, 0, 0)
 
 	def ResizedMethod(self, width, height):
@@ -127,7 +116,7 @@ class ImageView(PyWidget):
 											0, 0, ximage.width, ximage.height)
 			self.UpdateWhenIdle()
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		self.gc.PutImage(self.ximage, 0, 0, 0, 0,
 							self.ximage.width, self.ximage.height)
 
@@ -136,7 +125,7 @@ class ImageView(PyWidget):
 
 class ChooseComponent(ImageView, Publisher):
 
-	def __init__(self, master, width, height, color = (0, 0, 0), **kw):
+	def __init__(self, master, width, height, color=(0, 0, 0), **kw):
 		image = Image.new('RGB', (width, height))
 		apply(ImageView.__init__, (self, master, image), kw)
 		self.set_color(color)
@@ -158,8 +147,8 @@ class ChooseComponent(ImageView, Publisher):
 
 	def init_gc(self):
 		ImageView.init_gc(self)
-		self.invgc = self.tkwin.GetGC(foreground = ~0,
-										function = GXxor)
+		self.invgc = self.tkwin.GetGC(foreground=~0,
+										function=GXxor)
 		self.tk.call(self._w, 'motionhints')
 		self.show_mark()
 
@@ -197,7 +186,7 @@ class ChooseComponent(ImageView, Publisher):
 			self.update_pending = 1
 			ImageView.UpdateWhenIdle(self)
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		if self.update_pending:
 			self.update_ramp()
 			self.update_pending = 0
@@ -210,8 +199,8 @@ class ChooseComponent(ImageView, Publisher):
 
 class ChooseRGBXY(ChooseComponent):
 
-	def __init__(self, master, width, height, xcomp = 0, ycomp = 1,
-					color = (0, 0, 0), **kw):
+	def __init__(self, master, width, height, xcomp=0, ycomp=1,
+					color=(0, 0, 0), **kw):
 		self.xcomp = xcomp
 		self.ycomp = ycomp
 		self.win_to_color = Trafo(1 / float(width - 1), 0,
@@ -268,7 +257,7 @@ class ChooseRGBXY(ChooseComponent):
 
 class ChooseRGBZ(ChooseComponent):
 
-	def __init__(self, master, width, height, comp = 1, color = (0, 0, 0),
+	def __init__(self, master, width, height, comp=1, color=(0, 0, 0),
 					**kw):
 		self.comp = comp
 		self.win_to_color = Trafo(1, 0, 0, -1 / float(height - 1), 0, 1)
@@ -326,128 +315,128 @@ class ChooseColorDlg(SKModal):
 
 	def build_dlg(self):
 		super = self.top
-		top = TFrame(super, borderwidth = 10, style='FlatFrame')
-		top.pack(side = TOP, fill = BOTH, expand = 1)
-		
+		top = TFrame(super, borderwidth=10, style='FlatFrame')
+		top.pack(side=TOP, fill=BOTH, expand=1)
+
 		frame = TFrame(top, style='FlatFrame')
-		frame.pack(side = BOTTOM, fill = BOTH, expand = 0)
-		
-		label=TLabel(top, style="HLine")
-		label.pack(side = BOTTOM, fill = BOTH, expand = 0)
-		
-		button = TButton(frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = RIGHT, expand = 0)
-		label = TLabel(frame, image = "space_6", style="FlatLabel")
-		label.pack(side = RIGHT)
-		button = TButton(frame, text = _("OK"), command = self.ok)
-		button.pack(side = RIGHT, expand = 0)
+		frame.pack(side=BOTTOM, fill=BOTH, expand=0)
+
+		label = TLabel(top, style="HLine")
+		label.pack(side=BOTTOM, fill=BOTH, expand=0)
+
+		button = TButton(frame, text=_("Cancel"), command=self.cancel)
+		button.pack(side=RIGHT, expand=0)
+		label = TLabel(frame, image="space_6", style="FlatLabel")
+		label.pack(side=RIGHT)
+		button = TButton(frame, text=_("OK"), command=self.ok)
+		button.pack(side=RIGHT, expand=0)
 		button = TButton(frame, image='colorpicker', state='disabled')
-		button.pack(side = LEFT, expand = 0)
-		
+		button.pack(side=LEFT, expand=0)
+
 #       RGBlabel_frame = TFrame(top, borderwidth = 1, style='FlatFrame')
 #       RGBlabel_frame.pack(side = BOTTOM, fill = BOTH)
-# 
+#
 #       self.label = TLabel(RGBlabel_frame, style="FlatLabel")
 #       self.label.pack(side = LEFT)
 
-		
+
 		frame = TFrame(top, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
+		frame.pack(side=LEFT)
 		viewxy = ChooseRGBXY(frame, xyramp_size[0], xyramp_size[1], 0, 1)
-		viewxy.pack(side = LEFT)
+		viewxy.pack(side=LEFT)
 
 		frame = TFrame(top, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
+		frame.pack(side=LEFT)
 		viewz = ChooseRGBZ(frame, zramp_size[0], zramp_size[1], 2)
-		viewz.pack(side = LEFT)
+		viewz.pack(side=LEFT)
 
-		frame1 = TFrame(top, borderwidth = 3, style='FlatFrame')
-		frame1.pack(side = RIGHT)
-		
-		CS_frame = TFrame(frame1, borderwidth = 1, style='FlatFrame')
-		CS_frame.pack(side = TOP)
-		
-		label = TLabel(CS_frame, text = "Old color:   \nNew color:   ", justify='right')
-		label.pack(side = LEFT)
+		frame1 = TFrame(top, borderwidth=3, style='FlatFrame')
+		frame1.pack(side=RIGHT)
+
+		CS_frame = TFrame(frame1, borderwidth=1, style='FlatFrame')
+		CS_frame.pack(side=TOP)
+
+		label = TLabel(CS_frame, text="Old color:   \nNew color:   ", justify='right')
+		label.pack(side=LEFT)
 
 		frame = TFrame(CS_frame, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
+		frame.pack(side=LEFT)
 
-		self.sample = ColorSample(frame, self.color, width = 60, height = 20)
-		self.sample.pack(side = BOTTOM)
-		sample = ColorSample(frame, self.color, width = 60, height = 20)
-		sample.pack(side = TOP)
-		
-		label=TLabel(frame1, style="HLine")
-		label.pack(side = TOP, fill = BOTH, expand = 0)
-		
-		spin_frame = TFrame(frame1, borderwidth = 1, style='FlatFrame')
-		spin_frame.pack(side = TOP)
-		
-		hsv_frame = TFrame(spin_frame, borderwidth = 2, style='FlatFrame')
-		hsv_frame.pack(side = LEFT)     
+		self.sample = ColorSample(frame, self.color, width=60, height=20)
+		self.sample.pack(side=BOTTOM)
+		sample = ColorSample(frame, self.color, width=60, height=20)
+		sample.pack(side=TOP)
 
-		frame = TFrame(hsv_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "H: ")
-		label.pack(side = LEFT)
-		self.var1 = TSpinbox(frame, min = 0, max = 1.0, step = 0.01, vartype = 1, command=self.component_changed)
-		self.var1.pack(side = RIGHT)
-		
-		frame = TFrame(hsv_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "S: ")
-		label.pack(side = LEFT)
-		self.var2 = TSpinbox(frame, min = 0, max = 1.0, step = 0.01, vartype = 1, command=self.component_changed)
-		self.var2.pack(side = RIGHT)
-		
-		frame = TFrame(hsv_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "V: ")
-		label.pack(side = LEFT)
-		self.var3 = TSpinbox(frame, min = 0, max = 1.0, step = 0.01, vartype = 1, command=self.component_changed)
-		self.var3.pack(side = RIGHT)
-		
-		
-		rgb_frame = TFrame(spin_frame, borderwidth = 2, style='FlatFrame')
-		rgb_frame.pack(side = LEFT)     
+		label = TLabel(frame1, style="HLine")
+		label.pack(side=TOP, fill=BOTH, expand=0)
 
-		frame = TFrame(rgb_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "R: ")
-		label.pack(side = LEFT)
-		self.var4 = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, command=self.rgb_component_changed)
-		self.var4.pack(side = RIGHT)
+		spin_frame = TFrame(frame1, borderwidth=1, style='FlatFrame')
+		spin_frame.pack(side=TOP)
 
-		frame = TFrame(rgb_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "G: ")
-		label.pack(side = LEFT)
-		self.var5 = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, command=self.rgb_component_changed)
-		self.var5.pack(side = RIGHT)
+		hsv_frame = TFrame(spin_frame, borderwidth=2, style='FlatFrame')
+		hsv_frame.pack(side=LEFT)
 
-		frame = TFrame(rgb_frame, borderwidth = 2, style='FlatFrame')
-		frame.pack(side = TOP)
-		label = TLabel(frame, text = "B: ")
-		label.pack(side = LEFT)
-		self.var6 = TSpinbox(frame, min = 0, max = 255, step = 1, vartype = 0, command=self.rgb_component_changed)
-		self.var6.pack(side = RIGHT)
-		
-		HTML_frame = TFrame(frame1, borderwidth = 3, style='FlatFrame')
-		HTML_frame.pack(side = TOP)
-		
-		label = TLabel(HTML_frame, text = "HTML: ")
-		label.pack(side = LEFT) 
+		frame = TFrame(hsv_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="H: ")
+		label.pack(side=LEFT)
+		self.var1 = TSpinbox(frame, min=0, max=1.0, step=0.01, vartype=1, command=self.component_changed)
+		self.var1.pack(side=RIGHT)
+
+		frame = TFrame(hsv_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="S: ")
+		label.pack(side=LEFT)
+		self.var2 = TSpinbox(frame, min=0, max=1.0, step=0.01, vartype=1, command=self.component_changed)
+		self.var2.pack(side=RIGHT)
+
+		frame = TFrame(hsv_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="V: ")
+		label.pack(side=LEFT)
+		self.var3 = TSpinbox(frame, min=0, max=1.0, step=0.01, vartype=1, command=self.component_changed)
+		self.var3.pack(side=RIGHT)
+
+
+		rgb_frame = TFrame(spin_frame, borderwidth=2, style='FlatFrame')
+		rgb_frame.pack(side=LEFT)
+
+		frame = TFrame(rgb_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="R: ")
+		label.pack(side=LEFT)
+		self.var4 = TSpinbox(frame, min=0, max=255, step=1, vartype=0, command=self.rgb_component_changed)
+		self.var4.pack(side=RIGHT)
+
+		frame = TFrame(rgb_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="G: ")
+		label.pack(side=LEFT)
+		self.var5 = TSpinbox(frame, min=0, max=255, step=1, vartype=0, command=self.rgb_component_changed)
+		self.var5.pack(side=RIGHT)
+
+		frame = TFrame(rgb_frame, borderwidth=2, style='FlatFrame')
+		frame.pack(side=TOP)
+		label = TLabel(frame, text="B: ")
+		label.pack(side=LEFT)
+		self.var6 = TSpinbox(frame, min=0, max=255, step=1, vartype=0, command=self.rgb_component_changed)
+		self.var6.pack(side=RIGHT)
+
+		HTML_frame = TFrame(frame1, borderwidth=3, style='FlatFrame')
+		HTML_frame.pack(side=TOP)
+
+		label = TLabel(HTML_frame, text="HTML: ")
+		label.pack(side=LEFT)
 		self.html = TEntrybox(HTML_frame, text='#000000', width=10, command=self.html_component_changed)
-		self.html.pack(side = LEFT)
-										
+		self.html.pack(side=LEFT)
+
 
 
 		viewxy.Subscribe(CHANGED, self.color_changed)
 		viewz.Subscribe(CHANGED, self.color_changed)
 		self.viewxy = viewxy
 		self.viewz = viewz
-		
+
 		super.resizable(width=0, height=0)
 
 		self.color_changed(self.color)
@@ -461,11 +450,11 @@ class ChooseColorDlg(SKModal):
 		self.var1.set_value(v1)
 		self.var2.set_value(v2)
 		self.var3.set_value(v3)
-		self.var4.set_value(round(color[0]*255))
-		self.var5.set_value(round(color[1]*255))
-		self.var6.set_value(round(color[2]*255))
-		int_color=(round(color[0]*255),round(color[1]*255),round(color[2]*255))
-		self.html.set_text('#%02X%02X%02X'%int_color)
+		self.var4.set_value(round(color[0] * 255))
+		self.var5.set_value(round(color[1] * 255))
+		self.var6.set_value(round(color[2] * 255))
+		int_color = (round(color[0] * 255), round(color[1] * 255), round(color[2] * 255))
+		self.html.set_text('#%02X%02X%02X' % int_color)
 		self.color = color
 
 
@@ -475,26 +464,26 @@ class ChooseColorDlg(SKModal):
 		self.color_changed(color)
 
 	def rgb_component_changed(self, *rest):
-		RGBColor=CreateRGBColor(self.var4.get_value() / 255.0,
+		RGBColor = CreateRGBColor(self.var4.get_value() / 255.0,
 												self.var5.get_value() / 255.0,
 												self.var6.get_value() / 255.0).RGB()
 		self.color_changed(RGBColor)
-		
+
 	def html_component_changed(self, *rest):
-		html=self.html.get_text()
-		try:     
-				RGBColor=CreateRGBColor(int(string.atoi(html[1:3], 0x10))/ 255.0, 
-														int(string.atoi(html[3:5], 0x10))/ 255.0, 
-														int(string.atoi(html[5:], 0x10))/ 255.0).RGB()
+		html = self.html.get_text()
+		try:
+				RGBColor = CreateRGBColor(int(string.atoi(html[1:3], 0x10)) / 255.0,
+														int(string.atoi(html[3:5], 0x10)) / 255.0,
+														int(string.atoi(html[5:], 0x10)) / 255.0).RGB()
 		except:
-				RGBColor=self.color
+				RGBColor = self.color
 		self.color_changed(RGBColor)
 
 
 
 	def ok(self, *args):
-		r,g,b = tuple(self.color)
-		ColorObject=CreateRGBColor(r,g,b)
+		r, g, b = tuple(self.color)
+		ColorObject = CreateRGBColor(r, g, b)
 		self.close_dlg(ColorObject)
 
 def GetColor(master, color):

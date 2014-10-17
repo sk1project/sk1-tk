@@ -21,7 +21,7 @@ from Tkinter import BOTTOM, LEFT, RIGHT, BOTH
 from tkext import PyWidget, MenuCommand, UpdatedMenu
 import tkext
 
-from colordlg import GetColor
+from sk1.dialogs.colordlg import GetColor
 from sketchdlg import SKModal
 
 import skpixmaps

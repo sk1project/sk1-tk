@@ -1145,7 +1145,7 @@ class ColorButton(WidgetWithCommand, Tkinter.Button, SketchDropTarget):
 		return self.color
 
 	def _call_cmd(self, *args):
-		import colordlg
+		from  sk1.dialogs import colordlg
 		new_color = colordlg.GetColor(self.dialog_master, self.color)
 		if new_color:
 			self.set_color(new_color)
