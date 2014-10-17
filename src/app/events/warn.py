@@ -12,8 +12,7 @@ from types import StringType, DictionaryType
 import traceback
 
 # import config
-from app import _
-from sk1 import main
+from app import _#, main
 
 
 INTERNAL = 'INTERNAL'
@@ -56,14 +55,14 @@ def warn(_level, _message, *args, **kw):
 		if PRINT_INTERNAL_WARNINGS:
 # 		if config.preferences.print_internal_warnings:
 			write_error(_message)
-	else:
-		app = main.application
-		#TODO: reverse to preferences after refactoring
-		if app and WARN_METHOD == 'dialog':#config.preferences.warn_method == 'dialog':
-			app.MessageBox(title=_("Warning"), message=_message,
-							icon='warning')
-		else:
-			write_error(_message)
+#	else:
+#		app = main.application
+#		#TODO: reverse to preferences after refactoring
+#		if app and WARN_METHOD == 'dialog':#config.preferences.warn_method == 'dialog':
+#			app.MessageBox(title=_("Warning"), message=_message,
+#							icon='warning')
+#		else:
+#			write_error(_message)
 	return _message
 
 def warn_tb(_level, _message='', *args, **kw):
@@ -75,22 +74,22 @@ def warn_tb(_level, _message='', *args, **kw):
 # 		if config.preferences.print_internal_warnings:
 			write_error(_message)
 			traceback.print_exc()
-	else:
-		app = main.application
-		if app:
-			tb = _("Print Traceback")
-			result = app.MessageBox(title=_("Warning"), message=_message,
-									icon='warning', buttons=(_("OK"), tb))
-			if result == tb:
-				from cStringIO import StringIO
-				file = StringIO()
-				traceback.print_exc(file=file)
-				_message = file.getvalue()
-				app.MessageBox(title=_("Traceback"), message=_message,
-								icon='warning')
-		else:
-			write_error(_message)
-			traceback.print_exc()
+#	else:
+#		app = main.application
+#		if app:
+#			tb = _("Print Traceback")
+#			result = app.MessageBox(title=_("Warning"), message=_message,
+#									icon='warning', buttons=(_("OK"), tb))
+#			if result == tb:
+#				from cStringIO import StringIO
+#				file = StringIO()
+#				traceback.print_exc(file=file)
+#				_message = file.getvalue()
+#				app.MessageBox(title=_("Traceback"), message=_message,
+#								icon='warning')
+#		else:
+#			write_error(_message)
+#			traceback.print_exc()
 	return _message
 
 
