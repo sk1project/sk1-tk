@@ -5,33 +5,36 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from sk1sdk.libttk import TCombobox, TLabel, TCheckbutton
-from sk1.ttk_ext import TSpinbox
-from app.conf.const import CHANGED, DOCUMENT, PAGE, UNDO
-from Tkinter import LEFT, RIGHT, DoubleVar, StringVar, NORMAL, DISABLED
-from sk1sdk.libtk.tkext import FlatFrame
-from sk1sdk.libttk import tooltips
-from subpanel import CtxSubPanel
+from Tkinter import LEFT, DoubleVar, StringVar, NORMAL, DISABLED
+
 from app import  _, config
-from math import floor, ceil
 from app.Graphics.papersize import Papersize, PapersizesList
-from sk1.widgets.lengthvar import LengthVar
 from app.Graphics.pagelayout import PageLayout
+from app.conf.const import CHANGED, PAGE, UNDO
+
+from sk1sdk.libttk import tooltips
+from sk1sdk.libttk import TCombobox, TLabel, TCheckbutton
+
+from sk1.widgets.lengthvar import LengthVar
+from sk1.ttk_ext import TSpinbox
+from sk1.tkext import FlatFrame
+
+from subpanel import CtxSubPanel
 
 class PagePanel(CtxSubPanel):
-	
+
 	name = 'PagePanel'
-	
+
 	def __init__(self, parent):
 		CtxSubPanel.__init__(self, parent)
-		
-		self.USER_SPECIFIC = _("<Custom Size>")		
-		
+
+		self.USER_SPECIFIC = _("<Custom Size>")
+
 		root = self.mw.root
 		self.var_format_name = StringVar(root)
 		self.var_format_name.set(config.preferences.default_paper_format)
 		self.page_orientation = config.preferences.default_page_orientation
-		
+
 		label = TLabel(self.panel, text=_("Page:"))
 		label.pack(side=LEFT, padx=2)
 		self.page_formats = TCombobox(self.panel, state='readonly', postcommand=self.set_format,
@@ -43,8 +46,8 @@ class PagePanel(CtxSubPanel):
 		#--------------
 		sep = FlatFrame(self.panel, width=5, height=2)
 		sep.pack(side=LEFT)
-		#--------------		
-		
+		#--------------
+
 		var_width_number = DoubleVar(root)
 		var_height_number = DoubleVar(root)
 		var_width_unit = StringVar(root)
@@ -53,7 +56,7 @@ class PagePanel(CtxSubPanel):
 		self.var_width = LengthVar(10, unit, var_width_number, var_width_unit)
 		self.var_height = LengthVar(10, unit, var_height_number, var_height_unit)
 		jump = config.preferences.default_unit_jump
-		
+
 		label = TLabel(self.panel, text=_("H:"))
 		label.pack(side=LEFT)
 		self.widthentry = TSpinbox(self.panel, textvariable=var_width_number, command=self.applyResize,
@@ -65,33 +68,33 @@ class PagePanel(CtxSubPanel):
 		sep = FlatFrame(self.panel, width=5, height=2)
 		sep.pack(side=LEFT)
 		#--------------
-		
+
 		label = TLabel(self.panel, text=_("V:"))
-		label.pack(side=LEFT)		
+		label.pack(side=LEFT)
 		self.heightentry = TSpinbox(self.panel, textvariable=var_height_number, command=self.applyResize,
 		 						vartype=1, min=5, max=50000, step=jump, width=7)
 		tooltips.AddDescription(self.heightentry, _("Page height"))
 		self.heightentry.pack(side=LEFT, padx=2)
-		
+
 		self.portrait_val = StringVar(root)
 		self.landscape_val = StringVar(root)
-		
+
 		self.portrait = TCheckbutton(self.panel, image='context_portrait', variable=self.portrait_val,
 								   command=self.set_portrait, style='ToolBarCheckButton')
 		tooltips.AddDescription(self.portrait, _("Portrait"))
 		self.portrait.pack(side=LEFT, padx=2)
 		self.landscape = TCheckbutton(self.panel, image='context_landscape', variable=self.landscape_val,
-									command=self.set_landscape, style='ToolBarCheckButton')	
+									command=self.set_landscape, style='ToolBarCheckButton')
 		tooltips.AddDescription(self.landscape, _("Landscape"))
 		self.landscape.pack(side=LEFT)
 		config.preferences.Subscribe(CHANGED, self.update_pref)
 		self.doc.Subscribe(PAGE, self.update_pref)
 		self.doc.Subscribe(UNDO, self.update_pref)
 
-		
+
 	def init_from_doc(self):
 		self.page_orientation = self.doc.Layout().Orientation()
-		
+
 		formatname = self.doc.Layout().FormatName()
 		if formatname == '':
 			formatname = self.USER_SPECIFIC
@@ -104,38 +107,38 @@ class PagePanel(CtxSubPanel):
 
 		self.var_format_name.set(formatname)
 		self.update()
-	
+
 	def ReSubscribe(self):
 		self.init_from_doc()
-	
+
 	def make_formats(self):
 		formats = ()
 		for format in PapersizesList:
 			formats += (format[0],)
 		formats += (self.USER_SPECIFIC,)
 		return formats
-	
+
 	def set_portrait(self):
 		self.page_orientation = 0
 		width = min(self.var_width.get(), self.var_height.get())
 		height = max(self.var_width.get(), self.var_height.get())
 		self.update_size(width, height)
 		self.set_size()
-		
+
 	def set_landscape(self):
 		self.page_orientation = 1
 		width = max(self.var_width.get(), self.var_height.get())
 		height = min(self.var_width.get(), self.var_height.get())
 		self.update_size(width, height)
 		self.set_size()
-			
+
 	def set_size(self):
 		self.var_width.UpdateNumber()
 		self.var_height.UpdateNumber()
 		self.update()
 		self.apply_settings()
-				
-	def set_format(self):	
+
+	def set_format(self):
 		if not self.var_format_name.get() == self.doc.page_layout.paperformat:
 			self.set_size()
 
@@ -151,7 +154,7 @@ class PagePanel(CtxSubPanel):
 		self.update_size(width, height)
 		self.update()
 
-	def update(self):		
+	def update(self):
 		self.set_entry_sensitivity()
 		self.update_size_from_name(self.var_format_name.get())
 		if self.page_orientation:
@@ -160,7 +163,7 @@ class PagePanel(CtxSubPanel):
 		else:
 			self.portrait_val.set('1')
 			self.landscape_val.set('')
-		
+
 	def set_entry_sensitivity(self):
 		formatname = self.var_format_name.get()
 		if formatname != self.USER_SPECIFIC:
@@ -169,11 +172,11 @@ class PagePanel(CtxSubPanel):
 		else:
 			self.widthentry.set_state(NORMAL)
 			self.heightentry.set_state(NORMAL)
-			
+
 	def update_size(self, width, height):
 		self.var_width.set(width)
 		self.var_height.set(height)
-			
+
 	def update_size_from_name(self, formatname):
 		if formatname == "":
 			formatname = self.USER_SPECIFIC
@@ -193,7 +196,7 @@ class PagePanel(CtxSubPanel):
 				self.set_landscape()
 		except:
 			return
-		
+
 	def apply_settings(self):
 		formatname = self.var_format_name.get()
 		if formatname == self.USER_SPECIFIC:

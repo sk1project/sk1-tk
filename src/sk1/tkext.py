@@ -23,6 +23,19 @@ from sk1sdk.libttk import TButton, TLabel, TMenubutton, TRadiobutton
 
 from sk1 import command
 
+class FlatFrame(Tkinter.Frame):
+	"""
+	Represents flat frame which is often used in UI.
+	The class just simplified UI composition.
+	"""
+	def __init__(self, parent=None, **kw):
+		kw['borderwidth'] = 0
+		kw['highlightthickness'] = 0
+		kw['relief'] = Tkinter.FLAT
+		apply(Tkinter.Frame.__init__, (self, parent), kw)
+		self['highlightcolor'] = self['bg']
+		self['highlightbackground'] = self['bg']
+
 class SketchDropTarget:
 
 	accept_drop = ()
