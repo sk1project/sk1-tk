@@ -43,16 +43,16 @@
 
 from string import split, join, capitalize
 
+from Tkinter import Label, IntVar, DoubleVar, StringVar, RIGHT, E
+
+from app import _
 from app.events.warn import warn, USER
 from app.conf.const import SELECTION
-from app import _
 
-from Tkinter import Label, IntVar, DoubleVar, StringVar, RIGHT, E
-from tkext import MyEntry
-from miniscroll import MiniScroller
-
-from sketchdlg import PropertyPanel
-from lengthvar import create_length_widgets
+from sk1.tkext import MyEntry
+from sk1.miniscroll import MiniScroller
+from sk1.sketchdlg import PropertyPanel
+from sk1.lengthvar import create_length_widgets
 
 
 
@@ -71,8 +71,8 @@ class Parameter:
 
 
 	def build_widgets(self, master, row):
-		label = Label(master, text = self.label)
-		label.grid(row = row, column = 0, sticky = E)
+		label = Label(master, text=self.label)
+		label.grid(row=row, column=0, sticky=E)
 
 	def __call__(self, *args):
 		if args:
@@ -116,17 +116,17 @@ class NumberParameter(Parameter):
 		if self.is_valid():
 			self.panel.set_parameter(self)
 
-	def build_widgets(self, master, row, build_entry = 1):
+	def build_widgets(self, master, row, build_entry=1):
 		self.init_var()
 		Parameter.build_widgets(self, master, row)
 		if build_entry:
-			entry = MyEntry(master, textvariable = self.var, justify = RIGHT,
-							width = 6, command = self.var_changed)
-			entry.grid(row = row, column = 1, sticky = 'ew')
+			entry = MyEntry(master, textvariable=self.var, justify=RIGHT,
+							width=6, command=self.var_changed)
+			entry.grid(row=row, column=1, sticky='ew')
 			min, max = self.range
-			scroll = MiniScroller(master, variable = self.var,
-									min = min, max = max, step = 1)
-			scroll.grid(row = row, column = 2, sticky = 'news')
+			scroll = MiniScroller(master, variable=self.var,
+									min=min, max=max, step=1)
+			scroll.grid(row=row, column=2, sticky='news')
 
 
 class IntParameter(NumberParameter):
@@ -150,10 +150,10 @@ class LengthParameter(NumberParameter):
 	def build_widgets(self, master, row):
 		self.var, entry, scroll, menu = create_length_widgets(master, master,
 																self.var_changed)
-		NumberParameter.build_widgets(self, master, row, build_entry = 0)
-		entry.grid(row = row, column = 1, sticky = 'ew')
-		scroll.grid(row = row, column = 2, sticky = 'ns')
-		menu.grid(row = row, column = 3)
+		NumberParameter.build_widgets(self, master, row, build_entry=0)
+		entry.grid(row=row, column=1, sticky='ew')
+		scroll.grid(row=row, column=2, sticky='ns')
+		menu.grid(row=row, column=3)
 
 parameter_types['length'] = LengthParameter
 
@@ -163,9 +163,9 @@ class TextParameter(Parameter):
 		Parameter.build_widgets(self, master, row)
 		self.var = StringVar(master)
 		self.var.set(self.value)
-		entry = MyEntry(master, textvariable = self.var, width = 0,
-						command = self.var_changed)
-		entry.grid(row = row, column = 1, columnspan = 3, sticky = 'ew')
+		entry = MyEntry(master, textvariable=self.var, width=0,
+						command=self.var_changed)
+		entry.grid(row=row, column=1, columnspan=3, sticky='ew')
 
 	def var_changed(self, *rest):
 		self.panel.set_parameter(self)
@@ -181,7 +181,7 @@ class PluginPanel(PropertyPanel):
 		self.title = info.menu_text
 		self.vars = []
 		name = 'dlg' + info.class_name
-		PropertyPanel.__init__(self, master, main_window, doc, name = name)
+		PropertyPanel.__init__(self, master, main_window, doc, name=name)
 
 	def build_dlg(self):
 		top = self.top
@@ -198,20 +198,20 @@ class PluginPanel(PropertyPanel):
 				warn(USER, 'Unknown plugin parameter type %s' % type)
 				continue
 		row = row + 1
-		top.columnconfigure(0, weight = 0)
-		top.columnconfigure(1, weight = 1)
-		top.columnconfigure(2, weight = 0)
-		top.columnconfigure(3, weight = 0)
+		top.columnconfigure(0, weight=0)
+		top.columnconfigure(1, weight=1)
+		top.columnconfigure(2, weight=0)
+		top.columnconfigure(3, weight=0)
 
 
 		frame = self.create_std_buttons(top)
-		frame.grid(row = row, columnspan = 4, sticky = 'ew')
+		frame.grid(row=row, columnspan=4, sticky='ew')
 
 	def set_parameter(self, var):
 		if not self.current_is_plugin():
 			return
 		doc = self.document
-		doc.BeginTransaction(_("Set %s") % var.label) # NLS
+		doc.BeginTransaction(_("Set %s") % var.label)# NLS
 		try:
 			try:
 				kw = {var.name: var()}
@@ -244,7 +244,7 @@ class PluginPanel(PropertyPanel):
 			for var in self.vars:
 				dict[var.name] = var()
 			obj = apply(self.info.Constructor(), (), dict)
-			text = 'Create ' + self.info.menu_text # NLS
+			text = 'Create ' + self.info.menu_text# NLS
 			self.main_window.canvas.PlaceObject(obj, text)
 
 
