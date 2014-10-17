@@ -6,50 +6,47 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import os
+import os, math
 from types import TupleType, ListType
 
+from Tkinter import Frame
+from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
+
 from uniconvertor.utils import fs
-from app.events.warn import warn, warn_tb, INTERNAL, USER
-from app import _, config
 from uniconvertor import filters
-from app import Publisher, Point, EmptyFillStyle, EmptyLineStyle, dialogman, \
-		EmptyPattern, GuideLine
+
+from app.events.warn import warn, warn_tb, INTERNAL, USER
+from app import _, config, Point, EmptyFillStyle, EmptyLineStyle
+from app import Publisher, dialogman, EmptyPattern, GuideLine
 from app.Graphics import image, eps
 import app.Scripting
 from app.Graphics.color import rgb_to_tk
 from app.managers.docmanager import DocumentManager
-
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
-
-from Tkinter import Frame
-from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
-from sk1sdk.libttk import  TFrame, TScrollbar, TLabel
-from widgets.doctabs import TabsPanel
-from widgets.pager import Pager
-from tkext import AppendMenu, UpdatedLabel, ToolbarButton, MakeCommand, \
-			ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
-			UpdatedTButton
-import tkext
-from context import ctxPanel
 from app.Graphics.image import RGB_IMAGE, GRAYSCALE_IMAGE, CMYK_IMAGE, BW_IMAGE
 
-from command import CommandClass, Keymap, Commands
+from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, tooltips
 
-from canvas import SketchCanvas
-import tkruler
-from poslabel import PositionLabel
-import palette
-from sk1sdk.libttk import tooltips
-import math
 
-import skpixmaps
+from sk1 import tkext
+from sk1 import palette
+from sk1 import tkruler
+from sk1 import skpixmaps
+from sk1.command import CommandClass, Keymap, Commands
+from sk1.canvas import SketchCanvas
+from sk1.dialogs.aboutdlg import aboutDialog
+from sk1.cc.ccenterdialog import ControlCenter
+from sk1.pluginpanels.plugincontainer import PluginContainer
+from sk1.widgets.doctabs import TabsPanel
+from sk1.widgets.pager import Pager
+from sk1.tkext import AppendMenu, UpdatedLabel, ToolbarButton, MakeCommand, \
+			ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
+			UpdatedTButton
+from sk1.context import ctxPanel
+from sk1.poslabel import PositionLabel
+
 pixmaps = skpixmaps.PixmapTk
-
-from dialogs.aboutdlg import aboutDialog
-from cc.ccenterdialog import ControlCenter
-from pluginpanels.plugincontainer import PluginContainer
 
 EXPORT_MODE = 2
 SAVE_AS_MODE = 1
@@ -133,9 +130,9 @@ class sK1MainWindow(Publisher):
 			self.filename = ''
 		if self.run_script:
 			from app.Scripting.script import Context
-			dict = {'context': Context()}
+			dct = {'context': Context()}
 			try:
-				execfile(self.run_script, dict)
+				execfile(self.run_script, dct)
 			except:
 				warn_tb(USER, _("Error running script `%s'"), self.run_script)
 
@@ -483,7 +480,7 @@ class sK1MainWindow(Publisher):
 		tframe = self.tframe
 		canvas = self.canvas
 
-		fr = TFrame(tframe, style='FlatFrame').pack(side=TOP, pady=5)
+		TFrame(tframe, style='FlatFrame').pack(side=TOP, pady=5)
 
 		#Selection Mode Button
 		b = ToolsCheckbutton(tframe, canvas.commands.SelectionMode, image='tools_pointer')
@@ -982,7 +979,6 @@ class sK1MainWindow(Publisher):
 			percent = int(100 * scale)
 			return (('%3d%%' % percent), call, scale)
 		def Make11(scale, call=self.canvas.SetScale):
-			percent = int(100 * scale)
 			return ((_("Zoom 1:1")), call, scale)
 		cmds = self.canvas.commands
 		scale = map(MakeEntry, [ 0.05, 0.1, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 24, 30])
@@ -1077,7 +1073,6 @@ class sK1MainWindow(Publisher):
 					])
 
 	def make_curve_menu(self):
-		canvas = self.canvas
 		cmds = self.canvas.commands.PolyBezierEditor
 		return map(MakeCommand,
 					[cmds.ContAngle,
@@ -1299,8 +1294,8 @@ class sK1MainWindow(Publisher):
 	def create_plugin_group(self, info):
 		self.document.group_selected(info.menu_text, info.CallFactory)
 
-	def PlaceObject(self, object):
-		self.canvas.PlaceObject(object)
+	def PlaceObject(self, obj):
+		self.canvas.PlaceObject(obj)
 
 	def convert_menu_tree(self, tree):
 		result = []
@@ -1371,9 +1366,9 @@ class sK1MainWindow(Publisher):
 		if sysfilename:
 			try:
 				self.canvas.commands.ForceRedraw
-				file = open(sysfilename, 'r')
-				is_eps = eps.IsEpsFileStart(file.read(256))
-				file.close()
+				fileptr = open(sysfilename, 'r')
+				is_eps = eps.IsEpsFileStart(fileptr.read(256))
+				fileptr.close()
 				dir, name = os.path.split(filename)
 				config.preferences.dir_for_bitmap_import = dir
 				if is_eps:
@@ -1394,18 +1389,18 @@ class sK1MainWindow(Publisher):
 		self.canvas.PlaceObject(GuideLine(Point(0, 0), horizontal))
 
 	def CreateStyleFromSelection(self):
-		import styledlg
+		from sk1.dialogs import styledlg
 		doc = self.document
-		object = doc.CurrentObject()
+		obj = doc.CurrentObject()
 		style_names = doc.GetStyleNames()
-		if object:
-			name = styledlg.GetStyleName(self.root, object, style_names)
+		if obj:
+			name = styledlg.GetStyleName(self.root, obj, style_names)
 			if name:
 				name, which_properties = name
 				doc.CreateStyleFromSelection(name, which_properties)
 
 	def no_pattern(self, category):
-		import styledlg
+		from sk1.dialogs import styledlg
 		if category == 'fill':
 			title = _("No Fill")
 			prop = 'fill_pattern'
@@ -1429,7 +1424,7 @@ class sK1MainWindow(Publisher):
 		if objects is not None:
 			self.application.SetClipboard(objects)
 			if self.application.ClipboardContainsData():
-					obj = self.application.GetClipboard().Object()
+#					obj = self.application.GetClipboard().Object()
 					copies = self.document.copy_objects(self.application.GetClipboard())
 					self.document.Insert(copies, undo_text=_("Paste"))
 #					obj = obj.Duplicate()

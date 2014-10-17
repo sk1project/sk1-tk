@@ -12,23 +12,24 @@
 
 from string import atoi
 
+from Tkinter import Frame, IntVar, DISABLED, NORMAL
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, END
+
 import app
 from app import _, config
 from app.conf.const import STYLE, SELECTION, COMMAND
 from app.events.warn import pdebug
-from app.Graphics.properties import property_names, property_titles, \
-		property_types, FillProperty, LineProperty, FontProperty
-from Tkinter import Button, Scrollbar, Frame, Checkbutton, Label, StringVar, IntVar
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, DISABLED, NORMAL, END
-from tkext import UpdatedButton, UpdatedListbox, MyEntry, MessageDialog
+from app.Graphics.properties import property_names, property_titles, property_types
+from app.Graphics.properties import FillProperty, LineProperty, FontProperty
 
 from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton, TScrollbar, TLabelframe
-from ttk_ext import TEntrybox
 
-import skpixmaps
+from sk1.tkext import UpdatedButton, UpdatedListbox, MessageDialog
+from sk1.ttk_ext import TEntrybox
+from sk1 import skpixmaps
+from sk1.sketchdlg import PropertyPanel, SKModal
+
 pixmaps = skpixmaps.PixmapTk
-
-from sketchdlg import PropertyPanel, SKModal
 
 class StylePanel(PropertyPanel):
 
@@ -36,49 +37,49 @@ class StylePanel(PropertyPanel):
 	receivers = PropertyPanel.receivers[:]
 
 	def __init__(self, master, main_window, doc):
-		PropertyPanel.__init__(self, master, main_window, doc, name = 'styledlg')
-		self.main_window=main_window
+		PropertyPanel.__init__(self, master, main_window, doc, name='styledlg')
+		self.main_window = main_window
 
 	def build_dlg(self):
 		root = self.top
 
 		top = TFrame(root, borderwidth=2, style='FlatFrame')
-		top.pack(side = TOP, expand = 0, fill = BOTH)
-		
+		top.pack(side=TOP, expand=0, fill=BOTH)
+
 		top2 = TFrame(top, height=3, style='FlatFrame')
-		top2.pack(side = BOTTOM, expand = 0, fill = X)
-		
-		button = UpdatedButton(top, text = _("Apply style"), command = self.apply_style, sensitivecb = self.can_apply, width=15)		
-		button.pack(side = BOTTOM, expand = 0)
+		top2.pack(side=BOTTOM, expand=0, fill=X)
+
+		button = UpdatedButton(top, text=_("Apply style"), command=self.apply_style, sensitivecb=self.can_apply, width=15)
+		button.pack(side=BOTTOM, expand=0)
 		self.Subscribe(SELECTION, button.Update)
 
 		top2 = TFrame(top, height=3, style='FlatFrame')
-		top2.pack(side = BOTTOM, expand = 0, fill = X)		
-		
-		button = UpdatedButton(top, text = _("Delete style"), command = self.remove_style, sensitivecb = self.can_remove, width=15)
-		button.pack(side = BOTTOM, expand = 0)
-		
+		top2.pack(side=BOTTOM, expand=0, fill=X)
+
+		button = UpdatedButton(top, text=_("Delete style"), command=self.remove_style, sensitivecb=self.can_remove, width=15)
+		button.pack(side=BOTTOM, expand=0)
+
 		top2 = TFrame(top, height=3, style='FlatFrame')
-		top2.pack(side = BOTTOM, expand = 0, fill = X)
-		
-		button = UpdatedButton(top, text =_("Create new style"), command = self.CreateStyleFromSelection, 
-							sensitivecb = self.main_window.document.CanCreateStyle, width=15)
-		button.pack(side = BOTTOM, expand = 0)
+		top2.pack(side=BOTTOM, expand=0, fill=X)
+
+		button = UpdatedButton(top, text=_("Create new style"), command=self.CreateStyleFromSelection,
+							sensitivecb=self.main_window.document.CanCreateStyle, width=15)
+		button.pack(side=BOTTOM, expand=0)
 		self.Subscribe(SELECTION, button.Update)
-		
+
 		top2 = TFrame(top, height=5, style='FlatFrame')
-		top2.pack(side = BOTTOM, expand = 0, fill = X)
-		
-		list_frame = TFrame(top, style="RoundedFrame", borderwidth=5)
-		list_frame.pack(side = TOP, expand = 1, fill = BOTH)
+		top2.pack(side=BOTTOM, expand=0, fill=X)
 
-		sb_vert = TScrollbar(list_frame, takefocus = 0)
-		sb_vert.pack(side = RIGHT, fill = Y)
-		
+		list_frame = TFrame(top, style="RoundedFrame", borderwidth=5)
+		list_frame.pack(side=TOP, expand=1, fill=BOTH)
+
+		sb_vert = TScrollbar(list_frame, takefocus=0)
+		sb_vert.pack(side=RIGHT, fill=Y)
+
 		styles = UpdatedListbox(list_frame, bg='white', borderwidth=0, selectborderwidth=0)
-		styles.pack(expand = 1, fill = BOTH)
+		styles.pack(expand=1, fill=BOTH)
 		styles.Subscribe(COMMAND, self.apply_style)
-		
+
 		sb_vert['command'] = (styles, 'yview')
 		styles['yscrollcommand'] = (sb_vert, 'set')
 		self.styles = styles
@@ -110,7 +111,7 @@ class StylePanel(PropertyPanel):
 		if sel:
 			index = atoi(sel[0])
 			self.document.AddStyle(self.style_names[index])
-				
+
 	def CreateStyleFromSelection(self):
 		doc = self.document
 		object = doc.CurrentObject()
@@ -148,22 +149,22 @@ class CreateStyleDlg(SKModal):
 		root = self.top
 
 		top = TFrame(root, borderwidth=5, style='FlatFrame')
-		top.pack(side = TOP, expand = 0, fill = BOTH)
+		top.pack(side=TOP, expand=0, fill=BOTH)
 
 		top2 = TFrame(top, style='FlatFrame')
-		top2.pack(side = TOP, expand = 0, fill = X)
-		
+		top2.pack(side=TOP, expand=0, fill=X)
+
 		format_label = TLabel(top2, text=_('Style name:'), borderwidth=0)
-		format_label.pack(side = LEFT, pady=3)
-		
-		self.entry_name = TEntrybox(top, command = self.ok, width = 15)
-		self.entry_name.pack(side = TOP, fill = X)
-		
+		format_label.pack(side=LEFT, pady=3)
+
+		self.entry_name = TEntrybox(top, command=self.ok, width=15)
+		self.entry_name.pack(side=TOP, fill=X)
+
 		top2 = TFrame(top, height=5, style='FlatFrame')
-		top2.pack(side = TOP, expand = 0, fill = X)
-		
-		prop_cont=TLabelframe(top, text=_('Style properties'), padding=10)
-		prop_cont.pack(side = TOP, fill=X)
+		top2.pack(side=TOP, expand=0, fill=X)
+
+		prop_cont = TLabelframe(top, text=_('Style properties'), padding=10)
+		prop_cont.pack(side=TOP, fill=X)
 
 		properties = self.object.Properties()
 		self.flags = {}
@@ -181,36 +182,36 @@ class CreateStyleDlg(SKModal):
 			long, short = property_titles[prop]
 			self.flags[prop] = var = IntVar(root)
 			var.set(state == NORMAL)
-			radio = TCheckbutton(prop_cont, text = long, state = state, variable = var)
-			radio.pack(side = TOP, anchor = W)
+			radio = TCheckbutton(prop_cont, text=long, state=state, variable=var)
+			radio.pack(side=TOP, anchor=W)
 
 		top2 = TFrame(top, height=3, style='FlatFrame')
-		top2.pack(side = TOP, expand = 0, fill = X)
-			
-		but_frame = Frame(top)
-		but_frame.pack(side = TOP, fill=X)
+		top2.pack(side=TOP, expand=0, fill=X)
 
-		button = TButton(but_frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = RIGHT, padx=5)
-		button = TButton(but_frame, text = _("OK"), command = self.ok)
-		button.pack(side = RIGHT, padx=5)
-		
+		but_frame = Frame(top)
+		but_frame.pack(side=TOP, fill=X)
+
+		button = TButton(but_frame, text=_("Cancel"), command=self.cancel)
+		button.pack(side=RIGHT, padx=5)
+		button = TButton(but_frame, text=_("OK"), command=self.ok)
+		button.pack(side=RIGHT, padx=5)
+
 		root.resizable (width=0, height=0)
-		
+
 		self.entry_name.set_focus()
 
 	def ok(self, *args):
 		name = self.entry_name.get_text()
 		if not name:
-			MessageDialog(self.top, title =_("Create Style Info"),
-							message = _("Please enter a style name."),
-							icon = 'info')
+			MessageDialog(self.top, title=_("Create Style Info"),
+							message=_("Please enter a style name."),
+							icon='info')
 			return
 		if name in self.style_names:
-			MessageDialog(self.top, title =_("Create Style"),
-							message = _("The name `%(name)s' is already used.\n"
+			MessageDialog(self.top, title=_("Create Style"),
+							message=_("The name `%(name)s' is already used.\n"
 										"Please choose another one.") % locals(),
-							icon = 'info')
+							icon='info')
 			return
 
 		which_properties = []
@@ -235,53 +236,53 @@ class SetDefaultPropertiesDlg(SKModal):
 
 	def __init__(self, master, category):
 		self.category = category
-		SKModal.__init__(self, master, name = 'setdefaults')
+		SKModal.__init__(self, master, name='setdefaults')
 
 	def build_dlg(self):
-		
+
 		root = self.top
 		top = TFrame(root, style='FlatFrame', borderwidth=13)
-		top.pack(side = TOP)
+		top.pack(side=TOP)
 
-		label = TLabel(top, text = _("Please select the object categories whose\n default properties you want to change"))
-		label.pack(side = TOP, anchor = W)
-		frame = TFrame(top, style='FlatFrame',  borderwidth=10)
-		frame.pack(side = TOP)
+		label = TLabel(top, text=_("Please select the object categories whose\n default properties you want to change"))
+		label.pack(side=TOP, anchor=W)
+		frame = TFrame(top, style='FlatFrame', borderwidth=10)
+		frame.pack(side=TOP)
 		self.var_graphics_style = IntVar(top)
 		self.var_graphics_style.set(0)
 		if self.category != 'font':
 			self.var_graphics_style.set(1)
-		button = TCheckbutton(frame, text = _("Graphics Objects"), state = (self.category == 'font' and DISABLED or NORMAL), variable = self.var_graphics_style)
-		button.pack(side = TOP, anchor = W)
+		button = TCheckbutton(frame, text=_("Graphics Objects"), state=(self.category == 'font' and DISABLED or NORMAL), variable=self.var_graphics_style)
+		button.pack(side=TOP, anchor=W)
 		self.var_text_style = IntVar(top)
 		self.var_text_style.set(0)
 		if self.category == 'font':
-			self.var_text_style.set(1)			
-		button = TCheckbutton(frame, text = _("Text Objects"), state = (self.category == 'line' and DISABLED or NORMAL), variable = self.var_text_style)
-		button.pack(side = TOP, anchor = W)
+			self.var_text_style.set(1)
+		button = TCheckbutton(frame, text=_("Text Objects"), state=(self.category == 'line' and DISABLED or NORMAL), variable=self.var_text_style)
+		button.pack(side=TOP, anchor=W)
 
-		label=TLabel(top, style="HLine")
-		label.pack(side = TOP, fill = BOTH)
-		
+		label = TLabel(top, style="HLine")
+		label.pack(side=TOP, fill=BOTH)
+
 		but_frame = TFrame(top, style='FlatFrame')
-		but_frame.pack(side = TOP, fill = BOTH, expand = 1)
-		
-		button = TButton(but_frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = RIGHT, expand = 1)
-		
-		button = TButton(but_frame, text = _("OK"), command = self.ok)
-		button.pack(side = RIGHT, expand = 1)
+		but_frame.pack(side=TOP, fill=BOTH, expand=1)
 
-		
+		button = TButton(but_frame, text=_("Cancel"), command=self.cancel)
+		button.pack(side=RIGHT, expand=1)
+
+		button = TButton(but_frame, text=_("OK"), command=self.ok)
+		button.pack(side=RIGHT, expand=1)
+
+
 		root.resizable (width=0, height=0)
 
 	def ok(self, *args):
-		graph=self.var_graphics_style.get()
-		text=self.var_text_style.get()
+		graph = self.var_graphics_style.get()
+		text = self.var_text_style.get()
 		self.close_dlg((graph, text))
 
 
-def WhichDefaultStyles(master, category = 0):
+def WhichDefaultStyles(master, category=0):
 	dlg = SetDefaultPropertiesDlg(master, category)
 	return dlg.RunDialog()
 
@@ -300,7 +301,7 @@ def set_properties(master, document, title, category, kw):
 			# on a non-text object.
 			if kw.has_key("if_type_present"):
 				del kw["if_type_present"]
-			which = WhichDefaultStyles(master, category = category)
+			which = WhichDefaultStyles(master, category=category)
 			if which:
 				if which[0]:
 					app.Graphics.properties.set_graphics_defaults(kw)

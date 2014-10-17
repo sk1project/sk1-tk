@@ -8,7 +8,7 @@
 from fill_plugin import FillPanel
 import app
 from app import _, SolidPattern, EmptyPattern
-from sk1 import styledlg
+from sk1.dialogs import styledlg
 from app.Graphics.pattern import EmptyPattern_
 
 

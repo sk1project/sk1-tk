@@ -2038,7 +2038,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			if not col:
 				return
 		from app import SolidPattern
-		import styledlg
+		from sk1.dialogs import styledlg
 		styledlg.set_properties(self.master, self.document,
 								_("Set Fill Color"), 'fill',
 								{'fill_pattern' : SolidPattern(col)})
@@ -2055,7 +2055,7 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 			self.call_document_method('SetLineColor', color)
 		else:
 			from app import SolidPattern
-			import styledlg
+			from sk1.dialogs import styledlg
 			styledlg.set_properties(self.master, self.document,
 									_("Set Line Color"), 'line',
 									{'line_pattern' : SolidPattern(color)})
