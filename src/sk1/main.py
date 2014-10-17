@@ -24,7 +24,7 @@
 #
 #
 
-import sys, getopt, string
+import sys, getopt
 
 import app
 from uniconvertor.utils import Empty
@@ -100,7 +100,7 @@ def process_args(args):
 	# the option -i is a hack to allow sketch to be used as a `python
 	# interpreter' in the python shell in python-mode.el
 
-	options = Empty(args = args, display = None, geometry = None, run_script = None)
+	options = Empty(args=args, display=None, geometry=None, run_script=None)
 
 	for optchar, value in opts:
 		if optchar == '-d' or optchar == '--display':
@@ -147,7 +147,7 @@ def main():
 
 	from skapp import SketchApplication
 
-	application = SketchApplication(filename, options.display, options.geometry, run_script = options.run_script)
+	application = SketchApplication(filename, options.display, options.geometry, run_script=options.run_script)
 	app.Issue(None, app.conf.const.APP_INITIALIZED, application)
 	application.Run()
 	application.SavePreferences()

@@ -10,6 +10,8 @@ import os
 global LANG
 LANG = ''
 
+import app
+
 def dummy_translator(text):
 	return text
 
@@ -26,6 +28,6 @@ def sk1_run():
 
 	warnings.filterwarnings("ignore")
 
-	import app
+	from sk1 import main
 	app.config.sk_command = sys.argv[0]
-	app.main.main()
+	main.main()

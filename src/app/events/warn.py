@@ -12,7 +12,8 @@ from types import StringType, DictionaryType
 import traceback
 
 # import config
-from app import _, main
+from app import _
+from sk1 import main
 
 
 INTERNAL = 'INTERNAL'
