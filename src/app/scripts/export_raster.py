@@ -43,7 +43,7 @@ import app.Scripting
 from app import _, PostScriptDevice
 
 # for parameter dialogs
-from app.UI.sketchdlg import SKModal
+from sk1.sketchdlg import SKModal
 from Tkinter import *
 
 class CreateRasterParametersDlg(SKModal):
@@ -80,32 +80,32 @@ class CreateRasterParametersDlg(SKModal):
 
 	def ok(self):
 		self.close_dlg((self.var_ppi.get(),
-						self.var_alpha.get(),self.var_use_bbox.get()))
+						self.var_alpha.get(), self.var_use_bbox.get()))
 
-def export_raster_more_interactive(context, alpha = 0, use_bbox = 0,
+def export_raster_more_interactive(context, alpha=0, use_bbox=0,
 									render_ppi=72):
 	"Get Parameter per dialog and run export_raster_interactive()"
 	parms = CreateRasterParametersDlg(context.application.root).RunDialog()
 	if parms is None:
 		return
 	else:
-		render_ppi=parms[0]
-		alpha=parms[1]
-		use_bbox=parms[2]
+		render_ppi = parms[0]
+		alpha = parms[1]
+		use_bbox = parms[2]
 
-		return export_raster_interactive(context,alpha,use_bbox,render_ppi)
+		return export_raster_interactive(context, alpha, use_bbox, render_ppi)
 
 
 def make_ps(document):
 	file = tempfile.mktemp('.ps')
-	device = PostScriptDevice(file, as_eps = 0, document = document)
+	device = PostScriptDevice(file, as_eps=0, document=document)
 	document.Draw(device)
 	device.Close()
 	return file
 
 
-def render_ps(filename, resolution, width, height, orig_x = 0, orig_y = 0,
-				prolog = '', antialias = '', gsdevice = 'ppmraw'):
+def render_ps(filename, resolution, width, height, orig_x=0, orig_y=0,
+				prolog='', antialias='', gsdevice='ppmraw'):
 	if prolog:
 		prolog = '-c ' + '"' + prolog + '"'
 
@@ -139,8 +139,8 @@ def render_ps(filename, resolution, width, height, orig_x = 0, orig_y = 0,
 			pass
 
 
-def export_raster(context, filename, resolution, use_bbox, format = None,
-					antialias = None):
+def export_raster(context, filename, resolution, use_bbox, format=None,
+					antialias=None):
 	# instead of the page size one could also use the bounding box
 	# (returned by the BoundingRect method).
 	if use_bbox:
@@ -157,17 +157,17 @@ def export_raster(context, filename, resolution, use_bbox, format = None,
 	temp = make_ps(context.document)
 	try:
 		image = render_ps(temp, resolution, width, height,
-							orig_x = x, orig_y = y, antialias = antialias)
+							orig_x=x, orig_y=y, antialias=antialias)
 	finally:
 		os.unlink(temp)
-	image.save(filename, format = format)
+	image.save(filename, format=format)
 
 
 alpha_prolog = "/setrgbcolor {pop pop pop 0 0 0 setrgbcolor} bind def \
 /setgray { pop 0 setgray} bind def \
 /setcmykcolor { pop pop pop pop 0 0 0 1.0 setcmykcolor} bind def "
 
-def export_alpha(context, filename, resolution, use_bbox = 0):
+def export_alpha(context, filename, resolution, use_bbox=0):
 	if use_bbox:
 		left, bottom, right, top = context.document.BoundingRect()
 		width = right - left
@@ -182,10 +182,10 @@ def export_alpha(context, filename, resolution, use_bbox = 0):
 	width = round(width * resolution / 72.0)
 	height = round(height * resolution / 72.0)
 	rgb = render_ps(ps, resolution, width, height,
-					orig_x = x, orig_y = y, antialias = 2)
+					orig_x=x, orig_y=y, antialias=2)
 	alpha = render_ps(ps, resolution, width, height,
-						orig_x = x, orig_y = y, antialias = 2,
-						prolog = alpha_prolog, gsdevice = 'pgmraw')
+						orig_x=x, orig_y=y, antialias=2,
+						prolog=alpha_prolog, gsdevice='pgmraw')
 
 	alpha = ImageChops.invert(alpha)
 
@@ -197,10 +197,10 @@ def export_alpha(context, filename, resolution, use_bbox = 0):
 
 filelist = [(_("Portable Pixmap"), '.ppm'),
 			(_("Portable Graymap"), '.pgm'),
-			(_("Jpeg"),   '.jpg'),
+			(_("Jpeg"), '.jpg'),
 			(_("Portable Network Graphics"), '.png')]
 
-def export_raster_interactive(context, alpha = 0, use_bbox = 0, render_ppi=72):
+def export_raster_interactive(context, alpha=0, use_bbox=0, render_ppi=72):
 	# popup a filedialog and export the document
 
 	doc = context.document
@@ -215,16 +215,16 @@ def export_raster_interactive(context, alpha = 0, use_bbox = 0, render_ppi=72):
 	if alpha:
 		default_ext = '.png'
 		# shift png up in filetypes so it is displayed accordingly
-		filetypes=tuple(filelist[-1:]+filelist[1:-1])
+		filetypes = tuple(filelist[-1:] + filelist[1:-1])
 	else:
 		default_ext = '.ppm'
-		filetypes=tuple(filelist)
+		filetypes = tuple(filelist)
 
 	filename = context.application.GetSaveFilename(
-		title = _("Export Raster"),
-		filetypes = filetypes,
-		initialdir = doc.meta.directory,
-		initialfile = basename + default_ext)
+		title=_("Export Raster"),
+		filetypes=filetypes,
+		initialdir=doc.meta.directory,
+		initialfile=basename + default_ext)
 	if filename:
 		ext = os.path.splitext(filename)[1]
 		if extensions.has_key(ext):
@@ -234,22 +234,22 @@ def export_raster_interactive(context, alpha = 0, use_bbox = 0, render_ppi=72):
 				export_raster(context, filename, render_ppi, use_bbox)
 		else:
 			message = _("unknown extension %s") % ext
-			context.application.MessageBox(title = _("Export Raster"),
-											message = message)
+			context.application.MessageBox(title=_("Export Raster"),
+											message=message)
 
 
 
 
 app.Scripting.AddFunction('export_raster', _("Export Raster"),
 								export_raster_more_interactive,
-								script_type = app.Scripting.AdvancedScript)
+								script_type=app.Scripting.AdvancedScript)
 #app.Scripting.AddFunction('export_raster', 'Export Raster Alpha (Default)',
 #                             export_raster_interactive, args = (1,0),
 #                             script_type = app.Scripting.AdvancedScript)
 app.Scripting.AddFunction('export_raster',
 								_("Export Raster Alpha (100ppi)"),
-								export_raster_interactive, args = (1,0,100),
-								script_type = app.Scripting.AdvancedScript)
+								export_raster_interactive, args=(1, 0, 100),
+								script_type=app.Scripting.AdvancedScript)
 #app.Scripting.AddFunction('export_raster', 'Export Raster Alpha (120ppi)',
 #                             export_raster_interactive, args = (1,0,120),
 #                             script_type = app.Scripting.AdvancedScript)

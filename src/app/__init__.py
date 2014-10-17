@@ -161,14 +161,14 @@ def init_ui():
 
 def init_modules_from_widget(root):
 	import pax
-	import UI.skpixmaps, Graphics.graphics
-	import UI.tkext, Graphics.color
-	UI.tkext.InitFromTkapp(root.tk)
+	import sk1.skpixmaps, Graphics.graphics
+	import sk1.tkext, Graphics.color
+	sk1.tkext.InitFromTkapp(root.tk)
 	if hasattr(root.tk, 'interpaddr'):
 		tkwin = pax.name_to_window('.', root.tk.interpaddr())
 	else:
 		tkwin = pax.name_to_window('.', root.tk)
 	Graphics.color.InitFromWidget(tkwin, root)
 	Graphics.graphics.InitFromWidget(tkwin)
-	UI.skpixmaps.InitFromWidget(tkwin)
+	sk1.skpixmaps.InitFromWidget(tkwin)
 

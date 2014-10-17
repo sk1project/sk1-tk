@@ -9,7 +9,7 @@
 import sys, os
 
 from app.events.warn import pdebug
-from app import _, config, Publisher
+from app import config, Publisher
 from uniconvertor import filters
 import app
 from app.Graphics import document
@@ -18,12 +18,12 @@ from app.conf.const import CLIPBOARD
 
 from Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
 from Tkinter import Label, Frame, X, TOP, LEFT
-from app.UI import tkext
+import tkext
 from types import ListType
 
 from sk1sdk.libttk import tooltips
 
-from app.UI import skpixmaps
+import skpixmaps
 pixmaps = skpixmaps.PixmapTk
 
 #
@@ -204,7 +204,7 @@ class SketchApplication(TkApplication, Publisher):
 		root.group(root)
 
 	def build_window(self):
-		from app.UI.mainwindow import sK1MainWindow
+		from mainwindow import sK1MainWindow
 		self.main_window = sK1MainWindow(self, self.filename, self.run_script)
 		app.mw = self.main_window
 

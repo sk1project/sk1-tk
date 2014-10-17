@@ -20,7 +20,7 @@ import time
 
 from uniconvertor.utils import flatten
 
-from app.UI.skpixmaps import pixmaps
+from sk1.skpixmaps import pixmaps
 from app.events.warn import pdebug, warn, INTERNAL
 from app.conf import const
 from app.conf.const import SelectSet

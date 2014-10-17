@@ -20,10 +20,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 from math import pi, cos, sin
-	
+
 from app import _, PolyBezier, CreatePath, Polar, Point, \
 		ContAngle, ContSmooth, ContSymmetrical
-from app.UI.sketchdlg import SKModal
+from sk1.sketchdlg import SKModal
 
 from Tkinter import *
 
@@ -68,8 +68,8 @@ def create_spiral(context):
 def create_spiral_path(rotation, radius):
 	r = unit.convert(radius)
 	rate = r / (rotation * 2 * pi)
-	
-	def tangent(phi, a = 0.55197 * rate):
+
+	def tangent(phi, a=0.55197 * rate):
 		return a * Point(cos(phi) - phi * sin(phi),
 							sin(phi) + phi * cos(phi))
 	pi2 = pi / 2.0
@@ -89,5 +89,5 @@ def create_spiral_path(rotation, radius):
 
 import app.Scripting
 app.Scripting.AddFunction('create_spiral', _("Spiral"),
-								create_spiral, menu = _("Create Objects"),
-								script_type = app.Scripting.AdvancedScript)
+								create_spiral, menu=_("Create Objects"),
+								script_type=app.Scripting.AdvancedScript)

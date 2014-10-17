@@ -19,7 +19,7 @@
 #
 
 from app import _, PolyBezier, CreatePath, Polar
-from app.UI.sketchdlg import SKModal
+from sk1.sketchdlg import SKModal
 
 from Tkinter import *
 
@@ -83,5 +83,5 @@ def create_star_path(corners, outer_radius, inner_radius):
 
 import app.Scripting
 app.Scripting.AddFunction('create_star_outline', _("Star Outline"),
-								create_star_outline, menu = _("Create Objects"),
-								script_type = app.Scripting.AdvancedScript)
+								create_star_outline, menu=_("Create Objects"),
+								script_type=app.Scripting.AdvancedScript)

@@ -13,9 +13,9 @@ from uniconvertor import utils
 from uniconvertor.utils import fs, system
 from app.io import load
 import app, os, sys, string
-from app.UI.dialogs.msgdialog import msgDialog
-from app.UI.dialogs import msgdialog
-from app.UI.dialogs.progressdialog import ProgressDialog
+from sk1.dialogs.msgdialog import msgDialog
+from sk1.dialogs import msgdialog
+from sk1.dialogs.progressdialog import ProgressDialog
 import time, sk1
 
 

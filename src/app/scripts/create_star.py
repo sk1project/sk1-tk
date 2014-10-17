@@ -23,10 +23,10 @@ import app.Scripting
 from app import _, SolidPattern, StandardColors, PolyBezier, CreatePath, \
 		Point, Polar
 
-from app.UI.sketchdlg import SKModal
+from sk1.sketchdlg import SKModal
 
 #
-#   
+#
 #
 
 def create_star_path(corners, step, radius):
@@ -40,7 +40,7 @@ def create_star_path(corners, step, radius):
 	for i in range(corners):
 		p = Polar(radius, angle * i + pi / 2)
 		path.AppendLine(p)
-		
+
 	# close the path.
 	path.AppendLine(path.Node(0))
 	path.ClosePath()
@@ -48,7 +48,7 @@ def create_star_path(corners, step, radius):
 	return path
 
 #
-#   A modal dialog that asks for the parameters 
+#   A modal dialog that asks for the parameters
 #
 # SKModal is the baseclass Sketch uses for modal dialogs. It provides
 # some standard functionality for all modal dialogs.
@@ -89,35 +89,35 @@ class CreateStarDlg(SKModal):
 
 		self.var_corners = IntVar(top)
 		self.var_corners.set(5)
-		label = Label(top, text = _("Corners"), anchor = 'e')
-		label.grid(column = 0, row = 0, sticky = 'ew')
-		entry = Entry(top, textvariable = self.var_corners, width = 15)
-		entry.grid(column = 1, row = 0, sticky = 'ew')
-		
+		label = Label(top, text=_("Corners"), anchor='e')
+		label.grid(column=0, row=0, sticky='ew')
+		entry = Entry(top, textvariable=self.var_corners, width=15)
+		entry.grid(column=1, row=0, sticky='ew')
+
 		self.var_steps = IntVar(top)
 		self.var_steps.set(2)
-		label = Label(top, text = _("Steps"), anchor = 'e')
-		label.grid(column = 0, row = 1, sticky = 'ew')
-		entry = Entry(top, textvariable = self.var_steps, width = 15)
-		entry.grid(column = 1, row = 1, sticky = 'ew')
+		label = Label(top, text=_("Steps"), anchor='e')
+		label.grid(column=0, row=1, sticky='ew')
+		entry = Entry(top, textvariable=self.var_steps, width=15)
+		entry.grid(column=1, row=1, sticky='ew')
 
 		self.var_radius = DoubleVar(top)
 		self.var_radius.set(100)
-		label = Label(top, text = _("Radius"), anchor = 'e')
-		label.grid(column = 0, row = 2, sticky = 'ew')
-		entry = Entry(top, textvariable = self.var_radius, width = 15)
-		entry.grid(column = 1, row = 2, sticky = 'ew')
-		
+		label = Label(top, text=_("Radius"), anchor='e')
+		label.grid(column=0, row=2, sticky='ew')
+		entry = Entry(top, textvariable=self.var_radius, width=15)
+		entry.grid(column=1, row=2, sticky='ew')
+
 
 		but_frame = Frame(top)
-		but_frame.grid(column = 0, row = 3, columnspan = 2)
+		but_frame.grid(column=0, row=3, columnspan=2)
 
-		button = Button(but_frame, text = _("OK"), command = self.ok)
-		button.pack(side = 'left', expand = 1)
+		button = Button(but_frame, text=_("OK"), command=self.ok)
+		button.pack(side='left', expand=1)
 		# The self.cancel method is provided by the base class and
 		# cancels the dialog.
-		button = Button(but_frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = 'right', expand = 1)
+		button = Button(but_frame, text=_("Cancel"), command=self.cancel)
+		button.pack(side='right', expand=1)
 
 
 	def ok(self, *args):
@@ -143,22 +143,22 @@ def create_star(context):
 		# the star-path...
 		corners, steps, radius = result
 		path = create_star_path(corners, steps, radius)
-	
+
 		# ... and create the bezier object. The parameter to the
 		# constructor must be a tuple of paths
 		bezier = PolyBezier((path,))
 
 		# Set the line color to blue, the line width to 4pt
-		bezier.SetProperties(line_pattern = SolidPattern(StandardColors.blue),
-								line_width = 4)
+		bezier.SetProperties(line_pattern=SolidPattern(StandardColors.blue),
+								line_width=4)
 
 		# and insert it into the document
 		context.main_window.PlaceObject(bezier)
 
 
 
-	
+
 app.Scripting.AddFunction('create_star', _("Create Star"),
 								create_star,
-								script_type = app.Scripting.AdvancedScript)
+								script_type=app.Scripting.AdvancedScript)
 

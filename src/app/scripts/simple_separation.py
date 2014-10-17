@@ -35,7 +35,7 @@ import os
 
 from app import _, SolidPattern, StandardColors, CreateListUndo, Undo, PostScriptDevice
 from uniconvertor.utils import system
-from app.UI.sketchdlg import SKModal
+from sk1.sketchdlg import SKModal
 
 from Tkinter import StringVar, Frame, Label, Button, Entry, E, W, X, TOP, BOTTOM, LEFT, BOTH
 
@@ -119,7 +119,7 @@ class CreateSeparation:
 					pattern = SolidPattern(black)
 				else:
 					pattern = SolidPattern(white)
-				undo = properties.SetProperty(fill_pattern = pattern)
+				undo = properties.SetProperty(fill_pattern=pattern)
 				self.undo.append(undo)
 
 			pattern = properties.line_pattern
@@ -128,7 +128,7 @@ class CreateSeparation:
 					pattern = SolidPattern(black)
 				else:
 					pattern = SolidPattern(white)
-				undo = properties.SetProperty(line_pattern = pattern)
+				undo = properties.SetProperty(line_pattern=pattern)
 				self.undo.append(undo)
 
 	def undo_changes(self):
@@ -155,23 +155,23 @@ class SimpleSeparationDialog(SKModal):
 		self.var_name.set(self.basename)
 
 		frame = Frame(self.top)
-		frame.pack(side = TOP, fill = BOTH, expand = 1)
+		frame.pack(side=TOP, fill=BOTH, expand=1)
 
 		text = filename_dialog_text % self.num_colors
-		label = Label(frame, text = text, justify = "left")
-		label.grid(column = 0, row = 0, sticky = E, columnspan = 2)
+		label = Label(frame, text=text, justify="left")
+		label.grid(column=0, row=0, sticky=E, columnspan=2)
 
-		label = Label(frame, text = _("Basename:"))
-		label.grid(column = 0, row = 1, sticky = E)
-		entry = Entry(frame, width = 15, textvariable = self.var_name)
-		entry.grid(column = 1, row = 1)
+		label = Label(frame, text=_("Basename:"))
+		label.grid(column=0, row=1, sticky=E)
+		entry = Entry(frame, width=15, textvariable=self.var_name)
+		entry.grid(column=1, row=1)
 
 		frame = Frame(self.top)
-		frame.pack(side = BOTTOM, fill = X, expand = 1)
-		button = Button(frame, text = _("OK"), command = self.ok)
-		button.pack(side = LEFT, expand = 1)
-		button = Button(frame, text = _("Cancel"), command = self.cancel)
-		button.pack(side = LEFT, expand = 1)
+		frame.pack(side=BOTTOM, fill=X, expand=1)
+		button = Button(frame, text=_("OK"), command=self.ok)
+		button.pack(side=LEFT, expand=1)
+		button = Button(frame, text=_("Cancel"), command=self.cancel)
+		button.pack(side=LEFT, expand=1)
 
 	def ok(self):
 		self.close_dlg(self.var_name.get())
@@ -209,7 +209,7 @@ def simple_separation(context):
 	# first determine the number of unique colors in the document
 	color_extractor = ColorExtractor()
 	try:
-		doc.WalkHierarchy(color_extractor.extract_colors, all = 1)
+		doc.WalkHierarchy(color_extractor.extract_colors, all=1)
 	except UnsupportedFeature, value:
 		context.application.MessageBox(_("Simple Separation"),
 										value)
@@ -218,7 +218,7 @@ def simple_separation(context):
 	colors = color_extractor.colors.keys()
 
 	doc_bbox = doc.BoundingRect()
-	
+
 	filename = doc.meta.fullpathname
 	if filename is None:
 		filename = "unnamed"
@@ -246,13 +246,13 @@ def simple_separation(context):
 			# do this in a try-finall to make sure the document colors
 			# get restored even if something goes wrong
 			doc.WalkHierarchy(separator.change_color)
-			filename = basename + '-' + hexcolor(color)  + '.ps'
-			ps_dev = PostScriptDevice(filename, as_eps = 1,
-										bounding_box = ps_bbox,
-										For = system.get_real_username(),
-										CreationDate = system.current_date(),
-										Title = os.path.basename(filename),
-										document = doc)
+			filename = basename + '-' + hexcolor(color) + '.ps'
+			ps_dev = PostScriptDevice(filename, as_eps=1,
+										bounding_box=ps_bbox,
+										For=system.get_real_username(),
+										CreationDate=system.current_date(),
+										Title=os.path.basename(filename),
+										document=doc)
 			doc.Draw(ps_dev)
 			draw_alignment_marks(ps_dev, doc_bbox,
 									align_length, align_distance)
@@ -261,8 +261,8 @@ def simple_separation(context):
 			separator.undo_changes()
 
 
-import app.Scripting        
+import app.Scripting
 app.Scripting.AddFunction('simple_separation',
 								_("Simple Separation"),
 								simple_separation,
-								script_type = app.Scripting.AdvancedScript)
+								script_type=app.Scripting.AdvancedScript)
