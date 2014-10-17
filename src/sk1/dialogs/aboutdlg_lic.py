@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 LICENSE = """
-				  GNU LIBRARY GENERAL PUBLIC LICENSE
-					   Version 2, June 1991
+              GNU LIBRARY GENERAL PUBLIC LICENSE
+                    Version 2, June 1991
 
  Copyright (C) 1991 Free Software Foundation, Inc.
  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
