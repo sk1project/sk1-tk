@@ -9,21 +9,20 @@
 import operator, os, app
 from types import StringType, TupleType, IntType
 from string import strip, split, atof, atoi
+import xml.sax
+from xml.sax import handler
+from xml.sax.xmlreader import InputSource
 
 from app.X11 import X
-from app.Graphics.color import RGB_Color, CMYK_Color, CreateSPOTColor, CreateSPOT_RGBColor, CreateSPOT_CMYKColor, tk_to_rgb
-
-from app.conf.const import CHANGED, COLOR1, COLOR2, CHANGED, VIEW, \
-		DROP_COLOR, CurDragColor
+from app.Graphics.color import RGB_Color, CMYK_Color, \
+CreateSPOTColor, CreateSPOT_RGBColor, CreateSPOT_CMYKColor, tk_to_rgb
+from app.conf.const import COLOR1, COLOR2, CHANGED, VIEW, DROP_COLOR, CurDragColor
 from app.events.warn import warn, INTERNAL, USER, pdebug, warn_tb
 from app import Publisher, config, SketchError, _
 from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity, Point
 
-from tkext import PyWidget
+from sk1.tkext import PyWidget
 
-from xml.sax import handler
-import xml.sax
-from xml.sax.xmlreader import InputSource
 
 class NameInUse(SketchError):
 	pass

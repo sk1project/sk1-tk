@@ -31,10 +31,10 @@ from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, tooltips
 
 from sk1 import tkext
 from sk1 import palette
-from sk1 import tkruler
 from sk1 import skpixmaps
 from sk1.command import CommandClass, Keymap, Commands
 from sk1.view.canvas import SketchCanvas
+from sk1.view import tkruler
 from sk1.dialogs.aboutdlg import aboutDialog
 from sk1.cc.ccenterdialog import ControlCenter
 from sk1.pluginpanels.plugincontainer import PluginContainer

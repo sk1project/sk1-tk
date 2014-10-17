@@ -11,13 +11,14 @@ from string import atoi
 from types import TupleType
 import operator, app
 
+from Tkinter import Canvas, Label
+
 from app import config, GuideLine, Point
 from app.conf import const
 from app.conf.const import CHANGED
-from sk1sdk.libtk.tkgraphics import NumWriter
-
-from Tkinter import Canvas, Label
 from app.Lib import units
+
+from tkgraphics import NumWriter
 
 HORIZONTAL = 0
 VERTICAL = 1
@@ -33,30 +34,30 @@ tick_config = {'in': (1.0, (2, 2, 2, 2)),
 				}
 
 class Ruler(Canvas):
-	
+
 	writer = None
-	
+
 	def __init__(self, master=None, orient=HORIZONTAL, canvas=None, **kw):
 		self.writer = NumWriter(self)
 		self.mw = None
 		self.document = None
-		
+
 		apply(Canvas.__init__, (self, master), kw)
 		self.root = master
 		self.orient = orient
 		self.canvas = canvas
 		self.positions = None
 		self.SetRange(0.0, 1.0, force=1)
-		
+
 		self.text_type = 'horizontal'
 		self.border_width = 0
-		self.relief = 'FLAT'    
+		self.relief = 'FLAT'
 		height = 20
-		
+
 		if orient == HORIZONTAL:
 			self['height'] = height
 		else:
-			self['width'] = height	
+			self['width'] = height
 
 		self.bind('<ButtonPress>', self.ButtonPressEvent)
 		self.bind('<Double-Button-1>', self.draw_test)
@@ -68,7 +69,7 @@ class Ruler(Canvas):
 		self.forward_motion = 0
 
 		config.preferences.Subscribe(CHANGED, self.preference_changed)
-		
+
 
 	def destroy(self):
 			Canvas.destroy(self)
@@ -87,9 +88,9 @@ class Ruler(Canvas):
 
 	def preference_changed(self, pref, value):
 		if pref == 'default_unit' or pref == 'coord_system':
-			self.positions = None 
+			self.positions = None
 			self.RedrawMethod()
-			
+
 	def get_positions(self):
 ##    Fixed to avoid blank rules on start
 ##         if self.positions is not None:
@@ -100,7 +101,7 @@ class Ruler(Canvas):
 				page_width, page_height = self.document.PageSize()
 			else:
 				page_width, page_height = (0, 0)
-			
+
 			min_text_step = config.preferences.ruler_min_text_step
 			max_text_step = config.preferences.ruler_max_text_step
 			min_tick_step = config.preferences.ruler_min_tick_step
@@ -116,13 +117,13 @@ class Ruler(Canvas):
 					origin -= page_height
 				if config.preferences.coord_system == 2:
 					origin -= page_height / 2
-				
+
 			unit_name = config.preferences.default_unit
 			pt_per_unit = units.unit_dict[unit_name]
 			units_per_pixel = 1.0 / (pt_per_unit * self.pixel_per_pt)
 			factor, subdivisions = tick_config[unit_name]
 			subdivisions = (1,) + subdivisions
-			
+
 			factor = factor * pt_per_unit
 			start_pos = floor(origin / factor) * factor
 			main_tick_step = factor * self.pixel_per_pt
@@ -143,7 +144,7 @@ class Ruler(Canvas):
 						break
 					ticks = ticks * subdivisions[depth]
 				subdivisions = subdivisions[:depth + 1]
-		
+
 			positions = range(int(num_ticks * ticks))
 			positions = map(operator.mul, [tick_step] * len(positions), positions)
 			positions = map(operator.add, positions,
@@ -161,7 +162,7 @@ class Ruler(Canvas):
 				for i in range(0, len(positions), stride):
 					if marks[i] is None:
 						marks[i] = (height, int(round(positions[i])))
-			
+
 			texts = []
 			if main_tick_step < min_text_step:
 				stride = int(ceil(min_text_step / main_tick_step))
@@ -178,31 +179,31 @@ class Ruler(Canvas):
 						break
 					stride = stride / div
 					if step < max_text_step:
-						break			
-			
+						break
+
 			for i in range(start_index, len(positions), stride):
 				pos = positions[i] * units_per_pixel + origin / pt_per_unit
 				pos = round(pos, 3)
-				
+
 				if config.preferences.coord_system == 1:
 					if self.orient == VERTICAL:
-						pos *= -1				
-				
-				if pos == 0.0:	# avoid '-0' strings
+						pos *= -1
+
+				if pos == 0.0:# avoid '-0' strings
 					pos = 0.0
-					
+
 				texts.append(("%g" % pos, marks[i][-1]))
-					
+
 			self.positions = marks
 			self.texts = texts
 
 			return self.positions, self.texts
-		
+
 
 	def RedrawMethod(self, region=None):
 		tags = self.find_all()
 		for tag in tags:
-			self.delete(tag)    
+			self.delete(tag)
 		if self.orient == HORIZONTAL:
 			self.draw_ruler_horizontal()
 		else:
@@ -210,20 +211,20 @@ class Ruler(Canvas):
 
 	def draw_test(self, event):
 		self.draw_ruler_horizontal()
-		
+
 	def draw_ruler_horizontal(self):
 		height = int(self.winfo_height())
-		width = int(self.winfo_width())      
+		width = int(self.winfo_width())
 		self.create_line(0, height - 1, width, height - 1, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
 		offset = 0
 		if config.preferences.cairo_enabled:
 			offset = 0
-			
+
 		for h, pos in ticks:
 			pos = pos - offset
 			self.create_line(pos, height - h, pos, height, fill=config.preferences.ruler_tick_color)
-		y = int(height / 2) - 5  
+		y = int(height / 2) - 5
 		for text, pos in texts:
 			pos = pos - offset
 			self.create_line(pos, height - 10, pos, height, fill=config.preferences.ruler_tick_color)
@@ -231,7 +232,7 @@ class Ruler(Canvas):
 
 	def draw_ruler_vertical(self):
 		height = int(self.winfo_height())
-		width = int(self.winfo_width()) 
+		width = int(self.winfo_width())
 		self.create_line(width - 1, 0, width - 1, height, fill=config.preferences.ruler_tick_color)
 		ticks, texts = self.get_positions()
 
@@ -239,11 +240,11 @@ class Ruler(Canvas):
 			pos = height - pos
 			self.create_line(width - h, pos, width, pos, fill=config.preferences.ruler_tick_color)
 		x = int(width / 2) - 5
-		for text, pos in texts:				
-			pos = height - pos	
+		for text, pos in texts:
+			pos = height - pos
 			self.create_line(width - 10, pos, width, pos, fill=config.preferences.ruler_tick_color)
 			self.writer.writeVertically(text, config.preferences.ruler_text_color, x, pos - 2)
-			
+
 
 	def ButtonPressEvent(self, event):
 		if event.num == const.Button1:
@@ -272,8 +273,8 @@ class Ruler(Canvas):
 		self.RedrawMethod()
 
 class RulerCorner(Label):
-	
-		def __init__(self, master=None, **kw):			
+
+		def __init__(self, master=None, **kw):
 			apply(Label.__init__, (self, master), kw)
 			self['image'] = 'rulers_corner'
 			if config.preferences.coord_system == 2:
@@ -281,17 +282,17 @@ class RulerCorner(Label):
 			if config.preferences.coord_system == 1:
 				self['image'] = 'rulers_corner1'
 			self.bind('<Button-1>', self.change_coord)
-		
+
 		def change_coord(self, *args):
 			if config.preferences.coord_system == 2:
 				self['image'] = 'rulers_corner'
-				config.preferences.coord_system = 0				
+				config.preferences.coord_system = 0
 			elif config.preferences.coord_system == 1:
 				self['image'] = 'rulers_corner2'
 				config.preferences.coord_system = 2
 			else:
 				self['image'] = 'rulers_corner1'
 				config.preferences.coord_system = 1
-				
-				
-		
+
+
+
