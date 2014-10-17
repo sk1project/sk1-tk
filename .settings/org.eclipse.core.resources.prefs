@@ -66,6 +66,7 @@ encoding//src/sk1/miniscroll.py=utf-8
 encoding//src/sk1/modes.py=utf-8
 encoding//src/sk1/palette.py=utf-8
 encoding//src/sk1/pluginpanels/effects/align_plugin.py=utf-8
+encoding//src/sk1/pluginpanels/effects/blend_plugin.py=utf-8
 encoding//src/sk1/pluginpanels/layout/grid_plugin.py=utf-8
 encoding//src/sk1/pluginpanels/layout/page_plugin.py=utf-8
 encoding//src/sk1/pluginpanels/pbrowser.py=utf-8

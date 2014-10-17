@@ -22,17 +22,15 @@ from app import config
 from app.Lib.units import unit_dict, unit_names
 
 from Tkinter import TclError, StringVar, DoubleVar
-from Tkinter import LEFT, RIGHT, X, Y, E, W
-from tkext import MyEntry, MyOptionMenu
+from Tkinter import RIGHT, E
 from ttk_ext import TComboSmall, TSpinbox
-from miniscroll import MiniScroller
 
 
 class LengthVar:
 
-	def __init__(self, length, unit, number_var = None, unit_var = None,
-					command = None, args = (),
-					precision = config.preferences.drawing_precision):
+	def __init__(self, length, unit, number_var=None, unit_var=None,
+					command=None, args=(),
+					precision=config.preferences.drawing_precision):
 		self.length = length
 		self.number_var = number_var
 		self.unit = unit
@@ -66,14 +64,14 @@ class LengthVar:
 		self.length = length
 		self.set_vars()
 
-	def UpdateUnit(self, unit = None):
+	def UpdateUnit(self, unit=None):
 		if unit is None:
 			self.unit = self.unit_var.get()
 		else:
 			self.unit = unit
 		self.set_vars()
 
-	def UpdateNumber(self, number = None):
+	def UpdateNumber(self, number=None):
 		try:
 			number = self.number_var.get()
 		except TclError:
@@ -95,29 +93,29 @@ class LengthVar:
 
 
 
-def create_unit_menu(master, command, variable = None, **options):
-	optmenu = TComboSmall(master, unit_names, command = command, variable = variable)
+def create_unit_menu(master, command, variable=None, **options):
+	optmenu = TComboSmall(master, unit_names, command=command, variable=variable)
 	optmenu.configure(options)
 	return optmenu
 
 def create_length_widgets(top, master, command):
 	var_number = DoubleVar(top)
 	var_unit = StringVar(top)
-	var_length = LengthVar(1.0, config.preferences.default_unit, var_number, var_unit, command = command)
+	var_length = LengthVar(1.0, config.preferences.default_unit, var_number, var_unit, command=command)
 # 	entry = MyEntry(master, textvariable = var_number, justify = RIGHT,
 # 					width = 6, command = var_length.UpdateNumber, background = '#FFFFFF', selectbackground = '#6ABCFF', selectborderwidth=0)
-	entry = TSpinbox(master, textvariable = var_number, vartype=1, min = 0, max = 50000, step = .1, width = 6, command = var_length.UpdateNumber)
+	entry = TSpinbox(master, textvariable=var_number, vartype=1, min=0, max=50000, step=.1, width=6, command=var_length.UpdateNumber)
 # 	scroll = MiniScroller(master, variable = var_number, min = 0, max = None,
 # 							step = 0.5)
-	optmenu = create_unit_menu(master, var_length.UpdateUnit, variable = var_unit, width = 3)
+	optmenu = create_unit_menu(master, var_length.UpdateUnit, variable=var_unit, width=3)
 	return var_length, entry, optmenu
 
 
 
-def create_length_entry(top, master, command, scroll_pad = 2):
+def create_length_entry(top, master, command, scroll_pad=2):
 	var, entry, optmenu = create_length_widgets(top, master, command)
-	optmenu.pack(side = RIGHT, expand = 0, anchor = E)
-	entry.pack(side = RIGHT, expand = 0, anchor = E, padx=2)
+	optmenu.pack(side=RIGHT, expand=0, anchor=E)
+	entry.pack(side=RIGHT, expand=0, anchor=E, padx=2)
 # 	scroll.pack(side = LEFT, fill = Y, pady = scroll_pad)
-	
+
 	return var

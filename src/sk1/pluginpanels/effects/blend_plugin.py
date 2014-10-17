@@ -5,34 +5,31 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from sk1sdk.libttk import TFrame, TLabel, TCheckbutton, TButton
-from Tkinter import IntVar
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, TOP, W, E, DISABLED, NORMAL
+from Tkinter import BOTTOM, X, BOTH, LEFT, TOP, E, DISABLED, NORMAL, IntVar
 
-from app.conf.const import SELECTION, DOCUMENT, EDITED
-
-from app import _, config, Rect, mw
-from app.conf import const
 import app
-from sk1.tkext import UpdatedButton, MyEntry
+from app import _, config
+from app.conf.const import SELECTION
+
+from app.Graphics.blendgroup import SelectStart, SelectEnd
+
+from sk1sdk.libttk import TFrame, TLabel
+
+from sk1.tkext import UpdatedButton
 from sk1.ttk_ext import TSpinbox
-from sk1.miniscroll import MiniScroller
-
-from app.Graphics.blendgroup import BlendGroup, BlendInterpolation, SelectStart, SelectEnd
-
 from sk1.pluginpanels.ppanel import PluginPanel
 
 class BlendPlugin(PluginPanel):
-	
+
 	name = 'Blend'
 	title = _("Blend")
-	
+
 	def init(self, master):
 		PluginPanel.init(self, master)
-		
+
 		top = TFrame(self.panel, style='FlatFrame', borderwidth=5)
 		top.pack(side=TOP, fill=BOTH)
-		
+
 		sign = TFrame(top, style='RoundedFrame', borderwidth=5)
 		sign.pack(side=TOP)
 
@@ -49,16 +46,16 @@ class BlendPlugin(PluginPanel):
 		button.pack(in_=button_frame, side=LEFT, expand=1, fill=X)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
-		
+
 
 		steps_frame = TFrame(top, style='FlatFrame', borderwidth=15)
 		steps_frame.pack(side=TOP)
 		label = TLabel(steps_frame, text="  " + _("Steps:") + " ")
 		label.pack(side=LEFT, anchor=E)
-		
+
 		self.var_steps = IntVar(top)
 		self.var_steps.set(config.preferences.blend_panel_default_steps)
-		
+
 		self.entry = TSpinbox(steps_frame, var=10, vartype=0, textvariable=self.var_steps,
 									min=1, max=100000, step=1, width=6, command=self.apply_blend)
 		self.entry.pack(side=LEFT, anchor=E)
@@ -79,10 +76,10 @@ class BlendPlugin(PluginPanel):
 		button.pack(side=BOTTOM, fill=X, expand=1)
 		self.document.Subscribe(SELECTION, button.Update)
 		self.update_buttons.append(button)
-		
+
 		self.init_from_doc()
 		self.subscribe_receivers()
-		
+
 	def subscribe_receivers(self):
 		self.document.Subscribe(SELECTION, self.Update)
 
@@ -153,9 +150,9 @@ class BlendPlugin(PluginPanel):
 					child = object.objects[-1]
 				self.document.SelectObject(child)
 			elif object.parent.is_Blend:
-				object.parent.SelectControl(object, which)		
-		
-		
-		
+				object.parent.SelectControl(object, which)
+
+
+
 instance = BlendPlugin()
 app.effects_plugins.append(instance)
