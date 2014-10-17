@@ -19,30 +19,26 @@ from math import floor, ceil
 
 from uniconvertor.utils import Empty, format
 
+import app
 from app import _, InvertingDevice, HitTestDevice, StandardColors, Point, Translation
 from app.Graphics.selection import SelectionRectangle
 from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
-
 from app import SketchInternalError, SelectionMode, EditMode
 from app.conf import const
 from app import config
 preferences = config.preferences
 from app.events.warn import pdebug, warn, INTERNAL
-
 from app.conf.const import STATE, MODE, SELECTION, VIEW, POSITION, EDITED, \
 		LAYER_STATE, LAYER_ACTIVE, CURRENTINFO, CHANGED, GRID, \
 		SelectSet, SelectAdd, SelectSubtract, \
 		SelectSubobjects, SelectDrag, SelectGuide
-import app
 
-import command
-from tkext import MakeCommand, UpdatedMenu
-
-from cursorstack import CursorStack
-from view import SketchView
-from modes import MajorMode, TemporaryMode, WidgetWithModes, noop
-
-from converters import converters
+from sk1 import command
+from sk1.tkext import MakeCommand, UpdatedMenu
+from sk1.cursorstack import CursorStack
+from sk1.view import SketchView
+from sk1.modes import MajorMode, TemporaryMode, WidgetWithModes, noop
+from sk1.converters import converters
 
 
 constraint_keysyms = {'Control_L' : const.ControlMask,
