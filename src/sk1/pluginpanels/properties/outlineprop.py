@@ -19,7 +19,7 @@ import app
 from sk1.tkext import UpdatedButton, UpdatedRadiobutton, TOptionMenu
 
 from sk1.pluginpanels.ppanel import PluginPanel
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 from sk1.dialogs import styledlg
 
 from sk1sdk.libttk import tooltips

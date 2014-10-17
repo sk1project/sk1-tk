@@ -25,7 +25,7 @@ degrees = pi / 180.0
 
 from sk1.pluginpanels.ppanel import PluginPanel
 
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 
 ABSOLUTE = 'Absolute'
 RELATIVE = 'Relative'

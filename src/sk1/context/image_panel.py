@@ -12,7 +12,7 @@ from Tkinter import LEFT, DoubleVar, StringVar, RIGHT
 from subpanel import CtxSubPanel
 from app import  _, config, PolyBezier, CreatePath, Point
 from sk1sdk.libttk import tooltips
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 from app.conf.const import SELECTION
 
 class ImagePanel(CtxSubPanel):

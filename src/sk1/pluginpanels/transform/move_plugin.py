@@ -24,7 +24,7 @@ RELATIVE = 'Relative'
 
 from sk1.pluginpanels.ppanel import PluginPanel
 
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 
 class MovePanel(PluginPanel):
 	name='Move'

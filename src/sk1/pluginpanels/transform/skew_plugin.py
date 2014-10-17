@@ -21,7 +21,7 @@ import app
 
 from sk1.pluginpanels.ppanel import PluginPanel
 
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 from math import pi, tan
 
 degrees = pi / 180.0

@@ -15,7 +15,7 @@ from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
 from app.Graphics.papersize import Papersize, PapersizesList
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 from app.Graphics.pagelayout import PageLayout
 
 class PagePanel(CtxSubPanel):

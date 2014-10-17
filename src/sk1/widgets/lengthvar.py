@@ -18,12 +18,13 @@
 
 from types import TupleType
 
+from Tkinter import TclError, StringVar, DoubleVar
+from Tkinter import RIGHT, E
+
 from app import config
 from app.Lib.units import unit_dict, unit_names
 
-from Tkinter import TclError, StringVar, DoubleVar
-from Tkinter import RIGHT, E
-from ttk_ext import TComboSmall, TSpinbox
+from sk1.ttk_ext import TComboSmall, TSpinbox
 
 
 class LengthVar:

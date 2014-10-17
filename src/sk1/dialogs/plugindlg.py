@@ -52,7 +52,7 @@ from app.conf.const import SELECTION
 from sk1.tkext import MyEntry
 from sk1.widgets.miniscroll import MiniScroller
 from sk1.sketchdlg import PropertyPanel
-from sk1.lengthvar import create_length_widgets
+from sk1.widgets.lengthvar import create_length_widgets
 
 
 

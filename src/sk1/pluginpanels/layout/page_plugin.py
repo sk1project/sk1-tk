@@ -21,7 +21,7 @@ from sk1.ttk_ext import TSpinbox, TComboSmall
 from Tkinter import RIGHT, BOTTOM, X, BOTH, LEFT, TOP, W, E, NW, SW, DISABLED, NORMAL
 from ppanel import PluginPanel
 
-from sk1.lengthvar import LengthVar, create_unit_menu
+from sk1.widgets.lengthvar import LengthVar, create_unit_menu
 
 import app
 

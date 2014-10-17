@@ -22,7 +22,7 @@ from app.conf import const
 from app import _, Point, config
 import app
 
-from sk1.lengthvar import LengthVar, create_unit_menu
+from sk1.widgets.lengthvar import LengthVar, create_unit_menu
 
 
 class GuidelinesPanel(PluginPanel):

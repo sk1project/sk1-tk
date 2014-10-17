@@ -13,7 +13,7 @@ from sk1sdk.libttk import tooltips
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 
 class ResizePanel(CtxSubPanel):
 	

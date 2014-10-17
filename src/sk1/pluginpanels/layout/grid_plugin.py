@@ -16,7 +16,7 @@ from app.conf import const
 from app import _
 import app
 
-from sk1.lengthvar import create_length_entry
+from sk1.widgets.lengthvar import create_length_entry
 
 
 class GridPanel(PluginPanel):

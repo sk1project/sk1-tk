@@ -12,7 +12,7 @@ from Tkinter import LEFT, RIGHT, DoubleVar, StringVar
 from subpanel import CtxSubPanel
 from app import  _, config
 from math import floor, ceil
-from sk1.lengthvar import LengthVar
+from sk1.widgets.lengthvar import LengthVar
 from app.Graphics import text
 from sk1sdk.libttk import tooltips
 

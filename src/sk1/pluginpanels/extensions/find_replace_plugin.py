@@ -18,7 +18,7 @@ from sk1sdk.libttk import TLabelframe, TFrame, TLabel, TCheckbutton, TButton
 from sk1.ttk_ext import TEntryExt
 from Tkinter import RIGHT, BOTTOM, BOTH, TOP, X, E, W, Y, LEFT, StringVar, BooleanVar, DISABLED, NORMAL
 
-from sk1.lengthvar import create_length_entry
+from sk1.widgets.lengthvar import create_length_entry
 
 class FindReplacePanel(PluginPanel):
 	name='Text Find & Replace'
