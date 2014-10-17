@@ -412,9 +412,6 @@ class sK1MainWindow(Publisher):
 		b = ToolbarButton(tbar, commands.ExportAs, image="toolbar_eVector")
 		tooltips.AddDescription(b, commands.ExportAs.menu_name)
 		b.pack(side=LEFT)
-#		b = ToolbarButton(tbar, commands.ExportRaster, image = "toolbar_eRaster")
-#		tooltips.AddDescription(b, commands.ExportRaster.menu_name)
-#		b.pack(side = LEFT)
 
 		label = TLabel(tbar, image="toolbar_sep")
 		label.pack(side=LEFT)
@@ -772,7 +769,6 @@ class sK1MainWindow(Publisher):
 	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image='menu_file_close')
 	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
 	AddCmd('InsertFile', _("Import vector..."))
-#	AddCmd('SetOptions', _("Options..."), image = 'menu_file_configure')
 	AddCmd('Preferences', _("Preferences..."), image='menu_file_configure')
 	AddCmd('Exit', _("Exit"), image='menu_file_exit', key_stroke=('Alt+F4'))
 
@@ -806,9 +802,6 @@ class sK1MainWindow(Publisher):
 	AddCmd('PasteClipboard', _("Paste"), image='menu_edit_paste', key_stroke=('Ctrl+V', 'Ctrl+v'),
 			subscribe_to=('application', CLIPBOARD), sensitive_cb=('application', 'ClipboardContainsData'))
 
-	AddCmd('ExportRaster', _("Export Bitmap..."), 'ExportRaster')
-
-
 #	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'LoadPlugin', args=('Alignment'), key_stroke=('Ctrl+A', 'Ctrl+a'))
 	AddCmd('CreateGridDialog', _("Grid Setup..."), 'LoadPlugin', args=('Grid'))#################################
@@ -818,7 +811,6 @@ class sK1MainWindow(Publisher):
 	AddCmd('CreateStyleDialog', _("Styles..."), 'CreateDialog', args=('styledlg', 'StylePanel'))
 	AddCmd('CreateBlendDialog', _("Blend..."), 'LoadPlugin', args=('Blend'), key_stroke=('Ctrl+B', 'Ctrl+b'))
 #	AddCmd('CreateLayoutDialog', _("Page Setup..."), 'CreateDialog', args = ('dlg_layout', 'LayoutPanel'))
-	#AddCmd('CreateExportDialog', 'Export...', 'CreateDialog', args = ('export', 'ExportPanel'))
 #	AddCmd('CreateCurveDialog', _("Curve Commands..."), 'CreateDialog', args = ('dlg_curve', 'CurvePanel'))
 	AddCmd('CreateGuideDialog', _("Guides Setup..."), 'LoadPlugin', args=('Guidelines'))
 	AddCmd('KPrinting', _("Print..."), 'KPrinting', image='menu_file_print', key_stroke=('Ctrl+P', 'Ctrl+p'), subscribe_to=CHANGED, sensitive_cb='HasKPrinter')
@@ -835,7 +827,6 @@ class sK1MainWindow(Publisher):
 	AddCmd('LoadBuiltinPalette', _("Load built-in palette"))
 	AddCmd('InsertFile', _("Import vector..."))
 	AddCmd('CreateImage', _("Import bitmap..."), subscribe_to=None)
-#	AddCmd('DocumentInfo', "Document Info...")
 	AddCmd('CreateStyleFromSelection', _("Name Style..."), sensitive_cb=('document', 'CanCreateStyle'), subscribe_to=SELECTION)
 
 ################### Document comands ############################
@@ -953,8 +944,6 @@ class sK1MainWindow(Publisher):
 					cmds.CreateImage,
 					cmds.InsertFile,
 					cmds.ExportAs,
-#					cmds.ExportRaster, #cmds.SavePS,
-					#cmds.export_bitmap,
 					None,
 					cmds.KPrinting,
 					cmds.PrintToPDF,
@@ -1174,18 +1163,6 @@ class sK1MainWindow(Publisher):
 					self.commands.AboutBox
 					])
 
-#	def make_special_menu(self):
-#		cmdlist = [self.commands.python_prompt,
-#					self.commands.CreateReloadPanel,
-#					self.commands.DocumentInfo,
-#					None,
-#					self.commands.DumpXImage,
-#					self.commands.CreateClone,
-#					#self.commands.export_bitmap,
-#					]
-#		app.Issue(None, const.ADD_TO_SPECIAL_MENU, cmdlist)
-#		return map(MakeCommand, cmdlist)
-
 ################### Utilite methods ############################
 
 	def issue_document(self):
@@ -1290,12 +1267,6 @@ class sK1MainWindow(Publisher):
 		dialog.Subscribe(CLOSED, self.__dlg_closed, info.class_name)
 		self.dialogs[info.class_name] = dialog
 
-
-	def SetOptions(self):
-		import optiondlg
-		optiondlg.OptionDialog(self.root, self.canvas)
-
-
 	def UpdateCommands(self):
 		self.canvas.UpdateCommands()
 
@@ -1389,45 +1360,6 @@ class sK1MainWindow(Publisher):
 		ControlCenter(self.root)
 
 
-
-	def DocumentInfo(self):
-		text = self.document.DocumentInfo()
-
-		from app import _sketch
-		meminfo = '\nMemory:\n'\
-					'# Bezier Paths:\t\t%d\n'\
-					'# RGBColors:\t\t%d\n' \
-					'# Rects:\t\t%d\n'\
-					'# Trafos:\t\t%d\n'\
-					'# Points:\t\t%d' % (_sketch.num_allocated(),
-										_sketch.colors_allocated(),
-										_sketch.rects_allocated(),
-										_sketch.trafos_allocted(),
-										_sketch.points_allocated())
-		text = '\n' + text + '\n\n' + meminfo + '\n\n'
-
-		self.application.MessageBox(title='Document Info', message=text, icon='construct')
-
-	AddCmd('DumpXImage', 'Dump XImage')
-	def DumpXImage(self):
-		gc = self.canvas.gc
-		if gc.ximage:
-			gc.ximage.dump_data("~/.sK1/ximage.dat")
-
-
-
-#     AddCmd('export_bitmap', 'Export Bitmap')
-#     def export_bitmap(self):
-#       import export
-#       export.export_bitmap(self.document)
-
-	AddCmd('python_prompt', 'Python Prompt')
-	def python_prompt(self):
-		if config.preferences.show_special_menu:
-			import prompt
-			prompt.PythonPrompt()
-
-
 	#
 	#       Create Image
 	#
@@ -1517,8 +1449,6 @@ class sK1MainWindow(Publisher):
 		hm = float(self.canvas.winfo_screenmmheight())
 		self.canvas.SetScale(1.07 + hm / hp)
 
-	def ExportRaster(self):
-			export_raster_more_interactive(self)
 
 
 
