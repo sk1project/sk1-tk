@@ -57,7 +57,7 @@ from conf.configurator import Configurator
 config = Configurator(base_dir=_parentdir)
 sKVersion = config.version
 
-from managers.colormanager import ColorManager
+from colormanager import ColorManager
 colormanager = ColorManager()
 
 

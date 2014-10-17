@@ -21,7 +21,6 @@ from app import Publisher, dialogman, EmptyPattern, GuideLine
 from app.Graphics import image, eps
 import app.Scripting
 from app.Graphics.color import rgb_to_tk
-from app.managers.docmanager import DocumentManager
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
 from app.Graphics.image import RGB_IMAGE, GRAYSCALE_IMAGE, CMYK_IMAGE, BW_IMAGE
@@ -32,6 +31,7 @@ from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, tooltips
 from sk1 import tkext
 from sk1 import skpixmaps
 from sk1.command import CommandClass, Keymap, Commands
+from sk1.managers.docmanager import DocumentManager
 from sk1.view.canvas import SketchCanvas
 from sk1.view import tkruler
 from sk1.dialogs.aboutdlg import aboutDialog
@@ -1198,7 +1198,7 @@ class sK1MainWindow(Publisher):
 				directory = fs.gethome()
 
 			filename, sysfilename = dialogman.getGenericOpenFilename(_("Load Palette"),
-																   app.managers.dialogmanager.palette_types,
+																   sk1.managers.dialogmanager.palette_types,
 																   initialdir=directory, initialfile=filename)
 			if not filename:
 				return

@@ -181,7 +181,7 @@ class DocumentManager:
 			directory = config.preferences.dir_for_vector_export
 			filename = document.meta.filename[:-4] + '.pdf'
 			filename, pdffile = dialogman.getGenericSaveFilename(_("Print into PDF file"),
-															app.managers.dialogmanager.pdf_types,
+															sk1.managers.dialogmanager.pdf_types,
 															initialdir=directory, initialfile=filename)
 			if filename == '':
 				return

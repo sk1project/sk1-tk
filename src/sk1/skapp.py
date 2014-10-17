@@ -64,14 +64,14 @@ class TkApplication:
 		self.root = Tk(screenName=screen_name, baseName=self.tk_basename, className=self.tk_class_name)
 		app.root = self.root
 
-		from app.managers.uimanager import  UIManager
+		from sk1.managers.uimanager import  UIManager
 		app.uimanager = UIManager(self.root)
 
 		self.splash = SplashScreen(self.root)
 		self.splash.show()
 		self.splash.set_val(.1, 'DialogManager initialization...')
 
-		from app.managers.dialogmanager import DialogManager
+		from sk1.managers.dialogmanager import DialogManager
 		app.dialogman = DialogManager(self.root)
 		self.splash.set_val(.15, 'Setting appication data...')
 
