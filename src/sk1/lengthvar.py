@@ -102,11 +102,7 @@ def create_length_widgets(top, master, command):
 	var_number = DoubleVar(top)
 	var_unit = StringVar(top)
 	var_length = LengthVar(1.0, config.preferences.default_unit, var_number, var_unit, command=command)
-# 	entry = MyEntry(master, textvariable = var_number, justify = RIGHT,
-# 					width = 6, command = var_length.UpdateNumber, background = '#FFFFFF', selectbackground = '#6ABCFF', selectborderwidth=0)
 	entry = TSpinbox(master, textvariable=var_number, vartype=1, min=0, max=50000, step=.1, width=6, command=var_length.UpdateNumber)
-# 	scroll = MiniScroller(master, variable = var_number, min = 0, max = None,
-# 							step = 0.5)
 	optmenu = create_unit_menu(master, var_length.UpdateUnit, variable=var_unit, width=3)
 	return var_length, entry, optmenu
 
