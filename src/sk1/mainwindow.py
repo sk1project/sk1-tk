@@ -1262,7 +1262,7 @@ class sK1MainWindow(Publisher):
 		if info.HasCustomDialog():
 			dialog = info.CreateCustomDialog(self.root, self, self.document)
 		else:
-			from plugindlg import PluginPanel
+			from sk1.dialogs.plugindlg import PluginPanel
 			dialog = PluginPanel(self.root, self, self.document, info)
 		dialog.Subscribe(CLOSED, self.__dlg_closed, info.class_name)
 		self.dialogs[info.class_name] = dialog
