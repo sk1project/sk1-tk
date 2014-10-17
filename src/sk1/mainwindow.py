@@ -30,7 +30,6 @@ from sk1sdk.libttk import  TFrame, TScrollbar, TLabel, tooltips
 
 
 from sk1 import tkext
-from sk1 import palette
 from sk1 import skpixmaps
 from sk1.command import CommandClass, Keymap, Commands
 from sk1.view.canvas import SketchCanvas
@@ -38,12 +37,12 @@ from sk1.view import tkruler
 from sk1.dialogs.aboutdlg import aboutDialog
 from sk1.cc.ccenterdialog import ControlCenter
 from sk1.pluginpanels.plugincontainer import PluginContainer
+from sk1.widgets import palette
 from sk1.widgets.doctabs import TabsPanel
 from sk1.widgets.pager import Pager
 from sk1.widgets.poslabel import PositionLabel
 from sk1.tkext import AppendMenu, UpdatedLabel, ToolbarButton, MakeCommand, \
-			ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
-			UpdatedTButton
+ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, UpdatedTButton
 from sk1.context import ctxPanel
 
 pixmaps = skpixmaps.PixmapTk
