@@ -34,7 +34,7 @@ from sk1 import palette
 from sk1 import tkruler
 from sk1 import skpixmaps
 from sk1.command import CommandClass, Keymap, Commands
-from sk1.canvas import SketchCanvas
+from sk1.view.canvas import SketchCanvas
 from sk1.dialogs.aboutdlg import aboutDialog
 from sk1.cc.ccenterdialog import ControlCenter
 from sk1.pluginpanels.plugincontainer import PluginContainer
