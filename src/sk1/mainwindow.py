@@ -40,11 +40,11 @@ from sk1.cc.ccenterdialog import ControlCenter
 from sk1.pluginpanels.plugincontainer import PluginContainer
 from sk1.widgets.doctabs import TabsPanel
 from sk1.widgets.pager import Pager
+from sk1.widgets.poslabel import PositionLabel
 from sk1.tkext import AppendMenu, UpdatedLabel, ToolbarButton, MakeCommand, \
 			ToolsButton, ToolsCheckbutton, ToolbarCheckbutton, \
 			UpdatedTButton
 from sk1.context import ctxPanel
-from sk1.poslabel import PositionLabel
 
 pixmaps = skpixmaps.PixmapTk
 

@@ -10,7 +10,7 @@
 from app import config
 from app.conf.const import CHANGED
 from app.Lib.units import unit_dict, unit_names
-from tkext import UpdatedLabel, UpdatedMenu, MenuCommand
+from sk1.tkext import UpdatedLabel, UpdatedMenu, MenuCommand
 
 # NLS:
 formats = {'in': '(%3.3f", %3.3f")',
@@ -44,14 +44,14 @@ class PositionLabel(UpdatedLabel):
 			set_unit = self.SetUnit
 			for unit in unit_names:
 				items.append(MenuCommand(unit, set_unit, unit))
-			self.context_menu = UpdatedMenu(self, items, tearoff = 0)
+			self.context_menu = UpdatedMenu(self, items, tearoff=0)
 		self.context_menu.Popup(event.x_root, event.y_root)
 
 	def set_unit(self, unit):
 		self.factor = unit_dict[unit]
 		self.format = formats[unit]
 		self.Update()
-		
+
 	def SetUnit(self, unit):
 		self.unit = unit
 		if config.preferences.poslabel_sets_default_unit:
