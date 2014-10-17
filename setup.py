@@ -125,9 +125,8 @@ share_dirs_sdk = []
 for item in dirs: share_dirs_sdk.append(os.path.join(item[11:], '*.*'))
 
 package_data = {
-'sk1.app': ['VERSION', 'tcl/*.tcl'],
+'app': ['tcl/*.tcl', ],
 'sk1': share_dirs,
-'sk1.app.modules': ['descr.txt', ],
 'sk1sdk.tkpng': ['pkgIndex.tcl', ],
 'sk1sdk': share_dirs_sdk,
 }
