@@ -50,12 +50,14 @@ zlib1g-dev
 libxext-dev 
 tk8.5-dev 
 python-dev
+python-cairo-dev
 
 
 To run application you need installing also:
 
-zenity
+python-tk
 python-gtk2
 python-imaging 
 python-imaging-tk
 python-uniconvertor (latest version from project repository)
+python-cairo
