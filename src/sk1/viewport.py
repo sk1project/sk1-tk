@@ -6,11 +6,11 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-from app import Trafo, RectType, EmptyRect, InfinityRect
 from app import config
-preferences = config.preferences
+from app import Trafo, RectType, EmptyRect, InfinityRect
 from app.Graphics.papersize import Papersize
 
+preferences = config.preferences
 
 class Viewport:
 

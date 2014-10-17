@@ -36,9 +36,10 @@ from app.conf.const import STATE, MODE, SELECTION, VIEW, POSITION, EDITED, \
 from sk1 import command
 from sk1.tkext import MakeCommand, UpdatedMenu
 from sk1.cursorstack import CursorStack
-from sk1.view import SketchView
-from sk1.modes import MajorMode, TemporaryMode, WidgetWithModes, noop
 from sk1.converters import converters
+
+from view import SketchView
+from modes import MajorMode, TemporaryMode, WidgetWithModes, noop
 
 
 constraint_keysyms = {'Control_L' : const.ControlMask,

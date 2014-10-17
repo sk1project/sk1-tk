@@ -6,16 +6,14 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.A
 
-from app.events.warn import pdebug
 
 from app import Rect, EmptyRect, IntersectRects, Document, GraphicsDevice
-from app import SketchInternalError, QueueingPublisher, StandardColors
-
+from app import SketchInternalError, QueueingPublisher
 from app.conf.const import STATE, VIEW, DOCUMENT, LAYOUT, REDRAW
 from app.conf.const import LAYER, LAYER_STATE, LAYER_ORDER, LAYER_COLOR
-from app import config, DocRenderer, Trafo
+from app import config, DocRenderer
 
-from tkext import PyWidget
+from sk1.tkext import PyWidget
 from viewport import Viewport
 
 
