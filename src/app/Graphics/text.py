@@ -129,6 +129,7 @@ class CommonText:
 			self.text = text
 
 	def clear_cache(self):
+		self.cache_cpath = None
 		self.curves_cache = None
 		self.bounding_rect_cache = None
 		self.coord_rect_cache = None
