@@ -485,13 +485,12 @@ class SimpleText(CommonText, RectangularPrimitive):
 		RectangularPrimitive.DrawShape(self, device)
 		base_trafo = self.trafo(self.atrafo)
 		base_trafo = base_trafo(Scale(self.properties.font_size))
+
 		if self.curves_cache is None:
-			paths = self.properties.font.GetPaths(self.text, self.properties)
-			self.curves_cache = paths
-			self.properties_cache = self.properties
-		else:
-			paths = self.curves_cache
-		paths = self.duplicate_paths(paths)
+			self.curves_cache = self.properties.font.GetPaths(self.text,
+															self.properties)
+
+		paths = self.duplicate_paths(self.curves_cache)
 		obj = PolyBezier(paths, self.properties.Duplicate())
 		obj.Transform(base_trafo)
 		device.MultiBezier(obj.paths, rect, clip)
@@ -586,30 +585,24 @@ class SimpleText(CommonText, RectangularPrimitive):
 			base_trafo = base_trafo(Scale(self.properties.font_size))
 
 			if self.curves_cache is None:
-				paths = self.properties.font.GetPaths(self.text, self.properties)
-				self.curves_cache = paths
-				self.properties_cache = self.properties
-			else:
-				paths = self.curves_cache
+				self.curves_cache = self.properties.font.GetPaths(self.text,
+																self.properties)
 
-			obj = PolyBezier(paths, self.properties.Duplicate()).Duplicate()
+			paths = self.duplicate_paths(self.curves_cache)
+			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 			return obj
 
 	def Paths(self):
 #		paths = []
 		if self.text:
-			text = split(self.text, '\n')[0]
 			base_trafo = self.trafo(self.atrafo)
 			base_trafo = base_trafo(Scale(self.properties.font_size))
 
 			if self.curves_cache is None:
-				paths = self.properties.font.GetPaths(self.text, self.properties)
-				self.curves_cache = paths
-				self.properties_cache = self.properties
-			else:
-				paths = self.curves_cache
-
+				self.curves_cache = self.properties.font.GetPaths(self.text,
+																self.properties)
+			paths = self.duplicate_paths(self.curves_cache)
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 		return obj.paths
