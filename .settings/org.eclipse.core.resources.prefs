@@ -17,6 +17,7 @@ encoding//src/app/__init__.py=utf-8
 encoding//src/app/colormanager.py=utf-8
 encoding//src/app/conf/configurator.py=utf-8
 encoding//src/app/conf/const.py=utf-8
+encoding//src/app/events/connector.py=utf-8
 encoding//src/app/events/warn.py=utf-8
 encoding//src/app/io/load.py=utf-8
 encoding//src/app/io/loadres.py=utf-8
