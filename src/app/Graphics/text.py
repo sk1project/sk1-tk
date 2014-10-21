@@ -145,7 +145,6 @@ class CommonText:
 		if caret is not None and self.editor is not None:
 			self.editor.SetCaret(caret)
 		self._changed()
-		self.clear_cache()
 		return undo
 
 	def Text(self):
@@ -164,14 +163,12 @@ class CommonText:
 			undo = self.properties.SetProperty(font=font, font_size=size)
 		else:
 			undo = self.properties.SetProperty(font=font)
-		self.clear_cache()
 		return self.properties_changed(undo)
 
 	def SetGap(self, char, word, line):
 		undo = self.properties.SetProperty(chargap=char,
 								wordgap=word,
 								linegap=line)
-		self.clear_cache()
 		return self.properties_changed(undo)
 
 	def SetAlign(self, align, valign):
@@ -180,12 +177,10 @@ class CommonText:
 		else:
 			valign = const.ALIGN_BASE
 		undo = self.properties.SetProperty(align=align, valign=valign)
-		self.clear_cache()
 		return self.properties_changed(undo)
 
 	def SetFontSize(self, size):
 		undo = self.properties.SetProperty(font_size=size)
-		self.clear_cache()
 		return self.properties_changed(undo)
 
 	def Font(self):

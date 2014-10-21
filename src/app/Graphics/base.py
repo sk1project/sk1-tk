@@ -500,8 +500,11 @@ class GraphicsObject(Bounded, HierarchyNode, Selectable, Protocols):
 	def _changed(self):
 		self.del_lazy_attrs()
 		self.issue_changed()
-		self.cache_cpath = None
+		self.clear_cache()
 		return (self._changed,)
+
+	def clear_cache(self):
+		self.cache_cpath = None
 
 	def SetLowerLeftCorner(self, corner):
 		# move self so that self's lower left corner is at CORNER. This
