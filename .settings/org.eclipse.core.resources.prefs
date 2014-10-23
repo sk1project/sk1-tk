@@ -108,4 +108,6 @@ encoding//src/sk1sdk/tkstyle/__init__.py=utf-8
 encoding//src/sk1sdk/tkstyle/colors.py=utf-8
 encoding//src/sk1sdk/tkstyle/fonts.py=utf-8
 encoding//src/sk1sdk/tkstyle/themes.py=utf-8
+encoding//src/uc/libcairo/__init__.py=utf-8
+encoding//src/uc/libpango/__init__.py=utf-8
 encoding/libutils.py=utf-8
