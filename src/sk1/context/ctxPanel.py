@@ -40,7 +40,7 @@ EditMode = 1
 
 forPage = ['PagePanel', 'UnitPanel', 'JumpPanel', 'GuidesPanel']
 forObject = ['ResizePanel', 'UnitPanel', 'FlipPanel', 'RotatePanel', 'CombinePanel', 'ToCurvePanel']
-forSimpleText = ['TextPropPanel', 'TextAlignPanel', 'ToCurvePanel']#,'FontPanel'
+forSimpleText = ['FontPanel', 'TextAlignPanel', 'ToCurvePanel']#,'TextPropPanel'
 forGroup = ['ResizePanel', 'UnitPanel', 'FlipPanel', 'RotatePanel', 'GroupPanel', 'CombinePanel', 'ToCurvePanel']
 forNodes = ['ResizePanel', 'UnitPanel', 'CombinePanel', 'NodeEditPanel']
 forImage = ['ResizePanel', 'UnitPanel', 'FlipPanel', 'RotatePanel', 'ImagePanel']
