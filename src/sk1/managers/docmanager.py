@@ -12,7 +12,8 @@ from app.io import load
 from app import _, Document, config, dialogman, SketchError
 from app.conf.const import MODE, SELECTION, UNDO
 
-from uniconvertor import filters
+from uc import filters
+
 from uniconvertor import utils
 from uniconvertor.utils import fs, system
 

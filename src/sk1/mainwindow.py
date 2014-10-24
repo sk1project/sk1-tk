@@ -13,7 +13,7 @@ from Tkinter import Frame
 from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 
 from uniconvertor.utils import fs
-from uniconvertor import filters
+from uc import filters
 
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, Point, EmptyFillStyle, EmptyLineStyle

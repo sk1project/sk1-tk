@@ -28,18 +28,15 @@
 #	document.
 #
 
-from types import StringType, TupleType
 import os, string
-import time
+from types import StringType, TupleType
 from copy import deepcopy
 
-from app import config
-from uniconvertor import filters
-from app.utils import locale_utils
+from uc import filters
+
 from app.events.warn import warn, INTERNAL, pdebug
 from app.conf.const import ArcPieSlice
-
-from app.Graphics import document, layer, group, text, page
+from app.Graphics import layer, group, text, page
 from app import _, PolyBezier, Rectangle, Ellipse, Trafo, Translation, \
 		Style, PropertyStack, EmptyPattern, Document, SketchLoadError, \
 		ImageData, Image
@@ -83,7 +80,7 @@ class LoaderWithComposites:
 		(self.composite_class, self.composite_args,
 			self.composite_items, self.composite_stack) = self.composite_stack
 
-	def begin_composite(self, composite_class, args = (), kw = None):
+	def begin_composite(self, composite_class, args=(), kw=None):
 		self.__push()
 		self.composite_class = composite_class
 		self.composite_args = (args, kw)
@@ -187,7 +184,7 @@ class GenericLoader(LoaderWithComposites):
 			stack.load_AddStyle(self.style)
 		stack.condense()
 		if self.base_style is not None:
-			self.prop_stack = PropertyStack(base =self.base_style.Duplicate())
+			self.prop_stack = PropertyStack(base=self.base_style.Duplicate())
 		else:
 			self.prop_stack = PropertyStack()
 		self.style = Style()
@@ -201,24 +198,24 @@ class GenericLoader(LoaderWithComposites):
 
 	def layer(self, *args, **kw):
 		self.begin_layer_class(layer.Layer, args, kw)
-		
+
 	def masterlayer(self, *args, **kw):
 		while not issubclass(self.composite_class, doc_class):
 			self.end_composite()
-		kw['is_MasterLayer']=1
+		kw['is_MasterLayer'] = 1
 		self.begin_layer_class(layer.Layer, args, kw)
-		
+
 	def begin_page(self, *args, **kw):
 		while not issubclass(self.composite_class, doc_class):
 			self.end_composite()
 		if not len(args):
-			args=["", deepcopy(self.page_layout)]
+			args = ["", deepcopy(self.page_layout)]
 		self.begin_composite(page.Page, args, kw)
 
 	def end_layer(self):
 		self.end_composite()
 
-	def begin_layer_class(self, layer_class, args, kw = None):
+	def begin_layer_class(self, layer_class, args, kw=None):
 		if issubclass(self.composite_class, layer.Layer):
 			self.end_composite()
 		if issubclass(self.composite_class, doc_class) or issubclass(self.composite_class, page_class):
@@ -227,31 +224,31 @@ class GenericLoader(LoaderWithComposites):
 			raise SketchLoadError('self.composite_class is %s, not a document',
 									self.composite_class)
 
-	def bezier(self, paths = None):
-		self.append_object(PolyBezier(paths = paths,
-										properties = self.get_prop_stack()))
+	def bezier(self, paths=None):
+		self.append_object(PolyBezier(paths=paths,
+										properties=self.get_prop_stack()))
 
-	def rectangle(self, m11, m21, m12, m22, v1, v2, radius1 = 0, radius2 = 0):
+	def rectangle(self, m11, m21, m12, m22, v1, v2, radius1=0, radius2=0):
 		trafo = Trafo(m11, m21, m12, m22, v1, v2)
-		self.append_object(Rectangle(trafo, radius1 = radius1,
-										radius2 = radius2,
-										properties = self.get_prop_stack()))
+		self.append_object(Rectangle(trafo, radius1=radius1,
+										radius2=radius2,
+										properties=self.get_prop_stack()))
 
-	def ellipse(self, m11, m21, m12, m22, v1, v2, start_angle = 0.0,
-				end_angle = 0.0, arc_type = ArcPieSlice):
+	def ellipse(self, m11, m21, m12, m22, v1, v2, start_angle=0.0,
+				end_angle=0.0, arc_type=ArcPieSlice):
 		self.append_object(Ellipse(Trafo(m11, m21, m12, m22, v1, v2),
 									start_angle, end_angle, arc_type,
-									properties = self.get_prop_stack()))
-	def simple_text(self, str, trafo = None, valign = text.ALIGN_BASE,
-					halign = text.ALIGN_LEFT):
+									properties=self.get_prop_stack()))
+	def simple_text(self, str, trafo=None, valign=text.ALIGN_BASE,
+					halign=text.ALIGN_LEFT):
 		if type(trafo) == TupleType:
 			if len(trafo) == 2:
 				trafo = apply(Translation, trafo)
 			else:
 				raise TypeError, "trafo must be a Trafo-object or a 2-tuple"
-		self.append_object(text.SimpleText(text = str, trafo = trafo,
-											valign = valign, halign = halign,
-											properties = self.get_prop_stack()))
+		self.append_object(text.SimpleText(text=str, trafo=trafo,
+											valign=valign, halign=halign,
+											properties=self.get_prop_stack()))
 
 	def image(self, image, trafo):
 		if type(trafo) == TupleType:
@@ -260,7 +257,7 @@ class GenericLoader(LoaderWithComposites):
 			else:
 				raise TypeError, "trafo must be a Trafo-object or a 2-tuple"
 		image = ImageData(image)
-		self.append_object(Image(image, trafo = trafo))
+		self.append_object(Image(image, trafo=trafo))
 
 	def begin_group(self, *args, **kw):
 		self.begin_composite(group.Group, args, kw)
@@ -305,7 +302,7 @@ class SimplifiedLoader(GenericLoader):
 
 	def __init__(self, file, filename, match):
 		GenericLoader.__init__(self, file, filename, match)
-		self.lineno = 1 # first line has been read
+		self.lineno = 1# first line has been read
 
 	def readline(self):
 		line = self.file.readline()
@@ -326,7 +323,7 @@ class SimplifiedLoader(GenericLoader):
 
 
 do_profile = 0
-def load_drawing_from_file(file, filename = '', doc_class = None):
+def load_drawing_from_file(file, filename='', doc_class=None):
 	# Note: the doc_class argument is only here for plugin interface
 	# compatibility with 0.7 (especiall e.g. gziploader)
 	line = file.readline()
@@ -357,8 +354,8 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 						doc.meta.load_messages = messages
 					return doc
 				except Exception, value:
-					raise SketchLoadError(_("Parsing error:")+" "+ str(value))
-								
+					raise SketchLoadError(_("Parsing error:") + " " + str(value))
+
 			finally:
 				info.UnloadPlugin()
 	else:
@@ -367,7 +364,7 @@ def load_drawing_from_file(file, filename = '', doc_class = None):
 
 def load_drawing(filename):
 	if type(filename) == StringType:
-		name=filename
+		name = filename
 		#name=locale_utils.utf_to_locale(filename)
 		#name=locale_utils.strip_line(name)
 		try:

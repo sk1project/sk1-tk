@@ -115,7 +115,6 @@ from Graphics.dashes import StandardDashes
 from Graphics.document import EditDocument, SelectionMode, EditMode
 Document = EditDocument
 
-#from uniconvertor.ft2engine import GetFont
 from uc.libpango import get_fontface as GetFont
 from Graphics.gradient import MultiGradient, CreateSimpleGradient
 from Graphics.graphics import SimpleGC, GraphicsDevice, InvertingDevice, HitTestDevice
@@ -142,10 +141,8 @@ from Graphics.text import SimpleText, SimpleTextCreator, PathText
 
 
 def init_lib():
-	from uniconvertor import filters
+	from uc import filters
 # 	config.load_user_preferences()
-#	from uniconvertor.ft2engine import scan_fonts_dirs
-#	scan_fonts_dirs()
 	Issue(None, const.INITIALIZE)
 
 def init_ui():

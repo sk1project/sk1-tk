@@ -7,23 +7,24 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 import sys, os
-
-from app.events.warn import pdebug
-from app import config, Publisher
-from uniconvertor import filters
-import app
-from app.Graphics import document
-
-from app.conf.const import CLIPBOARD
+from types import ListType
 
 from Tkinter import Tk, Toplevel, TclError, StringVar, DoubleVar
 from Tkinter import Label, Frame, X, TOP, LEFT
-import tkext
-from types import ListType
+
+from uc import filters
+
+import app
+from app.events.warn import pdebug
+from app import config, Publisher
+from app.Graphics import document
+from app.conf.const import CLIPBOARD
 
 from sk1sdk.libttk import tooltips
 
-import skpixmaps
+from sk1 import skpixmaps
+from sk1 import tkext
+
 pixmaps = skpixmaps.PixmapTk
 
 #
