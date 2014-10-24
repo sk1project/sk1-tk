@@ -197,7 +197,7 @@ class DocumentManager:
 		from tempfile import NamedTemporaryFile
 		pdffile = NamedTemporaryFile()
 
-		fileformat = filters.guess_export_plugin('.ps')
+		fileformat = filters.guess_export_plugin('.pdf')
 		ver = config.preferences.pdf_level
 		pdf_ver = (int(ver[0]), int(ver[2]))
 		saver = filters.find_export_plugin(fileformat)
