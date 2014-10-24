@@ -71,6 +71,8 @@ class PangoFontFace:
 
 	def to_string(self): return self.fontdesc.to_string()
 
+	def PostScriptName(self): return self.familyname
+
 	def set_layout(self, text, properties):
 		CTX.new_path()
 		PANGO_LAYOUT.set_width(-1)

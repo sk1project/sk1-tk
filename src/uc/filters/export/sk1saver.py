@@ -280,12 +280,12 @@ base_style.font_size = 12.0
 #	}
 
 def make_papersizes():
-	result={}
-	ps_list=papersize.PapersizesList
+	result = {}
+	ps_list = papersize.PapersizesList
 	for item in ps_list:
-		result[item[0]]=(item[1],item[2])
+		result[item[0]] = (item[1], item[2])
 	return result
-	
+
 
 papersizes = make_papersizes()
 
@@ -335,18 +335,18 @@ class SKSaver:
 	def BeginLayer(self, name, visible, printable, locked, outlined, color):
 		self.file.write('layer(%s,%d,%d,%d,%d,%s)\n'
 						% (`name`, visible, printable, locked, outlined,
-							color_repr(color)))	
-		
+							color_repr(color)))
+
 	def BeginMasterLayer(self, name, visible, printable, locked, outlined, color):
 		self.file.write('masterlayer(%s,%d,%d,%d,%d,%s)\n'
 						% (`name`, visible, printable, locked, outlined,
-							color_repr(color)))		
+							color_repr(color)))
 
 	def EndLayer(self):
 		pass
-	
-	def Page(self,name, format, width, height, orientation):
-		self.file.write('page(%s,%s,(%g,%g),%d)\n' % (`name`,`format`, width, height, orientation))
+
+	def Page(self, name, format, width, height, orientation):
+		self.file.write('page(%s,%s,(%g,%g),%d)\n' % (`name`, `format`, width, height, orientation))
 
 	def BeginGuideLayer(self, name, visible, printable, locked, outlined,
 						color):
@@ -414,7 +414,7 @@ class SKSaver:
 						% (color_repr(color), color_repr(background),
 							direction.x, direction.y, distance, width))
 
-	def ImageTilePattern(self, image, trafo, relative_filename = 1):
+	def ImageTilePattern(self, image, trafo, relative_filename=1):
 		self.write_image(image, relative_filename)
 		self.file.write('pit(%d,(%g,%g,%g,%g,%g,%g))\n'
 						% ((id(image),) + trafo.coeff()))
@@ -460,7 +460,7 @@ class SKSaver:
 			else:
 				write('la2()\n')
 		if hasattr(style, 'font'):
-			write('Fn(%s)\n' % `style.font.PostScriptName()`)
+			write('Fn(%s,%s)\n' % (`style.font.familyname`, `style.font.facename`))
 		if hasattr(style, 'font_size'):
 			write('Fs(%g)\n' % style.font_size)
 
@@ -488,7 +488,7 @@ class SKSaver:
 			else:
 				self.write_style(style)
 
-	def Rectangle(self, trafo, radius1 = 0, radius2 = 0):
+	def Rectangle(self, trafo, radius1=0, radius2=0):
 		if radius1 == radius2 == 0:
 			self.file.write('r(%g,%g,%g,%g,%g,%g)\n' % trafo.coeff())
 		else:
@@ -500,7 +500,7 @@ class SKSaver:
 			self.file.write('e(%g,%g,%g,%g,%g,%g)\n' % trafo.coeff())
 		else:
 			self.file.write('e(%g,%g,%g,%g,%g,%g,%g,%g,%d)\n'
-							% (trafo.coeff()+(start_angle,end_angle,arc_type)))
+							% (trafo.coeff() + (start_angle, end_angle, arc_type)))
 
 
 	def PolyBezier(self, paths):
@@ -531,19 +531,19 @@ class SKSaver:
 		if trafo.matrix() != IdentityMatrix:
 			write('(%g,%g,%g,%g,%g,%g)' % trafo.coeff())
 		else:
-			write('(%g,%g)' % (trafo.v1, trafo.v2))		
+			write('(%g,%g)' % (trafo.v1, trafo.v2))
 		write(',%d,%d' % (halign, valign))
 		write(',%g,%g,%g' % (chargap, wordgap, linegap))
-		
+
 		write(')\n')
-		
+
 	def unicode_encoder(self, text):
-		output=''
+		output = ''
 		for char in text:
-			output+='\u0%x'%ord(char)
+			output += '\u0%x' % ord(char)
 		return output
 
-	def write_image(self, image, relative_filename = 1):
+	def write_image(self, image, relative_filename=1):
 		write = self.file.write
 		if not self.saved_ids.has_key(id(image)):
 			imagefile = image.Filename()
@@ -563,7 +563,7 @@ class SKSaver:
 				write('bm(%d,%s)\n' % (id(image), `imagefile`))
 			self.saved_ids[id(image)] = image
 
-	def Image(self, image, trafo, relative_filename = 1):
+	def Image(self, image, trafo, relative_filename=1):
 		self.write_image(image, relative_filename)
 
 		write = self.file.write
@@ -574,7 +574,7 @@ class SKSaver:
 			write('(%g,%g)' % (trafo.v1, trafo.v2))
 		write(',%d)\n' % id(image))
 
-	def EpsFile(self, data, trafo, relative_filename = 1):
+	def EpsFile(self, data, trafo, relative_filename=1):
 		write = self.file.write
 		write('eps(')
 		if trafo.matrix() != IdentityMatrix:
@@ -610,7 +610,7 @@ class SKSaver:
 	def BeginPathText(self):
 		self.file.write('PT()\n')
 
-	def InternalPathText(self, text, trafo, model, start_pos = 0):
+	def InternalPathText(self, text, trafo, model, start_pos=0):
 		matrix = trafo.matrix()
 		if matrix != IdentityMatrix:
 			self.file.write('pt(%s,(%g,%g,%g,%g),%d'
@@ -645,7 +645,7 @@ class SKSaver:
 		self.file.write('PC_()\n')
 
 
-def save(document, file, filename, options = {}):
+def save(document, file, filename, options={}):
 	saver = SKSaver(file, filename, options)
 	document.SaveToFile(saver)
-	
+

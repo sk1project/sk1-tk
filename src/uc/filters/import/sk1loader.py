@@ -351,8 +351,8 @@ class SKLoader(GenericLoader):
 		self.prop_stack.load_AddStyle(style)
 
 	functions.append('Fn')
-	def Fn(self, name):
-		self.style.font = GetFont(name)
+	def Fn(self, familyname, facename='Regular'):
+		self.style.font = GetFont(familyname, facename)
 
 	functions.append('Fs')
 	def Fs(self, size):
