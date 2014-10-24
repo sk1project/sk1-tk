@@ -8,7 +8,8 @@
 import os
 
 global LANG
-LANG = ''
+LANG = 'uk_UA.UTF-8'
+os.environ['LANG'] = LANG
 
 import app
 

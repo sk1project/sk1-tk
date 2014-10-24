@@ -60,10 +60,10 @@ class Configurator:
 			self.preferences.sk1_version = self.version
 
 		#===============DEPRECATED VARIABLES===============
-		self.std_res_dir = os.path.join(self.sk_dir, 'share/resources')
+		self.std_res_dir = os.path.join(self.sk1_dir, 'share/resources')
 		# Subdirectory for the pixmaps. On startup it is expanded
 		# to an absolute pathname.
-		self.pixmap_dir = os.path.join(self.sk_dir, 'share/resources')
+		self.pixmap_dir = os.path.join(self.sk1_dir, 'share/resources')
 		# PostScript Prolog file
 		self.postscript_prolog = os.path.join(self.sk_ps, 'sk1-proc.ps')
 		#============================================

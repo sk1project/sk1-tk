@@ -81,7 +81,7 @@ from math import pi, floor
 
 from app import _, Rect, UnionRects, EmptyRect, NullPoint, Polar, \
 		IdentityMatrix, SingularMatrix, Identity, Trafo, Scale, Translation, \
-		Rotation, NullUndo, CreateMultiUndo, RegisterCommands, Point
+		Rotation, NullUndo, CreateMultiUndo, RegisterCommands, Point, CreatePath
 from app.UI.command import AddCmd
 from app.conf import const
 
@@ -223,7 +223,6 @@ class CommonTextEditor(Editor):
 		return self.caret
 
 	def InsertCharacter(self, event):
-#		if len(char) == 1 and self.properties.font.IsPrintable(char):
 		try:
 			char = event.char
 			char = char.decode('utf-8')
@@ -407,7 +406,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 		a = self.properties
 
 		if self.bounding_rect_cache is None:
-			res = a.font.TextBoundingBox(self.text, a.font_size, a)
+			res = tuple(a.font.text_bbox(self.text, a))
 			self.bounding_rect_cache = copy.deepcopy(res)
 		else:
 			res = copy.deepcopy(self.bounding_rect_cache)
@@ -419,18 +418,25 @@ class SimpleText(CommonText, RectangularPrimitive):
 										ignore_outline_mode=1)
 
 	def GetObjectHandle(self, multiple):
-		trafo = self.trafo(self.atrafo(Scale(self.properties.font_size)))
+		trafo = self.trafo(self.atrafo)
 		if multiple:
 			return trafo(NullPoint)
 		else:
 
 			if self.typesets_cache is None:
-				pts = self.properties.font.TypesetText(self.text, self.properties)
+				a = self.properties
+				pts = self.convert_typeset(a.font.typeset_text(self.text, a))
 				self.typesets_cache = self.duplicate_typeset(pts)
 			else:
 				pts = self.duplicate_typeset(self.typesets_cache)
 
 			return map(trafo, pts)
+
+	def convert_typeset(self, pts):
+		result = []
+		for item in pts:
+			result.append(Point(*item))
+		return result
 
 	def duplicate_typeset(self, typeset):
 		result = []
@@ -470,9 +476,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def RemoveTransformation(self):
 		if self.trafo.matrix() != IdentityMatrix:
-			a = self.properties
 			trafo = self.trafo
-			llx, lly, urx, ury = a.font.TextCoordBox(self.text, a.font_size, a)
 			try:
 				undostyle = Primitive.Transform(self, trafo.inverse())
 			except SingularMatrix:
@@ -484,16 +488,34 @@ class SimpleText(CommonText, RectangularPrimitive):
 	def DrawShape(self, device, rect=None, clip=0):
 		RectangularPrimitive.DrawShape(self, device)
 		base_trafo = self.trafo(self.atrafo)
-		base_trafo = base_trafo(Scale(self.properties.font_size))
-
 		if self.curves_cache is None:
-			self.curves_cache = self.properties.font.GetPaths(self.text,
-															self.properties)
-
+			a = self.properties
+			paths = a.font.get_paths(self.text, a)
+			self.curves_cache = self.convert_paths(paths)
 		paths = self.duplicate_paths(self.curves_cache)
 		obj = PolyBezier(paths, self.properties.Duplicate())
 		obj.Transform(base_trafo)
 		device.MultiBezier(obj.paths, rect, clip)
+
+	def convert_paths(self, paths_list):
+		paths = ()
+		for path in paths_list:
+			p = CreatePath()
+			p.AppendLine(Point(*path[0]))
+			points = path[1]
+			for point in points:
+				if len(point) == 2:
+					p.AppendLine(Point(*point))
+				else:
+					point0 = Point(*point[0])
+					point1 = Point(*point[1])
+					point2 = Point(*point[2])
+					p.AppendBezier(point0, point1, point2, point[3])
+			if path[2]:
+				p.AppendLine(Point(*path[0]))
+				p.ClosePath()
+			paths = paths + (p,)
+		return paths
 
 	def duplicate_paths(self, paths):
 		copy = []
@@ -529,7 +551,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 		a = self.properties
 
 		if self.bounding_rect_cache is None:
-			res = a.font.TextBoundingBox(self.text, a.font_size, a)
+			res = a.font.text_bbox(self.text, a)
 			self.bounding_rect_cache = copy.deepcopy(res)
 		else:
 			res = copy.deepcopy(self.bounding_rect_cache)
@@ -537,7 +559,7 @@ class SimpleText(CommonText, RectangularPrimitive):
 		self.bounding_rect = trafo(rect).grown(2)
 
 		if self.coord_rect_cache is None:
-			res = a.font.TextCoordBox(self.text, a.font_size, a)
+			res = a.font.text_bbox(self.text, a)
 			self.coord_rect_cache = copy.deepcopy(res)
 		else:
 			res = copy.deepcopy(self.coord_rect_cache)
@@ -557,7 +579,6 @@ class SimpleText(CommonText, RectangularPrimitive):
 
 	def FullTrafo(self):
 		# XXX perhaps the Trafo method should return
-		# self.trafo(self.atrafo) for a SimpleText object as well.
 		return self.trafo(self.atrafo)
 
 	def SaveToFile(self, file):
@@ -582,41 +603,26 @@ class SimpleText(CommonText, RectangularPrimitive):
 	def AsBezier(self):
 		if self.text:
 			base_trafo = self.trafo(self.atrafo)
-			base_trafo = base_trafo(Scale(self.properties.font_size))
-
 			if self.curves_cache is None:
-				self.curves_cache = self.properties.font.GetPaths(self.text,
-																self.properties)
-
+				a = self.properties
+				paths = a.font.get_paths(self.text, a)
+				self.curves_cache = self.convert_paths(paths)
 			paths = self.duplicate_paths(self.curves_cache)
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 			return obj
 
 	def Paths(self):
-#		paths = []
 		if self.text:
 			base_trafo = self.trafo(self.atrafo)
-			base_trafo = base_trafo(Scale(self.properties.font_size))
-
 			if self.curves_cache is None:
-				self.curves_cache = self.properties.font.GetPaths(self.text,
-																self.properties)
+				a = self.properties
+				paths = a.font.get_paths(self.text, a)
+				self.curves_cache = self.convert_paths(paths)
 			paths = self.duplicate_paths(self.curves_cache)
 			obj = PolyBezier(paths, self.properties.Duplicate())
 			obj.Transform(base_trafo)
 		return obj.paths
-
-#			base_trafo = self.trafo(self.atrafo)
-#			base_trafo = base_trafo(Scale(self.properties.font_size))
-#			pos = self.properties.font.TypesetText(self.text)
-#			for i in range(len(self.text)):
-#				outline = self.properties.font.GetOutline(self.text[i])
-#				trafo = base_trafo(Translation(pos[i]))
-#				for path in outline:
-#					path.Transform(trafo)
-#					paths.append(path)
-#		return tuple(paths)
 
 	def Editor(self):
 		return SimpleTextEditor(self)
@@ -671,29 +677,36 @@ class SimpleTextEditor(CommonTextEditor):
 
 	def GetHandles(self):
 		a = self.properties
-		pos, up = a.font.TextCaretData(self.text, self.caret, a.font_size, a)
+		pos, up = a.font.text_caret_data(self.text, a, self.caret)
 		pos = self.trafo(self.atrafo(pos))
 		up = self.trafo.DTransform(up)
 		return [handle.MakeCaretHandle(pos, up)]
 
 	def SelectPoint(self, p, rect, device, mode):
-		trafo = self.trafo(self.atrafo(Scale(self.properties.font_size)))
+		trafo = self.trafo(self.atrafo)
+#		trafo = self.trafo(self.atrafo(Scale(self.properties.font_size)))
 		trafo = trafo.inverse()
 		p2 = trafo(p)
 
 		if self.typesets_cache is None:
-			pts = self.properties.font.TypesetText(self.text, self.properties)
+			a = self.properties
+			pts = self.convert_typeset(a.font.typeset_text(self.text, a))
 			self.typesets_cache = self.duplicate_typeset(pts)
 		else:
 			pts = self.duplicate_typeset(self.typesets_cache)
 
-#		pts = self.properties.font.TypesetText(self.text + ' ',self.properties)
 		dists = []
 		for i in range(len(pts)):
 			dists.append((abs(pts[i].x - p2.x), i))
 		caret = min(dists)[-1]
 		self.SetCaret(caret)
 		return 1
+
+	def convert_typeset(self, pts):
+		result = []
+		for item in pts:
+			result.append(Point(*item))
+		return result
 
 	def duplicate_typeset(self, typeset):
 		result = []
@@ -807,12 +820,12 @@ class InternalPathText(CommonText, Primitive):
 		length = len(self.trafos)
 		sizes = [a.font_size] * length
 
-		boxes = map(a.font.TextBoundingBox, self.text[:length], sizes, a)
+		boxes = map(a.font.text_bbox, self.text[:length], a)
 		rects = map(lambda *a:a, map(apply, [Rect] * length, boxes))
 		self.bounding_rect = reduce(UnionRects, map(apply, self.trafos, rects),
 									EmptyRect)
 
-		boxes = map(a.font.TextCoordBox, self.text[:length], sizes, a)
+		boxes = map(a.font.text_bbox, self.text[:length], a)
 		rects = map(lambda *a:a, map(apply, [Rect] * length, boxes))
 		self.coord_rect = reduce(UnionRects, map(apply, self.trafos, rects),
 									EmptyRect)
@@ -882,12 +895,11 @@ class InternalPathText(CommonText, Primitive):
 		Primitive.Disconnect(self)
 
 	def Hit(self, p, rect, device, clip=0):
-		bbox = self.properties.font.TextBoundingBox
-		font_size = self.properties.font_size
+		bbox = self.properties.font.text_bbox
 		text = self.text; trafos = self.trafos
 
 		for idx in range(len(trafos)):
-			llx, lly, urx, ury = bbox(text[idx], font_size, self.properties)
+			llx, lly, urx, ury = bbox(text[idx], self.properties)
 			trafo = trafos[idx](Trafo(urx - llx, 0, 0, ury - lly, llx, lly))
 			if device.ParallelogramHit(p, trafo, 1, 1, 1,
 										ignore_outline_mode=1):
