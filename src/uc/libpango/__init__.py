@@ -92,7 +92,8 @@ class PangoFontFace:
 		typeset = []
 		index = 0
 		for char in text:
-			x, y, width, height = PANGO_LAYOUT.index_to_pos(index)
+			utf_index = len(text[:index].encode('utf-8'))
+			x, y, width, height = PANGO_LAYOUT.index_to_pos(utf_index)
 			x = x / 1024.0
 			y = y / 1024.0
 			height = height / 1024.0
