@@ -5,18 +5,22 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
+import time, os
+
+import app
+from app.io import load
 from app import _, Document, config, dialogman, SketchError
-from app.conf.const import STATE, VIEW, MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
-from app.utils import locale_utils
+from app.conf.const import MODE, SELECTION, UNDO
+
 from uniconvertor import filters
 from uniconvertor import utils
 from uniconvertor.utils import fs, system
-from app.io import load
-import app, os, sys, string
+
+import sk1
 from sk1.dialogs.msgdialog import msgDialog
 from sk1.dialogs import msgdialog
 from sk1.dialogs.progressdialog import ProgressDialog
-import time, sk1
+from sk1.managers.dialogmanager import pdf_types
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -180,11 +184,10 @@ class DocumentManager:
 		if tofile:
 			directory = config.preferences.dir_for_vector_export
 			filename = document.meta.filename[:-4] + '.pdf'
-			filename, pdffile = dialogman.getGenericSaveFilename(_("Print into PDF file"),
-															sk1.managers.dialogmanager.pdf_types,
-															initialdir=directory, initialfile=filename)
-			if filename == '':
-				return
+			filename, pdffile = dialogman.getGenericSaveFilename(
+									_("Print into PDF file"), pdf_types,
+									initialdir=directory, initialfile=filename)
+			if filename == '': return
 			dlg = ProgressDialog(self.mw.root, 'PDF generation')
 			dlg.RunDialog(self.print_tofile_callback, document, pdffile)
 		else:
