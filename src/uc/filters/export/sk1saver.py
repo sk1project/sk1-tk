@@ -529,7 +529,6 @@ class SKSaver:
 		txt_lines = text.split('\n')
 		if not txt_lines[-1]:
 			txt_lines = txt_lines[:-1]
-#		text = self.unicode_encoder(text)
 		write = self.file.write
 		write('txt(%d,' % len(txt_lines))
 		if trafo.matrix() != IdentityMatrix:
@@ -542,12 +541,6 @@ class SKSaver:
 		write(')\n')
 		for line in txt_lines:
 			write(line + '\n')
-
-	def unicode_encoder(self, text):
-		output = ''
-		for char in text:
-			output += '\u0%x' % ord(char)
-		return output
 
 	def write_image(self, image, relative_filename=1):
 		write = self.file.write
