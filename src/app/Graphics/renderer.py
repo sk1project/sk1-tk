@@ -208,34 +208,6 @@ class DocRenderer:
 		self.ctx.set_matrix(self.canvas_matrix)
 		self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 
-#	def create_cpath(self, paths):
-#		CTX.set_matrix(DIRECT_MATRIX)
-#		CTX.new_path()
-#		if not paths: return None
-#		for path in paths:
-#			CTX.new_sub_path()
-#			start_point = path[0]
-#			points = path[1]
-#			end = path[2]
-#			x, y = start_point
-#			CTX.move_to(x, y)
-#
-#			for point in points:
-#				if len(point) == 2:
-#					x, y = point
-#					CTX.line_to(x, y)
-#				else:
-#					p1, p2, p3, m = point
-#					x1, y1 = p1
-#					x2, y2 = p2
-#					x3, y3 = p3
-#					CTX.curve_to(x1, y1, x2, y2, x3, y3)
-#			if end:
-#				CTX.close_path()
-#
-#		cairo_path = CTX.copy_path()
-#		return cairo_path
-
 	def draw_object(self, obj):
 		if obj.cid < cids.PRIMITIVE:
 			for item in obj.objects:
@@ -250,17 +222,12 @@ class DocRenderer:
 
 			h = obj.data.size[1]
 			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
-			xx = obj.trafo.m11 * self.zoom
-			yy = obj.trafo.m22 * self.zoom
-			yx = -obj.trafo.m21 * self.zoom
-			xy = -obj.trafo.m12 * self.zoom
 
-			self.ctx.set_antialias(cairo.ANTIALIAS_NONE)
-			self.ctx.set_matrix(cairo.Matrix(xx, yx, xy, yy, x0, y0))
+			self.ctx.set_matrix(cairo.Matrix(self.zoom, 0, 0, self.zoom, x0, y0))
 			self.ctx.set_source_surface(obj.cache_cdata)
+			self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
 			self.ctx.paint()
 			self.ctx.set_matrix(self.canvas_matrix)
-			self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 		else:
 			if not obj.cache_cpath:
 				obj.cache_cpath = libcairo.create_cpath(obj.get_paths_list())
@@ -274,7 +241,6 @@ class DocRenderer:
 			if not stroke.is_Empty:
 				self.ctx.set_line_width(obj.properties.line_width)
 				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
-				#TODO: fix line cap mismatch
 				self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
 				self.ctx.set_line_join(JOINS[obj.properties.line_join])
 
