@@ -15,6 +15,7 @@ from sk1.tkext import UpdatedLabel, UpdatedMenu, MenuCommand
 # NLS:
 formats = {'in': '(%3.3f", %3.3f")',
 			'pt': '(%3.1fpt, %3.1fpt)',
+			'px': '(%3.1fpt, %3.1fpt)',
 			'cm': '(%2.2fcm, %2.2fcm)',
 			'mm': '(%3.1fmm, %3.1fmm)',
 			}
