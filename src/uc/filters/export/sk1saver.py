@@ -527,6 +527,8 @@ class SKSaver:
 	def SimpleText(self, text, trafo, halign, valign, chargap, wordgap, linegap):
 		text = text.encode('utf-8')
 		txt_lines = text.split('\n')
+		if not txt_lines[-1]:
+			txt_lines = txt_lines[:-1]
 #		text = self.unicode_encoder(text)
 		write = self.file.write
 		write('txt(%d,' % len(txt_lines))
