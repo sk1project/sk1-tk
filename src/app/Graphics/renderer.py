@@ -208,10 +208,41 @@ class DocRenderer:
 		self.ctx.set_matrix(self.canvas_matrix)
 		self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 
+	def render_container(self, ctx, object):
+		ctx.save()
+		container = object.cache_container
+		ctx.new_path()
+		ctx.append_path(container.cache_cpath)
+		ctx.clip()
+		for obj in object.childs:
+			self.render_object(ctx, obj)
+		ctx.restore()
+		if container.style[1] and not self.contour_flag:
+			ctx.new_path()
+			self.process_stroke(ctx, container.style)
+			ctx.append_path(container.cache_cpath)
+			ctx.stroke()
+
 	def draw_object(self, obj):
-		if obj.cid < cids.PRIMITIVE:
+		if obj.cid == cids.MASKGROUP:
+			self.ctx.save()
+			container = obj.objects[0]
+			if not container.cache_cpath:
+				container.cache_cpath = libcairo.create_cpath(container.get_paths_list())
+			if not container.cache_cpath: return
+			self.ctx.new_path()
+			self.ctx.append_path(container.cache_cpath)
+			self.ctx.clip()
+			self.process_fill(container)
+			for item in obj.objects[1:]:
+				self.draw_object(item)
+			self.ctx.restore()
+			self.process_stroke(container)
+
+		elif obj.cid < cids.PRIMITIVE:
 			for item in obj.objects:
 				self.draw_object(item)
+
 		elif obj.cid == cids.IMAGE:
 			if not obj.cache_cdata:
 				tmpfile = NamedTemporaryFile()
@@ -228,23 +259,33 @@ class DocRenderer:
 			self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
 			self.ctx.paint()
 			self.ctx.set_matrix(self.canvas_matrix)
+
 		else:
 			if not obj.cache_cpath:
 				obj.cache_cpath = libcairo.create_cpath(obj.get_paths_list())
 			if not obj.cache_cpath: return
-			fill = obj.properties.fill_pattern
-			if not fill.is_Empty:
-				self.ctx.set_source_rgba(*fill.Color().cRGBA())
-				self.ctx.append_path(obj.cache_cpath)
-				self.ctx.fill()
-			stroke = obj.properties.line_pattern
-			if not stroke.is_Empty:
-				self.ctx.set_line_width(obj.properties.line_width)
-				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
-				self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
-				self.ctx.set_line_join(JOINS[obj.properties.line_join])
+			self.process_fill(obj)
+			self.process_stroke(obj)
 
-				dashes = obj.properties.line_dashes
-				if dashes: self.ctx.set_dash(dashes)
-				self.ctx.append_path(obj.cache_cpath)
-				self.ctx.stroke()
+
+	def process_fill(self, obj):
+		fill = obj.properties.fill_pattern
+		if not fill.is_Empty:
+			self.ctx.new_path()
+			self.ctx.set_source_rgba(*fill.Color().cRGBA())
+			self.ctx.append_path(obj.cache_cpath)
+			self.ctx.fill()
+
+	def process_stroke(self, obj):
+		stroke = obj.properties.line_pattern
+		if not stroke.is_Empty:
+			self.ctx.new_path()
+			self.ctx.set_line_width(obj.properties.line_width)
+			self.ctx.set_source_rgba(*stroke.Color().cRGBA())
+			self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
+			self.ctx.set_line_join(JOINS[obj.properties.line_join])
+
+			dashes = obj.properties.line_dashes
+			if dashes: self.ctx.set_dash(dashes)
+			self.ctx.append_path(obj.cache_cpath)
+			self.ctx.stroke()

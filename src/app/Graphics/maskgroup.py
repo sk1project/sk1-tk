@@ -30,10 +30,13 @@ from app import _, IntersectRects, RegisterCommands
 from compound import EditableCompound
 from properties import EmptyFillStyle, EmptyLineStyle
 
+import cids
+
 class MaskGroup(EditableCompound):
 
 	is_Group = 1
 	is_MaskGroup = 1
+	cid = cids.MASKGROUP
 
 	_lazy_attrs = EditableCompound._lazy_attrs.copy()
 	_lazy_attrs['mask_fill'] = 'update_mask_attrs'
@@ -41,9 +44,9 @@ class MaskGroup(EditableCompound):
 
 	commands = EditableCompound.commands[:]
 
-	def __init__(self, objects = None, duplicate = None):
+	def __init__(self, objects=None, duplicate=None):
 		EditableCompound.__init__(self, objects,
-									duplicate = duplicate)
+									duplicate=duplicate)
 
 	def update_mask_attrs(self):
 		if self.objects:
@@ -74,7 +77,7 @@ class MaskGroup(EditableCompound):
 		return _("MaskGroup with %d objects") % len(self.objects)
 
 	def Hit(self, p, rect, device):
-		if self.objects[0].Hit(p, rect, device, clip = 1):
+		if self.objects[0].Hit(p, rect, device, clip=1):
 			return EditableCompound.Hit(self, p, rect, device)
 
 	def Blend(self, other, frac1, frac2):
@@ -111,7 +114,7 @@ class MaskGroup(EditableCompound):
 			obj.SaveToFile(file)
 		file.EndMaskGroup()
 
-	def DrawShape(self, device, rect = None):
+	def DrawShape(self, device, rect=None):
 		if not self.objects:
 			return
 		mask = self.objects[0]
@@ -121,7 +124,7 @@ class MaskGroup(EditableCompound):
 		device.PushClip()
 		clipped = 1
 		try:
-			mask.DrawShape(device, rect, clip = 1)
+			mask.DrawShape(device, rect, clip=1)
 			if rect:
 				rect = IntersectRects(rect, mask.bounding_rect)
 				test = rect.overlaps
@@ -159,7 +162,7 @@ class MaskGroup(EditableCompound):
 	def SelectMask(self):
 		if self.document is not None:
 			self.document.SelectObject(self.objects[0])
-	AddCmd(commands, SelectMask, _("Select Mask"), key_stroke = 'm')
+	AddCmd(commands, SelectMask, _("Select Mask"), key_stroke='m')
 
 	context_commands = ('SelectMask',)
 
