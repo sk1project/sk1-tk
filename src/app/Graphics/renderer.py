@@ -5,12 +5,14 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import cairo, cids, math, operator
+import cairo, cids, math
 from tempfile import NamedTemporaryFile
 
 from sk1sdk import tkcairo
+from uc import libcairo
 
 from app import config
+from app.conf import const
 
 SURFACE = cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1)
 CTX = cairo.Context(SURFACE)
@@ -21,6 +23,18 @@ CAIRO_DGRAY = (0.25, 0.25, 0.25)
 CAIRO_GRAY = (0.5, 0.5, 0.5)
 CAIRO_LGRAY = (0.75, 0.75, 0.75)
 CAIRO_WHITE = (1.0, 1.0, 1.0)
+
+CAPS = {
+	const.CapButt: cairo.LINE_CAP_BUTT,
+	const.CapRound: cairo.LINE_CAP_ROUND,
+	const.CapProjecting: cairo.LINE_CAP_SQUARE,
+	}
+
+JOINS = {
+	const.JoinBevel: cairo.LINE_JOIN_BEVEL,
+	const.JoinMiter: cairo.LINE_JOIN_MITER,
+	const.JoinRound: cairo.LINE_JOIN_ROUND,
+		}
 
 class DocRenderer:
 
@@ -194,33 +208,33 @@ class DocRenderer:
 		self.ctx.set_matrix(self.canvas_matrix)
 		self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 
-	def create_cpath(self, paths):
-		CTX.set_matrix(DIRECT_MATRIX)
-		CTX.new_path()
-		if not paths: return None
-		for path in paths:
-			CTX.new_sub_path()
-			start_point = path[0]
-			points = path[1]
-			end = path[2]
-			x, y = start_point
-			CTX.move_to(x, y)
-
-			for point in points:
-				if len(point) == 2:
-					x, y = point
-					CTX.line_to(x, y)
-				else:
-					p1, p2, p3, m = point
-					x1, y1 = p1
-					x2, y2 = p2
-					x3, y3 = p3
-					CTX.curve_to(x1, y1, x2, y2, x3, y3)
-			if end:
-				CTX.close_path()
-
-		cairo_path = CTX.copy_path()
-		return cairo_path
+#	def create_cpath(self, paths):
+#		CTX.set_matrix(DIRECT_MATRIX)
+#		CTX.new_path()
+#		if not paths: return None
+#		for path in paths:
+#			CTX.new_sub_path()
+#			start_point = path[0]
+#			points = path[1]
+#			end = path[2]
+#			x, y = start_point
+#			CTX.move_to(x, y)
+#
+#			for point in points:
+#				if len(point) == 2:
+#					x, y = point
+#					CTX.line_to(x, y)
+#				else:
+#					p1, p2, p3, m = point
+#					x1, y1 = p1
+#					x2, y2 = p2
+#					x3, y3 = p3
+#					CTX.curve_to(x1, y1, x2, y2, x3, y3)
+#			if end:
+#				CTX.close_path()
+#
+#		cairo_path = CTX.copy_path()
+#		return cairo_path
 
 	def draw_object(self, obj):
 		if obj.cid < cids.PRIMITIVE:
@@ -249,7 +263,7 @@ class DocRenderer:
 			self.ctx.set_antialias(cairo.ANTIALIAS_DEFAULT)
 		else:
 			if not obj.cache_cpath:
-				obj.cache_cpath = self.create_cpath(obj.get_paths_list())
+				obj.cache_cpath = libcairo.create_cpath(obj.get_paths_list())
 			if not obj.cache_cpath: return
 			fill = obj.properties.fill_pattern
 			if not fill.is_Empty:
@@ -261,8 +275,8 @@ class DocRenderer:
 				self.ctx.set_line_width(obj.properties.line_width)
 				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
 				#TODO: fix line cap mismatch
-				self.ctx.set_line_cap(obj.properties.line_cap)
-				self.ctx.set_line_join(obj.properties.line_join)
+				self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
+				self.ctx.set_line_join(JOINS[obj.properties.line_join])
 
 				dashes = obj.properties.line_dashes
 				if dashes: self.ctx.set_dash(dashes)
