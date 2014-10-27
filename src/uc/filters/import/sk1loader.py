@@ -28,7 +28,7 @@ format_name = 'sK1'
 
 (''"sK1 Document")
 
-from types import StringType, TupleType
+from types import StringType, TupleType, IntType
 import os, sys, app
 from string import atoi
 
@@ -394,19 +394,26 @@ class SKLoader(GenericLoader):
 		return line
 
 	functions.append('txt')
-	def txt(self, thetext, trafo, halign=text.ALIGN_LEFT, valign=text.ALIGN_BASE, chargap=1.0, wordgap=1.0, linegap=1.0):
-		thetext = self.unicode_decoder(thetext)
+	def txt(self, readline, thetext, trafo, halign=text.ALIGN_LEFT,
+		valign=text.ALIGN_BASE, chargap=1.0, wordgap=1.0, linegap=1.0):
+		if type(thetext) == IntType:
+			txt = ''
+			for item in range(thetext): txt += readline()
+			txt = txt.decode('utf-8')
+		else:
+			txt = self.unicode_decoder(thetext)
+
 		if len(trafo) == 2:
 			trafo = Translation(trafo)
 		else:
 			trafo = apply(Trafo, trafo)
-		object = text.SimpleText(text=thetext, trafo=trafo,
+		obj = text.SimpleText(text=txt, trafo=trafo,
 									halign=halign, valign=valign,
 									properties=self.get_prop_stack())
 
-		object.properties.SetProperty(align=halign, valign=valign,
-									chargap=chargap, wordgap=wordgap, linegap=linegap)
-		self.append_object(object)
+		obj.properties.SetProperty(align=halign, valign=valign,
+							chargap=chargap, wordgap=wordgap, linegap=linegap)
+		self.append_object(obj)
 
 	def unicode_decoder(self, text):
 		output = ''
@@ -557,12 +564,13 @@ class SKLoader(GenericLoader):
 				if line[0] == 'b' and line[1] in 'sc':
 					line = bezier_load(line)
 					continue
-				#parse(line, dict)
 				funcname, args, kwargs = parse(line)
 				if funcname is not None:
 					function = dict.get(funcname)
 					if function is not None:
 						try:
+							if line[:3] == 'txt':
+								args = (readline,) + args
 							apply(function, args, kwargs)
 						except TypeError:
 							tb = sys.exc_info()[2]

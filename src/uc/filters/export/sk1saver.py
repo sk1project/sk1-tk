@@ -525,9 +525,11 @@ class SKSaver:
 				write("bC()\n")
 
 	def SimpleText(self, text, trafo, halign, valign, chargap, wordgap, linegap):
-		text = self.unicode_encoder(text)
+		text = text.encode('utf-8')
+		txt_lines = text.split('\n')
+#		text = self.unicode_encoder(text)
 		write = self.file.write
-		write('txt(%s,' % `text`)
+		write('txt(%d,' % len(txt_lines))
 		if trafo.matrix() != IdentityMatrix:
 			write('(%g,%g,%g,%g,%g,%g)' % trafo.coeff())
 		else:
@@ -536,6 +538,8 @@ class SKSaver:
 		write(',%g,%g,%g' % (chargap, wordgap, linegap))
 
 		write(')\n')
+		for line in txt_lines:
+			write(line + '\n')
 
 	def unicode_encoder(self, text):
 		output = ''
