@@ -73,6 +73,9 @@ palette_types = ((_("sK1 color swatch palette"), ('*.skp', '*.SKP')),
 pdf_types = ((_("Portable Document Format (PDF 1.5) - *.pdf"), ('*.pdf', '*.PDF')),
 				(_("All Files"), 	 '*'))
 
+png_types = ((_('Portable Network Graphics files - *.png'), ('*.png', '*.PNG')),
+				(_("All Files"), 	 '*'))
+
 SAVEMODE = 1
 OPENMODE = 0
 
@@ -135,7 +138,7 @@ class DialogManager:
 
 	def getGenericSaveFilename(self, title, filetypes, **kw):
 		name = app.config.name
-		title = _('Save file')
+		if not title: title = _('Save file')
 		kw['filetypes'] = filetypes
 		dialog_type = self.get_dialog_type(SAVEMODE)
 		return apply(self.dialog_thread, (dialog_type, name, title), kw)

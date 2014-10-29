@@ -409,6 +409,10 @@ class sK1MainWindow(Publisher):
 		tooltips.AddDescription(b, commands.ExportAs.menu_name)
 		b.pack(side=LEFT)
 
+		b = ToolbarButton(tbar, commands.ExportPNG, image="toolbar_eRaster")
+		tooltips.AddDescription(b, commands.ExportPNG.menu_name)
+		b.pack(side=LEFT)
+
 		label = TLabel(tbar, image="toolbar_sep")
 		label.pack(side=LEFT)
 
@@ -434,27 +438,6 @@ class sK1MainWindow(Publisher):
 
 		label = TLabel(tbar, image="toolbar_sep")
 		label.pack(side=LEFT)
-		#-----------------------------------
-		# Renderers
-		#-----------------------------------
-#		b = ToolbarCheckbutton(tbar, canvas.commands.UseXlibRenderer, image='toolbar_xlib')
-#		b.pack(side=LEFT)
-#		tooltips.AddDescription(b, canvas.commands.UseXlibRenderer.menu_name)
-#
-#		label = TLabel(tbar, image="sb_sep")
-#		label.pack(side=LEFT)
-#
-#		b = ToolbarCheckbutton(tbar, canvas.commands.UseCairoRenderer, image='toolbar_cairo')
-#		b.pack(side=LEFT)
-#		tooltips.AddDescription(b, canvas.commands.UseCairoRenderer.menu_name)
-#
-#		label = TLabel(tbar, image="sb_sep")
-#		label.pack(side=LEFT)
-
-		#b = ToolbarCheckbuttoncommands, canvas.commands.AllowAlphaChannel, image='toolbar_alpha')
-		#b.pack(side = LEFT)
-		#tooltips.AddDescription(b, canvas.commands.AllowAlphaChannel.menu_name)
-
 
 		b = ToolbarCheckbutton(tbar, canvas.commands.ToggleOutlineMode, image='toolbar_contour')
 		b.pack(side=LEFT)
@@ -693,6 +676,9 @@ class sK1MainWindow(Publisher):
 	def PrintToPDF(self):
 		self.docmanager.PrintDocument(self.document, 1)
 
+	def ExportPNG(self):
+		self.docmanager.ExportPNG(self.document)
+
 	def CloseCurrentDocument(self):
 		self.tabspanel.closeActiveTab()
 
@@ -762,6 +748,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('SaveToFileAs', _("Save As..."), 'SaveToFileInteractive', image='menu_file_saveas', args=1)
 	AddCmd('SaveAll', _("Save All"), 'SaveAllDocuments')
 	AddCmd('ExportAs', _("Export As..."), 'SaveToFileInteractive', args=2)
+	AddCmd('ExportPNG', _("Export image..."), 'ExportPNG')
 	AddCmd('CloseDoc', _("Close"), 'CloseCurrentDocument', image='menu_file_close')
 	AddCmd('CloseAll', _("Close All"), 'CloseAllDocuments')
 	AddCmd('InsertFile', _("Import vector..."))
@@ -939,7 +926,9 @@ class sK1MainWindow(Publisher):
 					None,
 					cmds.CreateImage,
 					cmds.InsertFile,
+					None,
 					cmds.ExportAs,
+					cmds.ExportPNG,
 					None,
 					cmds.KPrinting,
 					cmds.PrintToPDF,

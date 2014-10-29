@@ -21,7 +21,7 @@ import sk1
 from sk1.dialogs.msgdialog import msgDialog
 from sk1.dialogs import msgdialog
 from sk1.dialogs.progressdialog import ProgressDialog
-from sk1.managers.dialogmanager import pdf_types
+from sk1.managers.dialogmanager import pdf_types, png_types
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))
@@ -173,6 +173,17 @@ class DocumentManager:
 	def CloseDocument(self, document):
 		if document is not None:
 			document.Destroy()
+
+	def ExportPNG(self, document):
+		directory = config.preferences.dir_for_bitmap_export
+		filename = document.meta.filename[:-4] + '.png'
+		filename, pngfile = dialogman.getGenericSaveFilename(
+								_("PNG export"), png_types,
+								initialdir=directory, initialfile=filename)
+		if filename == '': return
+		fileformat = filters.guess_export_plugin('.png')
+		saver = filters.find_export_plugin(fileformat)
+		saver(document, pngfile)
 
 	def PrintDocument(self, document, tofile=0):
 		bbox = document.BoundingRect(visible=0, printable=1)
