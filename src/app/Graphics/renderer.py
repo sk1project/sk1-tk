@@ -14,10 +14,6 @@ from uc import libcairo
 from app import config
 from app.conf import const
 
-SURFACE = cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1)
-CTX = cairo.Context(SURFACE)
-DIRECT_MATRIX = cairo.Matrix()
-
 CAIRO_BLACK = (0.0, 0.0, 0.0)
 CAIRO_DGRAY = (0.25, 0.25, 0.25)
 CAIRO_GRAY = (0.5, 0.5, 0.5)
@@ -54,6 +50,7 @@ class ObjRenderer:
 
 	def draw_layers(self, layers):
 		for layer in layers:
+			if not layer.visible: continue
 			for obj in layer.objects:
 				self.draw_object(obj)
 
