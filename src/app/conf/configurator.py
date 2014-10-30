@@ -491,15 +491,6 @@ class Preferences(connector.Publisher):
 	#The line width for the outlines during a drag.
 	editor_line_width = 1
 
-	#Load these standard scripts at runtime in interactive mode. This
-	#is really just a list of module names that are passed to
-	#__import__, but don't count on it.
-	standard_scripts = ["app.scripts.export_raster", "app.scripts.simple_separation",
-						"app.scripts.spread", "app.scripts.reload_image",
-						"app.scripts.create_star", "app.scripts.create_star_outline",
-						"app.scripts.create_spiral", "app.scripts.read_gimp_path", ]
-
-
 
 class XMLPrefReader(handler.ContentHandler):
 	"""Handler for xml file reading"""

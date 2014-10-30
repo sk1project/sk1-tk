@@ -15,11 +15,11 @@ from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 from uniconvertor.utils import fs
 from uc import filters
 
+import app
 from app.events.warn import warn, warn_tb, INTERNAL, USER
 from app import _, config, Point, EmptyFillStyle, EmptyLineStyle
 from app import Publisher, dialogman, EmptyPattern, GuideLine
 from app.Graphics import image, eps
-import app.Scripting
 from app.Graphics.color import rgb_to_tk
 from app.conf.const import DOCUMENT, CLIPBOARD, CLOSED, COLOR1, COLOR2
 from app.conf.const import MODE, CHANGED, SELECTION, POSITION, UNDO, EDITED, CURRENTINFO
@@ -127,13 +127,6 @@ class sK1MainWindow(Publisher):
 				directory = ''
 			self.LoadFromFile(filename, directory=directory)
 			self.filename = ''
-		if self.run_script:
-			from app.Scripting.script import Context
-			dct = {'context': Context()}
-			try:
-				execfile(self.run_script, dct)
-			except:
-				warn_tb(USER, _("Error running script `%s'"), self.run_script)
 
 		self.application.Mainloop()
 
@@ -885,7 +878,6 @@ class sK1MainWindow(Publisher):
 		AppendMenu(mbar, _("Bitmaps"), self.make_bitmaps_menu(), 0)
 #		AppendMenu(mbar, _("Curve"), self.make_curve_menu(), 1)
 		AppendMenu(mbar, _("Style"), self.make_style_menu(), 1)
-#		AppendMenu(mbar, _("Script"), self.make_script_menu(), 0)
 #		AppendMenu(mbar, _("Windows"), self.make_window_menu(), 0)
 		AppendMenu(mbar, _("Help"), self.make_help_menu(), 0)
 
@@ -1109,11 +1101,6 @@ class sK1MainWindow(Publisher):
 #                   None,
 #                   self.commands.CreateFontDialog
 					])
-
-	def make_script_menu(self):
-		tree = app.Scripting.Registry.MenuTree()
-		cmdlist = self.convert_menu_tree(tree)
-		return map(MakeCommand, cmdlist)
 
 	def make_window_menu(self):
 		cmds = self.commands

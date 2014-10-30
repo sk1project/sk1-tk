@@ -153,10 +153,6 @@ def init_ui():
 
 	init_lib()
 
-	# import the standard scripts
-	for name in config.preferences.standard_scripts:
-		__import__(name)
-
 def init_modules_from_widget(root):
 	import pax
 	import sk1.skpixmaps, Graphics.graphics
