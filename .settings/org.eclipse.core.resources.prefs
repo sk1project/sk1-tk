@@ -109,6 +109,7 @@ encoding//src/sk1sdk/tkstyle/__init__.py=utf-8
 encoding//src/sk1sdk/tkstyle/colors.py=utf-8
 encoding//src/sk1sdk/tkstyle/fonts.py=utf-8
 encoding//src/sk1sdk/tkstyle/themes.py=utf-8
+encoding//src/uc/filters/__init__.py=utf-8
 encoding//src/uc/filters/export/pltsaver.py=utf-8
 encoding//src/uc/filters/export/pngsaver.py=utf-8
 encoding//src/uc/filters/export/sk1saver.py=utf-8

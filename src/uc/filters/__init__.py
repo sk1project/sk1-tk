@@ -53,8 +53,8 @@ class ConfigInfo:
 	module = None
 	package = _plugin_package_name
 
-	def __init__(self, module_name, dir, version = '1.0.0', unload = None,
-					load_immediately = 0, standard_messages = 0):
+	def __init__(self, module_name, dir, version='1.0.0', unload=None,
+					load_immediately=0, standard_messages=0):
 		self.module_name = module_name
 		self.dir = dir
 		self.unload = unload
@@ -113,7 +113,7 @@ class ConfigInfo:
 			_ = gettext
 		else:
 			domain = self.module_name
-			def _(text, domain = domain):
+			def _(text, domain=domain):
 				#print domain, text
 				result = dgettext(domain, text)
 				#print '->', result
@@ -136,12 +136,12 @@ class ImportInfo(ConfigInfo):
 	plugin_list = import_plugins
 
 	def __init__(self, module_name, dir, rx_magic, class_name, format_name,
-					tk_file_type = (), version = '1.0.0', unload = None,
-					load_immediately = 0, standard_messages = 0):
-		ConfigInfo.__init__(self, module_name, dir, version = version,
-							unload = unload,
-							load_immediately = load_immediately,
-							standard_messages = standard_messages)
+					tk_file_type=(), version='1.0.0', unload=None,
+					load_immediately=0, standard_messages=0):
+		ConfigInfo.__init__(self, module_name, dir, version=version,
+							unload=unload,
+							load_immediately=load_immediately,
+							standard_messages=standard_messages)
 		self.rx_magic = re.compile(rx_magic)
 		self.class_name = class_name
 		self.format_name = format_name
@@ -175,13 +175,13 @@ class ExportInfo(ConfigInfo):
 
 	plugin_list = export_plugins
 
-	def __init__(self, module_name, dir, format_name, tk_file_type = (),
-					extensions = (), version = '1.0.0', unload = None,
-					load_immediately = 0, standard_messages = 0):
-		ConfigInfo.__init__(self, module_name, dir, version = version,
-							unload = unload,
-							load_immediately = load_immediately,
-							standard_messages = standard_messages)
+	def __init__(self, module_name, dir, format_name, tk_file_type=(),
+					extensions=(), version='1.0.0', unload=None,
+					load_immediately=0, standard_messages=0):
+		ConfigInfo.__init__(self, module_name, dir, version=version,
+							unload=unload,
+							load_immediately=load_immediately,
+							standard_messages=standard_messages)
 		self.format_name = format_name
 		self.tk_file_type = tk_file_type
 		if type(extensions) != type(()):
@@ -194,7 +194,7 @@ class ExportInfo(ConfigInfo):
 		name = self.gettext(name)
 		self.tk_file_type = name, ext
 
-	def __call__(self, document, filename, file = None, options = None):
+	def __call__(self, document, filename, file=None, options=None):
 		if options is None:
 			options = {}
 		try:
@@ -226,13 +226,13 @@ class PluginCompoundInfo(ConfigInfo):
 
 	plugin_list = compound_plugins
 
-	def __init__(self, module_name, dir, class_name, menu_text, factory = '',
-					version = '1.0.0', parameters = (), uses_selection = 0,
-					custom_dialog = '', load_immediately = 0,
-					standard_messages = 0):
-		ConfigInfo.__init__(self, module_name, dir, version = version,
-							load_immediately = load_immediately,
-							standard_messages = standard_messages)
+	def __init__(self, module_name, dir, class_name, menu_text, factory='',
+					version='1.0.0', parameters=(), uses_selection=0,
+					custom_dialog='', load_immediately=0,
+					standard_messages=0):
+		ConfigInfo.__init__(self, module_name, dir, version=version,
+							load_immediately=load_immediately,
+							standard_messages=standard_messages)
 		self.class_name = class_name
 		self.factory = factory
 		self.menu_text = menu_text
@@ -297,12 +297,12 @@ class ParsingInfo(ConfigInfo):
 	plugin_list = parsing_plugins
 
 	def __init__(self, module_name, dir, rx_magic, class_name, format_name,
-					tk_file_type = (), version = '1.0.0', unload = None,
-					load_immediately = 0, standard_messages = 0):
-		ConfigInfo.__init__(self, module_name, dir, version = version,
-							unload = unload,
-							load_immediately = load_immediately,
-							standard_messages = standard_messages)
+					tk_file_type=(), version='1.0.0', unload=None,
+					load_immediately=0, standard_messages=0):
+		ConfigInfo.__init__(self, module_name, dir, version=version,
+							unload=unload,
+							load_immediately=load_immediately,
+							standard_messages=standard_messages)
 		self.rx_magic = re.compile(rx_magic)
 		self.class_name = class_name
 		self.format_name = format_name
@@ -355,12 +355,12 @@ def extract_cfg(file):
 
 
 
-def _search_dir(dir, recurse, package = _plugin_package_name):
+def _search_dir(dir, recurse, package=_plugin_package_name):
 	try:
 		files = os.listdir(dir)
 	except os.error, value:
 		warn(USER, _("Cannot list directory %(filename)s\n%(message)s"),
-				filename = dir, message = value[1])
+				filename=dir, message=value[1])
 		return
 	for file in files:
 		filename = os.path.join(dir, file)
@@ -377,16 +377,16 @@ def _search_dir(dir, recurse, package = _plugin_package_name):
 				# an ordinary directory and we should recurse into it to
 				# find more modules, so do that.
 				_search_dir(filename, recurse - 1, package + '.' + file)
-		elif filename[-3:] == '.py':
+		elif filename[-3:] == '.py' and not filename == '__init__.py':
 			try:
 				module_name = os.path.splitext(os.path.basename(filename))[0]
-				vars = {'_':_}	# hack
+				vars = {'_':_}# hack
 				cfg = extract_cfg(filename)
 				exec cfg in config_types, vars
 				infoclass = vars.get('type')
 				if infoclass is None:
 					warn(USER, _("No plugin-type information in %(filename)s"),
-							filename = filename)
+							filename=filename)
 				else:
 					del vars['type']
 					del vars['_']
@@ -396,8 +396,8 @@ def _search_dir(dir, recurse, package = _plugin_package_name):
 				warn_tb(INTERNAL, 'In config file %s', filename)
 				warn(USER, _("can't read configuration information from "
 								"%(filename)s"),
-						filename =	 filename)
-				
+						filename=	 filename)
+
 
 
 def find_export_plugin(name):
@@ -409,7 +409,7 @@ def guess_export_plugin(extension):
 			return plugin.format_name
 	return ''
 
-def load_plugin_configuration(): #path):
+def load_plugin_configuration():#path):
 	if __debug__:
 		import time
 		start = time.clock()
@@ -425,7 +425,7 @@ def load_plugin_configuration(): #path):
 			recurse = 0
 		_search_dir(dir, recurse)
 	if __debug__:
-		pdebug('timing', 'time to scan cfg files: %g', time.clock()-start)
+		pdebug('timing', 'time to scan cfg files: %g', time.clock() - start)
 	# rearrange import plugins to ensure that native format is first
 	for loader in import_plugins:
 		if loader.format_name == NativeFormat:
