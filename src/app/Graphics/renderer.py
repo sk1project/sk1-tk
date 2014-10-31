@@ -102,6 +102,7 @@ class ObjRenderer:
 		fill = obj.properties.fill_pattern
 		if not fill.is_Empty:
 			self.ctx.new_path()
+			self.ctx.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
 			self.ctx.set_source_rgba(*fill.Color().cRGBA())
 			self.ctx.append_path(obj.cache_cpath)
 			self.ctx.fill()
