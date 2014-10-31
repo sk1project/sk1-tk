@@ -69,6 +69,7 @@ class ExternalGraphics(RectangularObject, GraphicsObject):
 	# by default this has no properties:
 	has_fill = has_line = has_font = 0
 	cache_cdata = None
+	cache_gray_cdata = None
 
 	data = None
 
@@ -84,6 +85,7 @@ class ExternalGraphics(RectangularObject, GraphicsObject):
 
 	def SetData(self, data):
 		self.cache_cdata = None
+		self.cache_gray_cdata = None
 		undo = self.SetData, self.data
 		self.data = data
 		# XXX issue_changed() here ?

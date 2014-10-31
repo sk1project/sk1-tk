@@ -13,6 +13,7 @@ from uc import libcairo
 
 from app import config
 from app.conf import const
+import Image
 
 CAIRO_BLACK = (0.0, 0.0, 0.0)
 CAIRO_DGRAY = (0.25, 0.25, 0.25)
@@ -40,6 +41,7 @@ class ObjRenderer:
 	canvas_matrix = None
 	zoom = 1.0
 	stroke_mode = False
+	layer_color = ()
 
 	def doc_to_win(self, x, y):
 		m11 = self.trafo[0]
@@ -51,6 +53,7 @@ class ObjRenderer:
 	def draw_layers(self, layers):
 		for layer in layers:
 			if not layer.visible: continue
+			self.layer_color = layer.outline_color.cRGBA()
 			for obj in layer.objects:
 				self.draw_object(obj)
 
@@ -75,20 +78,38 @@ class ObjRenderer:
 				self.draw_object(item)
 
 		elif obj.cid == cids.IMAGE:
-			if not obj.cache_cdata:
-				tmpfile = NamedTemporaryFile()
-				obj.data.image.save(tmpfile.name, 'PNG')
-				png_loader = cairo.ImageSurface.create_from_png
-				obj.cache_cdata = png_loader(tmpfile.name)
-			if not obj.cache_cdata: return
+			if self.stroke_mode:
+				if not obj.cache_gray_cdata:
+					tmpfile = NamedTemporaryFile()
+					img = obj.data.image.copy()
+					alpha = None
+					if img.mode == 'RGBA': alpha = img.split()[3]
+					img = img.convert('L')
+					img = img.convert('RGBA')
+					if alpha: img.putalpha(alpha)
+					img.save(tmpfile.name, 'PNG')
+					png_loader = cairo.ImageSurface.create_from_png
+					obj.cache_gray_cdata = png_loader(tmpfile.name)
+			else:
+				if not obj.cache_cdata:
+					tmpfile = NamedTemporaryFile()
+					obj.data.image.save(tmpfile.name, 'PNG')
+					png_loader = cairo.ImageSurface.create_from_png
+					obj.cache_cdata = png_loader(tmpfile.name)
+				if not obj.cache_cdata: return
 
 			h = obj.data.size[1]
 			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
 
 			self.ctx.set_matrix(cairo.Matrix(self.zoom, 0, 0, self.zoom, x0, y0))
-			self.ctx.set_source_surface(obj.cache_cdata)
-			self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
-			self.ctx.paint()
+			if self.stroke_mode:
+				self.ctx.set_source_surface(obj.cache_gray_cdata)
+				self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
+				self.ctx.paint_with_alpha(0.3)
+			else:
+				self.ctx.set_source_surface(obj.cache_cdata)
+				self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
+				self.ctx.paint()
 			self.ctx.set_matrix(self.canvas_matrix)
 
 		else:
@@ -99,6 +120,7 @@ class ObjRenderer:
 			self.process_stroke(obj)
 
 	def process_fill(self, obj):
+		if self.stroke_mode:return
 		fill = obj.properties.fill_pattern
 		if not fill.is_Empty:
 			self.ctx.new_path()
@@ -108,18 +130,25 @@ class ObjRenderer:
 			self.ctx.fill()
 
 	def process_stroke(self, obj):
-		stroke = obj.properties.line_pattern
-		if not stroke.is_Empty:
+		if self.stroke_mode:
 			self.ctx.new_path()
-			self.ctx.set_line_width(obj.properties.line_width)
-			self.ctx.set_source_rgba(*stroke.Color().cRGBA())
-			self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
-			self.ctx.set_line_join(JOINS[obj.properties.line_join])
-
-			dashes = obj.properties.line_dashes
-			if dashes: self.ctx.set_dash(dashes)
+			self.ctx.set_line_width(1.0)
+			self.ctx.set_source_rgba(*self.layer_color)
 			self.ctx.append_path(obj.cache_cpath)
 			self.ctx.stroke()
+		else:
+			stroke = obj.properties.line_pattern
+			if not stroke.is_Empty:
+				self.ctx.new_path()
+				self.ctx.set_line_width(obj.properties.line_width)
+				self.ctx.set_source_rgba(*stroke.Color().cRGBA())
+				self.ctx.set_line_cap(CAPS[obj.properties.line_cap])
+				self.ctx.set_line_join(JOINS[obj.properties.line_join])
+
+				dashes = obj.properties.line_dashes
+				if dashes: self.ctx.set_dash(dashes)
+				self.ctx.append_path(obj.cache_cpath)
+				self.ctx.stroke()
 
 
 class DocRenderer(ObjRenderer):
@@ -151,6 +180,7 @@ class DocRenderer(ObjRenderer):
 		self.width = self.canvas.winfo_width()
 		self.height = self.canvas.winfo_height()
 		self.trafo = self.canvas.get_matrix()
+		self.stroke_mode = self.canvas.IsOutlineMode()
 		self.zoom = abs(self.trafo[0])
 		self.canvas_matrix = cairo.Matrix(*self.trafo)
 
