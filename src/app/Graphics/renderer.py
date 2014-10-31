@@ -78,6 +78,12 @@ class ObjRenderer:
 				self.draw_object(item)
 
 		elif obj.cid == cids.IMAGE:
+
+			h = obj.data.size[1]
+			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
+
+			self.ctx.set_matrix(cairo.Matrix(self.zoom, 0, 0, self.zoom, x0, y0))
+
 			if self.stroke_mode:
 				if not obj.cache_gray_cdata:
 					tmpfile = NamedTemporaryFile()
@@ -90,26 +96,21 @@ class ObjRenderer:
 					img.save(tmpfile.name, 'PNG')
 					png_loader = cairo.ImageSurface.create_from_png
 					obj.cache_gray_cdata = png_loader(tmpfile.name)
+
+				self.ctx.set_source_surface(obj.cache_gray_cdata)
+				self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
+				self.ctx.paint_with_alpha(0.3)
 			else:
 				if not obj.cache_cdata:
 					tmpfile = NamedTemporaryFile()
 					obj.data.image.save(tmpfile.name, 'PNG')
 					png_loader = cairo.ImageSurface.create_from_png
 					obj.cache_cdata = png_loader(tmpfile.name)
-				if not obj.cache_cdata: return
 
-			h = obj.data.size[1]
-			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
-
-			self.ctx.set_matrix(cairo.Matrix(self.zoom, 0, 0, self.zoom, x0, y0))
-			if self.stroke_mode:
-				self.ctx.set_source_surface(obj.cache_gray_cdata)
-				self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
-				self.ctx.paint_with_alpha(0.3)
-			else:
 				self.ctx.set_source_surface(obj.cache_cdata)
 				self.ctx.get_source().set_filter(cairo.FILTER_NEAREST)
 				self.ctx.paint()
+
 			self.ctx.set_matrix(self.canvas_matrix)
 
 		else:
@@ -132,7 +133,7 @@ class ObjRenderer:
 	def process_stroke(self, obj):
 		if self.stroke_mode:
 			self.ctx.new_path()
-			self.ctx.set_line_width(1.0)
+			self.ctx.set_line_width(1.0 / self.zoom)
 			self.ctx.set_source_rgba(*self.layer_color)
 			self.ctx.append_path(obj.cache_cpath)
 			self.ctx.stroke()
