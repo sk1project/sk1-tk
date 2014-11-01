@@ -11,7 +11,6 @@
 # This file contains the root of the Sketch graphics class hierarchy.
 #
 
-from traceback import print_stack
 
 from app.events.warn import warn, INTERNAL
 from app.conf.const import CHANGED, SelectSet, Button1Mask, ConstraintMask, \
