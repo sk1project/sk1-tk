@@ -6,11 +6,10 @@
 # For more info see COPYRIGHTS file in sK1 root directory.
 
 from sk1sdk.libttk import TFrame, TLabel, TCombobox
-from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP,W, E, DISABLED, NORMAL
+from Tkinter import RIGHT, BOTTOM, X, Y, BOTH, LEFT, CENTER, TOP, W, E, DISABLED, NORMAL
 from Tkinter import StringVar, DoubleVar, IntVar, Canvas
 from PIL import Image
 
-from app.X11.X import GXxor, ZPixmap
 
 from colorsys import hsv_to_rgb, rgb_to_hsv
 
@@ -20,6 +19,7 @@ from app import _sketch
 from app import  _, StandardColors, Trafo, SketchError, Publisher
 from app.Graphics.color import skvisual, CreateRGBColor, CreateCMYKColor, CreateRGBAColor, CreateCMYKAColor
 
+from sk1.x11const import GXxor, ZPixmap
 from sk1.tkext import PyWidget
 
 import string
@@ -31,99 +31,99 @@ zramp_size = (15, 140)
 
 
 class ColorChooserWidget(TFrame):
-	
-	current_chooser=None
-	
+
+	current_chooser = None
+
 	def __init__(self, parent, callback, color=None, **kw):
-		self.color=color
-		self.callback=callback
-		self.parent=parent
+		self.color = color
+		self.callback = callback
+		self.parent = parent
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		self.rgb_chooser=RGBChooser(self, self.reset_color)
-		self.spot_chooser=SPOTChooser(self)
-		self.empty_chooser=EmptyPatternChooser(self)
-		self.current_chooser=self.empty_chooser
+		self.rgb_chooser = RGBChooser(self, self.reset_color)
+		self.spot_chooser = SPOTChooser(self)
+		self.empty_chooser = EmptyPatternChooser(self)
+		self.current_chooser = self.empty_chooser
 		self.current_chooser.pack(side=TOP)
-		
-		
-	def set_color(self, color):	
-		self.color=color	
+
+
+	def set_color(self, color):
+		self.color = color
 		if color is None:
-			if not self.current_chooser.__class__==EmptyPatternChooser:
+			if not self.current_chooser.__class__ == EmptyPatternChooser:
 				self.set_chooser(self.empty_chooser)
-		elif color.model=='RGB':
-			if not self.current_chooser.__class__==RGBChooser:
+		elif color.model == 'RGB':
+			if not self.current_chooser.__class__ == RGBChooser:
 				self.set_chooser(self.rgb_chooser)
-		elif color.model=='CMYK':
-			if not self.current_chooser.__class__==RGBChooser:
+		elif color.model == 'CMYK':
+			if not self.current_chooser.__class__ == RGBChooser:
 				self.set_chooser(self.rgb_chooser)
-		elif color.model=='SPOT':
-			if not self.current_chooser.__class__==SPOTChooser:
-				self.set_chooser(self.spot_chooser)		
+		elif color.model == 'SPOT':
+			if not self.current_chooser.__class__ == SPOTChooser:
+				self.set_chooser(self.spot_chooser)
 		self.current_chooser.set_color(color)
-		
-	def set_chooser(self,widget):
+
+	def set_chooser(self, widget):
 		self.current_chooser.forget()
-		self.current_chooser=widget
+		self.current_chooser = widget
 		self.current_chooser.pack(side=TOP)
-		
+
 	def reset_color(self, color):
-		r,g,b=color
-		if self.color.model=='RGB':
-			self.callback(CreateRGBAColor(r,g,b,self.color.alpha))
-		elif self.color.model=='CMYK':
-			rgb=CreateRGBColor(r,g,b)
-			c,m,y,k=rgb.getCMYK()
-			self.callback(CreateCMYKAColor(c,m,y,k,self.color.alpha))
+		r, g, b = color
+		if self.color.model == 'RGB':
+			self.callback(CreateRGBAColor(r, g, b, self.color.alpha))
+		elif self.color.model == 'CMYK':
+			rgb = CreateRGBColor(r, g, b)
+			c, m, y, k = rgb.getCMYK()
+			self.callback(CreateCMYKAColor(c, m, y, k, self.color.alpha))
 		else:
 			pass
-		
+
 class EmptyPatternChooser(TFrame):
 
 	def __init__(self, parent, color=None, **kw):
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		label=TLabel(self, image='empty_pattern_chooser', justify=CENTER)
+		label = TLabel(self, image='empty_pattern_chooser', justify=CENTER)
 		label.pack(side=TOP, pady=3)
-		label2=TLabel(self, text=_('Empty pattern selected,\ni.e. object will not be filled'), justify=CENTER)
+		label2 = TLabel(self, text=_('Empty pattern selected,\ni.e. object will not be filled'), justify=CENTER)
 		label2.pack(side=TOP, pady=10)
-		
+
 	def set_color(self, color):
 		pass
-	
+
 class SPOTChooser(TFrame):
 
 	def __init__(self, parent, color=None, **kw):
 		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		
-		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
-		
-		self.color_monitor=Canvas(frame, width=100, height=50, relief='flat')
-		self.color_monitor.pack(side=TOP)
-		
-	def set_color(self, color):
-		r,g,b = color.getRGB()
-		int_color=(round(r*255),round(g*255),round(b*255))
-		text='#%02X%02X%02X'%int_color		
-		self.color_monitor['bg']=text	
-		
-class RGBChooser(TFrame):
-	
-	def __init__(self, parent, callback, color=None, **kw):
-		TFrame.__init__(self, parent, style='FlatFrame', **kw)
-		
-		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
-		self.viewxy = ChooseRGBXY(frame, callback, xyramp_size[0], xyramp_size[1], 0, 1)
-		self.viewxy.pack(side = LEFT)
 
 		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
-		frame.pack(side = LEFT)
-		self.viewz = ChooseRGBZ(frame, callback, zramp_size[0], zramp_size[1], 2)
-		self.viewz.pack(side = LEFT)
-		
+		frame.pack(side=LEFT)
+
+		self.color_monitor = Canvas(frame, width=100, height=50, relief='flat')
+		self.color_monitor.pack(side=TOP)
+
 	def set_color(self, color):
-		r,g,b=color.getRGB()
+		r, g, b = color.getRGB()
+		int_color = (round(r * 255), round(g * 255), round(b * 255))
+		text = '#%02X%02X%02X' % int_color
+		self.color_monitor['bg'] = text
+
+class RGBChooser(TFrame):
+
+	def __init__(self, parent, callback, color=None, **kw):
+		TFrame.__init__(self, parent, style='FlatFrame', **kw)
+
+		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
+		frame.pack(side=LEFT)
+		self.viewxy = ChooseRGBXY(frame, callback, xyramp_size[0], xyramp_size[1], 0, 1)
+		self.viewxy.pack(side=LEFT)
+
+		frame = TFrame(self, style="RoundedFrame", borderwidth=5)
+		frame.pack(side=LEFT)
+		self.viewz = ChooseRGBZ(frame, callback, zramp_size[0], zramp_size[1], 2)
+		self.viewz.pack(side=LEFT)
+
+	def set_color(self, color):
+		r, g, b = color.getRGB()
 		self.viewxy.SetColor((r, g, b))
 		self.viewz.SetColor((r, g, b))
 
@@ -174,7 +174,7 @@ class ImageView(PyWidget):
 											0, 0, ximage.width, ximage.height)
 			self.UpdateWhenIdle()
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		self.gc.PutImage(self.ximage, 0, 0, 0, 0,
 							self.ximage.width, self.ximage.height)
 
@@ -183,7 +183,7 @@ class ImageView(PyWidget):
 
 class ChooseComponent(ImageView):
 
-	def __init__(self, master, width, height, color = (0, 0, 0), **kw):
+	def __init__(self, master, width, height, color=(0, 0, 0), **kw):
 		image = Image.new('RGB', (width, height))
 		apply(ImageView.__init__, (self, master, image), kw)
 		self.set_color(color)
@@ -205,8 +205,8 @@ class ChooseComponent(ImageView):
 
 	def init_gc(self):
 		ImageView.init_gc(self)
-		self.invgc = self.tkwin.GetGC(foreground = ~0,
-										function = GXxor)
+		self.invgc = self.tkwin.GetGC(foreground=~0,
+										function=GXxor)
 		self.tk.call(self._w, 'motionhints')
 		self.show_mark()
 
@@ -244,7 +244,7 @@ class ChooseComponent(ImageView):
 			self.update_pending = 1
 			ImageView.UpdateWhenIdle(self)
 
-	def RedrawMethod(self, region = None):
+	def RedrawMethod(self, region=None):
 		if self.update_pending:
 			self.update_ramp()
 			self.update_pending = 0
@@ -259,9 +259,9 @@ class ChooseComponent(ImageView):
 
 class ChooseRGBXY(ChooseComponent):
 
-	def __init__(self, master, callback, width, height, xcomp = 0, ycomp = 1,
-					color = (0, 0, 0), **kw):
-		self.callback=callback
+	def __init__(self, master, callback, width, height, xcomp=0, ycomp=1,
+					color=(0, 0, 0), **kw):
+		self.callback = callback
 		self.xcomp = xcomp
 		self.ycomp = ycomp
 		self.win_to_color = Trafo(1 / float(width - 1), 0,
@@ -319,9 +319,9 @@ class ChooseRGBXY(ChooseComponent):
 
 class ChooseRGBZ(ChooseComponent):
 
-	def __init__(self, master, callback, width, height, comp = 1, color = (0, 0, 0),
+	def __init__(self, master, callback, width, height, comp=1, color=(0, 0, 0),
 					**kw):
-		self.callback=callback
+		self.callback = callback
 		self.comp = comp
 		self.win_to_color = Trafo(1, 0, 0, -1 / float(height - 1), 0, 1)
 		self.color_to_win = self.win_to_color.inverse()

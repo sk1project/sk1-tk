@@ -5,8 +5,8 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import app, os, string, math
-from app.conf import const
+import app, os
+from sk1 import appconst
 import Tkinter
 from sk1sdk import tkstyle
 from uniconvertor.utils import system
@@ -37,27 +37,27 @@ class UIManager:
 			if tkXcursor.is_xcursor_supported(self.root):
 				cur_dir = os.path.join(cur_dir, 'xcursor')
 				loader = tkXcursor.load_cursor
-				setattr(const, 'CurStd', loader(self.root, os.path.join(cur_dir, 'cur_std.xcur')))
-				setattr(const, 'CurEdit', loader(self.root, os.path.join(cur_dir, 'cur_edit.xcur')))
-				setattr(const, 'CurZoom', loader(self.root, os.path.join(cur_dir, 'cur_zoom.xcur')))
-				setattr(const, 'CurCreate', loader(self.root, os.path.join(cur_dir, 'cur_create.xcur')))
-				setattr(const, 'CurCreateRect', loader(self.root, os.path.join(cur_dir, 'cur_create_rect.xcur')))
-				setattr(const, 'CurCreateEllipse', loader(self.root, os.path.join(cur_dir, 'cur_create_ellipse.xcur')))
-				setattr(const, 'CurCreatePolyline', loader(self.root, os.path.join(cur_dir, 'cur_create_polyline.xcur')))
-				setattr(const, 'CurCreateBezier', loader(self.root, os.path.join(cur_dir, 'cur_create_bezier.xcur')))
-				setattr(const, 'CurPick', loader(self.root, os.path.join(cur_dir, 'cur_pick.xcur')))
-				setattr(const, 'CurText', loader(self.root, os.path.join(cur_dir, 'cur_text.xcur')))
-				setattr(const, 'CurPlace', loader(self.root, os.path.join(cur_dir, 'cur_place.xcur')))
-				setattr(const, 'CurHandle', loader(self.root, os.path.join(cur_dir, 'cur_handle.xcur')))
-				setattr(const, 'CurHGuide', loader(self.root, os.path.join(cur_dir, 'cur_hguide.xcur')))
-				setattr(const, 'CurVGuide', loader(self.root, os.path.join(cur_dir, 'cur_vguide.xcur')))
-				setattr(const, 'CurMove', loader(self.root, os.path.join(cur_dir, 'cur_move.xcur')))
-				setattr(const, 'CurCopy', loader(self.root, os.path.join(cur_dir, 'cur_copy.xcur')))
+				setattr(appconst, 'CurStd', loader(self.root, os.path.join(cur_dir, 'cur_std.xcur')))
+				setattr(appconst, 'CurEdit', loader(self.root, os.path.join(cur_dir, 'cur_edit.xcur')))
+				setattr(appconst, 'CurZoom', loader(self.root, os.path.join(cur_dir, 'cur_zoom.xcur')))
+				setattr(appconst, 'CurCreate', loader(self.root, os.path.join(cur_dir, 'cur_create.xcur')))
+				setattr(appconst, 'CurCreateRect', loader(self.root, os.path.join(cur_dir, 'cur_create_rect.xcur')))
+				setattr(appconst, 'CurCreateEllipse', loader(self.root, os.path.join(cur_dir, 'cur_create_ellipse.xcur')))
+				setattr(appconst, 'CurCreatePolyline', loader(self.root, os.path.join(cur_dir, 'cur_create_polyline.xcur')))
+				setattr(appconst, 'CurCreateBezier', loader(self.root, os.path.join(cur_dir, 'cur_create_bezier.xcur')))
+				setattr(appconst, 'CurPick', loader(self.root, os.path.join(cur_dir, 'cur_pick.xcur')))
+				setattr(appconst, 'CurText', loader(self.root, os.path.join(cur_dir, 'cur_text.xcur')))
+				setattr(appconst, 'CurPlace', loader(self.root, os.path.join(cur_dir, 'cur_place.xcur')))
+				setattr(appconst, 'CurHandle', loader(self.root, os.path.join(cur_dir, 'cur_handle.xcur')))
+				setattr(appconst, 'CurHGuide', loader(self.root, os.path.join(cur_dir, 'cur_hguide.xcur')))
+				setattr(appconst, 'CurVGuide', loader(self.root, os.path.join(cur_dir, 'cur_vguide.xcur')))
+				setattr(appconst, 'CurMove', loader(self.root, os.path.join(cur_dir, 'cur_move.xcur')))
+				setattr(appconst, 'CurCopy', loader(self.root, os.path.join(cur_dir, 'cur_copy.xcur')))
 
 			else:
 				cur_dir = os.path.join(cur_dir, 'xbm')
-				setattr(const, 'CurEdit', ('@' + os.path.join(cur_dir, 'CurEdit.xbm'), 'black'))
-				setattr(const, 'CurZoom', ('@' + os.path.join(cur_dir, 'CurZoom.xbm'), 'black'))
+				setattr(appconst, 'CurEdit', ('@' + os.path.join(cur_dir, 'CurEdit.xbm'), 'black'))
+				setattr(appconst, 'CurZoom', ('@' + os.path.join(cur_dir, 'CurZoom.xbm'), 'black'))
 		elif system.get_os_family() == system.WINDOWS:
 			pass
 		elif system.get_os_family() == system.MACOSX:

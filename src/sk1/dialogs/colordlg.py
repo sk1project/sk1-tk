@@ -12,12 +12,12 @@ from colorsys import hsv_to_rgb, rgb_to_hsv
 from PIL import Image
 from Tkinter import TOP, BOTTOM, LEFT, RIGHT, X, BOTH, DoubleVar
 
-from app.X11.X import GXxor, ZPixmap
 from app.conf.const import CHANGED, ConstraintMask
 from app import _, _sketch
 from app import CreateRGBColor, StandardColors, Trafo, SketchError, Publisher
 from app.Graphics import color
 
+from sk1.x11const import GXxor, ZPixmap
 from sk1sdk.libttk import TFrame, TButton, TLabel
 from sk1.tkext import PyWidget
 from sk1.ttk_ext import TSpinbox, TEntrybox

@@ -436,12 +436,12 @@ class sK1MainWindow(Publisher):
 		b.pack(side=LEFT)
 		tooltips.AddDescription(b, canvas.commands.ToggleOutlineMode.menu_name)
 
-		label = TLabel(tbar, image="toolbar_sep")
-		label.pack(side=LEFT)
-
-		b = ToolbarCheckbutton(tbar, canvas.commands.AllowCMS, image='enable_cms')
-		b.pack(side=LEFT)
-		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
+#		label = TLabel(tbar, image="toolbar_sep")
+#		label.pack(side=LEFT)
+#
+#		b = ToolbarCheckbutton(tbar, canvas.commands.AllowCMS, image='enable_cms')
+#		b.pack(side=LEFT)
+#		tooltips.AddDescription(b, canvas.commands.AllowCMS.menu_name)
 
 #		label = TLabel(tbar, image="toolbar_sep")
 #		label.pack(side=LEFT)

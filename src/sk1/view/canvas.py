@@ -20,11 +20,10 @@ from math import floor, ceil
 from uniconvertor.utils import Empty, format
 
 import app
-from app import _, InvertingDevice, HitTestDevice, StandardColors, Point, Translation
+from app import _, InvertingDevice, HitTestDevice, StandardColors, Point
 from app.Graphics.selection import SelectionRectangle
-from app.Graphics.pagelayout import PageLayout, Portrait, Landscape
 from app import SketchInternalError, SelectionMode, EditMode
-from app.conf import const
+from sk1 import appconst as const
 from app import config
 preferences = config.preferences
 from app.events.warn import pdebug, warn, INTERNAL
@@ -1553,68 +1552,6 @@ class SketchCanvas(SketchView, CursorStack, WidgetWithModes):
 		result = min(pgrid, pguide, pobj, pmax)
 		return result
 
-	AddCmd('UseXlibRenderer', _("Use Xlib Renderer"),
-			value=0, value_cb='IsUsedXlibRenderer', is_check=1)
-	def UseXlibRenderer(self):
-		self.begin_transaction()
-		try:
-			config.preferences.cairo_enabled = 0
-			config.preferences.alpha_channel_enabled = -1
-			self.ForceRedraw()
-			self.issue_state()
-		finally:
-			self.end_transaction()
-
-	def IsUsedXlibRenderer(self):
-		return abs(config.preferences.cairo_enabled - 1)
-
-	AddCmd('UseCairoRenderer', _("Use Cairo Renderer"),
-			value=0, value_cb='IsUsedCairoRenderer', is_check=1)
-	def UseCairoRenderer(self):
-		self.begin_transaction()
-		try:
-			config.preferences.cairo_enabled = 1
-			if config.preferences.alpha_channel_enabled == -1:
-				config.preferences.alpha_channel_enabled = 1
-			self.ForceRedraw()
-			self.issue_state()
-		finally:
-			self.end_transaction()
-
-	def IsUsedCairoRenderer(self):
-		return config.preferences.cairo_enabled
-
-	AddCmd('AllowAlphaChannel', _("Alpha Channel"),
-			value=0, value_cb='IsAlphaChannelAllowed', is_check=1)
-	def AllowAlphaChannel(self):
-		self.begin_transaction()
-		try:
-			if config.preferences.alpha_channel_enabled >= 0:
-				config.preferences.alpha_channel_enabled = not config.preferences.alpha_channel_enabled
-			self.ForceRedraw()
-			self.issue_state()
-		finally:
-			self.end_transaction()
-
-	def IsAlphaChannelAllowed(self):
-		return config.preferences.alpha_channel_enabled
-
-	AddCmd('AllowCMS', _("Color Managment"),
-			value=0, value_cb='IsCMSAllowed', is_check=1)
-	def AllowCMS(self):
-		self.begin_transaction()
-		try:
-			config.preferences.use_cms = not config.preferences.use_cms
-			config.preferences.use_cms_for_bitmap = not config.preferences.use_cms_for_bitmap
-			app.colormanager.update()
-			self.ForceRedraw()
-			self.main_window.palette.RedrawMethod()
-			self.issue_state()
-		finally:
-			self.end_transaction()
-
-	def IsCMSAllowed(self):
-		return config.preferences.use_cms
 
 	AddCmd('ToggleSnapToGrid', _("Snap to Grid"),
 			value=0, value_cb='IsSnappingToGrid', is_check=1, key_stroke=('Ctrl+Y', 'Ctrl+y'))

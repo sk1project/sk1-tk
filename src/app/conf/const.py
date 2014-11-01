@@ -10,35 +10,6 @@
 #	Constants...
 #
 
-
-
-CAIRO_ANTIALIAS_DEFAULT  = 0
-CAIRO_ANTIALIAS_NONE     = 1
-CAIRO_ANTIALIAS_GRAY     = 2
-CAIRO_ANTIALIAS_SUBPIXEL = 3
-
-CAIRO_FILTER_FAST        = 0
-CAIRO_FILTER_GOOD        = 1
-CAIRO_FILTER_BEST        = 2
-CAIRO_FILTER_NEAREST     = 3
-CAIRO_FILTER_BILINEAR    = 4
-
-CAIRO_OPERATOR_CLEAR     = 0
-CAIRO_OPERATOR_SOURCE    = 1
-CAIRO_OPERATOR_OVER      = 2
-CAIRO_OPERATOR_IN        = 3
-CAIRO_OPERATOR_OUT       = 4
-CAIRO_OPERATOR_ATOP      = 5
-CAIRO_OPERATOR_DEST      = 6
-CAIRO_OPERATOR_DEST_OVER = 7
-CAIRO_OPERATOR_DEST_IN   = 8
-CAIRO_OPERATOR_DEST_OUT  = 9
-CAIRO_OPERATOR_DEST_ATOP = 10
-CAIRO_OPERATOR_XOR       = 11
-CAIRO_OPERATOR_ADD       = 12
-CAIRO_OPERATOR_SATURATE  = 13
-
-
 #
 #	Types of handles
 #
@@ -46,30 +17,30 @@ CAIRO_OPERATOR_SATURATE  = 13
 # physical
 # for rect handles: filled == handle_id & 1
 
-Handle_OpenRect		= 0
-Handle_FilledRect	= 1
-Handle_SmallOpenRect	= 2
-Handle_SmallFilledRect	= 3
+Handle_OpenRect		 = 0
+Handle_FilledRect	 = 1
+Handle_SmallOpenRect	 = 2
+Handle_SmallFilledRect	 = 3
 
-Handle_OpenCircle	= 4
-Handle_FilledCircle	= 5
-Handle_SmallOpenCircle	= 6
+Handle_OpenCircle	 = 4
+Handle_FilledCircle	 = 5
+Handle_SmallOpenCircle	 = 6
 Handle_SmallFilledCircle = 7
 
 Handle_SmallOpenRectList = 8
 
-Handle_Line		= 9
-Handle_Pixmap		= 10
-Handle_Caret		= 11
-Handle_PathText         = 12
+Handle_Line		 = 9
+Handle_Pixmap		 = 10
+Handle_Caret		 = 11
+Handle_PathText = 12
 
 # logical	XXX should these be moved to config.py?
-Handle			= Handle_FilledRect
-HandleNode		= Handle_OpenRect
-HandleSelectedNode	= Handle_FilledRect
-HandleControlPoint	= Handle_SmallFilledRect
-HandleLine		= Handle_Line
-HandleCurvePoint        = Handle_FilledCircle
+Handle			 = Handle_FilledRect
+HandleNode		 = Handle_OpenRect
+HandleSelectedNode	 = Handle_FilledRect
+HandleControlPoint	 = Handle_SmallFilledRect
+HandleLine		 = Handle_Line
+HandleCurvePoint = Handle_FilledCircle
 
 #
 #
@@ -197,7 +168,7 @@ Button3 = X.Button3
 Button4 = X.Button4
 Button5 = X.Button5
 
-ContextButton	= Button3
+ContextButton	 = Button3
 ContextButtonMask = Button3Mask
 
 AllowedModifierMask = ShiftMask | ControlMask | MetaMask
@@ -207,55 +178,20 @@ AlternateMask = ShiftMask
 AddSelectionMask = ShiftMask
 SubtractSelectionMask = MetaMask
 
-SubobjectSelectionMask = ControlMask 
+SubobjectSelectionMask = ControlMask
 
 #
 #	Line Styles
 #
 
-JoinMiter	= X.JoinMiter
-JoinRound	= X.JoinRound
-JoinBevel	= X.JoinBevel
-CapButt		= X.CapButt
-CapRound	= X.CapRound
-CapProjecting	= X.CapProjecting
+JoinMiter	 = 0
+JoinRound	 = 1
+JoinBevel	 = 2
 
-
-# cursors
-
-CurStd		= 'top_left_arrow'# is replaced by custom cursor in uimanager
-CurHandle	= 'crosshair' # is replaced by custom cursor in uimanager
-CurPick		= 'hand2' # is replaced by custom cursor in uimanager
-CurMove		= 'hand2'# is replaced by custom cursor in uimanager
-#---------Tool cursors-------------
-CurCreate	= 'crosshair'# is replaced by custom cursor in uimanager
-CurCreateRect	= 'crosshair'# is replaced by custom cursor in uimanager 
-CurCreateEllipse= 'crosshair'# is replaced by custom cursor in uimanager 
-CurCreatePolyline= 'crosshair'# is replaced by custom cursor in uimanager
-CurCreateBezier= 'crosshair'# is replaced by custom cursor in uimanager
-#----------------------------------
-CurPlace	= 'crosshair'	# is replaced by custom cursor in uimanager
-CurHGuide       = 'sb_v_double_arrow' # is replaced by custom cursor in uimanager
-CurVGuide       = 'sb_h_double_arrow' # is replaced by custom cursor in uimanager
-CurZoom		= 'plus'	# is replaced by custom cursor in uimanager
-CurCopy		= 'plus'	# is replaced by custom cursor in uimanager
-
-CurEdit     = 'left_ptr'	# is replaced by custom cursor in uimanager
-CurText     = 'xterm'	# is replaced by custom cursor in uimanager
-
-#-----------Should be system defined-------------
-CurHResize  = 'sb_h_double_arrow'
-CurVResize  = 'sb_v_double_arrow'
-
-#-----------Obsolete or unused-----------
-CurUp       = 'based_arrow_up'
-CurUpDown   = 'sb_v_double_arrow'
-CurDown     = 'based_arrow_down'
-CurDragColor	= 'spraycan'
-CurTurn		= 'exchange'
-CurHelp		= 'question_arrow'
-CurWait		= 'watch'
-
+CapNotLast = 0
+CapButt = 1
+CapRound = 2
+CapProjecting = 3
 
 #
 # Text Alignment

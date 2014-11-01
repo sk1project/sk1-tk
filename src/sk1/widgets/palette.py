@@ -13,10 +13,9 @@ import xml.sax
 from xml.sax import handler
 from xml.sax.xmlreader import InputSource
 
-from app.X11 import X
 from app.Graphics.color import RGB_Color, CMYK_Color, \
 CreateSPOTColor, CreateSPOT_RGBColor, CreateSPOT_CMYKColor, tk_to_rgb
-from app.conf.const import COLOR1, COLOR2, CHANGED, VIEW, DROP_COLOR, CurDragColor
+from app.conf.const import COLOR1, COLOR2, CHANGED, VIEW, DROP_COLOR
 from app.events.warn import warn, INTERNAL, USER, pdebug, warn_tb
 from app import Publisher, config, SketchError, _
 from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity, Point
@@ -407,34 +406,9 @@ class PaletteWidget(PyWidget, Publisher):
 
 	def release_1(self, event):
 		try:
-			if self.dragging:
-				self.drop_color(event)
-			else:
-				self.apply_color_1(event)
+			self.apply_color_1(event)
 		finally:
 			self.dragging = 0
-
-	def drop_color(self, event):
-		self['cursor'] = self.drag_old_cursor
-		w = self.winfo_containing(event.x_root, event.y_root)
-		while w and w != self:
-			if __debug__:
-				pdebug('DND', 'trying to drop on', w)
-			try:
-				accepts = w.accept_drop
-			except AttributeError:
-				accepts = ()
-			if DROP_COLOR in accepts:
-				x = event.x_root - w.winfo_rootx()
-				y = event.y_root - w.winfo_rooty()
-				w.DropAt(x, y, DROP_COLOR, self.drag_start)
-				break
-			if w != w.winfo_toplevel():
-				parent = self.tk.call('winfo', 'parent', w._w)
-				w = self.nametowidget(parent)
-			else:
-				break
-
 
 	def apply_color_1(self, event):
 		c = self.get_color(event.x, event.y)
@@ -450,13 +424,7 @@ class PaletteWidget(PyWidget, Publisher):
 	def press_1(self, event):
 		self.drag_start = self.get_color(event.x, event.y)
 
-	def move_1(self, event):
-		if event.state & X.Button1Mask:
-			if not self.dragging:
-				self.dragging = 1
-				self.drag_old_cursor = self['cursor']
-				self['cursor'] = CurDragColor
-			w = self.winfo_containing(event.x_root, event.y_root)
+	def move_1(self, event):pass
 
 	def Palette(self):
 		return self.unipalette
