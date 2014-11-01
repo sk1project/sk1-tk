@@ -23,6 +23,7 @@ class Configurator:
 
 		self.sk_dir = base_dir
 		self.sk1_dir = os.path.join(self.sk_dir, 'sk1')
+		self.sk1sdk_dir = os.path.join(self.sk_dir, 'sk1sdk')
 		self.sk_share_dir = os.path.join(self.sk1_dir, 'share')
 		self.sk_palettes = os.path.join(self.sk_share_dir, 'palettes')
 		self.sk_ps = os.path.join(self.sk_share_dir, 'ps_templates')

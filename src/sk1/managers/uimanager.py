@@ -66,7 +66,7 @@ class UIManager:
 			pass
 
 	def uploadExtentions(self):
-		tcl = os.path.join(app.config.sk_dir, 'app', 'tcl')
+		tcl = os.path.join(app.config.sk1sdk_dir, 'tcl')
 		self.root.tk.call('source', os.path.join(tcl, 'combobox.tcl'))
 		self.root.tk.call('source', os.path.join(tcl, 'button.tcl'))
 		self.root.tk.call('source', os.path.join(tcl, 'tkmenu.tcl'))
