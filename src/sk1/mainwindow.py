@@ -1047,8 +1047,8 @@ class sK1MainWindow(Publisher):
 					None,
 					self.commands.CreateBlendDialog,
 					self.commands.CancelBlend,
-#					None,
-#					self.commands.CreateMaskGroup,
+					None,
+					self.commands.CreateMaskGroup,
 #					self.commands.CreatePathText
 					])
 

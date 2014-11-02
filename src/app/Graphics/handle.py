@@ -62,14 +62,14 @@
 # a class hierarchy might be used for the various types of handles.
 #
 
-from app import Point
 from app.conf import const
+from sk1 import appconst
 
 class Handle:
 
-	def __init__(self, type, p, cursor = None, offset = None,
-					p2 = None, list = None, pixmap = None, code = None):
-		if cursor is None: cursor = const.CurHandle
+	def __init__(self, type, p, cursor=None, offset=None,
+					p2=None, list=None, pixmap=None, code=None):
+		if cursor is None: cursor = appconst.CurHandle
 		self.type = type
 		self.p = p
 		self.cursor = cursor
@@ -82,43 +82,43 @@ class Handle:
 
 	def __str__(self):
 		return "Handle(%d, %s)" % (self.type, self.p)
-	
+
 	def __repr__(self):
 		return "Handle(%d, %s, index = %s)" % (self.type, self.p, self.index)
 
-def MakeHandle(type, p, cursor = None):
-	if cursor is None: cursor = const.CurHandle
+def MakeHandle(type, p, cursor=None):
+	if cursor is None: cursor = appconst.CurHandle
 	return Handle(type, p, cursor)
 
-def MakeNodeHandle(p, selected = 0, code = 0):
+def MakeNodeHandle(p, selected=0, code=0):
 	if selected:
-		return Handle(const.HandleSelectedNode, p, cursor = const.CurEdit, code = code)
-	return Handle(const.HandleNode, p, cursor = const.CurEdit, code = code)
+		return Handle(const.HandleSelectedNode, p, cursor=appconst.CurEdit, code=code)
+	return Handle(const.HandleNode, p, cursor=appconst.CurEdit, code=code)
 
 def MakeObjectHandleList(list):
-	return Handle(const.Handle_SmallOpenRectList, None, list = list)
+	return Handle(const.Handle_SmallOpenRectList, None, list=list)
 
 #Bezier node control points
-def MakeControlHandle(p, code = 0):
-	return Handle(const.HandleControlPoint, p, cursor = const.CurEdit, code = code)
+def MakeControlHandle(p, code=0):
+	return Handle(const.HandleControlPoint, p, cursor=appconst.CurEdit, code=code)
 
 def MakeCurveHandle(p):
-	return Handle(const.HandleCurvePoint, p, cursor = const.CurEdit)
+	return Handle(const.HandleCurvePoint, p, cursor=appconst.CurEdit)
 
 def MakeLineHandle(p1, p2):
-	return Handle(const.HandleLine, p1, cursor = const.CurEdit, p2 = p2)
+	return Handle(const.HandleLine, p1, cursor=appconst.CurEdit, p2=p2)
 
-def MakeOffsetHandle(p, offset, cursor = None):
-	if cursor is None: cursor = const.CurHandle
-	return Handle(const.Handle, p, cursor, offset = offset)
+def MakeOffsetHandle(p, offset, cursor=None):
+	if cursor is None: cursor = appconst.CurHandle
+	return Handle(const.Handle, p, cursor, offset=offset)
 
-def MakePixmapHandle(p, offset, pixmap, cursor = None):
-	if cursor is None: cursor = const.CurHandle
-	return Handle(const.Handle_Pixmap, p, cursor, offset = offset,
-					pixmap = pixmap)
+def MakePixmapHandle(p, offset, pixmap, cursor=None):
+	if cursor is None: cursor = appconst.CurHandle
+	return Handle(const.Handle_Pixmap, p, cursor, offset=offset,
+					pixmap=pixmap)
 
 def MakeCaretHandle(p, up):
-	return Handle(const.Handle_Caret, p, p2 = up)
+	return Handle(const.Handle_Caret, p, p2=up)
 
 def MakePathTextHandle(p, up):
-	return Handle(const.Handle_PathText, p, p2 = up)
+	return Handle(const.Handle_PathText, p, p2=up)
