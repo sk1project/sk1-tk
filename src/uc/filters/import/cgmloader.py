@@ -33,21 +33,19 @@ rx_magic = '\\x00'
 #
 #       Import Filter for CGM files
 #
-import sys, os, string
-from math import sin, cos, pi, atan2
+import string
+from math import pi, atan2
 import struct
 import operator
 import copy
-import types
 
-from app import _, Trafo, Scale, Translation, Point, Polar, CreatePath, \
-		CreateRGBColor, SolidPattern, EmptyPattern, LinearGradient, \
-		MultiGradient, Style, const, StandardColors, GridLayer, GetFont, \
+from app import Trafo, Scale, Translation, Point, CreatePath, \
+		CreateRGBColor, SolidPattern, EmptyPattern, \
+		Style, const, StandardColors, GetFont, \
 		HatchingPattern
 
-from app.events.warn import INTERNAL, warn_tb
 from app.io.load import GenericLoader, SketchLoadError
-import uniconvertor
+from uc import libpango
 from app.Graphics import text
 
 basestyle = Style()
@@ -148,9 +146,7 @@ CGM_ID = {
 
 cp = copy.deepcopy
 
-fntlst = map(lambda l: l[0], uniconvertor.ft2engine.fontlist)
-#print uniconvertor.ft2engine.fontlist
-#print fntlst
+fntlst = [] + libpango.FAMILIES_LIST
 
 fntalias = {
 	'AvantGarde' : () ,
@@ -334,7 +330,7 @@ init.edge.width = None
 init.edge.dashtable = init.line.dashtable
 init.edge.visible = 0
 init.text = cgminfo()
-init.text.fontindex = fntlst.index((uniconvertor.ft2engine.fontlist[0])[0])
+init.text.fontindex = 0
 init.text.height = None
 init.text.expansion = 1.0
 init.text.spacing = 0.0

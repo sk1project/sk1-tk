@@ -13,7 +13,7 @@
 ###End
 
 import app
-from uniconvertor.utils import system
+from uc.utils import system
 from app import PostScriptDevice
 
 

@@ -27,9 +27,9 @@ from types import StringType
 from math import pi, sqrt
 from string import join, strip, lstrip, split
 
-from uniconvertor.utils import Empty
+from uc.utils import Empty
 
-from app import _, config, _sketch, Scale, sKVersion
+from app import _, config, _sketch, Scale, sKVersion, GetFont
 from app.events.warn import pdebug, warn_tb, warn, USER, INTERNAL
 from app.Lib.psmisc import quote_ps_string, make_textline
 
@@ -39,7 +39,6 @@ from app.Lib import type1
 from graphics import CommonDevice
 import color
 import pagelayout
-from uniconvertor import ft2engine as font
 
 
 class _DummyLineStyle:
@@ -62,11 +61,11 @@ class PostScriptDevice(CommonDevice):
 	draw_visible = 0
 	draw_printable = 1
 
-	file = None # default value for file in case open fails.
-	
-	def __init__(self, file, as_eps = 1, bounding_box = None,
-					document = None, printable = 1, visible = 0, rotate = 0,
-					embed_fonts = 0, **options):
+	file = None# default value for file in case open fails.
+
+	def __init__(self, file, as_eps=1, bounding_box=None,
+					document=None, printable=1, visible=0, rotate=0,
+					embed_fonts=0, **options):
 		if as_eps and not bounding_box:
 			raise ValueError, 'bounding_box required for EPS'
 
@@ -84,8 +83,8 @@ class PostScriptDevice(CommonDevice):
 
 		if document:
 			document.WalkHierarchy(self.add_obj_resources,
-									visible = self.draw_visible,
-									printable = self.draw_printable)
+									visible=self.draw_visible,
+									printable=self.draw_printable)
 			self.needed_resources.update(self.include_resources)
 
 		# take care of the case where we're writing to an EPS that's
@@ -107,8 +106,8 @@ class PostScriptDevice(CommonDevice):
 		if isinstance(file, StringType) and os.path.exists(file):
 			self.filename = file
 			document.WalkHierarchy(self.handle_writes_to_embedded_eps,
-									visible = self.draw_visible,
-									printable = self.draw_printable)
+									visible=self.draw_visible,
+									printable=self.draw_printable)
 
 		if type(file) == StringType:
 			file = open(file, 'w')
@@ -134,7 +133,7 @@ class PostScriptDevice(CommonDevice):
 				if value:
 					write(format % make_textline(value))
 		write("%%%%Creator: sK1 %s\n" % sKVersion)
-		write("%%Pages: 1\n")	# there is exactly one page
+		write("%%Pages: 1\n")# there is exactly one page
 		if bounding_box:
 			[llx, lly, urx, ury] = map(int, bounding_box)
 			write('%%%%BoundingBox: %d %d %d %d\n'
@@ -164,7 +163,7 @@ class PostScriptDevice(CommonDevice):
 
 		write('%%BeginProlog\n')
 		#procfile = os.path.join(config.user_config_dir, config.postscript_prolog)
-		procfile=config.postscript_prolog
+		procfile = config.postscript_prolog
 		procfile = open(procfile, 'r')
 		line = procfile.readline()
 		self.supplied_resources.append(join(split(strip(line))[1:]))
@@ -182,7 +181,7 @@ class PostScriptDevice(CommonDevice):
 			for res in self.include_resources.keys():
 				restype, value = res
 				if restype == 'font' and embed_fonts:
-					fontfile = font.GetFont(value).FontFileName()
+					fontfile = GetFont(value).fontdesc.to_filename()
 					if fontfile:
 						try:
 							fontfile = open(fontfile, 'rb')
@@ -200,13 +199,13 @@ class PostScriptDevice(CommonDevice):
 								_("Can't find file for font '%s' for embedding")
 								% value)
 				write('%%%%IncludeResource: %s %s\n' % res)
-		write('\n10.433 setmiterlimit\n')	# 11 degree
+		write('\n10.433 setmiterlimit\n')# 11 degree
 		write('%%EndSetup\n\n')
 
 		write('%%Page: 1 1\n')
 		write('SketchDict begin\n')
 		if rotate:
-			self.Rotate(pi/2)
+			self.Rotate(pi / 2)
 			self.Translate(0, -height)
 
 	def init_props(self):
@@ -268,7 +267,7 @@ class PostScriptDevice(CommonDevice):
 						% (trafo.m11, trafo.m21, trafo.m12, trafo.m22,
 							trafo.v1, trafo.v2))
 
-	def Translate(self, x, y = None):
+	def Translate(self, x, y=None):
 		if y is None:
 			x, y = x
 		self.file.write('%g %g translate\n' % (x, y))
@@ -311,7 +310,7 @@ class PostScriptDevice(CommonDevice):
 		self.current_width = self.current_cap = self.current_join = None
 		self.current_dash = None
 
-	def SetLineAttributes(self, width, cap = 1, join = 0, dashes = ()):
+	def SetLineAttributes(self, width, cap=1, join=0, dashes=()):
 		write = self.file.write
 		if self.current_width != width:
 			width_changed = 1
@@ -373,15 +372,15 @@ class PostScriptDevice(CommonDevice):
 				write('%g %g l\n' % p)
 			write('f\n')
 
-	def DrawBezierPath(self, path, rect = None):
+	def DrawBezierPath(self, path, rect=None):
 		self.write_path(path.get_save())
 		self.file.write('S\n')
 
-	def FillBezierPath(self, path, rect = None):
+	def FillBezierPath(self, path, rect=None):
 		self.write_path(path.get_save())
 		self.file.write('F\n')
 
-	def fill_path(self, clip = 0):
+	def fill_path(self, clip=0):
 		write = self.file.write
 		if self.proc_fill:
 			if not clip:
@@ -402,7 +401,7 @@ class PostScriptDevice(CommonDevice):
 		self.properties.ExecuteLine(self, self.pattern_rect)
 		self.file.write('S\n')
 
-	def fill_and_stroke(self, clip = 0):
+	def fill_and_stroke(self, clip=0):
 		write = self.file.write
 
 		if not clip and self.line:
@@ -431,9 +430,9 @@ class PostScriptDevice(CommonDevice):
 				write('%g %g %g %g %g %g c\n' % item[:-1])
 			else:
 				if __debug__:
-					pdebug('PS', 'PostScriptDevice: invalid bezier item:',item)
+					pdebug('PS', 'PostScriptDevice: invalid bezier item:', item)
 
-	def MultiBezier(self, paths, rect = None, clip = 0):
+	def MultiBezier(self, paths, rect=None, clip=0):
 		# XXX: try to write path only once
 		write = self.file.write
 		line = self.line; fill = self.fill
@@ -468,19 +467,19 @@ class PostScriptDevice(CommonDevice):
 				self.stroke_path()
 				self.draw_arrows(paths)
 
-	def Rectangle(self, trafo, clip = 0):
+	def Rectangle(self, trafo, clip=0):
 		if self.fill or self.line or clip:
 			self.file.write('[%g %g %g %g %g %g] rect\n' % trafo.coeff())
 			self.fill_and_stroke(clip)
 
-	def RoundedRectangle(self, trafo, radius1, radius2, clip = 0):
+	def RoundedRectangle(self, trafo, radius1, radius2, clip=0):
 		if self.fill or self.line or clip:
 			self.file.write('[%g %g %g %g %g %g] %g %g rect\n'
 							% (trafo.coeff() + (radius1, radius2)))
 			self.fill_and_stroke(clip)
 
 	def SimpleEllipse(self, trafo, start_angle, end_angle, arc_type,
-						rect = None, clip = 0):
+						rect=None, clip=0):
 		if self.fill or self.line or clip:
 			if start_angle == end_angle:
 				self.file.write('[%g %g %g %g %g %g] ellipse\n'
@@ -503,7 +502,7 @@ class PostScriptDevice(CommonDevice):
 			self.file.write('/%s %g sf\n' % spec)
 			self.current_font = spec
 
-	def DrawText(self, text, trafo, clip = 0, cache = None):
+	def DrawText(self, text, trafo, clip=0, cache=None):
 		# XXX: should make sure that lines in eps file will not be
 		# longer than 255 characters.
 		font = self.properties.font
@@ -531,9 +530,9 @@ class PostScriptDevice(CommonDevice):
 					write('T\n')
 
 	complex_text = None
-	def BeginComplexText(self, clip = 0, cache = None):
+	def BeginComplexText(self, clip=0, cache=None):
 		# XXX clip does not work yet...
-		self.complex_text = Empty(clip = clip, fontname = '', size = None)
+		self.complex_text = Empty(clip=clip, fontname='', size=None)
 		if self.proc_fill or clip:
 			self.PushClip()
 		else:
@@ -561,13 +560,13 @@ class PostScriptDevice(CommonDevice):
 		self.complex_text = None
 
 
-	def DrawImage(self, image, trafo, clip = 0):
+	def DrawImage(self, image, trafo, clip=0):
 		write = self.file.write
 		w, h = image.size
 		if len(image.mode) >= 3:
 			# compute number of hex lines. 80 hex digits per line. 3 bytes
 			# per pixel
-			digits = w * h * 6	# 3 bytes per pixel, 2 digits per byte
+			digits = w * h * 6# 3 bytes per pixel, 2 digits per byte
 			if digits <= 0:
 				# an empty image. (it should never be < 0 ...)
 				return
@@ -577,7 +576,7 @@ class PostScriptDevice(CommonDevice):
 			write('%%%%BeginData: %d Hex Lines\n' % (lines + 1))
 			write('skcimg\n')
 		else:
-			digits = w * h * 2	# 2 digits per byte
+			digits = w * h * 2# 2 digits per byte
 			if digits <= 0:
 				# an empty image. (it should never be < 0 ...)
 				return
@@ -614,7 +613,7 @@ class PostScriptDevice(CommonDevice):
 	def DrawGuideLine(self, *args):
 		pass
 
-	def SetProperties(self, properties, rect = None):
+	def SetProperties(self, properties, rect=None):
 		self.properties = properties
 		self.line = properties.HasLine()
 		self.fill = properties.HasFill()
@@ -681,7 +680,7 @@ class PostScriptDevice(CommonDevice):
 		write = self.file.write
 		write('%d %d %d [%g %g %g %g %g %g]\n'
 				% ((width, height, len(mode)) + trafo.coeff()))
-		digits = length * 2	# 2 digits per byte
+		digits = length * 2# 2 digits per byte
 		lines = (digits - 1) / 80 + 1
 		write('%%%%BeginData: %d Hex Lines\n' % (lines + 1))
 		write("tileimage\n")

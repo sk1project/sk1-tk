@@ -10,7 +10,7 @@ import app, os, string, sys
 from dialog import ModalDialog
 from app import dialogman
 
-from uniconvertor import cms
+from uc import cms
 
 from sk1sdk.libttk import TButton, TLabel, TFrame, TNotebook, TScrollbar
 from Tkinter import Text, TclVersion

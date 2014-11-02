@@ -21,7 +21,7 @@
 import os, string, sk1sdk
 from tempfile import NamedTemporaryFile
 from sk1sdk import tkpng
-from uniconvertor.utils import fs 
+from uc.utils import fs 
 from PIL import Image
 
 INITIALIZED=False

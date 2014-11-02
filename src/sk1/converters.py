@@ -13,7 +13,7 @@
 import math
 from app import config
 from app.Lib.units import unit_dict, unit_names
-from uniconvertor.utils import format
+from uc.utils import format
 
 length_formats = {'mm': '%.1fmm',
 					'cm': '%.2fcm',

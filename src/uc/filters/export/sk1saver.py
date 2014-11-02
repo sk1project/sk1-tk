@@ -242,8 +242,8 @@ format_name = 'sK1'
 
 import os
 
-from uniconvertor.utils.fs import relpath
-from uniconvertor.utils import Empty
+from uc.utils.fs import relpath
+from uc.utils import Empty
 from app import IdentityMatrix, EmptyPattern, SolidPattern, Style, \
 		StandardColors, SketchError, const
 from app.Graphics import properties, papersize

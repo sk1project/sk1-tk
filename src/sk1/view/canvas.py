@@ -17,7 +17,7 @@ import string
 from types import TupleType
 from math import floor, ceil
 
-from uniconvertor.utils import Empty, format
+from uc.utils import Empty, format
 
 import app
 from app import _, InvertingDevice, HitTestDevice, StandardColors, Point

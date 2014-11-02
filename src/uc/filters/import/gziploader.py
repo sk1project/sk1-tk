@@ -30,7 +30,7 @@ import os
 
 from app import SketchLoadError
 from app.io import load
-from uniconvertor.utils import sh_quote
+from uc.utils import sh_quote
 
 class GZIPLoader:
 

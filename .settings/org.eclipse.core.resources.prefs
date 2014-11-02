@@ -118,4 +118,5 @@ encoding//src/uc/filters/import/sk1loader.py=utf-8
 encoding//src/uc/filters/import/skloader.py=utf-8
 encoding//src/uc/libcairo/__init__.py=utf-8
 encoding//src/uc/libpango/__init__.py=utf-8
+encoding//src/uc/utils/__init__.py=utf-8
 encoding/libutils.py=utf-8

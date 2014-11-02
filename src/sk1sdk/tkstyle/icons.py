@@ -20,7 +20,7 @@
 
 import os, sk1sdk
 from sk1sdk import tkpng
-from uniconvertor.utils import fs
+from uc.utils import fs
 
 BUILT_IN='Built-in'
 

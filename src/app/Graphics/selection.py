@@ -18,9 +18,10 @@ import operator, math
 from types import ListType, InstanceType, TupleType
 import time
 
-from uniconvertor.utils import flatten
+from uc.utils import flatten
 
 from sk1.skpixmaps import pixmaps
+from sk1 import appconst
 from app.events.warn import pdebug, warn, INTERNAL
 from app.conf import const
 from app.conf.const import SelectSet
@@ -47,11 +48,11 @@ class SelRectBase(SelectAndDrag, Bounded):
 	#
 	#   -1: whole object
 
-	selTop      = (1, 2, 3)
-	selBottom   = (7, 6, 5)
-	selLeft     = (1, 8, 7)
-	selRight    = (3, 4, 5)
-	selAspect   = (1, 3, 5, 7)  # constrain aspect ratio for these selections
+	selTop = (1, 2, 3)
+	selBottom = (7, 6, 5)
+	selLeft = (1, 8, 7)
+	selRight = (3, 4, 5)
+	selAspect = (1, 3, 5, 7)# constrain aspect ratio for these selections
 
 	handle_idx_to_sel = (7, 6, 5, 8, 4, 1, 2, 3)
 
@@ -78,7 +79,7 @@ class SelRectBase(SelectAndDrag, Bounded):
 
 class SelectionRectangle(SelRectBase):
 
-	def __init__(self, rect, anchor = None):
+	def __init__(self, rect, anchor=None):
 		SelRectBase.__init__(self)
 		if type(rect) == RectType:
 			self.start = Point(rect.left, rect.bottom)
@@ -130,7 +131,7 @@ class SelectionRectangle(SelRectBase):
 		SelectAndDrag.DragStart(self, p)
 		sel = self.selection
 		if sel == -1:
-			if self.anchor: #XXX shouldn't this be 'if self.anchor is not None'
+			if self.anchor:#XXX shouldn't this be 'if self.anchor is not None'
 				start = self.anchor
 			else:
 				start = self.start
@@ -167,7 +168,7 @@ class SelectionRectangle(SelRectBase):
 		if sel in self.selTop:
 			start = Point(start.x, cur.y)
 		if sel in self.selBottom:
-			end   = Point(end.x,   cur.y)
+			end = Point(end.x, cur.y)
 		if sel in self.selLeft:
 			start = Point(cur.x, start.y)
 		if sel in self.selRight:
@@ -209,14 +210,14 @@ class SelectionRectangle(SelRectBase):
 	def Select(self):
 		self.selection = -1
 
-	def SelectPoint(self, p, rect, device, mode = SelectSet):
+	def SelectPoint(self, p, rect, device, mode=SelectSet):
 		if p:
 			self.selection = 0
 		else:
 			self.selection = -1
 		return self.selection
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		self.selection = self.handle_idx_to_sel[handle.index]
 
 	def GetHandles(self):
@@ -227,12 +228,12 @@ class SelectionRectangle(SelRectBase):
 		x2 = (sx + ex) / 2
 		y2 = (sy + ey) / 2
 		return map(handle.MakeOffsetHandle,
-					[Point(sx, ey),      Point(x2, ey),  Point(ex, ey),
-					Point(sx, y2),                      Point(ex, y2),
-					Point(sx, sy),      Point(x2, sy),  Point(ex, sy)],
-					[(-1,  1),           (0,  1),        ( 1,  1),
-					(-1,  0),                           ( 1,  0),
-					(-1, -1),           (0, -1),        ( 1, -1)])
+					[Point(sx, ey), Point(x2, ey), Point(ex, ey),
+					Point(sx, y2), Point(ex, y2),
+					Point(sx, sy), Point(x2, sy), Point(ex, sy)],
+					[(-1, 1), (0, 1), (1, 1),
+					(-1, 0), (1, 0),
+					(-1, -1), (0, -1), (1, -1)])
 
 
 
@@ -242,8 +243,8 @@ class Selection(Bounded):
 
 	_lazy_attrs = Bounded._lazy_attrs.copy()
 	_lazy_attrs['rect'] = 'update_rectangle'
-	
-	def __init__(self, copy_from = None):
+
+	def __init__(self, copy_from=None):
 		if copy_from is not None:
 			if type(copy_from) == ListType:
 				self.objects = copy_from[:]
@@ -308,8 +309,8 @@ class Selection(Bounded):
 	def Add(self, info):
 		if not info:
 			return 0
-		if self.TestSubtract(info)==1:
-				return self.Subtract(info)      
+		if self.TestSubtract(info) == 1:
+				return self.Subtract(info)
 		old_len = len(self.objects)
 		if type(info) == ListType:
 			self.objects = self.objects + info
@@ -318,16 +319,16 @@ class Selection(Bounded):
 		changed = self.normalize()
 		self.del_lazy_attrs()
 		return changed or old_len != len(self.objects)
-		
+
 	def TestSubtract(self, info):
-		result=0
+		result = 0
 		old_len = len(self.objects)
 		if type(info) != ListType:
 			info = [info]
 		objects = self.objects
 		for item in info:
 			if item in objects:
-				result=1
+				result = 1
 		return result
 
 	def Subtract(self, info):
@@ -441,7 +442,7 @@ class Selection(Bounded):
 	def GetHandles(self):
 		rect_handles = self.rect.GetHandles()
 		multiple = len(self.objects) > 1
-		handles = flatten(self.for_all(lambda o, m = multiple:
+		handles = flatten(self.for_all(lambda o, m=multiple:
 										o.GetObjectHandle(m)))
 		rect_handles.append(handle.MakeObjectHandleList(handles))
 		return rect_handles
@@ -478,8 +479,8 @@ class Selection(Bounded):
 		if self.objects:
 			sel_info = self.objects
 			br = self.coord_rect
-			hor_sel=round((br.right - br.left)/.283465)/10
-			ver_sel=round((br.top - br.bottom)/.283465)/10
+			hor_sel = round((br.right - br.left) / .283465) / 10
+			ver_sel = round((br.top - br.bottom) / .283465) / 10
 			document = sel_info[0][1].document
 			if len(sel_info) == 1:
 				path, obj = sel_info[0]
@@ -489,10 +490,10 @@ class Selection(Bounded):
 					dict.update(info[1])
 					# the %% is correct here. The result has to be a
 					# %-template itself.
-					text = _("%s on `%%(layer)s'") % info[0]+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"###
+					text = _("%s on `%%(layer)s'") % info[0] + "\n " + _("Selection size:") + " " + str(hor_sel) + " x " + str(ver_sel) + " mm"###
 				else:
 					dict['object'] = info
-					text = _("%(object)s on `%(layer)s'")+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"    ###
+					text = _("%(object)s on `%(layer)s'") + "\n " + _("Selection size:") + " " + str(hor_sel) + " x " + str(ver_sel) + " mm"###
 				result = text, dict
 			else:
 				layer = sel_info[0][0][0]
@@ -501,9 +502,9 @@ class Selection(Bounded):
 					layer_name = document.layers[layer].Name()
 					result = _("%(number)d objects on `%(layer)s'") \
 								% {'number':len(sel_info), 'layer':layer_name}
-					result = result +"\n "+ _("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"
+					result = result + "\n " + _("Selection size:") + " " + str(hor_sel) + " x " + str(ver_sel) + " mm"
 				else:
-					result = _("%d objects on several layers") % len(sel_info)+"\n "+_("Selection size:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"  ###
+					result = _("%d objects on several layers") % len(sel_info) + "\n " + _("Selection size:") + " " + str(hor_sel) + " x " + str(ver_sel) + " mm"###
 		return result
 
 	def CurrentInfoText(self):
@@ -512,13 +513,13 @@ class Selection(Bounded):
 	def _dummy(self, *args):
 		pass
 
-	Hide         = _dummy
-	DragStart    = None
-	DragMove     = None
-	DragStop     = None
-	Show         = _dummy
-	Hide         = _dummy
-	SelectPoint  = _dummy
+	Hide = _dummy
+	DragStart = None
+	DragMove = None
+	DragStop = None
+	Show = _dummy
+	Hide = _dummy
+	SelectPoint = _dummy
 	SelectHandle = _dummy
 
 	drag_mask = SelectAndDrag.drag_mask
@@ -574,7 +575,7 @@ class SizeRectangle(SelectionRectangle):
 #               off = p - self.drag_start
 #                 d = Polar(pi4 * round(math.atan2(off.y, off.x) / pi4))
 #                 p = self.drag_start + (off * d) * d
-#               print 'ALT'     
+#               print 'ALT'
 		if state & const.ConstraintMask:# and self.selection == -1:
 				pi4 = math.pi / 4
 				off = p - self.drag_start
@@ -594,7 +595,7 @@ class SizeRectangle(SelectionRectangle):
 
 	def ComputeTrafo(self, oldStart, oldEnd, start, end):
 		oldDelta = oldEnd - oldStart
-		delta    = end - start
+		delta = end - start
 		if self.selection == -1:
 			# a translation.
 			return _("Move Objects"), start - oldStart
@@ -638,10 +639,10 @@ class SizeRectangle(SelectionRectangle):
 			#    data['factor'] = x
 			#else:
 			br = self.coord_rect
-			hor_sel=ceil(floor(10**3*x*(br.right - br.left)/2.83465)/10)/100
-			ver_sel=ceil(floor(10**3*y*(br.top - br.bottom)/2.83465)/10)/100
+			hor_sel = ceil(floor(10 ** 3 * x * (br.right - br.left) / 2.83465) / 10) / 100
+			ver_sel = ceil(floor(10 ** 3 * y * (br.top - br.bottom) / 2.83465) / 10) / 100
 			text = _("Scale %(factorx)[factor], %(factory)[factor]")
-			text = text +"\n "+_("Changing size to:")+" "+str(hor_sel)+" x "+str(ver_sel) +" mm"
+			text = text + "\n " + _("Changing size to:") + " " + str(hor_sel) + " x " + str(ver_sel) + " mm"
 			data['factorx'] = x
 			data['factory'] = y
 		else:
@@ -654,7 +655,7 @@ class SizeRectangle(SelectionRectangle):
 
 class SizeSelection(Selection):
 
-	def __init__(self, arg = None):
+	def __init__(self, arg=None):
 		Selection.__init__(self, arg)
 
 	def update_rectangle(self):
@@ -671,7 +672,7 @@ class SizeSelection(Selection):
 	def MouseMove(self, p, state):
 		self.rect.MouseMove(p, state)
 
-	def ButtonUp(self, p, button, state, forget_trafo = 0):
+	def ButtonUp(self, p, button, state, forget_trafo=0):
 		self.rect.SetOutlineObject(None)
 		undo_text, trafo = self.rect.ButtonUp(p, button, state)
 		if forget_trafo:
@@ -687,21 +688,21 @@ class SizeSelection(Selection):
 		self.del_lazy_attrs()
 		return undo_text, undo
 
-	def Show(self, device, partially = 0):
+	def Show(self, device, partially=0):
 		self.rect.Show(device, partially)
 
-	def Hide(self, device, partially = 0):
+	def Hide(self, device, partially=0):
 		self.rect.Hide(device, partially)
 
 	def DrawDragged(self, device, partial):
 		self.rect.DrawDragged(device, partial)
 
-	def SelectPoint(self, p, rect, device, mode = SelectSet):
+	def SelectPoint(self, p, rect, device, mode=SelectSet):
 		if not self.rect.SelectPoint(p, rect, device, mode):
 			if self.Hit(p, rect, device):
 				self.rect.Select()
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		self.rect.SelectHandle(handle, mode)
 
 	def Hit(self, p, rect, device):
@@ -719,7 +720,7 @@ class TrafoRectangle(SelRectBase):
 	selShear = [2, 4, 6, 8]
 	selCenter = 100
 
-	def __init__(self, rect, center = None):
+	def __init__(self, rect, center=None):
 		SelRectBase.__init__(self)
 		self.start = Point(rect.left, rect.bottom)
 		self.end = Point(rect.right, rect.top)
@@ -729,7 +730,7 @@ class TrafoRectangle(SelRectBase):
 			self.center = center
 
 
-	def compute_trafo(self, state = 0):
+	def compute_trafo(self, state=0):
 		sel = self.selection
 		if sel in self.selTurn:
 			# rotation
@@ -742,7 +743,7 @@ class TrafoRectangle(SelRectBase):
 			self.trafo = Rotation(angle, self.center)
 			self.trafo_desc = (1, angle)
 		elif sel in self.selShear:
-			if sel in (2,6):
+			if sel in (2, 6):
 				# horiz. shear
 				height = self.drag_start.y - self.reference
 				if height:
@@ -875,11 +876,11 @@ class TrafoRectangle(SelRectBase):
 	def Select(self):
 		pass
 
-	def SelectPoint(self, p, rect, device, mode = SelectSet):
+	def SelectPoint(self, p, rect, device, mode=SelectSet):
 		self.selection = 0
 		return self.selection
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		handle = handle.index
 		if handle == len(self.handle_idx_to_sel):
 			self.selection = self.selCenter
@@ -894,26 +895,26 @@ class TrafoRectangle(SelRectBase):
 		x2 = (sx + ex) / 2
 		y2 = (sy + ey) / 2
 		return map(handle.MakePixmapHandle,
-					[Point(sx, ey),      Point(x2, ey),  Point(ex, ey),
-					Point(sx, y2),                      Point(ex, y2),
-					Point(sx, sy),      Point(x2, sy),  Point(ex, sy)],
-					[(-1,  1),           (0,  1),        ( 1,  1),
-					(-1,  0),                           ( 1,  0),
-					(-1, -1),           (0, -1),        ( 1, -1)],
-					[pixmaps.TurnTL, pixmaps.ShearLR,    pixmaps.TurnTR,
-					pixmaps.ShearUD,                    pixmaps.ShearUD,
-					pixmaps.TurnBL, pixmaps.ShearLR,    pixmaps.TurnBR],
-					[const.CurCreate] * 8) \
+					[Point(sx, ey), Point(x2, ey), Point(ex, ey),
+					Point(sx, y2), Point(ex, y2),
+					Point(sx, sy), Point(x2, sy), Point(ex, sy)],
+					[(-1, 1), (0, 1), (1, 1),
+					(-1, 0), (1, 0),
+					(-1, -1), (0, -1), (1, -1)],
+					[pixmaps.TurnTL, pixmaps.ShearLR, pixmaps.TurnTR,
+					pixmaps.ShearUD, pixmaps.ShearUD,
+					pixmaps.TurnBL, pixmaps.ShearLR, pixmaps.TurnBR],
+					[appconst.CurCreate] * 8) \
 				+ [handle.MakePixmapHandle(self.center, (0, 0), pixmaps.Center)]
 
 
 class TrafoSelection(Selection):
 
-	def __init__(self, copy_from = None):
+	def __init__(self, copy_from=None):
 		Selection.__init__(self, copy_from)
 		self.center = None
 
-	def update_rectangle(self, same_center = 1):
+	def update_rectangle(self, same_center=1):
 		if self:
 			self.rect = TrafoRectangle(self.coord_rect, self.center)
 		else:
@@ -927,7 +928,7 @@ class TrafoSelection(Selection):
 	def MouseMove(self, p, state):
 		self.rect.MouseMove(p, state)
 
-	def ButtonUp(self, p, button, state, forget_trafo = 0):
+	def ButtonUp(self, p, button, state, forget_trafo=0):
 		self.rect.SetOutlineObject(None)
 		undo_text, trafo = self.rect.ButtonUp(p, button, state)
 		self.center = self.rect.center
@@ -942,21 +943,21 @@ class TrafoSelection(Selection):
 			return undo_text, undo
 		return '', None
 
-	def Show(self, device, partially = 0):
+	def Show(self, device, partially=0):
 		self.rect.Show(device, partially)
 
-	def Hide(self, device, partially = 0):
+	def Hide(self, device, partially=0):
 		self.rect.Hide(device, partially)
 
 	def DrawDragged(self, device, partial):
 		self.rect.DrawDragged(device, partial)
 
-	def SelectPoint(self, p, rect, device, mode = SelectSet):
+	def SelectPoint(self, p, rect, device, mode=SelectSet):
 		if not self.rect.SelectPoint(p, rect, device, mode):
 			if self.Hit(p, rect, device):
 				self.rect.Select()
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		self.rect.SelectHandle(handle, mode)
 
 	def Hit(self, p, rect, device):
@@ -991,11 +992,11 @@ class EditorWrapper:
 class EditSelection(Selection):
 
 	is_EditSelection = 1
-	
+
 	drag_this = None
 	editor = None
 
-	def __init__(self, copy_from = None):
+	def __init__(self, copy_from=None):
 		Selection.__init__(self, copy_from)
 		self.check_edit_mode()
 		if type(copy_from) == InstanceType \
@@ -1031,18 +1032,18 @@ class EditSelection(Selection):
 		if self.drag_this is not None:
 			self.drag_this.MouseMove(p, state)
 
-	def ButtonUp(self, p, button, state, forget_trafo = 0):
+	def ButtonUp(self, p, button, state, forget_trafo=0):
 		if self.drag_this is not None:
 			self.del_lazy_attrs()
 			return _("Edit Object"), self.drag_this.ButtonUp(p, button, state)
 		return ('', None)
 		# XXX make the undo text more general by a method of graphics objects
 
-	def Show(self, device, partially = 0):
+	def Show(self, device, partially=0):
 		if self.editor is not None:
 			self.editor.Show(device, partially)
 
-	def Hide(self, device, partially = 0):
+	def Hide(self, device, partially=0):
 		if self.editor is not None:
 			self.editor.Hide(device, partially)
 
@@ -1059,21 +1060,21 @@ class EditSelection(Selection):
 			return 1
 		return 0
 
-	def SelectPoint(self, p, rect, device, mode = const.SelectSet):
+	def SelectPoint(self, p, rect, device, mode=const.SelectSet):
 		self.drag_this = None
 		if self.editor is not None:
 			if self.editor.SelectPoint(p, rect, device, mode):
 				self.drag_this = self.editor
 		return self.drag_this != None
 
-	def SelectHandle(self, handle, mode = SelectSet):
+	def SelectHandle(self, handle, mode=SelectSet):
 		if self.editor is not None:
 			self.editor.SelectHandle(handle, mode)
 			self.drag_this = self.editor
 		else:
 			self.drag_this = None
 
-	def SelectRect(self, rect, mode = SelectSet):
+	def SelectRect(self, rect, mode=SelectSet):
 		self.drag_this = None
 		if self.editor is not None:
 			if self.editor.SelectRect(rect, mode):
@@ -1149,4 +1150,4 @@ class EditSelection(Selection):
 			return self.editor.CurrentInfoText()
 		else:
 			return ""
-		
+

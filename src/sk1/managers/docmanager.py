@@ -14,8 +14,8 @@ from app.conf.const import MODE, SELECTION, UNDO
 
 from uc import filters
 
-from uniconvertor import utils
-from uniconvertor.utils import fs, system
+from uc import utils
+from uc.utils import fs, system
 
 import sk1
 from sk1.dialogs.msgdialog import msgDialog

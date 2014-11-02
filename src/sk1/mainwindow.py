@@ -12,7 +12,7 @@ from types import TupleType, ListType
 from Tkinter import Frame
 from Tkinter import X, BOTTOM, BOTH, TOP, HORIZONTAL, LEFT, Y, RIGHT
 
-from uniconvertor.utils import fs
+from uc.utils import fs
 from uc import filters
 
 import app
