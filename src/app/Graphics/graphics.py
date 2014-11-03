@@ -24,28 +24,23 @@
 # need not know whether output goes to a window or a printer, etc.
 #
 
-import sys
+import sys, operator, string
 from types import TupleType
-import operator, string
-from math import atan2, hypot, pi, sin, cos
+from math import pi
 
 from PIL import Image
 
-from app.X11 import X
 from pax import PaxRegionType, IntersectMasks, CreateRegion
 
 from app.events.warn import pdebug, warn, INTERNAL, USER
-from app import _, SketchError, config
-from uc.utils import Empty
-
+from app import _, _sketch, SketchError, config
+from app import Point, Polar, Rect, UnitRect, Identity, SingularMatrix, \
+		Trafo, Rotation, Scale, Translation, Undo, TransformRectangle
 from app.conf import const
 from app.conf.const import ArcPieSlice, ArcChord
 
-from app import _sketch
-
-
-from app import Point, Polar, Rect, UnitRect, Identity, SingularMatrix, \
-		Trafo, Rotation, Scale, Translation, Undo, TransformRectangle
+from uc.utils import Empty
+from sk1 import x11const as X
 
 from color import StandardColors
 import color
@@ -110,7 +105,7 @@ class GCDevice:
 		self.InitClip()
 		#width=self.widget.winfo_reqwidth()
 		#height=self.widget.winfo_reqheight()
-		
+
 
 	#
 	#	Clipping
@@ -180,7 +175,7 @@ class GCDevice:
 		width = self.widget.width
 		height = self.widget.height
 		bitmap = self.widget.CreatePixmap(width, height, 1)
-		bitmap_gc = bitmap.CreateGC(foreground = 0)
+		bitmap_gc = bitmap.CreateGC(foreground=0)
 		bitmap_gc.FillRectangle(0, 0, width, height)
 		bitmap_gc.foreground = 1
 		return (bitmap, bitmap_gc)
@@ -283,7 +278,7 @@ class SimpleGC(GCDevice):
 		try:
 			self.gc.SetForegroundAndFill(self.visual.get_pixel(color.RGB()))
 		except:
-			self.gc.SetForegroundAndFill(self.visual.get_pixel(color))	
+			self.gc.SetForegroundAndFill(self.visual.get_pixel(color))
 
 	def SetLineColor(self, color):
 		self.current_color = color
@@ -295,7 +290,7 @@ class SimpleGC(GCDevice):
 			self.gc.SetForegroundAndFill(self.visual.get_pixel(color))
 
 
-	def SetLineAttributes(self, width, cap = X.CapButt, join = X.JoinMiter, dashes = None):
+	def SetLineAttributes(self, width, cap=X.CapButt, join=X.JoinMiter, dashes=None):
 		if dashes:
 			line = X.LineOnOffDash
 		else:
@@ -321,13 +316,13 @@ class SimpleGC(GCDevice):
 		self.gc.line_style = X.LineSolid
 
 	def DrawLine(self, start, end):
-		startx, starty	= self.DocToWin(start)
-		endx,	endy	= self.DocToWin(end)
+		startx, starty	 = self.DocToWin(start)
+		endx, 	endy	 = self.DocToWin(end)
 		self.gc.DrawLine(startx, starty, endx, endy)
 
 	def DrawLineXY(self, x1, y1, x2, y2):
-		startx, starty	= self.DocToWin(x1, y1)
-		endx,	endy	= self.DocToWin(x2, y2)
+		startx, starty	 = self.DocToWin(x1, y1)
+		endx, 	endy	 = self.DocToWin(x2, y2)
 		self.gc.DrawLine(startx, starty, endx, endy)
 
 	def DrawLines(self, pts):
@@ -392,10 +387,10 @@ class SimpleGC(GCDevice):
 			self.PopTrafo()
 
 
-	def DrawBezierPath(self, path, rect = None):
+	def DrawBezierPath(self, path, rect=None):
 		path.draw_transformed(self.gc, self.doc_to_win, 1, 0, rect)
 
-	def FillBezierPath(self, path, rect = None):
+	def FillBezierPath(self, path, rect=None):
 		path.draw_transformed(self.gc, self.doc_to_win, 0, 1, rect)
 
 
@@ -404,17 +399,17 @@ class CommonDevice:
 
 	# some methods common to GraphicsDevice and PostScriptDevice
 
-	def draw_arrow(self, arrow, width, pos, dir, rect = None):
+	def draw_arrow(self, arrow, width, pos, dir, rect=None):
 		self.PushTrafo()
 		self.Translate(pos.x, pos.y)
 		self.Rotate(dir.polar()[1])
 		if width >= 1.0:
 			self.Scale(width)
 		self.SetLineSolid()
-		arrow.Draw(self) #, rect)
+		arrow.Draw(self)#, rect)
 		self.PopTrafo()
 
-	def draw_arrows(self, paths, rect = None):
+	def draw_arrows(self, paths, rect=None):
 		if self.line:
 			arrow1 = self.properties.line_arrow1
 			arrow2 = self.properties.line_arrow2
@@ -446,7 +441,7 @@ class CommonDevice:
 							self.draw_arrow(arrow2, width, p, dir, rect)
 
 	def draw_ellipse_arrows(self, trafo, start_angle, end_angle, arc_type,
-							rect = None):
+							rect=None):
 		if arc_type == const.ArcArc and self.line and start_angle != end_angle:
 			pi2 = pi / 2
 			width = self.properties.line_width
@@ -493,7 +488,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		self.images_drawn = 0
 		self.unknown_fonts = {}
 		self.failed_fonts = {}
-		self.cairo_draw=0
+		self.cairo_draw = 0
 
 	def InitClip(self):
 		SimpleGC.InitClip(self)
@@ -518,14 +513,14 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.proc_line = 0
 
 
-	def SetProperties(self, properties, rect = None):
+	def SetProperties(self, properties, rect=None):
 		if not self.outline_mode:
 			self.fill_rect = rect
 			self.set_properties(properties)
 		else:
 			# if outline, set only font properties
-			self.properties.SetProperty(font = properties.font,
-											font_size = properties.font_size)
+			self.properties.SetProperty(font=properties.font,
+											font_size=properties.font_size)
 
 	#
 	def activate_line(self):
@@ -575,42 +570,42 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 	def AxialGradient(self, gradient, p0, p1):
 		# p0 and p1 may be PointSpecs
 		if config.preferences.cairo_enabled :
-			startx, starty	= self.DocToWin(p0)
-			endx,	endy	= self.DocToWin(p1)
-			center = self.fill_rect.center()	
-			self.gc.CairoPatternCreateLinear(startx, starty, endx,	endy)
+			startx, starty	 = self.DocToWin(p0)
+			endx, 	endy	 = self.DocToWin(p1)
+			center = self.fill_rect.center()
+			self.gc.CairoPatternCreateLinear(startx, starty, endx, 	endy)
 			for position, color in gradient.Colors():
 				if not config.preferences.alpha_channel_enabled :
-					r,g,b = color.cRGB()
+					r, g, b = color.cRGB()
 					self.gc.CairoPatternAddColorStopRGB(position, r, g, b)
 				else:
-					r,g,b,a = color.cRGBA()
-					self.gc.CairoPatternAddColorStopRGBA(position, r, g, b, a)			
+					r, g, b, a = color.cRGBA()
+					self.gc.CairoPatternAddColorStopRGBA(position, r, g, b, a)
 		else:
 			image, trafo, pos = self.get_pattern_image()
 			if image is None:
 				return
 			x0, y0 = trafo(p0)
 			x1, y1 = trafo(p1)
-	
+
 			RGBgradient = []
 			for position, color in gradient.Colors():
 				RGBgradient.append((position, tuple(color.RGB())))
-			_sketch.fill_axial_gradient(image.im, RGBgradient, x0,y0, x1,y1)
-			self.draw_pattern_image(image, pos)	
+			_sketch.fill_axial_gradient(image.im, RGBgradient, x0, y0, x1, y1)
+			self.draw_pattern_image(image, pos)
 
 	has_radial_gradient = 1
 	def RadialGradient(self, gradient, p, r0, r1):
 		if config.preferences.cairo_enabled :
-			startx, starty	= self.DocToWin(p)
+			startx, starty	 = self.DocToWin(p)
 			self.gc.CairoPatternCreateRadial(startx, starty, r1, startx, starty, r0)
 			for position, color in gradient.Colors():
 				if not config.preferences.alpha_channel_enabled :
-					r,g,b = color.cRGB()
-					self.gc.CairoPatternAddColorStopRGB(1-position, r, g, b)
+					r, g, b = color.cRGB()
+					self.gc.CairoPatternAddColorStopRGB(1 - position, r, g, b)
 				else:
-					r,g,b,a = color.cRGBA()
-					self.gc.CairoPatternAddColorStopRGBA(1-position, r, g, b, a)	
+					r, g, b, a = color.cRGBA()
+					self.gc.CairoPatternAddColorStopRGBA(1 - position, r, g, b, a)
 		else:
 			# p may be PointSpec
 			image, trafo, pos = self.get_pattern_image()
@@ -645,7 +640,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		for position, color in gradient.Colors():
 			RGBgradient.append((position, tuple(color.RGB())))
 		_sketch.fill_conical_gradient(image.im, RGBgradient, cx, cy,
-										-angle)
+										- angle)
 		#_t = time.clock() - _t
 		#print 'conical:', _t
 		self.draw_pattern_image(image, pos)
@@ -709,14 +704,14 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 
 	allow_outline = 1
 
-	def StartOutlineMode(self, color = None):
+	def StartOutlineMode(self, color=None):
 		if self.allow_outline:
 			self.outline_mode = (self.properties, self.outline_mode)
 			if color is None:
 				properties = self.outline_style
 			else:
 				properties = PropertyStack()
-				properties.SetProperty(fill_pattern = EmptyPattern)
+				properties.SetProperty(fill_pattern=EmptyPattern)
 				properties.AddStyle(SolidLine(color))
 			self.set_properties(properties)
 
@@ -727,26 +722,26 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 
 	def IsOutlineActive(self):
 		return not not self.outline_mode
-	
-	def CairoSetFill(self):		
+
+	def CairoSetFill(self):
 		if not self.properties.fill_pattern.is_Gradient:
 			if not config.preferences.alpha_channel_enabled :
-				apply(self.gc.CairoSetSourceRGB, 
+				apply(self.gc.CairoSetSourceRGB,
 					  self.properties.fill_pattern.Color().cRGB())
 			else:
-				apply(self.gc.CairoSetSourceRGBA, 
+				apply(self.gc.CairoSetSourceRGBA,
 					  self.properties.fill_pattern.Color().cRGBA())
 		else:
 			self.properties.ExecuteFill(self, self.fill_rect)
-			return 
+			return
 
 	def CairoSetOutline(self):
 		if config.preferences.alpha_channel_enabled and not self.IsOutlineActive():
-			apply(self.gc.CairoSetSourceRGBA, 
+			apply(self.gc.CairoSetSourceRGBA,
 				  self.properties.line_pattern.Color().cRGBA())
 		else:
-			apply(self.gc.CairoSetSourceRGB, 
-				  self.properties.line_pattern.Color().cRGB())			
+			apply(self.gc.CairoSetSourceRGB,
+				  self.properties.line_pattern.Color().cRGB())
 		cWidth = self.properties.line_width * self.scale
 		if self.IsOutlineActive():
 			cWidth = 1.0
@@ -755,14 +750,14 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		if cCap > 0:
 			cCap = cCap - 1
 		self.gc.CairoSetOutlineAttr(cWidth, cCap, cJoin)
-		
-		dashes = self.properties.line_dashes 
+
+		dashes = self.properties.line_dashes
 		if dashes:
 #			scale = self.scale
 #			if self.properties.line_width < 1.0:
 #				scale = self.scale
 #			else:
-			scale = self.properties.line_width * self.scale		
+			scale = self.properties.line_width * self.scale
 			dashes = map(operator.mul, dashes, [scale] * len(dashes))
 			dashes = map(int, map(round, dashes))
 			for idx in range(len(dashes)):
@@ -771,15 +766,15 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					dashes[idx] = 1
 				elif length > 255:
 					dashes[idx] = 255
-			self.gc.CairoSetDash(dashes,0)
+			self.gc.CairoSetDash(dashes, 0)
 		else:
-			self.gc.CairoSetDash([],0)
-			
+			self.gc.CairoSetDash([], 0)
+
 	#
 	#	Primitives
 	#
 
-	def Rectangle(self, trafo, clip = 0):
+	def Rectangle(self, trafo, clip=0):
 		self.PushTrafo()
 		self.Concat(trafo)
 		pts = TransformRectangle(self.doc_to_win, UnitRect)
@@ -795,7 +790,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 						if not clip:
 							self.PopClip()
 						clip = 0
-					else:	
+					else:
 						self.properties.ExecuteFill(self, self.fill_rect)
 						apply(self.gc.FillRectangle, pts)
 				else:
@@ -808,21 +803,21 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				else:
 					try:
 						self.CairoSetOutline()
-						apply(self.gc.CairoDrawRectangle, pts)							
+						apply(self.gc.CairoDrawRectangle, pts)
 					except:
 						self.properties.ExecuteLine(self)
-						apply(self.gc.DrawRectangle, pts)				
+						apply(self.gc.DrawRectangle, pts)
 
 		else:
 			if self.proc_fill:
 				if not clip:
 					self.PushClip()
 				if config.preferences.cairo_enabled == 0:
-					self.ClipPolygon(pts)				
+					self.ClipPolygon(pts)
 					self.properties.ExecuteFill(self, self.fill_rect)
 				else:
 					self.CairoSetFill()
-					self.gc.CairoFillPolygon(pts)	
+					self.gc.CairoFillPolygon(pts)
 				if not clip:
 					self.PopClip()
 				clip = 0
@@ -832,19 +827,19 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					self.gc.FillPolygon(pts, X.Convex, X.CoordModeOrigin)
 				else:
 					self.CairoSetFill()
-					self.gc.CairoFillPolygon(pts)				
+					self.gc.CairoFillPolygon(pts)
 
-			if self.line:				
+			if self.line:
 				if config.preferences.cairo_enabled == 0:
 					self.properties.ExecuteLine(self)
 					self.gc.DrawLines(pts, X.CoordModeOrigin)
 				else:
 					try:
 						self.CairoSetOutline()
-						self.gc.CairoDrawPolygon(pts)							
+						self.gc.CairoDrawPolygon(pts)
 					except:
 						self.properties.ExecuteLine(self)
-						self.gc.DrawLines(pts, X.CoordModeOrigin)			
+						self.gc.DrawLines(pts, X.CoordModeOrigin)
 
 		if clip:
 			if type(pts) == TupleType:
@@ -852,12 +847,12 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			else:
 				self.ClipPolygon(pts)
 
-	def RoundedRectangle(self, trafo, radius1, radius2, clip = 0):
-		path = _sketch.RoundedRectanglePath(trafo, radius1, radius2)		
+	def RoundedRectangle(self, trafo, radius1, radius2, clip=0):
+		path = _sketch.RoundedRectanglePath(trafo, radius1, radius2)
 		self.MultiBezier((path,), None, clip)
 
 	def SimpleEllipse(self, trafo, start_angle, end_angle, arc_type,
-						rect = None, clip = 0):
+						rect=None, clip=0):
 		trafo2 = self.doc_to_win(trafo)
 		if trafo2.m12 == 0.0 and trafo2.m21 == 0.0 and not self.proc_fill \
 			and start_angle == end_angle and not clip:
@@ -872,10 +867,10 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			if self.fill:
 				if config.preferences.cairo_enabled == 0:
 					self.properties.ExecuteFill(self, self.fill_rect)
-					self.gc.FillArc(x1, y1, w, h, 0, 23040) # 360 * 64
+					self.gc.FillArc(x1, y1, w, h, 0, 23040)# 360 * 64
 				else:
 					self.CairoSetFill()
-					self.gc.CairoFillArc(x1+w/2, y1+h/2, w, h)
+					self.gc.CairoFillArc(x1 + w / 2, y1 + h / 2, w, h)
 			if self.line:
 				if config.preferences.cairo_enabled == 0:
 					self.properties.ExecuteLine(self)
@@ -883,7 +878,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				else:
 					try:
 						self.CairoSetOutline()
-						self.gc.CairoDrawArc(x1+w/2, y1+h/2, w, h)
+						self.gc.CairoDrawArc(x1 + w / 2, y1 + h / 2, w, h)
 					except:
 						self.properties.ExecuteLine(self)
 						self.gc.DrawArc(x1, y1, w, h, 0, 23040)
@@ -917,7 +912,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 											self.PushClip, self.PopClip,
 											self.ClipRegion, None, (arc,),
 											CreateRegion(), self.proc_fill, clip)
-					
+
 				if self.line:
 					try:
 						self.CairoSetOutline()
@@ -932,7 +927,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 												CreateRegion(), self.proc_fill, clip)
 
 
-	def MultiBezier(self, paths, rect = None, clip = 0):
+	def MultiBezier(self, paths, rect=None, clip=0):
 		if self.line:
 			line = self.activate_line
 		else:
@@ -953,7 +948,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 										self.PushClip, self.PopClip, self.ClipRegion,
 										rect, paths, CreateRegion(), self.proc_fill,
 										clip)
-				
+
 			if self.line:
 				try:
 					self.CairoSetOutline()
@@ -965,7 +960,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					_sketch.draw_multipath(self.gc, self.doc_to_win, line, fill,
 											self.PushClip, self.PopClip, self.ClipRegion,
 											rect, paths, CreateRegion(), self.proc_fill,
-											clip)				
+											clip)
 
 		if self.line:
 			if config.preferences.cairo_enabled == 1:
@@ -973,20 +968,20 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.draw_arrows(paths, rect)
 			self.cairo_draw = 0
 
-	def DrawBezierPath(self, path, rect = None):
+	def DrawBezierPath(self, path, rect=None):
 		if self.cairo_draw == 0:
 			path.draw_transformed(self.gc, self.doc_to_win, 1, 0, rect)
 		else:
 			path.cairo_draw_transformed(self.gc, self.doc_to_win, 1, 0, rect)
-			
 
-	def FillBezierPath(self, path, rect = None):
+
+	def FillBezierPath(self, path, rect=None):
 		if self.cairo_draw == 0:
 			path.draw_transformed(self.gc, self.doc_to_win, 0, 1, rect)
 		else:
 			path.cairo_draw_transformed(self.gc, self.doc_to_win, 0, 1, rect)
 
-	def draw_text_on_gc(self, gc, text, trafo, font, font_size, cache = None):
+	def draw_text_on_gc(self, gc, text, trafo, font, font_size, cache=None):
 		self.PushTrafo()
 		try:
 			self.Concat(trafo)
@@ -1010,7 +1005,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 					# report unknown fonts only once for a given font.
 					if not self.unknown_fonts.has_key(font.PostScriptName()):
 						warn(USER, _("Cannot load %(font)s:\n%(text)s"),
-								font = `xlfd`, text = val)
+								font=`xlfd`, text=val)
 						self.unknown_fonts[font.PostScriptName()] = 1
 					# Use a font that will hopefully be always available.
 					# XXX Is there a better way to handle this situation?
@@ -1031,7 +1026,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				ux, uy = up
 				lx = ux / 2; ly = uy / 2
 				uppercase = string.uppercase
-				draw = gc.DrawLine # we should draw rectangles...
+				draw = gc.DrawLine# we should draw rectangles...
 				for i in range(len(text)):
 					x, y = pos[i]
 					if text[i] in uppercase:
@@ -1041,7 +1036,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		finally:
 			self.PopTrafo()
 
-	def DrawText(self, text, trafo = None, clip = 0, cache = None):
+	def DrawText(self, text, trafo=None, clip=0, cache=None):
 		if text and self.properties.font:
 			if self.fill or clip:
 				if self.proc_fill or clip:
@@ -1082,7 +1077,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 	def load_font(self, xlfd, cache):
 		font_cache = self.font_cache
 		complex_text = self.complex_text
-		
+
 		if self.failed_fonts.has_key(xlfd):
 			# the same xlfd failed before. use fixed as fallback
 			# immediately to avoid delays. some servers apparantly take
@@ -1125,22 +1120,22 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		return font
 
 	complex_text = None
-	def BeginComplexText(self, clip = 0, cache = None):
+	def BeginComplexText(self, clip=0, cache=None):
 		if self.fill or clip or self.IsOutlineActive():
 			if cache is None:
 				cache = {}
 			if self.proc_fill or clip:
 				bitmap, gc = self.create_clip_bitmap()
-				self.complex_text = Empty(bitmap = bitmap, gc = gc,
-											clip = clip, cache = cache, idx = 0)
+				self.complex_text = Empty(bitmap=bitmap, gc=gc,
+											clip=clip, cache=cache, idx=0)
 			else:
 				if self.fill:
 					self.properties.ExecuteFill(self)
 				else:
 					# outline mode
 					self.properties.ExecuteLine(self)
-				self.complex_text = Empty(gc = self.gc, clip = 0,
-											cache = cache, idx = 0)
+				self.complex_text = Empty(gc=self.gc, clip=0,
+											cache=cache, idx=0)
 		else:
 			self.complex_text = None
 
@@ -1205,13 +1200,13 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 								32, bpl)
 
 
-	def DrawImage(self, image, trafo, clip = 0):		
+	def DrawImage(self, image, trafo, clip=0):
 		w, h = image.size
 		llx, lly = self.DocToWin(trafo.offset())
 		lrx, lry = self.DocToWin(trafo(w, 0))
 		ulx, uly = self.DocToWin(trafo(0, h))
 		urx, ury = self.DocToWin(trafo(w, h))
-		
+
 #		if self.IsOutlineActive() and config.preferences.cairo_enabled :
 #			x0=ulx;y0=uly
 #			xx=trafo.m11*self.scale
@@ -1233,7 +1228,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 #			self.gc.CairoDrawLine(ulx, uly, llx, lly)
 #			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 #			return
-		
+
 		if self.IsOutlineActive():
 			self.PushTrafo()
 			self.Concat(trafo)
@@ -1241,20 +1236,20 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			self.PopTrafo()
 			return
 		if config.preferences.cairo_enabled :
-			x0=ulx;y0=uly
-			xx=trafo.m11*self.scale
-			yy=trafo.m22*self.scale
-			yx=-1*trafo.m21*self.scale
-			xy=-1*trafo.m12*self.scale
-			if image.mode=="RGBA":
+			x0 = ulx;y0 = uly
+			xx = trafo.m11 * self.scale
+			yy = trafo.m22 * self.scale
+			yx = -1 * trafo.m21 * self.scale
+			xy = -1 * trafo.m12 * self.scale
+			if image.mode == "RGBA":
 				self.gc.CairoDrawImage(image.im, w, h,
-										xx,yx,xy,yy,x0,y0,
+										xx, yx, xy, yy, x0, y0,
 										config.preferences.bitmap_alpha_channel_enabled,
 										config.preferences.cairo_bitmap_filter)
 			else:
 				self.gc.CairoDrawImage(image.im, w, h,
-										xx,yx,xy,yy,x0,y0,0,
-										config.preferences.cairo_bitmap_filter)	
+										xx, yx, xy, yy, x0, y0, 0,
+										config.preferences.cairo_bitmap_filter)
 			return
 		self.create_ximage()
 		ximage = self.ximage
@@ -1302,9 +1297,9 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				cex = cx + cw; cey = cy + ch
 				if cx >= ex or cex <= sx or cy >= ey or cey <= sy:
 					return
-				if cx  > sx and cx  < ex:	sx = cx
+				if cx > sx and cx < ex:	sx = cx
 				if cex < ex and cex > sx:	ex = cex
-				if cy  > sy and cy  < ey:	sy = cy
+				if cy > sy and cy < ey:	sy = cy
 				if cey < ey and cey > sy:	ey = cey
 			w = ex - sx
 			h = ey - sy
@@ -1316,7 +1311,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				self.PushClip()
 			self.ClipRegion(region)
 
-		if sx+w <= 0 or sx >= ximage.width or sy+h <= 0 or sy >= ximage.height:
+		if sx + w <= 0 or sx >= ximage.width or sy + h <= 0 or sy >= ximage.height:
 			if not clip:
 				self.PopClip()
 			return
@@ -1351,15 +1346,15 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		else:
 			resolution = config.preferences.eps_preview_resolution
 			self.DrawImage(data.image, trafo(Scale(72.0 / resolution)))
-			
+
 	def StartDrawing(self):
 		if config.preferences.cairo_enabled :
 			self.gc.CairoStartDrawing()
-		
+
 	def FinalizeDrawing(self):
 		if config.preferences.cairo_enabled :
 			self.gc.CairoFinalizeDrawing()
-		
+
 	#
 	#
 
@@ -1379,7 +1374,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		# Draw/DrawShape methods of the various graphics objects and the
 		# document/layer Note: This functions assumes that doc_to_win is
 		# in its initial state
-		
+
 		xwinwidth = self.LengthToWinFloat(xwidth)
 		if not xwinwidth:
 			if __debug__:
@@ -1403,22 +1398,22 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 		winx, winy = self.DocToWinPoint((startx, starty))
 		nx = int((rect.right - rect.left) / xwidth) + 2
 		ny = int((rect.top - rect.bottom) / ywidth) + 2
-		
+
 		if config.preferences.cairo_enabled :
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
-			type,r,g,b=config.preferences.grid_color			
-			self.gc.CairoSetSourceRGBA(r,g,b,config.preferences.grid_line_transparency)
-			self.gc.CairoSetOutlineAttr(1.0,const.CapButt, const.JoinMiter)
+			type, r, g, b = config.preferences.grid_color
+			self.gc.CairoSetSourceRGBA(r, g, b, config.preferences.grid_line_transparency)
+			self.gc.CairoSetOutlineAttr(1.0, const.CapButt, const.JoinMiter)
 			for dx in range(nx):
-				x=winx + dx*xwinwidth
+				x = winx + dx * xwinwidth
 				self.gc.CairoDrawLine(x, 0, x, self.widget.height)
 			for dy in range(ny):
-				y=winy + dy*ywinwidth
+				y = winy + dy * ywinwidth
 				self.gc.CairoDrawLine(0, y, self.widget.width, y)
 			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 		else:
 			self.SetProperties(self.grid_style)
-			
+
 
 			if self.line:
 				self.properties.ExecuteLine(self)
@@ -1428,18 +1423,18 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				_sketch.DrawGridAsLines(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
 			else:
 				_sketch.DrawGrid(self.gc, winx, winy, xwinwidth, ywinwidth, nx, ny)
-		
+
 
 	def DrawGuideLine(self, point, horizontal, mode):
-		temp_scale=self.scale
-		self.scale=1
+		temp_scale = self.scale
+		self.scale = 1
 		if mode and config.preferences.cairo_enabled :
 			x, y = self.DocToWin(point)
-			type,r,g,b=config.preferences.guide_color
-			self.gc.CairoSetSourceRGB(r,g,b)
-			self.gc.CairoSetOutlineAttr(1.0,const.CapButt, const.JoinMiter)
+			type, r, g, b = config.preferences.guide_color
+			self.gc.CairoSetSourceRGB(r, g, b)
+			self.gc.CairoSetOutlineAttr(1.0, const.CapButt, const.JoinMiter)
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
-			if horizontal:				
+			if horizontal:
 				self.gc.CairoSetDash(config.preferences.horizontal_guide_shape, 0)
 				self.gc.CairoDrawLine(0, y, self.widget.width, y)
 			else:
@@ -1460,7 +1455,7 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 				self.gc.DrawLine(x, 0, x, self.widget.height)
 			self.gc.line_style = X.LineSolid
 			self.gc.SetForegroundAndFill(self.visual.get_pixel(StandardColors.white.RGB()))
-		self.scale=temp_scale
+		self.scale = temp_scale
 
 	def DrawPageOutline(self, width, height):
 		# Draw the outline of the page whose size is given by width and
@@ -1474,14 +1469,14 @@ class GraphicsDevice(SimpleGC, CommonDevice):
 			w = right - left
 			h = bottom - top
 			self.gc.CairoSetAntialias(const.CAIRO_ANTIALIAS_NONE)
-			self.gc.CairoSetOutlineAttr(1.0,0,0)
+			self.gc.CairoSetOutlineAttr(1.0, 0, 0)
 			self.gc.CairoSetDash([], 0)
-			r,g,b=StandardColors.gray.cRGB()
-			self.gc.CairoSetSourceRGB(r,g,b)
+			r, g, b = StandardColors.gray.cRGB()
+			self.gc.CairoSetSourceRGB(r, g, b)
 			self.gc.CairoFillRectangle(left + sw, bottom, w + 1, sw + 1)
 			self.gc.CairoFillRectangle(right, top + sw, sw + 1, h + 1)
-			r,g,b=StandardColors.black.cRGB()
-			self.gc.CairoSetSourceRGB(r,g,b)			
+			r, g, b = StandardColors.black.cRGB()
+			self.gc.CairoSetSourceRGB(r, g, b)
 			self.gc.CairoDrawRectangle(left, top, w, h)
 			self.gc.CairoSetAntialias(config.preferences.cairo_antialias)
 			return
@@ -1542,15 +1537,15 @@ class InvertingDevice(GraphicsDevice):
 	def init_gc(self, widget, **gcargs):
 		self.visual = color.skvisual
 		line_width = config.preferences.editor_line_width
-		self.gc = widget.CreateGC(foreground = ~0,
-									function = X.GXxor,
-									background = 0,
-									line_width = line_width,
-									line_style = self.normal_line_style)
+		self.gc = widget.CreateGC(foreground=~0,
+									function=X.GXxor,
+									background=0,
+									line_width=line_width,
+									line_style=self.normal_line_style)
 		self.widget = widget
 
 	# make sure that the properties are not changed
-	def SetProperties(self, properties, rect = None):
+	def SetProperties(self, properties, rect=None):
 		pass
 
 	def IsOutlineActive(self):
@@ -1565,15 +1560,15 @@ class InvertingDevice(GraphicsDevice):
 
 	def Line(self, p1, p2):
 		if self.line:
-			startx,	starty	= self.DocToWin(p1)
-			endx,	endy	= self.DocToWin(p2)
+			startx, 	starty	 = self.DocToWin(p1)
+			endx, 	endy	 = self.DocToWin(p2)
 			self.gc.DrawLine(startx, starty, endx, endy)
 
 	# draw a rectangular 'handle' at P. The size of the handle is given
 	# by self.handle_size and is always in window coordinates (i.e. is
 	# independent of scaling)
 
-	def DrawRectHandle(self, p, filled = 1):
+	def DrawRectHandle(self, p, filled=1):
 		x, y = self.DocToWin(p)
 		size = self.handle_size
 		x = x - size
@@ -1583,7 +1578,7 @@ class InvertingDevice(GraphicsDevice):
 		else:
 			self.gc.DrawRectangle(x, y, 2 * size, 2 * size)
 
-	def DrawSmallRectHandle(self, p, filled = 1):
+	def DrawSmallRectHandle(self, p, filled=1):
 		x, y = self.DocToWin(p)
 		size = self.small_handle_size
 		x = x - size
@@ -1593,7 +1588,7 @@ class InvertingDevice(GraphicsDevice):
 		else:
 			self.gc.DrawRectangle(x, y, 2 * size, 2 * size)
 
-	def DrawCircleHandle(self, p, filled = 1):
+	def DrawCircleHandle(self, p, filled=1):
 		x, y = self.DocToWin(p)
 		size = self.handle_size
 		x = x - size
@@ -1604,7 +1599,7 @@ class InvertingDevice(GraphicsDevice):
 		else:
 			self.gc.DrawArc(x, y, 2 * size, 2 * size, 0, 23040)
 
-	def DrawSmallCircleHandle(self, p, filled = 1):
+	def DrawSmallCircleHandle(self, p, filled=1):
 		x, y = self.DocToWin(p)
 		size = self.small_handle_size
 		x = x - size
@@ -1615,7 +1610,7 @@ class InvertingDevice(GraphicsDevice):
 		else:
 			self.gc.DrawArc(x, y, 2 * size, 2 * size, 0, 23040)
 
-	def DrawSmallRectHandleList(self, pts, filled = 1):
+	def DrawSmallRectHandleList(self, pts, filled=1):
 		pts = map(self.doc_to_win.DocToWin, pts)
 		size = self.small_handle_size
 		size2 = 2 * size
@@ -1670,8 +1665,8 @@ pixmap_width = 2 * pixmap_width_2 + 1
 
 
 hit_properties = PropertyStack()
-hit_properties.SetProperty(fill_pattern = SolidPattern(color_1))
-hit_properties.AddStyle(SolidLine(color_1, width = 3))
+hit_properties.SetProperty(fill_pattern=SolidPattern(color_1))
+hit_properties.AddStyle(SolidLine(color_1, width=3))
 
 class HitTestDevice(GraphicsDevice):
 
@@ -1686,11 +1681,11 @@ class HitTestDevice(GraphicsDevice):
 
 	def init_gc(self, widget, **gcargs):
 		self.pixmap = widget.CreatePixmap(pixmap_width, pixmap_width, 1)
-		self.gc = self.pixmap.CreateGC(foreground = 1, line_width = 3)
+		self.gc = self.pixmap.CreateGC(foreground=1, line_width=3)
 		self.visual = color.skvisual
 
 	# make sure that the properties are not changed
-	def SetProperties(self, properties, rect = None):
+	def SetProperties(self, properties, rect=None):
 		if properties.HasLine():
 			self.line_width = properties.line_width
 		else:
@@ -1702,7 +1697,7 @@ class HitTestDevice(GraphicsDevice):
 		GraphicsDevice.SetViewportTransform(self, scale, doc_to_win,
 											win_to_doc)
 		self.hit_radius_doc = self.LengthToDoc(self.hit_radius)
-		hit_properties.SetProperty(line_width = self.hit_radius_doc * 2)
+		hit_properties.SetProperty(line_width=self.hit_radius_doc * 2)
 	#
 	# Detect various `hits'
 	#
@@ -1719,7 +1714,7 @@ class HitTestDevice(GraphicsDevice):
 		rad = self.HitRadiusDoc()
 		return Rect(p.x - rad, p.y - rad, p.x + rad, p.y + rad)
 
-	def LineHit(self, start, end, p, line_width = 0):
+	def LineHit(self, start, end, p, line_width=0):
 		radius = self.hit_radius / self.scale
 		if line_width:
 			w = line_width / 2
@@ -1751,7 +1746,7 @@ class HitTestDevice(GraphicsDevice):
 			return 0
 
 	def ParallelogramHit(self, p, trafo, maxx, maxy, filled, properties=None,
-							ignore_outline_mode = 0):
+							ignore_outline_mode=0):
 		filled = filled and (ignore_outline_mode or not self.outline_mode)
 		if filled:
 			try:
@@ -1780,7 +1775,7 @@ class HitTestDevice(GraphicsDevice):
 					or self.LineHit(p3, p4, p, line_width)
 
 	def SimpleEllipseHit(self, p, trafo, start_angle, end_angle, arc_type,
-							properties, filled, ignore_outline_mode = 0):
+							properties, filled, ignore_outline_mode=0):
 		# Hmm, the ellipse is not that simple anymore, maybe we should
 		# change the name?
 		filled = filled and (ignore_outline_mode or not self.outline_mode)
@@ -1814,7 +1809,7 @@ class HitTestDevice(GraphicsDevice):
 				# The ellipse is not complete. Now it depends on the
 				# arc_type.
 				if phi < 0:
-					phi = phi + pi + pi # map phi into the range 0 - 2*PI
+					phi = phi + pi + pi# map phi into the range 0 - 2*PI
 				if start_angle < end_angle:
 					between = start_angle <= phi <= end_angle
 				else:
@@ -1876,7 +1871,7 @@ class HitTestDevice(GraphicsDevice):
 								properties.line_width)
 
 	def MultiBezierHit(self, paths, p, properties, filled,
-						ignore_outline_mode = 0):
+						ignore_outline_mode=0):
 		x, y = self.DocToWin(p)
 		filled = filled and (ignore_outline_mode or not self.outline_mode)
 		result = _sketch.test_transformed(paths, self.doc_to_win, x, y,
@@ -1889,8 +1884,8 @@ class HitTestDevice(GraphicsDevice):
 			return result
 		odtw = self.doc_to_win
 		self.doc_to_win = Trafo(odtw.m11, odtw.m21, odtw.m12, odtw.m22,
-								-x + pixmap_width_2 + odtw.v1,
-								-y + pixmap_width_2 + odtw.v2)
+								- x + pixmap_width_2 + odtw.v1,
+								- y + pixmap_width_2 + odtw.v2)
 		top_left = self.WinToDoc(x - pixmap_width_2 - 1,
 									y - pixmap_width_2 - 1)
 		bot_right = self.WinToDoc(x + pixmap_width_2 + 1,
@@ -1901,8 +1896,8 @@ class HitTestDevice(GraphicsDevice):
 		self.gc.function = X.GXcopy
 		self.fill = 0
 		line_width = max(line_width, hit_properties.line_width)
-		undo = self.properties.SetProperty(line_width = line_width,
-											line_pattern = SolidPattern(color_1))
+		undo = self.properties.SetProperty(line_width=line_width,
+											line_pattern=SolidPattern(color_1))
 		self.MultiBezier(paths, rect)
 		self.doc_to_win = odtw
 		Undo(undo)
@@ -1941,7 +1936,7 @@ def check_for_shm_images(widget):
 def InitFromWidget(widget):
 	global _init_from_widget_done, use_shm_images
 	if not _init_from_widget_done:
-		color.InitFromWidget(widget) # make certain that color is initialized
+		color.InitFromWidget(widget)# make certain that color is initialized
 		check_for_shm_images(widget)
 		if shm_images_supported:
 			warn(INTERNAL, 'shared memory images supported')

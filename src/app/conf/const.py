@@ -143,7 +143,7 @@ ArcPieSlice = 2
 #	X specific stuff
 #
 
-from app.X11 import X
+from sk1 import x11const as X
 
 ShiftMask = X.ShiftMask
 LockMask = X.LockMask
