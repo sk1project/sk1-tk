@@ -1,26 +1,29 @@
 include MANIFEST.in README setup.cfg libutils.py make_locales.py
 include src/GNU_GPL_v2 src/GNU_LGPL_v2 src/COPYRIGHTS
 include src/script/sk1
-include src/sk1/app/modules/descr.txt
-include src/sk1/app/VERSION
 include src/sk1.desktop src/sk1.png src/sk1.xpm
 include messages/locale.in messages/README
 
-recursive-include src/sk1/app/tcl *.tcl
-recursive-include src/extensions *.*
-
-recursive-include src/share/cursors *.*
-recursive-include src/share/palettes *.*
-recursive-include src/share/ps_templates *.*
-recursive-include src/share/resources *.*
-recursive-include src/share/locales *.*
-
 recursive-include po *.*
 
-include src/s1sdk/libtk/libtkinter/_tkinter.c
+recursive-include src/extensions *.*
+
+recursive-include src/sk1/share/cursors *.*
+recursive-include src/sk1/share/palettes *.*
+recursive-include src/sk1/share/ps_templates *.*
+recursive-include src/sk1/share/resources *.*
+recursive-include src/sk1/share/locales *.*
+
 include src/s1sdk/tkcairo/_tkcairo.c
 recursive-include src/s1sdk/tkpng/libtkpng *.*
 include src/s1sdk/tkpng/pkgIndex.tcl
 recursive-include src/s1sdk/tkstyle/icons *.*
 recursive-include src/s1sdk/tkstyle/themes *.*
 recursive-include src/s1sdk/tkstyle/colors *.*
+include src/s1sdk/tkXcursor/_tkXcursor.c
+recursive-include src/s1sdk/tcl *.tcl
+
+recursive-include src/uc/cms *.c
+recursive-include src/uc/cms *.h
+recursive-include src/uc/cms/profiles *.*
+include src/uc/libcairo/_libcairo.c

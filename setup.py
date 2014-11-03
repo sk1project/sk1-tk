@@ -125,10 +125,11 @@ share_dirs_sdk = []
 for item in dirs: share_dirs_sdk.append(os.path.join(item[11:], '*.*'))
 
 package_data = {
-'app': ['tcl/*.tcl', ],
+'sk1sdk': ['tcl/*.tcl', ],
 'sk1': share_dirs,
 'sk1sdk.tkpng': ['pkgIndex.tcl', ],
 'sk1sdk': share_dirs_sdk,
+'uc':['cms/profiles/*.*'],
 }
 
 #Fix for Debian based distros
