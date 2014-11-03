@@ -24,7 +24,7 @@
 
 from app.events.warn import warn_tb, INTERNAL
 
-from app.UI.command import AddCmd
+from app.command import AddCmd
 
 from app import _, IntersectRects, RegisterCommands
 from compound import EditableCompound

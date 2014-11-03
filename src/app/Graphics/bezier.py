@@ -17,7 +17,7 @@ from app import Point, Polar, Rect, EmptyRect, UnionRects, PointsToRect
 from app import _, _sketch, CreatePath, RegisterCommands, \
 		CreateMultiUndo, NullUndo, Undo
 
-from app.UI.command import AddCmd
+from app.command import AddCmd
 
 from app._sketch import ContAngle, ContSmooth, ContSymmetrical, \
 		SelNone, SelNodes, SelSegmentFirst, SelSegmentLast, Bezier, Line

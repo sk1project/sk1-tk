@@ -24,7 +24,7 @@ from app import _, Point, Polar, Trafo, SingularMatrix, Rect, UnionRects, \
 		CreateMultiUndo, NullUndo, RegisterCommands
 
 
-from app.UI.command import AddCmd
+from app.command import AddCmd
 
 import handle, cids
 from base import Primitive, RectangularPrimitive, RectangularCreator, Creator, \

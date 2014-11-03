@@ -82,7 +82,7 @@ from math import pi, floor
 from app import _, Rect, UnionRects, EmptyRect, NullPoint, Polar, \
 		IdentityMatrix, SingularMatrix, Identity, Trafo, Scale, Translation, \
 		Rotation, NullUndo, CreateMultiUndo, RegisterCommands, Point, CreatePath
-from app.UI.command import AddCmd
+from app.command import AddCmd
 from app.conf import const
 
 import handle
