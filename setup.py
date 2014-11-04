@@ -48,6 +48,7 @@ from libutils import make_source_list, DEB_Builder
 UPDATE_MODULES = False
 DEB_PACKAGE = False
 CLEAR_BUILD = False
+LCMS2 = False
 
 ############################################################
 #
@@ -132,6 +133,8 @@ package_data = {
 'uc':['cms/profiles/*.*'],
 }
 
+if os.path.isfile(os.path.join(include_path, 'lcms2.h')): LCMS2 = True
+
 #Fix for Debian based distros
 tcl_include_dirs = []
 tcl_ver = ''
@@ -185,6 +188,14 @@ if len(sys.argv) > 1:
 		DEB_PACKAGE = True
 		CLEAR_BUILD = True
 		sys.argv[1] = 'build'
+
+	if len(sys.argv) > 2 and '--lcms2' in sys.argv:
+		LCMS2 = True
+		sys.argv.remove('--lcms2')
+
+	if len(sys.argv) > 2 and '--lcms1' in sys.argv:
+		LCMS2 = False
+		sys.argv.remove('--lcms1')
 
 from distutils.core import setup, Extension
 
@@ -272,6 +283,34 @@ tkcairo_module = Extension('sk1sdk.tkcairo._tkcairo',
 			libraries=['tk' + tcl_ver, 'tcl' + tcl_ver, 'cairo'],
 			define_macros=macros, sources=files)
 modules.append(tkcairo_module)
+
+#--- uc extensions
+
+cms_src = os.path.join(src_path, 'uc', 'cms')
+libs = ['lcms2', ]
+if LCMS2:
+ 	files = make_source_list(cms_src, ['_cms2.c', ])
+	deb_depends = 'liblcms2, ' + deb_depends
+else:
+ 	files = make_source_list(cms_src, ['_cms.c', ])
+	deb_depends = 'liblcms1, ' + deb_depends
+	libs = ['lcms', ]
+
+cms_module = Extension('uc.cms._cms',
+		define_macros=macros, sources=files,
+		libraries=libs, extra_compile_args=["-Wall"])
+modules.append(cms_module)
+
+cairo_src = os.path.join(src_path, 'uc', 'libcairo')
+files = make_source_list(cairo_src, ['_libcairo.c', ])
+include_dirs = make_source_list(include_path, ['cairo', 'pycairo'])
+cairo_module = Extension('uc.libcairo._libcairo',
+		define_macros=[('MAJOR_VERSION', '1'), ('MINOR_VERSION', '0')],
+		sources=files, include_dirs=include_dirs,
+		libraries=['cairo'])
+modules.append(cairo_module)
+
+#---
 
 setup(name=NAME,
 	version=VERSION,
