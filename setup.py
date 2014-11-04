@@ -114,7 +114,7 @@ data_files = [
 deb_depends = 'libxcursor1, libcairo2, zlib1g, libx11, libxext, tk8.5 (>=8.5.0)'
 deb_depends += ', zenity, python (>=2.4), python (<<3.0), python-imaging'
 deb_depends += ', python-gtk2, python-imaging-tk'
-deb_depends += ', python-uniconvertor (>=1.2), python-uniconvertor (<<2.0)'
+deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
 share_dirs = []
@@ -134,6 +134,18 @@ package_data = {
 }
 
 if os.path.isfile(os.path.join(include_path, 'lcms2.h')): LCMS2 = True
+
+#Preparing start script
+fileptr = open('src/script/sk1.tmpl', 'rb')
+fileptr2 = open('src/script/sk1', 'wb')
+while True:
+	line = fileptr.readline()
+	if line == '': break
+	if '$SK1_INSTALL_PATH' in line:
+		line = line.replace('$SK1_INSTALL_PATH', install_path)
+	fileptr2.write(line)
+fileptr.close()
+fileptr2.close()
 
 #Fix for Debian based distros
 tcl_include_dirs = []
@@ -365,4 +377,6 @@ if DEB_PACKAGE:
 					dst=install_path)
 	bld.build()
 
-if CLEAR_BUILD: libutils.clear_build()
+if CLEAR_BUILD:
+	libutils.clear_build()
+	os.system('rm -rf script/sk1')

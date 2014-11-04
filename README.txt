@@ -59,5 +59,5 @@ python-tk
 python-gtk2
 python-imaging 
 python-imaging-tk
-python-uniconvertor (latest version from project repository)
+python-reportlab
 python-cairo
