@@ -113,7 +113,7 @@ data_files = [
 ]
 deb_depends = 'libxcursor1, libcairo2, zlib1g, libx11, libxext, tk8.5 (>=8.5.0)'
 deb_depends += ', zenity, python (>=2.4), python (<<3.0), python-imaging'
-deb_depends += ', python-gtk2, python-imaging-tk'
+deb_depends += ', python-gtk2, python-tk, python-imaging-tk'
 deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
@@ -379,4 +379,6 @@ if DEB_PACKAGE:
 
 if CLEAR_BUILD:
 	libutils.clear_build()
-	os.system('rm -rf script/sk1')
+
+os.system('rm -rf MANIFEST')
+os.system('rm -rf src/script/sk1')
