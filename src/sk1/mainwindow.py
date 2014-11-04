@@ -946,9 +946,6 @@ class sK1MainWindow(Publisher):
 					self.commands.RemoveSelected,
 					self.commands.DuplicateSelected,
 					self.commands.SelectAll,
-#                                       None,
-#                                       [(_("Create"), {'auto_rebuild':self.creation_entries}),
-#                                               []],
 					None,
 					cmds.SelectionMode,
 					cmds.EditMode,
@@ -1172,17 +1169,17 @@ class sK1MainWindow(Publisher):
 			directory = config.preferences.dir_for_palettes
 			if not directory:
 				directory = fs.gethome()
-
-			filename, sysfilename = dialogman.getGenericOpenFilename(_("Load Palette"),
-																   sk1.managers.dialogmanager.palette_types,
-																   initialdir=directory, initialfile=filename)
-			if not filename:
-				return
+			from sk1.managers.dialogmanager import palette_types
+			title = _("Load Palette")
+			filename, sysfilename = dialogman.getGenericOpenFilename(title,
+					palette_types, initialdir=directory, initialfile=filename)
+			if not filename: return
 
 		pal = palette.LoadPalette(filename)
 		if not pal:
+			msg = _("\nCannot load palette %(filename)s!\n")
 			self.application.MessageBox(title=_("Load Palette"),
-								message=_("\nCannot load palette %(filename)s!\n") % {'filename': filename})
+					message=msg % {'filename': filename})
 		else:
 			self.palette.SetPalette(pal)
 			config.preferences.palette = filename
@@ -1336,7 +1333,9 @@ class sK1MainWindow(Publisher):
 
 	def CreateImage(self, sysfilename=None):
 		if not sysfilename:
-			filename, sysfilename = dialogman.getImportBMFilename(initialdir=config.preferences.dir_for_bitmap_import, initialfile='')
+			initialdir = config.preferences.dir_for_bitmap_import
+			filename, sysfilename = dialogman.getImportBMFilename(
+										initialdir=initialdir, initialfile='')
 
 		if sysfilename:
 			try:
@@ -1399,11 +1398,8 @@ class sK1MainWindow(Publisher):
 		if objects is not None:
 			self.application.SetClipboard(objects)
 			if self.application.ClipboardContainsData():
-#					obj = self.application.GetClipboard().Object()
 					copies = self.document.copy_objects(self.application.GetClipboard())
 					self.document.Insert(copies, undo_text=_("Paste"))
-#					obj = obj.Duplicate()
-#					self.canvas.PlaceObject(obj)
 
 	def PasteClipboard(self):
 		if self.application.ClipboardContainsData():
