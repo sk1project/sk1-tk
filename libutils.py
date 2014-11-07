@@ -456,8 +456,8 @@ class DEB_Builder:
 
 
 	def copy_scripts(self, dir, scripts):
-		if scripts: self._make_dir(dir)
-		else:return
+		if not scripts: return
+		self._make_dir(dir)
 		for item in scripts:
 			self.info('%s -> %s' % (item, dir), CP_CODE)
 			if os.system('cp %s %s' % (item, dir)):
