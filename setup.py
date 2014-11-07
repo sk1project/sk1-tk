@@ -111,9 +111,9 @@ data_files = [
 ('/usr/share/applications', ['src/sk1.desktop', ]),
 ('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
 ]
-deb_depends = 'libxcursor1, libcairo2, zlib1g, libx11, libxext, tk8.5 (>=8.5.0)'
-deb_depends += ', zenity, python (>=2.4), python (<<3.0), python-imaging'
-deb_depends += ', python-gtk2, python-tk, python-imaging-tk'
+deb_depends = 'libxcursor1, libcairo2, libx11-6, zlib1g, libxext6'
+deb_depends += ', python (>=2.4), python (<<3.0), python-tk'
+deb_depends += ', python-imaging, python-gtk2, python-imaging-tk'
 deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
@@ -124,9 +124,9 @@ share_dirs += ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']
 dirs = libutils.get_dirs_tree('src/sk1sdk/tkstyle')
 share_dirs_sdk = []
 for item in dirs: share_dirs_sdk.append(os.path.join(item[11:], '*.*'))
+share_dirs_sdk.append('tcl/*.*')
 
 package_data = {
-'sk1sdk': ['tcl/*.tcl', ],
 'sk1': share_dirs,
 'sk1sdk.tkpng': ['pkgIndex.tcl', ],
 'sk1sdk': share_dirs_sdk,
@@ -171,6 +171,11 @@ if not tcl_ver:
 		tcl_ver = '8.5'
 	if os.path.isfile('/usr/lib64/libtcl8.6.so'):
 		tcl_ver = '8.6'
+
+if tcl_ver == '8.5':
+	deb_depends = 'tk8.5 (>=8.5.0), ' + deb_depends
+elif tcl_ver == '8.6':
+	deb_depends = 'tk8.6 (>=8.6.0), ' + deb_depends
 
 if not tcl_ver:
 	print 'System tcl/tk =>8.5 libraries have not found!'
@@ -302,7 +307,7 @@ cms_src = os.path.join(src_path, 'uc', 'cms')
 libs = ['lcms2', ]
 if LCMS2:
  	files = make_source_list(cms_src, ['_cms2.c', ])
-	deb_depends = 'liblcms2, ' + deb_depends
+	deb_depends = 'liblcms2-2, ' + deb_depends
 else:
  	files = make_source_list(cms_src, ['_cms.c', ])
 	deb_depends = 'liblcms1, ' + deb_depends

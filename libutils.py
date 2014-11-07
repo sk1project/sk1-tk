@@ -443,12 +443,24 @@ class DEB_Builder:
 			raise IOError('Error while writing Debian control file.')
 
 	def copy_build(self):
-		for pkg in self.package_dirs.keys():
-			dir = self.package_dirs[pkg]
-			src = self.src + '/' + pkg
-			self.info('%s -> %s' % (src, self.dst), CP_CODE)
-			if os.system('cp -R %s %s' % (src, self.dst)):
-				raise IOError('Error while copying %s -> %s' % (src, self.dst))
+#		for pkg in self.package_dirs.keys():
+#			dir = self.package_dirs[pkg]
+#			src = self.src + '/' + pkg
+#			self.info('%s -> %s' % (src, self.dst), CP_CODE)
+#			if os.system('cp -R %s %s' % (src, self.dst)):
+#				raise IOError('Error while copying %s -> %s' % (src, self.dst))
+
+		for item in os.listdir(self.src):
+			path = os.path.join(self.src, item)
+			if os.path.isdir(path):
+				self.info('%s -> %s' % (path, self.dst), CP_CODE)
+				if os.system('cp -R %s %s' % (path, self.dst)):
+					raise IOError('Error while copying %s -> %s' % (path, self.dst))
+			elif os.path.isfile(path):
+				self.info('%s -> %s' % (path, self.dst), CP_CODE)
+				if os.system('cp %s %s' % (path, self.dst)):
+					raise IOError('Error while copying %s -> %s' % (path, self.dst))
+
 
 	def copy_scripts(self, dir, scripts):
 		if scripts: self._make_dir(dir)
