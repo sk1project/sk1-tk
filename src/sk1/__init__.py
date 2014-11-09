@@ -7,9 +7,7 @@
 
 import os
 
-global LANG
-LANG = 'uk_UA.UTF-8'
-os.environ['LANG'] = LANG
+LANG = os.environ['LANG']
 
 import app
 
@@ -19,13 +17,7 @@ def dummy_translator(text):
 _ = dummy_translator
 
 def sk1_run():
-	global LANG
 	import sys, warnings
-
-#	if not os.environ['LANG'] == '':
-#		lang = os.environ['LANG'].split('.')
-#		LANG = os.environ['LANG']
-#		os.environ['LANG'] = lang[0] + lang[1].upper()
 
 	warnings.filterwarnings("ignore")
 
