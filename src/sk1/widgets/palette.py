@@ -6,362 +6,104 @@
 # This library is covered by GNU Library General Public License.
 # For more info see COPYRIGHTS file in sK1 root directory.
 
-import operator, os, app
-from types import StringType, TupleType, IntType
-from string import strip, split, atof, atoi
-import xml.sax
-from xml.sax import handler
-from xml.sax.xmlreader import InputSource
+import os, app
 
-from app.Graphics.color import RGB_Color, CMYK_Color, \
-CreateSPOTColor, CreateSPOT_RGBColor, CreateSPOT_CMYKColor, tk_to_rgb
-from app.conf.const import COLOR1, COLOR2, CHANGED, VIEW, DROP_COLOR
-from app.events.warn import warn, INTERNAL, USER, pdebug, warn_tb
-from app import Publisher, config, SketchError, _
+from app.Graphics.color import RGB_Color, CMYK_Color, SPOT_Color, tk_to_rgb
+from app.conf.const import COLOR1, COLOR2
+from app import Publisher, config, SketchIOError
 from app import CreateRGBColor, StandardColors, GraphicsDevice, Identity, Point
 
 from sk1.tkext import PyWidget
 
 
-class NameInUse(SketchError):
-	pass
+class SK1Palette:
 
-class RGBAlreadyStored(SketchError):
-	pass
+	name = ''
+	source = ''
+	columns = 1
+	color = []
+	pal_sign = '##sK1 palette'
 
-class RGBPalette(Publisher):
-
-	ignore_issue = 1
-
-	def __init__(self):
-		self.entries = []
-		self.name_to_entry = {}
-		self.rgb_to_entry = {}
-
-	def Subscribe(self, channel, func, *args):
-		apply(Publisher.Subscribe, (self, channel, func) + args)
-		self.ignore_issue = 0
-
-	def update_dicts(self):
-		self.name_to_entry = {}
-		self.rgb_to_entry = {}
-		for entry in self.entries:
-			rgb, name = entry
-			self.name_to_entry[name] = entry
-			self.rgb_to_entry[rgb] = entry
-
-	def AddEntry(self, rgb, name=None, rename=0):
-		if name:
-			if self.name_to_entry.has_key(name):
-				if self.name_to_entry[name] != (rgb, name):
-					raise NameInUse
-		if self.rgb_to_entry.has_key(rgb):
-			if self.rgb_to_entry[rgb] != (rgb, name) and not rename:
-				raise RGBAlreadyStored
-		if not name:
-			i = 0
-			base = 'Color '
-			name = base + `i`
-			known = self.name_to_entry.has_key
-			while known(name):
-				i = i + 1
-				name = base + `i`
-		entry = (rgb, name)
-		self.entries.append(entry)
-		self.name_to_entry[name] = entry
-		self.rgb_to_entry[rgb] = entry
-		self.issue(CHANGED)
-
-	def __getitem__(self, idx):
-		if type(idx) == StringType:
-			return self.name_to_entry[idx]
-		if type(idx) == TupleType:
-			return self.rgb_to_entry[idx]
-		if type(idx) == IntType:
-			return self.entries[idx]
-
-
-	def GetRGB(self, idx):
-		return self[idx][0]
-
-	def Colors(self):
-		return map(operator.getitem, self.entries, [0] * len(self.entries))
-
-	def WriteFile(self, file):
-		for entry in self.entries:
-			(r, g, b), name = entry
-			file.write('%g %g %g\t%s\n' % (r, g, b, name))
-
-	def __len__(self):
-		return len(self.entries)
-
-
-
-#
-#	Get the standard palette. User settable.
-#
-
-def read_standard_palette(filename):
-	filename = os.path.join(config.std_res_dir, filename)
-	return read_palette_file(filename)
-
-#minimalistic fallback:
-_mini_pal = [(0, 0, 0, 'Black'),
-				(1, 1, 1, 'White')]
-
-def GetStandardPalette():
-	palette = LoadPalette(config.preferences.palette)
-	#if not palette:
-		#warn(USER,
-			#_("Could not load palette mini.spl; reverting to black&white"))
-		#palette = RGBPalette()
-		#for r, g, b, name in _mini_pal:
-			#palette.AddEntry((r, g, b), name)
-	return palette
-
-
-def LoadPalette(filename):
-	try:
-		return UniversalPalette(filename)
-	except:
-		return None
-
-file_types = ((_("Sketch Palette"), '.spl'),
-				(_("All Files"), 	 '*'))
-
-
-magic_rgb_palette = '##Sketch RGBPalette 0'
-magic_gimp_palette = 'GIMP Palette'
-
-def read_palette_file(filename):
-	"""Read the palette file filename"""
-	file = open(filename)
-	line = file.readline()
-	line = strip(line)
-	palette = None
-	try:
-		if line == magic_rgb_palette:
-			palette = ReadRGBPaletteFile(filename)
-		elif line == magic_gimp_palette:
-			palette = Read_X_RGB_TXT(filename)
-	except:
-		warn_tb(USER)
-	return palette
-
-
-def ReadRGBPaletteFile(filename):
-	file = open(filename)
-
-	line = file.readline()
-	if line != magic_rgb_palette + '\n':
-		file.close()
-		raise ValueError, 'Invalid file type'
-
-	palette = RGBPalette()
-
-	linenr = 1
-	for line in file.readlines():
-		line = strip(line)
-		linenr = linenr + 1
-		if not line or line[0] == '#':
-			continue
-
-		line = split(line, None, 3)
-
-		if len(line) != 4:
-			warn(INTERNAL, '%s:%d: wrong number of fields', filename, linenr)
-			continue
-		try:
-			rgb = tuple(map(atof, line[:3]))
-		except:
-			warn(INTERNAL, '%s:%d: cannot parse rgb values', filename, linenr)
-			continue
-
-		for value in rgb:
-			if value < 0 or value > 1.0:
-				warn(INTERNAL, '%s:%d: value out of range', filename, linenr)
-				continue
-
-		name = strip(line[-1])
-
-		try:
-			palette.AddEntry(rgb, name)
-		except NameInUse:
-			warn(INTERNAL, '%s:%d: color name already used', filename, linenr)
-			continue
-		except RGBAlreadyStored:
-			warn(INTERNAL, '%s:%d: color already stored', filename, linenr)
-			continue
-
-	file.close()
-
-	return palette
-
-
-
-def Read_X_RGB_TXT(filename):
-	file = open(filename)
-
-	palette = RGBPalette()
-
-	linenr = 0
-	color_num = 0
-	for line in file.readlines():
-		line = strip(line)
-		linenr = linenr + 1
-		if not line or line[0] in ('#', '!'):
-			# an empty line or an X-style comment (!) or a GIMP comment (#)
-			# GIMP's palette files have practically the same format as rgb.txt
-			continue
-
-		line = split(line, None, 3)
-		if len(line) == 3:
-			# the name is missing
-			while 1:
-				name = 'color ' + str(color_num)
-				try:
-					palette[name]
-					used = 1
-				except KeyError:
-					used = 0
-				if not used:
-					line.append(name)
-					break
-				color_num = color_num + 1
-		if len(line) != 4:
-			warn(INTERNAL, '%s:%d: wrong number of fields', filename, linenr)
-			continue
-		try:
-			values = map(atoi, line[:3])
-		except:
-			warn(INTERNAL, '%s:%d: cannot parse rgb values', filename, linenr)
-			continue
-
-		rgb = []
-		for value in values:
-			value = round(value / 255.0, 3)
-			if value < 0:
-				value = 0.0
-			elif value > 1.0:
-				value = 1.0
-			rgb.append(value)
-		rgb = tuple(rgb)
-
-		name = strip(line[-1])
-
-		try:
-			palette.AddEntry(rgb, name)
-		except NameInUse:
-			warn(INTERNAL, '%s:%d: color name already used', filename, linenr)
-			continue
-		except RGBAlreadyStored:
-			warn(INTERNAL, '%s:%d: color already stored', filename, linenr)
-			continue
-
-	file.close()
-
-	return palette
-
-class UniversalPalette:
-
-	def __init__(self, file=None):
-		self.name = ''
-		self.type = ''
+	def __init__(self, filepath=''):
 		self.colors = []
-		if file and os.path.isfile(file):
-			self.file = file
+		if filepath and os.path.isfile(filepath):
+			self.load_palette(filepath)
+
+	def load_palette(self, filepath):
+		if not filepath or not os.path.isfile(filepath):
+			strerror = 'Cannot read palette'
+			print strerror
+			raise SketchIOError(0, strerror, filepath)
+
+		fileptr = open(filepath, 'rb')
+		if not fileptr.readline().strip() == self.pal_sign:
+			strerror = 'Unsupported palette format'
+			print strerror
+			raise SketchIOError(0, strerror, filepath)
+
+		while True:
+			line = fileptr.readline()
+			if not line: break
+			line = line.strip()
+			if not line: continue
+			if line[0] == '#': continue
+			try:
+				line = 'self.' + line
+				code = compile(line, '<string>', 'exec')
+				exec code
+			except:pass
+		fileptr.close()
+
+	def palette(self, *args):pass
+	def set_name(self, name): self.name = name
+	def set_source(self, source):self.source = source
+	def set_columns(self, val): self.columns = val
+	def color(self, color):
+		clrtype = 'RGB'
+		clrvals = ()
+		alpha = 1.0
+		name = ''
+		palname = ''
+		if not color[0] == 'SPOT':
+			clrtype, clrvals, alpha, name = color
 		else:
-			self.file = os.path.join(config.sk_palettes, config.preferences.unipalette)
-		self.loadPalette(self.file)
+			clrtype, clrvals, alpha, name, palname = color
 
-	def loadPalette(self, file=None):
-		self.load(file)
+		if clrtype == 'RGB':
+			r, g, b = clrvals
+			self.colors.append(RGB_Color(r, g, b, alpha, name))
+		elif clrtype == 'CMYK':
+			c, m, y, k = clrvals
+			self.colors.append(CMYK_Color(c, m, y, k, alpha, name))
+		elif clrtype == 'SPOT':
+			r, g, b = clrvals[0]
+			c, m, y, k = clrvals[1]
+			clr = SPOT_Color(r, g, b, c, m, y, k, name, palname)
+			self.colors.append(clr)
 
-	def load(self, filename=None):
-		content_handler = XMLPaletteReader(palette=self)
-		error_handler = ErrorHandler()
-		entity_resolver = EntityResolver()
-		dtd_handler = DTDHandler()
-		try:
-			input = open(filename, "r")
-			input_source = InputSource()
-			input_source.setByteStream(input)
-			xml_reader = xml.sax.make_parser()
-			xml_reader.setContentHandler(content_handler)
-			xml_reader.setErrorHandler(error_handler)
-			xml_reader.setEntityResolver(entity_resolver)
-			xml_reader.setDTDHandler(dtd_handler)
-			xml_reader.parse(input_source)
-			input.close
-		except:
-			pass
+	def palette_end(self, *args):pass
 
-class XMLPaletteReader(handler.ContentHandler):
-	def __init__(self, palette=None):
-		self.key = None
-		self.value = None
-		self.palette = palette
-		self.attrs = None
-		self.type = None
+def load_palette(filepath):
+	if os.path.isfile(filepath):
+		try: return SK1Palette(filepath)
+		except: pass
+	return None
 
-	def startElement(self, name, attrs):
-		self.key = name
-		self.attrs = attrs
+def get_builtin_palette():
+	filepath = os.path.join(config.sk_palettes,
+						config.preferences.builtin_palette)
+	return load_palette(filepath)
 
-	def endElement(self, name):
-		if name == 'color':
-			if self.type == 'RGB':
-				r = atof(self.attrs._attrs['r'])
-				g = atof(self.attrs._attrs['g'])
-				b = atof(self.attrs._attrs['b'])
-				color_name = self.attrs._attrs['name']
-				self.palette.colors.append(RGB_Color(r, g, b, name=color_name))
-				#c,m,y,k=app.colormanager.convertRGB(r,g,b)
-				#print '<color c="%f"'%c,'m="%f"'%m,'y="%f"'%y,'k="%f"'%k,'name="%s"'%color_name,'/>'
-			if self.type == 'CMYK':
-				c = atof(self.attrs._attrs['c'])
-				m = atof(self.attrs._attrs['m'])
-				y = atof(self.attrs._attrs['y'])
-				k = atof(self.attrs._attrs['k'])
-				color_name = self.attrs._attrs['name']
-				self.palette.colors.append(CMYK_Color(c, m, y, k, name=color_name))
-			if self.type == 'SPOT':
-				r = atof(self.attrs._attrs['r'])
-				g = atof(self.attrs._attrs['g'])
-				b = atof(self.attrs._attrs['b'])
-				c = atof(self.attrs._attrs['c'])
-				m = atof(self.attrs._attrs['m'])
-				y = atof(self.attrs._attrs['y'])
-				k = atof(self.attrs._attrs['k'])
-				color_name = self.attrs._attrs['name']
-				palette = self.palette.name
-				self.palette.colors.append(CreateSPOTColor(r, g, b, c, m, y, k, color_name, palette))
-			if self.type == 'SPOT-RGB':
-				r = atof(self.attrs._attrs['r'])
-				g = atof(self.attrs._attrs['g'])
-				b = atof(self.attrs._attrs['b'])
-				color_name = self.attrs._attrs['name']
-				palette = self.palette.name
-				self.palette.colors.append(CreateSPOT_RGBColor(r, g, b, color_name, palette))
-			if self.type == 'SPOT-CMYK':
-				c = atof(self.attrs._attrs['c'])
-				m = atof(self.attrs._attrs['m'])
-				y = atof(self.attrs._attrs['y'])
-				k = atof(self.attrs._attrs['k'])
-				color_name = self.attrs._attrs['name']
-				palette = self.palette.name
-				self.palette.colors.append(CreateSPOT_CMYKColor(c, m, y, k, color_name, palette))
-		if name == 'description':
-			self.type = self.attrs._attrs['type']
-			self.palette.name = self.attrs._attrs['name']
-			self.palette.type = self.attrs._attrs['type']
+def get_default_palette():
+	pal = None
+	if config.preferences.palette:
+		print config.preferences.palette
+		pal = load_palette(config.preferences.palette)
+	if pal: return pal
+	return get_builtin_palette()
 
-	def characters(self, data):
-		self.value = data
 
-class ErrorHandler(handler.ErrorHandler): pass
-class EntityResolver(handler.EntityResolver): pass
-class DTDHandler(handler.DTDHandler): pass
+##########################
 
 class PaletteWidget(PyWidget, Publisher):
 
@@ -376,8 +118,6 @@ class PaletteWidget(PyWidget, Publisher):
 		self.gc = GraphicsDevice()
 		self.gc.SetViewportTransform(1.0, Identity, Identity)
 		self.start_idx = 0
-		self.unipalette = UniversalPalette()
-		self.SetPalette(self.unipalette)
 		self.dragging = 0
 		self.bind('<ButtonPress-1>', self.release_1)
 		self.bind('<ButtonPress-3>', self.apply_color_2)
@@ -390,7 +130,6 @@ class PaletteWidget(PyWidget, Publisher):
 
 	def MapMethod(self):
 		self.compute_num_cells()
-		self.issue(VIEW)
 		if not self.gc_initialized:
 			self.init_gc()
 			self.gc_initialized = 1
@@ -436,8 +175,6 @@ class PaletteWidget(PyWidget, Publisher):
 	def palette_changed(self):
 		self.compute_num_cells()
 		self.normalize_start()
-		self.issue(VIEW)
-#		self.UpdateWhenIdle()
 		self.tk.call(self._w, 'update')
 
 	def RedrawMethod(self, region=None):
@@ -509,7 +246,6 @@ class PaletteWidget(PyWidget, Publisher):
 		self.normalize_start()
 		if start != self.start_idx:
 			self.UpdateWhenIdle()
-			self.issue(VIEW)
 
 	def ScrollXUnits(self, count):
 		start = self.start_idx
@@ -517,5 +253,4 @@ class PaletteWidget(PyWidget, Publisher):
 		self.normalize_start()
 		if start != self.start_idx:
 			self.UpdateWhenIdle()
-			self.issue(VIEW)
 

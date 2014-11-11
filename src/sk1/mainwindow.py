@@ -260,7 +260,8 @@ class sK1MainWindow(Publisher):
 
 		# the palette
 
-		pal = palette.GetStandardPalette()
+		pal = palette.get_default_palette()
+		print pal
 
 		palette_trough = TFrame(palette_frame, style='FlatFrame')
 		palette_container = TFrame(palette_trough, style='FlatFrame')
@@ -1159,9 +1160,7 @@ class sK1MainWindow(Publisher):
 		return self.keymap.MapKeystroke(stroke)
 
 	def LoadBuiltinPalette(self, *args):
-		palfile = os.path.join(config.sk_palettes, config.preferences.unipalette)
-		pal = palette.LoadPalette(palfile)
-		self.palette.SetPalette(pal)
+		self.palette.SetPalette(palette.get_builtin_palette())
 		config.preferences.palette = ''
 
 	def LoadPalette(self, filename=None):
@@ -1175,7 +1174,7 @@ class sK1MainWindow(Publisher):
 					palette_types, initialdir=directory, initialfile=filename)
 			if not filename: return
 
-		pal = palette.LoadPalette(filename)
+		pal = palette.load_palette(filename)
 		if not pal:
 			msg = _("\nCannot load palette %(filename)s!\n")
 			self.application.MessageBox(title=_("Load Palette"),
