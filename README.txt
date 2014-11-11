@@ -49,7 +49,7 @@ libcairo2-dev
 liblcms2-dev (or liblcms1-dev)
 zlib1g-dev 
 libxext-dev 
-tk8.5-dev 
+tk8.6-dev (or tk8.5-dev)
 python-dev
 python-cairo-dev
 
