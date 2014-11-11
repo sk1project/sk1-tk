@@ -1409,9 +1409,12 @@ class sK1MainWindow(Publisher):
 
 
 	def FitToNat (self):
-		hp = float(self.canvas.winfo_screenheight())
-		hm = float(self.canvas.winfo_screenmmheight())
-		self.canvas.SetScale(1.07 + hm / hp)
+		if config.preferences.default_unit == 'px':
+			self.canvas.SetScale(1.0)
+		else:
+			hp = float(self.canvas.winfo_screenheight())
+			hm = float(self.canvas.winfo_screenmmheight())
+			self.canvas.SetScale(1.0 + hm / hp)
 
 
 
