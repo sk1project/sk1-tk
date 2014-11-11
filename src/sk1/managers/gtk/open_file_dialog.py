@@ -62,7 +62,7 @@ def get_open_file_name(start_dir='~'):
 		dialog.add_filter(file_filter)
 
 	ret = dialog.run()
-	if not ret == gtk.RESPONSE_CANCEL:
+	if ret == gtk.RESPONSE_OK:
 		result = dialog.get_filename()
 	dialog.destroy()
 	if result is None: result = ''

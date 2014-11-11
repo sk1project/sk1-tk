@@ -66,7 +66,7 @@ def get_save_file_name(path='~'):
 		dialog.add_filter(file_filter)
 
 	ret = dialog.run()
-	if not ret == gtk.RESPONSE_CANCEL:
+	if ret == gtk.RESPONSE_OK:
 		result = dialog.get_filename()
 	dialog.destroy()
 	if result is None: result = ''
