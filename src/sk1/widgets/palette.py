@@ -32,13 +32,11 @@ class SK1Palette:
 	def load_palette(self, filepath):
 		if not filepath or not os.path.isfile(filepath):
 			strerror = 'Cannot read palette'
-			print strerror
 			raise SketchIOError(0, strerror, filepath)
 
 		fileptr = open(filepath, 'rb')
 		if not fileptr.readline().strip() == self.pal_sign:
 			strerror = 'Unsupported palette format'
-			print strerror
 			raise SketchIOError(0, strerror, filepath)
 
 		while True:
@@ -97,7 +95,6 @@ def get_builtin_palette():
 def get_default_palette():
 	pal = None
 	if config.preferences.palette:
-		print config.preferences.palette
 		pal = load_palette(config.preferences.palette)
 	if pal: return pal
 	return get_builtin_palette()

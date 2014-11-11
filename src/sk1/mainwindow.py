@@ -261,7 +261,6 @@ class sK1MainWindow(Publisher):
 		# the palette
 
 		pal = palette.get_default_palette()
-		print pal
 
 		palette_trough = TFrame(palette_frame, style='FlatFrame')
 		palette_container = TFrame(palette_trough, style='FlatFrame')
