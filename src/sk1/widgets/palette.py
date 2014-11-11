@@ -66,6 +66,8 @@ class SK1Palette:
 			clrtype, clrvals, alpha, name = color
 		else:
 			clrtype, clrvals, alpha, name, palname = color
+			palname = palname.decode('utf-8')
+		name = name.decode('utf-8')
 
 		if clrtype == 'RGB':
 			r, g, b = clrvals
