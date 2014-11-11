@@ -1000,10 +1000,10 @@ class sK1MainWindow(Publisher):
 					None,
 					self.canvas.commands.ToggleSnapToGrid,
 					self.canvas.commands.ToggleSnapToGuides,
-					self.canvas.commands.ToggleSnapToObjects
-					#None,
-					#self.canvas.commands.ToggleSnapMoveRelative,
-					#self.canvas.commands.ToggleSnapBoundingRect
+					self.canvas.commands.ToggleSnapToObjects,
+#					None,
+#					self.canvas.commands.ToggleSnapMoveRelative,
+#					self.canvas.commands.ToggleSnapBoundingRect
 					])
 
 	def make_arrange_menu(self):
@@ -1091,10 +1091,10 @@ class sK1MainWindow(Publisher):
 					None,
 					self.commands.LineNone,
 					self.commands.CreateLineStyleDialog,
-					None,
-					self.commands.CreateStyleFromSelection,
-					self.commands.CreateStyleDialog,
-					self.commands.UpdateStyle# ,
+#					None,
+#					self.commands.CreateStyleFromSelection,
+#					self.commands.CreateStyleDialog,
+#					self.commands.UpdateStyle,
 #                   None,
 #                   self.commands.CreateFontDialog
 					])
@@ -1112,7 +1112,7 @@ class sK1MainWindow(Publisher):
 					cmds.CreateLineStyleDialog,
 					cmds.CreateFillStyleDialog,
 #					cmds.CreateFontDialog,
-					cmds.CreateStyleDialog#,
+					cmds.CreateStyleDialog,
 #					None,
 #					cmds.CreateLayoutDialog,
 #					None,
