@@ -1362,3 +1362,14 @@ def InitFromTkapp(tk):
 			pax.create_tcl_commands(tk)
 		#tk.call('load', pax.__file__, 'paxwidget')
 	_tcl_commands_created = 1
+
+class UnitLabel(Tkinter.Label):
+
+	def __init__(self, master):
+		unit_txt = config.preferences.default_unit
+		Tkinter.Label.__init__(self, master, text=unit_txt)
+		config.preferences.Subscribe(CHANGED, self.update_unit)
+
+	def update_unit(self, *args):
+		self['text'] = config.preferences.default_unit
+

@@ -25,6 +25,8 @@ from app import config
 from app.Lib.units import unit_dict, unit_names
 
 from sk1.ttk_ext import TComboSmall, TSpinbox
+from sk1.tkext import UnitLabel
+
 
 
 class LengthVar:
@@ -104,15 +106,14 @@ def create_length_widgets(top, master, command):
 	var_unit = StringVar(top)
 	var_length = LengthVar(1.0, config.preferences.default_unit, var_number, var_unit, command=command)
 	entry = TSpinbox(master, textvariable=var_number, vartype=1, min=0, max=50000, step=.1, width=6, command=var_length.UpdateNumber)
-	optmenu = create_unit_menu(master, var_length.UpdateUnit, variable=var_unit, width=3)
-	return var_length, entry, optmenu
+	unitlabel = UnitLabel(master)
+	return var_length, entry, unitlabel
 
 
 
 def create_length_entry(top, master, command, scroll_pad=2):
-	var, entry, optmenu = create_length_widgets(top, master, command)
-	optmenu.pack(side=RIGHT, expand=0, anchor=E)
+	var, entry, unitlabel = create_length_widgets(top, master, command)
+	unitlabel.pack(side=RIGHT, expand=0, anchor=E)
 	entry.pack(side=RIGHT, expand=0, anchor=E, padx=2)
-# 	scroll.pack(side = LEFT, fill = Y, pady = scroll_pad)
 
 	return var
