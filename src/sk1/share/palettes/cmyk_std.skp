@@ -1,6 +1,6 @@
 ##sK1 palette
 palette()
-set_name('Standart CMYK Palette')
+set_name('Standard CMYK Palette')
 set_source('sK1 Project')
 set_columns(1)
 color(['CMYK', (0.0, 0.0, 0.0, 1.0), 1.0, 'Black'])
