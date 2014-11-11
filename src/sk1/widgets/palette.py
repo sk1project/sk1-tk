@@ -53,8 +53,8 @@ class SK1Palette:
 		fileptr.close()
 
 	def palette(self, *args):pass
-	def set_name(self, name): self.name = name
-	def set_source(self, source):self.source = source
+	def set_name(self, name): self.name = name.decode('utf-8')
+	def set_source(self, source):self.source = source.decode('utf-8')
 	def set_columns(self, val): self.columns = val
 	def color(self, color):
 		clrtype = 'RGB'
