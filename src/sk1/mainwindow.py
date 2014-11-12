@@ -778,7 +778,7 @@ class sK1MainWindow(Publisher):
 	AddCmd('PasteClipboard', _("Paste"), image='menu_edit_paste', key_stroke=('Ctrl+V', 'Ctrl+v'),
 			subscribe_to=('application', CLIPBOARD), sensitive_cb=('application', 'ClipboardContainsData'))
 
-#	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args = ('dlg_layer', 'LayerPanel'), key_stroke = 'F5')
+	AddCmd('CreateLayerDialog', _("Layers..."), 'CreateDialog', args=('sk1.dialogs.layerdlg', 'LayerPanel'), key_stroke='F5')
 	AddCmd('CreateAlignDialog', _("Align to ..."), 'LoadPlugin', args=('Alignment'), key_stroke=('Ctrl+A', 'Ctrl+a'))
 	AddCmd('CreateGridDialog', _("Grid Setup..."), 'LoadPlugin', args=('Grid'))#################################
 	AddCmd('CreateLineStyleDialog', _("Outline..."), 'LoadPlugin', args=('OutlineProperties'), key_stroke='F12')
@@ -994,6 +994,7 @@ class sK1MainWindow(Publisher):
 #					self.commands.CreateLayoutDialog,
 					self.commands.CreateGridDialog,
 					self.commands.CreateGuideDialog,
+#					self.commands.CreateLayerDialog,
 					None,
 					self.commands.AddHorizGuideLine,
 					self.commands.AddVertGuideLine,
