@@ -21,7 +21,8 @@ class SK1Palette:
 	name = ''
 	source = ''
 	columns = 1
-	color = []
+	comments = ''
+	colors = []
 	pal_sign = '##sK1 palette'
 
 	def __init__(self, filepath=''):
@@ -52,7 +53,14 @@ class SK1Palette:
 			except:pass
 		fileptr.close()
 
-	def palette(self, *args):pass
+	def palette(self, name=''):
+		if name: self.name = name.decode('utf-8')
+
+	def add_comments(self, comment_line=''):
+		if comment_line:
+			if self.comments: self.comments += '\n'
+			self.comments += comment_line.decode('utf-8')
+
 	def set_name(self, name): self.name = name.decode('utf-8')
 	def set_source(self, source):self.source = source.decode('utf-8')
 	def set_columns(self, val): self.columns = val
