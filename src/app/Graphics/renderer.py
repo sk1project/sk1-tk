@@ -13,7 +13,6 @@ from uc import libcairo
 
 from app import config
 from app.conf import const
-import Image
 
 CAIRO_BLACK = (0.0, 0.0, 0.0)
 CAIRO_DGRAY = (0.25, 0.25, 0.25)
