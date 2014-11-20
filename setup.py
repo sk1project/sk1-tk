@@ -119,7 +119,7 @@ deb_depends += ', python-cairo, python-reportlab'
 dirs = libutils.get_dirs_tree('src/sk1/share')
 share_dirs = []
 for item in dirs: share_dirs.append(os.path.join(item[8:], '*.*'))
-share_dirs += ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS', 'share/*.*']
+share_dirs += ['GNU_GPL_v2', 'GNU_LGPL_v2', 'COPYRIGHTS']
 
 dirs = libutils.get_dirs_tree('src/sk1sdk/tkstyle')
 share_dirs_sdk = []
