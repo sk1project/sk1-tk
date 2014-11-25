@@ -80,8 +80,10 @@ class ObjRenderer:
 
 			h = obj.data.size[1]
 			x0, y0 = self.doc_to_win(*obj.trafo(0, h))
-
-			self.ctx.set_matrix(cairo.Matrix(self.zoom, 0, 0, self.zoom, x0, y0))
+			m11, m12, m21, m22 = obj.trafo.coeff()[:4]
+			matrix = cairo.Matrix(self.zoom * m11, -self.zoom * m12,
+								- self.zoom * m21, self.zoom * m22, x0, y0)
+			self.ctx.set_matrix(matrix)
 
 			if self.stroke_mode:
 				if not obj.cache_gray_cdata:
