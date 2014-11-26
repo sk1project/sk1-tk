@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1998, 1999, 2000, 2002 by Bernhard Herzog
 #
@@ -51,7 +53,7 @@ class BZIP2Loader:
 			basename = self.filename
 		stream = os.popen('bzip2 -d -c ' + sh_quote(self.filename))
 		doc = load.load_drawing_from_file(stream, basename,
-											doc_class = self.doc_class)
+											doc_class=self.doc_class)
 		if doc:
 			doc.meta.compressed = "bzip2"
 			doc.meta.compressed_file = self.filename

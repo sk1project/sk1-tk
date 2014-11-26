@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
     drawfile.py
 
@@ -47,16 +49,16 @@ class drawfile_error(Exception):
 
     pass
 
-units_per_inch = 180*256
+units_per_inch = 180 * 256
 units_per_point = 640
 
 # Compatibility with future versions of Python with different division
 # semantics:
-points_per_inch = int(units_per_inch/units_per_point)
+points_per_inch = int(units_per_inch / units_per_point)
 
 class drawfile_object:
 
-    def __init__(self, data = None):
+    def __init__(self, data=None):
 
         if data != None:
 
@@ -67,18 +69,18 @@ class drawfile_object:
             self.new()
 
     def number(self, size, n):
-    
+
         # Little endian writing
-    
+
         s = ""
-    
+
         while size > 0:
             i = n % 256
             s = s + chr(i)
 #           n = n / 256
             n = n >> 8
             size = size - 1
-    
+
         return s
 
     def str2num(self, size, s):
@@ -141,7 +143,7 @@ class font_table(drawfile_object):
 
             number = ord(data[at])
 
-            if number == 0:     # at the end of the object
+            if number == 0:# at the end of the object
                 return
 
             name = ''
@@ -155,7 +157,7 @@ class font_table(drawfile_object):
 
             at = at + 1
 
-            if name == '':      # at the end of the object
+            if name == '':# at the end of the object
                 return
 
             self.font_table[number] = name
@@ -179,7 +181,7 @@ class font_table(drawfile_object):
 
         # Pad with zeros
         pad = len(data) % 4
-        data = data + ((4-pad) % 4)*'\000'
+        data = data + ((4 - pad) % 4) * '\000'
 
         data = self.number(4, 0) + self.number(4, len(data) + 8) + data
 
@@ -214,7 +216,7 @@ class text(drawfile_object):
             self.transform = (
                 self.str2num(4, data[0:4]), self.str2num(4, data[4:8]),
                 self.str2num(4, data[8:12]), self.str2num(4, data[12:16]),
-                self.str2num(4, data[16:20]), self.str2num(4, data[20:24]) )
+                self.str2num(4, data[16:20]), self.str2num(4, data[20:24]))
 
             self.font_flags = self.str2num(4, data[24:28])
 
@@ -245,8 +247,8 @@ class text(drawfile_object):
 
     def output(self):
 
-        pad = (len(self.text)+1) % 4
-        if pad != 0: pad = 4 - pad 
+        pad = (len(self.text) + 1) % 4
+        if pad != 0: pad = 4 - pad
 
         data = self.number(4, 1) + \
             self.number(4, len(self.text) + 1 + pad + 24 + 28) + \
@@ -269,19 +271,19 @@ class text(drawfile_object):
             self.number(4, self.baseline[1]) + \
             self.text + '\000'
 
-        data = data + pad*'\000'
+        data = data + pad * '\000'
 
         return data
 
 
 class path(drawfile_object):
 
-    join = ['mitred', 'round', 'bevelled']                  # 0, 1, 2
-    end_cap = ['butt', 'round', 'square', 'triangular']     # 0, 4, 8, 12
-    start_cap = ['butt', 'round', 'square', 'triangular']   # 0, 16, 32, 48
-    winding = ['non-zero', 'even-odd']                      # 0, 64
-    dashed = ['missing', 'present']                         # 0, 128
-    tag = ['end', '', 'move', '', '', 'close', 'bezier', '', 'draw']  
+    join = ['mitred', 'round', 'bevelled']# 0, 1, 2
+    end_cap = ['butt', 'round', 'square', 'triangular']# 0, 4, 8, 12
+    start_cap = ['butt', 'round', 'square', 'triangular']# 0, 16, 32, 48
+    winding = ['non-zero', 'even-odd']# 0, 64
+    dashed = ['missing', 'present']# 0, 128
+    tag = ['end', '', 'move', '', '', 'close', 'bezier', '', 'draw']
 
     def new(self):
 
@@ -305,10 +307,10 @@ class path(drawfile_object):
         data = args[4]
         l = len(data)
 
-        self.fill = [self.str2num(1,data[0]), self.str2num(1,data[1]),
-                     self.str2num(1,data[2]), self.str2num(1,data[3])]
-        self.outline = [self.str2num(1,data[4]), self.str2num(1,data[5]),
-                        self.str2num(1,data[6]), self.str2num(1,data[7])]
+        self.fill = [self.str2num(1, data[0]), self.str2num(1, data[1]),
+                     self.str2num(1, data[2]), self.str2num(1, data[3])]
+        self.outline = [self.str2num(1, data[4]), self.str2num(1, data[5]),
+                        self.str2num(1, data[6]), self.str2num(1, data[7])]
         self.width = self.str2num(4, data[8:12])
         style = self.str2num(4, data[12:16])
 
@@ -347,7 +349,7 @@ class path(drawfile_object):
             at = 24
             for i in range(number):
 
-                self.pattern.append(self.str2num(4, data[at:at+4]))
+                self.pattern.append(self.str2num(4, data[at:at + 4]))
                 at = at + 4
 
         else:
@@ -358,7 +360,7 @@ class path(drawfile_object):
         self.path = []
         while at < l:
 
-            tag = self.str2num(4, data[at:at+4])
+            tag = self.str2num(4, data[at:at + 4])
 
             if tag == 0:
                 self.path.append(['end'])
@@ -366,8 +368,8 @@ class path(drawfile_object):
             elif tag == 2:
                 self.path.append(
                     ('move',
-                     (self.str2num(4, data[at+4:at+8]),
-                      self.str2num(4, data[at+8:at+12]) ) ) )
+                     (self.str2num(4, data[at + 4:at + 8]),
+                      self.str2num(4, data[at + 8:at + 12]))))
                 at = at + 12
             elif tag == 5:
                 self.path.append(['close'])
@@ -375,18 +377,18 @@ class path(drawfile_object):
             elif tag == 6:
                 self.path.append(
                     ('bezier',
-                     (self.str2num(4, data[at+4:at+8]),
-                      self.str2num(4, data[at+8:at+12]) ),
-                     (self.str2num(4, data[at+12:at+16]),
-                      self.str2num(4, data[at+16:at+20]) ),
-                     (self.str2num(4, data[at+20:at+24]),
-                      self.str2num(4, data[at+24:at+28]) ) ) )
+                     (self.str2num(4, data[at + 4:at + 8]),
+                      self.str2num(4, data[at + 8:at + 12])),
+                     (self.str2num(4, data[at + 12:at + 16]),
+                      self.str2num(4, data[at + 16:at + 20])),
+                     (self.str2num(4, data[at + 20:at + 24]),
+                      self.str2num(4, data[at + 24:at + 28]))))
                 at = at + 28
             elif tag == 8:
                 self.path.append(
                     ('draw',
-                     (self.str2num(4, data[at+4:at+8]),
-                      self.str2num(4, data[at+8:at+12]) ) ) )
+                     (self.str2num(4, data[at + 4:at + 8]),
+                      self.str2num(4, data[at + 8:at + 12]))))
                 at = at + 12
             else:
                 raise drawfile_error, 'Unknown path segment found (%s)' % \
@@ -396,15 +398,15 @@ class path(drawfile_object):
     def output(self):
 
         # Write the colours and width
-        data = self.number(1,self.fill[0]) + \
-            self.number(1,self.fill[1]) + \
-            self.number(1,self.fill[2]) + \
-            self.number(1,self.fill[3]) + \
-            self.number(1,self.outline[0]) + \
-            self.number(1,self.outline[1]) + \
-            self.number(1,self.outline[2]) + \
-            self.number(1,self.outline[3]) + \
-            self.number(4,self.width)
+        data = self.number(1, self.fill[0]) + \
+            self.number(1, self.fill[1]) + \
+            self.number(1, self.fill[2]) + \
+            self.number(1, self.fill[3]) + \
+            self.number(1, self.outline[0]) + \
+            self.number(1, self.outline[1]) + \
+            self.number(1, self.outline[2]) + \
+            self.number(1, self.outline[3]) + \
+            self.number(4, self.width)
 
         if hasattr(self, 'pattern'):
             self.style['dash pattern'] == 'present'
@@ -475,11 +477,11 @@ class sprite(drawfile_object):
             self.transform = (
                 self.str2num(4, data[0:4]), self.str2num(4, data[4:8]),
                 self.str2num(4, data[8:12]), self.str2num(4, data[12:16]),
-                self.str2num(4, data[16:20]), self.str2num(4, data[20:24]) )
+                self.str2num(4, data[16:20]), self.str2num(4, data[20:24]))
             data = data[24:]
 
         # Construct a reasonable sprite block from the data supplied
-        # One sprite and offset to sprite 
+        # One sprite and offset to sprite
         sprdata = self.number(4, 1) + \
                self.number(4, 0x10)
 
@@ -537,16 +539,16 @@ class group(drawfile_object):
             self.y2 = max(obj.y2, self.y2)
 
         if len(self.name) < 12:
-            self.name = self.name + (12-len(self.name))*' '
+            self.name = self.name + (12 - len(self.name)) * ' '
 
         data = self.name + data
 
-        data = self.number(4,6) + \
-            self.number(4,len(data)+24) + \
-            self.number(4,self.x1) + \
-            self.number(4,self.y1) + \
-            self.number(4,self.x2) + \
-            self.number(4,self.y2) + data
+        data = self.number(4, 6) + \
+            self.number(4, len(data) + 24) + \
+            self.number(4, self.x1) + \
+            self.number(4, self.y1) + \
+            self.number(4, self.x2) + \
+            self.number(4, self.y2) + data
 
         return data
 
@@ -566,7 +568,7 @@ class tagged(drawfile_object):
         self.y2 = args[3]
         self.id = args[4]
 
-        self.object = args[5]   # there is only one object passed
+        self.object = args[5]# there is only one object passed
         self.data = args[6]
 
     def output(self):
@@ -575,16 +577,16 @@ class tagged(drawfile_object):
         """
 
         data = self.id
-        data = data + self.objects.output() # get the object contained
+        data = data + self.objects.output()# get the object contained
                                             # to output itself
-        data = data + self.data             # add extra data
+        data = data + self.data# add extra data
 
-        data = self.number(4,7) + \
-            self.number(4,len(data)+24) + \
-            self.number(4,self.x1) + \
-            self.number(4,self.y1) + \
-            self.number(4,self.x2) + \
-            self.number(4,self.y2) + data
+        data = self.number(4, 7) + \
+            self.number(4, len(data) + 24) + \
+            self.number(4, self.x1) + \
+            self.number(4, self.y1) + \
+            self.number(4, self.x2) + \
+            self.number(4, self.y2) + data
 
         return data
 
@@ -611,7 +613,7 @@ class text_area(drawfile_object):
         i = 0
         while i < l:
 
-            n = self.str2num(4, data[i:i+4])
+            n = self.str2num(4, data[i:i + 4])
 
             if n == 0:
                 i = i + 4
@@ -620,25 +622,25 @@ class text_area(drawfile_object):
             if n != 10:
                 raise drawfile_error, 'Not a text column object.'
 
-            length = self.str2num(4, data[i+4:i+8])
+            length = self.str2num(4, data[i + 4:i + 8])
 
             if length != 24:
                 raise drawfile_error, 'Text column object has invalid length.'
 
             self.columns.append(
                 column(
-                    ( self.str2num(4, data[i+8:i+12]),
-                      self.str2num(4, data[i+12:i+16]),
-                      self.str2num(4, data[i+16:i+20]),
-                      self.str2num(4, data[i+20:i+24]) ) ) )
+                    (self.str2num(4, data[i + 8:i + 12]),
+                      self.str2num(4, data[i + 12:i + 16]),
+                      self.str2num(4, data[i + 16:i + 20]),
+                      self.str2num(4, data[i + 20:i + 24]))))
             i = i + 24
 
         # Skip reserved words
         i = i + 8
 
         # Initial colours
-        self.foreground = (ord(data[i+1]), ord(data[i+2]), ord(data[i+3]))
-        self.background = (ord(data[i+5]), ord(data[i+6]), ord(data[i+7]))
+        self.foreground = (ord(data[i + 1]), ord(data[i + 2]), ord(data[i + 3]))
+        self.background = (ord(data[i + 5]), ord(data[i + 6]), ord(data[i + 7]))
 
         i = i + 8
 
@@ -652,20 +654,20 @@ class text_area(drawfile_object):
 
         # Parse the text, creating tuples containing command and value
         # information.
-        self.align = 'L'                # current alignment
+        self.align = 'L'# current alignment
 #       self.baseline = object.y2       # current baseline
 #       self.horizontal = object.x1     # current cursor position
-        self.linespacing = 0.0          # line spacing for next line
-        self.paragraph = 10.0           # spacing before this paragraph
-        self.columns_number = len(self.columns)    # number of columns to use
-        self.in_column = 1              # the current column
-        self.left_margin = 1.0          # left and
-        self.right_margin = 1.0         # right margins
-        self.font_table = {}            # font and size dictionary
+        self.linespacing = 0.0# line spacing for next line
+        self.paragraph = 10.0# spacing before this paragraph
+        self.columns_number = len(self.columns)# number of columns to use
+        self.in_column = 1# the current column
+        self.left_margin = 1.0# left and
+        self.right_margin = 1.0# right margins
+        self.font_table = {}# font and size dictionary
         self.font_name = ''
         self.font_size = 0.0
         self.font_width = 0.0
-        self.current = ''               # text buffer
+        self.current = ''# text buffer
 
         # Write the commands and their arguments to a list for later processing
         self.commands = []
@@ -681,7 +683,7 @@ class text_area(drawfile_object):
 
             if self.text[i] == '\\':
 
-                command, args, next = self.read_escape(i+1)
+                command, args, next = self.read_escape(i + 1)
 
                 # Add command to the list
                 self.commands.append((command, args))
@@ -711,7 +713,7 @@ class text_area(drawfile_object):
                         # breaks then add them all except one, with a
                         # minimum of one
                         if n_paragraphs > 0:
-                            for j in range(max(n_paragraphs-1, 1)):
+                            for j in range(max(n_paragraphs - 1, 1)):
                                 self.commands.append(('para', ''))
 
                         n_paragraphs = 0
@@ -730,7 +732,7 @@ class text_area(drawfile_object):
                 # breaks then add them all except one, with a
                 # minimum of one
                 if n_paragraphs > 0:
-                    for j in range(max(n_paragraphs-1, 1)):
+                    for j in range(max(n_paragraphs - 1, 1)):
                         self.commands.append(('para', ''))
 
                         # The last line doesn't end with a newline character so we
@@ -777,10 +779,10 @@ class text_area(drawfile_object):
             args = self.text[next]
             if args not in 'LRCD':
                 raise drawfile_error, \
-                      'Unknown alignment character '+self.align + \
-                      ' in text area at '+hex(i)
+                      'Unknown alignment character ' + self.align + \
+                      ' in text area at ' + hex(i)
 
-            if self.text[next+1] == '/':
+            if self.text[next + 1] == '/':
                 next = next + 2
             else:
                 next = next + 1
@@ -796,14 +798,14 @@ class text_area(drawfile_object):
             try:
                 value1, value2, value3 = int(value1), int(value2), int(value3)
             except ValueError:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
 
             if value1 < 0 or value1 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
             if value2 < 0 or value2 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
             if value3 < 0 or value3 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
 
             args = (value1, value2, value3)
 
@@ -818,14 +820,14 @@ class text_area(drawfile_object):
             try:
                 value1, value2, value3 = int(value1), int(value2), int(value3)
             except ValueError:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
 
             if value1 < 0 or value1 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
             if value2 < 0 or value2 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
             if value3 < 0 or value3 > 255:
-                raise drawfile_error, 'Invalid colour in text area at '+hex(i)
+                raise drawfile_error, 'Invalid colour in text area at ' + hex(i)
 
             args = (value1, value2, value3)
 
@@ -836,7 +838,7 @@ class text_area(drawfile_object):
                 args = int(args)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid number of columns in text area at '+hex(i)
+                      'Invalid number of columns in text area at ' + hex(i)
 
         elif command == 'F':
 
@@ -846,7 +848,7 @@ class text_area(drawfile_object):
                 digits = int(digits)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid font number in text area at '+hex(i)
+                      'Invalid font number in text area at ' + hex(i)
 
             next = self.skip_whitespace(next)
             name, next = self.read_value(next, [' '])
@@ -863,7 +865,7 @@ class text_area(drawfile_object):
                 value2, value3 = int(value2), int(value3)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid font size in text area at '+hex(i)
+                      'Invalid font size in text area at ' + hex(i)
 
             self.font_table[digits] = (name, value2, value3)
 
@@ -876,7 +878,7 @@ class text_area(drawfile_object):
                 args = int(args)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid leading value in text area at '+hex(i)
+                      'Invalid leading value in text area at ' + hex(i)
 
         elif command == 'M':
 
@@ -888,11 +890,11 @@ class text_area(drawfile_object):
                 value1, value2 = int(value1), int(value2)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid margins in text area at '+hex(i)
+                      'Invalid margins in text area at ' + hex(i)
 
             if value1 <= 0.0 or value2 <= 0.0:
                 raise drawfile_error, \
-                      'Invalid margins in text area at '+hex(i)
+                      'Invalid margins in text area at ' + hex(i)
 
             args = (value1, value2)
 
@@ -904,7 +906,7 @@ class text_area(drawfile_object):
                 args = int(args)
             except ValueError:
                 raise drawfile_error, \
-                      'Invalid leading value in text area at '+hex(i)
+                      'Invalid leading value in text area at ' + hex(i)
 
         elif command == 'U':
 
@@ -917,7 +919,7 @@ class text_area(drawfile_object):
                     value1, value2 = int(value1), int(value2)
                 except ValueError:
                     raise drawfile_error, \
-                          'Invalid value in text area at '+hex(i)
+                          'Invalid value in text area at ' + hex(i)
 
                 args = (value1, value2)
             else:
@@ -927,14 +929,14 @@ class text_area(drawfile_object):
         elif command == 'V':
 
             args = self.text[next]
-            if self.text[next+1] == '/':
+            if self.text[next + 1] == '/':
                 next = next + 2
             else:
                 next = next + 1
             try:
                 args = int(args)
             except ValueError:
-                raise drawfile_error, 'Invalid value in text area at '+hex(i)
+                raise drawfile_error, 'Invalid value in text area at ' + hex(i)
 
         elif command == '-':
 
@@ -958,19 +960,19 @@ class text_area(drawfile_object):
 
             # Unknown
             raise drawfile_error, \
-                  'Unknown command '+command+' in text area at '+hex(i)
+                  'Unknown command ' + command + ' in text area at ' + hex(i)
         else:
             # Digits
             value, next = self.read_number(next)
 
             # The command was actually the first digit
-            value = command+value
+            value = command + value
 
             try:
                 value = int(value)
             except ValueError:
                 raise drawfile_error, \
-                      'Font number was not an integer in text area at '+hex(i)
+                      'Font number was not an integer in text area at ' + hex(i)
 
             if self.text[next] == '/':
                 next = next + 1
@@ -978,7 +980,7 @@ class text_area(drawfile_object):
             try:
                 font_name, font_size, font_width = self.font_table[value]
             except KeyError:
-                raise drawfile_error, 'Font not found in text area at '+hex(i)
+                raise drawfile_error, 'Font not found in text area at ' + hex(i)
 
             command = 'font'
             args = value
@@ -1037,14 +1039,14 @@ class text_area(drawfile_object):
 
         excess = len(data) % 4
         if excess != 0:
-            data = data + ((4 - excess)*'\000')
+            data = data + ((4 - excess) * '\000')
 
-        data = self.number(4,9) + \
-            self.number(4,len(data)+24) + \
-            self.number(4,self.x1) + \
-            self.number(4,self.y1) + \
-            self.number(4,self.x2) + \
-            self.number(4,self.y2) + data
+        data = self.number(4, 9) + \
+            self.number(4, len(data) + 24) + \
+            self.number(4, self.x1) + \
+            self.number(4, self.y1) + \
+            self.number(4, self.x2) + \
+            self.number(4, self.y2) + data
 
         return data
 
@@ -1064,12 +1066,12 @@ class column(drawfile_object):
 
     def output(self):
 
-        data = self.number(4,10) + \
-            self.number(4,24) + \
-            self.number(4,self.x1) + \
-            self.number(4,self.y1) + \
-            self.number(4,self.x2) + \
-            self.number(4,self.y2)
+        data = self.number(4, 10) + \
+            self.number(4, 24) + \
+            self.number(4, self.x1) + \
+            self.number(4, self.y1) + \
+            self.number(4, self.x2) + \
+            self.number(4, self.y2)
 
         return data
 
@@ -1224,7 +1226,7 @@ class jpeg(drawfile_object):
                            self.str2num(4, data[36:40])    ]
         length = self.str2num(4, data[40:44])
 
-        self.image = data[44:44+length]
+        self.image = data[44:44 + length]
 
     def output(self):
 
@@ -1259,18 +1261,18 @@ class unknown(drawfile_object):
 
     def output(self):
 
-        return self.number(4,self.type) + \
-               self.number(4,self.length) + \
-               self.number(4,self.x1) + \
-               self.number(4,self.y1) + \
-               self.number(4,self.x2) + \
-               self.number(4,self.y2) + \
+        return self.number(4, self.type) + \
+               self.number(4, self.length) + \
+               self.number(4, self.x1) + \
+               self.number(4, self.y1) + \
+               self.number(4, self.x2) + \
+               self.number(4, self.y2) + \
                self.data
 
 
 class drawfile:
 
-    def __init__(self, file = None):
+    def __init__(self, file=None):
 
         if file != None:
             self.read(file)
@@ -1298,18 +1300,18 @@ class drawfile:
         self.y2 = -2147483648
 
     def number(self, size, n):
-    
+
         # Little endian writing
-    
+
         s = ""
-    
+
         while size > 0:
             i = n % 256
             s = s + chr(i)
 #           n = n / 256
             n = n >> 8
             size = size - 1
-    
+
         return s
 
 
@@ -1356,7 +1358,7 @@ class drawfile:
             # Font table object
             l = self.str2num(4, f.read(4))
 #           return (t, l, f.read(l-8))
-            return font_table(f.read(l-8))
+            return font_table(f.read(l - 8))
 
         elif t == 1:
 
@@ -1367,7 +1369,7 @@ class drawfile:
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
 
-            return text((x1, y1, x2, y2, f.read(l-24)))
+            return text((x1, y1, x2, y2, f.read(l - 24)))
 
         elif t == 2:
 
@@ -1378,7 +1380,7 @@ class drawfile:
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
 
-            return path((x1, y1, x2, y2, f.read(l-24)))
+            return path((x1, y1, x2, y2, f.read(l - 24)))
 
         elif t == 5:
 
@@ -1389,7 +1391,7 @@ class drawfile:
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
 
-            return sprite((x1, y1, x2, y2, f.read(l-24)))
+            return sprite((x1, y1, x2, y2, f.read(l - 24)))
 
         elif t == 6:
 
@@ -1410,7 +1412,7 @@ class drawfile:
             begin = f.tell()
             object = self.read_object(f)
             length = f.tell() - begin
-            data = f.read(l-28-length)
+            data = f.read(l - 28 - length)
 
             return tagged((x1, y1, x2, y2, id, object, data))
 
@@ -1423,14 +1425,14 @@ class drawfile:
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
 
-            return text_area((x1, y1, x2, y2, f.read(l-24)))
+            return text_area((x1, y1, x2, y2, f.read(l - 24)))
 
         elif t == 11:
 
             # Options object
             l = self.str2num(4, f.read(4))
 
-            return options(f.read(l-8))
+            return options(f.read(l - 8))
 
         elif t == 12:
 
@@ -1440,7 +1442,7 @@ class drawfile:
             y1 = self.str2num(4, f.read(4))
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
-            return text((x1, y1, x2, y2, f.read(l-24), 1))
+            return text((x1, y1, x2, y2, f.read(l - 24), 1))
 
         elif t == 13:
 
@@ -1451,7 +1453,7 @@ class drawfile:
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
 
-            return sprite((x1, y1, x2, y2, f.read(l-24), 1))
+            return sprite((x1, y1, x2, y2, f.read(l - 24), 1))
 
         elif t == 16:
 
@@ -1461,7 +1463,7 @@ class drawfile:
             y1 = self.str2num(4, f.read(4))
             x2 = self.str2num(4, f.read(4))
             y2 = self.str2num(4, f.read(4))
-            return jpeg((x1, y1, x2, y2, f.read(l-24)))
+            return jpeg((x1, y1, x2, y2, f.read(l - 24)))
 
         else:
 
@@ -1472,7 +1474,7 @@ class drawfile:
             y2 = self.str2num(4, f.read(4))
 
 #           return (t, l, x1, y1, x2, y2, f.read(l-24))
-            return unknown((t, l, x1, y1, x2, y2, f.read(l-24)))
+            return unknown((t, l, x1, y1, x2, y2, f.read(l - 24)))
 
 
     def read(self, file):
@@ -1529,14 +1531,14 @@ class drawfile:
 
         # Write file header
         file.write('Draw')
-        
+
         # Write version stamps
         file.write(self.number(4, self.version['major']))
         file.write(self.number(4, self.version['minor']))
 
         # Write creator information
         file.write(self.creator[:12])
-        
+
         # Write bounding box
         file.write(self.number(4, self.x1))
         file.write(self.number(4, self.y1))

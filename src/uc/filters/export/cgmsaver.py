@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003 by Bernhard Herzog
 # This CGMsaver mostly by Antoon Pardon (2002)
@@ -59,7 +61,7 @@ def FlattenPath(P0, P1, P2, P3):
 	P7 = (P4 + P5) / 2
 	P8 = (P5 + P6) / 2
 	P9 = (P7 + P8) / 2
-	
+
 	B = P3 - P0
 	S = P9 - P0
 	C1 = P1 - P0
@@ -80,23 +82,23 @@ def FlattenPath(P0, P1, P2, P3):
 
 		# if neither of the above applies, check for the following conditions.
 		# if one of them is true continue the approximation otherwise stop
-		# 
+		#
 		# The first constrol vector goes too far before the base
 		# The seconde control vector goes too far behind the base
 		# Both control vectors lie on either side of the base.
 		# The midpoint is too far from base.
 
 		N = B.normalized()
-		if (C1 * N) < -EPS or (C2 * N) > EPS or cr(C1,B)*cr(C2,B) < 0 \
-			or abs(cr(N,S)) > EPS:  
+		if (C1 * N) < -EPS or (C2 * N) > EPS or cr(C1, B) * cr(C2, B) < 0 \
+			or abs(cr(N, S)) > EPS:
 			return FlattenPath(P0, P4, P7, P9) + FlattenPath(P9, P8, P6, P3)
 		else:
 			return (P9, P3)
 
 class Incr:
-	def __init__(self, Base = 0):
+	def __init__(self, Base=0):
 		self.Value = Base
-	def __call__(self, delta = 1):
+	def __call__(self, delta=1):
 		Result = self.Value
 		self.Value = self.Value + delta
 		return Result
@@ -134,7 +136,7 @@ class Warnings:
 			msg = "The design you tried to save in CGM Version 1 format\n" + \
 					"hit some limitations\n\n" + msg
 			app.events.warn.warn(app.events.warn.USER , msg)
-			
+
 class CGMSaver:
 
 	def __init__(self, file, pathname, options):
@@ -180,7 +182,7 @@ class CGMSaver:
 		green = rndtoint(255 * color.green)
 		blue = rndtoint(255 * color.blue)
 		self.pack("!HBBBB" , Id , red , green , blue , 0)
-		
+
 
 	def close(self):
 		self.Msg.show()
@@ -206,7 +208,7 @@ class CGMSaver:
 		self.pack("!Hi" , 0x5064 , rndtoint(self.Scale * Props.line_width))
 		# Line color
 		self.putcol(0x5083 , Props.line_pattern.Color().RGB())
-	
+
 	def FillStyle(self, Props):
 		line_pattern = Props.line_pattern
 		fill_pattern = Props.fill_pattern
@@ -251,11 +253,11 @@ class CGMSaver:
 		if len(Paths) == 1:
 			path = Paths[0]
 			if fill_pattern is EmptyPattern and not path.closed:
-				Id = 0x4020 # Polyline
+				Id = 0x4020# Polyline
 				self.LineStyle(Properties)
 				lst = self.PathToSeq(path)
 			else:
-				Id = 0x40e0 # Polygon
+				Id = 0x40e0# Polygon
 				self.FillStyle(Properties)
 				lst = self.PathToSeq(path)
 				if path.closed:
@@ -267,12 +269,12 @@ class CGMSaver:
 			for path in Paths:
 				lst = self.PathToSeq(path)
 				if path.closed:
-					Id = 0x40e0 # Polygon
+					Id = 0x40e0# Polygon
 					lst = lst[:-2]
 				else:
-					Id = 0x4020 # Polyline
+					Id = 0x4020# Polyline
 				self.putlongseq(Id , map(rndtoint , lst))
-		else: # The polygonset case
+		else:# The polygonset case
 			self.FillStyle(Properties)
 			set = []
 			size = 0
@@ -306,8 +308,8 @@ class CGMSaver:
 			self.PolyBezier(rct.Paths(), rct.Properties())
 		elif (trf.m12 == 0 and trf.m21 == 0) or (trf.m11 == 0 and trf.m22 == 0):
 			self.FillStyle(rct.Properties())
-			P1 = trf(Point(0,0))
-			P2 = trf(Point(1,1))
+			P1 = trf(Point(0, 0))
+			P2 = trf(Point(1, 1))
 			self.putlongseq(0x4160 , map(rndtoint , tuple(self.trafo(P1)) \
 				+ tuple(self.trafo(P2))))
 		else:
@@ -319,25 +321,25 @@ class CGMSaver:
 		or (abs(trf.m11 + trf.m22) < 0.001 and abs(trf.m21 - trf.m12) < 0.001):
 			if ell.start_angle == ell.end_angle:
 				self.FillStyle(ell.Properties())
-				C = trf(Point(0,0))
+				C = trf(Point(0, 0))
 				R = sqrt(trf.m11 * trf.m11 + trf.m12 * trf.m12)
 				self.putlongseq(0x4180 , map(rndtoint , tuple(self.trafo(C)) \
 					+ (R * self.Scale,)))
 			else:
-				C = trf(Point(0,0))
+				C = trf(Point(0, 0))
 				S = Point(cos(ell.start_angle) , sin(ell.start_angle))
 				E = Point(cos(ell.end_angle) , sin(ell.end_angle))
 				R = sqrt(trf.m11 * trf.m11 + trf.m12 * trf.m12)
 				if trf.m11 * trf.m22 - trf.m12 * trf.m21 > 0:
-					S,E = trf.DTransform(S) , trf.DTransform(E)
+					S, E = trf.DTransform(S) , trf.DTransform(E)
 				else:
-					S,E = trf.DTransform(E) , trf.DTransform(S)
+					S, E = trf.DTransform(E) , trf.DTransform(S)
 				S = 1000000 * S / abs(S)
 				E = 1000000 * E / abs(E)
 				if ell.arc_type == 0 \
 					and ell.Properties().fill_pattern == EmptyPattern:
 					self.LineStyle(ell.Properties())
-					self.putlongseq(0x41e0 ,  map(rndtoint , tuple(self.trafo(C)) \
+					self.putlongseq(0x41e0 , map(rndtoint , tuple(self.trafo(C)) \
 						+ tuple(S) + tuple(E) + (R * self.Scale,)))
 				else:
 					#self.PolyBezier(ell.Paths(), ell.Properties())
@@ -352,22 +354,22 @@ class CGMSaver:
 		else:
 			if ell.start_angle == ell.end_angle:
 				self.FillStyle(ell.Properties())
-				C = trf(Point(0,0))
-				P1 = trf(Point(1,0))
-				P2 = trf(Point(0,1))
+				C = trf(Point(0, 0))
+				P1 = trf(Point(1, 0))
+				P2 = trf(Point(0, 1))
 				self.putlongseq(0x4220 , map(rndtoint , tuple(self.trafo(C)) \
 					+ tuple(self.trafo(P1)) + tuple(self.trafo(P2))))
-			else: 
-				C = trf(Point(0,0))
-				P1 = trf(Point(1,0))
-				P2 = trf(Point(0,1))
+			else:
+				C = trf(Point(0, 0))
+				P1 = trf(Point(1, 0))
+				P2 = trf(Point(0, 1))
 				S = trf.DTransform(Point(cos(ell.start_angle) , sin(ell.start_angle)))
 				E = trf.DTransform(Point(cos(ell.end_angle) , sin(ell.end_angle)))
 				S = 1000000 * S / abs(S)
 				E = 1000000 * E / abs(E)
 				if ell.arc_type == 0 and ell.Properties().fill_pattern == EmptyPattern:
 					self.LineStyle(ell.Properties())
-					self.putlongseq(0x4240 ,  map(rndtoint , tuple(self.trafo(C)) \
+					self.putlongseq(0x4240 , map(rndtoint , tuple(self.trafo(C)) \
 						+ tuple(self.trafo(P1)) + tuple(self.trafo(P2)) + tuple(S) \
 						+ tuple(E)))
 				else:
@@ -411,7 +413,7 @@ class CGMSaver:
 		# moment to be the approach
 		for layer in Layers:
 			if not layer.is_SpecialLayer and layer.Printable():
-				
+
 				# Begin Picture
 				self.putstr(0x0060 , layer.name)
 
@@ -462,10 +464,10 @@ class CGMSaver:
 		self.trafo = Scale(sc)(Translation(-left , -bottom))
 		self.Scale = sc
 		self.extend = map(rndtoint , \
-							tuple(self.trafo(left,bottom)) + tuple(self.trafo(right,top)))
+							tuple(self.trafo(left, bottom)) + tuple(self.trafo(right, top)))
 
 		# Begin Metafile
-		filename =  os.path.basename(self.pathname)
+		filename = os.path.basename(self.pathname)
 		title = filename + " generated by sK1"
 		self.putstr(0x0020 , title)
 
@@ -483,7 +485,7 @@ class CGMSaver:
 		self.pack("!H" , 0x1184)
 		# VDC Integer precision 32 bits
 		self.pack("!Hh" , 0x3022 , 32)
-				
+
 		#Font List
 		#
 
@@ -494,7 +496,7 @@ class CGMSaver:
 
 	#end
 
-def save(document, file, filename, options = {}):
+def save(document, file, filename, options={}):
 	saver = CGMSaver(file, filename, options)
 	saver.SaveDocument(document)
 	saver.close()

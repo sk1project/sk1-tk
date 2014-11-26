@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1998, 1999, 2000 by Bernhard Herzog
 #
@@ -123,15 +124,15 @@ def coords_to_points(coords, trafo):
 class XFigLoader(SimplifiedLoader):
 
 	format_name = format_name
-	
-	functions = [('define_color',	0),
-					('read_ellipse',       1),
-					('read_polyline',      2),
-					('read_spline',        3),
-					('read_text',          4),
-					('read_arc',           5),
-					('begin_compound',     6),
-					('end_compound',       -6)]
+
+	functions = [('define_color', 	0),
+					('read_ellipse', 1),
+					('read_polyline', 2),
+					('read_spline', 3),
+					('read_text', 4),
+					('read_arc', 5),
+					('begin_compound', 6),
+					('end_compound', -6)]
 
 	def __init__(self, file, filename, match):
 		SimplifiedLoader.__init__(self, file, filename, match)
@@ -139,7 +140,7 @@ class XFigLoader(SimplifiedLoader):
 		self.format_version = atof(match.group('version'))
 		self.trafo = Trafo(1.0, 0.0, 0.0, -1.0, 0.0, 800)
 		self.colors = std_colors + [StandardColors.black] * 512
-		self.depths = {} # map object ids to depth
+		self.depths = {}# map object ids to depth
 		self.guess_cont()
 
 	def readline(self):
@@ -161,7 +162,7 @@ class XFigLoader(SimplifiedLoader):
 		idx, color = split(line, None, 1)
 		self.colors[atoi(idx)] = XRGBColor(color)
 
-	def get_pattern(self, color, style = None):
+	def get_pattern(self, color, style=None):
 		if style == -1:
 			return EmptyPattern
 		rgb = self.colors[color]
@@ -178,10 +179,10 @@ class XFigLoader(SimplifiedLoader):
 					rgb = Blend(self.colors[WHITE], rgb, (style - 20) / 20.0)
 		return SolidPattern(rgb)
 
-	def line(self, color, width, join, cap, style = 0, style_val = 0):
+	def line(self, color, width, join, cap, style=0, style_val=0):
 		if width:
 			val = style_val / width
-			width = width * 72.0/80.0
+			width = width * 72.0 / 80.0
 			pattern = self.get_pattern(color)
 			dashes = ()
 			if style == 1:
@@ -203,11 +204,11 @@ class XFigLoader(SimplifiedLoader):
 							1 / width, 0.333 * val, 1 / width, 0.333 * val,
 							1 / width, 0.4 * val)
 			try:
-				self.set_properties(line_pattern = pattern,
-									line_width = width,
-									line_join = xfig_join[join],
-									line_cap = xfig_cap[cap],
-									line_dashes = dashes)
+				self.set_properties(line_pattern=pattern,
+									line_width=width,
+									line_join=xfig_join[join],
+									line_cap=xfig_cap[cap],
+									line_dashes=dashes)
 			except:
 				raise SketchLoadError("can't assign line style: %s:%s"
 										% sys.exc_info()[:2])
@@ -217,7 +218,7 @@ class XFigLoader(SimplifiedLoader):
 	def fill(self, color, style):
 		pattern = self.get_pattern(color, style)
 		try:
-			self.set_properties(fill_pattern = pattern)
+			self.set_properties(fill_pattern=pattern)
 		except:
 			raise SketchLoadError("can't assign fill style: %s:%s"
 									% sys.exc_info()[:2])
@@ -232,8 +233,8 @@ class XFigLoader(SimplifiedLoader):
 			self.add_message(_("PostScript font `%(ps)s' substituted for "
 								"TeX-font `%(tex)s'")
 								% {'ps':name, 'tex':tex_font_names[font]})
-								
-		self.set_properties(font = GetFont(name), font_size = size)
+
+		self.set_properties(font=GetFont(name), font_size=size)
 
 	def read_tokens(self, num):
 		# read NUM tokens from the input file. return an empty list if
@@ -259,9 +260,9 @@ class XFigLoader(SimplifiedLoader):
 		self.fill(fill_color, area_fill)
 		self.line(pen_color, thickness, const.JoinMiter, cap,
 					line_style, style)
-		
-		if forward_arrow: readline() # XXX: implement this
-		if backward_arrow:readline() # XXX: implement this
+
+		if forward_arrow: readline()# XXX: implement this
+		if backward_arrow:readline()# XXX: implement this
 
 		trafo = self.trafo
 		center = trafo(cx, cy); start = trafo(x1, y1); end = trafo(x3, y3)
@@ -289,7 +290,7 @@ class XFigLoader(SimplifiedLoader):
 		self.fill(fill_color, area_fill)
 		self.line(pen_color, thickness, const.JoinMiter, const.CapButt,
 					line_style, style)
-		
+
 		center = self.trafo(cx, cy); radius = self.trafo.DTransform(rx, ry)
 		trafo = Trafo(radius.x, 0, 0, radius.y)
 		trafo = Rotation(angle)(trafo)
@@ -308,9 +309,9 @@ class XFigLoader(SimplifiedLoader):
 		self.fill(fill_color, area_fill)
 		self.line(pen_color, thickness, join, cap, line_style, style)
 
-		if forward_arrow: readline() # XXX: implement this
-		if backward_arrow:readline() # XXX: implement this
-		if sub_type == 5: readline() # imported picture
+		if forward_arrow: readline()# XXX: implement this
+		if backward_arrow:readline()# XXX: implement this
+		if sub_type == 5: readline()# imported picture
 
 		ncoords = npoints * 2
 		pts = self.read_tokens(ncoords)
@@ -318,27 +319,27 @@ class XFigLoader(SimplifiedLoader):
 			raise SketchLoadError('Missing points for polyline')
 		if len(pts) > ncoords:
 			del pts[ncoords:]
-		
+
 		trafo = self.trafo
-		
+
 		if sub_type in (1, 3, 5):
 			path = CreatePath()
 			map(path.AppendLine, coords_to_points(pts, trafo))
 			if sub_type == 3:
 				path.load_close(1)
-			self.bezier(paths = path)
+			self.bezier(paths=path)
 			self.set_depth(depth)
-			
+
 		elif sub_type in (2, 4):
 			wx, wy = trafo(pts[2], pts[3]) - trafo(pts[0], pts[1])
 			hx, hy = trafo(pts[4], pts[5]) - trafo(pts[2], pts[3])
-			x, y =  trafo(pts[0], pts[1])
+			x, y = trafo(pts[0], pts[1])
 			if sub_type == 4 and radius > 0:
-				radius1 = (radius * 72.0/80.0) / max(abs(wx),abs(wy))
-				radius2 = (radius * 72.0/80.0) / max(abs(hx),abs(hy))
+				radius1 = (radius * 72.0 / 80.0) / max(abs(wx), abs(wy))
+				radius2 = (radius * 72.0 / 80.0) / max(abs(hx), abs(hy))
 			else:
 				radius1 = radius2 = 0
-			self.rectangle(wx, wy, hx, hy, x, y, radius1 = radius1, radius2 = radius2)
+			self.rectangle(wx, wy, hx, hy, x, y, radius1=radius1, radius2=radius2)
 			self.set_depth(depth)
 
 	def read_spline(self, line):
@@ -359,10 +360,10 @@ class XFigLoader(SimplifiedLoader):
 				sub_type = 4
 			else:
 				sub_type = 5
-		
+
 		self.fill(fill_color, area_fill)
 		self.line(pen_color, thickness, 0, cap, line_style, style)
-		
+
 		ncoords = npoints * 2
 		pts = self.read_tokens(ncoords)
 		if not pts:
@@ -370,7 +371,7 @@ class XFigLoader(SimplifiedLoader):
 		if len(pts) > ncoords:
 			del pts[ncoords:]
 		pts = coords_to_points(pts, self.trafo)
-		
+
 		path = CreatePath()
 		if sub_type in (2, 3):
 			# interpolated spline, read 2 control points for each node
@@ -422,19 +423,19 @@ class XFigLoader(SimplifiedLoader):
 				path.AppendLine(path.Node(0))
 		if closed:
 			path.load_close(1)
-		self.bezier(paths = path)
+		self.bezier(paths=path)
 		self.set_depth(depth)
 
 	def read_text(self, line):
-		args = tokenize(line, 12) # don't tokenize the text itself
-		if len(args) != 13: # including the unparsed rest of the line
+		args = tokenize(line, 12)# don't tokenize the text itself
+		if len(args) != 13:# including the unparsed rest of the line
 			raise SketchLoadError('Invalid text specification')
 		sub_type, color, depth, pen_style, font, size, angle, flags, \
 					height, length, x, y, rest = args
 		self.fill(color, None)
 		self.font(font, size * 0.9, flags)
-		
-		if len(rest) > 2: #at least a space and a newline
+
+		if len(rest) > 2:#at least a space and a newline
 			# read the actual text. This implementation may fail in
 			# certain cases!
 			string = rest[1:]
@@ -451,9 +452,9 @@ class XFigLoader(SimplifiedLoader):
 				string = eval("'''" + string[:-5] + "'''", globals)
 		else:
 			raise SketchLoadError('Invalid text string')
-			
+
 		trafo = Translation(self.trafo(x, y))(Rotation(angle))
-		self.simple_text(string, trafo = trafo, halign = align[sub_type])
+		self.simple_text(string, trafo=trafo, halign=align[sub_type])
 		self.set_depth(depth)
 
 	def begin_compound(self, line):
@@ -468,7 +469,7 @@ class XFigLoader(SimplifiedLoader):
 	def end_composite(self):
 		# sort composite_items by their depth
 		items = self.composite_items
-		depths = map(self.depths.get, map(id, items), [-10000]*len(items))
+		depths = map(self.depths.get, map(id, items), [-10000] * len(items))
 		depths = map(None, depths, range(len(items)), items)
 		depths.sort()
 		self.composite_items = map(getitem, depths, [2] * len(items))
@@ -499,10 +500,10 @@ class XFigLoader(SimplifiedLoader):
 				# ignore for now
 				pass
 			if self.format_version >= 3.2:
-				self.readline() # papersize
-				self.readline() # magnification
-				self.readline() # pages
-				self.readline() # transparent color
+				self.readline()# papersize
+				self.readline()# magnification
+				self.readline()# pages
+				self.readline()# transparent color
 		line = strip(self.readline())
 		if line:
 			try:
@@ -535,10 +536,10 @@ class XFigLoader(SimplifiedLoader):
 					if function:
 						function(rest)
 				line = self.readline()
-				
+
 		except SketchLoadError, value:
 			warn_tb(INTERNAL)
-			raise SketchLoadError('%d:%s' % (self.lineno, str(value))), None,\
+			raise SketchLoadError('%d:%s' % (self.lineno, str(value))), None, \
 					sys.exc_traceback
 		except:
 			if load._dont_handle_exceptions:
@@ -546,7 +547,7 @@ class XFigLoader(SimplifiedLoader):
 						self.lineno, `line`)
 				raise
 			raise SketchLoadError(_("error in line %d:\n%s")
-									% (self.lineno, `line`)), None,\
+									% (self.lineno, `line`)), None, \
 									sys.exc_traceback
 		self.end_all()
 		self.object.load_Completed()

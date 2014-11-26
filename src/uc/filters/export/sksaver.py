@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000 by Bernhard Herzog
 #
@@ -270,8 +272,8 @@ papersizes = {
 	'A5': (0.148 * m_to_pt, 0.210 * m_to_pt),
 	'A6': (0.105 * m_to_pt, 0.148 * m_to_pt),
 	'A7': (0.074 * m_to_pt, 0.105 * m_to_pt),
-	'letter': (8.5  * in_to_pt, 11   * in_to_pt),
-	'legal': (8.5  * in_to_pt, 14   * in_to_pt),
+	'letter': (8.5 * in_to_pt, 11 * in_to_pt),
+	'legal': (8.5 * in_to_pt, 14 * in_to_pt),
 	'executive': (7.25 * in_to_pt, 10.5 * in_to_pt)
 	}
 
@@ -324,10 +326,10 @@ class SKSaver:
 
 	def EndLayer(self):
 		pass
-	
+
 	def Page(self, *args):
 		pass
-	
+
 	def BeginMasterLayer(self, name, visible, printable, locked, outlined, color):
 		self.BeginLayer(name, visible, printable, locked, outlined, color)
 
@@ -396,7 +398,7 @@ class SKSaver:
 						% (color_repr(color), color_repr(background),
 							direction.x, direction.y, distance, width))
 
-	def ImageTilePattern(self, image, trafo, relative_filename = 1):
+	def ImageTilePattern(self, image, trafo, relative_filename=1):
 		self.write_image(image, relative_filename)
 		self.file.write('pit(%d,(%g,%g,%g,%g,%g,%g))\n'
 						% ((id(image),) + trafo.coeff()))
@@ -470,7 +472,7 @@ class SKSaver:
 			else:
 				self.write_style(style)
 
-	def Rectangle(self, trafo, radius1 = 0, radius2 = 0):
+	def Rectangle(self, trafo, radius1=0, radius2=0):
 		if radius1 == radius2 == 0:
 			self.file.write('r(%g,%g,%g,%g,%g,%g)\n' % trafo.coeff())
 		else:
@@ -482,7 +484,7 @@ class SKSaver:
 			self.file.write('e(%g,%g,%g,%g,%g,%g)\n' % trafo.coeff())
 		else:
 			self.file.write('e(%g,%g,%g,%g,%g,%g,%g,%g,%d)\n'
-							% (trafo.coeff()+(start_angle,end_angle,arc_type)))
+							% (trafo.coeff() + (start_angle, end_angle, arc_type)))
 
 
 	def PolyBezier(self, paths):
@@ -517,7 +519,7 @@ class SKSaver:
 			write(',%d,%d' % (halign, valign))
 		write(')\n')
 
-	def write_image(self, image, relative_filename = 1):
+	def write_image(self, image, relative_filename=1):
 		write = self.file.write
 		if not self.saved_ids.has_key(id(image)):
 			imagefile = image.Filename()
@@ -534,7 +536,7 @@ class SKSaver:
 				write('bm(%d,%s)\n' % (id(image), `imagefile`))
 			self.saved_ids[id(image)] = image
 
-	def Image(self, image, trafo, relative_filename = 1):
+	def Image(self, image, trafo, relative_filename=1):
 		self.write_image(image, relative_filename)
 
 		write = self.file.write
@@ -545,7 +547,7 @@ class SKSaver:
 			write('(%g,%g)' % (trafo.v1, trafo.v2))
 		write(',%d)\n' % id(image))
 
-	def EpsFile(self, data, trafo, relative_filename = 1):
+	def EpsFile(self, data, trafo, relative_filename=1):
 		write = self.file.write
 		write('eps(')
 		if trafo.matrix() != IdentityMatrix:
@@ -581,7 +583,7 @@ class SKSaver:
 	def BeginPathText(self):
 		self.file.write('PT()\n')
 
-	def InternalPathText(self, text, trafo, model, start_pos = 0):
+	def InternalPathText(self, text, trafo, model, start_pos=0):
 		matrix = trafo.matrix()
 		if matrix != IdentityMatrix:
 			self.file.write('pt(%s,(%g,%g,%g,%g),%d'
@@ -616,7 +618,7 @@ class SKSaver:
 		self.file.write('PC_()\n')
 
 
-def save(document, file, filename, options = {}):
+def save(document, file, filename, options={}):
 	saver = SKSaver(file, filename, options)
 	document.SaveToFile(saver)
-	
+

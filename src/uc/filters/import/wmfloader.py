@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1999, 2002 by Bernhard Herzog
 #
@@ -59,25 +61,25 @@ from app.io.load import GenericLoader, SketchLoadError
 
 
 struct_wmf_header = ('<'
-						'H'	# Type
-						'H'	# header size
-						'H'	# Version
-						'I'	# FileSize
-						'H'	# Num. objects
-						'I'	# Max. record size
-						'H'	# Num. Parameters
+						'H'# Type
+						'H'# header size
+						'H'# Version
+						'I'# FileSize
+						'H'# Num. objects
+						'I'# Max. record size
+						'H'# Num. Parameters
 						)
 
 struct_placeable_header = ('<'
-							'4s'	# Key
-							'H'	# handle
-							'h'	# left
-							'h'	# top
-							'h'	# right
-							'h'	# bottom
-							'H'	# Inch
-							'I'	# Reserved
-							'H'	# Checksum
+							'4s'# Key
+							'H'# handle
+							'h'# left
+							'h'# top
+							'h'# right
+							'h'# bottom
+							'H'# Inch
+							'I'# Reserved
+							'H'# Checksum
 							)
 
 wmf_functions = {
@@ -208,7 +210,7 @@ class WMFLoader(GenericLoader):
 		self.file.seek(0)
 		placeable = self.file.read(calcsize(struct_placeable_header))
 		key, handle, left, top, right, bottom, inch, reserved, checksum\
-				= unpack(struct_placeable_header, placeable)
+				 = unpack(struct_placeable_header, placeable)
 		if key != rx_magic:
 			raise SketchLoadError(_("The file is not a placeable "
 									"windows metafile"))
@@ -235,7 +237,7 @@ class WMFLoader(GenericLoader):
 
 		header = self.file.read(calcsize(struct_wmf_header))
 		filetype, headersize, version, filesize, numobj, maxrecord, numparams\
-					= unpack(struct_wmf_header, header)
+					 = unpack(struct_wmf_header, header)
 
 		self._print('\nHeader\n------\n')
 		fmt = '% 10s: %s\n'
@@ -322,7 +324,7 @@ class WMFLoader(GenericLoader):
 		if style == 1:
 			pattern = EmptyPattern
 		else:
-			pattern = SolidPattern(CreateRGBColor(r/255.0, g/255.0, b/255.0))
+			pattern = SolidPattern(CreateRGBColor(r / 255.0, g / 255.0, b / 255.0))
 		self.add_gdiobject((('fill_pattern', pattern),))
 
 		self._print('->', style, r, g, b, hatch)
@@ -340,10 +342,10 @@ class WMFLoader(GenericLoader):
 		if style == 5:
 			pattern = EmptyPattern
 		else:
-			pattern = SolidPattern(CreateRGBColor(r/255.0, g/255.0, b/255.0))
+			pattern = SolidPattern(CreateRGBColor(r / 255.0, g / 255.0, b / 255.0))
 		width = abs(widthx * self.trafo.m11)
 		self.add_gdiobject((('line_pattern', pattern,),
-							('line_width',  width)))
+							('line_width', width)))
 		self._print('->', style, widthx, widthy, r, g, b, cap, join)
 
 	def CreatePalette(self):
@@ -355,13 +357,13 @@ class WMFLoader(GenericLoader):
 	CreateFontIndirect = CreatePalette
 	SelectPalette = noop
 	RealizePalette = noop
-	
+
 	SetTextColor = noop
 	SetTextAlign = noop
 	SetTextJustification = noop
 
 	SetStretchBltMode = noop
-	
+
 	def read_points(self, num):
 		coords = self.get_struct('<' + num * 'hh')
 		points = [];
@@ -377,7 +379,7 @@ class WMFLoader(GenericLoader):
 			path = CreatePath()
 			map(path.AppendLine, points)
 			self.prop_stack.AddStyle(self.curstyle.Duplicate())
-			self.prop_stack.SetProperty(fill_pattern = EmptyPattern)
+			self.prop_stack.SetProperty(fill_pattern=EmptyPattern)
 			self.bezier((path,))
 
 		#for i in range(len(points)):
@@ -421,12 +423,12 @@ class WMFLoader(GenericLoader):
 		y, x = self.get_struct('<hh')
 		self.curpoint = self.trafo(x, y)
 		self._print('->', self.curpoint)
-	
+
 	def LineTo(self):
 		y, x = self.get_struct('<hh')
 		p = self.trafo(x, y)
 		self.prop_stack.AddStyle(self.curstyle.Duplicate())
-		self.prop_stack.SetProperty(fill_pattern = EmptyPattern)
+		self.prop_stack.SetProperty(fill_pattern=EmptyPattern)
 		path = CreatePath()
 		path.AppendLine(self.curpoint)
 		path.AppendLine(p)
@@ -442,7 +444,7 @@ class WMFLoader(GenericLoader):
 		self.ellipse((right - left) / 2, 0, 0, (bottom - top) / 2,
 						(right + left) / 2, (top + bottom) / 2)
 
-	def Arc(self, arc_type = const.ArcArc):
+	def Arc(self, arc_type=const.ArcArc):
 		ye, xe, ys, xs, bottom, right, top, left = self.get_struct('<hhhhhhhh')
 		left, top = self.trafo(left, top)
 		right, bottom = self.trafo(right, bottom)
@@ -450,7 +452,7 @@ class WMFLoader(GenericLoader):
 		xe, ye = self.trafo(xe, ye)
 		self.prop_stack.AddStyle(self.curstyle.Duplicate())
 		if arc_type == const.ArcArc:
-			self.prop_stack.SetProperty(fill_pattern = EmptyPattern)
+			self.prop_stack.SetProperty(fill_pattern=EmptyPattern)
 		if left != right and top != bottom:
 			t = Trafo((right - left) / 2, 0, 0, (bottom - top) / 2,
 						(right + left) / 2, (top + bottom) / 2).inverse()
@@ -461,8 +463,8 @@ class WMFLoader(GenericLoader):
 			start_angle = end_angle = 0.0
 		self.ellipse((right - left) / 2, 0, 0, (bottom - top) / 2,
 						(right + left) / 2, (top + bottom) / 2,
-						start_angle = start_angle, end_angle = end_angle,
-						arc_type = arc_type)
+						start_angle=start_angle, end_angle=end_angle,
+						arc_type=arc_type)
 	def Pie(self):
 		self.Arc(const.ArcPieSlice)
 
@@ -481,9 +483,9 @@ class WMFLoader(GenericLoader):
 		self._print('->', left, top, right, bottom, ellw, ellh)
 		self.prop_stack.AddStyle(self.curstyle.Duplicate())
 		self.rectangle(right - left, 0, 0, bottom - top, left, top,
-						radius1 = abs(ellw / (right - left)),
-						radius2 = abs(ellh / (bottom - top)))
-		
+						radius1=abs(ellw / (right - left)),
+						radius2=abs(ellh / (bottom - top)))
+
 
 	def Escape(self):
 		pass
@@ -512,7 +514,7 @@ class WMFLoader(GenericLoader):
 
 	def Load(self):
 		self.document()
-		self.layer(name = _("WMF objects"))
+		self.layer(name=_("WMF objects"))
 		self.read_headers()
 		self.interpret()
 		self.end_all()

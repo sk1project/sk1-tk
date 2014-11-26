@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # A Drawfile input filter for Sketch (http://sketch.sourceforge.net)
 # Copyright (C) 2001, 2002 by David Boddie
 #
@@ -16,13 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 # Versions history:
-# 
+#
 # 0.10 (Fri 24th August 2001)
-# 
+#
 # First release version.
-# 
+#
 # 0.11 (Fri 24th August 2001)
-# 
+#
 # Added tagged object rendering.
 #
 # 0.12 (Wed 29th August 2001)
@@ -60,7 +62,7 @@ except ImportError:
 from math import floor
 
 from app import Document, Layer, CreatePath, ContSmooth, \
-		SolidPattern, EmptyPattern, LinearGradient, RadialGradient,\
+		SolidPattern, EmptyPattern, LinearGradient, RadialGradient, \
 		CreateRGBColor, CreateCMYKColor, MultiGradient, Trafo, Point, Polar, \
 		StandardColors, GetFont, PathText, SimpleText, const, UnionRects, \
 		Arrow, Translation, Trafo, GridLayer, Scale
@@ -169,7 +171,7 @@ class DrawfileLoader(GenericLoader):
 
 			if width > 0.0 and height > 0.0:
 				self.object.load_SetLayout(
-					pagelayout.PageLayout(width = width, height = height) )
+					pagelayout.PageLayout(width=width, height=height))
 		else:
 			self.object.load_SetLayout(self.page_layout)
 
@@ -230,7 +232,7 @@ class DrawfileLoader(GenericLoader):
 				elif object.style['start cap'] == 'round':
 
 					if object.width > 0:
-						width  = 0.5
+						width = 0.5
 						length = 0.5
 					else:
 						width = 0.0
@@ -238,9 +240,9 @@ class DrawfileLoader(GenericLoader):
 
 					# Draw arrow
 					path = [(0.0, width),
-							(0.5*length, width, length, 0.5*width, length, 0.0),
-							(length, -0.5*width,
-								0.5*length, -width,
+							(0.5 * length, width, length, 0.5 * width, length, 0.0),
+							(length, -0.5 * width,
+								0.5 * length, -width,
 								0.0, -width), (0.0, width)]
 
 					self.style.line_arrow1 = Arrow(path, 1)
@@ -248,7 +250,7 @@ class DrawfileLoader(GenericLoader):
 				elif object.style['start cap'] == 'square':
 
 					if object.width > 0:
-						width  = 0.5
+						width = 0.5
 						length = 0.5
 					else:
 						width = 0.0
@@ -264,7 +266,7 @@ class DrawfileLoader(GenericLoader):
 				elif object.style['start cap'] == 'triangular':
 
 					if object.width > 0:
-						width  = object.style['triangle cap width'] / 16.0
+						width = object.style['triangle cap width'] / 16.0
 						length = object.style['triangle cap length'] / 16.0
 					else:
 						width = 0.0
@@ -276,7 +278,7 @@ class DrawfileLoader(GenericLoader):
 
 					self.style.line_arrow1 = Arrow(path, 1)
 					if (object.width / scale) < 1.0:
-						self.style.line_arrow1.path.Transform(Scale(object.width / scale, object.width / scale) )
+						self.style.line_arrow1.path.Transform(Scale(object.width / scale, object.width / scale))
 
 				if object.style['end cap'] == 'butt':
 					self.style.line_cap = const.CapButt
@@ -284,7 +286,7 @@ class DrawfileLoader(GenericLoader):
 				elif object.style['end cap'] == 'round':
 
 					if object.width > 0:
-						width  = 0.5
+						width = 0.5
 						length = 0.5
 					else:
 						width = 0.0
@@ -292,17 +294,17 @@ class DrawfileLoader(GenericLoader):
 
 					# Draw arrow
 					path = [(0.0, width),
-							(0.5*length, width, length, 0.5*width, length, 0.0),
-							(length, -0.5*width,
-								0.5*length, -width,
+							(0.5 * length, width, length, 0.5 * width, length, 0.0),
+							(length, -0.5 * width,
+								0.5 * length, -width,
 								0.0, -width), (0.0, width)]
-					
+
 					self.style.line_arrow2 = Arrow(path, 1)
 
 				elif object.style['end cap'] == 'square':
 
 					if object.width > 0:
-						width  = 0.5
+						width = 0.5
 						length = 0.5
 					else:
 						width = 0.0
@@ -318,7 +320,7 @@ class DrawfileLoader(GenericLoader):
 				elif object.style['end cap'] == 'triangular':
 
 					if object.width > 0:
-						width  = object.style['triangle cap width'] / 16.0
+						width = object.style['triangle cap width'] / 16.0
 						length = object.style['triangle cap length'] / 16.0
 					else:
 						width = 0.0
@@ -329,28 +331,28 @@ class DrawfileLoader(GenericLoader):
 							(length, 0.0),
 							(0.0, -width),
 							(0.0, width)]
-					
+
 					self.style.line_arrow2 = Arrow(path, 1)
 					if (object.width / scale) < 1.0:
-						self.style.line_arrow2.path.Transform(Scale(object.width / scale, object.width / scale) )
+						self.style.line_arrow2.path.Transform(Scale(object.width / scale, object.width / scale))
 
 				# Outline colour
 				if object.outline == [255, 255, 255, 255]:
 					self.style.line_pattern = EmptyPattern
 				else:
 					self.style.line_pattern = SolidPattern(
-						CreateRGBColor( float(object.outline[1]) / 255.0,
+						CreateRGBColor(float(object.outline[1]) / 255.0,
 										float(object.outline[2]) / 255.0,
-										float(object.outline[3]) / 255.0 ) )
+										float(object.outline[3]) / 255.0))
 
 				# Fill colour
 				if object.fill == [255, 255, 255, 255]:
 					self.style.fill_pattern = EmptyPattern
 				else:
 					self.style.fill_pattern = SolidPattern(
-						CreateRGBColor( float(object.fill[1]) / 255.0,
+						CreateRGBColor(float(object.fill[1]) / 255.0,
 										float(object.fill[2]) / 255.0,
-										float(object.fill[3]) / 255.0 )
+										float(object.fill[3]) / 255.0)
 									)
 
 				# Dash pattern
@@ -358,7 +360,7 @@ class DrawfileLoader(GenericLoader):
 					line_dashes = []
 					for n in object.pattern:
 
-						line_dashes.append(int(n/scale))
+						line_dashes.append(int(n / scale))
 
 					self.style.line_dashes = tuple(line_dashes)
 
@@ -428,16 +430,16 @@ class DrawfileLoader(GenericLoader):
 					self.style.font = GetFont('Times Roman')
 
 				# The size
-				self.style.font_size = object.size[0]/scale
+				self.style.font_size = object.size[0] / scale
 
 				# Outline colour
 				if object.background == [255, 255, 255, 255]:
 					self.style.line_pattern = EmptyPattern
 				else:
 					self.style.line_pattern = SolidPattern(
-						CreateRGBColor( float(object.background[1]) / 255.0,
+						CreateRGBColor(float(object.background[1]) / 255.0,
 										float(object.background[2]) / 255.0,
-										float(object.background[3]) / 255.0 )
+										float(object.background[3]) / 255.0)
 									)
 
 				# Fill colour
@@ -445,23 +447,23 @@ class DrawfileLoader(GenericLoader):
 					self.style.fill_pattern = EmptyPattern
 				else:
 					self.style.fill_pattern = SolidPattern(
-						CreateRGBColor( float(object.foreground[1]) / 255.0,
+						CreateRGBColor(float(object.foreground[1]) / 255.0,
 										float(object.foreground[2]) / 255.0,
-										float(object.foreground[3]) / 255.0 )
+										float(object.foreground[3]) / 255.0)
 									)
 
 				# Transformation
 				if hasattr(object, 'transform'):
-					x, y = object.transform[4]/scale, object.transform[5]/scale
+					x, y = object.transform[4] / scale, object.transform[5] / scale
 					ox, oy = self.relative(object.baseline[0],
 											object.baseline[1])
-					transform = Trafo(object.transform[0]/65536.0,
-										object.transform[1]/65536.0,
-										object.transform[2]/65536.0,
-										object.transform[3]/65536.0,
-										ox + x, oy + y )
+					transform = Trafo(object.transform[0] / 65536.0,
+										object.transform[1] / 65536.0,
+										object.transform[2] / 65536.0,
+										object.transform[3] / 65536.0,
+										ox + x, oy + y)
 				else:
-					transform = Translation(self.relative(object.baseline[0], object.baseline[1]) )
+					transform = Translation(self.relative(object.baseline[0], object.baseline[1]))
 
 				# Write the text
 				self.simple_text(object.text, transform)
@@ -478,12 +480,12 @@ class DrawfileLoader(GenericLoader):
 				# that unlike Draw which uses 90 dpi, Sketch uses 72 dpi.
 				# (I assume this since 90 dpi Drawfile JPEG objects appear 1.25
 				# times larger in Sketch if no scaling is performed here.)
-				scale_x = (object.transform[0]/65536.0) * (72.0 / object.dpi_x)
-				scale_y = (object.transform[3]/65536.0) * (72.0 / object.dpi_y)
+				scale_x = (object.transform[0] / 65536.0) * (72.0 / object.dpi_x)
+				scale_y = (object.transform[3] / 65536.0) * (72.0 / object.dpi_y)
 
-				transform = Trafo( scale_x, object.transform[1]/65536.0,
-									object.transform[2]/65536.0, scale_y,
-									x, y )
+				transform = Trafo(scale_x, object.transform[1] / 65536.0,
+									object.transform[2] / 65536.0, scale_y,
+									x, y)
 
 				# Decode the JPEG image
 				image = Image.open(StringIO.StringIO(object.image))
@@ -510,17 +512,17 @@ class DrawfileLoader(GenericLoader):
 					x, y = self.relative(object.transform[4],
 											object.transform[5])
 
-					# Multiply the scale factor by that in the transformation matrix 
-					scale_x = (object.transform[0]/65536.0) * (72.0 / object.sprite['dpi x'])
-					scale_y = (object.transform[3]/65536.0) * (72.0 / object.sprite['dpi y'])
+					# Multiply the scale factor by that in the transformation matrix
+					scale_x = (object.transform[0] / 65536.0) * (72.0 / object.sprite['dpi x'])
+					scale_y = (object.transform[3] / 65536.0) * (72.0 / object.sprite['dpi y'])
 
-					transform = Trafo( scale_x,
-										(object.transform[1]/65536.0) * \
+					transform = Trafo(scale_x,
+										(object.transform[1] / 65536.0) * \
 										(72.0 / object.sprite['dpi y']),
-										(object.transform[2]/65536.0) * \
+										(object.transform[2] / 65536.0) * \
 										(72.0 / object.sprite['dpi x']),
 										scale_y,
-										x, y )
+										x, y)
 				else:
 					x, y = self.relative(object.x1, object.y1)
 
@@ -532,11 +534,11 @@ class DrawfileLoader(GenericLoader):
 #                                           object.sprite['dpi x']
 #                    size_y = 72.0 * float(object.sprite['height']) / \
 #                                           object.sprite['dpi y']
-#    
+#
 #                    # Bounding box dimensions in points:
 #                    bbox_width = (object.x2 - object.x1)/scale
 #                    bbox_height = (object.y2 - object.y1)/scale
-#    
+#
 #                    # Scale factors
 #                    scale_x = (bbox_width / size_x) * \
 #                               (72.0 / object.sprite['dpi x'])
@@ -544,8 +546,8 @@ class DrawfileLoader(GenericLoader):
 #                               (72.0 / object.sprite['dpi y'])
 					scale_x = (object.x2 - object.x1) / (scale * object.sprite['width'])
 					scale_y = (object.y2 - object.y1) / (scale * object.sprite['height'])
-		
-					transform = Trafo( scale_x, 0.0, 0.0, scale_y, x, y )
+
+					transform = Trafo(scale_x, 0.0, 0.0, scale_y, x, y)
 
 				# Create an Image object
 				image = Image.fromstring(object.sprite['mode'],
@@ -568,11 +570,11 @@ class DrawfileLoader(GenericLoader):
 					if orientation == 'landscape':
 						self.page_layout = pagelayout.PageLayout(
 							object.options['paper size'],
-							orientation = pagelayout.Landscape)
+							orientation=pagelayout.Landscape)
 					else:
 						self.page_layout = pagelayout.PageLayout(
 							object.options['paper size'],
-							orientation = pagelayout.Portrait)
+							orientation=pagelayout.Portrait)
 
 				if object.options['grid locking'] == 'on':
 
@@ -633,7 +635,7 @@ class DrawfileLoader(GenericLoader):
 
 				# Text colours
 				background = (255, 255, 255)
-				foreground = (  0,   0,   0)
+				foreground = (0, 0, 0)
 
 				# Build lines (lists of words) until the column width
 				# is reached then write the line to the page.
@@ -665,7 +667,7 @@ class DrawfileLoader(GenericLoader):
 						# Align text
 						align = args
 						# Start new line
-						cursor = self.ta_new_line(cursor, object, self.linespacing )
+						cursor = self.ta_new_line(cursor, object, self.linespacing)
 
 					elif command == 'B':
 #                        print 'Background:', args
@@ -781,7 +783,7 @@ class DrawfileLoader(GenericLoader):
 								) - font_size
 						# Set line spacing
 						self.linespacing = font_size
-						
+
 
 					elif command == 'text':
 
@@ -791,12 +793,12 @@ class DrawfileLoader(GenericLoader):
 						text, space = self.make_safe(args[0]), args[1]
 
 						# Add the width of the text to the current total width
-						textobj=SimpleText()
+						textobj = SimpleText()
 						width = width + use_font.TextCoordBox(text, font_size, textobj.properties)[2]
 
 #                        print width, margins[1] - margins[0]
 
-						# Compare current total width with column width 
+						# Compare current total width with column width
 						while width > (self.margins[1] - self.margins[0]):
 
 							# First write any text on this line
@@ -837,12 +839,12 @@ class DrawfileLoader(GenericLoader):
 
 							elif br < len(text):
 								# Write the subword to the line
-								self.ta_write_line( align, cursor,
-											[ ( text[:br], font_name,
+								self.ta_write_line(align, cursor,
+											[ (text[:br], font_name,
 												font_size, font_width,
 												self.ta_set_colour(foreground),
-												self.ta_set_colour(background) )
-											], 0 )
+												self.ta_set_colour(background))
+											], 0)
 
 								# Start new line
 								cursor = self.ta_new_line(cursor, object,
@@ -863,18 +865,18 @@ class DrawfileLoader(GenericLoader):
 						else:
 							# The text fits within the margins so add the text
 							# to the line
-							line.append( (text, font_name, font_size,
+							line.append((text, font_name, font_size,
 											font_width,
 											self.ta_set_colour(
 												foreground),
-											self.ta_set_colour(background) ) )
+											self.ta_set_colour(background)))
 
 							# Also append any trailing space
 							if space != '':
-								line.append( (space, font_name, font_size,
+								line.append((space, font_name, font_size,
 												font_width,
 												self.ta_set_colour(foreground),
-												self.ta_set_colour(background) ) )
+												self.ta_set_colour(background)))
 								width = width + use_font.TextCoordBox(space, font_size, textobj.properties)[2]
 
 						# Can't position cursor?
@@ -900,7 +902,7 @@ class DrawfileLoader(GenericLoader):
 	def ta_write_line(self, align, cursor, line, wrapped):
 
 #        print 'ta_write_line:', align, cursor, margins
-		textobj=SimpleText()
+		textobj = SimpleText()
 		if line == [] or cursor == [None, None]:
 			return
 
@@ -971,7 +973,7 @@ class DrawfileLoader(GenericLoader):
 
 			# Place the cursor at a suitable place and render the text as if it
 			# was left justified
-			cursor[0] = self.margins[0] + (self.margins[1] - self.margins[0] - total_width)/2.0
+			cursor[0] = self.margins[0] + (self.margins[1] - self.margins[0] - total_width) / 2.0
 
 			for word, font_name, font_size, font_width, fg, bg in line:
 
@@ -1011,7 +1013,7 @@ class DrawfileLoader(GenericLoader):
 					# Increase the width
 					total_width = total_width + self.style.font.TextCoordBox(word, font_size, textobj.properties)[2]
 					# Add this word to the new list
-					new_line.append( (word, font_name, font_size, font_width, fg, bg) )
+					new_line.append((word, font_name, font_size, font_width, fg, bg))
 
 			# If there are no words then return to the caller
 			if len(new_line) == 0:
@@ -1100,12 +1102,12 @@ class DrawfileLoader(GenericLoader):
 
 			# Go to next column
 			self.column = self.column + 1
-	
+
 			self.margins = [(object.columns[self.column].x1 / scale) + \
 							self.margin_offsets[0],
 							(object.columns[self.column].x2 / scale) - \
 							self.margin_offsets[1]]
-	
+
 			cursor = [self.margins[0], object.columns[column].y2 / scale]
 			self.column_base = self.columns[self.column].y1 / scale
 		else:
@@ -1123,9 +1125,9 @@ class DrawfileLoader(GenericLoader):
 			return EmptyPattern
 		else:
 			return SolidPattern(
-				CreateRGBColor( float(colour[0]) / 255.0,
+				CreateRGBColor(float(colour[0]) / 255.0,
 								float(colour[1]) / 255.0,
-								float(colour[2]) / 255.0 ) )
+								float(colour[2]) / 255.0))
 
 
 	def make_safe(self, s):
@@ -1140,4 +1142,4 @@ class DrawfileLoader(GenericLoader):
 	def relative(self, x, y):
 
 #        return (x - self.drawfile.x1)/scale, (y - self.drawfile.y1)/scale
-		return x/scale, y/scale
+		return x / scale, y / scale

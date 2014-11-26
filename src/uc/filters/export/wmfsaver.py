@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003 by Bernhard Herzog
 # This WMFsaver by Lukasz Pankowski (2003)
@@ -42,31 +44,31 @@ EPS = 2
 rx_magic = '\xd7\xcd\xc6\x9a'
 
 struct_wmf_header = ('<'
-						'H'        # Type
-						'H'        # header size
-						'H'        # Version
-						'I'        # FileSize
-						'H'        # Num. objects
-						'I'        # Max. record size
-						'H'        # Num. Parameters
+						'H'# Type
+						'H'# header size
+						'H'# Version
+						'I'# FileSize
+						'H'# Num. objects
+						'I'# Max. record size
+						'H'# Num. Parameters
 						)
 
 struct_placeable_header = ('<'
-							'4s' # Key
-							'H'  # handle
-							'h'  # left
-							'h'  # top
-							'h'  # right
-							'h'  # bottom
-							'H'  # Inch
-							'I'  # Reserved
-							'H'  # Checksum
+							'4s'# Key
+							'H'# handle
+							'h'# left
+							'h'# top
+							'h'# right
+							'h'# bottom
+							'H'# Inch
+							'I'# Reserved
+							'H'# Checksum
 							)
 
 
 EMPTY_PEN = 0
 EMPTY_PATTERN = 1
-MIN_OBJECT = 2                          # less are reserved
+MIN_OBJECT = 2# less are reserved
 MAX_OBJECTS = 16
 
 
@@ -115,8 +117,8 @@ def FlattenPath(P0, P1, P2, P3):
 		# The midpoint is too far from base.
 
 		N = B.normalized()
-		if ((C1 * N) < -EPS or (C2 * N) > EPS or cr(C1,B)*cr(C2,B) < 0
-			or abs(cr(N,S)) > EPS):
+		if ((C1 * N) < -EPS or (C2 * N) > EPS or cr(C1, B) * cr(C2, B) < 0
+			or abs(cr(N, S)) > EPS):
 			return FlattenPath(P0, P4, P7, P9) + FlattenPath(P9, P8, P6, P3)
 		else:
 			return (P9, P3)
@@ -197,16 +199,16 @@ class WMFSaver:
 		green = rndtoint(255 * color.green)
 		blue = rndtoint(255 * color.blue)
 		if dashes == ():
-			style = 0 # solid
+			style = 0# solid
 		elif len(dashes) == 2:
 			if dashes[0] >= 3:
-				style = 1 # dash
+				style = 1# dash
 			else:
-				style = 2 # dot
+				style = 2# dot
 		elif len(dashes) == 4:
-			style = 3 # dash-dot
+			style = 3# dash-dot
 		else:
-			style = 4 # dash-dot-dot
+			style = 4# dash-dot-dot
 		self.add_select_object(struct.pack('<LHhhhBBBx', 8, 0x02FA,
 											style, width, width,
 											red, green, blue))
@@ -233,7 +235,7 @@ class WMFSaver:
 			# average color
 			self.CreateSelectBrush(Props.fill_pattern.gradient.Sample(3)[1])
 		elif fill_pattern.is_Image:
-			self.SelectObject(EMPTY_PATTERN) # XXX
+			self.SelectObject(EMPTY_PATTERN)# XXX
 
 	def PathToSeq(self, Path):
 		parlst = ()
@@ -256,11 +258,11 @@ class WMFSaver:
 		if len(Paths) == 1:
 			path = Paths[0]
 			if fill_pattern is EmptyPattern and not path.closed:
-				function = 0x0325 # Polyline
+				function = 0x0325# Polyline
 				self.LineStyle(Properties)
 				lst = self.PathToSeq(path)
 			else:
-				function = 0x0324 # Polygon
+				function = 0x0324# Polygon
 				self.FillStyle(Properties)
 				lst = self.PathToSeq(path)
 				if path.closed:
@@ -272,12 +274,12 @@ class WMFSaver:
 			for path in Paths:
 				lst = self.PathToSeq(path)
 				if path.closed:
-					function = 0x0324 # Polygon
+					function = 0x0324# Polygon
 					lst = lst[:-2]
 				else:
-					function = 0x0325 # Polyline
+					function = 0x0325# Polyline
 				self.putpolyrec(function, map(rndtoint , lst))
-		else: # The polygonset case
+		else:# The polygonset case
 			self.FillStyle(Properties)
 			set = []
 			lens = []
@@ -296,10 +298,10 @@ class WMFSaver:
 				fmt = '<%dh' % len(lst)
 				apply(self.pack, (fmt,) + tuple(lst))
 
-	def rect_to_ltrb(self, rct, zero = Point(0,0)):
+	def rect_to_ltrb(self, rct, zero=Point(0, 0)):
 		trf = rct.trafo
 		P1 = self.trafo(trf(zero))
-		P2 = self.trafo(trf(Point(1,1)))
+		P2 = self.trafo(trf(Point(1, 1)))
 		left = rndtoint(min(P1.x, P2.x))
 		bottom = rndtoint(max(P1.y, P2.y))
 		right = rndtoint(max(P1.x, P2.x))
@@ -325,7 +327,7 @@ class WMFSaver:
 		trf = ell.trafo
 		if (trf.m12 == 0 and trf.m21 == 0) or (trf.m11 == 0 and trf.m22 == 0):
 			self.FillStyle(ell.Properties())
-			left, top, right, bottom = self.rect_to_ltrb(ell, Point(-1,-1))
+			left, top, right, bottom = self.rect_to_ltrb(ell, Point(-1, -1))
 			if ell.start_angle == ell.end_angle:
 				self.packrec('<LHhhhh', 7, 0x0418, bottom, right, top, left)
 			else:
@@ -370,10 +372,10 @@ class WMFSaver:
 		return struct.pack(
 			struct_placeable_header,
 			rx_magic,
-			0,                         # handle
+			0,# handle
 			left, top, right, bottom,
 			self.inch,
-			0,                         # reserved
+			0,# reserved
 			checksum)
 
 	def write_headers(self):
@@ -389,13 +391,13 @@ class WMFSaver:
 		self.file.write(self.get_placeable(sum))
 
 		self.pack(struct_wmf_header,
-					1,                    # on disk
+					1,# on disk
 					struct.calcsize(struct_wmf_header) / 2,
 					0x300,
 					filesize,
 					self.numobj,
 					self.maxrecord,
-					0)                    # number of params
+					0)# number of params
 
 
 	def SaveDocument(self, doc):
@@ -409,11 +411,11 @@ class WMFSaver:
 		if x * (inch / 72.) > 32767:
 			inch = 32767 / x
 		sc = inch / 72.
-		self.trafo = Trafo(sc, 0, 0, -sc, - sc * left, sc * top)
+		self.trafo = Trafo(sc, 0, 0, -sc, -sc * left, sc * top)
 		self.Scale = sc
 		self.inch = inch
-		self.extend = map(rndtoint, tuple(self.trafo(left,bottom))
-									+ tuple(self.trafo(right,top)))
+		self.extend = map(rndtoint, tuple(self.trafo(left, bottom))
+									+ tuple(self.trafo(right, top)))
 
 		self.numobj = self.idx = MIN_OBJECT
 		self.objects = []
@@ -435,7 +437,7 @@ class WMFSaver:
 
 		# SetROP2 to 13 (R2_COPYPEN)
 		# me self.packrec('<LHl', 5, 0x0104, 13)
-		self.packrec('<LHh', 4, 0x0104, 13) # oo
+		self.packrec('<LHh', 4, 0x0104, 13)# oo
 
 		# CreatePenIndirect: 5 -- PS_NULL
 		self.add_select_object(struct.pack('<LHhhhBBBx', 8, 0x02FA,
@@ -450,13 +452,13 @@ class WMFSaver:
 		self.DeleteObject(0)
 		self.DeleteObject(1)
 
-		self.packrec('<LH', 3, 0)       # terminator
+		self.packrec('<LH', 3, 0)# terminator
 
 		# update some fields
 		self.write_headers()
 	#end
 
-def save(document, file, filename, options = {}):
+def save(document, file, filename, options={}):
 	saver = WMFSaver(file, filename, options)
 	saver.SaveDocument(document)
 	saver.close()

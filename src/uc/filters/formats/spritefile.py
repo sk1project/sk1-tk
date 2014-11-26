@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
     spritefile.py
 
@@ -46,16 +48,16 @@ class spritefile_error(Exception):
 
     pass
 
-scale8  = 255.0/15.0        # scaling factor for 8 bits per pixel colour
+scale8 = 255.0 / 15.0# scaling factor for 8 bits per pixel colour
                             # components
 #scale8  = 254.0/16.0       # scaling factor for 8 bits per pixel colour
                             # components
-scale16 = 255.0/31.0        # scaling factor for 16 bits per pixel colour
+scale16 = 255.0 / 31.0# scaling factor for 16 bits per pixel colour
                             # components
 
 class spritefile:
 
-    def __init__(self, file = None):
+    def __init__(self, file=None):
 
         # Constants
         self.HEADER = 60
@@ -119,18 +121,18 @@ class spritefile:
         self.sprites = {}
 
     def number(self, size, n):
-    
+
         # Little endian writing
-    
+
         s = ""
-    
+
         while size > 0:
             i = n % 256
             s = s + chr(i)
 #           n = n / 256
             n = n >> 8
             size = size - 1
-    
+
         return s
 
 
@@ -148,12 +150,12 @@ class spritefile:
             has_palette = 0
 
         rgb = ''
-        ptr = file.tell()*8         # bit offset
+        ptr = file.tell() * 8# bit offset
 
         for j in range(0, height):
 
             row = ''
-            row_ptr = ptr + first_bit_used      # bit offset into the image
+            row_ptr = ptr + first_bit_used# bit offset into the image
 
             for i in range(0, width):
 
@@ -170,9 +172,9 @@ class spritefile:
                 elif bpp == 16:
 
                     value = self.str2num(2, file.read(2))
-                    red   = int( (value & 0x1f) * scale16 )
-                    green = int( ((value >> 5) & 0x1f) * scale16 )
-                    blue  = int( ((value >> 10) & 0x1f) * scale16 )
+                    red = int((value & 0x1f) * scale16)
+                    green = int(((value >> 5) & 0x1f) * scale16)
+                    blue = int(((value >> 10) & 0x1f) * scale16)
                     row_ptr = row_ptr + 16
 
                 elif bpp == 8:
@@ -181,14 +183,14 @@ class spritefile:
 
                         # Standard VIDC 256 colours
                         value = ord(file.read(1))
-                        red   = ((value & 0x10) >> 1) | (value & 7)
+                        red = ((value & 0x10) >> 1) | (value & 7)
                         green = ((value & 0x40) >> 3) | \
                                 ((value & 0x20) >> 3) | (value & 3)
-                        blue  = ((value & 0x80) >> 4) | \
+                        blue = ((value & 0x80) >> 4) | \
                                 ((value & 8) >> 1) | (value & 3)
-                        red   = int( red * scale8 )
-                        green = int( green * scale8 )
-                        blue  = int( blue * scale8 )
+                        red = int(red * scale8)
+                        green = int(green * scale8)
+                        blue = int(blue * scale8)
                     else:
                         # 256 entry palette
                         value = ord(file.read(1))
@@ -198,7 +200,7 @@ class spritefile:
 
                 elif bpp == 4:
 
-                    value = ( ord(file.read(1)) >> (row_ptr % 8) ) & 0xf
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0xf
 
                     if has_palette == 0:
 
@@ -213,7 +215,7 @@ class spritefile:
 
                 elif bpp == 2:
 
-                    value = (ord(file.read(1)) >> (row_ptr % 8) ) & 0x3
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0x3
 
                     if has_palette == 0:
 
@@ -227,12 +229,12 @@ class spritefile:
 
                 elif bpp == 1:
 
-                    value = (ord(file.read(1)) >> (row_ptr % 8) ) & 1
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 1
 
                     if has_palette == 0:
 
                         # Black and white
-                        red = green = blue = (255*(1-value))
+                        red = green = blue = (255 * (1 - value))
                     else:
                                                 # 2 entry palette
                         red, green, blue = palette[value][0]
@@ -251,7 +253,7 @@ class spritefile:
 
         mask = ''
 
-        ptr = file.tell()*8         # bit offset
+        ptr = file.tell() * 8# bit offset
         image_ptr = 0
 
         if bpp == 32 or bpp == 16:
@@ -261,7 +263,7 @@ class spritefile:
         # Colour depths below 16 bpp have the same number of bpp in the mask
         bits = bpp * width
 
-        row_size = bits >> 5        # number of words
+        row_size = bits >> 5# number of words
         if bits % 32 != 0:
             row_size = row_size + 1
 
@@ -269,7 +271,7 @@ class spritefile:
         for j in range(0, height):
 
             row = ''
-            row_ptr = ptr           # bit offset into the image
+            row_ptr = ptr# bit offset into the image
 
             for i in range(0, width):
 
@@ -295,13 +297,13 @@ class spritefile:
 
                 elif bpp == 4:
 
-                    value = ( ord(file.read(1)) >> (row_ptr % 8) ) & 0xf
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0xf
                     value = value | (value << 4)
                     row_ptr = row_ptr + 4
 
                 elif bpp == 2:
 
-                    value = ( ord(file.read(1)) >> (row_ptr % 8) ) & 0x3
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0x3
                     if value == 3:
                         value = 0xff
                     row_ptr = row_ptr + 2
@@ -309,7 +311,7 @@ class spritefile:
                 elif bpp == 1:
 
                     # Black and white
-                    value = (ord(file.read(1)) >> (row_ptr % 8) ) & 1
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 1
                     value = value * 0xff
                     row_ptr = row_ptr + 1
 
@@ -325,7 +327,7 @@ class spritefile:
 
         rgba = ''
 
-        ptr = file.tell()*8         # bit offset
+        ptr = file.tell() * 8# bit offset
         image_ptr = 0
 
         if bpp == 32 or bpp == 16:
@@ -335,7 +337,7 @@ class spritefile:
         # Colour depths below 16 bpp have the same number of bpp in the mask
         bits = bpp * width
 
-        row_size = bits >> 5        # number of words
+        row_size = bits >> 5# number of words
         if bits % 32 != 0:
             row_size = row_size + 1
 
@@ -343,7 +345,7 @@ class spritefile:
         for j in range(0, height):
 
             row = ''
-            row_ptr = ptr           # bit offset into the image
+            row_ptr = ptr# bit offset into the image
 
             for i in range(0, width):
 
@@ -369,13 +371,13 @@ class spritefile:
 
                 elif bpp == 4:
 
-                    value = ( ord(file.read(1)) >> (row_ptr % 8) ) & 0xf
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0xf
                     value = value | (value << 4)
                     row_ptr = row_ptr + 4
 
                 elif bpp == 2:
 
-                    value = ( ord(file.read(1)) >> (row_ptr % 8) ) & 0x3
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 0x3
                     if value == 3:
                         value = 0xff
                     row_ptr = row_ptr + 2
@@ -383,11 +385,11 @@ class spritefile:
                 elif bpp == 1:
 
                     # Black and white
-                    value = (ord(file.read(1)) >> (row_ptr % 8) ) & 1
+                    value = (ord(file.read(1)) >> (row_ptr % 8)) & 1
                     value = value * 0xff
                     row_ptr = row_ptr + 1
 
-                row = row + image[image_ptr:image_ptr+3] + chr(value)
+                row = row + image[image_ptr:image_ptr + 3] + chr(value)
                 image_ptr = image_ptr + 3
 
             rgba = rgba + row
@@ -409,7 +411,7 @@ class spritefile:
         n = file.read(12)
         name = ''
         for i in n:
-            if ord(i)>32:
+            if ord(i) > 32:
                 name = name + i
             else:
                 break
@@ -421,20 +423,20 @@ class spritefile:
         data['v_lines'] = v_lines
 
         first_bit_used = self.str2num(4, file.read(4))
-        last_bit_used   = self.str2num(4, file.read(4))
+        last_bit_used = self.str2num(4, file.read(4))
 
         data['first bit'] = first_bit_used
         data['last bit'] = last_bit_used
 
         image_ptr = offset + self.str2num(4, file.read(4))
-        mask_ptr  = offset + self.str2num(4, file.read(4))
+        mask_ptr = offset + self.str2num(4, file.read(4))
 
         mode = self.str2num(4, file.read(4))
 
         bpp = (mode >> 27)
 
         if bpp == 0:
-        
+
             mode = mode & 0x3f
 
             # Information on commonly used modes
@@ -443,8 +445,8 @@ class spritefile:
                 log2bpp, xscale, yscale = self.mode_info[mode]
                 #xdpi = int(180/xscale)      # was 90
                 #ydpi = int(180/yscale)      # was 90
-                xdpi = int(90/xscale)        # Old modes have a maximum of
-                ydpi = int(90/yscale)        # 90 dots per inch.
+                xdpi = int(90 / xscale)# Old modes have a maximum of
+                ydpi = int(90 / yscale)# 90 dots per inch.
                 bpp = 1 << log2bpp
             else:
                 raise spritefile_error, 'Unknown mode number.'
@@ -484,13 +486,13 @@ class spritefile:
         # Read palette, if present, putting the values into a list
         while file.tell() < image_ptr:
 
-            file.seek(1,1)      # skip a byte
+            file.seek(1, 1)# skip a byte
             # First entry (red, green, blue)
             entry1 = (ord(file.read(1)), ord(file.read(1)), ord(file.read(1)))
-            file.seek(1,1)      # skip a byte
+            file.seek(1, 1)# skip a byte
             # Second entry (red, green, blue)
             entry2 = (ord(file.read(1)), ord(file.read(1)), ord(file.read(1)))
-            palette.append( ( entry1, entry2 ) )
+            palette.append((entry1, entry2))
 
         if palette != []:
 
@@ -511,17 +513,17 @@ class spritefile:
 
                             # Generate new colours using the palette
                             # supplied for the first 16 colours
-                            red   = (((j + i) & 0x10) >> 1) | (entry1[0] >> 4)
+                            red = (((j + i) & 0x10) >> 1) | (entry1[0] >> 4)
                             green = (((j + i) & 0x40) >> 3) | \
                                     (((j + i) & 0x20) >> 3) | (entry1[1] >> 4)
-                            blue  = (((j + i) & 0x80) >> 4) | (entry1[2] >> 4)
-                            red   = int( red * scale8 )
-                            green = int( green * scale8 )
-                            blue  = int( blue * scale8 )
+                            blue = (((j + i) & 0x80) >> 4) | (entry1[2] >> 4)
+                            red = int(red * scale8)
+                            green = int(green * scale8)
+                            blue = int(blue * scale8)
 
                             # Append new entries
                             palette.append(
-                                ( (red, green, blue), (red, green, blue) ) )
+                                ((red, green, blue), (red, green, blue)))
 
                 elif len(palette) == 64:
 
@@ -531,24 +533,24 @@ class spritefile:
 
                             entry1, entry2 = palette[i]
 
-                            red   = (((j + i) & 0x10) >> 1) | (entry1[0] >> 4)
+                            red = (((j + i) & 0x10) >> 1) | (entry1[0] >> 4)
                             green = (((j + i) & 0x40) >> 3) | \
                                     (((j + i) & 0x20) >> 3) | (entry1[1] >> 4)
-                            blue  = (((j + i) & 0x80) >> 4) | (entry1[2] >> 4)
-                            red   = int( red * scale8 )
-                            green = int( green * scale8 )
-                            blue  = int( blue * scale8 )
+                            blue = (((j + i) & 0x80) >> 4) | (entry1[2] >> 4)
+                            red = int(red * scale8)
+                            green = int(green * scale8)
+                            blue = int(blue * scale8)
 
                             # Append new entries
                             palette.append(
-                                ( (red, green, blue), (red, green, blue) ) )
+                                ((red, green, blue), (red, green, blue)))
 
                 data['palette'] = palette
             else:
                 data['palette'] = palette
 
         width = (h_words * (32 >> log2bpp)) - (first_bit_used >> log2bpp) - \
-                ((31-last_bit_used) >> log2bpp)
+                ((31 - last_bit_used) >> log2bpp)
         height = v_lines
 
         data['width'] = width
@@ -574,14 +576,14 @@ class spritefile:
 
     def read(self, file):
 
-        file.seek(0,2)
+        file.seek(0, 2)
         size = file.tell()
-        file.seek(0,0)
+        file.seek(0, 0)
 
         # Examine the sprites
         number = self.str2num(4, file.read(4))
         offset = self.str2num(4, file.read(4)) - 4
-        free   = self.str2num(4, file.read(4)) - 4
+        free = self.str2num(4, file.read(4)) - 4
 
         self.sprites = {}
 
@@ -685,9 +687,9 @@ class spritefile:
                 elif bpp == 16:
 
                     # Convert the components to the relevant form
-                    half_word = int(r/scale16) | \
-                            (int(g/scale16) << 5) | \
-                            (int(b/scale16) << 10)
+                    half_word = int(r / scale16) | \
+                            (int(g / scale16) << 5) | \
+                            (int(b / scale16) << 10)
 
                     sprite_word = sprite_word | (half_word << sprite_ptr)
                     sprite_ptr = sprite_ptr + 16
@@ -707,9 +709,9 @@ class spritefile:
                         index = inverse[(r, g, b)]
                     else:
                         # Standard palette
-                        red = int(r/scale8)
-                        green = int(g/scale8)
-                        blue = int(b/scale8)
+                        red = int(r / scale8)
+                        green = int(g / scale8)
+                        blue = int(b / scale8)
 
                         index = ((red & 0x8) << 1) | (red & 0x4) | \
                                 ((green & 0x8) << 3) | ((green & 0x4) << 3) | \
@@ -821,8 +823,8 @@ class spritefile:
         # Determine the actual number of words used per line of
         # the sprite
 
-        width = int( (data['width'] * bpp)/32 )
-        excess = (data['width'] % (32/bpp)) != 0
+        width = int((data['width'] * bpp) / 32)
+        excess = (data['width'] % (32 / bpp)) != 0
 
         self.sprites[name]['h_words'] = width + excess
         self.sprites[name]['v_lines'] = data['height']
@@ -855,7 +857,7 @@ class spritefile:
         sprite, mask, palette = self.rgb2sprite(name)
 
         # Write the sprite header minus the offset to the next sprite
-        header = name[:12] + (12 - len(name))*'\0' + \
+        header = name[:12] + (12 - len(name)) * '\0' + \
              self.number(4, data['h_words'] - 1) + \
              self.number(4, data['v_lines'] - 1) + \
              self.number(4, data['first bit']) + \
@@ -870,7 +872,7 @@ class spritefile:
         else:
             # Point to sprite instead
             header = header + \
-            self.number(4, 12 + len(palette) )
+            self.number(4, 12 + len(palette))
 
         # Determine the screen mode from the bpp, xdpi and ydpi
         if data['bpp'] == 1:
@@ -889,8 +891,8 @@ class spritefile:
             raise spritefile_error, \
                   'Invalid number of bits per pixel in sprite.'
 
-        mode = (log2bpp << 27) | (int(180/data['dpi x'] << 1)) | \
-               (int(180/data['dpi y']) << 14)
+        mode = (log2bpp << 27) | (int(180 / data['dpi x'] << 1)) | \
+               (int(180 / data['dpi y']) << 14)
 
         header = header + self.number(4, mode)
 
@@ -898,7 +900,7 @@ class spritefile:
         # the sprite header + palette + sprite + mask
         file.write(
             self.number(
-                4, len(header) + len(palette) + len(sprite) + len(mask) ) )
+                4, len(header) + len(palette) + len(sprite) + len(mask)))
 
         # Write the sprite header
         file.write(header)

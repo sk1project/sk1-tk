@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002 by Bernhard Herzog
 # This CGMloader mostly by Antoon Pardon (2002)

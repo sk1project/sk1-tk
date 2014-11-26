@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # Sketch - A Python-based interactive drawing program
 # Copyright (C) 1999, 2000 by Bernhard Herzog
 #
@@ -81,7 +82,7 @@ from streamfilter import BinaryInput
 
 from app import CreatePath, ContSmooth, ContAngle, ContSymmetrical, \
 		SolidPattern, EmptyPattern, LinearGradient, RadialGradient, \
-		ConicalGradient, MultiGradient,\
+		ConicalGradient, MultiGradient, \
 		CreateRGBColor, CreateCMYKColor, Trafo, Point, Polar, Translation, \
 		Scale, StandardColors, ImageTilePattern, ImageData, MaskGroup, \
 		Arrow
@@ -106,7 +107,7 @@ class RiffEOF(Exception):
 
 class ChunkHeader:
 
-	def __init__(self, filepos, chunk_type, length, sub_type = ''):
+	def __init__(self, filepos, chunk_type, length, sub_type=''):
 		self.filepos = filepos
 		self.chunk_type = chunk_type
 		self.length = length
@@ -148,28 +149,28 @@ def read_chunk_header(file):
 #
 
 
-struct_cmxheader_start = ('32s'	# Id
-							'16s'	# OS
-							'4s'	# ByteOrder, 2 little, 4 big endian
-							'2s'	# coord size, 2 = 16bit, 4 = 32bit
-							'4s'	# major version
-							'4s'	# minor version
+struct_cmxheader_start = ('32s'# Id
+							'16s'# OS
+							'4s'# ByteOrder, 2 little, 4 big endian
+							'2s'# coord size, 2 = 16bit, 4 = 32bit
+							'4s'# major version
+							'4s'# minor version
 							)
 struct_cmxheader_end = ('<'
-						'H'	# Unit, 35 = mm, 64 = inch
-						'd'	# factor
-						'xxxx'	# option, unused
-						'xxxx'	# foreign key, unused
-						'xxxx'	# capability, unused
-						'l'	# index section, offset
-						'l'	# info section, offset
-						'l'	# thumbnail, offset (the docs differ here)
-						'l'	# bb_left
-						'l'	# bb_top
-						'l'	# bb_right
-						'l'	# bb_bottom
-						'l'	# tally
-						'64x'	# reserved
+						'H'# Unit, 35 = mm, 64 = inch
+						'd'# factor
+						'xxxx'# option, unused
+						'xxxx'# foreign key, unused
+						'xxxx'# capability, unused
+						'l'# index section, offset
+						'l'# info section, offset
+						'l'# thumbnail, offset (the docs differ here)
+						'l'# bb_left
+						'l'# bb_top
+						'l'# bb_right
+						'l'# bb_bottom
+						'l'# tally
+						'64x'# reserved
 						)
 
 color_models = ('Invalid', 'Pantone', 'CMYK', 'CMYK255', 'CMY', 'RGB',
@@ -245,17 +246,17 @@ class CMXFile:
 		self.dashes = []
 		self.pens = []
 		self.line_styles = []
-		self.procindex = [None,]
-		self.bitmapindex = [None,]
-		self.embeddedindex = [None,]
-		self.arrowindex = [None,]
+		self.procindex = [None, ]
+		self.bitmapindex = [None, ]
+		self.embeddedindex = [None, ]
+		self.arrowindex = [None, ]
 		self.verbosity = 0
 		self.angle_factor = 1
 		self.pages = []
 
 	def warn(self, message):
 		self.loader.add_message(message)
-		
+
 	def _print(self, format, *args, **kw):
 		if self.verbosity:
 			if kw:
@@ -272,7 +273,7 @@ class CMXFile:
 		self._print('%6d %s %s %d\n',
 					h.filepos, h.chunk_type, h.sub_type, h.data_length)
 
-	def read_subchunks(self, header, indent = 1):
+	def read_subchunks(self, header, indent=1):
 		bytesread = 0
 		chunks = []
 		self.file.seek(header.data_start)
@@ -308,7 +309,7 @@ class CMXFile:
 
 	def read_matrix(self):
 		type = self.read_16()
-		if type == 1: # identity
+		if type == 1:# identity
 			return (1, 0, 0, 1, 0, 0)
 		data = self.file.read(48)
 		matrix = unpack('<dddddd', data)
@@ -325,7 +326,7 @@ class CMXFile:
 		read = self.file.read
 		tag = -1; data = ''
 		while tag != 255 and tag not in supported:
-			tag = read(1); 
+			tag = read(1);
 			tag = ord(tag)
 			if tag == 255:
 				break
@@ -339,14 +340,14 @@ class CMXFile:
 		start_size = struct.calcsize(struct_cmxheader_start)
 		end_size = struct.calcsize(struct_cmxheader_end)
 		self.file_id, self.platform, byte_order, coord_size, major, minor \
-			= unpack(struct_cmxheader_start, data[:start_size])
+			 = unpack(struct_cmxheader_start, data[:start_size])
 		self.byte_order = int(byte_order[:1])
 		self.coord_size = int(coord_size[:1])
 		self.version = float(major[:1])
 		self.unit, self.coord_factor, index, info, thumbnail, \
 					left, top, right, bottom, tally \
-					= unpack(struct_cmxheader_end, data[start_size:])
-		self.unit = int(self.unit) # unpack makes unit a long
+					 = unpack(struct_cmxheader_end, data[start_size:])
+		self.unit = int(self.unit)# unpack makes unit a long
 									# (fixed in python 1.5.2)
 		self.bbox = left, top, right, bottom
 		if self.version == 2.0:
@@ -371,17 +372,17 @@ class CMXFile:
 		self._print('\n')
 
 	def append_color(self, colors, model, data):
-		if model == 2: # CMYK
+		if model == 2:# CMYK
 			c, m, y, k = map(ord, data)
 			self._print(`c, m, y, k`)
 			colors.append(CreateCMYKColor(c / 100.0, m / 100.0, y / 100.0,
-											k /100.0))
-		elif model == 3: # CMYK 255
+											k / 100.0))
+		elif model == 3:# CMYK 255
 			c, m, y, k = map(ord, data)
 			self._print(`c, m, y, k`)
 			colors.append(CreateCMYKColor(c / 255.0, m / 255.0, y / 255.0,
-											k /255.0))
-		elif model == 5: # RGB
+											k / 255.0))
+		elif model == 5:# RGB
 			r, g, b = map(ord, data)
 			self._print(`r, g, b`)
 			colors.append(CreateRGBColor(r / 255.0, g / 255.0, b / 255.0))
@@ -395,10 +396,10 @@ class CMXFile:
 						% color_models[model])
 			colors.append(StandardColors.black)
 			self._print(`data`)
-			
+
 	def read_colors(self, chunk):
 		self._print('Colors\n------\n')
-		colors = [None,]
+		colors = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'colors')
@@ -406,12 +407,12 @@ class CMXFile:
 			for i in range(count):
 				tag = -1
 				while tag != 255:
-					tag, data = self.read_tag((1,2))
-					if tag == 1: # color base
+					tag, data = self.read_tag((1, 2))
+					if tag == 1:# color base
 						model, palette = map(ord, data)
-					elif tag == 2: # color description
+					elif tag == 2:# color description
 						self.append_color(colors, model, data)
-				# 
+				#
 				self._print('\n')
 		else:
 			read = self.file.read
@@ -432,10 +433,10 @@ class CMXFile:
 		self._print('%3d spot %d frequency %d user %d angle %g'
 					' overprint %d\n',
 					len(screens), spot, frequency, user, angle, overprint)
-		
+
 	def read_screens(self, chunk):
 		self._print('Screens\n-------\n')
-		screens = [None,]
+		screens = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'screens')
@@ -444,16 +445,16 @@ class CMXFile:
 				tag = -1
 				while tag != 255:
 					tag, data = self.read_tag((1, 2))
-					if tag == 1: # screen basic
+					if tag == 1:# screen basic
 						self.append_screen(screens, data)
-					elif tag == 2: # screen ps function
+					elif tag == 2:# screen ps function
 						pass
 		else:
 			read16 = self.read_16
 			for i in range(count):
 				data = self.file.read(13)
 				spot = self.append_screen(screens, data)
-				if spot == 3: # user defined
+				if spot == 3:# user defined
 					ps_function = self.read_string()
 				else:
 					ps_function = ''
@@ -461,12 +462,12 @@ class CMXFile:
 		return screens
 
 	def append_dashes(self, dashes, data):
-		dashes.append(unpack('<' + (len(data) / 2) * 'h', data)) 
+		dashes.append(unpack('<' + (len(data) / 2) * 'h', data))
 		self._print('%3d: %s\n', len(dashes), dashes[-1])
 
 	def read_dot(self, chunk):
 		self._print('Dashes\n------\n')
-		dashes = [None,]
+		dashes = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'dashes')
@@ -505,7 +506,7 @@ class CMXFile:
 
 	def read_pen(self, chunk):
 		self._print('Pens\n----\n')
-		pens = [None,]
+		pens = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'pens')
@@ -551,7 +552,7 @@ class CMXFile:
 
 	def read_linestyles(self, chunk):
 		self._print('Line Styles\n-----------\n')
-		styles = [None,]
+		styles = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'line styles')
@@ -576,7 +577,7 @@ class CMXFile:
 
 	def read_arrowheads(self, chunk):
 		self._print('Arrow Heads\n-----------\n')
-		heads = [None,]
+		heads = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'arrow heads')
@@ -596,13 +597,13 @@ class CMXFile:
 		outlines.append(Outline(self.line_styles[style], screen,
 								self.colors[color], arrowheads,
 								self.pens[pen], self.dashes[dash]))
-		
+
 		self._print('%3d ', len(outlines))
 		self.print_outline(outlines[-1])
 
 	def read_outlines(self, chunk):
 		self._print('Outlines\n--------\n')
-		outlines = [None,]
+		outlines = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'outlines')
@@ -622,7 +623,7 @@ class CMXFile:
 
 	def read_procindex(self, chunk):
 		self._print('Procedures\n----------\n')
-		procindex = [None,]
+		procindex = [None, ]
 		self.file.seek(chunk.data_start)
 		count = self.read_16()
 		self._print('%d %s\n', count, 'procedures')
@@ -678,7 +679,7 @@ class CMXFile:
 			self._print('offset %d, type %d\n', offset, image_type)
 			self.embeddedindex.append((offset, image_type))
 		self._print('\n')
-		
+
 
 	def read_index(self, chunk):
 		self._print('Index\n-----\n')
@@ -706,7 +707,7 @@ class CMXFile:
 									('rpen', 'pens', 'read_pen'),
 									('rott', 'line_styles', 'read_linestyles'),
 									('rota', 'arrow_heads', 'read_arrowheads'),
-									# rotl last as it references other attrs 
+									# rotl last as it references other attrs
 									('rotl', 'outlines', 'read_outlines')):
 			chunk = chunkdict.get(fcc)
 			if chunk is not None:
@@ -727,10 +728,10 @@ class CMXFile:
 		return self.file.read(chunk.data_length), chunk.data_start
 
 	def CoordFactor(self):
-		if self.unit == 35: # mm
+		if self.unit == 35:# mm
 			# Is this really in mm?
 			factor = self.coord_factor * units.mm_to_pt * 1000
-		elif self.unit == 64: # inches
+		elif self.unit == 64:# inches
 			factor = self.coord_factor * units.in_to_pt
 		else:
 			self.warn(_("Unknown unit specification %d, assuming inches")
@@ -742,7 +743,7 @@ class CMXFile:
 		factor = self.CoordFactor()
 		left, top, right, bottom = self.bbox
 		return Trafo(factor, 0, 0, factor,
-						-factor * min(left, right), -factor * min(bottom, top))
+						- factor * min(left, right), -factor * min(bottom, top))
 
 	def GetBitmap(self, index):
 		offset = self.bitmapindex[index]
@@ -782,7 +783,7 @@ class CMXFile:
 		if image_type == 0x08:
 			image = self.load_bitmap(subchunks[1].data_start,
 										subchunks[1].data_length)
-					
+
 		elif image_type == 16:
 			image = self.load_rimage(subchunks[1].data_start,
 										subchunks[1].data_length)
@@ -803,7 +804,7 @@ class CMXFile:
 	def load_rimage(self, data_start, data_length):
 		from PIL import Image
 		import StringIO
-		self.file.seek(data_start + 5) # skip the initial tag
+		self.file.seek(data_start + 5)# skip the initial tag
 
 		# read the file header
 		format = '<2slHHl'
@@ -820,7 +821,7 @@ class CMXFile:
 		xres, yres = header[9:11]
 		palette_offset, data_offset = header[11:13]
 		# resolution is specified in pixel/km (yes, kilometer).
-		xres = xres * 2.54 / 100000 
+		xres = xres * 2.54 / 100000
 		yres = yres * 2.54 / 100000
 		self._print('Rimage:\n')
 		self._print('type %d:\n', image_type)
@@ -861,7 +862,7 @@ class CMXFile:
 
 class CMXInterpreter:
 
-	def __init__(self, loader, cmxfile, layer_prefix = ''):
+	def __init__(self, loader, cmxfile, layer_prefix=''):
 		self.loader = loader
 		self.cmxfile = cmxfile
 		self.source_stack = ()
@@ -908,7 +909,7 @@ class CMXInterpreter:
 
 	def get_matrix(self):
 		type = self.get_int16()
-		if type == 1: # identity
+		if type == 1:# identity
 			return (1, 0, 0, 1, 0, 0)
 		return self.source.read_struct('dddddd')
 
@@ -945,7 +946,7 @@ class CMXInterpreter:
 			tag = ord(self.source.read(1))
 			if tag != 255:
 				size = self.get_int16()
-				self.source.seek(self.source.tell() + size - 3)            
+				self.source.seek(self.source.tell() + size - 3)
 
 	#
 
@@ -965,7 +966,7 @@ class CMXInterpreter:
 				length = get_int16()
 				if length < 0:
 					length = get_int32() - 4
-				code = abs(get_int16()) # for some reason the codes are
+				code = abs(get_int16())# for some reason the codes are
 										# negative in CMX1
 				command = cmx_commands.get(code)
 				self._print('%-20s(%3d) %d\n', command, code, length)
@@ -1048,7 +1049,7 @@ class CMXInterpreter16(CMXInterpreter):
 
 	def BeginLayer(self):
 		page_number, layer_number, flags, tally \
-						= self.source.read_struct('hhll')
+						 = self.source.read_struct('hhll')
 		layer_name = self.get_string()
 		matrix = self.get_matrix()
 		mapflag = self.get_boolean()
@@ -1069,7 +1070,7 @@ class CMXInterpreter16(CMXInterpreter):
 			self._print('    No map.\n')
 
 		# start layer
-		self.loader.layer(self.layer_prefix + layer_name, 1, 1, 0, 0, ('RGB',0,0,0))
+		self.loader.layer(self.layer_prefix + layer_name, 1, 1, 0, 0, ('RGB', 0, 0, 0))
 
 	def BeginGroup(self):
 		bbox = self.get_rectangle()
@@ -1081,23 +1082,23 @@ class CMXInterpreter16(CMXInterpreter):
 
 		# start group
 		self.loader.begin_group()
-		
+
 	def get_rendering_attrs(self):
 		self._print('	  Rendering Attributes:\n')
 		style = self.loader.style
 		mask = self.get_byte()
-		if mask & 0x01: # fill attrs
+		if mask & 0x01:# fill attrs
 			self._print('	Fill:')
 			fill = self.get_int16()
-			if fill == 0: # no fill
+			if fill == 0:# no fill
 				self._print('no fill\n')
 				style.fill_pattern = EmptyPattern
-			elif fill == 1: # uniform
+			elif fill == 1:# uniform
 				color, screen = self.source.read_struct('hh')
 				self._print('uniform %s %s, screen %s\n', color,
 							self.cmxfile.colors[color], screen)
 				style.fill_pattern = SolidPattern(self.cmxfile.colors[color])
-			elif fill == 2: # fountain (gradient)
+			elif fill == 2:# fountain (gradient)
 				fountain, screen, padding = self.source.read_struct('hhh')
 				angle = self.get_angle()
 				xoff, yoff, steps, mode = self.source.read_struct('iihh')
@@ -1111,18 +1112,18 @@ class CMXInterpreter16(CMXInterpreter):
 					color = self.cmxfile.colors[color]
 					colors.append((pos / 100.0, color))
 				self._print('fountain: %s pad %d angle %f off %d %d\n',
-							('linear','radial','conical','square')[fountain],
+							('linear', 'radial', 'conical', 'square')[fountain],
 							padding, angle, xoff, yoff)
 				self._print('	      steps %d mode %s\n', steps,
 							('RGB', 'HSB_CW', 'HSB_CCW', 'Custom')[mode])
 				self._print('	      colors %s\n', colors)
 				style.fill_pattern = LinearGradient(MultiGradient(colors),
-													-Polar(angle),
-													border = padding / 50.0)
-			elif fill == 7: # monochrome bitmap 1 (according to cmxbrowser)
+													- Polar(angle),
+													border=padding / 50.0)
+			elif fill == 7:# monochrome bitmap 1 (according to cmxbrowser)
 				bitmap = self.get_int16()
 				width, height, xoff, yoff, inter, flags \
-						= self.source.read_struct('hhhhhh')
+						 = self.source.read_struct('hhhhhh')
 				foreground, background, screen = self.source.read_struct('hhh')
 				self._print('twocolor: bitmap %d\n', bitmap)
 				self._print('    size (%d, %d), off (%d, %d), inter %d, '
@@ -1134,10 +1135,10 @@ class CMXInterpreter16(CMXInterpreter):
 				self.warn(_("fill type 'monochrome-bitmap' not implemented, "
 							"using solid black"))
 				style.fill_pattern = SolidPattern(StandardColors.black)
-			elif fill == 11: # Texture
+			elif fill == 11:# Texture
 				function = self.get_int16()
 				width, height, xoff, yoff, inter, flags\
-						= self.source.read_struct('hhhhhh')
+						 = self.source.read_struct('hhhhhh')
 				bbox = self.get_rectangle()
 				reserved, res, max_edge = self.source.read_struct('blh')
 				lib = self.get_string()
@@ -1147,11 +1148,11 @@ class CMXInterpreter16(CMXInterpreter):
 				params = []
 				for i in range(count):
 					params.append(self.source.read_struct('hhhh'))
-				
+
 					self._print('full-color: function %d\n', function)
 				self._print('    size (%d, %d), off (%d, %d), inter %d, '
 							'flags %x\n',
-							width, height, xoff, yoff, inter, 0) #flags)
+							width, height, xoff, yoff, inter, 0)#flags)
 				self._print('    bbox %s\n', bbox)
 				self._print('    resolution %d, max edge %d\n', res, max_edge)
 				self._print('    library %s\n', `lib`)
@@ -1178,19 +1179,19 @@ class CMXInterpreter16(CMXInterpreter):
 		else:
 			style.fill_pattern = EmptyPattern
 
-		if mask & 0x02: # line attrs
+		if mask & 0x02:# line attrs
 			outline = self.get_int16()
 			#print outline
 			outline = self.cmxfile.outlines[outline]
 			spec, cap, join = outline.style
-			if spec & 1: # the none bit is set. no outline
+			if spec & 1:# the none bit is set. no outline
 				style.line_pattern = EmptyPattern
 			else:
 				style.line_pattern = SolidPattern(outline.color)
 				style.line_width = abs(outline.pen[0] * self.factor)
 				style.line_cap = cap + 1
 				style.line_join = join
-				if spec & 0x04: # dash dot
+				if spec & 0x04:# dash dot
 					style.line_dashes = outline.dashes
 				else:
 					style.line_dashes = ()
@@ -1199,15 +1200,15 @@ class CMXInterpreter16(CMXInterpreter):
 		else:
 			style.line_pattern = EmptyPattern
 
-		if mask & 0x04: # lens attributes
+		if mask & 0x04:# lens attributes
 			#self._print("	can't handle lens\n")
 			raise TypeError, "can't handle lens"
 
-		if mask & 0x08: # canvas
+		if mask & 0x08:# canvas
 			#self._print("	can't handle canvas\n")
 			raise TypeError, "can't handle canvas"
 
-		if mask & 0x10: # container
+		if mask & 0x10:# container
 			#self._print("	can't handle container\n")
 			raise TypeError, "can't handle container"
 
@@ -1264,7 +1265,7 @@ class CMXInterpreter16(CMXInterpreter):
 
 	def JumpAbsolute(self):
 		return self.get_int32()
-	
+
 
 class CMXInterpreter32(CMXInterpreter):
 
@@ -1310,7 +1311,7 @@ class CMXInterpreter32(CMXInterpreter):
 				try:
 					if tag == 1:
 						page_number, layer_number, flags, tally \
-										= self.source.read_struct('hhll')
+										 = self.source.read_struct('hhll')
 						layer_name = self.get_string()
 						self._print(fmt, 'LayerName', layer_name)
 						self._print(fmt, 'LayerNumber', layer_number)
@@ -1333,7 +1334,7 @@ class CMXInterpreter32(CMXInterpreter):
 				finally:
 					self.pop_source()
 		# start layer
-		self.loader.layer(self.layer_prefix + layer_name, 1, 1, 0, 0, ('RGB',0,0,0))
+		self.loader.layer(self.layer_prefix + layer_name, 1, 1, 0, 0, ('RGB', 0, 0, 0))
 
 	def BeginGroup(self):
 		fmt = '    % 10s: %s\n'
@@ -1356,28 +1357,28 @@ class CMXInterpreter32(CMXInterpreter):
 		self._print('	  Rendering Attributes:\n')
 		style = self.loader.style
 		mask = self.get_byte()
-		
-		if mask & 0x01: # fill attrs
+
+		if mask & 0x01:# fill attrs
 			self._print('	Fill:')
 			self.get_fill(style)
 		else:
 			style.fill_pattern = EmptyPattern
 
-		if mask & 0x02: # line attrs
+		if mask & 0x02:# line attrs
 			self.get_outline(style)
 		else:
 			style.line_pattern = EmptyPattern
 
-		if mask & 0x04: # lens attributes
+		if mask & 0x04:# lens attributes
 			self.warn(_("Lens specification ignored"))
 			self.skip_tags()
 			#self.get_lens()
 
-		if mask & 0x08: # canvas (XXX what is that, actually?)
+		if mask & 0x08:# canvas (XXX what is that, actually?)
 			self.warn(_("Canvas specification ignored"))
-			self.skip_tags() # ?
+			self.skip_tags()# ?
 
-		if mask & 0x10: # container
+		if mask & 0x10:# container
 			#self.warn("Container specification ignored")
 			stack = self.loader.get_prop_stack()
 			self.get_container()
@@ -1390,12 +1391,12 @@ class CMXInterpreter32(CMXInterpreter):
 			try:
 				if tag == 1:
 					fill = self.get_int16()
-					if fill == 0: # no fill
+					if fill == 0:# no fill
 						self._print('no fill\n')
 						style.fill_pattern = EmptyPattern
-					elif fill == 1: # uniform
+					elif fill == 1:# uniform
 						self.get_uniform_fill(style)
-					elif fill == 2: # fountain (gradient)
+					elif fill == 2:# fountain (gradient)
 						self.get_fountain_fill(style)
 					elif fill == 7:
 						# monochrome bitmap 1 (according to cmxbrowser)
@@ -1441,9 +1442,9 @@ class CMXInterpreter32(CMXInterpreter):
 					fountain, screen, padding = self.source.read_struct('hhh')
 					angle = self.get_angle()
 					xoff, yoff, steps, mode, rate_method, rate_value \
-							= self.source.read_struct('iihhhh')
+							 = self.source.read_struct('iihhhh')
 					self._print('fountain: %s pad %d angle %f off %d %d\n',
-								('linear','radial','conical','square')[fountain],
+								('linear', 'radial', 'conical', 'square')[fountain],
 								padding, angle, xoff, yoff)
 					self._print('	      steps %d mode %s\n', steps,
 								('RGB', 'HSB_CW', 'HSB_CCW', 'Custom')[mode])
@@ -1468,20 +1469,20 @@ class CMXInterpreter32(CMXInterpreter):
 					center = Point(xoff / 100.0 + 0.5, yoff / 100.0 + 0.5)
 					if fountain == 0:
 						pattern = LinearGradient(gradient, -Polar(angle),
-													border = border)
+													border=border)
 					elif fountain == 1:
 						pattern = RadialGradient(gradient, center,
-													border = border)
+													border=border)
 					elif fountain == 2:
 						pattern = ConicalGradient(gradient, center,
-													-Polar(angle))
+													- Polar(angle))
 					else:
 						# probably a square gradient which sketch doesn't have
 						# use a radial gradient instead
 						self.warn(_("Substituting radial gradient for square "
 									"gradient"))
 						pattern = RadialGradient(gradient, center,
-													border = border)
+													border=border)
 					style.fill_pattern = pattern
 			finally:
 				if tag != 255:
@@ -1501,7 +1502,7 @@ class CMXInterpreter32(CMXInterpreter):
 												"not 1 bit deep"))
 					width, height, xoff, yoff, inter, flags = self.get_tiling()
 					background, foreground, screen \
-								= self.source.read_struct('hhh')
+								 = self.source.read_struct('hhh')
 					self._print('    foreground %s, background %s,'
 								' screen %d\n',
 								self.cmxfile.colors[foreground],
@@ -1521,7 +1522,7 @@ class CMXInterpreter32(CMXInterpreter):
 					trafo = Trafo(width / image.size[0], 0, 0,
 									height / image.size[1], 0, 0)
 					style.fill_pattern = ImageTilePattern(ImageData(image),
-															trafo = trafo)
+															trafo=trafo)
 					self.loader.fix_tile = xoff, yoff
 			finally:
 				if tag != 255:
@@ -1536,7 +1537,7 @@ class CMXInterpreter32(CMXInterpreter):
 					procedure = self.get_int16()
 					self._print('Color image procedure %d\n', procedure)
 					width, height, xoff, yoff, inter, flags = self.get_tiling()
-					
+
 					stack = self.loader.get_prop_stack()
 					self.execute_procedure(procedure)
 					self.loader.set_prop_stack(stack)
@@ -1547,7 +1548,7 @@ class CMXInterpreter32(CMXInterpreter):
 					trafo = Trafo(width / image_data.size[0], 0, 0,
 									height / image_data.size[1], 0, 0)
 					trafo = trafo(image.Trafo())
-					pattern = ImageTilePattern(image_data, trafo = trafo)
+					pattern = ImageTilePattern(image_data, trafo=trafo)
 					self.loader.style.fill_pattern = pattern
 
 				elif tag != 255:
@@ -1590,7 +1591,7 @@ class CMXInterpreter32(CMXInterpreter):
 					outline = self.get_int16()
 					outline = self.cmxfile.outlines[outline]
 					spec, cap, join = outline.style
-					if spec & 1: # the none bit is set. no outline
+					if spec & 1:# the none bit is set. no outline
 						style.line_pattern = EmptyPattern
 					else:
 						style.line_pattern = SolidPattern(outline.color)
@@ -1601,7 +1602,7 @@ class CMXInterpreter32(CMXInterpreter):
 						heads = self.cmxfile.arrow_heads[outline.arrowheads]
 						style.line_arrow1 = self.get_arrow(heads[0])
 						style.line_arrow2 = self.get_arrow(heads[1])
-					if spec & 0x04: # dash dot
+					if spec & 0x04:# dash dot
 						style.line_dashes = outline.dashes
 					else:
 						style.line_dashes = ()
@@ -1633,11 +1634,11 @@ class CMXInterpreter32(CMXInterpreter):
 		paths = self.read_pointlist()
 		self.pop_trafo()
 		self.pop_source()
-		
+
 		arrow = Arrow(paths[0])
 		self.cmxfile.arrowindex[index] = arrow
 		return arrow
-		
+
 
 	def get_container(self):
 		verbosity = self.cmxfile.verbosity
@@ -1734,7 +1735,7 @@ class CMXInterpreter32(CMXInterpreter):
 				del paths[i]
 
 		return tuple(paths)
-		
+
 
 	def PolyCurve(self):
 		# We do the tag handling 'manually' here because the file format
@@ -1815,8 +1816,8 @@ class CMXInterpreter32(CMXInterpreter):
 			finally:
 				if tag != 255:
 					self.pop_source()
-	
-	
+
+
 	def JumpAbsolute(self):
 		tag = -1
 		while tag != 255:
@@ -1851,10 +1852,10 @@ class CMXLoader(GenericLoader):
 						prefix = 'Page %d: ' % num
 					if cmx.coord_size == 2:
 						interpreter = CMXInterpreter16(self, cmx,
-														layer_prefix = prefix)
+														layer_prefix=prefix)
 					else:
 						interpreter = CMXInterpreter32(self, cmx,
-														layer_prefix = prefix)
+														layer_prefix=prefix)
 					interpreter.Run(data, start)
 			self.end_all()
 			self.object.load_Completed()
@@ -1875,7 +1876,7 @@ class CMXLoader(GenericLoader):
 					trafo = pattern.trafo
 					y = height * trafo.m22 * self.fix_tile[1] / 100.0
 					rect = object.coord_rect
-					pattern.Transform(Translation(0, rect.bottom-rect.top + y))
+					pattern.Transform(Translation(0, rect.bottom - rect.top + y))
 			self.fix_tile = None
 		if self.fix_clip:
 			group = self.pop_last()
@@ -1899,4 +1900,4 @@ class CMXLoader(GenericLoader):
 					object = MaskGroup(objects)
 			self.fix_lens = ()
 		GenericLoader.append_object(self, object)
-			
+
