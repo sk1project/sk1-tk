@@ -217,7 +217,7 @@ class SplashScreen:
 
 	root = None
 	win = None
-	img = 'splash-screen'
+	img = 'images/splash-screen'
 	flag = 0
 
 	def __init__(self, root):
