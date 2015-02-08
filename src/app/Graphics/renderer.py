@@ -148,7 +148,11 @@ class ObjRenderer:
 				self.ctx.set_line_join(JOINS[obj.properties.line_join])
 
 				dashes = obj.properties.line_dashes
-				if dashes: self.ctx.set_dash(dashes)
+				if dashes:
+					self.ctx.set_dash(dashes)
+				else:
+					self.ctx.set_dash([])
+
 				self.ctx.append_path(obj.cache_cpath)
 				self.ctx.stroke()
 
