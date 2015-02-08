@@ -27,13 +27,11 @@ First option is a distutils install with commands:
 python setup.py build
 python setup.py install
 
-Application will be installed into /usr/local/lib/python2.x/site-packages
-Also printdesign script will be in /usr/local/bin
 But this way is not recommended. The most preferred option is a package 
 installation (deb or rpm). You can create package using command:
 
 python setup.py bdist_deb (for Ubuntu|Mint|Debian etc.)
-python setup.py bdist_rpm (for Fedora|OpenSuse|Mandriva etc.)
+python setup.py bdist_rpm (for Fedora|OpenSuse|Mageia etc.)
 
 By installing the package you have full control over all the installed files 
 and can easily remove them from the system (it's important for application
@@ -62,3 +60,24 @@ python-imaging
 python-imaging-tk
 python-reportlab
 python-cairo
+
+-------------------------------------------
+Build dependencies for Fedora:
+
+libX11-devel
+libXcursor-devel
+cairo-devel
+lcms2-devel
+zlib-devel
+libXext-devel
+tk-devel
+python-devel
+pycairo-devel
+
+tkinter
+pygtk2
+python-pillow
+python-pillow-tk
+python-reportlab
+pycairo
+-------------------------------------------

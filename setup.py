@@ -2,7 +2,7 @@
 #
 # Setup script for sK1 0.9.x
 #
-# Copyright (C) 2007-2014 Igor E. Novikov
+# Copyright (C) 2007-2015 Igor E. Novikov
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -56,7 +56,7 @@ LCMS2 = False
 #
 ############################################################
 NAME = 'sk1'
-VERSION = '0.9.2'
+VERSION = '0.9.3'
 DESCRIPTION = 'Vector graphics editor for prepress'
 AUTHOR = 'Igor E. Novikov'
 AUTHOR_EMAIL = 'igor.e.novikov@gmail.com'
@@ -82,7 +82,7 @@ Adobe Illustrator, or Freehand. First of all sK1 is oriented for prepress
 industry, therefore works with CMYK colorspace and produces CMYK-based PDF 
 and postscript output.
 sK1 Project (http://sk1project.org),
-Copyright (C) 2007-2014 by Igor E. Novikov 
+Copyright (C) 2007-2015 by Igor E. Novikov 
 '''
 LONG_DEB_DESCRIPTION = ''' .
  sK1 is an open source vector graphics editor similar to CorelDRAW, 
@@ -91,7 +91,7 @@ LONG_DEB_DESCRIPTION = ''' .
  and postscript output.
  . 
  sK1 Project (http://sk1project.org),
- Copyright (C) 2007-2014 by Igor E. Novikov 
+ Copyright (C) 2007-2015 by Igor E. Novikov 
  .
 '''
 
@@ -113,7 +113,7 @@ data_files = [
 ]
 deb_depends = 'libxcursor1, libcairo2, libx11-6, zlib1g, libxext6'
 deb_depends += ', python (>=2.4), python (<<3.0), python-tk'
-deb_depends += ', python-imaging, python-gtk2, python-imaging-tk'
+deb_depends += ', python-pil, python-gtk2, python-pil.imagetk'
 deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
