@@ -190,7 +190,7 @@ class DocRenderer(ObjRenderer):
 		self.zoom = abs(self.trafo[0])
 		self.canvas_matrix = cairo.Matrix(*self.trafo)
 
-		self.surface = cairo.ImageSurface(cairo.FORMAT_RGB24,
+		self.surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
 										self.width, self.height)
 		self.ctx = cairo.Context(self.surface)
 		self.ctx.set_source_rgb(*CAIRO_WHITE)
