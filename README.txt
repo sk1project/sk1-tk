@@ -81,3 +81,22 @@ python-pillow-tk
 python-reportlab
 pycairo
 -------------------------------------------
+Build dependencies for OpenSUSE:
+
+libX11-devel
+libXcursor-devel
+libXext-devel
+cairo-devel
+zlib-devel
+liblcms2-devel
+tk-devel
+python-devel
+python-cairo-devel
+
+python-tk
+python-gtk
+python-Pillow
+python-Pillow-tk
+python-reportlab
+python-cairo
+-------------------------------------------
