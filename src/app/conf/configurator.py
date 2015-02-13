@@ -19,7 +19,7 @@ class Configurator:
 
 		self.name = 'sK1'
 		self.sk_command = 'sk1'
-		self.version = '0.9.2'
+		self.version = '0.9.3'
 
 		self.sk_dir = base_dir
 		self.sk1_dir = os.path.join(self.sk_dir, 'sk1')
