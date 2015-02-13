@@ -48,7 +48,7 @@ from libutils import make_source_list, DEB_Builder
 UPDATE_MODULES = False
 DEB_PACKAGE = False
 CLEAR_BUILD = False
-LCMS2 = False
+LCMS2 = True
 
 ############################################################
 #
