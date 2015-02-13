@@ -111,9 +111,9 @@ data_files = [
 ('/usr/share/applications', ['src/sk1.desktop', ]),
 ('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
 ]
-deb_depends = 'libxcursor1, libcairo2, libx11-6, zlib1g, libxext6'
+deb_depends = 'libxcursor1, libxext6'
 deb_depends += ', python (>=2.4), python (<<3.0), python-tk'
-deb_depends += ', python-pil, python-gtk2, python-pil.imagetk'
+deb_depends += ', python-gtk2, python-pil, python-pil.imagetk'
 deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
@@ -171,11 +171,6 @@ if not tcl_ver:
 		tcl_ver = '8.5'
 	if os.path.isfile('/usr/lib64/libtcl8.6.so'):
 		tcl_ver = '8.6'
-
-if tcl_ver == '8.5':
-	deb_depends = 'tk8.5 (>=8.5.0), ' + deb_depends
-elif tcl_ver == '8.6':
-	deb_depends = 'tk8.6 (>=8.6.0), ' + deb_depends
 
 if not tcl_ver:
 	print 'System tcl/tk =>8.5 libraries have not found!'
