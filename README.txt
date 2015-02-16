@@ -57,7 +57,6 @@ To run application you need installing also:
 python-tk
 python-gtk2
 python-imaging 
-python-imaging-tk
 python-reportlab
 python-cairo
 
@@ -77,7 +76,6 @@ pycairo-devel
 tkinter
 pygtk2
 python-pillow
-python-pillow-tk
 python-reportlab
 pycairo
 -------------------------------------------
@@ -96,7 +94,6 @@ python-cairo-devel
 python-tk
 python-gtk
 python-Pillow
-python-Pillow-tk
 python-reportlab
 python-cairo
 -------------------------------------------
