@@ -46,7 +46,6 @@ libx11-dev
 libxcursor-dev 
 libcairo2-dev
 liblcms2-dev (or liblcms1-dev)
-zlib1g-dev 
 libxext-dev 
 tk8.6-dev (or tk8.5-dev)
 python-dev
@@ -68,7 +67,6 @@ libX11-devel
 libXcursor-devel
 cairo-devel
 lcms2-devel
-zlib-devel
 libXext-devel
 tk-devel
 python-devel
@@ -86,7 +84,6 @@ libX11-devel
 libXcursor-devel
 libXext-devel
 cairo-devel
-zlib-devel
 liblcms2-devel
 tk-devel
 python-devel
@@ -98,3 +95,36 @@ python-Pillow
 python-reportlab
 python-cairo
 -------------------------------------------
+Build dependencies for Mageia 64bit:
+
+lib64x11-devel
+lib64xcursor-devel (lib64xcursor1)
+lib64xext-devel (lib64xext6)
+lib64cairo-devel
+lib64lcms2-devel (lib64lcms2_2)
+lib64tk-devel
+lib64python-devel
+python-cairo-devel
+
+tkinter
+pygtk2.0
+python-pillow
+python-reportlab
+python-cairo
+-------------------------------------------
+Build dependencies for Mageia 32bit:
+
+libx11-devel
+libxcursor-devel (libxcursor1)
+libxext-devel (libxext6)
+libcairo-devel
+liblcms2-devel
+libtk-devel
+libpython-devel
+python-cairo-devel
+
+tkinter
+pygtk2.0
+python-pillow
+python-reportlab
+python-cairo
