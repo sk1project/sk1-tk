@@ -3,7 +3,7 @@ Adobe Illustrator, or Freehand. PrintDesign is oriented for prepress industry,
 so it works with CMYK colorspace and produces CMYK-based PDF and PS output. 
 
 sK1 Project (http://sk1project.org),
-Copyright (C) 2003-2014 by Igor E. Novikov
+Copyright (C) 2003-2015 by Igor E. Novikov
 
 How to install: 
 --------------------------------------------------------------------------
