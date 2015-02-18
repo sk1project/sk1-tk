@@ -22,8 +22,9 @@
 """
 Usage: 
 --------------------------------------------------------------------------
- to build package:   python setup.py build
- to install package:   python setup.py install
+ to build package:       python setup.py build
+ to install package:     python setup.py install
+ to remove installation: python setup.py uninstall
 --------------------------------------------------------------------------
  to create source distribution:   python setup.py sdist
 --------------------------------------------------------------------------
@@ -207,6 +208,29 @@ if len(sys.argv) > 1:
 	if len(sys.argv) > 2 and '--lcms1' in sys.argv:
 		LCMS2 = False
 		sys.argv.remove('--lcms1')
+
+	if sys.argv[1] == 'uninstall':
+		if os.path.isdir(install_path):
+			print 'REMOVE: ' + install_path
+			os.system('rm -rf ' + install_path)
+			#removing scripts
+			for item in scripts:
+				filename = os.path.basename(item)
+				print 'REMOVE: /usr/bin/' + filename
+				os.system('rm -rf /usr/bin/' + filename)
+			#removing data files
+			for item in data_files:
+				location = item[0]
+				file_list = item[1]
+				for file_item in file_list:
+					filename = os.path.basename(file_item)
+					filepath = os.path.join(location, filename)
+					print 'REMOVE: ' + filepath
+					os.system('rm -rf ' + filepath)
+		else:
+			print 'sK1 installation is not found!'
+		sys.exit(0)
+
 
 from distutils.core import setup, Extension
 
