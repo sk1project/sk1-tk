@@ -112,8 +112,7 @@ data_files = [
 ('/usr/share/applications', ['src/sk1.desktop', ]),
 ('/usr/share/pixmaps', ['src/sk1.png', 'src/sk1.xpm', ]),
 ]
-deb_depends = 'libxcursor1, libxext6, python (>=2.4), python (<<3.0)'
-deb_depends += ', python-tk, python-gtk2, python-imaging'
+deb_depends = 'libxcursor1, libxext6, python-tk, python-gtk2, python-imaging'
 deb_depends += ', python-cairo, python-reportlab'
 
 dirs = libutils.get_dirs_tree('src/sk1/share')
@@ -132,8 +131,6 @@ package_data = {
 'sk1sdk': share_dirs_sdk,
 'uc':['cms/profiles/*.*'],
 }
-
-if os.path.isfile(os.path.join(include_path, 'lcms2.h')): LCMS2 = True
 
 #Preparing start script
 fileptr = open('src/script/sk1.tmpl', 'rb')
