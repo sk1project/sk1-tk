@@ -208,6 +208,7 @@ if len(sys.argv) > 1:
 
 	if sys.argv[1] == 'uninstall':
 		if os.path.isdir(install_path):
+			#removing sk1 folder
 			print 'REMOVE: ' + install_path
 			os.system('rm -rf ' + install_path)
 			#removing scripts
