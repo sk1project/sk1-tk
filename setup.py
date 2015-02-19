@@ -224,6 +224,9 @@ if len(sys.argv) > 1:
 					filepath = os.path.join(location, filename)
 					print 'REMOVE: ' + filepath
 					os.system('rm -rf ' + filepath)
+			print 'Desktop database update: ',
+			os.system('update-desktop-database')
+			print 'DONE!'
 		else:
 			print 'sK1 installation is not found!'
 		sys.exit(0)
