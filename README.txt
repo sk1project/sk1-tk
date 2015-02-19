@@ -45,7 +45,7 @@ other distros they have similar names. So, you need:
 libx11-dev
 libxcursor-dev 
 libcairo2-dev
-liblcms2-dev (or liblcms1-dev)
+liblcms2-dev
 libxext-dev 
 tk8.6-dev (or tk8.5-dev)
 python-dev
