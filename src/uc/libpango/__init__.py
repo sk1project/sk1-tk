@@ -93,14 +93,17 @@ class PangoFontFace:
 		self.set_layout('' + text, properties)
 		typeset = []
 		index = 0
+		iter = PANGO_LAYOUT.get_iter()
 		for char in text:
 			utf_index = len(text[:index].encode('utf-8'))
 			x, y, width, height = PANGO_LAYOUT.index_to_pos(utf_index)
 			x = x / 1024.0
 			y = y / 1024.0
 			height = height / 1024.0
-			typeset.append((x, -y - height))
+			baseline = iter.get_baseline() / 1024.0
+			typeset.append((x, -baseline))
 			index += 1
+			iter.next_char()
 		return typeset
 
 	def text_caret_data(self, text, properties, caret):
