@@ -2,7 +2,7 @@ sK1 is an open source vector graphics editor similar to CorelDRAW,
 Adobe Illustrator, or Freehand. PrintDesign is oriented for prepress industry, 
 so it works with CMYK colorspace and produces CMYK-based PDF and PS output. 
 
-sK1 Project (http://sk1project.org),
+sK1 Project (http://sk1project.net),
 Copyright (C) 2003-2015 by Igor E. Novikov
 
 How to install: 
